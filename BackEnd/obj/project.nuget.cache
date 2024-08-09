@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "wexoO+geLVHD2ikb6WUj8riKORNA9Jq39PbATyhxeSad+zx5EIypO0jZwg9pjX9UyEmhjuUFOyrPVPvSfCd7jQ==",
+  "dgSpecHash": "4imx0edNZyYwncHNU1Zz00/7hRdbZbFowIbyvPAAwlrAmnxFPkC3rrXZd+Vfh2QZvQIqMp8uXShldNEx7E7iCw==",
   "success": true,
   "projectFilePath": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\BackEnd.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Kodake\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\Kodake\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
+    "C:\\Users\\Kodake\\.nuget\\packages\\fluentvalidation\\11.9.2\\fluentvalidation.11.9.2.nupkg.sha512",
     "C:\\Users\\Kodake\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Kodake\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\8.0.7\\microsoft.aspnetcore.cryptography.internal.8.0.7.nupkg.sha512",
     "C:\\Users\\Kodake\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\8.0.7\\microsoft.aspnetcore.cryptography.keyderivation.8.0.7.nupkg.sha512",

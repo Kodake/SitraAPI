@@ -1,0 +1,123 @@
+﻿using AutoMapper;
+using BackEnd.DTOs;
+using BackEnd.DTOs.Products;
+using BackEnd.Entities.Products;
+using BackEnd.Filters;
+using BackEnd.Helpers;
+using BackEnd.Repositories.Products;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
+
+namespace BackEnd.Endpoints
+{
+    public static class UnitsEndpoints
+    {
+        public static RouteGroupBuilder MapUnits(this RouteGroupBuilder group)
+        {
+            group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(3600)).Tag("units-get"))
+                .AddPaginationParamsOpenAPI();
+            group.MapGet("/{id:int}", GetById);
+            group.MapPost("/", Create).DisableAntiforgery()
+                .AddEndpointFilter<ValidationFilter<CreateUnitDTO>>()
+                //.RequireAuthorization("isAdmin")
+                .WithOpenApi();
+            group.MapPut("/{id:int}", Update).DisableAntiforgery()
+                .AddEndpointFilter<ValidationFilter<CreateUnitDTO>>()
+                //.RequireAuthorization("isAdmin")
+                .WithOpenApi();
+            group.MapPatch("/{id:int}/activate", Activate);
+            group.MapDelete("/{id:int}/deactivate", Deactivate);
+            //.RequireAuthorization("isAdmin");
+            return group;
+        }
+
+        static async Task<Ok<List<UnitListDTO>>> GetAll(IUnitRepository repository,
+            IMapper mapper, PaginationDTO paginacion)
+        {
+            var units = await repository.GetAll(paginacion);
+            var unitsDTO = mapper.Map<List<UnitListDTO>>(units);
+            return TypedResults.Ok(unitsDTO);
+        }
+
+        static async Task<Results<Ok<UnitDTO>, NotFound>> GetById(IUnitRepository repository,
+            IMapper mapper, int id)
+        {
+            var unit = await repository.GetById(id);
+
+            if (unit is null)
+            {
+                return TypedResults.NotFound();
+            }
+
+            var unitDTO = mapper.Map<UnitDTO>(unit);
+            return TypedResults.Ok(unitDTO);
+        }
+
+        static async Task<Results<Created<UnitDTO>, ValidationProblem>> Create([FromForm] CreateUnitDTO createUnitDTO,
+           [FromServices] IUnitRepository repository,
+           IOutputCacheStore outputCacheStore,
+           [FromServices] IMapper mapper)
+        {
+            var unit = mapper.Map<Unit>(createUnitDTO);
+
+            var id = await repository.Create(unit);
+            await outputCacheStore.EvictByTagAsync("categories-get", default);
+            var unitDTO = mapper.Map<UnitDTO>(unit);
+            return TypedResults.Created($"/units/{id}", unitDTO);
+        }
+
+        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromForm] CreateUnitDTO createUnitDTO,
+            [FromServices] IUnitRepository repository,
+            IOutputCacheStore outputCacheStore,
+            [FromServices] IMapper mapper)
+        {
+            var existingUnit = await repository.GetById(id);
+
+            if (existingUnit is null)
+            {
+                return TypedResults.NotFound();
+            }
+
+            existingUnit.Name = createUnitDTO.Name;
+            existingUnit.ShortName = createUnitDTO.ShortName;
+            existingUnit.IsDeleted = existingUnit.IsDeleted;
+
+            await repository.Update(existingUnit);
+            await outputCacheStore.EvictByTagAsync("units-get", default);
+            return TypedResults.Ok();
+        }
+
+        static async Task<Results<NotFound, Ok>> Activate([FromRoute] int id,
+             IUnitRepository repository,
+             IOutputCacheStore outputCacheStore)
+        {
+            var unitDB = await repository.GetById(id);
+
+            if (unitDB is null)
+            {
+                return TypedResults.NotFound();
+            }
+
+            await repository.Activate(id);
+            await outputCacheStore.EvictByTagAsync("units-get", default);
+            return TypedResults.Ok();
+        }
+
+        static async Task<Results<NotFound, Ok>> Deactivate([FromRoute] int id,
+             IUnitRepository repository,
+             IOutputCacheStore outputCacheStore)
+        {
+            var unitDB = await repository.GetById(id);
+
+            if (unitDB is null)
+            {
+                return TypedResults.NotFound();
+            }
+
+            await repository.Deactivate(id);
+            await outputCacheStore.EvictByTagAsync("units-get", default);
+            return TypedResults.Ok();
+        }
+    }
+}
