@@ -25,7 +25,14 @@ builder.Services.AddIdentityApiEndpoints<IdentityUser>()
 builder.Services.AddScoped<UserManager<IdentityUser>>();
 builder.Services.AddScoped<SignInManager<IdentityUser>>();
 
-builder.Services.AddCors();
+builder.Services.AddCors(opciones =>
+{
+    opciones.AddDefaultPolicy(configuracion =>
+    {
+        configuracion.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().WithExposedHeaders("totalCountRecords");
+    });
+
+});
 
 builder.Services.AddOutputCache();
 
@@ -119,6 +126,8 @@ app.MapGroup("/brands").MapBrands();
 app.MapGroup("/units").MapUnits();
 app.MapGroup("/currencies").MapCurrencies();
 app.MapGroup("/warehouses").MapWarehouses();
+
+app.UseCors();
 
 app.Run();
 

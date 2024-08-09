@@ -302,7 +302,7 @@
   },
   {
     "ContainingType": "Program\u002B\u003C\u003Ec__DisplayClass0_0",
-    "Method": "\u003C\u003CMain\u003E$\u003Eb__1",
+    "Method": "\u003C\u003CMain\u003E$\u003Eb__3",
     "RelativePath": "api/v1/weatherforecast",
     "HttpMethod": "GET",
     "IsController": false,
@@ -317,8 +317,6 @@
         "StatusCode": 200
       }
     ]
-<<<<<<< Updated upstream
-=======
   },
   {
     "ContainingType": "BackEnd.Endpoints.BrandsEndpoints",
@@ -1345,6 +1343,5 @@
         "StatusCode": 200
       }
     ]
->>>>>>> Stashed changes
   }
 ]
