@@ -52,20 +52,20 @@ namespace BackEnd.Repositories.Products
 
         public async Task Activate(int id)
         {
-            var brand = await context.Units.FirstOrDefaultAsync(x => x.Id == id);
-            if (brand != null)
+            var unit = await context.Units.FirstOrDefaultAsync(x => x.Id == id);
+            if (unit != null)
             {
-                brand.IsDeleted = false;
+                unit.IsDeleted = false;
                 await context.SaveChangesAsync();
             }
         }
 
         public async Task Deactivate(int id)
         {
-            var brand = await context.Units.FirstOrDefaultAsync(x => x.Id == id);
-            if (brand != null)
+            var unit = await context.Units.FirstOrDefaultAsync(x => x.Id == id);
+            if (unit != null)
             {
-                brand.IsDeleted = true;
+                unit.IsDeleted = true;
                 await context.SaveChangesAsync();
             }
         }

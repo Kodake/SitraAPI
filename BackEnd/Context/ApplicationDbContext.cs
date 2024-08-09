@@ -3,7 +3,6 @@
 using BackEnd.Entities.Currencies;
 using BackEnd.Entities.Products;
 using BackEnd.Entities.Warehouses;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BackEnd.Context
