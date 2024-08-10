@@ -126,6 +126,7 @@ app.MapGroup("/brands").MapBrands();
 app.MapGroup("/units").MapUnits();
 app.MapGroup("/currencies").MapCurrencies();
 app.MapGroup("/warehouses").MapWarehouses();
+app.MapGroup("/products").MapPeroducts();
 
 app.UseCors();
 

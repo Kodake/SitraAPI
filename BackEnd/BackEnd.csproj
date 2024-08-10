@@ -28,8 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\" />
-    <Folder Include="Endpoints\" />
     <Folder Include="Filters\" />
     <Folder Include="Validations\" />
     <Folder Include="Migrations\" />

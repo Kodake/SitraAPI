@@ -1,5 +1,5 @@
-﻿﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-﻿using BackEnd.Entities.Contacts;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using BackEnd.Entities.Contacts;
 using BackEnd.Entities.Currencies;
 using BackEnd.Entities.Products;
 using BackEnd.Entities.Warehouses;
@@ -11,7 +11,7 @@ namespace BackEnd.Context
     {
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
-            
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -44,6 +44,12 @@ namespace BackEnd.Context
             modelBuilder.Entity<Warehouse>().Property(p => p.City).HasMaxLength(50).IsRequired(false);
             modelBuilder.Entity<Warehouse>().Property(p => p.Country).HasMaxLength(2);
             modelBuilder.Entity<Warehouse>().Property(p => p.ZipCode).HasMaxLength(5).IsRequired(false);
+
+            modelBuilder.Entity<Product>().Property(p => p.Name).HasMaxLength(50);
+            modelBuilder.Entity<Product>().Property(p => p.Reference).HasMaxLength(50).IsRequired(false);
+            modelBuilder.Entity<Product>().Property(p => p.Description).HasMaxLength(100).IsRequired(false);
+            modelBuilder.Entity<Product>().HasOne(p => p.Category).WithMany(c => c.Products).HasForeignKey(p => p.CategoryId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Product>().HasOne(p => p.Unit).WithMany(u => u.Products).HasForeignKey(p => p.UnitId).OnDelete(DeleteBehavior.Restrict);
         }
 
         public DbSet<Category> Categories { get; set; }
