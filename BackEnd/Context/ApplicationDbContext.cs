@@ -45,18 +45,40 @@ namespace BackEnd.Context
             modelBuilder.Entity<Warehouse>().Property(p => p.Country).HasMaxLength(2);
             modelBuilder.Entity<Warehouse>().Property(p => p.ZipCode).HasMaxLength(5).IsRequired(false);
 
-            modelBuilder.Entity<Product>().Property(p => p.Name).HasMaxLength(50);
+            modelBuilder.Entity<Product>().Property(p => p.Name).HasMaxLength(50).IsRequired();
             modelBuilder.Entity<Product>().Property(p => p.Reference).HasMaxLength(50).IsRequired(false);
             modelBuilder.Entity<Product>().Property(p => p.Description).HasMaxLength(100).IsRequired(false);
-            modelBuilder.Entity<Product>().HasOne(p => p.Category).WithMany(c => c.Products).HasForeignKey(p => p.CategoryId).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<Product>().HasOne(p => p.Unit).WithMany(u => u.Products).HasForeignKey(p => p.UnitId).OnDelete(DeleteBehavior.Restrict);
-        }
+            modelBuilder.Entity<Product>().Property(p => p.InitialCost).HasColumnType("decimal(18,2)").IsRequired();
+            modelBuilder.Entity<Product>().Property(p => p.BasePrice).HasColumnType("decimal(18,2)").IsRequired();
+            modelBuilder.Entity<Product>().Property(p => p.TotalPrice).HasColumnType("decimal(18,2)");
+            modelBuilder.Entity<Product>().Ignore(p => p.TotalPrice);
 
+            modelBuilder.Entity<Product>()
+                .HasOne(p => p.Category)
+                .WithMany(c => c.Products)
+                .HasForeignKey(p => p.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Product>()
+                .HasOne(p => p.Unit)
+                .WithMany(u => u.Products)
+                .HasForeignKey(p => p.UnitId)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Product>()
+                .HasOne(p => p.Brand)
+                .WithMany(u => u.Products)
+                .HasForeignKey(p => p.BrandId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ProductTaxes>().HasKey(g => new { g.TaxId, g.ProductId });
+        }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Unit> Units { get; set; }
         public DbSet<Currency> Currencies { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Warehouse> Warehouses { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Tax> Taxes { get; set; }
+        public DbSet<ProductTaxes> ProductTaxes { get; set; }
     }
 }

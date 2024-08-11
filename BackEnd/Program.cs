@@ -76,6 +76,7 @@ builder.Services.AddScoped<IUnitRepository, UnitRepository>();
 builder.Services.AddScoped<ICurrencyRepository, CurrencyRepository>();
 builder.Services.AddScoped<IContactRepository, ContactRepository>();
 builder.Services.AddScoped<IWarehouseRepository, WarehouseRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddAutoMapper(typeof(Program));
@@ -126,7 +127,7 @@ app.MapGroup("/brands").MapBrands();
 app.MapGroup("/units").MapUnits();
 app.MapGroup("/currencies").MapCurrencies();
 app.MapGroup("/warehouses").MapWarehouses();
-app.MapGroup("/products").MapPeroducts();
+app.MapGroup("/products").MapProducts();
 
 app.UseCors();
 

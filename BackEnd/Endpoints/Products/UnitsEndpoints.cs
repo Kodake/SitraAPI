@@ -5,6 +5,7 @@ using BackEnd.Entities.Products;
 using BackEnd.Filters;
 using BackEnd.Helpers;
 using BackEnd.Repositories.Products;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
@@ -17,6 +18,7 @@ namespace BackEnd.Endpoints
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(3600)).Tag("units-get"))
                 .AddPaginationParamsOpenAPI();
+            group.MapGet("/selects", GetSelects).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(3600)).Tag("units-get"));
             group.MapGet("/{id:int}", GetById);
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateUnitDTO>>()
@@ -36,6 +38,14 @@ namespace BackEnd.Endpoints
             IMapper mapper, PaginationDTO paginacion)
         {
             var units = await repository.GetAll(paginacion);
+            var unitsDTO = mapper.Map<List<UnitListDTO>>(units);
+            return TypedResults.Ok(unitsDTO);
+        }
+
+        static async Task<Ok<List<UnitListDTO>>> GetSelects([FromQuery] bool isDeleted, IUnitRepository repository,
+            IMapper mapper)
+        {
+            var units = await repository.GetAll(isDeleted);
             var unitsDTO = mapper.Map<List<UnitListDTO>>(units);
             return TypedResults.Ok(unitsDTO);
         }

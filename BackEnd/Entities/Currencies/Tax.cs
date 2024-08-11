@@ -1,11 +1,13 @@
-﻿namespace BackEnd.Entities.Currencies
+﻿using BackEnd.Entities.Products;
+
+namespace BackEnd.Entities.Currencies
 {
-    public class Taxes
+    public class Tax
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public int Amount { get; set; }
         public bool IsDeleted { get; set; }
-
+        public List<ProductTaxes> ProductTaxes { get; set; } = new List<ProductTaxes>();
     }
 }

@@ -27,8 +27,17 @@ namespace BackEnd.Repositories.Products
             var queryable = context.Brands.AsQueryable();
             await httpContext.AddPaginationParamsToHeaders(queryable);
             return await queryable
-                .OrderBy(x => x.Name)
+                .OrderBy(x => x.Id)
                 .Paginate(paginationDTO)
+                .ToListAsync();
+        }
+
+        public async Task<List<Brand>> GetAll(bool isDeleted)
+        {
+            return await context.Brands
+                .Where(u => u.IsDeleted == isDeleted)
+                .OrderBy(u => u.Name)
+                .AsNoTracking()
                 .ToListAsync();
         }
 

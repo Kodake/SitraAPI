@@ -32,7 +32,6 @@
     <Folder Include="Validations\" />
     <Folder Include="Migrations\" />
     <Folder Include="Services\" />
-    <Folder Include="Repositories\" />
   </ItemGroup>
 
 </Project>

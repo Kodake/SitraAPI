@@ -32,6 +32,15 @@ namespace BackEnd.Repositories.Products
                 .ToListAsync();
         }
 
+        public async Task<List<Category>> GetAll(bool isDeleted)
+        {
+            return await context.Categories
+                .Where(u => u.IsDeleted == isDeleted)
+                .OrderBy(u => u.Id)
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
         public async Task<Category?> GetById(int id)
         {
             return await context.Categories.FirstOrDefaultAsync(x => x.Id == id);

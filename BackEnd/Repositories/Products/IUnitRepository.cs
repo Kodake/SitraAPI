@@ -6,6 +6,7 @@ namespace BackEnd.Repositories.Products
     public interface IUnitRepository
     {
         Task<List<Unit>> GetAll(PaginationDTO paginationDTO);
+        Task<List<Unit>> GetAll(bool isDeleted);
         Task<Unit?> GetById(int id);
         Task<int> Create(Unit unit);
         Task Update(Unit unit);

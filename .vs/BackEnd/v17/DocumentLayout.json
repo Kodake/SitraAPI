@@ -3,24 +3,48 @@
   "WorkspaceRootPath": "C:\\Users\\Kodake\\Desktop\\PosAPI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\context\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\context\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\endpoints\\products\\productsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\endpoints\\products\\productsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\entities\\products\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\entities\\products\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\repositories\\products\\brandrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\repositories\\products\\brandrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\entities\\currencies\\taxes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\entities\\currencies\\taxes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\repositories\\products\\ibrandrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\repositories\\products\\ibrandrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\entities\\currencies\\currency.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\entities\\currencies\\currency.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\endpoints\\products\\brandsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\endpoints\\products\\brandsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\endpoints\\currencies\\currenciesendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\endpoints\\currencies\\currenciesendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\repositories\\products\\iunitrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\repositories\\products\\iunitrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\repositories\\products\\categoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\repositories\\products\\categoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\repositories\\products\\unitrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\repositories\\products\\unitrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\endpoints\\products\\unitsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\endpoints\\products\\unitsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\repositories\\products\\icategoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\repositories\\products\\icategoryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\endpoints\\products\\categoriesendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\endpoints\\products\\categoriesendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\entities\\products\\producttaxes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\entities\\products\\producttaxes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\entities\\products\\brand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -31,60 +55,72 @@
       "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\entities\\products\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\entities\\products\\unit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\entities\\products\\unit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\entities\\products\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\entities\\products\\product.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\entities\\contacts\\contact.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\entities\\contacts\\contact.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\repositories\\products\\iproductrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\repositories\\products\\iproductrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\endpoints\\products\\productsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\endpoints\\products\\productsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\dtos\\paginationdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\dtos\\paginationdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\endpoints\\products\\brandsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\endpoints\\products\\brandsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\endpoints\\warehouses\\warehousesendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\endpoints\\warehouses\\warehousesendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\endpoints\\contacts\\contactsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\endpoints\\contacts\\contactsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\endpoints\\products\\categoriesendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\endpoints\\products\\categoriesendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\endpoints\\products\\unitsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\endpoints\\products\\unitsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\helpers\\authorizationfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\helpers\\authorizationfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\dtos\\products\\productlistdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\dtos\\products\\productlistdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\helpers\\automapperprofiles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\helpers\\automapperprofiles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\helpers\\utilities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\helpers\\utilities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\dtos\\products\\createproductdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\dtos\\products\\createproductdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\validations\\createwarehousedtovalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\validations\\createwarehousedtovalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\dtos\\products\\productdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\dtos\\products\\productdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\dtos\\currencies\\taxdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\dtos\\currencies\\taxdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\dtos\\currencies\\currencylistdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\dtos\\currencies\\currencylistdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\dtos\\currencies\\createcurrencydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\dtos\\currencies\\createcurrencydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\dtos\\currencies\\currencydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\dtos\\currencies\\currencydto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\dtos\\products\\unitdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\dtos\\products\\unitdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\dtos\\products\\createunitdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\dtos\\products\\createunitdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\repositories\\products\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\repositories\\products\\productrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\entities\\currencies\\tax.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\entities\\currencies\\tax.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Migrations\\20240810193943_Initial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BackEnd\\Migrations\\20240810193943_Initial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -94,7 +130,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 16,
+          "SelectedChildIndex": 14,
           "Children": [
             {
               "$type": "Bookmark",
@@ -117,120 +153,303 @@
               "Name": "ST:19:0:{57d563b6-44a5-47df-85be-f4199ad6b651}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{a80febb4-e7e0-4147-b476-21aaf2453969}"
-            },
-            {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Currency.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Currencies\\Currency.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Entities\\Currencies\\Currency.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Currencies\\Currency.cs",
-              "RelativeToolTip": "BackEnd\\Entities\\Currencies\\Currency.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAA4AAAA",
+              "DocumentIndex": 7,
+              "Title": "UnitsEndpoints.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Products\\UnitsEndpoints.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Endpoints\\Products\\UnitsEndpoints.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Products\\UnitsEndpoints.cs",
+              "RelativeToolTip": "BackEnd\\Endpoints\\Products\\UnitsEndpoints.cs",
+              "ViewState": "AQIAACAAAAAAAAAAAAAYwCcAAAAsAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-10T00:12:34.04Z",
+              "WhenOpened": "2024-08-11T01:23:17.311Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Taxes.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Currencies\\Taxes.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Entities\\Currencies\\Taxes.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Currencies\\Taxes.cs",
-              "RelativeToolTip": "BackEnd\\Entities\\Currencies\\Taxes.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAAAAAA",
+              "DocumentIndex": 15,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Program.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Program.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Program.cs",
+              "RelativeToolTip": "BackEnd\\Program.cs",
+              "ViewState": "AQIAAHIAAAAAAAAAAAAAAIEAAAAeAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-10T00:11:47.171Z",
+              "WhenOpened": "2024-08-11T00:07:20.664Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Brand.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Products\\Brand.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Entities\\Products\\Brand.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Products\\Brand.cs",
-              "RelativeToolTip": "BackEnd\\Entities\\Products\\Brand.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAABAAAAA",
+              "DocumentIndex": 12,
+              "Title": "Category.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Products\\Category.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Entities\\Products\\Category.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Products\\Category.cs",
+              "RelativeToolTip": "BackEnd\\Entities\\Products\\Category.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-09T21:10:11.753Z",
+              "WhenOpened": "2024-08-11T01:39:16.792Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Product.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Products\\Product.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Entities\\Products\\Product.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Products\\Product.cs",
-              "RelativeToolTip": "BackEnd\\Entities\\Products\\Product.cs",
-              "ViewState": "AQIAABIAAAAAAAAAAAAqwCIAAAAAAAAA",
+              "Title": "BrandRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\Products\\BrandRepository.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Repositories\\Products\\BrandRepository.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\Products\\BrandRepository.cs",
+              "RelativeToolTip": "BackEnd\\Repositories\\Products\\BrandRepository.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACcAAAAfAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-09T20:27:06.521Z",
+              "WhenOpened": "2024-08-11T01:38:35.58Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Contact.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Contacts\\Contact.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Entities\\Contacts\\Contact.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Contacts\\Contact.cs",
-              "RelativeToolTip": "BackEnd\\Entities\\Contacts\\Contact.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAAAA0AAAArAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-09T20:26:37.454Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "launchSettings.json",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Properties\\launchSettings.json",
-              "RelativeDocumentMoniker": "BackEnd\\Properties\\launchSettings.json",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Properties\\launchSettings.json",
-              "RelativeToolTip": "BackEnd\\Properties\\launchSettings.json",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABIAAAAvAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-08-09T07:30:52.996Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "CategoriesEndpoints.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Products\\CategoriesEndpoints.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Endpoints\\Products\\CategoriesEndpoints.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Products\\CategoriesEndpoints.cs",
-              "RelativeToolTip": "BackEnd\\Endpoints\\Products\\CategoriesEndpoints.cs",
+              "DocumentIndex": 10,
+              "Title": "ProductTaxes.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Products\\ProductTaxes.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Entities\\Products\\ProductTaxes.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Products\\ProductTaxes.cs",
+              "RelativeToolTip": "BackEnd\\Entities\\Products\\ProductTaxes.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-09T07:29:31.125Z"
+              "WhenOpened": "2024-08-10T19:35:05.139Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 6,
+              "Title": "UnitRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\Products\\UnitRepository.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Repositories\\Products\\UnitRepository.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\Products\\UnitRepository.cs",
+              "RelativeToolTip": "BackEnd\\Repositories\\Products\\UnitRepository.cs",
+              "ViewState": "AQIAABgAAAAAAAAAAAAwwCcAAAAiAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-11T01:49:40.287Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "BrandsEndpoints.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Products\\BrandsEndpoints.cs",
               "RelativeDocumentMoniker": "BackEnd\\Endpoints\\Products\\BrandsEndpoints.cs",
               "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Products\\BrandsEndpoints.cs",
               "RelativeToolTip": "BackEnd\\Endpoints\\Products\\BrandsEndpoints.cs",
-              "ViewState": "AQIAABEAAAAAAAAAAAAAABEAAABuAAAA",
+              "ViewState": "AQIAABwAAAAAAAAAAAAkwC4AAAAuAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-09T07:21:38.106Z"
+              "WhenOpened": "2024-08-10T23:44:48.65Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "ICategoryRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\Products\\ICategoryRepository.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Repositories\\Products\\ICategoryRepository.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\Products\\ICategoryRepository.cs",
+              "RelativeToolTip": "BackEnd\\Repositories\\Products\\ICategoryRepository.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAqwAgAAAAjAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-11T01:34:50.151Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "IUnitRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\Products\\IUnitRepository.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Repositories\\Products\\IUnitRepository.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\Products\\IUnitRepository.cs",
+              "RelativeToolTip": "BackEnd\\Repositories\\Products\\IUnitRepository.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAqwAgAAAAWAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-11T01:26:09.67Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ProductsEndpoints.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Products\\ProductsEndpoints.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Endpoints\\Products\\ProductsEndpoints.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Products\\ProductsEndpoints.cs",
+              "RelativeToolTip": "BackEnd\\Endpoints\\Products\\ProductsEndpoints.cs",
+              "ViewState": "AQIAACoAAAAAAAAAAAAvwDkAAAApAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-10T19:24:46.03Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "CategoryRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\Products\\CategoryRepository.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Repositories\\Products\\CategoryRepository.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\Products\\CategoryRepository.cs",
+              "RelativeToolTip": "BackEnd\\Repositories\\Products\\CategoryRepository.cs",
+              "ViewState": "AQIAABgAAAAAAAAAAAAowCYAAAAiAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-11T01:34:44.078Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "PaginationDTO.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\PaginationDTO.cs",
+              "RelativeDocumentMoniker": "BackEnd\\DTOs\\PaginationDTO.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\PaginationDTO.cs",
+              "RelativeToolTip": "BackEnd\\DTOs\\PaginationDTO.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAA0AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-11T01:23:40.822Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "IBrandRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\Products\\IBrandRepository.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Repositories\\Products\\IBrandRepository.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\Products\\IBrandRepository.cs",
+              "RelativeToolTip": "BackEnd\\Repositories\\Products\\IBrandRepository.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAqwAgAAAAgAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-11T01:37:55.008Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "CategoriesEndpoints.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Products\\CategoriesEndpoints.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Endpoints\\Products\\CategoriesEndpoints.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Products\\CategoriesEndpoints.cs",
+              "RelativeToolTip": "BackEnd\\Endpoints\\Products\\CategoriesEndpoints.cs",
+              "ViewState": "AQIAAB8AAAAAAAAAAAAgwC4AAAAxAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-11T01:35:51.51Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Product.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Products\\Product.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Entities\\Products\\Product.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Products\\Product.cs",
+              "RelativeToolTip": "BackEnd\\Entities\\Products\\Product.cs",
+              "ViewState": "AQIAAAkAAAAAAAAAAADwvwwAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-10T19:34:38.692Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Brand.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Products\\Brand.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Entities\\Products\\Brand.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Products\\Brand.cs",
+              "RelativeToolTip": "BackEnd\\Entities\\Products\\Brand.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-11T01:39:18.174Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "IProductRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\Products\\IProductRepository.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Repositories\\Products\\IProductRepository.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\Products\\IProductRepository.cs",
+              "RelativeToolTip": "BackEnd\\Repositories\\Products\\IProductRepository.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-11T01:38:25.662Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "ProductListDTO.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\Products\\ProductListDTO.cs",
+              "RelativeDocumentMoniker": "BackEnd\\DTOs\\Products\\ProductListDTO.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\Products\\ProductListDTO.cs",
+              "RelativeToolTip": "BackEnd\\DTOs\\Products\\ProductListDTO.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAAA4AAAA7AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-10T20:55:31.49Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "TaxDTO.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\Currencies\\TaxDTO.cs",
+              "RelativeDocumentMoniker": "BackEnd\\DTOs\\Currencies\\TaxDTO.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\Currencies\\TaxDTO.cs",
+              "RelativeToolTip": "BackEnd\\DTOs\\Currencies\\TaxDTO.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAA0AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-10T20:23:09.917Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 19,
-              "Title": "Utilities.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Helpers\\Utilities.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Helpers\\Utilities.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Helpers\\Utilities.cs",
-              "RelativeToolTip": "BackEnd\\Helpers\\Utilities.cs",
+              "Title": "CreateProductDTO.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\Products\\CreateProductDTO.cs",
+              "RelativeDocumentMoniker": "BackEnd\\DTOs\\Products\\CreateProductDTO.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\Products\\CreateProductDTO.cs",
+              "RelativeToolTip": "BackEnd\\DTOs\\Products\\CreateProductDTO.cs",
+              "ViewState": "AQIAAAIAAAAAAAAAAADwvw8AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-10T20:15:27.271Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "ProductDTO.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\Products\\ProductDTO.cs",
+              "RelativeDocumentMoniker": "BackEnd\\DTOs\\Products\\ProductDTO.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\Products\\ProductDTO.cs",
+              "RelativeToolTip": "BackEnd\\DTOs\\Products\\ProductDTO.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAoAAAApAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-10T20:03:45.96Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "CreateUnitDTO.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\Products\\CreateUnitDTO.cs",
+              "RelativeDocumentMoniker": "BackEnd\\DTOs\\Products\\CreateUnitDTO.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\Products\\CreateUnitDTO.cs",
+              "RelativeToolTip": "BackEnd\\DTOs\\Products\\CreateUnitDTO.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-09T06:43:01.464Z"
+              "WhenOpened": "2024-08-10T20:59:31.487Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "ProductRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\Products\\ProductRepository.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Repositories\\Products\\ProductRepository.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\Products\\ProductRepository.cs",
+              "RelativeToolTip": "BackEnd\\Repositories\\Products\\ProductRepository.cs",
+              "ViewState": "AQIAABgAAAAAAAAAAAAzwCcAAAAtAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-10T20:37:24.954Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -240,143 +459,88 @@
               "RelativeDocumentMoniker": "BackEnd\\Helpers\\AutoMapperProfiles.cs",
               "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Helpers\\AutoMapperProfiles.cs",
               "RelativeToolTip": "BackEnd\\Helpers\\AutoMapperProfiles.cs",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAiwBsAAAAAAAAA",
+              "ViewState": "AQIAACgAAAAAAAAAAAAYwDwAAABDAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-09T06:30:45.756Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ApplicationDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Context\\ApplicationDbContext.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Context\\ApplicationDbContext.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Context\\ApplicationDbContext.cs",
-              "RelativeToolTip": "BackEnd\\Context\\ApplicationDbContext.cs",
-              "ViewState": "AQIAACQAAAAAAAAAAAAYwDIAAACgAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-09T06:09:15.05Z",
+              "WhenOpened": "2024-08-10T19:27:26.731Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Category.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Products\\Category.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Entities\\Products\\Category.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Products\\Category.cs",
-              "RelativeToolTip": "BackEnd\\Entities\\Products\\Category.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-09T20:30:18.819Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "AuthorizationFilter.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Helpers\\AuthorizationFilter.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Helpers\\AuthorizationFilter.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Helpers\\AuthorizationFilter.cs",
-              "RelativeToolTip": "BackEnd\\Helpers\\AuthorizationFilter.cs",
-              "ViewState": "AQIAAA0AAAAAAAAAAAAgwAYAAAA3AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-09T06:29:17.706Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "CreateWarehouseDTOValidator.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Validations\\CreateWarehouseDTOValidator.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Validations\\CreateWarehouseDTOValidator.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Validations\\CreateWarehouseDTOValidator.cs",
-              "RelativeToolTip": "BackEnd\\Validations\\CreateWarehouseDTOValidator.cs",
-              "ViewState": "AQIAABkAAAAAAAAAAAAnwCcAAAAQAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-09T06:14:57.146Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "CurrenciesEndpoints.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Currencies\\CurrenciesEndpoints.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Endpoints\\Currencies\\CurrenciesEndpoints.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Currencies\\CurrenciesEndpoints.cs",
-              "RelativeToolTip": "BackEnd\\Endpoints\\Currencies\\CurrenciesEndpoints.cs",
+              "DocumentIndex": 25,
+              "Title": "UnitDTO.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\Products\\UnitDTO.cs",
+              "RelativeDocumentMoniker": "BackEnd\\DTOs\\Products\\UnitDTO.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\Products\\UnitDTO.cs",
+              "RelativeToolTip": "BackEnd\\DTOs\\Products\\UnitDTO.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-09T20:18:10.322Z",
+              "WhenOpened": "2024-08-10T20:59:43.116Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Unit.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Products\\Unit.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Entities\\Products\\Unit.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Products\\Unit.cs",
-              "RelativeToolTip": "BackEnd\\Entities\\Products\\Unit.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAABAAAAA",
+              "DocumentIndex": 22,
+              "Title": "CurrencyListDTO.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\Currencies\\CurrencyListDTO.cs",
+              "RelativeDocumentMoniker": "BackEnd\\DTOs\\Currencies\\CurrencyListDTO.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\Currencies\\CurrencyListDTO.cs",
+              "RelativeToolTip": "BackEnd\\DTOs\\Currencies\\CurrencyListDTO.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAnAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-09T20:50:58.03Z"
+              "WhenOpened": "2024-08-10T21:00:17.076Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "ContactsEndpoints.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Contacts\\ContactsEndpoints.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Endpoints\\Contacts\\ContactsEndpoints.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Contacts\\ContactsEndpoints.cs",
-              "RelativeToolTip": "BackEnd\\Endpoints\\Contacts\\ContactsEndpoints.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "DocumentIndex": 24,
+              "Title": "CurrencyDTO.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\Currencies\\CurrencyDTO.cs",
+              "RelativeDocumentMoniker": "BackEnd\\DTOs\\Currencies\\CurrencyDTO.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\Currencies\\CurrencyDTO.cs",
+              "RelativeToolTip": "BackEnd\\DTOs\\Currencies\\CurrencyDTO.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAA0AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-09T20:18:02.628Z"
+              "WhenOpened": "2024-08-10T21:00:19.279Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Program.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Program.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Program.cs",
-              "RelativeToolTip": "BackEnd\\Program.cs",
-              "ViewState": "AQIAAHYAAAAAAAAAAAAvwIAAAAAmAAAA",
+              "DocumentIndex": 23,
+              "Title": "CreateCurrencyDTO.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\Currencies\\CreateCurrencyDTO.cs",
+              "RelativeDocumentMoniker": "BackEnd\\DTOs\\Currencies\\CreateCurrencyDTO.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\Currencies\\CreateCurrencyDTO.cs",
+              "RelativeToolTip": "BackEnd\\DTOs\\Currencies\\CreateCurrencyDTO.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-09T06:10:12.414Z"
+              "WhenOpened": "2024-08-10T21:00:36.484Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "ProductsEndpoints.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Products\\ProductsEndpoints.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Endpoints\\Products\\ProductsEndpoints.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Products\\ProductsEndpoints.cs",
-              "RelativeToolTip": "BackEnd\\Endpoints\\Products\\ProductsEndpoints.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "DocumentIndex": 29,
+              "Title": "20240810193943_Initial.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Migrations\\20240810193943_Initial.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Migrations\\20240810193943_Initial.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Migrations\\20240810193943_Initial.cs",
+              "RelativeToolTip": "BackEnd\\Migrations\\20240810193943_Initial.cs",
+              "ViewState": "AQIAABYAAAAAAAAAAAAgwAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-09T20:25:02.431Z"
+              "WhenOpened": "2024-08-10T19:39:43.141Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "WarehousesEndpoints.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Warehouses\\WarehousesEndpoints.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Endpoints\\Warehouses\\WarehousesEndpoints.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Warehouses\\WarehousesEndpoints.cs",
-              "RelativeToolTip": "BackEnd\\Endpoints\\Warehouses\\WarehousesEndpoints.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAARAAAA",
+              "DocumentIndex": 28,
+              "Title": "Tax.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Currencies\\Tax.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Entities\\Currencies\\Tax.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Currencies\\Tax.cs",
+              "RelativeToolTip": "BackEnd\\Entities\\Currencies\\Tax.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAqwAMAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-09T20:18:20.46Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "UnitsEndpoints.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Products\\UnitsEndpoints.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Endpoints\\Products\\UnitsEndpoints.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Products\\UnitsEndpoints.cs",
-              "RelativeToolTip": "BackEnd\\Endpoints\\Products\\UnitsEndpoints.cs",
-              "ViewState": "AQIAAFsAAAAAAAAAAAAcwBkAAABFAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-09T07:02:44.058Z"
+              "WhenOpened": "2024-08-10T19:34:36.195Z",
+              "EditorCaption": ""
             }
           ]
         },

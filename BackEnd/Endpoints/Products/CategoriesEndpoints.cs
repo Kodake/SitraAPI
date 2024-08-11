@@ -17,6 +17,7 @@ namespace BackEnd.Endpoints
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(3600)).Tag("categories-get"))
                 .AddPaginationParamsOpenAPI();
+            group.MapGet("/selects", GetSelects).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(3600)).Tag("categories-get"));
             group.MapGet("/{id:int}", GetById);
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateCategoryDTO>>()
@@ -36,6 +37,14 @@ namespace BackEnd.Endpoints
             [FromServices] IMapper mapper, PaginationDTO pagination)
         {
             var categories = await repository.GetAll(pagination);
+            var categoriesDTO = mapper.Map<List<CategoryListDTO>>(categories);
+            return TypedResults.Ok(categoriesDTO);
+        }
+
+        static async Task<Ok<List<CategoryListDTO>>> GetSelects([FromQuery] bool isDeleted, ICategoryRepository repository,
+            IMapper mapper)
+        {
+            var categories = await repository.GetAll(isDeleted);
             var categoriesDTO = mapper.Map<List<CategoryListDTO>>(categories);
             return TypedResults.Ok(categoriesDTO);
         }

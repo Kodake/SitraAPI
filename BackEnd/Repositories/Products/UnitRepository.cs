@@ -29,6 +29,16 @@ namespace BackEnd.Repositories.Products
             return await queryable
                 .OrderBy(x => x.Name)
                 .Paginate(paginationDTO)
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
+        public async Task<List<Unit>> GetAll(bool isDeleted)
+        {
+            return await context.Units
+                .Where(u => u.IsDeleted == isDeleted)
+                .OrderBy(u => u.Id)
+                .AsNoTracking()
                 .ToListAsync();
         }
 

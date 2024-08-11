@@ -17,6 +17,7 @@ namespace BackEnd.Endpoints
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(3600)).Tag("brands-get"))
                 .AddPaginationParamsOpenAPI();
+            group.MapGet("/selects", GetSelects).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(3600)).Tag("brands-get"));
             group.MapGet("/{id:int}", GetById);
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateBrandDTO>>()
@@ -36,6 +37,14 @@ namespace BackEnd.Endpoints
             IMapper mapper, PaginationDTO paginacion)
         {
             var brands = await repository.GetAll(paginacion);
+            var brandsDTO = mapper.Map<List<BrandListDTO>>(brands);
+            return TypedResults.Ok(brandsDTO);
+        }
+
+        static async Task<Ok<List<BrandListDTO>>> GetSelects([FromQuery] bool isDeleted, IBrandRepository repository,
+            IMapper mapper)
+        {
+            var brands = await repository.GetAll(isDeleted);
             var brandsDTO = mapper.Map<List<BrandListDTO>>(brands);
             return TypedResults.Ok(brandsDTO);
         }
