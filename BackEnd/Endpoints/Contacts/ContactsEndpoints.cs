@@ -15,7 +15,7 @@ namespace BackEnd.Endpoints
     {
         public static RouteGroupBuilder MapContacts(this RouteGroupBuilder group)
         {
-            group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(3600)).Tag("contacts-get"))
+            group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("contacts-get"))
                 .AddPaginationParamsOpenAPI();
             group.MapGet("/{id:int}", GetById);
             group.MapPost("/", Create).DisableAntiforgery()
@@ -85,7 +85,7 @@ namespace BackEnd.Endpoints
             existingContact.Identification = createContactDTO.Identification;
             existingContact.Name = createContactDTO.Name;
             existingContact.Address = createContactDTO.Address;
-            existingContact.IsDeleted = existingContact.IsDeleted;
+            existingContact.IsActive = existingContact.IsActive;
 
             await repository.Update(existingContact);
             await outputCacheStore.EvictByTagAsync("contacts-get", default);

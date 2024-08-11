@@ -2,6 +2,7 @@
 using BackEnd.DTOs;
 using BackEnd.DTOs.Products;
 using BackEnd.Entities.Products;
+using BackEnd.Enums;
 using BackEnd.Filters;
 using BackEnd.Helpers;
 using BackEnd.Repositories.Products;
@@ -15,9 +16,9 @@ namespace BackEnd.Endpoints
     {
         public static RouteGroupBuilder MapCategories(this RouteGroupBuilder group)
         {
-            group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(3600)).Tag("categories-get"))
+            group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("categories-get"))
                 .AddPaginationParamsOpenAPI();
-            group.MapGet("/selects", GetSelects).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(3600)).Tag("categories-get"));
+            group.MapGet("/selects", GetSelects).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("categories-get"));
             group.MapGet("/{id:int}", GetById);
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateCategoryDTO>>()
@@ -41,10 +42,10 @@ namespace BackEnd.Endpoints
             return TypedResults.Ok(categoriesDTO);
         }
 
-        static async Task<Ok<List<CategoryListDTO>>> GetSelects([FromQuery] bool isDeleted, ICategoryRepository repository,
-            IMapper mapper)
+        static async Task<Ok<List<CategoryListDTO>>> GetSelects(ICategoryRepository repository,
+            IMapper mapper, [FromQuery] StatusType status = StatusType.All)
         {
-            var categories = await repository.GetAll(isDeleted);
+            var categories = await repository.GetAll(status);
             var categoriesDTO = mapper.Map<List<CategoryListDTO>>(categories);
             return TypedResults.Ok(categoriesDTO);
         }
@@ -90,7 +91,7 @@ namespace BackEnd.Endpoints
 
             existingCategory.Name = createCategoryDTO.Name;
             existingCategory.Description = createCategoryDTO.Description;
-            existingCategory.IsDeleted = existingCategory.IsDeleted;
+            existingCategory.IsActive = existingCategory.IsActive;
 
             await repository.Update(existingCategory);
             await outputCacheStore.EvictByTagAsync("categories-get", default);

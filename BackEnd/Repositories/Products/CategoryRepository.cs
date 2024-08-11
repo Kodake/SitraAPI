@@ -1,7 +1,9 @@
 using AutoMapper;
 using BackEnd.Context;
 using BackEnd.DTOs;
+using BackEnd.Entities.Currencies;
 using BackEnd.Entities.Products;
+using BackEnd.Enums;
 using BackEnd.Helpers;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,14 +34,26 @@ namespace BackEnd.Repositories.Products
                 .ToListAsync();
         }
 
-        public async Task<List<Category>> GetAll(bool isDeleted)
+        public async Task<List<Category>> GetAll(StatusType status)
         {
-            return await context.Categories
-                .Where(u => u.IsDeleted == isDeleted)
-                .OrderBy(u => u.Id)
-                .AsNoTracking()
-                .ToListAsync();
+            IQueryable<Category> query = context.Categories.AsNoTracking();
+
+            switch (status)
+            {
+                case StatusType.Activated:
+                    query = query.Where(u => u.IsActive);
+                    break;
+                case StatusType.Deactivated:
+                    query = query.Where(u => !u.IsActive);
+                    break;
+                case StatusType.All:
+                default:
+                    break;
+            }
+
+            return await query.OrderBy(u => u.Id).ToListAsync();
         }
+
 
         public async Task<Category?> GetById(int id)
         {
@@ -64,7 +78,7 @@ namespace BackEnd.Repositories.Products
             var category = await context.Categories.FirstOrDefaultAsync(x => x.Id == id);
             if (category != null)
             {
-                category.IsDeleted = false;
+                category.IsActive = false;
                 await context.SaveChangesAsync();
             }
         }
@@ -74,7 +88,7 @@ namespace BackEnd.Repositories.Products
             var category = await context.Categories.FirstOrDefaultAsync(x => x.Id == id);
             if (category != null)
             {
-                category.IsDeleted = true;
+                category.IsActive = true;
                 await context.SaveChangesAsync();
             }
         }

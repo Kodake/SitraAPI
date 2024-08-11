@@ -74,6 +74,7 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IBrandRepository, BrandRepository>();
 builder.Services.AddScoped<IUnitRepository, UnitRepository>();
 builder.Services.AddScoped<ICurrencyRepository, CurrencyRepository>();
+builder.Services.AddScoped<ITaxRepository, TaxRepository>();
 builder.Services.AddScoped<IContactRepository, ContactRepository>();
 builder.Services.AddScoped<IWarehouseRepository, WarehouseRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
@@ -126,10 +127,13 @@ app.MapGroup("/categories").MapCategories();
 app.MapGroup("/brands").MapBrands();
 app.MapGroup("/units").MapUnits();
 app.MapGroup("/currencies").MapCurrencies();
+app.MapGroup("/taxes").MapTaxes();
 app.MapGroup("/warehouses").MapWarehouses();
 app.MapGroup("/products").MapProducts();
 
 app.UseCors();
+
+app.UseOutputCache();
 
 app.Run();
 

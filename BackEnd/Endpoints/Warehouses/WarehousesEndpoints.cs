@@ -15,7 +15,7 @@ namespace BackEnd.Endpoints
     {
         public static RouteGroupBuilder MapWarehouses(this RouteGroupBuilder group)
         {
-            group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(3600)).Tag("warehouses-get"))
+            group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("warehouses-get"))
                 .AddPaginationParamsOpenAPI();
             group.MapGet("/{id:int}", GetById);
             group.MapPost("/", Create).DisableAntiforgery()
@@ -86,7 +86,7 @@ namespace BackEnd.Endpoints
             existingWarehouse.City = createWarehouseDTO.City;
             existingWarehouse.Country = createWarehouseDTO.Country;
             existingWarehouse.ZipCode = createWarehouseDTO.ZipCode;
-            existingWarehouse.IsDeleted = existingWarehouse.IsDeleted;
+            existingWarehouse.IsActive = existingWarehouse.IsActive;
 
             await repository.Update(existingWarehouse);
             await outputCacheStore.EvictByTagAsync("warehouses-get", default);

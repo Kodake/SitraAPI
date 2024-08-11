@@ -3,10 +3,9 @@ using BackEnd.Context;
 using BackEnd.DTOs;
 using BackEnd.Entities.Currencies;
 using BackEnd.Helpers;
-using BackEnd.Repositories.Currencies;
 using Microsoft.EntityFrameworkCore;
 
-namespace BackEnd.Repositories.Products
+namespace BackEnd.Repositories.Currencies
 {
     public class CurrencyRepository : ICurrencyRepository
     {
@@ -56,7 +55,7 @@ namespace BackEnd.Repositories.Products
             var currency = await context.Currencies.FirstOrDefaultAsync(x => x.Id == id);
             if (currency != null)
             {
-                currency.IsDeleted = false;
+                currency.IsActive = false;
                 await context.SaveChangesAsync();
             }
         }
@@ -66,7 +65,7 @@ namespace BackEnd.Repositories.Products
             var currency = await context.Currencies.FirstOrDefaultAsync(x => x.Id == id);
             if (currency != null)
             {
-                currency.IsDeleted = true;
+                currency.IsActive = true;
                 await context.SaveChangesAsync();
             }
         }

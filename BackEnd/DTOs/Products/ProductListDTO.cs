@@ -16,6 +16,6 @@ public class ProductListDTO
             return BasePrice + (BasePrice * totalTaxes / 100);
         }
     }
-    public bool IsDeleted { get; set; }
+    public bool IsActive { get; set; }
     public List<TaxDTO> Taxes { get; set; } = new List<TaxDTO>();
 }

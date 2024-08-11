@@ -2,6 +2,7 @@
 using BackEnd.DTOs;
 using BackEnd.DTOs.Products;
 using BackEnd.Entities.Products;
+using BackEnd.Enums;
 using BackEnd.Filters;
 using BackEnd.Helpers;
 using BackEnd.Repositories.Products;
@@ -15,9 +16,9 @@ namespace BackEnd.Endpoints
     {
         public static RouteGroupBuilder MapBrands(this RouteGroupBuilder group)
         {
-            group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(3600)).Tag("brands-get"))
+            group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("brands-get"))
                 .AddPaginationParamsOpenAPI();
-            group.MapGet("/selects", GetSelects).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(3600)).Tag("brands-get"));
+            group.MapGet("/selects", GetSelects).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("brands-get"));
             group.MapGet("/{id:int}", GetById);
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateBrandDTO>>()
@@ -41,10 +42,10 @@ namespace BackEnd.Endpoints
             return TypedResults.Ok(brandsDTO);
         }
 
-        static async Task<Ok<List<BrandListDTO>>> GetSelects([FromQuery] bool isDeleted, IBrandRepository repository,
-            IMapper mapper)
+        static async Task<Ok<List<BrandListDTO>>> GetSelects(IBrandRepository repository,
+            IMapper mapper, [FromQuery] StatusType status = StatusType.All)
         {
-            var brands = await repository.GetAll(isDeleted);
+            var brands = await repository.GetAll(status);
             var brandsDTO = mapper.Map<List<BrandListDTO>>(brands);
             return TypedResults.Ok(brandsDTO);
         }
@@ -90,7 +91,7 @@ namespace BackEnd.Endpoints
 
             existingBrand.Name = createBrandDTO.Name;
             existingBrand.Name = createBrandDTO.Name;
-            existingBrand.IsDeleted = existingBrand.IsDeleted;
+            existingBrand.IsActive = existingBrand.IsActive;
 
             await repository.Update(existingBrand);
             await outputCacheStore.EvictByTagAsync("brands-get", default);

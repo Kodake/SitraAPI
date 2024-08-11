@@ -1,6 +1,7 @@
 ﻿using BackEnd.DTOs.Currencies;
+using BackEnd.DTOs.Products;
+using BackEnd.Entities.Products;
 
-namespace BackEnd.DTOs.Products;
 public class ProductDTO
 {
     public int Id { get; set; }
@@ -10,7 +11,17 @@ public class ProductDTO
     public double InitialCost { get; set; }
     public double BasePrice { get; set; }
     public int? BrandId { get; set; }
+    public BrandDTO? Brand { get; set; }
     public int? CategoryId { get; set; }
+    public CategoryDTO? Category { get; set; }
     public int? UnitId { get; set; }
-    public List<TaxDTO> Taxes { get; set; } = new List<TaxDTO>();
+    public UnitDTO? Unit { get; set; }
+    public List<int>? TaxIds
+    {
+        get
+        {
+            return Taxes?.Select(x => x.Id).ToList();
+        }
+    }
+    public List<TaxDTO>? Taxes { get; set; } = new List<TaxDTO>();
 }

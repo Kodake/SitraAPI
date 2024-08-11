@@ -15,7 +15,7 @@ namespace BackEnd.Endpoints
     {
         public static RouteGroupBuilder MapProducts(this RouteGroupBuilder group)
         {
-            group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(3600)).Tag("products-get"))
+            group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("products-get"))
                 .AddPaginationParamsOpenAPI();
             group.MapGet("/{id:int}", GetById);
             group.MapPost("/", Create).DisableAntiforgery()

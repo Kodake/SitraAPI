@@ -1,12 +1,13 @@
 using BackEnd.DTOs;
 using BackEnd.Entities.Products;
+using BackEnd.Enums;
 
 namespace BackEnd.Repositories.Products
 {
     public interface ICategoryRepository
     {
         Task<List<Category>> GetAll(PaginationDTO paginationDTO);
-        Task<List<Category>> GetAll(bool isDeleted);
+        Task<List<Category>> GetAll(StatusType status);
         Task<Category?> GetById(int id);
         Task<int> Create(Category category);
         Task Update(Category category);

@@ -39,6 +39,9 @@ namespace BackEnd.Repositories.Products
             return await context.Products
                 .Include(p => p.ProductTaxes)
                 .ThenInclude(pt => pt.Tax)
+                .Include(p => p.Unit)
+                .Include(p => p.Brand)
+                .Include(p => p.Category)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
@@ -60,7 +63,7 @@ namespace BackEnd.Repositories.Products
             var product = await context.Products.FirstOrDefaultAsync(x => x.Id == id);
             if (product != null)
             {
-                product.IsDeleted = false;
+                product.IsActive = false;
                 await context.SaveChangesAsync();
             }
         }
@@ -70,7 +73,7 @@ namespace BackEnd.Repositories.Products
             var product = await context.Products.FirstOrDefaultAsync(x => x.Id == id);
             if (product != null)
             {
-                product.IsDeleted = true;
+                product.IsActive = true;
                 await context.SaveChangesAsync();
             }
         }

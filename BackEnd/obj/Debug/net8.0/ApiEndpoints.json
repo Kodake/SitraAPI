@@ -498,9 +498,9 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "isDeleted",
-        "Type": "System.Boolean",
-        "IsRequired": true
+        "Name": "status",
+        "Type": "BackEnd.Enums.StatusType",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": [
@@ -693,9 +693,9 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "isDeleted",
-        "Type": "System.Boolean",
-        "IsRequired": true
+        "Name": "status",
+        "Type": "BackEnd.Enums.StatusType",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": [
@@ -1084,7 +1084,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Products.ProductDTO",
+        "Type": "ProductDTO",
         "MediaTypes": [
           "application/json"
         ],
@@ -1115,7 +1115,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Products.ProductDTO",
+        "Type": "ProductDTO",
         "MediaTypes": [
           "application/json"
         ],
@@ -1217,6 +1217,30 @@
       {
         "Type": "System.Void",
         "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BackEnd.Endpoints.TaxesEndpoints",
+    "Method": "GetSelects",
+    "RelativePath": "taxes/selects",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "status",
+        "Type": "BackEnd.Enums.StatusType",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Currencies.TaxListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
         "StatusCode": 200
       }
     ]
@@ -1401,9 +1425,9 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "isDeleted",
-        "Type": "System.Boolean",
-        "IsRequired": true
+        "Name": "status",
+        "Type": "BackEnd.Enums.StatusType",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": [

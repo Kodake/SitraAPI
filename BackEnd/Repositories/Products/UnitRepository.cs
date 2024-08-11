@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using BackEnd.Context;
 using BackEnd.DTOs;
+using BackEnd.Entities.Currencies;
 using BackEnd.Entities.Products;
+using BackEnd.Enums;
 using BackEnd.Helpers;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,13 +35,24 @@ namespace BackEnd.Repositories.Products
                 .ToListAsync();
         }
 
-        public async Task<List<Unit>> GetAll(bool isDeleted)
+        public async Task<List<Unit>> GetAll(StatusType status)
         {
-            return await context.Units
-                .Where(u => u.IsDeleted == isDeleted)
-                .OrderBy(u => u.Id)
-                .AsNoTracking()
-                .ToListAsync();
+            IQueryable<Unit> query = context.Units.AsNoTracking();
+
+            switch (status)
+            {
+                case StatusType.Activated:
+                    query = query.Where(u => u.IsActive);
+                    break;
+                case StatusType.Deactivated:
+                    query = query.Where(u => !u.IsActive);
+                    break;
+                case StatusType.All:
+                default:
+                    break;
+            }
+
+            return await query.OrderBy(u => u.Id).ToListAsync();
         }
 
         public async Task<Unit?> GetById(int id)
@@ -65,7 +78,7 @@ namespace BackEnd.Repositories.Products
             var unit = await context.Units.FirstOrDefaultAsync(x => x.Id == id);
             if (unit != null)
             {
-                unit.IsDeleted = false;
+                unit.IsActive = false;
                 await context.SaveChangesAsync();
             }
         }
@@ -75,7 +88,7 @@ namespace BackEnd.Repositories.Products
             var unit = await context.Units.FirstOrDefaultAsync(x => x.Id == id);
             if (unit != null)
             {
-                unit.IsDeleted = true;
+                unit.IsActive = true;
                 await context.SaveChangesAsync();
             }
         }

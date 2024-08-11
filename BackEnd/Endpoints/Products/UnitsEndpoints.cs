@@ -2,6 +2,7 @@
 using BackEnd.DTOs;
 using BackEnd.DTOs.Products;
 using BackEnd.Entities.Products;
+using BackEnd.Enums;
 using BackEnd.Filters;
 using BackEnd.Helpers;
 using BackEnd.Repositories.Products;
@@ -42,10 +43,10 @@ namespace BackEnd.Endpoints
             return TypedResults.Ok(unitsDTO);
         }
 
-        static async Task<Ok<List<UnitListDTO>>> GetSelects([FromQuery] bool isDeleted, IUnitRepository repository,
-            IMapper mapper)
+        static async Task<Ok<List<UnitListDTO>>> GetSelects(IUnitRepository repository,
+            IMapper mapper, [FromQuery] StatusType status = StatusType.All)
         {
-            var units = await repository.GetAll(isDeleted);
+            var units = await repository.GetAll(status);
             var unitsDTO = mapper.Map<List<UnitListDTO>>(units);
             return TypedResults.Ok(unitsDTO);
         }
@@ -72,7 +73,7 @@ namespace BackEnd.Endpoints
             var unit = mapper.Map<Unit>(createUnitDTO);
 
             var id = await repository.Create(unit);
-            await outputCacheStore.EvictByTagAsync("categories-get", default);
+            await outputCacheStore.EvictByTagAsync("units-get", default);
             var unitDTO = mapper.Map<UnitDTO>(unit);
             return TypedResults.Created($"/units/{id}", unitDTO);
         }
@@ -91,7 +92,7 @@ namespace BackEnd.Endpoints
 
             existingUnit.Name = createUnitDTO.Name;
             existingUnit.ShortName = createUnitDTO.ShortName;
-            existingUnit.IsDeleted = existingUnit.IsDeleted;
+            existingUnit.IsActive = existingUnit.IsActive;
 
             await repository.Update(existingUnit);
             await outputCacheStore.EvictByTagAsync("units-get", default);

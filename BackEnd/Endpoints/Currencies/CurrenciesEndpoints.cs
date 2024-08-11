@@ -15,7 +15,7 @@ namespace BackEnd.Endpoints
     {
         public static RouteGroupBuilder MapCurrencies(this RouteGroupBuilder group)
         {
-            group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(3600)).Tag("currencies-get"))
+            group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("currencies-get"))
                 .AddPaginationParamsOpenAPI();
             group.MapGet("/{id:int}", GetById);
             group.MapPost("/", Create).DisableAntiforgery()
@@ -81,7 +81,7 @@ namespace BackEnd.Endpoints
 
             existingCurrency.Code = createCurrencyDTO.Code;
             existingCurrency.Name = createCurrencyDTO.Name;
-            existingCurrency.IsDeleted = existingCurrency.IsDeleted;
+            existingCurrency.IsActive = existingCurrency.IsActive;
 
             await repository.Update(existingCurrency);
             await outputCacheStore.EvictByTagAsync("currencies-get", default);

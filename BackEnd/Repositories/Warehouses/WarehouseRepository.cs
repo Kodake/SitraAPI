@@ -57,7 +57,7 @@ namespace BackEnd.Repositories.Products
             var warehouse = await context.Warehouses.FirstOrDefaultAsync(x => x.Id == id);
             if (warehouse != null)
             {
-                warehouse.IsDeleted = false;
+                warehouse.IsActive = false;
                 await context.SaveChangesAsync();
             }
         }
@@ -67,7 +67,7 @@ namespace BackEnd.Repositories.Products
             var warehouse = await context.Warehouses.FirstOrDefaultAsync(x => x.Id == id);
             if (warehouse != null)
             {
-                warehouse.IsDeleted = true;
+                warehouse.IsActive = true;
                 await context.SaveChangesAsync();
             }
         }

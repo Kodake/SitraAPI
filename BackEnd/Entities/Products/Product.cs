@@ -24,7 +24,7 @@ namespace BackEnd.Entities.Products
         public Category? Category { get; set; }
         public int? UnitId { get; set; } = null!;
         public Unit? Unit { get; set; }
-        public bool IsDeleted { get; set; }
+        public bool IsActive { get; set; }
         public List<ProductTaxes> ProductTaxes { get; set; } = new List<ProductTaxes>();
     }
 }
