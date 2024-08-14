@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using BackEnd.DTOs.Contacts;
-using BackEnd.DTOs.Currencies;
+using BackEnd.DTOs.Finances;
 using BackEnd.DTOs.Products;
 using BackEnd.DTOs.Warehouses;
 using BackEnd.Entities.Contacts;
-using BackEnd.Entities.Currencies;
+using BackEnd.Entities.Finances;
 using BackEnd.Entities.Products;
 using BackEnd.Entities.Warehouses;
 
@@ -29,6 +29,11 @@ namespace BackEnd.Helpers
             CreateMap<CreateCurrencyDTO, Currency>();
             CreateMap<Currency, CurrencyListDTO>();
             CreateMap<Currency, CurrencyDTO>();
+
+
+            CreateMap<CreateTaxDTO, Tax>();
+            CreateMap<Tax, TaxListDTO>();
+            CreateMap<Tax, TaxDTO>();
 
             CreateMap<CreateContactDTO, Contact>();
             CreateMap<Contact, ContactListDTO>();
@@ -78,8 +83,6 @@ namespace BackEnd.Helpers
                 .ForMember(dest => dest.Unit, opt => opt.Ignore());
 
             CreateMap<ProductDTO, Product>();
-
-            CreateMap<Tax, TaxListDTO>();
         }
     }
 }

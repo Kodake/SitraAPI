@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using BackEnd.Entities.Contacts;
-using BackEnd.Entities.Currencies;
+using BackEnd.Entities.Finances;
 using BackEnd.Entities.Products;
 using BackEnd.Entities.Warehouses;
 using Microsoft.EntityFrameworkCore;

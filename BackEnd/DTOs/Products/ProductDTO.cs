@@ -1,6 +1,5 @@
-﻿using BackEnd.DTOs.Currencies;
+﻿using BackEnd.DTOs.Finances;
 using BackEnd.DTOs.Products;
-using BackEnd.Entities.Products;
 
 public class ProductDTO
 {

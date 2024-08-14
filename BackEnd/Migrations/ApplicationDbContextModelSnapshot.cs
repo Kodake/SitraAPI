@@ -62,7 +62,7 @@ namespace BackEnd.Migrations
                     b.ToTable("Contacts");
                 });
 
-            modelBuilder.Entity("BackEnd.Entities.Currencies.Currency", b =>
+            modelBuilder.Entity("BackEnd.Entities.Finances.Currency", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -88,7 +88,7 @@ namespace BackEnd.Migrations
                     b.ToTable("Currencies");
                 });
 
-            modelBuilder.Entity("BackEnd.Entities.Currencies.Tax", b =>
+            modelBuilder.Entity("BackEnd.Entities.Finances.Tax", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -96,8 +96,8 @@ namespace BackEnd.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Amount")
-                        .HasColumnType("int");
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -528,7 +528,7 @@ namespace BackEnd.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BackEnd.Entities.Currencies.Tax", "Tax")
+                    b.HasOne("BackEnd.Entities.Finances.Tax", "Tax")
                         .WithMany("ProductTaxes")
                         .HasForeignKey("TaxId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -590,7 +590,7 @@ namespace BackEnd.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BackEnd.Entities.Currencies.Tax", b =>
+            modelBuilder.Entity("BackEnd.Entities.Finances.Tax", b =>
                 {
                     b.Navigation("ProductTaxes");
                 });

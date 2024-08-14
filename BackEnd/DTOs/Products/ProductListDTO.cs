@@ -1,5 +1,4 @@
-﻿using BackEnd.DTOs.Currencies;
-using BackEnd.Entities.Products;
+﻿using BackEnd.DTOs.Finances;
 
 namespace BackEnd.DTOs.Products;
 public class ProductListDTO

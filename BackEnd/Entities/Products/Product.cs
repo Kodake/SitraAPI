@@ -1,4 +1,4 @@
-﻿using BackEnd.Entities.Currencies;
+﻿using BackEnd.Entities.Finances;
 
 namespace BackEnd.Entities.Products
 {

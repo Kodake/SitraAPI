@@ -6,7 +6,7 @@ using BackEnd.Helpers;
 using FluentValidation;
 using BackEnd.Repositories.Products;
 using BackEnd.Endpoints;
-using BackEnd.Repositories.Currencies;
+using BackEnd.Repositories.Finances;
 using BackEnd.Repositories.Contacts;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -99,28 +99,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
 app.MapGroup("/api/v1/identity").MapIdentityApi<IdentityUser>();
-
-app.MapGet("/api/v1/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.RequireAuthorization()
-.WithName("GetWeatherForecast")
-.WithOpenApi();
 
 app.MapGroup("/contacts").MapContacts();
 app.MapGroup("/categories").MapCategories();
@@ -136,8 +115,3 @@ app.UseCors();
 app.UseOutputCache();
 
 app.Run();
-
-internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

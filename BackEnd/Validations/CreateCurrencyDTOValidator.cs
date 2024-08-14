@@ -1,8 +1,6 @@
-﻿using BackEnd.DTOs.Currencies;
-using BackEnd.DTOs.Products;
+﻿using BackEnd.DTOs.Finances;
 using BackEnd.Helpers;
-using BackEnd.Repositories.Currencies;
-using BackEnd.Repositories.Products;
+using BackEnd.Repositories.Finances;
 using FluentValidation;
 
 namespace BackEnd.Validations

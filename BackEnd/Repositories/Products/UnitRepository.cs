@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using BackEnd.Context;
 using BackEnd.DTOs;
-using BackEnd.Entities.Currencies;
+using BackEnd.Entities.Finances;
 using BackEnd.Entities.Products;
 using BackEnd.Enums;
 using BackEnd.Helpers;
