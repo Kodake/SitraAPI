@@ -2,7 +2,7 @@
 
 namespace BackEnd.Entities.Contacts
 {
-    public class Contact
+    public sealed class Contact
     {
         public int Id { get; set; }
         public ContactType? ContactType { get; set; }

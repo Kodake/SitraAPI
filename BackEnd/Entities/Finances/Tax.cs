@@ -2,7 +2,7 @@
 
 namespace BackEnd.Entities.Finances
 {
-    public class Tax
+    public sealed class Tax
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;

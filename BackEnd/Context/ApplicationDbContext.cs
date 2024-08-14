@@ -69,7 +69,21 @@ namespace BackEnd.Context
                 .HasForeignKey(p => p.BrandId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<ProductTaxes>().HasKey(g => new { g.TaxId, g.ProductId });
+            modelBuilder.Entity<ProductTaxes>()
+                .HasKey(g => new { g.TaxId, g.ProductId });
+
+            modelBuilder.Entity<Stock>()
+                .HasKey(ps => new { ps.ProductId, ps.WarehouseId });
+
+            modelBuilder.Entity<Stock>()
+                .HasOne(ps => ps.Product)
+                .WithMany(p => p.ProductStocks)
+                .HasForeignKey(ps => ps.ProductId);
+
+            modelBuilder.Entity<Stock>()
+                .HasOne(ps => ps.Warehouse)
+                .WithMany(w => w.ProductStocks)
+                .HasForeignKey(ps => ps.WarehouseId);
         }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Brand> Brands { get; set; }
@@ -80,5 +94,6 @@ namespace BackEnd.Context
         public DbSet<Product> Products { get; set; }
         public DbSet<Tax> Taxes { get; set; }
         public DbSet<ProductTaxes> ProductTaxes { get; set; }
+        public DbSet<Stock> Stocks { get; set; }
     }
 }

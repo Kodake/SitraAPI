@@ -1,6 +1,6 @@
 ﻿namespace BackEnd.Entities.Finances
 {
-    public class Currency
+    public sealed class Currency
     {
         public int Id { get; set; }
         public string Code { get; set; } = string.Empty;

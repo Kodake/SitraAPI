@@ -1,6 +1,6 @@
 ﻿namespace BackEnd.Entities.Warehouses
 {
-    public class Warehouse
+    public sealed class Warehouse
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
@@ -11,5 +11,6 @@
         public string Country { get; set; } = string.Empty;
         public string ZipCode { get; set; } = string.Empty;
         public bool IsActive { get; set; }
+        public List<Stock> ProductStocks { get; set; } = new List<Stock>();
     }
 }

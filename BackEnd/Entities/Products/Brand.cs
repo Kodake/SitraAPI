@@ -1,6 +1,6 @@
 namespace BackEnd.Entities.Products
 {
-    public class Brand
+    public sealed class Brand
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;

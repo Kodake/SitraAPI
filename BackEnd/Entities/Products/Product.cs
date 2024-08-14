@@ -1,8 +1,9 @@
 ﻿using BackEnd.Entities.Finances;
+using BackEnd.Entities.Warehouses;
 
 namespace BackEnd.Entities.Products
 {
-    public class Product
+    public sealed class Product
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
@@ -26,5 +27,6 @@ namespace BackEnd.Entities.Products
         public Unit? Unit { get; set; }
         public bool IsActive { get; set; }
         public List<ProductTaxes> ProductTaxes { get; set; } = new List<ProductTaxes>();
+        public List<Stock> ProductStocks { get; set; } = new List<Stock>();
     }
 }

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using BackEnd.Context;
 using BackEnd.DTOs;
-using BackEnd.Entities.Contacts;
 using BackEnd.Entities.Warehouses;
 using BackEnd.Helpers;
 using BackEnd.Repositories.Contacts;
