@@ -4,7 +4,7 @@ using BackEnd.DTOs.Warehouses;
 using BackEnd.Entities.Warehouses;
 using BackEnd.Filters;
 using BackEnd.Helpers;
-using BackEnd.Repositories.Contacts;
+using BackEnd.Repositories.Warehouses;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
@@ -36,8 +36,8 @@ namespace BackEnd.Endpoints
             [FromServices] IMapper mapper, PaginationDTO pagination)
         {
             var warehouses = await repository.GetAll(pagination);
-            var warehousesDTO = mapper.Map<List<WarehouseListDTO>>(warehouses);
-            return TypedResults.Ok(warehousesDTO);
+            var dto = mapper.Map<List<WarehouseListDTO>>(warehouses);
+            return TypedResults.Ok(dto);
         }
 
         static async Task<Results<Ok<WarehouseDTO>, NotFound>> GetById([FromServices] IWarehouseRepository repository,
@@ -54,12 +54,12 @@ namespace BackEnd.Endpoints
             return TypedResults.Ok(warehouseDTO);
         }
 
-        static async Task<Results<Created<WarehouseDTO>, ValidationProblem>> Create([FromForm] CreateWarehouseDTO createWarehouseDTO,
+        static async Task<Results<Created<WarehouseDTO>, ValidationProblem>> Create([FromBody] CreateWarehouseDTO dto,
            [FromServices] IWarehouseRepository repository,
            IOutputCacheStore outputCacheStore,
            [FromServices] IMapper mapper)
         {
-            var warehouse = mapper.Map<Warehouse>(createWarehouseDTO);
+            var warehouse = mapper.Map<Warehouse>(dto);
 
             var id = await repository.Create(warehouse);
             await outputCacheStore.EvictByTagAsync("warehouses-get", default);
@@ -67,28 +67,28 @@ namespace BackEnd.Endpoints
             return TypedResults.Created($"/warehouses/{id}", warehouseDTO);
         }
 
-        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromForm] CreateWarehouseDTO createWarehouseDTO,
+        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromBody] CreateWarehouseDTO dto,
             [FromServices] IWarehouseRepository repository,
             IOutputCacheStore outputCacheStore,
             [FromServices] IMapper mapper)
         {
-            var existingWarehouse = await repository.GetById(id);
+            var warehouseDB = await repository.GetById(id);
 
-            if (existingWarehouse is null)
+            if (warehouseDB is null)
             {
                 return TypedResults.NotFound();
             }
 
-            existingWarehouse.Name = createWarehouseDTO.Name;
-            existingWarehouse.Address = createWarehouseDTO.Address;
-            existingWarehouse.Phone = createWarehouseDTO.Phone;
-            existingWarehouse.Email = createWarehouseDTO.Email;
-            existingWarehouse.City = createWarehouseDTO.City;
-            existingWarehouse.Country = createWarehouseDTO.Country;
-            existingWarehouse.ZipCode = createWarehouseDTO.ZipCode;
-            existingWarehouse.IsActive = existingWarehouse.IsActive;
+            warehouseDB.Name = dto.Name;
+            warehouseDB.Address = dto.Address;
+            warehouseDB.Phone = dto.Phone;
+            warehouseDB.Email = dto.Email;
+            warehouseDB.City = dto.City;
+            warehouseDB.Country = dto.Country;
+            warehouseDB.ZipCode = dto.ZipCode;
+            warehouseDB.IsActive = warehouseDB.IsActive;
 
-            await repository.Update(existingWarehouse);
+            await repository.Update(warehouseDB);
             await outputCacheStore.EvictByTagAsync("warehouses-get", default);
             return TypedResults.Ok();
         }

@@ -42,7 +42,7 @@ namespace BackEnd.Context
             modelBuilder.Entity<Warehouse>().Property(p => p.Phone).HasMaxLength(10).IsRequired(false);
             modelBuilder.Entity<Warehouse>().Property(p => p.Email).HasMaxLength(50).IsRequired(false);
             modelBuilder.Entity<Warehouse>().Property(p => p.City).HasMaxLength(50).IsRequired(false);
-            modelBuilder.Entity<Warehouse>().Property(p => p.Country).HasMaxLength(2);
+            modelBuilder.Entity<Warehouse>().Property(p => p.Country).HasMaxLength(2).IsRequired(false);
             modelBuilder.Entity<Warehouse>().Property(p => p.ZipCode).HasMaxLength(5).IsRequired(false);
 
             modelBuilder.Entity<Product>().Property(p => p.Name).HasMaxLength(50).IsRequired();
@@ -71,9 +71,6 @@ namespace BackEnd.Context
 
             modelBuilder.Entity<ProductTaxes>()
                 .HasKey(g => new { g.TaxId, g.ProductId });
-
-            modelBuilder.Entity<Stock>()
-                .HasKey(ps => new { ps.ProductId, ps.WarehouseId });
 
             modelBuilder.Entity<Stock>()
                 .HasOne(ps => ps.Product)

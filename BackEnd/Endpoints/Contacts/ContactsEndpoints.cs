@@ -54,12 +54,12 @@ namespace BackEnd.Endpoints
             return TypedResults.Ok(contactDTO);
         }
 
-        static async Task<Results<Created<ContactDTO>, ValidationProblem>> Create([FromForm] CreateContactDTO createContactDTO,
+        static async Task<Results<Created<ContactDTO>, ValidationProblem>> Create([FromForm] CreateContactDTO dto,
            [FromServices] IContactRepository repository,
            IOutputCacheStore outputCacheStore,
            [FromServices] IMapper mapper)
         {
-            var contact = mapper.Map<Contact>(createContactDTO);
+            var contact = mapper.Map<Contact>(dto);
 
             var id = await repository.Create(contact);
             await outputCacheStore.EvictByTagAsync("contacts-get", default);
@@ -67,27 +67,27 @@ namespace BackEnd.Endpoints
             return TypedResults.Created($"/contacts/{id}", contactDTO);
         }
 
-        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromForm] CreateContactDTO createContactDTO,
+        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromForm] CreateContactDTO dto,
             [FromServices] IContactRepository repository,
             IOutputCacheStore outputCacheStore,
             [FromServices] IMapper mapper)
         {
-            var existingContact = await repository.GetById(id);
+            var contactDB = await repository.GetById(id);
 
-            if (existingContact is null)
+            if (contactDB is null)
             {
                 return TypedResults.NotFound();
             }
 
-            existingContact.ContactType = createContactDTO.ContactType;
-            existingContact.IdentificationType = createContactDTO.IdentificationType;
-            existingContact.Province = createContactDTO.Province;
-            existingContact.Identification = createContactDTO.Identification;
-            existingContact.Name = createContactDTO.Name;
-            existingContact.Address = createContactDTO.Address;
-            existingContact.IsActive = existingContact.IsActive;
+            contactDB.ContactType = dto.ContactType;
+            contactDB.IdentificationType = dto.IdentificationType;
+            contactDB.Province = dto.Province;
+            contactDB.Identification = dto.Identification;
+            contactDB.Name = dto.Name;
+            contactDB.Address = dto.Address;
+            contactDB.IsActive = contactDB.IsActive;
 
-            await repository.Update(existingContact);
+            await repository.Update(contactDB);
             await outputCacheStore.EvictByTagAsync("contacts-get", default);
             return TypedResults.Ok();
         }

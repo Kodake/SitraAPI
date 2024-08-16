@@ -29,12 +29,14 @@ namespace BackEnd.Repositories.Warehouses
             return await queryable
                 .OrderBy(x => x.Product.Name)
                 .Paginate(paginationDTO)
+                .Include(p => p.Product)
+                .Include(pt => pt.Warehouse)
                 .ToListAsync();
         }
 
-        public async Task<Stock?> GetById(int productId, int warehouseId)
+        public async Task<Stock?> GetById(int id)
         {
-            return await context.Stocks.FirstOrDefaultAsync(x => x.ProductId == productId && x.WarehouseId == warehouseId);
+            return await context.Stocks.FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<bool> Create(Stock stock)

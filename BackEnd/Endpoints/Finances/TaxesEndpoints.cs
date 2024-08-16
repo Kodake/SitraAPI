@@ -63,12 +63,12 @@ namespace BackEnd.Endpoints
             return TypedResults.Ok(taxDTO);
         }
 
-        static async Task<Results<Created<TaxDTO>, ValidationProblem>> Create([FromForm] CreateTaxDTO createTaxDTO,
+        static async Task<Results<Created<TaxDTO>, ValidationProblem>> Create([FromForm] CreateTaxDTO dto,
            [FromServices] ITaxRepository repository,
            IOutputCacheStore outputCacheStore,
            [FromServices] IMapper mapper)
         {
-            var tax = mapper.Map<Tax>(createTaxDTO);
+            var tax = mapper.Map<Tax>(dto);
 
             var id = await repository.Create(tax);
             await outputCacheStore.EvictByTagAsync("taxes-get", default);
@@ -76,23 +76,23 @@ namespace BackEnd.Endpoints
             return TypedResults.Created($"/taxes/{id}", taxDTO);
         }
 
-        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromForm] CreateTaxDTO createTaxDTO,
+        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromForm] CreateTaxDTO dto,
             [FromServices] ITaxRepository repository,
             IOutputCacheStore outputCacheStore,
             [FromServices] IMapper mapper)
         {
-            var existingTax = await repository.GetById(id);
+            var taxDB = await repository.GetById(id);
 
-            if (existingTax is null)
+            if (taxDB is null)
             {
                 return TypedResults.NotFound();
             }
 
-            existingTax.Name = createTaxDTO.Name;
-            existingTax.Amount = createTaxDTO.Amount;
-            existingTax.IsActive = existingTax.IsActive;
+            taxDB.Name = dto.Name;
+            taxDB.Amount = dto.Amount;
+            taxDB.IsActive = taxDB.IsActive;
 
-            await repository.Update(existingTax);
+            await repository.Update(taxDB);
             await outputCacheStore.EvictByTagAsync("taxes-get", default);
             return TypedResults.Ok();
         }

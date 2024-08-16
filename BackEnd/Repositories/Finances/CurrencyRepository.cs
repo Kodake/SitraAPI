@@ -55,7 +55,7 @@ namespace BackEnd.Repositories.Finances
             var currency = await context.Currencies.FirstOrDefaultAsync(x => x.Id == id);
             if (currency != null)
             {
-                currency.IsActive = false;
+                currency.IsActive = true;
                 await context.SaveChangesAsync();
             }
         }
@@ -65,7 +65,7 @@ namespace BackEnd.Repositories.Finances
             var currency = await context.Currencies.FirstOrDefaultAsync(x => x.Id == id);
             if (currency != null)
             {
-                currency.IsActive = true;
+                currency.IsActive = false;
                 await context.SaveChangesAsync();
             }
         }

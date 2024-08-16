@@ -83,6 +83,18 @@ namespace BackEnd.Helpers
                 .ForMember(dest => dest.Unit, opt => opt.Ignore());
 
             CreateMap<ProductDTO, Product>();
+
+            CreateMap<Stock, StockDTO>()
+                .ForMember(dest => dest.Product, opt => opt.MapFrom(src => src.Product))
+                .ForMember(dest => dest.Warehouse, opt => opt.MapFrom(src => src.Warehouse))
+                .ReverseMap();
+
+            CreateMap<CreateStockDTO, Stock>();
+
+            CreateMap<Stock, StockListDTO>()
+                .ForMember(dest => dest.Product, opt => opt.MapFrom(src => src.Product))
+                .ForMember(dest => dest.Warehouse, opt => opt.MapFrom(src => src.Warehouse))
+                .ReverseMap();
         }
     }
 }

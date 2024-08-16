@@ -56,7 +56,7 @@ namespace BackEnd.Repositories.Products
             var contact = await context.Contacts.FirstOrDefaultAsync(x => x.Id == id);
             if (contact != null)
             {
-                contact.IsActive = false;
+                contact.IsActive = true;
                 await context.SaveChangesAsync();
             }
         }
@@ -66,7 +66,7 @@ namespace BackEnd.Repositories.Products
             var contact = await context.Contacts.FirstOrDefaultAsync(x => x.Id == id);
             if (contact != null)
             {
-                contact.IsActive = true;
+                contact.IsActive = false;
                 await context.SaveChangesAsync();
             }
         }

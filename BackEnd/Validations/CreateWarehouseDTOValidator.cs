@@ -1,8 +1,7 @@
 ﻿using BackEnd.DTOs.Products;
 using BackEnd.DTOs.Warehouses;
 using BackEnd.Helpers;
-using BackEnd.Repositories.Contacts;
-using BackEnd.Repositories.Products;
+using BackEnd.Repositories.Warehouses;
 using FluentValidation;
 
 namespace BackEnd.Validations
@@ -36,9 +35,6 @@ namespace BackEnd.Validations
                 .MinimumLength(2).WithMessage(Utilities.MinimunLengthMessage)
                 .MaximumLength(100).WithMessage(Utilities.MaximunLengthMessage)
                 .Must(Utilities.FirstCharUppercase).WithMessage(Utilities.FirstCharUpperMessage);
-
-                RuleFor(x => x.Country)
-                .NotEmpty().WithMessage(Utilities.RequiredFieldMessage);
         }
     }
 }

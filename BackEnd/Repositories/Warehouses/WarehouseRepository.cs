@@ -3,7 +3,7 @@ using BackEnd.Context;
 using BackEnd.DTOs;
 using BackEnd.Entities.Warehouses;
 using BackEnd.Helpers;
-using BackEnd.Repositories.Contacts;
+using BackEnd.Repositories.Warehouses;
 using Microsoft.EntityFrameworkCore;
 
 namespace BackEnd.Repositories.Products
@@ -56,7 +56,7 @@ namespace BackEnd.Repositories.Products
             var warehouse = await context.Warehouses.FirstOrDefaultAsync(x => x.Id == id);
             if (warehouse != null)
             {
-                warehouse.IsActive = false;
+                warehouse.IsActive = true;
                 await context.SaveChangesAsync();
             }
         }
@@ -66,7 +66,7 @@ namespace BackEnd.Repositories.Products
             var warehouse = await context.Warehouses.FirstOrDefaultAsync(x => x.Id == id);
             if (warehouse != null)
             {
-                warehouse.IsActive = true;
+                warehouse.IsActive = false;
                 await context.SaveChangesAsync();
             }
         }

@@ -65,12 +65,12 @@ namespace BackEnd.Endpoints
             return TypedResults.Ok(unitDTO);
         }
 
-        static async Task<Results<Created<UnitDTO>, ValidationProblem>> Create([FromForm] CreateUnitDTO createUnitDTO,
+        static async Task<Results<Created<UnitDTO>, ValidationProblem>> Create([FromForm] CreateUnitDTO dto,
            [FromServices] IUnitRepository repository,
            IOutputCacheStore outputCacheStore,
            [FromServices] IMapper mapper)
         {
-            var unit = mapper.Map<Unit>(createUnitDTO);
+            var unit = mapper.Map<Unit>(dto);
 
             var id = await repository.Create(unit);
             await outputCacheStore.EvictByTagAsync("units-get", default);
@@ -78,23 +78,23 @@ namespace BackEnd.Endpoints
             return TypedResults.Created($"/units/{id}", unitDTO);
         }
 
-        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromForm] CreateUnitDTO createUnitDTO,
+        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromForm] CreateUnitDTO dto,
             [FromServices] IUnitRepository repository,
             IOutputCacheStore outputCacheStore,
             [FromServices] IMapper mapper)
         {
-            var existingUnit = await repository.GetById(id);
+            var unitDB = await repository.GetById(id);
 
-            if (existingUnit is null)
+            if (unitDB is null)
             {
                 return TypedResults.NotFound();
             }
 
-            existingUnit.Name = createUnitDTO.Name;
-            existingUnit.ShortName = createUnitDTO.ShortName;
-            existingUnit.IsActive = existingUnit.IsActive;
+            unitDB.Name = dto.Name;
+            unitDB.ShortName = dto.ShortName;
+            unitDB.IsActive = unitDB.IsActive;
 
-            await repository.Update(existingUnit);
+            await repository.Update(unitDB);
             await outputCacheStore.EvictByTagAsync("units-get", default);
             return TypedResults.Ok();
         }

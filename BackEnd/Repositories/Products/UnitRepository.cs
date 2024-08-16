@@ -78,7 +78,7 @@ namespace BackEnd.Repositories.Products
             var unit = await context.Units.FirstOrDefaultAsync(x => x.Id == id);
             if (unit != null)
             {
-                unit.IsActive = false;
+                unit.IsActive = true;
                 await context.SaveChangesAsync();
             }
         }
@@ -88,7 +88,7 @@ namespace BackEnd.Repositories.Products
             var unit = await context.Units.FirstOrDefaultAsync(x => x.Id == id);
             if (unit != null)
             {
-                unit.IsActive = true;
+                unit.IsActive = false;
                 await context.SaveChangesAsync();
             }
         }

@@ -1,7 +1,6 @@
 using AutoMapper;
 using BackEnd.Context;
 using BackEnd.DTOs;
-using BackEnd.Entities.Finances;
 using BackEnd.Entities.Products;
 using BackEnd.Enums;
 using BackEnd.Helpers;
@@ -78,7 +77,7 @@ namespace BackEnd.Repositories.Products
             var category = await context.Categories.FirstOrDefaultAsync(x => x.Id == id);
             if (category != null)
             {
-                category.IsActive = false;
+                category.IsActive = true;
                 await context.SaveChangesAsync();
             }
         }
@@ -88,7 +87,7 @@ namespace BackEnd.Repositories.Products
             var category = await context.Categories.FirstOrDefaultAsync(x => x.Id == id);
             if (category != null)
             {
-                category.IsActive = true;
+                category.IsActive = false;
                 await context.SaveChangesAsync();
             }
         }

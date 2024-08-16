@@ -63,7 +63,7 @@ namespace BackEnd.Repositories.Products
             var product = await context.Products.FirstOrDefaultAsync(x => x.Id == id);
             if (product != null)
             {
-                product.IsActive = false;
+                product.IsActive = true;
                 await context.SaveChangesAsync();
             }
         }
@@ -73,7 +73,7 @@ namespace BackEnd.Repositories.Products
             var product = await context.Products.FirstOrDefaultAsync(x => x.Id == id);
             if (product != null)
             {
-                product.IsActive = true;
+                product.IsActive = false;
                 await context.SaveChangesAsync();
             }
         }

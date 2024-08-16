@@ -54,12 +54,12 @@ namespace BackEnd.Endpoints
             return TypedResults.Ok(currencyDTO);
         }
 
-        static async Task<Results<Created<CurrencyDTO>, ValidationProblem>> Create([FromForm] CreateCurrencyDTO createCurrencyDTO,
+        static async Task<Results<Created<CurrencyDTO>, ValidationProblem>> Create([FromForm] CreateCurrencyDTO dto,
            [FromServices] ICurrencyRepository repository,
            IOutputCacheStore outputCacheStore,
            [FromServices] IMapper mapper)
         {
-            var currency = mapper.Map<Currency>(createCurrencyDTO);
+            var currency = mapper.Map<Currency>(dto);
 
             var id = await repository.Create(currency);
             await outputCacheStore.EvictByTagAsync("currencies-get", default);
@@ -67,23 +67,23 @@ namespace BackEnd.Endpoints
             return TypedResults.Created($"/currencies/{id}", currencyDTO);
         }
 
-        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromForm] CreateCurrencyDTO createCurrencyDTO,
+        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromForm] CreateCurrencyDTO dto,
             [FromServices] ICurrencyRepository repository,
             IOutputCacheStore outputCacheStore,
             [FromServices] IMapper mapper)
         {
-            var existingCurrency = await repository.GetById(id);
+            var currencyDB = await repository.GetById(id);
 
-            if (existingCurrency is null)
+            if (currencyDB is null)
             {
                 return TypedResults.NotFound();
             }
 
-            existingCurrency.Code = createCurrencyDTO.Code;
-            existingCurrency.Name = createCurrencyDTO.Name;
-            existingCurrency.IsActive = existingCurrency.IsActive;
+            currencyDB.Code = dto.Code;
+            currencyDB.Name = dto.Name;
+            currencyDB.IsActive = currencyDB.IsActive;
 
-            await repository.Update(existingCurrency);
+            await repository.Update(currencyDB);
             await outputCacheStore.EvictByTagAsync("currencies-get", default);
             return TypedResults.Ok();
         }

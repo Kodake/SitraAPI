@@ -1,7 +1,7 @@
 ﻿using BackEnd.DTOs;
 using BackEnd.Entities.Warehouses;
 
-namespace BackEnd.Repositories.Contacts
+namespace BackEnd.Repositories.Warehouses
 {
     public interface IWarehouseRepository
     {

@@ -64,12 +64,12 @@ namespace BackEnd.Endpoints
             return TypedResults.Ok(categoryDTO);
         }
 
-        static async Task<Results<Created<CategoryDTO>, ValidationProblem>> Create([FromForm] CreateCategoryDTO createCategoryDTO,
+        static async Task<Results<Created<CategoryDTO>, ValidationProblem>> Create([FromForm] CreateCategoryDTO dto,
            [FromServices] ICategoryRepository repository,
            IOutputCacheStore outputCacheStore,
            [FromServices] IMapper mapper)
         {
-            var category = mapper.Map<Category>(createCategoryDTO);
+            var category = mapper.Map<Category>(dto);
 
             var id = await repository.Create(category);
             await outputCacheStore.EvictByTagAsync("categories-get", default);
@@ -77,23 +77,23 @@ namespace BackEnd.Endpoints
             return TypedResults.Created($"/categories/{id}", categoryDTO);
         }
 
-        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromForm] CreateCategoryDTO createCategoryDTO,
+        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromForm] CreateCategoryDTO dto,
             [FromServices] ICategoryRepository repository,
             IOutputCacheStore outputCacheStore,
             [FromServices] IMapper mapper)
         {
-            var existingCategory = await repository.GetById(id);
+            var categoryDB = await repository.GetById(id);
 
-            if (existingCategory is null)
+            if (categoryDB is null)
             {
                 return TypedResults.NotFound();
             }
 
-            existingCategory.Name = createCategoryDTO.Name;
-            existingCategory.Description = createCategoryDTO.Description;
-            existingCategory.IsActive = existingCategory.IsActive;
+            categoryDB.Name = dto.Name;
+            categoryDB.Description = dto.Description;
+            categoryDB.IsActive = categoryDB.IsActive;
 
-            await repository.Update(existingCategory);
+            await repository.Update(categoryDB);
             await outputCacheStore.EvictByTagAsync("categories-get", default);
             return TypedResults.Ok();
         }

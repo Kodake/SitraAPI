@@ -8,6 +8,7 @@ using BackEnd.Repositories.Products;
 using BackEnd.Endpoints;
 using BackEnd.Repositories.Finances;
 using BackEnd.Repositories.Contacts;
+using BackEnd.Repositories.Warehouses;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -78,6 +79,8 @@ builder.Services.AddScoped<ITaxRepository, TaxRepository>();
 builder.Services.AddScoped<IContactRepository, ContactRepository>();
 builder.Services.AddScoped<IWarehouseRepository, WarehouseRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IStockRepository, StockRepository>();
+
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddAutoMapper(typeof(Program));
@@ -101,14 +104,17 @@ app.UseHttpsRedirection();
 
 app.MapGroup("/api/v1/identity").MapIdentityApi<IdentityUser>();
 
-app.MapGroup("/contacts").MapContacts();
-app.MapGroup("/categories").MapCategories();
-app.MapGroup("/brands").MapBrands();
-app.MapGroup("/units").MapUnits();
-app.MapGroup("/currencies").MapCurrencies();
-app.MapGroup("/taxes").MapTaxes();
-app.MapGroup("/warehouses").MapWarehouses();
-app.MapGroup("/products").MapProducts();
+var apiGroup = app.MapGroup("/api/v1");
+
+apiGroup.MapGroup("/contacts").MapContacts();
+apiGroup.MapGroup("/categories").MapCategories();
+apiGroup.MapGroup("/brands").MapBrands();
+apiGroup.MapGroup("/units").MapUnits();
+apiGroup.MapGroup("/currencies").MapCurrencies();
+apiGroup.MapGroup("/taxes").MapTaxes();
+apiGroup.MapGroup("/warehouses").MapWarehouses();
+apiGroup.MapGroup("/products").MapProducts();
+apiGroup.MapGroup("/stocks").MapStocks();
 
 app.UseCors();
 

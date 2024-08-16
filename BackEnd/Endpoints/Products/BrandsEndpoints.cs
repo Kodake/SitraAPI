@@ -64,12 +64,12 @@ namespace BackEnd.Endpoints
             return TypedResults.Ok(brandDTO);
         }
 
-        static async Task<Results<Created<BrandDTO>, ValidationProblem>> Create([FromForm] CreateBrandDTO createBrandDTO,
+        static async Task<Results<Created<BrandDTO>, ValidationProblem>> Create([FromForm] CreateBrandDTO dto,
            IBrandRepository repository,
            IOutputCacheStore outputCacheStore,
            IMapper mapper)
         {
-            var brand = mapper.Map<Brand>(createBrandDTO);
+            var brand = mapper.Map<Brand>(dto);
 
             var id = await repository.Create(brand);
             await outputCacheStore.EvictByTagAsync("brands-get", default);
@@ -77,23 +77,23 @@ namespace BackEnd.Endpoints
             return TypedResults.Created($"/brands/{id}", brandDTO);
         }
 
-        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromForm] CreateBrandDTO createBrandDTO,
+        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromForm] CreateBrandDTO dto,
            IBrandRepository repository,
            IOutputCacheStore outputCacheStore,
            IMapper mapper)
         {
-            var existingBrand = await repository.GetById(id);
+            var brandDB = await repository.GetById(id);
 
-            if (existingBrand is null)
+            if (brandDB is null)
             {
                 return TypedResults.NotFound();
             }
 
-            existingBrand.Name = createBrandDTO.Name;
-            existingBrand.Name = createBrandDTO.Name;
-            existingBrand.IsActive = existingBrand.IsActive;
+            brandDB.Name = dto.Name;
+            brandDB.Name = dto.Name;
+            brandDB.IsActive = brandDB.IsActive;
 
-            await repository.Update(existingBrand);
+            await repository.Update(brandDB);
             await outputCacheStore.EvictByTagAsync("brands-get", default);
             return TypedResults.Ok();
         }

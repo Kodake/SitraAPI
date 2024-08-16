@@ -52,12 +52,12 @@ namespace BackEnd.Endpoints
             return TypedResults.Ok(productDTO);
         }
 
-        static async Task<Results<Created<ProductDTO>, ValidationProblem>> Create([FromBody] CreateProductDTO createProductDTO,
+        static async Task<Results<Created<ProductDTO>, ValidationProblem>> Create([FromBody] CreateProductDTO dto,
            [FromServices] IProductRepository repository,
            IOutputCacheStore outputCacheStore,
            [FromServices] IMapper mapper)
         {
-            var product = mapper.Map<Product>(createProductDTO);
+            var product = mapper.Map<Product>(dto);
 
             var id = await repository.Create(product);
             await outputCacheStore.EvictByTagAsync("products-get", default);
@@ -65,33 +65,33 @@ namespace BackEnd.Endpoints
             return TypedResults.Created($"/products/{id}", productDTO);
         }
 
-        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromBody] CreateProductDTO createProductDTO,
+        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromBody] CreateProductDTO dto,
             [FromServices] IProductRepository repository,
             IOutputCacheStore outputCacheStore,
             [FromServices] IMapper mapper)
         {
-            var existingProduct = await repository.GetById(id);
+            var productDB = await repository.GetById(id);
 
-            if (existingProduct is null)
+            if (productDB is null)
             {
                 return TypedResults.NotFound();
             }
 
-            existingProduct.Name = createProductDTO.Name;
-            existingProduct.Reference = createProductDTO.Reference;
-            existingProduct.Description = createProductDTO.Description;
-            existingProduct.InitialCost = createProductDTO.InitialCost;
-            existingProduct.BasePrice = createProductDTO.BasePrice;
-            existingProduct.BrandId = createProductDTO.BrandId;
-            existingProduct.CategoryId = createProductDTO.CategoryId;
-            existingProduct.UnitId = createProductDTO.UnitId;
-            existingProduct.ProductTaxes = createProductDTO.TaxIds.Select(id => new ProductTaxes
+            productDB.Name = dto.Name;
+            productDB.Reference = dto.Reference;
+            productDB.Description = dto.Description;
+            productDB.InitialCost = dto.InitialCost;
+            productDB.BasePrice = dto.BasePrice;
+            productDB.BrandId = dto.BrandId;
+            productDB.CategoryId = dto.CategoryId;
+            productDB.UnitId = dto.UnitId;
+            productDB.ProductTaxes = dto.TaxIds.Select(id => new ProductTaxes
             {
                 TaxId = id,
-                ProductId = existingProduct.Id
+                ProductId = productDB.Id
             }).ToList();
 
-            await repository.Update(existingProduct);
+            await repository.Update(productDB);
             await outputCacheStore.EvictByTagAsync("products-get", default);
             return TypedResults.Ok();
         }

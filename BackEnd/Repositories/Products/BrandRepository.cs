@@ -77,7 +77,7 @@ namespace BackEnd.Repositories.Products
             var brand = await context.Brands.FirstOrDefaultAsync(x => x.Id == id);
             if (brand != null)
             {
-                brand.IsActive = false;
+                brand.IsActive = true;
                 await context.SaveChangesAsync();
             }
         }
@@ -87,7 +87,7 @@ namespace BackEnd.Repositories.Products
             var brand = await context.Brands.FirstOrDefaultAsync(x => x.Id == id);
             if (brand != null)
             {
-                brand.IsActive = true;
+                brand.IsActive = false;
                 await context.SaveChangesAsync();
             }
         }

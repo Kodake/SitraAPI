@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackEnd.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240810193943_Initial")]
+    [Migration("20240816221558_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -48,7 +48,7 @@ namespace BackEnd.Migrations
                     b.Property<int?>("IdentificationType")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
@@ -65,7 +65,7 @@ namespace BackEnd.Migrations
                     b.ToTable("Contacts");
                 });
 
-            modelBuilder.Entity("BackEnd.Entities.Currencies.Currency", b =>
+            modelBuilder.Entity("BackEnd.Entities.Finances.Currency", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -78,7 +78,7 @@ namespace BackEnd.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
@@ -91,7 +91,7 @@ namespace BackEnd.Migrations
                     b.ToTable("Currencies");
                 });
 
-            modelBuilder.Entity("BackEnd.Entities.Currencies.Tax", b =>
+            modelBuilder.Entity("BackEnd.Entities.Finances.Tax", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -99,10 +99,10 @@ namespace BackEnd.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Amount")
-                        .HasColumnType("int");
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
@@ -125,7 +125,7 @@ namespace BackEnd.Migrations
                     b.Property<string>("ImageURL")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
@@ -150,7 +150,7 @@ namespace BackEnd.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
@@ -187,7 +187,7 @@ namespace BackEnd.Migrations
                     b.Property<decimal>("InitialCost")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
@@ -236,7 +236,7 @@ namespace BackEnd.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
@@ -252,6 +252,38 @@ namespace BackEnd.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Units");
+                });
+
+            modelBuilder.Entity("BackEnd.Entities.Warehouses.Stock", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<double?>("MaxQty")
+                        .HasColumnType("float");
+
+                    b.Property<double?>("MinQty")
+                        .HasColumnType("float");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Qty")
+                        .HasColumnType("float");
+
+                    b.Property<int>("WarehouseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("WarehouseId");
+
+                    b.ToTable("Stocks");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Warehouses.Warehouse", b =>
@@ -272,7 +304,6 @@ namespace BackEnd.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Country")
-                        .IsRequired()
                         .HasMaxLength(2)
                         .HasColumnType("nvarchar(2)");
 
@@ -280,7 +311,7 @@ namespace BackEnd.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
@@ -531,7 +562,7 @@ namespace BackEnd.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BackEnd.Entities.Currencies.Tax", "Tax")
+                    b.HasOne("BackEnd.Entities.Finances.Tax", "Tax")
                         .WithMany("ProductTaxes")
                         .HasForeignKey("TaxId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -540,6 +571,25 @@ namespace BackEnd.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("Tax");
+                });
+
+            modelBuilder.Entity("BackEnd.Entities.Warehouses.Stock", b =>
+                {
+                    b.HasOne("BackEnd.Entities.Products.Product", "Product")
+                        .WithMany("ProductStocks")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BackEnd.Entities.Warehouses.Warehouse", "Warehouse")
+                        .WithMany("ProductStocks")
+                        .HasForeignKey("WarehouseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Warehouse");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -593,7 +643,7 @@ namespace BackEnd.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BackEnd.Entities.Currencies.Tax", b =>
+            modelBuilder.Entity("BackEnd.Entities.Finances.Tax", b =>
                 {
                     b.Navigation("ProductTaxes");
                 });
@@ -610,12 +660,19 @@ namespace BackEnd.Migrations
 
             modelBuilder.Entity("BackEnd.Entities.Products.Product", b =>
                 {
+                    b.Navigation("ProductStocks");
+
                     b.Navigation("ProductTaxes");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Products.Unit", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("BackEnd.Entities.Warehouses.Warehouse", b =>
+                {
+                    b.Navigation("ProductStocks");
                 });
 #pragma warning restore 612, 618
         }

@@ -76,7 +76,7 @@ namespace BackEnd.Repositories.Finances
             var tax = await context.Taxes.FirstOrDefaultAsync(x => x.Id == id);
             if (tax != null)
             {
-                tax.IsActive = false;
+                tax.IsActive = true;
                 await context.SaveChangesAsync();
             }
         }
@@ -86,7 +86,7 @@ namespace BackEnd.Repositories.Finances
             var tax = await context.Taxes.FirstOrDefaultAsync(x => x.Id == id);
             if (tax != null)
             {
-                tax.IsActive = true;
+                tax.IsActive = false;
                 await context.SaveChangesAsync();
             }
         }

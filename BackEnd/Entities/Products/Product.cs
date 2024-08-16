@@ -25,7 +25,7 @@ namespace BackEnd.Entities.Products
         public Category? Category { get; set; }
         public int? UnitId { get; set; } = null!;
         public Unit? Unit { get; set; }
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
         public List<ProductTaxes> ProductTaxes { get; set; } = new List<ProductTaxes>();
         public List<Stock> ProductStocks { get; set; } = new List<Stock>();
     }
