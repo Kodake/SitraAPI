@@ -1,4 +1,3 @@
-using AutoMapper;
 using BackEnd.Context;
 using BackEnd.DTOs;
 using BackEnd.Entities.Products;
@@ -11,15 +10,12 @@ namespace BackEnd.Repositories.Products
     public class CategoryRepository : ICategoryRepository
     {
         private readonly ApplicationDbContext context;
-        private readonly IMapper mapper;
         private readonly HttpContext httpContext;
 
         public CategoryRepository(ApplicationDbContext context,
-            IHttpContextAccessor httpContextAccessor,
-            IMapper mapper)
+            IHttpContextAccessor httpContextAccessor)
         {
             this.context = context;
-            this.mapper = mapper;
             httpContext = httpContextAccessor.HttpContext!;
         }
 

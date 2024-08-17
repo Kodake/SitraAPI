@@ -1,7 +1,7 @@
-﻿using AutoMapper;
-using BackEnd.Context;
+﻿using BackEnd.Context;
 using BackEnd.DTOs;
 using BackEnd.Entities.Warehouses;
+using BackEnd.Enums;
 using BackEnd.Helpers;
 using BackEnd.Repositories.Warehouses;
 using Microsoft.EntityFrameworkCore;
@@ -11,15 +11,12 @@ namespace BackEnd.Repositories.Products
     public class WarehouseRepository : IWarehouseRepository
     {
         private readonly ApplicationDbContext context;
-        private readonly IMapper mapper;
         private readonly HttpContext httpContext;
 
         public WarehouseRepository(ApplicationDbContext context,
-            IHttpContextAccessor httpContextAccessor,
-            IMapper mapper)
+            IHttpContextAccessor httpContextAccessor)
         {
             this.context = context;
-            this.mapper = mapper;
             httpContext = httpContextAccessor.HttpContext!;
         }
 
@@ -31,6 +28,26 @@ namespace BackEnd.Repositories.Products
                 .OrderBy(x => x.Name)
                 .Paginate(paginationDTO)
                 .ToListAsync();
+        }
+
+        public async Task<List<Warehouse>> GetAll(StatusType status)
+        {
+            IQueryable<Warehouse> query = context.Warehouses.AsNoTracking();
+
+            switch (status)
+            {
+                case StatusType.Activated:
+                    query = query.Where(u => u.IsActive);
+                    break;
+                case StatusType.Deactivated:
+                    query = query.Where(u => !u.IsActive);
+                    break;
+                case StatusType.All:
+                default:
+                    break;
+            }
+
+            return await query.OrderBy(u => u.Id).ToListAsync();
         }
 
         public async Task<Warehouse?> GetById(int id)

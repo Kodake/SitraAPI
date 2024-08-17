@@ -1,7 +1,5 @@
-﻿using AutoMapper;
-using BackEnd.Context;
+﻿using BackEnd.Context;
 using BackEnd.DTOs;
-using BackEnd.Entities.Finances;
 using BackEnd.Entities.Products;
 using BackEnd.Enums;
 using BackEnd.Helpers;
@@ -12,15 +10,12 @@ namespace BackEnd.Repositories.Products
     public class UnitRepository : IUnitRepository
     {
         private readonly ApplicationDbContext context;
-        private readonly IMapper mapper;
         private readonly HttpContext httpContext;
 
         public UnitRepository(ApplicationDbContext context,
-            IHttpContextAccessor httpContextAccessor,
-            IMapper mapper)
+            IHttpContextAccessor httpContextAccessor)
         {
             this.context = context;
-            this.mapper = mapper;
             httpContext = httpContextAccessor.HttpContext!;
         }
 

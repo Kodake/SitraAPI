@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using BackEnd.Context;
+﻿using BackEnd.Context;
 using BackEnd.DTOs;
 using BackEnd.Entities.Contacts;
 using BackEnd.Helpers;
@@ -11,15 +10,12 @@ namespace BackEnd.Repositories.Products
     public class ContactRepository : IContactRepository
     {
         private readonly ApplicationDbContext context;
-        private readonly IMapper mapper;
         private readonly HttpContext httpContext;
 
         public ContactRepository(ApplicationDbContext context,
-            IHttpContextAccessor httpContextAccessor,
-            IMapper mapper)
+            IHttpContextAccessor httpContextAccessor)
         {
             this.context = context;
-            this.mapper = mapper;
             httpContext = httpContextAccessor.HttpContext!;
         }
 

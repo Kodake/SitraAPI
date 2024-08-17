@@ -2,6 +2,7 @@ using AutoMapper;
 using BackEnd.DTOs;
 using BackEnd.DTOs.Warehouses;
 using BackEnd.Entities.Warehouses;
+using BackEnd.Enums;
 using BackEnd.Filters;
 using BackEnd.Helpers;
 using BackEnd.Repositories.Warehouses;
@@ -17,6 +18,7 @@ namespace BackEnd.Endpoints
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("warehouses-get"))
                 .AddPaginationParamsOpenAPI();
+            group.MapGet("/selects", GetSelects).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("warehouses-get"));
             group.MapGet("/{id:int}", GetById);
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateWarehouseDTO>>()
@@ -38,6 +40,14 @@ namespace BackEnd.Endpoints
             var warehouses = await repository.GetAll(pagination);
             var dto = mapper.Map<List<WarehouseListDTO>>(warehouses);
             return TypedResults.Ok(dto);
+        }
+
+        static async Task<Ok<List<WarehouseListDTO>>> GetSelects(IWarehouseRepository repository,
+            IMapper mapper, [FromQuery] StatusType status = StatusType.All)
+        {
+            var warehouses = await repository.GetAll(status);
+            var warehousesDTO = mapper.Map<List<WarehouseListDTO>>(warehouses);
+            return TypedResults.Ok(warehousesDTO);
         }
 
         static async Task<Results<Ok<WarehouseDTO>, NotFound>> GetById([FromServices] IWarehouseRepository repository,

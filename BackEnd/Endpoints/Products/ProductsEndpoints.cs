@@ -2,6 +2,7 @@
 using BackEnd.DTOs;
 using BackEnd.DTOs.Products;
 using BackEnd.Entities.Products;
+using BackEnd.Enums;
 using BackEnd.Filters;
 using BackEnd.Helpers;
 using BackEnd.Repositories.Products;
@@ -17,6 +18,7 @@ namespace BackEnd.Endpoints
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("products-get"))
                 .AddPaginationParamsOpenAPI();
+            group.MapGet("/selects", GetSelects).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("products-get"));
             group.MapGet("/{id:int}", GetById);
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateProductDTO>>()
@@ -34,6 +36,14 @@ namespace BackEnd.Endpoints
             [FromServices] IMapper mapper, PaginationDTO pagination)
         {
             var products = await repository.GetAll(pagination);
+            var productsDTO = mapper.Map<List<ProductListDTO>>(products);
+            return TypedResults.Ok(productsDTO);
+        }
+
+        static async Task<Ok<List<ProductListDTO>>> GetSelects(IProductRepository repository,
+            IMapper mapper, [FromQuery] StatusType status = StatusType.All)
+        {
+            var products = await repository.GetAll(status);
             var productsDTO = mapper.Map<List<ProductListDTO>>(products);
             return TypedResults.Ok(productsDTO);
         }

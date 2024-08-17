@@ -1204,6 +1204,30 @@
     ]
   },
   {
+    "ContainingType": "BackEnd.Endpoints.ProductsEndpoints",
+    "Method": "GetSelects",
+    "RelativePath": "api/v1/products/selects",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "status",
+        "Type": "BackEnd.Enums.StatusType",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Products.ProductListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "BackEnd.Endpoints.StocksEndpoints",
     "Method": "GetAll",
     "RelativePath": "api/v1/stocks/",
@@ -1877,6 +1901,30 @@
       {
         "Type": "System.Void",
         "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BackEnd.Endpoints.WarehousesEndpoints",
+    "Method": "GetSelects",
+    "RelativePath": "api/v1/warehouses/selects",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "status",
+        "Type": "BackEnd.Enums.StatusType",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Warehouses.WarehouseListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
         "StatusCode": 200
       }
     ]
