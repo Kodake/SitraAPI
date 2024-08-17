@@ -54,7 +54,7 @@ namespace BackEnd.Endpoints
             return TypedResults.Ok(currencyDTO);
         }
 
-        static async Task<Results<Created<CurrencyDTO>, ValidationProblem>> Create([FromForm] CreateCurrencyDTO dto,
+        static async Task<Results<Created<CurrencyDTO>, ValidationProblem>> Create([FromBody] CreateCurrencyDTO dto,
            [FromServices] ICurrencyRepository repository,
            IOutputCacheStore outputCacheStore,
            [FromServices] IMapper mapper)
@@ -67,7 +67,7 @@ namespace BackEnd.Endpoints
             return TypedResults.Created($"/currencies/{id}", currencyDTO);
         }
 
-        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromForm] CreateCurrencyDTO dto,
+        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromBody] CreateCurrencyDTO dto,
             [FromServices] ICurrencyRepository repository,
             IOutputCacheStore outputCacheStore,
             [FromServices] IMapper mapper)

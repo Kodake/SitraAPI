@@ -74,12 +74,12 @@ namespace BackEnd.Context
 
             modelBuilder.Entity<Stock>()
                 .HasOne(ps => ps.Product)
-                .WithMany(p => p.ProductStocks)
+                .WithMany(p => p.Stocks)
                 .HasForeignKey(ps => ps.ProductId);
 
             modelBuilder.Entity<Stock>()
                 .HasOne(ps => ps.Warehouse)
-                .WithMany(w => w.ProductStocks)
+                .WithMany(w => w.Stocks)
                 .HasForeignKey(ps => ps.WarehouseId);
         }
         public DbSet<Category> Categories { get; set; }

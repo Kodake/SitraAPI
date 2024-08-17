@@ -65,7 +65,7 @@ namespace BackEnd.Endpoints
             return TypedResults.Ok(unitDTO);
         }
 
-        static async Task<Results<Created<UnitDTO>, ValidationProblem>> Create([FromForm] CreateUnitDTO dto,
+        static async Task<Results<Created<UnitDTO>, ValidationProblem>> Create([FromBody] CreateUnitDTO dto,
            [FromServices] IUnitRepository repository,
            IOutputCacheStore outputCacheStore,
            [FromServices] IMapper mapper)
@@ -78,7 +78,7 @@ namespace BackEnd.Endpoints
             return TypedResults.Created($"/units/{id}", unitDTO);
         }
 
-        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromForm] CreateUnitDTO dto,
+        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromBody] CreateUnitDTO dto,
             [FromServices] IUnitRepository repository,
             IOutputCacheStore outputCacheStore,
             [FromServices] IMapper mapper)

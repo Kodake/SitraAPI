@@ -5,8 +5,8 @@ public class ProductDTO
 {
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
-    public string Reference { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
+    public string? Reference { get; set; }
+    public string? Description { get; set; }
     public double InitialCost { get; set; }
     public double BasePrice { get; set; }
     public int? BrandId { get; set; }

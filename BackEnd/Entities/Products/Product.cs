@@ -7,8 +7,8 @@ namespace BackEnd.Entities.Products
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
-        public string Reference { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty;
+        public string? Reference { get; set; }
+        public string? Description { get; set; }
         public double InitialCost { get; set; }
         public double BasePrice { get; set; }
         public double TotalPrice
@@ -27,6 +27,6 @@ namespace BackEnd.Entities.Products
         public Unit? Unit { get; set; }
         public bool IsActive { get; set; } = true;
         public List<ProductTaxes> ProductTaxes { get; set; } = new List<ProductTaxes>();
-        public List<Stock> ProductStocks { get; set; } = new List<Stock>();
+        public List<Stock> Stocks { get; set; } = new List<Stock>();
     }
 }

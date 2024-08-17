@@ -64,7 +64,7 @@ namespace BackEnd.Endpoints
             return TypedResults.Ok(categoryDTO);
         }
 
-        static async Task<Results<Created<CategoryDTO>, ValidationProblem>> Create([FromForm] CreateCategoryDTO dto,
+        static async Task<Results<Created<CategoryDTO>, ValidationProblem>> Create([FromBody] CreateCategoryDTO dto,
            [FromServices] ICategoryRepository repository,
            IOutputCacheStore outputCacheStore,
            [FromServices] IMapper mapper)
@@ -77,7 +77,7 @@ namespace BackEnd.Endpoints
             return TypedResults.Created($"/categories/{id}", categoryDTO);
         }
 
-        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromForm] CreateCategoryDTO dto,
+        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromBody] CreateCategoryDTO dto,
             [FromServices] ICategoryRepository repository,
             IOutputCacheStore outputCacheStore,
             [FromServices] IMapper mapper)

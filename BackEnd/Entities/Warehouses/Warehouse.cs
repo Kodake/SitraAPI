@@ -11,6 +11,6 @@
         public string? Country { get; set; }
         public string? ZipCode { get; set; }
         public bool IsActive { get; set; } = true;
-        public List<Stock> ProductStocks { get; set; } = new List<Stock>();
+        public List<Stock> Stocks { get; set; } = new List<Stock>();
     }
 }
