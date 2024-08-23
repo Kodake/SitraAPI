@@ -2,11 +2,11 @@
 
 namespace BackEnd.Entities.Products
 {
-    public sealed class ProductTaxes
+    public sealed class ItemTaxes
     {
-        public int ProductId { get; set; }
+        public int ItemId { get; set; }
         public int TaxId { get; set; }
-        public Product Product { get; set; } = null!;
+        public Item Item { get; set; } = null!;
         public Tax Tax { get; set; } = null!;
     }
 }

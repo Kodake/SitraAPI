@@ -43,16 +43,16 @@ namespace BackEnd.Helpers
             CreateMap<Warehouse, WarehouseListDTO>();
             CreateMap<Warehouse, WarehouseDTO>();
 
-            CreateMap<Product, ProductListDTO>()
-                .ForMember(dest => dest.Taxes, opt => opt.MapFrom(src => src.ProductTaxes.Select(pt => new TaxDTO
+            CreateMap<Item, ProductListDTO>()
+                .ForMember(dest => dest.Taxes, opt => opt.MapFrom(src => src.ItemTaxes.Select(pt => new TaxDTO
                 {
                     Id = pt.Tax.Id,
                     Name = pt.Tax.Name,
                     Amount = pt.Tax.Amount
                 }).ToList()));
 
-            CreateMap<Product, ProductDTO>()
-                .ForMember(dest => dest.Taxes, opt => opt.MapFrom(src => src.ProductTaxes.Select(pt => new TaxDTO
+            CreateMap<Item, ProductDTO>()
+                .ForMember(dest => dest.Taxes, opt => opt.MapFrom(src => src.ItemTaxes.Select(pt => new TaxDTO
                 {
                     Id = pt.Tax.Id,
                     Name = pt.Tax.Name,
@@ -76,23 +76,58 @@ namespace BackEnd.Helpers
                     ShortName = src.Unit.ShortName
                 } : null));
 
-            CreateMap<CreateProductDTO, Product>()
-                .ForMember(dest => dest.ProductTaxes, opt => opt.MapFrom(src => src.TaxIds.Select(id => new ProductTaxes { TaxId = id }).ToList()))
+            CreateMap<CreateProductDTO, Item>()
+                .ForMember(dest => dest.ItemTaxes, opt => opt.MapFrom(src => src.TaxIds.Select(id => new ItemTaxes { TaxId = id }).ToList()))
                 .ForMember(dest => dest.Brand, opt => opt.Ignore())
                 .ForMember(dest => dest.Category, opt => opt.Ignore())
                 .ForMember(dest => dest.Unit, opt => opt.Ignore());
 
-            CreateMap<ProductDTO, Product>();
+            CreateMap<ProductDTO, Item>();
+
+            CreateMap<Item, ServiceListDTO>()
+              .ForMember(dest => dest.Taxes, opt => opt.MapFrom(src => src.ItemTaxes.Select(pt => new TaxDTO
+              {
+                  Id = pt.Tax.Id,
+                  Name = pt.Tax.Name,
+                  Amount = pt.Tax.Amount
+              }).ToList()));
+
+            CreateMap<Item, ServiceDTO>()
+                .ForMember(dest => dest.Taxes, opt => opt.MapFrom(src => src.ItemTaxes.Select(pt => new TaxDTO
+                {
+                    Id = pt.Tax.Id,
+                    Name = pt.Tax.Name,
+                    Amount = pt.Tax.Amount
+                }).ToList()))
+                .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category != null ? new CategoryDTO
+                {
+                    Id = src.Category.Id,
+                    Name = src.Category.Name,
+                    Description = src.Category.Description
+                } : null))
+                .ForMember(dest => dest.Unit, opt => opt.MapFrom(src => src.Unit != null ? new UnitDTO
+                {
+                    Id = src.Unit.Id,
+                    Name = src.Unit.Name,
+                    ShortName = src.Unit.ShortName
+                } : null));
+
+            CreateMap<CreateServiceDTO, Item>()
+                .ForMember(dest => dest.ItemTaxes, opt => opt.MapFrom(src => src.TaxIds.Select(id => new ItemTaxes { TaxId = id }).ToList()))
+                .ForMember(dest => dest.Category, opt => opt.Ignore())
+                .ForMember(dest => dest.Unit, opt => opt.Ignore());
+
+            CreateMap<ServiceDTO, Item>();
 
             CreateMap<Stock, StockDTO>()
-                .ForMember(dest => dest.Product, opt => opt.MapFrom(src => src.Product))
+                .ForMember(dest => dest.Product, opt => opt.MapFrom(src => src.Item))
                 .ForMember(dest => dest.Warehouse, opt => opt.MapFrom(src => src.Warehouse))
                 .ReverseMap();
 
             CreateMap<CreateStockDTO, Stock>();
 
             CreateMap<Stock, StockListDTO>()
-                .ForMember(dest => dest.Product, opt => opt.MapFrom(src => src.Product))
+                .ForMember(dest => dest.Product, opt => opt.MapFrom(src => src.Item))
                 .ForMember(dest => dest.Warehouse, opt => opt.MapFrom(src => src.Warehouse))
                 .ReverseMap();
         }

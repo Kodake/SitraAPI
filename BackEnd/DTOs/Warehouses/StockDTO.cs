@@ -6,7 +6,7 @@ namespace BackEnd.DTOs.Warehouses
     public class StockDTO
     {
         public int Id { get; set; }
-        public int ProductId { get; set; }
+        public int ItemId { get; set; }
         public ProductDTO? Product { get; set; }
         public int WarehouseId { get; set; }
         public WarehouseDTO? Warehouse { get; set; }

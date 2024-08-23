@@ -8,6 +8,6 @@ namespace BackEnd.Entities.Finances
         public string Name { get; set; } = string.Empty;
         public double Amount { get; set; }
         public bool IsActive { get; set; } = true;
-        public List<ProductTaxes> ProductTaxes { get; set; } = new List<ProductTaxes>();
+        public ICollection<ItemTaxes> ItemTaxes { get; set; } = [];
     }
 }

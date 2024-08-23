@@ -160,7 +160,7 @@ namespace BackEnd.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("BackEnd.Entities.Products.Product", b =>
+            modelBuilder.Entity("BackEnd.Entities.Products.Item", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -181,11 +181,14 @@ namespace BackEnd.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<decimal>("InitialCost")
+                    b.Property<decimal?>("InitialCost")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
+
+                    b.Property<int>("ItemType")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -207,22 +210,22 @@ namespace BackEnd.Migrations
 
                     b.HasIndex("UnitId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Items");
                 });
 
-            modelBuilder.Entity("BackEnd.Entities.Products.ProductTaxes", b =>
+            modelBuilder.Entity("BackEnd.Entities.Products.ItemTaxes", b =>
                 {
                     b.Property<int>("TaxId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductId")
+                    b.Property<int>("ItemId")
                         .HasColumnType("int");
 
-                    b.HasKey("TaxId", "ProductId");
+                    b.HasKey("TaxId", "ItemId");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ItemId");
 
-                    b.ToTable("ProductTaxes");
+                    b.ToTable("ItemTaxes");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Products.Unit", b =>
@@ -259,14 +262,14 @@ namespace BackEnd.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
                     b.Property<double?>("MaxQty")
                         .HasColumnType("float");
 
                     b.Property<double?>("MinQty")
                         .HasColumnType("float");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
 
                     b.Property<double>("Qty")
                         .HasColumnType("float");
@@ -276,7 +279,7 @@ namespace BackEnd.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ItemId");
 
                     b.HasIndex("WarehouseId");
 
@@ -527,20 +530,20 @@ namespace BackEnd.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("BackEnd.Entities.Products.Product", b =>
+            modelBuilder.Entity("BackEnd.Entities.Products.Item", b =>
                 {
                     b.HasOne("BackEnd.Entities.Products.Brand", "Brand")
-                        .WithMany("Products")
+                        .WithMany("Items")
                         .HasForeignKey("BrandId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("BackEnd.Entities.Products.Category", "Category")
-                        .WithMany("Products")
+                        .WithMany("Items")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("BackEnd.Entities.Products.Unit", "Unit")
-                        .WithMany("Products")
+                        .WithMany("Items")
                         .HasForeignKey("UnitId")
                         .OnDelete(DeleteBehavior.Restrict);
 
@@ -551,40 +554,40 @@ namespace BackEnd.Migrations
                     b.Navigation("Unit");
                 });
 
-            modelBuilder.Entity("BackEnd.Entities.Products.ProductTaxes", b =>
+            modelBuilder.Entity("BackEnd.Entities.Products.ItemTaxes", b =>
                 {
-                    b.HasOne("BackEnd.Entities.Products.Product", "Product")
-                        .WithMany("ProductTaxes")
-                        .HasForeignKey("ProductId")
+                    b.HasOne("BackEnd.Entities.Products.Item", "Item")
+                        .WithMany("ItemTaxes")
+                        .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BackEnd.Entities.Finances.Tax", "Tax")
-                        .WithMany("ProductTaxes")
+                        .WithMany("ItemTaxes")
                         .HasForeignKey("TaxId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Product");
+                    b.Navigation("Item");
 
                     b.Navigation("Tax");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Warehouses.Stock", b =>
                 {
-                    b.HasOne("BackEnd.Entities.Products.Product", "Product")
-                        .WithMany("ProductStocks")
-                        .HasForeignKey("ProductId")
+                    b.HasOne("BackEnd.Entities.Products.Item", "Item")
+                        .WithMany("Stocks")
+                        .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BackEnd.Entities.Warehouses.Warehouse", "Warehouse")
-                        .WithMany("ProductStocks")
+                        .WithMany("Stocks")
                         .HasForeignKey("WarehouseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Product");
+                    b.Navigation("Item");
 
                     b.Navigation("Warehouse");
                 });
@@ -642,34 +645,34 @@ namespace BackEnd.Migrations
 
             modelBuilder.Entity("BackEnd.Entities.Finances.Tax", b =>
                 {
-                    b.Navigation("ProductTaxes");
+                    b.Navigation("ItemTaxes");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Products.Brand", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("Items");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Products.Category", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("Items");
                 });
 
-            modelBuilder.Entity("BackEnd.Entities.Products.Product", b =>
+            modelBuilder.Entity("BackEnd.Entities.Products.Item", b =>
                 {
-                    b.Navigation("ProductStocks");
+                    b.Navigation("ItemTaxes");
 
-                    b.Navigation("ProductTaxes");
+                    b.Navigation("Stocks");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Products.Unit", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("Items");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Warehouses.Warehouse", b =>
                 {
-                    b.Navigation("ProductStocks");
+                    b.Navigation("Stocks");
                 });
 #pragma warning restore 612, 618
         }

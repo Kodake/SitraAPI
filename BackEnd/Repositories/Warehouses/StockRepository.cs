@@ -20,14 +20,19 @@ namespace BackEnd.Repositories.Warehouses
 
         public async Task<List<Stock>> GetAll(PaginationDTO paginationDTO)
         {
-            var queryable = context.Stocks.AsQueryable();
+            var queryable = context.Stocks
+                .AsNoTracking()
+                .Include(p => p.Item)
+                .Include(p => p.Warehouse);
+
             await httpContext.AddPaginationParamsToHeaders(queryable);
-            return await queryable
-                .OrderBy(x => x.Product.Name)
+
+            var stocks = await queryable
+                .OrderBy(x => x.Item.Name)
                 .Paginate(paginationDTO)
-                .Include(p => p.Product)
-                .Include(pt => pt.Warehouse)
                 .ToListAsync();
+
+            return stocks;
         }
 
         public async Task<Stock?> GetById(int id)

@@ -67,7 +67,8 @@ namespace BackEnd.Endpoints
            IOutputCacheStore outputCacheStore,
            [FromServices] IMapper mapper)
         {
-            var product = mapper.Map<Product>(dto);
+            var product = mapper.Map<Item>(dto);
+            product.ItemType = ItemType.Product; // Create a Product
 
             var id = await repository.Create(product);
             await outputCacheStore.EvictByTagAsync("products-get", default);
@@ -95,10 +96,10 @@ namespace BackEnd.Endpoints
             productDB.BrandId = dto.BrandId;
             productDB.CategoryId = dto.CategoryId;
             productDB.UnitId = dto.UnitId;
-            productDB.ProductTaxes = dto.TaxIds.Select(id => new ProductTaxes
+            productDB.ItemTaxes = dto.TaxIds.Select(id => new ItemTaxes
             {
                 TaxId = id,
-                ProductId = productDB.Id
+                ItemId = productDB.Id
             }).ToList();
 
             await repository.Update(productDB);

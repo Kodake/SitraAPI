@@ -20,7 +20,7 @@ namespace BackEnd.Validations
                 int.TryParse(valorString, out id);
             }
 
-            RuleFor(x => x.ProductId)
+            RuleFor(x => x.ItemId)
                 .NotEmpty().WithMessage(Utilities.RequiredFieldMessage);
 
             RuleFor(x => x.WarehouseId)

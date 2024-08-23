@@ -19,21 +19,29 @@ namespace BackEnd.Repositories.Products
             httpContext = httpContextAccessor.HttpContext!;
         }
 
-        public async Task<List<Product>> GetAll(PaginationDTO paginationDTO)
+        public async Task<List<Item>> GetAll(PaginationDTO paginationDTO)
         {
-            var queryable = context.Products.AsQueryable();
+            var queryable = context.Items
+                .AsNoTracking()
+                .Where(x => x.ItemType == ItemType.Product)
+                .OrderBy(x => x.Name);
+
             await httpContext.AddPaginationParamsToHeaders(queryable);
-            return await queryable
-                .OrderBy(x => x.Name)
+
+            var items = await queryable
                 .Paginate(paginationDTO)
-                .Include(p => p.ProductTaxes)
+                .Include(p => p.ItemTaxes)
                 .ThenInclude(pt => pt.Tax)
                 .ToListAsync();
+
+            return items;
         }
 
-        public async Task<List<Product>> GetAll(StatusType status)
+        public async Task<List<Item>> GetAll(StatusType status)
         {
-            IQueryable<Product> query = context.Products.AsNoTracking();
+            IQueryable<Item> query = context.Items
+                .AsNoTracking()
+                .Where(u => u.ItemType == ItemType.Product);
 
             switch (status)
             {
@@ -51,25 +59,26 @@ namespace BackEnd.Repositories.Products
             return await query.OrderBy(u => u.Id).ToListAsync();
         }
 
-        public async Task<Product?> GetById(int id)
+        public async Task<Item?> GetById(int id)
         {
-            return await context.Products
-                .Include(p => p.ProductTaxes)
-                .ThenInclude(pt => pt.Tax)
+            return await context.Items
+                .Where(x => x.ItemType == ItemType.Product)
                 .Include(p => p.Unit)
                 .Include(p => p.Brand)
                 .Include(p => p.Category)
+                .Include(p => p.ItemTaxes)
+                    .ThenInclude(pt => pt.Tax)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public async Task<int> Create(Product product)
+        public async Task<int> Create(Item product)
         {
             context.Add(product);
             await context.SaveChangesAsync();
             return product.Id;
         }
 
-        public async Task Update(Product product)
+        public async Task Update(Item product)
         {
             context.Update(product);
             await context.SaveChangesAsync();
@@ -77,7 +86,7 @@ namespace BackEnd.Repositories.Products
 
         public async Task Activate(int id)
         {
-            var product = await context.Products.FirstOrDefaultAsync(x => x.Id == id);
+            var product = await context.Items.FirstOrDefaultAsync(x => x.Id == id && x.ItemType == ItemType.Product);
             if (product != null)
             {
                 product.IsActive = true;
@@ -87,7 +96,7 @@ namespace BackEnd.Repositories.Products
 
         public async Task Deactivate(int id)
         {
-            var product = await context.Products.FirstOrDefaultAsync(x => x.Id == id);
+            var product = await context.Items.FirstOrDefaultAsync(x => x.Id == id && x.ItemType == ItemType.Product);
             if (product != null)
             {
                 product.IsActive = false;
@@ -97,12 +106,12 @@ namespace BackEnd.Repositories.Products
 
         public async Task<bool> Exists(int id)
         {
-            return await context.Products.AnyAsync(x => x.Id == id);
+            return await context.Items.AnyAsync(x => x.Id == id && x.ItemType == ItemType.Product);
         }
 
         public async Task<bool> Exists(int id, string name)
         {
-            return await context.Products.AnyAsync(x => x.Id != id && x.Name == name);
+            return await context.Items.AnyAsync(x => x.Id != id && x.Name == name && x.ItemType == ItemType.Product);
         }
     }
 }

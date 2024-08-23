@@ -9,6 +9,7 @@ using BackEnd.Endpoints;
 using BackEnd.Repositories.Finances;
 using BackEnd.Repositories.Contacts;
 using BackEnd.Repositories.Warehouses;
+using BackEnd.Endpoints.Products;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -79,6 +80,7 @@ builder.Services.AddScoped<ITaxRepository, TaxRepository>();
 builder.Services.AddScoped<IContactRepository, ContactRepository>();
 builder.Services.AddScoped<IWarehouseRepository, WarehouseRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
 builder.Services.AddScoped<IStockRepository, StockRepository>();
 
 builder.Services.AddHttpContextAccessor();
@@ -114,6 +116,7 @@ apiGroup.MapGroup("/currencies").MapCurrencies();
 apiGroup.MapGroup("/taxes").MapTaxes();
 apiGroup.MapGroup("/warehouses").MapWarehouses();
 apiGroup.MapGroup("/products").MapProducts();
+apiGroup.MapGroup("/services").MapServices();
 apiGroup.MapGroup("/stocks").MapStocks();
 
 app.UseCors();

@@ -37,45 +37,46 @@ namespace BackEnd.Context
             modelBuilder.Entity<Contact>().Property(p => p.Name).HasMaxLength(50);
             modelBuilder.Entity<Contact>().Property(p => p.Address).HasMaxLength(100);
 
-            modelBuilder.Entity<Warehouse>().Property(p => p.Name).HasMaxLength(50);
-            modelBuilder.Entity<Warehouse>().Property(p => p.Address).HasMaxLength(100);
+            modelBuilder.Entity<Warehouse>().Property(p => p.Name).HasMaxLength(50).IsRequired();
+            modelBuilder.Entity<Warehouse>().Property(p => p.Address).HasMaxLength(100).IsRequired();
             modelBuilder.Entity<Warehouse>().Property(p => p.Phone).HasMaxLength(10).IsRequired(false);
             modelBuilder.Entity<Warehouse>().Property(p => p.Email).HasMaxLength(50).IsRequired(false);
             modelBuilder.Entity<Warehouse>().Property(p => p.City).HasMaxLength(50).IsRequired(false);
             modelBuilder.Entity<Warehouse>().Property(p => p.Country).HasMaxLength(2).IsRequired(false);
             modelBuilder.Entity<Warehouse>().Property(p => p.ZipCode).HasMaxLength(5).IsRequired(false);
 
-            modelBuilder.Entity<Product>().Property(p => p.Name).HasMaxLength(50).IsRequired();
-            modelBuilder.Entity<Product>().Property(p => p.Reference).HasMaxLength(50).IsRequired(false);
-            modelBuilder.Entity<Product>().Property(p => p.Description).HasMaxLength(100).IsRequired(false);
-            modelBuilder.Entity<Product>().Property(p => p.InitialCost).HasColumnType("decimal(18,2)").IsRequired();
-            modelBuilder.Entity<Product>().Property(p => p.BasePrice).HasColumnType("decimal(18,2)").IsRequired();
-            modelBuilder.Entity<Product>().Property(p => p.TotalPrice).HasColumnType("decimal(18,2)");
-            modelBuilder.Entity<Product>().Ignore(p => p.TotalPrice);
+            modelBuilder.Entity<Item>().Property(p => p.ItemType).HasConversion<int>().IsRequired();
+            modelBuilder.Entity<Item>().Property(p => p.Name).HasMaxLength(50).IsRequired();
+            modelBuilder.Entity<Item>().Property(p => p.Reference).HasMaxLength(50).IsRequired(false);
+            modelBuilder.Entity<Item>().Property(p => p.Description).HasMaxLength(100).IsRequired(false);
+            modelBuilder.Entity<Item>().Property(p => p.InitialCost).HasColumnType("decimal(18,2)").IsRequired(false);
+            modelBuilder.Entity<Item>().Property(p => p.BasePrice).HasColumnType("decimal(18,2)").IsRequired();
+            modelBuilder.Entity<Item>().Property(p => p.TotalPrice).HasColumnType("decimal(18,2)");
+            modelBuilder.Entity<Item>().Ignore(p => p.TotalPrice);
 
-            modelBuilder.Entity<Product>()
+            modelBuilder.Entity<Item>()
                 .HasOne(p => p.Category)
-                .WithMany(c => c.Products)
+                .WithMany(c => c.Items)
                 .HasForeignKey(p => p.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<Product>()
+            modelBuilder.Entity<Item>()
                 .HasOne(p => p.Unit)
-                .WithMany(u => u.Products)
+                .WithMany(u => u.Items)
                 .HasForeignKey(p => p.UnitId)
                 .OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<Product>()
+            modelBuilder.Entity<Item>()
                 .HasOne(p => p.Brand)
-                .WithMany(u => u.Products)
+                .WithMany(u => u.Items)
                 .HasForeignKey(p => p.BrandId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<ProductTaxes>()
-                .HasKey(g => new { g.TaxId, g.ProductId });
+            modelBuilder.Entity<ItemTaxes>()
+                .HasKey(g => new { g.TaxId, g.ItemId });
 
             modelBuilder.Entity<Stock>()
-                .HasOne(ps => ps.Product)
+                .HasOne(ps => ps.Item)
                 .WithMany(p => p.Stocks)
-                .HasForeignKey(ps => ps.ProductId);
+                .HasForeignKey(ps => ps.ItemId);
 
             modelBuilder.Entity<Stock>()
                 .HasOne(ps => ps.Warehouse)
@@ -88,9 +89,9 @@ namespace BackEnd.Context
         public DbSet<Currency> Currencies { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Warehouse> Warehouses { get; set; }
-        public DbSet<Product> Products { get; set; }
+        public DbSet<Item> Items { get; set; }
         public DbSet<Tax> Taxes { get; set; }
-        public DbSet<ProductTaxes> ProductTaxes { get; set; }
+        public DbSet<ItemTaxes> ItemTaxes { get; set; }
         public DbSet<Stock> Stocks { get; set; }
     }
 }

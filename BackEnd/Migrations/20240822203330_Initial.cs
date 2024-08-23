@@ -271,15 +271,16 @@ namespace BackEnd.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Products",
+                name: "Items",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    ItemType = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Reference = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    InitialCost = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    InitialCost = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     BasePrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     BrandId = table.Column<int>(type: "int", nullable: true),
                     CategoryId = table.Column<int>(type: "int", nullable: true),
@@ -288,21 +289,21 @@ namespace BackEnd.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.PrimaryKey("PK_Items", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_Brands_BrandId",
+                        name: "FK_Items_Brands_BrandId",
                         column: x => x.BrandId,
                         principalTable: "Brands",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Products_Categories_CategoryId",
+                        name: "FK_Items_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Products_Units_UnitId",
+                        name: "FK_Items_Units_UnitId",
                         column: x => x.UnitId,
                         principalTable: "Units",
                         principalColumn: "Id",
@@ -310,23 +311,23 @@ namespace BackEnd.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductTaxes",
+                name: "ItemTaxes",
                 columns: table => new
                 {
-                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    ItemId = table.Column<int>(type: "int", nullable: false),
                     TaxId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductTaxes", x => new { x.TaxId, x.ProductId });
+                    table.PrimaryKey("PK_ItemTaxes", x => new { x.TaxId, x.ItemId });
                     table.ForeignKey(
-                        name: "FK_ProductTaxes_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
+                        name: "FK_ItemTaxes_Items_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Items",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProductTaxes_Taxes_TaxId",
+                        name: "FK_ItemTaxes_Taxes_TaxId",
                         column: x => x.TaxId,
                         principalTable: "Taxes",
                         principalColumn: "Id",
@@ -339,7 +340,7 @@ namespace BackEnd.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    ItemId = table.Column<int>(type: "int", nullable: false),
                     WarehouseId = table.Column<int>(type: "int", nullable: false),
                     Qty = table.Column<double>(type: "float", nullable: false),
                     MinQty = table.Column<double>(type: "float", nullable: true),
@@ -349,9 +350,9 @@ namespace BackEnd.Migrations
                 {
                     table.PrimaryKey("PK_Stocks", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Stocks_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
+                        name: "FK_Stocks_Items_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Items",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -402,29 +403,29 @@ namespace BackEnd.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_BrandId",
-                table: "Products",
+                name: "IX_Items_BrandId",
+                table: "Items",
                 column: "BrandId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_CategoryId",
-                table: "Products",
+                name: "IX_Items_CategoryId",
+                table: "Items",
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Products_UnitId",
-                table: "Products",
+                name: "IX_Items_UnitId",
+                table: "Items",
                 column: "UnitId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductTaxes_ProductId",
-                table: "ProductTaxes",
-                column: "ProductId");
+                name: "IX_ItemTaxes_ItemId",
+                table: "ItemTaxes",
+                column: "ItemId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Stocks_ProductId",
+                name: "IX_Stocks_ItemId",
                 table: "Stocks",
-                column: "ProductId");
+                column: "ItemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Stocks_WarehouseId",
@@ -457,7 +458,7 @@ namespace BackEnd.Migrations
                 name: "Currencies");
 
             migrationBuilder.DropTable(
-                name: "ProductTaxes");
+                name: "ItemTaxes");
 
             migrationBuilder.DropTable(
                 name: "Stocks");
@@ -472,7 +473,7 @@ namespace BackEnd.Migrations
                 name: "Taxes");
 
             migrationBuilder.DropTable(
-                name: "Products");
+                name: "Items");
 
             migrationBuilder.DropTable(
                 name: "Warehouses");

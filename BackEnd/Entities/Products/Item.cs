@@ -1,21 +1,22 @@
-﻿using BackEnd.Entities.Finances;
-using BackEnd.Entities.Warehouses;
+﻿using BackEnd.Entities.Warehouses;
+using BackEnd.Enums;
 
 namespace BackEnd.Entities.Products
 {
-    public sealed class Product
+    public sealed class Item
     {
         public int Id { get; set; }
+        public ItemType ItemType { get; set; }
         public string Name { get; set; } = string.Empty;
         public string? Reference { get; set; }
         public string? Description { get; set; }
-        public double InitialCost { get; set; }
+        public double? InitialCost { get; set; } // Required for ItemType.Product
         public double BasePrice { get; set; }
         public double TotalPrice
         {
             get
             {
-                double totalTaxes = ProductTaxes.Sum(pt => pt.Tax.Amount);
+                double totalTaxes = ItemTaxes.Sum(pt => pt.Tax.Amount);
                 return BasePrice + (BasePrice * totalTaxes / 100);
             }
         }
@@ -26,7 +27,7 @@ namespace BackEnd.Entities.Products
         public int? UnitId { get; set; } = null!;
         public Unit? Unit { get; set; }
         public bool IsActive { get; set; } = true;
-        public List<ProductTaxes> ProductTaxes { get; set; } = new List<ProductTaxes>();
-        public List<Stock> Stocks { get; set; } = new List<Stock>();
+        public ICollection<ItemTaxes> ItemTaxes { get; set; } = [];
+        public ICollection<Stock> Stocks { get; set; } = [];
     }
 }
