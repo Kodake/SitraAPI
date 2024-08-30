@@ -38,6 +38,9 @@ namespace BackEnd.Migrations
                     b.Property<int?>("ContactType")
                         .HasColumnType("int");
 
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Identification")
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
@@ -52,6 +55,12 @@ namespace BackEnd.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone2")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Province")
                         .HasMaxLength(2)

@@ -2,8 +2,8 @@
 {
     public enum StatusType
     {
-        All = 0,
-        Deactivated = 1,
-        Activated = 2,
+        All,
+        Deactivated,
+        Activated,
     }
 }

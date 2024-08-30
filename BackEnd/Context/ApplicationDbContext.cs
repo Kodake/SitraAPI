@@ -73,6 +73,9 @@ namespace BackEnd.Context
             modelBuilder.Entity<ItemTaxes>()
                 .HasKey(g => new { g.TaxId, g.ItemId });
 
+            modelBuilder.Entity<PricingItem>()
+                .HasKey(g => new { g.ItemId, g.PricingId});
+
             modelBuilder.Entity<Stock>()
                 .HasOne(ps => ps.Item)
                 .WithMany(p => p.Stocks)
@@ -91,7 +94,9 @@ namespace BackEnd.Context
         public DbSet<Warehouse> Warehouses { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<Tax> Taxes { get; set; }
-        public DbSet<ItemTaxes> ItemTaxes { get; set; }
+        public DbSet<Pricing> Pricings { get; set; }
+        public DbSet<ItemTaxes> ItemTaxes { get; set; }        
+        public DbSet<PricingItem> PricingItems { get; set; }
         public DbSet<Stock> Stocks { get; set; }
     }
 }

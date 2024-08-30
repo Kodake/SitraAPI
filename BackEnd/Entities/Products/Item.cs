@@ -16,8 +16,13 @@ namespace BackEnd.Entities.Products
         {
             get
             {
-                double totalTaxes = ItemTaxes.Sum(pt => pt.Tax.Amount);
-                return BasePrice + (BasePrice * totalTaxes / 100);
+                var principalPricingItem = PricingItems.FirstOrDefault(pi => pi.IsPrincipal);
+                if (principalPricingItem != null)
+                {
+                    double totalTaxes = ItemTaxes.Sum(pt => pt.Tax.Amount);
+                    return principalPricingItem.FinalPrice + (principalPricingItem.FinalPrice * totalTaxes / 100);
+                }
+                return BasePrice + (BasePrice * ItemTaxes.Sum(pt => pt.Tax.Amount) / 100);
             }
         }
         public int? BrandId { get; set; } = null!;
@@ -29,5 +34,6 @@ namespace BackEnd.Entities.Products
         public bool IsActive { get; set; } = true;
         public ICollection<ItemTaxes> ItemTaxes { get; set; } = [];
         public ICollection<Stock> Stocks { get; set; } = [];
+        public ICollection<PricingItem> PricingItems { get; set; } = [];
     }
 }

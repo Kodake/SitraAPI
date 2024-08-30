@@ -11,6 +11,9 @@ namespace BackEnd.Entities.Contacts
         public string Name { get; set; } = string.Empty;
         public string? Province { get; set; }
         public string Address { get; set; } = string.Empty;
+        public string? Phone { get; set; }
+        public string? Phone2 { get; set; }
+        public string? Email { get; set; }
         public bool IsActive { get; set; } = true;
     }
 }

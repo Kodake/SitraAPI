@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BackEnd.Context;
 using BackEnd.DTOs;
 using BackEnd.DTOs.Products;
 using BackEnd.Entities.Products;
@@ -64,22 +65,65 @@ namespace BackEnd.Endpoints
 
         static async Task<Results<Created<ProductDTO>, ValidationProblem>> Create([FromBody] CreateProductDTO dto,
            [FromServices] IProductRepository repository,
+           [FromServices] IPricingItemRepository pricingItemRepository,
+           [FromServices] IPricingRepository pricingRepository,
            IOutputCacheStore outputCacheStore,
-           [FromServices] IMapper mapper)
+           [FromServices] IMapper mapper,
+           [FromServices] ApplicationDbContext context)
         {
-            var product = mapper.Map<Item>(dto);
-            product.ItemType = ItemType.Product; // Create a Product
+            using var transaction = await context.Database.BeginTransactionAsync();
 
-            var id = await repository.Create(product);
-            await outputCacheStore.EvictByTagAsync("products-get", default);
-            var productDTO = mapper.Map<ProductDTO>(product);
-            return TypedResults.Created($"/products/{id}", productDTO);
+            try
+            {
+                var product = mapper.Map<Item>(dto);
+                product.ItemType = ItemType.Product; // Create a Product
+
+                var id = await repository.Create(product);
+                var pricing = await pricingRepository.GetPricingByName(Enum.GetName(PricingName.Principal));
+
+                if (pricing == null)
+                {
+                    pricing = new Pricing
+                    {
+                        Name = "Principal",
+                        PricingType = PricingType.Value
+                    };
+
+                    pricing = await pricingRepository.Create(pricing);
+                }
+
+                var pricingItem = new PricingItem
+                {
+                    ItemId = id,
+                    PricingId = pricing.Id,
+                    InitialCost = dto.InitialCost,
+                    BasePrice = dto.BasePrice,
+                    Amount = dto.BasePrice,
+                    IsPrincipal = true
+                };
+
+                await pricingItemRepository.Create(pricingItem);
+
+                await transaction.CommitAsync();
+
+                await outputCacheStore.EvictByTagAsync("products-get", default);
+                var productDTO = mapper.Map<ProductDTO>(product);
+                return TypedResults.Created($"/products/{id}", productDTO);
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                return TypedResults.ValidationProblem(new Dictionary<string, string[]>
+                {
+                    { "Error", new[] { "An error occurred while creating the product." } }
+                });
+            }
         }
 
         static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromBody] CreateProductDTO dto,
-            [FromServices] IProductRepository repository,
-            IOutputCacheStore outputCacheStore,
-            [FromServices] IMapper mapper)
+        [FromServices] IProductRepository repository,
+        IOutputCacheStore outputCacheStore,
+        [FromServices] IMapper mapper)
         {
             var productDB = await repository.GetById(id);
 

@@ -82,6 +82,8 @@ builder.Services.AddScoped<IWarehouseRepository, WarehouseRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
 builder.Services.AddScoped<IStockRepository, StockRepository>();
+builder.Services.AddScoped<IPricingItemRepository, PricingItemRepository>();
+builder.Services.AddScoped<IPricingRepository, PricingRepository>();
 
 builder.Services.AddHttpContextAccessor();
 

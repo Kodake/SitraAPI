@@ -85,6 +85,9 @@ namespace BackEnd.Endpoints
             contactDB.Identification = dto.Identification;
             contactDB.Name = dto.Name;
             contactDB.Address = dto.Address;
+            contactDB.Phone = dto.Phone;
+            contactDB.Phone2 = dto.Phone2;
+            contactDB.Email = dto.Email;
             contactDB.IsActive = contactDB.IsActive;
 
             await repository.Update(contactDB);
