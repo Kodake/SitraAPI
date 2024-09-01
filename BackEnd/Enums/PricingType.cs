@@ -2,7 +2,7 @@
 {
     public enum PricingType
     {
-        Value,
-        Percentage
+        Value = 1,
+        Percentage = 2
     }
 }

@@ -237,6 +237,59 @@ namespace BackEnd.Migrations
                     b.ToTable("ItemTaxes");
                 });
 
+            modelBuilder.Entity("BackEnd.Entities.Products.Pricing", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("Percentage")
+                        .HasColumnType("float");
+
+                    b.Property<int>("PricingType")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Pricings");
+                });
+
+            modelBuilder.Entity("BackEnd.Entities.Products.PricingItem", b =>
+                {
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PricingId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<double>("BasePrice")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<double>("InitialCost")
+                        .HasColumnType("float");
+
+                    b.Property<bool>("IsPrincipal")
+                        .HasColumnType("bit");
+
+                    b.HasKey("ItemId", "PricingId");
+
+                    b.HasIndex("PricingId");
+
+                    b.ToTable("PricingItems");
+                });
+
             modelBuilder.Entity("BackEnd.Entities.Products.Unit", b =>
                 {
                     b.Property<int>("Id")
@@ -582,6 +635,25 @@ namespace BackEnd.Migrations
                     b.Navigation("Tax");
                 });
 
+            modelBuilder.Entity("BackEnd.Entities.Products.PricingItem", b =>
+                {
+                    b.HasOne("BackEnd.Entities.Products.Item", "Item")
+                        .WithMany("PricingItems")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BackEnd.Entities.Products.Pricing", "Pricing")
+                        .WithMany("PricingItems")
+                        .HasForeignKey("PricingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Item");
+
+                    b.Navigation("Pricing");
+                });
+
             modelBuilder.Entity("BackEnd.Entities.Warehouses.Stock", b =>
                 {
                     b.HasOne("BackEnd.Entities.Products.Item", "Item")
@@ -671,7 +743,14 @@ namespace BackEnd.Migrations
                 {
                     b.Navigation("ItemTaxes");
 
+                    b.Navigation("PricingItems");
+
                     b.Navigation("Stocks");
+                });
+
+            modelBuilder.Entity("BackEnd.Entities.Products.Pricing", b =>
+                {
+                    b.Navigation("PricingItems");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Products.Unit", b =>

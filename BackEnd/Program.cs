@@ -120,6 +120,7 @@ apiGroup.MapGroup("/warehouses").MapWarehouses();
 apiGroup.MapGroup("/products").MapProducts();
 apiGroup.MapGroup("/services").MapServices();
 apiGroup.MapGroup("/stocks").MapStocks();
+apiGroup.MapGroup("/pricings").MapPricings();
 
 app.UseCors();
 

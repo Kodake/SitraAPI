@@ -1,4 +1,6 @@
-﻿namespace BackEnd.Entities.Products
+﻿using BackEnd.Enums;
+
+namespace BackEnd.Entities.Products
 {
     public sealed class PricingItem
     {

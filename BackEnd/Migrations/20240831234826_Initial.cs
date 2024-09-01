@@ -92,6 +92,9 @@ namespace BackEnd.Migrations
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Province = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: true),
                     Address = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Phone2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -112,6 +115,21 @@ namespace BackEnd.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Currencies", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Pricings",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PricingType = table.Column<int>(type: "int", nullable: false),
+                    Percentage = table.Column<double>(type: "float", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pricings", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -335,6 +353,35 @@ namespace BackEnd.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PricingItems",
+                columns: table => new
+                {
+                    ItemId = table.Column<int>(type: "int", nullable: false),
+                    PricingId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    InitialCost = table.Column<double>(type: "float", nullable: false),
+                    BasePrice = table.Column<double>(type: "float", nullable: false),
+                    Amount = table.Column<double>(type: "float", nullable: false),
+                    IsPrincipal = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PricingItems", x => new { x.ItemId, x.PricingId });
+                    table.ForeignKey(
+                        name: "FK_PricingItems_Items_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Items",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PricingItems_Pricings_PricingId",
+                        column: x => x.PricingId,
+                        principalTable: "Pricings",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Stocks",
                 columns: table => new
                 {
@@ -423,6 +470,11 @@ namespace BackEnd.Migrations
                 column: "ItemId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PricingItems_PricingId",
+                table: "PricingItems",
+                column: "PricingId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Stocks_ItemId",
                 table: "Stocks",
                 column: "ItemId");
@@ -461,6 +513,9 @@ namespace BackEnd.Migrations
                 name: "ItemTaxes");
 
             migrationBuilder.DropTable(
+                name: "PricingItems");
+
+            migrationBuilder.DropTable(
                 name: "Stocks");
 
             migrationBuilder.DropTable(
@@ -471,6 +526,9 @@ namespace BackEnd.Migrations
 
             migrationBuilder.DropTable(
                 name: "Taxes");
+
+            migrationBuilder.DropTable(
+                name: "Pricings");
 
             migrationBuilder.DropTable(
                 name: "Items");

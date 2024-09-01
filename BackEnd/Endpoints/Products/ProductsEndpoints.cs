@@ -85,7 +85,7 @@ namespace BackEnd.Endpoints
                 {
                     pricing = new Pricing
                     {
-                        Name = "Principal",
+                        Name = Enum.GetName(PricingName.Principal) ?? "Principal",
                         PricingType = PricingType.Value
                     };
 
@@ -110,7 +110,7 @@ namespace BackEnd.Endpoints
                 var productDTO = mapper.Map<ProductDTO>(product);
                 return TypedResults.Created($"/products/{id}", productDTO);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 await transaction.RollbackAsync();
                 return TypedResults.ValidationProblem(new Dictionary<string, string[]>

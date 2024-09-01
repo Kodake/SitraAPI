@@ -26,10 +26,13 @@ namespace BackEnd.Helpers
             CreateMap<Unit, UnitListDTO>();
             CreateMap<Unit, UnitDTO>();
 
+            CreateMap<CreatePricingDTO, Pricing>();
+            CreateMap<Pricing, PricingListDTO>();
+            CreateMap<Pricing, PricingDTO>();
+
             CreateMap<CreateCurrencyDTO, Currency>();
             CreateMap<Currency, CurrencyListDTO>();
             CreateMap<Currency, CurrencyDTO>();
-
 
             CreateMap<CreateTaxDTO, Tax>();
             CreateMap<Tax, TaxListDTO>();
