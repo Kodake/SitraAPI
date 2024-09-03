@@ -1,12 +1,32 @@
 ﻿using BackEnd.DTOs.Finances;
+using System.Text.Json.Serialization;
 
 namespace BackEnd.DTOs.Products;
 public class ProductListDTO
 {
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
-    public double InitialCost { get; set; }
-    public double BasePrice { get; set; }
+    public double InitialCost
+    {
+        get
+        {
+            return PricingItems?.FirstOrDefault(p => p.IsPrincipal)?.InitialCost ?? 0;
+        }
+    }
+    public double BasePrice
+    {
+        get
+        {
+            return PricingItems?.FirstOrDefault(p => p.IsPrincipal)?.BasePrice ?? 0;
+        }
+    }
+    public double Percentage
+    {
+        get
+        {
+            return PricingItems?.FirstOrDefault(p => p.IsPrincipal)?.Percentage ?? 0;
+        }
+    }
     public double TotalPrice
     {
         get
@@ -17,4 +37,6 @@ public class ProductListDTO
     }
     public bool IsActive { get; set; }
     public List<TaxDTO> Taxes { get; set; } = new List<TaxDTO>();
+    [JsonIgnore]
+    public List<PricingItemDTO>? PricingItems { get; set; } = new List<PricingItemDTO>();
 }

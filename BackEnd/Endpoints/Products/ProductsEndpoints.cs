@@ -98,7 +98,6 @@ namespace BackEnd.Endpoints
                     PricingId = pricing.Id,
                     InitialCost = dto.InitialCost,
                     BasePrice = dto.BasePrice,
-                    Amount = dto.BasePrice,
                     IsPrincipal = true
                 };
 
@@ -106,6 +105,7 @@ namespace BackEnd.Endpoints
 
                 await transaction.CommitAsync();
 
+                await outputCacheStore.EvictByTagAsync("pricing-items-get", default);
                 await outputCacheStore.EvictByTagAsync("products-get", default);
                 var productDTO = mapper.Map<ProductDTO>(product);
                 return TypedResults.Created($"/products/{id}", productDTO);
@@ -121,34 +121,62 @@ namespace BackEnd.Endpoints
         }
 
         static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromBody] CreateProductDTO dto,
-        [FromServices] IProductRepository repository,
-        IOutputCacheStore outputCacheStore,
-        [FromServices] IMapper mapper)
+            [FromServices] IProductRepository repository,
+            [FromServices] IPricingItemRepository pricingItemRepository,
+            [FromServices] IPricingRepository pricingRepository,
+            IOutputCacheStore outputCacheStore,
+            [FromServices] IMapper mapper,
+            [FromServices] ApplicationDbContext context)
         {
-            var productDB = await repository.GetById(id);
+            using var transaction = await context.Database.BeginTransactionAsync();
 
-            if (productDB is null)
+            try
             {
-                return TypedResults.NotFound();
+                var productDB = await repository.GetById(id);
+                if (productDB is null)
+                {
+                    return TypedResults.NotFound();
+                }
+
+                productDB.Name = dto.Name;
+                productDB.Reference = dto.Reference;
+                productDB.Description = dto.Description;
+                productDB.BrandId = dto.BrandId;
+                productDB.CategoryId = dto.CategoryId;
+                productDB.UnitId = dto.UnitId;
+                productDB.ItemTaxes = dto.TaxIds.Select(taxId => new ItemTaxes
+                {
+                    TaxId = taxId,
+                    ItemId = productDB.Id
+                }).ToList();
+
+                var principalPricingItem = productDB.PricingItems.FirstOrDefault(x => x.IsPrincipal);
+                if (principalPricingItem != null)
+                {
+                    var pricingItem = await pricingItemRepository.GetPricingItemByItemIdAndPricingId(id, principalPricingItem.PricingId);
+                    if (pricingItem != null)
+                    {
+                        pricingItem.InitialCost = dto.InitialCost;
+                        pricingItem.BasePrice = dto.BasePrice;
+
+                        await pricingItemRepository.Update(pricingItem);
+                    }
+                }
+
+                await repository.Update(productDB);
+                await transaction.CommitAsync();
+                await outputCacheStore.EvictByTagAsync("pricing-items-get", default);
+                await outputCacheStore.EvictByTagAsync("products-get", default);
+                return TypedResults.Ok();
             }
-
-            productDB.Name = dto.Name;
-            productDB.Reference = dto.Reference;
-            productDB.Description = dto.Description;
-            productDB.InitialCost = dto.InitialCost;
-            productDB.BasePrice = dto.BasePrice;
-            productDB.BrandId = dto.BrandId;
-            productDB.CategoryId = dto.CategoryId;
-            productDB.UnitId = dto.UnitId;
-            productDB.ItemTaxes = dto.TaxIds.Select(id => new ItemTaxes
+            catch (Exception)
             {
-                TaxId = id,
-                ItemId = productDB.Id
-            }).ToList();
-
-            await repository.Update(productDB);
-            await outputCacheStore.EvictByTagAsync("products-get", default);
-            return TypedResults.Ok();
+                await transaction.RollbackAsync();
+                return TypedResults.ValidationProblem(new Dictionary<string, string[]>
+        {
+            { "Error", new[] { "An error occurred while updating the product." } }
+        });
+            }
         }
 
         static async Task<Results<NotFound, Ok>> Activate([FromRoute] int id,

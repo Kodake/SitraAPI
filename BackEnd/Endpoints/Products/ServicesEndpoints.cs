@@ -91,7 +91,6 @@ namespace BackEnd.Endpoints.Products
             serviceDB.Name = dto.Name;
             serviceDB.Reference = dto.Reference;
             serviceDB.Description = dto.Description;
-            serviceDB.BasePrice = dto.BasePrice;
             serviceDB.CategoryId = dto.CategoryId;
             serviceDB.UnitId = dto.UnitId;
             serviceDB.ItemTaxes = dto.TaxIds.Select(id => new ItemTaxes

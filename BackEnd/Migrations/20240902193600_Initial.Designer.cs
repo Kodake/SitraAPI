@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackEnd.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240831234826_Initial")]
+    [Migration("20240902193600_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -180,9 +180,6 @@ namespace BackEnd.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<decimal>("BasePrice")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<int?>("BrandId")
                         .HasColumnType("int");
 
@@ -192,9 +189,6 @@ namespace BackEnd.Migrations
                     b.Property<string>("Description")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
-
-                    b.Property<decimal?>("InitialCost")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -265,28 +259,33 @@ namespace BackEnd.Migrations
 
             modelBuilder.Entity("BackEnd.Entities.Products.PricingItem", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<decimal>("BasePrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("InitialCost")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("IsPrincipal")
+                        .HasColumnType("bit");
+
                     b.Property<int>("ItemId")
                         .HasColumnType("int");
 
                     b.Property<int>("PricingId")
                         .HasColumnType("int");
 
-                    b.Property<double>("Amount")
-                        .HasColumnType("float");
+                    b.HasKey("Id");
 
-                    b.Property<double>("BasePrice")
-                        .HasColumnType("float");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<double>("InitialCost")
-                        .HasColumnType("float");
-
-                    b.Property<bool>("IsPrincipal")
-                        .HasColumnType("bit");
-
-                    b.HasKey("ItemId", "PricingId");
+                    b.HasIndex("ItemId");
 
                     b.HasIndex("PricingId");
 

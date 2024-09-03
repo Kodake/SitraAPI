@@ -121,6 +121,7 @@ apiGroup.MapGroup("/products").MapProducts();
 apiGroup.MapGroup("/services").MapServices();
 apiGroup.MapGroup("/stocks").MapStocks();
 apiGroup.MapGroup("/pricings").MapPricings();
+apiGroup.MapGroup("/pricingItems").MapPricingItems();
 
 app.UseCors();
 

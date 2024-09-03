@@ -10,19 +10,29 @@ namespace BackEnd.Entities.Products
         public string Name { get; set; } = string.Empty;
         public string? Reference { get; set; }
         public string? Description { get; set; }
-        public double? InitialCost { get; set; } // Required for ItemType.Product
-        public double BasePrice { get; set; }
-        public double TotalPrice
+        public double? TotalPrice
         {
             get
             {
                 var principalPricingItem = PricingItems.FirstOrDefault(pi => pi.IsPrincipal);
+
                 if (principalPricingItem != null)
                 {
                     double totalTaxes = ItemTaxes.Sum(pt => pt.Tax.Amount);
-                    return principalPricingItem.FinalPrice + (principalPricingItem.FinalPrice * totalTaxes / 100);
+                    return principalPricingItem?.BasePrice + (principalPricingItem?.BasePrice * totalTaxes / 100);
                 }
-                return BasePrice + (BasePrice * ItemTaxes.Sum(pt => pt.Tax.Amount) / 100);
+                else
+                {
+                    double basePrice = 0;
+                    double totalTaxes = ItemTaxes.Sum(pt => pt.Tax.Amount);
+
+                    if (PricingItems.Count != 0)
+                    {
+                        basePrice = PricingItems.First().BasePrice;
+                    }
+
+                    return basePrice + (basePrice * totalTaxes / 100);
+                }
             }
         }
         public int? BrandId { get; set; } = null!;

@@ -49,10 +49,12 @@ namespace BackEnd.Context
             modelBuilder.Entity<Item>().Property(p => p.Name).HasMaxLength(50).IsRequired();
             modelBuilder.Entity<Item>().Property(p => p.Reference).HasMaxLength(50).IsRequired(false);
             modelBuilder.Entity<Item>().Property(p => p.Description).HasMaxLength(100).IsRequired(false);
-            modelBuilder.Entity<Item>().Property(p => p.InitialCost).HasColumnType("decimal(18,2)").IsRequired(false);
-            modelBuilder.Entity<Item>().Property(p => p.BasePrice).HasColumnType("decimal(18,2)").IsRequired();
             modelBuilder.Entity<Item>().Property(p => p.TotalPrice).HasColumnType("decimal(18,2)");
             modelBuilder.Entity<Item>().Ignore(p => p.TotalPrice);
+
+            //modelBuilder.Entity<PricingItem>().HasKey(g => new { g.ItemId, g.PricingId });
+            modelBuilder.Entity<PricingItem>().Property(p => p.InitialCost).HasColumnType("decimal(18,2)").IsRequired();
+            modelBuilder.Entity<PricingItem>().Property(p => p.BasePrice).HasColumnType("decimal(18,2)").IsRequired();
 
             modelBuilder.Entity<Item>()
                 .HasOne(p => p.Category)
@@ -72,9 +74,6 @@ namespace BackEnd.Context
 
             modelBuilder.Entity<ItemTaxes>()
                 .HasKey(g => new { g.TaxId, g.ItemId });
-
-            modelBuilder.Entity<PricingItem>()
-                .HasKey(g => new { g.ItemId, g.PricingId});
 
             modelBuilder.Entity<Stock>()
                 .HasOne(ps => ps.Item)

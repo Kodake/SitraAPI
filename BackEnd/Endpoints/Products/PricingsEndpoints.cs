@@ -2,6 +2,7 @@
 using BackEnd.DTOs;
 using BackEnd.DTOs.Products;
 using BackEnd.Entities.Products;
+using BackEnd.Enums;
 using BackEnd.Filters;
 using BackEnd.Helpers;
 using BackEnd.Repositories.Products;
@@ -17,6 +18,7 @@ namespace BackEnd.Endpoints
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("pricings-get"))
                 .AddPaginationParamsOpenAPI();
+            group.MapGet("/unregistered-pricings/{id:int}", GetUnregisteredPricingsForItem).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("pricings-get"));
             group.MapGet("/{id:int}", GetById);
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreatePricingDTO>>()
@@ -36,6 +38,14 @@ namespace BackEnd.Endpoints
             var pricings = await repository.GetAll(paginacion);
             var pricingsDTO = mapper.Map<List<PricingListDTO>>(pricings);
             return TypedResults.Ok(pricingsDTO);
+        }
+
+        static async Task<Ok<List<PricingListDTO>>> GetUnregisteredPricingsForItem(IPricingRepository repository,
+            IMapper mapper, int id)
+        {
+            var unregPricings = await repository.GetUnregisteredPricingsForItem(id);
+            var unregPricingsDTO = mapper.Map<List<PricingListDTO>>(unregPricings);
+            return TypedResults.Ok(unregPricingsDTO);
         }
 
         static async Task<Results<Ok<PricingDTO>, NotFound>> GetById(IPricingRepository repository,

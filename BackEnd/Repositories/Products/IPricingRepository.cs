@@ -10,6 +10,7 @@ namespace BackEnd.Repositories.Products
         Task<Pricing> Create(Pricing pricing);
         Task Update(Pricing pricing);
         Task<Pricing?> GetPricingByName(string? name);
+        Task<IEnumerable<Pricing>> GetUnregisteredPricingsForItem(int itemId);
         Task<bool> Exists(int id);
         Task<bool> Exists(int id, string name);
     }

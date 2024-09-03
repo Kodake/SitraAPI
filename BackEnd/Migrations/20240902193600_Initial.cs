@@ -298,8 +298,6 @@ namespace BackEnd.Migrations
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Reference = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    InitialCost = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    BasePrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     BrandId = table.Column<int>(type: "int", nullable: true),
                     CategoryId = table.Column<int>(type: "int", nullable: true),
                     UnitId = table.Column<int>(type: "int", nullable: true),
@@ -356,17 +354,18 @@ namespace BackEnd.Migrations
                 name: "PricingItems",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     ItemId = table.Column<int>(type: "int", nullable: false),
                     PricingId = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    InitialCost = table.Column<double>(type: "float", nullable: false),
-                    BasePrice = table.Column<double>(type: "float", nullable: false),
+                    InitialCost = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    BasePrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Amount = table.Column<double>(type: "float", nullable: false),
                     IsPrincipal = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PricingItems", x => new { x.ItemId, x.PricingId });
+                    table.PrimaryKey("PK_PricingItems", x => x.Id);
                     table.ForeignKey(
                         name: "FK_PricingItems_Items_ItemId",
                         column: x => x.ItemId,
@@ -467,6 +466,11 @@ namespace BackEnd.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_ItemTaxes_ItemId",
                 table: "ItemTaxes",
+                column: "ItemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PricingItems_ItemId",
+                table: "PricingItems",
                 column: "ItemId");
 
             migrationBuilder.CreateIndex(

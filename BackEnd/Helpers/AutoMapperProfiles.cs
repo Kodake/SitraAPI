@@ -30,6 +30,10 @@ namespace BackEnd.Helpers
             CreateMap<Pricing, PricingListDTO>();
             CreateMap<Pricing, PricingDTO>();
 
+            CreateMap<CreatePricingItemDTO, PricingItem>();
+            CreateMap<PricingItem, PricingItemListDTO>();
+            //CreateMap<Pricing, PricingDTO>();
+
             CreateMap<CreateCurrencyDTO, Currency>();
             CreateMap<Currency, CurrencyListDTO>();
             CreateMap<Currency, CurrencyDTO>();
@@ -47,6 +51,15 @@ namespace BackEnd.Helpers
             CreateMap<Warehouse, WarehouseDTO>();
 
             CreateMap<Item, ProductListDTO>()
+                .ForMember(dest => dest.PricingItems, opt => opt.MapFrom(src => src.PricingItems.Select(pt => new PricingItemDTO
+                {
+                    ItemId = pt.Item.Id,
+                    PricingId = pt.Pricing.Id,
+                    InitialCost = pt.InitialCost,
+                    BasePrice = pt.BasePrice,
+                    Percentage = pt.Pricing.Percentage,
+                    IsPrincipal = pt.IsPrincipal
+                }).ToList()))
                 .ForMember(dest => dest.Taxes, opt => opt.MapFrom(src => src.ItemTaxes.Select(pt => new TaxDTO
                 {
                     Id = pt.Tax.Id,
@@ -55,6 +68,15 @@ namespace BackEnd.Helpers
                 }).ToList()));
 
             CreateMap<Item, ProductDTO>()
+                .ForMember(dest => dest.PricingItems, opt => opt.MapFrom(src => src.PricingItems.Select(pt => new PricingItemDTO
+                {
+                    ItemId = pt.Item.Id,
+                    PricingId = pt.Pricing.Id,
+                    InitialCost = pt.InitialCost,
+                    BasePrice = pt.BasePrice,
+                    Percentage = pt.Pricing.Percentage,
+                    IsPrincipal = pt.IsPrincipal
+                }).ToList()))
                 .ForMember(dest => dest.Taxes, opt => opt.MapFrom(src => src.ItemTaxes.Select(pt => new TaxDTO
                 {
                     Id = pt.Tax.Id,

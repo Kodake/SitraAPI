@@ -1,5 +1,6 @@
 ﻿using BackEnd.Context;
 using BackEnd.DTOs;
+using BackEnd.DTOs.Products;
 using BackEnd.Entities.Products;
 using BackEnd.Helpers;
 using Microsoft.EntityFrameworkCore;
@@ -49,6 +50,19 @@ namespace BackEnd.Repositories.Products
         public async Task<Pricing?> GetPricingByName(string? name)
         {
             return await context.Pricings.FirstOrDefaultAsync(p => p.Name == name);
+        }
+
+        public async Task<IEnumerable<Pricing>> GetUnregisteredPricingsForItem(int itemId)
+        {
+            return await context.Pricings
+                .Where(p => !p.PricingItems.Any(pi => pi.ItemId == itemId))
+                .Select(p => new Pricing
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    PricingType = p.PricingType,
+                    Percentage = p.Percentage
+                }).ToListAsync();
         }
 
         public async Task<bool> Exists(int id)
