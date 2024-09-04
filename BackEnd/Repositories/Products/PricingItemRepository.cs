@@ -37,6 +37,11 @@ namespace BackEnd.Repositories.Products
             return items;
         }
 
+        public async Task<PricingItem?> GetById(int id)
+        {
+            return await context.PricingItems.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
         public async Task<int> Create(PricingItem pricingItem)
         {
             context.Add(pricingItem);
@@ -85,8 +90,17 @@ namespace BackEnd.Repositories.Products
 
         public async Task<bool> Exists(int pricingId, int itemId)
         {
-            return await context.PricingItems
-                .AnyAsync(pi => pi.PricingId == pricingId && pi.ItemId == itemId);
+            return await context.PricingItems.AnyAsync(pi => pi.PricingId == pricingId && pi.ItemId == itemId);
+        }
+
+        public async Task Delete(int id)
+        {
+            var pricingItem = await context.PricingItems.FirstOrDefaultAsync(x => x.Id == id);
+            if (pricingItem != null)
+            {
+                context.PricingItems.Remove(pricingItem);
+                await context.SaveChangesAsync();
+            }
         }
     }
 }

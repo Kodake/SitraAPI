@@ -21,7 +21,8 @@ namespace BackEnd.Endpoints
                 .AddEndpointFilter<ValidationFilter<CreatePricingItemDTO>>()
                 //.RequireAuthorization("isAdmin")
                 .WithOpenApi();
-            group.MapPatch("/{id:int}/activate", Activate);
+            group.MapPatch("/{id:int}/activate", Activate);            
+            group.MapDelete("/{id:int}", Delete);
             //.RequireAuthorization("isAdmin");
             return group;
         }
@@ -61,6 +62,23 @@ namespace BackEnd.Endpoints
 
             await outputCacheStore.EvictByTagAsync("pricing-items-get", default);
             await outputCacheStore.EvictByTagAsync("products-get", default);
+            return TypedResults.Ok();
+        }
+
+        static async Task<Results<NotFound, Ok>> Delete([FromRoute] int id,
+             IPricingItemRepository repository,
+             IOutputCacheStore outputCacheStore)
+        {
+            var pricingItemDB = await repository.GetById(id);
+
+            if (pricingItemDB is null)
+            {
+                return TypedResults.NotFound();
+            }
+
+            await repository.Delete(id);
+            await outputCacheStore.EvictByTagAsync("pricing-items-get", default);
+            await outputCacheStore.EvictByTagAsync("pricings-get", default);
             return TypedResults.Ok();
         }
     }

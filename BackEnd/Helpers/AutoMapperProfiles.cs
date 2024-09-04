@@ -32,7 +32,7 @@ namespace BackEnd.Helpers
 
             CreateMap<CreatePricingItemDTO, PricingItem>();
             CreateMap<PricingItem, PricingItemListDTO>();
-            //CreateMap<Pricing, PricingDTO>();
+            CreateMap<PricingItem, PricingItemDTO>();
 
             CreateMap<CreateCurrencyDTO, Currency>();
             CreateMap<Currency, CurrencyListDTO>();

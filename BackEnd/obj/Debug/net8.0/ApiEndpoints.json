@@ -1065,6 +1065,33 @@
   },
   {
     "ContainingType": "BackEnd.Endpoints.PricingItemsEndpoints",
+    "Method": "Delete",
+    "RelativePath": "api/v1/pricingItems/{id:int}",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BackEnd.Endpoints.PricingItemsEndpoints",
     "Method": "Activate",
     "RelativePath": "api/v1/pricingItems/{id:int}/activate",
     "HttpMethod": "PATCH",
