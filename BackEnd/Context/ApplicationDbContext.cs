@@ -4,6 +4,7 @@ using BackEnd.Entities.Finances;
 using BackEnd.Entities.Products;
 using BackEnd.Entities.Warehouses;
 using Microsoft.EntityFrameworkCore;
+using BackEnd.Entities.AdministrativeTools;
 
 namespace BackEnd.Context
 {
@@ -52,7 +53,20 @@ namespace BackEnd.Context
             modelBuilder.Entity<Item>().Property(p => p.TotalPrice).HasColumnType("decimal(18,2)");
             modelBuilder.Entity<Item>().Ignore(p => p.TotalPrice);
 
-            //modelBuilder.Entity<PricingItem>().HasKey(g => new { g.ItemId, g.PricingId });
+            modelBuilder.Entity<FiscalSupport>().Property(p => p.DocumentType).HasConversion<int>().IsRequired();
+            modelBuilder.Entity<FiscalSupport>().Property(p => p.FiscalSupportType).HasConversion<int>().IsRequired();
+            modelBuilder.Entity<FiscalSupport>().Property(p => p.Name).HasMaxLength(50).IsRequired();
+            modelBuilder.Entity<FiscalSupport>().Property(p => p.Symbol).HasMaxLength(1).IsRequired();
+            modelBuilder.Entity<FiscalSupport>().Property(p => p.InitialSequence).IsRequired();
+            modelBuilder.Entity<FiscalSupport>().Property(p => p.FinalSequence).IsRequired();
+            modelBuilder.Entity<FiscalSupport>().Property(p => p.SpaceNumber).IsRequired();
+            modelBuilder.Entity<FiscalSupport>()
+                .HasOne(p => p.Warehouse)
+                .WithMany(c => c.FiscalSupports)
+                .HasForeignKey(p => p.WarehouseId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired();
+
             modelBuilder.Entity<PricingItem>().Property(p => p.InitialCost).HasColumnType("decimal(18,2)").IsRequired();
             modelBuilder.Entity<PricingItem>().Property(p => p.BasePrice).HasColumnType("decimal(18,2)").IsRequired();
 
@@ -97,5 +111,6 @@ namespace BackEnd.Context
         public DbSet<ItemTaxes> ItemTaxes { get; set; }        
         public DbSet<PricingItem> PricingItems { get; set; }
         public DbSet<Stock> Stocks { get; set; }
+        public DbSet<FiscalSupport> FiscalSupports { get; set; }
     }
 }

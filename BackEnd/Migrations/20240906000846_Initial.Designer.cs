@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackEnd.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240902193600_Initial")]
+    [Migration("20240906000846_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -24,6 +24,52 @@ namespace BackEnd.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("BackEnd.Entities.AdministrativeTools.FiscalSupport", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DocumentType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FinalSequence")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FiscalSupportType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("InitialSequence")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("SpaceNumber")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Symbol")
+                        .IsRequired()
+                        .HasMaxLength(1)
+                        .HasColumnType("nvarchar(1)");
+
+                    b.Property<int>("WarehouseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WarehouseId");
+
+                    b.ToTable("FiscalSupports");
+                });
 
             modelBuilder.Entity("BackEnd.Entities.Contacts.Contact", b =>
                 {
@@ -264,9 +310,6 @@ namespace BackEnd.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<double>("Amount")
-                        .HasColumnType("float");
 
                     b.Property<decimal>("BasePrice")
                         .HasColumnType("decimal(18,2)");
@@ -594,6 +637,17 @@ namespace BackEnd.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("BackEnd.Entities.AdministrativeTools.FiscalSupport", b =>
+                {
+                    b.HasOne("BackEnd.Entities.Warehouses.Warehouse", "Warehouse")
+                        .WithMany("FiscalSupports")
+                        .HasForeignKey("WarehouseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Warehouse");
+                });
+
             modelBuilder.Entity("BackEnd.Entities.Products.Item", b =>
                 {
                     b.HasOne("BackEnd.Entities.Products.Brand", "Brand")
@@ -762,6 +816,8 @@ namespace BackEnd.Migrations
 
             modelBuilder.Entity("BackEnd.Entities.Warehouses.Warehouse", b =>
                 {
+                    b.Navigation("FiscalSupports");
+
                     b.Navigation("Stocks");
                 });
 #pragma warning restore 612, 618

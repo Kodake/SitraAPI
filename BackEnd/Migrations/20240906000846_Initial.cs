@@ -327,6 +327,33 @@ namespace BackEnd.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "FiscalSupports",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DocumentType = table.Column<int>(type: "int", nullable: false),
+                    FiscalSupportType = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Symbol = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: false),
+                    InitialSequence = table.Column<int>(type: "int", nullable: false),
+                    FinalSequence = table.Column<int>(type: "int", nullable: false),
+                    SpaceNumber = table.Column<int>(type: "int", nullable: false),
+                    WarehouseId = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FiscalSupports", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FiscalSupports_Warehouses_WarehouseId",
+                        column: x => x.WarehouseId,
+                        principalTable: "Warehouses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ItemTaxes",
                 columns: table => new
                 {
@@ -360,7 +387,6 @@ namespace BackEnd.Migrations
                     PricingId = table.Column<int>(type: "int", nullable: false),
                     InitialCost = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     BasePrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Amount = table.Column<double>(type: "float", nullable: false),
                     IsPrincipal = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -449,6 +475,11 @@ namespace BackEnd.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_FiscalSupports_WarehouseId",
+                table: "FiscalSupports",
+                column: "WarehouseId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Items_BrandId",
                 table: "Items",
                 column: "BrandId");
@@ -512,6 +543,9 @@ namespace BackEnd.Migrations
 
             migrationBuilder.DropTable(
                 name: "Currencies");
+
+            migrationBuilder.DropTable(
+                name: "FiscalSupports");
 
             migrationBuilder.DropTable(
                 name: "ItemTaxes");

@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using BackEnd.DTOs.AdministrativeTools;
 using BackEnd.DTOs.Contacts;
 using BackEnd.DTOs.Finances;
 using BackEnd.DTOs.Products;
 using BackEnd.DTOs.Warehouses;
+using BackEnd.Entities.AdministrativeTools;
 using BackEnd.Entities.Contacts;
 using BackEnd.Entities.Finances;
 using BackEnd.Entities.Products;
@@ -153,6 +155,16 @@ namespace BackEnd.Helpers
 
             CreateMap<Stock, StockListDTO>()
                 .ForMember(dest => dest.Product, opt => opt.MapFrom(src => src.Item))
+                .ForMember(dest => dest.Warehouse, opt => opt.MapFrom(src => src.Warehouse))
+                .ReverseMap();
+
+            CreateMap<FiscalSupport, FiscalSupportDTO>()
+                .ForMember(dest => dest.Warehouse, opt => opt.MapFrom(src => src.Warehouse))
+                .ReverseMap();
+
+            CreateMap<CreateFiscalSupportDTO, FiscalSupport>();
+
+            CreateMap<FiscalSupport, FiscalSupportListDTO>()
                 .ForMember(dest => dest.Warehouse, opt => opt.MapFrom(src => src.Warehouse))
                 .ReverseMap();
         }

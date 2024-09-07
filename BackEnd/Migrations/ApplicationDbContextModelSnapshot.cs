@@ -22,6 +22,52 @@ namespace BackEnd.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("BackEnd.Entities.AdministrativeTools.FiscalSupport", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DocumentType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FinalSequence")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FiscalSupportType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("InitialSequence")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("SpaceNumber")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Symbol")
+                        .IsRequired()
+                        .HasMaxLength(1)
+                        .HasColumnType("nvarchar(1)");
+
+                    b.Property<int>("WarehouseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WarehouseId");
+
+                    b.ToTable("FiscalSupports");
+                });
+
             modelBuilder.Entity("BackEnd.Entities.Contacts.Contact", b =>
                 {
                     b.Property<int>("Id")
@@ -588,6 +634,17 @@ namespace BackEnd.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("BackEnd.Entities.AdministrativeTools.FiscalSupport", b =>
+                {
+                    b.HasOne("BackEnd.Entities.Warehouses.Warehouse", "Warehouse")
+                        .WithMany("FiscalSupports")
+                        .HasForeignKey("WarehouseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Warehouse");
+                });
+
             modelBuilder.Entity("BackEnd.Entities.Products.Item", b =>
                 {
                     b.HasOne("BackEnd.Entities.Products.Brand", "Brand")
@@ -756,6 +813,8 @@ namespace BackEnd.Migrations
 
             modelBuilder.Entity("BackEnd.Entities.Warehouses.Warehouse", b =>
                 {
+                    b.Navigation("FiscalSupports");
+
                     b.Navigation("Stocks");
                 });
 #pragma warning restore 612, 618

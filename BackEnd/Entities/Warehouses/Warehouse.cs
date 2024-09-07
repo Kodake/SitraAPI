@@ -1,4 +1,6 @@
-﻿namespace BackEnd.Entities.Warehouses
+﻿using BackEnd.Entities.AdministrativeTools;
+
+namespace BackEnd.Entities.Warehouses
 {
     public sealed class Warehouse
     {
@@ -11,6 +13,7 @@
         public string? Country { get; set; }
         public string? ZipCode { get; set; }
         public bool IsActive { get; set; } = true;
-        public List<Stock> Stocks { get; set; } = new List<Stock>();
+        public List<Stock> Stocks { get; set; } = [];
+        public List<FiscalSupport> FiscalSupports { get; set; } = [];
     }
 }
