@@ -5,6 +5,7 @@ namespace BackEnd.DTOs.Products
         public string Name { get; set; } = string.Empty;
         public string? Reference { get; set; }
         public string? Description { get; set; }
+        public double InitialCost { get; set; } = 0;
         public double BasePrice { get; set; }
         public List<int> TaxIds { get; set; } = new();
         public int? CategoryId { get; set; }

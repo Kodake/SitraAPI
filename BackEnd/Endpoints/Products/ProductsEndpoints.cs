@@ -173,9 +173,9 @@ namespace BackEnd.Endpoints
             {
                 await transaction.RollbackAsync();
                 return TypedResults.ValidationProblem(new Dictionary<string, string[]>
-        {
-            { "Error", new[] { "An error occurred while updating the product." } }
-        });
+                {
+                    { "Error", new[] { "An error occurred while updating the product." } }
+                });
             }
         }
 

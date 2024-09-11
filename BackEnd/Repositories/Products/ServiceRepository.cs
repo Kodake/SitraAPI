@@ -30,6 +30,8 @@ namespace BackEnd.Repositories.Products
 
             var items = await queryable
                 .Paginate(paginationDTO)
+                .Include(p => p.PricingItems)
+                .ThenInclude(p => p.Pricing)
                 .Include(p => p.ItemTaxes)
                 .ThenInclude(pt => pt.Tax)
                 .ToListAsync();
@@ -65,6 +67,8 @@ namespace BackEnd.Repositories.Products
                 .Where(x => x.ItemType == ItemType.Service)
                 .Include(p => p.Unit)
                 .Include(p => p.Category)
+                .Include(p => p.PricingItems)
+                    .ThenInclude(p => p.Pricing)
                 .Include(p => p.ItemTaxes)
                     .ThenInclude(pt => pt.Tax)
                 .FirstOrDefaultAsync(p => p.Id == id);
