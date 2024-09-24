@@ -90,7 +90,6 @@ namespace BackEnd.Endpoints
             }
 
             brandDB.Name = dto.Name;
-            brandDB.Name = dto.Name;
             brandDB.IsActive = brandDB.IsActive;
 
             await repository.Update(brandDB);

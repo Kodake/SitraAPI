@@ -67,6 +67,9 @@ namespace BackEnd.Context
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
 
+            modelBuilder.Entity<Deadline>().Property(p => p.Name).HasMaxLength(50).IsRequired();
+            modelBuilder.Entity<Deadline>().Property(p => p.Days).IsRequired();
+
             modelBuilder.Entity<PricingItem>().Property(p => p.InitialCost).HasColumnType("decimal(18,2)").IsRequired();
             modelBuilder.Entity<PricingItem>().Property(p => p.BasePrice).HasColumnType("decimal(18,2)").IsRequired();
 
@@ -112,5 +115,6 @@ namespace BackEnd.Context
         public DbSet<PricingItem> PricingItems { get; set; }
         public DbSet<Stock> Stocks { get; set; }
         public DbSet<FiscalSupport> FiscalSupports { get; set; }
+        public DbSet<Deadline> Deadlines { get; set; }
     }
 }

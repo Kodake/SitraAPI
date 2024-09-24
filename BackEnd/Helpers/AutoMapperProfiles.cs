@@ -185,6 +185,10 @@ namespace BackEnd.Helpers
             CreateMap<FiscalSupport, FiscalSupportListDTO>()
                 .ForMember(dest => dest.Warehouse, opt => opt.MapFrom(src => src.Warehouse))
                 .ReverseMap();
+
+            CreateMap<CreateDeadlineDTO, Deadline>();
+            CreateMap<Deadline, DeadlineListDTO>();
+            CreateMap<Deadline, DeadlineDTO>();
         }
     }
 }

@@ -376,3 +376,17 @@ C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Debug\net8.0\zh-Hans\Microsoft.Visual
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Debug\net8.0\zh-Hant\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Debug\net8.0\zh-Hant\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Debug\net8.0\zh-Hant\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Debug\net8.0\Serilog.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Debug\net8.0\Serilog.AspNetCore.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Debug\net8.0\Serilog.Enrichers.Environment.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Debug\net8.0\Serilog.Exceptions.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Debug\net8.0\Serilog.Extensions.Hosting.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Debug\net8.0\Serilog.Extensions.Logging.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Debug\net8.0\Serilog.Formatting.Compact.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Debug\net8.0\Serilog.Settings.Configuration.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Debug\net8.0\Serilog.Sinks.Console.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Debug\net8.0\Serilog.Sinks.Debug.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Debug\net8.0\Serilog.Sinks.File.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Debug\net8.0\Serilog.Sinks.MSSqlServer.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Debug\net8.0\System.ClientModel.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Debug\net8.0\System.Formats.Asn1.dll

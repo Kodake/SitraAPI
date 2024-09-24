@@ -11,8 +11,31 @@ using BackEnd.Repositories.Contacts;
 using BackEnd.Repositories.Warehouses;
 using BackEnd.Endpoints.Products;
 using BackEnd.Repositories.AdministrativeTools;
+using Serilog;
+using Serilog.Sinks.MSSqlServer;
 
 var builder = WebApplication.CreateBuilder(args);
+Log.Logger = new LoggerConfiguration()
+    .Enrich.FromLogContext()
+    .Enrich.WithEnvironmentName()
+    .Enrich.WithMachineName()
+    .WriteTo.Console()
+    .WriteTo.MSSqlServer(
+        connectionString: builder.Configuration.GetConnectionString("DefaultConnection"),
+        sinkOptions: new MSSqlServerSinkOptions
+        {
+            TableName = "Logs",
+            AutoCreateSqlTable = true
+        },
+        restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Debug,
+        columnOptions: new ColumnOptions()
+    )
+    .CreateLogger();
+
+builder.Host.UseSerilog();
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -86,6 +109,7 @@ builder.Services.AddScoped<IStockRepository, StockRepository>();
 builder.Services.AddScoped<IPricingItemRepository, PricingItemRepository>();
 builder.Services.AddScoped<IPricingRepository, PricingRepository>();
 builder.Services.AddScoped<IFiscalSupportRepository, FiscalSupportRepository>();
+builder.Services.AddScoped<IDeadlineRepository, DeadlineRepository>();
 
 builder.Services.AddHttpContextAccessor();
 
@@ -125,6 +149,7 @@ apiGroup.MapGroup("/stocks").MapStocks();
 apiGroup.MapGroup("/pricings").MapPricings();
 apiGroup.MapGroup("/pricingItems").MapPricingItems();
 apiGroup.MapGroup("/fiscalSupports").MapFiscalSupports();
+apiGroup.MapGroup("/deadlines").MapDeadlines();
 
 app.UseCors();
 
