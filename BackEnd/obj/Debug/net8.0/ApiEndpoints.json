@@ -1868,6 +1868,35 @@
     ]
   },
   {
+    "ContainingType": "BackEnd.Endpoints.ProductsEndpoints",
+    "Method": "UploadCsv",
+    "RelativePath": "api/v1/products/upload-csv",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "BackEnd.DTOs.Products.CsvDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
     "ContainingType": "BackEnd.Endpoints.Products.ServicesEndpoints",
     "Method": "GetAll",
     "RelativePath": "api/v1/services/",
@@ -2059,6 +2088,35 @@
           "application/json"
         ],
         "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BackEnd.Endpoints.Products.ServicesEndpoints",
+    "Method": "UploadCsv",
+    "RelativePath": "api/v1/services/upload-csv",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "BackEnd.DTOs.Products.CsvDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
       }
     ]
   },

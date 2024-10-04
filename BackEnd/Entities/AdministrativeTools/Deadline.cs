@@ -1,6 +1,6 @@
 ﻿namespace BackEnd.Entities.AdministrativeTools
 {
-    public class Deadline
+    public sealed class Deadline
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;

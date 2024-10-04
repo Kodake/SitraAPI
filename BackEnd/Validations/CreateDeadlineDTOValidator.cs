@@ -19,7 +19,8 @@ namespace BackEnd.Validations
             }
 
             RuleFor(x => x.Days)
-            .NotEmpty().WithMessage(Utilities.RequiredFieldMessage)
+            .NotNull().WithMessage(Utilities.RequiredFieldMessage)
+            .GreaterThanOrEqualTo(0).WithMessage("El valor de días no puede ser negativo")
             .MustAsync(async (days, _) =>
             {
                 var existe = await repository.Exists(id, days);

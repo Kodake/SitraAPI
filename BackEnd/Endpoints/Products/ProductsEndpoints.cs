@@ -7,9 +7,11 @@ using BackEnd.Enums;
 using BackEnd.Filters;
 using BackEnd.Helpers;
 using BackEnd.Repositories.Products;
+using FluentValidation;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
+using System.Globalization;
 
 namespace BackEnd.Endpoints
 {
@@ -30,6 +32,8 @@ namespace BackEnd.Endpoints
             group.MapPatch("/{id:int}/activate", Activate);
             group.MapDelete("/{id:int}/deactivate", Deactivate);
             //.RequireAuthorization("isAdmin");
+            group.MapPost("/upload-csv", UploadCsv).DisableAntiforgery()
+                .WithOpenApi();
             return group;
         }
 
@@ -175,6 +179,119 @@ namespace BackEnd.Endpoints
                 return TypedResults.ValidationProblem(new Dictionary<string, string[]>
                 {
                     { "Error", new[] { "An error occurred while updating the product." } }
+                });
+            }
+        }
+
+        public static async Task<Results<Ok, ValidationProblem>> UploadCsv(
+            [FromForm] CsvDTO dto,
+            [FromServices] IProductRepository repository,
+            [FromServices] IPricingItemRepository pricingItemRepository,
+            [FromServices] IPricingRepository pricingRepository,
+            [FromServices] IMapper mapper,
+            IOutputCacheStore outputCacheStore,
+            [FromServices] IValidator<CreateProductCsvDTO> validator,
+            [FromServices] ApplicationDbContext context,
+            [FromServices] IConfiguration configuration)
+        {
+            using var transaction = await context.Database.BeginTransactionAsync();
+
+            try
+            {
+                var validFileType = configuration.GetValue<string>("CsvUpload:ValidFileType");
+                var validFileName = configuration.GetValue<string>("CsvUpload:ProductFileName");
+
+                var fileType = dto.CsvFile.ContentType;
+                if (fileType != validFileType)
+                {
+                    return TypedResults.ValidationProblem(new Dictionary<string, string[]>
+                    {
+                        { "Error", new[] { "Invalid file format. Only CSV files are allowed." } }
+                    });
+                }
+
+                var fileName = dto.CsvFile.FileName;
+                if (fileName != validFileName)
+                {
+                    return TypedResults.ValidationProblem(new Dictionary<string, string[]>
+                    {
+                        { "Error", new[] { $"Invalid file name. The file must be named '{validFileName}'." } }
+                    });
+                }
+
+                using var reader = new StreamReader(dto.CsvFile.OpenReadStream());
+                using var csv = new CsvHelper.CsvReader(reader, CultureInfo.InvariantCulture);
+
+                var records = csv.GetRecords<CreateProductCsvDTO>().ToList();
+
+                var maxFileRecords = configuration.GetValue<int>("CsvUpload:MaxFileRecords");
+
+                if (records.Count > maxFileRecords)
+                {
+                    return TypedResults.ValidationProblem(new Dictionary<string, string[]>
+                    {
+                        { "Error", new[] { $"Too many records. The maximum allowed is {maxFileRecords}." } }
+                    });
+                }
+
+                var errors = new Dictionary<string, string[]>();
+
+                foreach (var record in records)
+                {
+                    var validationResult = await validator.ValidateAsync(record);
+
+                    if (!validationResult.IsValid)
+                    {
+                        errors.Add(record.Name ?? "Unknown Product", validationResult.Errors.Select(e => e.ErrorMessage).ToArray());
+                        continue;
+                    }
+
+                    var product = mapper.Map<Item>(record);
+                    product.ItemType = ItemType.Product;
+
+                    var id = await repository.Create(product);
+
+                    var pricing = await pricingRepository.GetPricingByName(Enum.GetName(PricingName.Principal));
+                    if (pricing == null)
+                    {
+                        pricing = new Pricing
+                        {
+                            Name = Enum.GetName(PricingName.Principal) ?? "Principal",
+                            PricingType = PricingType.Value
+                        };
+
+                        pricing = await pricingRepository.Create(pricing);
+                    }
+
+                    var pricingItem = new PricingItem
+                    {
+                        ItemId = id,
+                        PricingId = pricing.Id,
+                        InitialCost = record.InitialCost,
+                        BasePrice = record.BasePrice,
+                        IsPrincipal = true
+                    };
+
+                    await pricingItemRepository.Create(pricingItem);
+                }
+
+                if (errors.Count > 0)
+                {
+                    return TypedResults.ValidationProblem(errors);
+                }
+
+                await transaction.CommitAsync();
+                await outputCacheStore.EvictByTagAsync("pricing-items-get", default);
+                await outputCacheStore.EvictByTagAsync("products-get", default);
+
+                return TypedResults.Ok();
+            }
+            catch (Exception)
+            {
+                await transaction.RollbackAsync();
+                return TypedResults.ValidationProblem(new Dictionary<string, string[]>
+                {
+                    { "Error", new[] { "An error occurred while processing the CSV." } }
                 });
             }
         }

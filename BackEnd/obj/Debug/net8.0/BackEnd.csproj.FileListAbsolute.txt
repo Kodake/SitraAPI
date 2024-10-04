@@ -390,3 +390,4 @@ C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Debug\net8.0\Serilog.Sinks.File.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Debug\net8.0\Serilog.Sinks.MSSqlServer.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Debug\net8.0\System.ClientModel.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Debug\net8.0\System.Formats.Asn1.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Debug\net8.0\CsvHelper.dll

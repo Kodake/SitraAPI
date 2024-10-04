@@ -109,6 +109,8 @@ namespace BackEnd.Helpers
                 .ForMember(dest => dest.Category, opt => opt.Ignore())
                 .ForMember(dest => dest.Unit, opt => opt.Ignore());
 
+            CreateMap<CreateProductCsvDTO, Item>();
+
             CreateMap<ProductDTO, Item>();
 
             CreateMap<Item, ServiceListDTO>()
@@ -161,6 +163,8 @@ namespace BackEnd.Helpers
                 .ForMember(dest => dest.ItemTaxes, opt => opt.MapFrom(src => src.TaxIds.Select(id => new ItemTaxes { TaxId = id }).ToList()))
                 .ForMember(dest => dest.Category, opt => opt.Ignore())
                 .ForMember(dest => dest.Unit, opt => opt.Ignore());
+
+            CreateMap<CreateServiceCsvDTO, Item>();
 
             CreateMap<ServiceDTO, Item>();
 
