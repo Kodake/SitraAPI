@@ -15,5 +15,6 @@ namespace BackEnd.Entities.Warehouses
         public bool IsActive { get; set; } = true;
         public List<Stock> Stocks { get; set; } = [];
         public List<FiscalSupport> FiscalSupports { get; set; } = [];
+        public List<Transfer> Transfers { get; set; } = [];
     }
 }

@@ -51,5 +51,12 @@ namespace BackEnd.Repositories.Warehouses
             context.Update(stock);
             await context.SaveChangesAsync();
         }
+
+        public async Task<Stock?> GetByItemIdAndWarehouseId(int itemId, int warehouseId)
+        {
+            return await context.Stocks
+                .AsNoTracking()
+                .FirstOrDefaultAsync(s => s.ItemId == itemId && s.WarehouseId == warehouseId);
+        }
     }
 }

@@ -79,6 +79,7 @@ namespace BackEnd.Endpoints
                 return TypedResults.NotFound();
             }
 
+            currencyDB.Rate = dto.Rate;
             currencyDB.Code = dto.Code;
             currencyDB.Name = dto.Name;
             currencyDB.IsActive = currencyDB.IsActive;

@@ -1,6 +1,5 @@
 ﻿using BackEnd.Context;
 using BackEnd.DTOs;
-using BackEnd.DTOs.Products;
 using BackEnd.Entities.Products;
 using BackEnd.Helpers;
 using Microsoft.EntityFrameworkCore;

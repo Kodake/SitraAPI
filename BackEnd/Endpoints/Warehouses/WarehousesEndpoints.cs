@@ -18,6 +18,8 @@ namespace BackEnd.Endpoints
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("warehouses-get"))
                 .AddPaginationParamsOpenAPI();
+            group.MapGet("/stock-warehouses/{id:int}", GetWarehouseStockByProductId);
+            group.MapGet("/unregistered-warehouses/{id:int}", GetUnregisteredWarehouseById).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("warehouses-get"));
             group.MapGet("/selects", GetSelects).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("warehouses-get"));
             group.MapGet("/{id:int}", GetById);
             group.MapPost("/", Create).DisableAntiforgery()
@@ -40,6 +42,22 @@ namespace BackEnd.Endpoints
             var warehouses = await repository.GetAll(pagination);
             var dto = mapper.Map<List<WarehouseListDTO>>(warehouses);
             return TypedResults.Ok(dto);
+        }
+
+        static async Task<Ok<List<WarehouseListDTO>>> GetUnregisteredWarehouseById(IWarehouseRepository repository,
+            IMapper mapper, int id)
+        {
+            var unregWarehouses = await repository.GetUnregisteredWarehouseById(id);
+            var unregWarehousesDTO = mapper.Map<List<WarehouseListDTO>>(unregWarehouses);
+            return TypedResults.Ok(unregWarehousesDTO);
+        }
+
+        static async Task<Ok<List<WarehouseListDTO>>> GetWarehouseStockByProductId(IWarehouseRepository repository,
+            IMapper mapper, int id)
+        {
+            var stockWarehouses = await repository.GetStockWarehouseByProductId(id);
+            var stockWarehousesDTO = mapper.Map<List<WarehouseListDTO>>(stockWarehouses);
+            return TypedResults.Ok(stockWarehousesDTO);
         }
 
         static async Task<Ok<List<WarehouseListDTO>>> GetSelects(IWarehouseRepository repository,

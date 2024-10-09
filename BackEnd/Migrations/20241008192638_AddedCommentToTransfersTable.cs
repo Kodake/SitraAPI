@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BackEnd.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class AddedCommentToTransfersTable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -110,11 +110,27 @@ namespace BackEnd.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Code = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Rate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Currencies", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Deadlines",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Days = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Deadlines", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -435,6 +451,44 @@ namespace BackEnd.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Transfers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    DestinationWarehouseId = table.Column<int>(type: "int", nullable: false),
+                    Qty = table.Column<double>(type: "float", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    StockId = table.Column<int>(type: "int", nullable: false),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Transfers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Transfers_Items_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Items",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Transfers_Stocks_StockId",
+                        column: x => x.StockId,
+                        principalTable: "Stocks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Transfers_Warehouses_DestinationWarehouseId",
+                        column: x => x.DestinationWarehouseId,
+                        principalTable: "Warehouses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -518,6 +572,21 @@ namespace BackEnd.Migrations
                 name: "IX_Stocks_WarehouseId",
                 table: "Stocks",
                 column: "WarehouseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transfers_DestinationWarehouseId",
+                table: "Transfers",
+                column: "DestinationWarehouseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transfers_ProductId",
+                table: "Transfers",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transfers_StockId",
+                table: "Transfers",
+                column: "StockId");
         }
 
         /// <inheritdoc />
@@ -545,6 +614,9 @@ namespace BackEnd.Migrations
                 name: "Currencies");
 
             migrationBuilder.DropTable(
+                name: "Deadlines");
+
+            migrationBuilder.DropTable(
                 name: "FiscalSupports");
 
             migrationBuilder.DropTable(
@@ -554,7 +626,7 @@ namespace BackEnd.Migrations
                 name: "PricingItems");
 
             migrationBuilder.DropTable(
-                name: "Stocks");
+                name: "Transfers");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -567,6 +639,9 @@ namespace BackEnd.Migrations
 
             migrationBuilder.DropTable(
                 name: "Pricings");
+
+            migrationBuilder.DropTable(
+                name: "Stocks");
 
             migrationBuilder.DropTable(
                 name: "Items");

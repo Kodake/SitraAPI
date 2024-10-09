@@ -28,6 +28,7 @@ namespace BackEnd.Context
             modelBuilder.Entity<Unit>().Property(p => p.Name).HasMaxLength(20);
             modelBuilder.Entity<Unit>().Property(p => p.ShortName).HasMaxLength(20);
 
+            modelBuilder.Entity<Currency>().Property(p => p.Rate).HasColumnType("decimal(18,2)").IsRequired();
             modelBuilder.Entity<Currency>().Property(p => p.Code).HasMaxLength(20);
             modelBuilder.Entity<Currency>().Property(p => p.Name).HasMaxLength(50);
 
@@ -101,7 +102,26 @@ namespace BackEnd.Context
                 .HasOne(ps => ps.Warehouse)
                 .WithMany(w => w.Stocks)
                 .HasForeignKey(ps => ps.WarehouseId);
+
+            modelBuilder.Entity<Transfer>()
+                .HasOne(t => t.Product)
+                .WithMany(i => i.Transfers)
+                .HasForeignKey(t => t.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Transfer>()
+                .HasOne(t => t.DestinationWarehouse)
+                .WithMany(w => w.Transfers)
+                .HasForeignKey(t => t.DestinationWarehouseId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Transfer>()
+                .HasOne(t => t.Stock)
+                .WithMany(w => w.Transfers)
+                .HasForeignKey(t => t.StockId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
+
         public DbSet<Category> Categories { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Unit> Units { get; set; }
@@ -111,10 +131,11 @@ namespace BackEnd.Context
         public DbSet<Item> Items { get; set; }
         public DbSet<Tax> Taxes { get; set; }
         public DbSet<Pricing> Pricings { get; set; }
-        public DbSet<ItemTaxes> ItemTaxes { get; set; }        
+        public DbSet<ItemTaxes> ItemTaxes { get; set; }
         public DbSet<PricingItem> PricingItems { get; set; }
         public DbSet<Stock> Stocks { get; set; }
         public DbSet<FiscalSupport> FiscalSupports { get; set; }
         public DbSet<Deadline> Deadlines { get; set; }
+        public DbSet<Transfer> Transfers { get; set; }
     }
 }

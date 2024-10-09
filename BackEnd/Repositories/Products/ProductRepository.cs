@@ -1,6 +1,7 @@
 ﻿using BackEnd.Context;
 using BackEnd.DTOs;
 using BackEnd.Entities.Products;
+using BackEnd.Entities.Warehouses;
 using BackEnd.Enums;
 using BackEnd.Helpers;
 using Microsoft.EntityFrameworkCore;
@@ -59,6 +60,18 @@ namespace BackEnd.Repositories.Products
             }
 
             return await query.OrderBy(u => u.Id).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Item>> GetAll()
+        {
+            return await context.Items
+                .Where(p => p.Stocks.Any(x => x.Item.ItemType == ItemType.Product))
+                .Select(p => new Item
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Reference = p.Reference,
+                }).ToListAsync();
         }
 
         public async Task<Item?> GetById(int id)

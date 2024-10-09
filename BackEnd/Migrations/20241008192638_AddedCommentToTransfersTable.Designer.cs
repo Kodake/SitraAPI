@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackEnd.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240912175745_AddSerilog")]
-    partial class AddSerilog
+    [Migration("20241008192638_AddedCommentToTransfersTable")]
+    partial class AddedCommentToTransfersTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,30 @@ namespace BackEnd.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("BackEnd.Entities.AdministrativeTools.Deadline", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Days")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Deadlines");
+                });
 
             modelBuilder.Entity("BackEnd.Entities.AdministrativeTools.FiscalSupport", b =>
                 {
@@ -140,6 +164,9 @@ namespace BackEnd.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<decimal>("Rate")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -391,6 +418,50 @@ namespace BackEnd.Migrations
                     b.HasIndex("WarehouseId");
 
                     b.ToTable("Stocks");
+                });
+
+            modelBuilder.Entity("BackEnd.Entities.Warehouses.Transfer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DestinationWarehouseId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Qty")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StockId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DestinationWarehouseId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("StockId");
+
+                    b.ToTable("Transfers");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Warehouses.Warehouse", b =>
@@ -729,6 +800,33 @@ namespace BackEnd.Migrations
                     b.Navigation("Warehouse");
                 });
 
+            modelBuilder.Entity("BackEnd.Entities.Warehouses.Transfer", b =>
+                {
+                    b.HasOne("BackEnd.Entities.Warehouses.Warehouse", "DestinationWarehouse")
+                        .WithMany("Transfers")
+                        .HasForeignKey("DestinationWarehouseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("BackEnd.Entities.Products.Item", "Product")
+                        .WithMany("Transfers")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("BackEnd.Entities.Warehouses.Stock", "Stock")
+                        .WithMany("Transfers")
+                        .HasForeignKey("StockId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("DestinationWarehouse");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Stock");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -802,6 +900,8 @@ namespace BackEnd.Migrations
                     b.Navigation("PricingItems");
 
                     b.Navigation("Stocks");
+
+                    b.Navigation("Transfers");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Products.Pricing", b =>
@@ -814,11 +914,18 @@ namespace BackEnd.Migrations
                     b.Navigation("Items");
                 });
 
+            modelBuilder.Entity("BackEnd.Entities.Warehouses.Stock", b =>
+                {
+                    b.Navigation("Transfers");
+                });
+
             modelBuilder.Entity("BackEnd.Entities.Warehouses.Warehouse", b =>
                 {
                     b.Navigation("FiscalSupports");
 
                     b.Navigation("Stocks");
+
+                    b.Navigation("Transfers");
                 });
 #pragma warning restore 612, 618
         }

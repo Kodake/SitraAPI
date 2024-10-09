@@ -9,6 +9,7 @@ public interface IProductRepository
     Task<Item?> GetById(int id);
     Task<List<Item>> GetAll(PaginationDTO paginationDTO);
     Task<List<Item>> GetAll(StatusType status);
+    Task<IEnumerable<Item>> GetAll();
     Task<int> Create(Item product);
     Task Update(Item product);
     Task Activate(int id);

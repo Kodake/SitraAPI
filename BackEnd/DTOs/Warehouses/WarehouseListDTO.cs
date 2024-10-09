@@ -11,5 +11,6 @@
         public string? Country { get; set; }
         public string? ZipCode { get; set; }
         public bool IsActive { get; set; }
+        public List<StockDTO> Stocks { get; set; } = [];
     }
 }

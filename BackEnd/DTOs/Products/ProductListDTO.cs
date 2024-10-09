@@ -1,4 +1,5 @@
 ﻿using BackEnd.DTOs.Finances;
+using BackEnd.DTOs.Warehouses;
 using BackEnd.Enums;
 using System.Text.Json.Serialization;
 
@@ -41,4 +42,6 @@ public class ProductListDTO
     public List<TaxDTO> Taxes { get; set; } = new List<TaxDTO>();
     [JsonIgnore]
     public List<PricingItemDTO>? PricingItems { get; set; } = new List<PricingItemDTO>();
+
+    public List<StockDTO>? Stocks { get; set; } = new List<StockDTO>();
 }

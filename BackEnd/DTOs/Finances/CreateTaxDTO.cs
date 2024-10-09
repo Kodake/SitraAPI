@@ -1,6 +1,6 @@
 ﻿namespace BackEnd.DTOs.Finances;
-public class CreateCurrencyDTO
+public class CreateTaxDTO
 {
-    public string Code { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
+    public double Amount { get; set; } = 0;
 }

@@ -45,5 +45,6 @@ namespace BackEnd.Entities.Products
         public ICollection<ItemTaxes> ItemTaxes { get; set; } = [];
         public ICollection<Stock> Stocks { get; set; } = [];
         public ICollection<PricingItem> PricingItems { get; set; } = [];
+        public ICollection<Transfer> Transfers { get; set; } = [];
     }
 }

@@ -8,6 +8,7 @@ using BackEnd.Repositories.Warehouses;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace BackEnd.Endpoints
 {
@@ -57,10 +58,23 @@ namespace BackEnd.Endpoints
            IOutputCacheStore outputCacheStore,
            [FromServices] IMapper mapper)
         {
-            var stock = mapper.Map<Stock>(dto);
+            var existingStock = await repository.GetByItemIdAndWarehouseId(dto.ItemId, dto.WarehouseId);
 
+            if (existingStock != null)
+            {
+                existingStock.Qty += dto.Qty;
+
+                await repository.Update(existingStock);
+                await outputCacheStore.EvictByTagAsync("stocks-get", default);
+
+                var existingStockDTO = mapper.Map<StockDTO>(existingStock);
+                return TypedResults.Created($"/stocks/{existingStockDTO.Id}", existingStockDTO);
+            }
+
+            var stock = mapper.Map<Stock>(dto);
             var id = await repository.Create(stock);
             await outputCacheStore.EvictByTagAsync("stocks-get", default);
+
             var stockDTO = mapper.Map<StockDTO>(stock);
             return TypedResults.Created($"/stocks/{id}", stockDTO);
         }

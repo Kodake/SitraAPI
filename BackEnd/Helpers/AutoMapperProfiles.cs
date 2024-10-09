@@ -193,6 +193,18 @@ namespace BackEnd.Helpers
             CreateMap<CreateDeadlineDTO, Deadline>();
             CreateMap<Deadline, DeadlineListDTO>();
             CreateMap<Deadline, DeadlineDTO>();
+
+            CreateMap<CreateTransferDTO, Transfer>();
+
+            CreateMap<Transfer, TransferDTO>()
+            .ForMember(dest => dest.Product, opt => opt.MapFrom(src => src.Product))
+            .ForMember(dest => dest.DestinationWarehouse, opt => opt.MapFrom(src => src.DestinationWarehouse))
+            .ForMember(dest => dest.Stock, opt => opt.MapFrom(src => src.Stock));
+
+            CreateMap<Transfer, TransferListDTO>()
+            .ForMember(dest => dest.Product, opt => opt.MapFrom(src => src.Product))
+            .ForMember(dest => dest.DestinationWarehouse, opt => opt.MapFrom(src => src.DestinationWarehouse))
+            .ForMember(dest => dest.Stock, opt => opt.MapFrom(src => src.Stock));
         }
     }
 }

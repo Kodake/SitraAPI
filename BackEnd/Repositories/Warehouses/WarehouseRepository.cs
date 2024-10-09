@@ -50,6 +50,31 @@ namespace BackEnd.Repositories.Products
             return await query.OrderBy(u => u.Id).ToListAsync();
         }
 
+        public async Task<IEnumerable<Warehouse>> GetStockWarehouseByProductId(int productId)
+        {
+            return await context.Warehouses
+                .Where(p => p.Stocks.Any(pi => pi.ItemId == productId))
+                .Include(p => p.Stocks)
+                .Select(p => new Warehouse
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Stocks = p.Stocks,
+                }).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Warehouse>> GetUnregisteredWarehouseById(int id)
+        {
+            return await context.Warehouses
+                .Where(pi => pi.Id != id)
+                .Select(p => new Warehouse
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Stocks = p.Stocks,
+                }).ToListAsync();
+        }
+
         public async Task<Warehouse?> GetById(int id)
         {
             return await context.Warehouses.FirstOrDefaultAsync(x => x.Id == id);

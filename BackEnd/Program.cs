@@ -106,6 +106,7 @@ builder.Services.AddScoped<IWarehouseRepository, WarehouseRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
 builder.Services.AddScoped<IStockRepository, StockRepository>();
+builder.Services.AddScoped<ITransferRepository, TransferRepository>();
 builder.Services.AddScoped<IPricingItemRepository, PricingItemRepository>();
 builder.Services.AddScoped<IPricingRepository, PricingRepository>();
 builder.Services.AddScoped<IFiscalSupportRepository, FiscalSupportRepository>();
@@ -150,6 +151,7 @@ apiGroup.MapGroup("/pricings").MapPricings();
 apiGroup.MapGroup("/pricingItems").MapPricingItems();
 apiGroup.MapGroup("/fiscalSupports").MapFiscalSupports();
 apiGroup.MapGroup("/deadlines").MapDeadlines();
+apiGroup.MapGroup("/transfers").MapTransfers();
 
 app.UseCors();
 

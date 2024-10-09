@@ -9,5 +9,6 @@ namespace BackEnd.Repositories.Warehouses
         Task<List<Stock>> GetAll(PaginationDTO paginationDTO);
         Task<bool> Create(Stock warehouse);
         Task Update(Stock warehouse);
+        Task<Stock?> GetByItemIdAndWarehouseId(int itemId, int warehouseId);
     }
 }
