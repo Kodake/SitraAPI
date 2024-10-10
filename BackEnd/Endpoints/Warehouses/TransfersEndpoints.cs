@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Moq;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Security.Cryptography.Xml;
+using System.Transactions;
 
 namespace BackEnd.Endpoints
 {
@@ -57,19 +58,6 @@ namespace BackEnd.Endpoints
             var transferDTO = mapper.Map<TransferDTO>(transfer);
             return TypedResults.Ok(transferDTO);
         }
-
-        //static async Task<Results<Created<TransferDTO>, ValidationProblem>> Create([FromBody] CreateTransferDTO dto,
-        //   [FromServices] ITransferRepository repository,
-        //   IOutputCacheStore outputCacheStore,
-        //   [FromServices] IMapper mapper)
-        //{
-        //    var transfer = mapper.Map<Transfer>(dto);
-
-        //    var id = await repository.Create(transfer);
-        //    await outputCacheStore.EvictByTagAsync("transfers-get", default);
-        //    var transferDTO = mapper.Map<TransferDTO>(transfer);
-        //    return TypedResults.Created($"/transfers/{id}", transferDTO);
-        //}
 
         static async Task<Results<Created<TransferDTO>, ValidationProblem>> Create(
             [FromBody] CreateTransferDTO dto,
@@ -168,7 +156,6 @@ namespace BackEnd.Endpoints
         }
 
         static async Task<Results<Ok<TransferDTO>, NotFound, ValidationProblem>> Update(
-            int id,
             [FromBody] CreateTransferDTO dto,
             [FromServices] ITransferRepository repository,
             [FromServices] IStockRepository stockRepository,
@@ -179,14 +166,12 @@ namespace BackEnd.Endpoints
             using var transaction = await dbContext.Database.BeginTransactionAsync();
             try
             {
-                // Get the existing transfer by id
-                var existingTransfer = await repository.GetById(id);
+                var existingTransfer = await repository.GetById(dto.Id);
                 if (existingTransfer == null)
                 {
                     return TypedResults.NotFound();
                 }
 
-                // If trying to cancel a completed transfer (status = Received)
                 if (dto.Status == TransferStatus.Cancelled && existingTransfer.Status == TransferStatus.Received)
                 {
                     return TypedResults.ValidationProblem(new Dictionary<string, string[]>
@@ -195,66 +180,43 @@ namespace BackEnd.Endpoints
                     });
                 }
 
-                // Fetch stocks with AsNoTracking to avoid tracking multiple instances
                 var stockOrigin = await stockRepository.GetByItemIdAndWarehouseId(existingTransfer.ProductId, existingTransfer.OriginWarehouseId);
                 var stockDestination = await stockRepository.GetByItemIdAndWarehouseId(existingTransfer.ProductId, existingTransfer.DestinationWarehouseId);
 
-                // Adjust stock based on the current transfer status
-                switch (existingTransfer.Status)
-                {
-                    case TransferStatus.Received:
-                        if (stockOrigin != null) stockOrigin.Qty += existingTransfer.Qty;
-                        if (stockDestination != null) stockDestination.Qty -= existingTransfer.Qty;
-                        break;
-
-                    case TransferStatus.Transit:
-                        if (stockOrigin != null) stockOrigin.Qty += existingTransfer.Qty;
-                        break;
-                }
-
-                // Update stocks based on the new status
                 switch (dto.Status)
                 {
                     case TransferStatus.Received:
-                        if (stockOrigin != null)
-                        {
-                            stockOrigin.Qty -= existingTransfer.Qty; // Adjust for the new Received status
-                            dbContext.Entry(stockOrigin).State = EntityState.Modified; // Track the modified entity
-                        }
                         if (stockDestination != null)
                         {
-                            stockDestination.Qty += existingTransfer.Qty; // Adjust for the new Received status
-                            dbContext.Entry(stockDestination).State = EntityState.Modified; // Track the modified entity
-                        }
-                        else
-                        {
-                            var newStock = new Stock
-                            {
-                                ItemId = existingTransfer.ProductId,
-                                WarehouseId = existingTransfer.DestinationWarehouseId,
-                                Qty = existingTransfer.Qty
-                            };
-                            await stockRepository.Create(newStock);
+                            stockDestination.Qty += existingTransfer.Qty;
+                            await stockRepository.Update(stockDestination);
                         }
                         break;
 
                     case TransferStatus.Transit:
                         if (stockOrigin != null)
                         {
-                            stockOrigin.Qty -= existingTransfer.Qty; // Adjust for the new Transit status
-                            dbContext.Entry(stockOrigin).State = EntityState.Modified; // Track the modified entity
+                            stockOrigin.Qty -= existingTransfer.Qty;
+                            await stockRepository.Update(stockOrigin);
                         }
                         break;
 
                     case TransferStatus.Pending:
+                        break;
+
                     case TransferStatus.Cancelled:
-                        // No stock changes needed for Pending or Cancelled
+                        if (stockOrigin != null)
+                        {
+                            stockOrigin.Qty += existingTransfer.Qty;
+                            await stockRepository.Update(stockOrigin);
+                        }
                         break;
                 }
 
-                // Update only the status of the transfer
+                mapper.Map(dto, existingTransfer);
                 existingTransfer.Status = dto.Status;
-                await repository.Update(existingTransfer); // Update the transfer status
+
+                await repository.Update(existingTransfer);
 
                 await transaction.CommitAsync();
 
@@ -268,9 +230,9 @@ namespace BackEnd.Endpoints
             {
                 await transaction.RollbackAsync();
                 return TypedResults.ValidationProblem(new Dictionary<string, string[]>
-        {
-            { "Error", new[] { "An error occurred while updating the transfer." } }
-        });
+                {
+                    { "Error", new[] { "An error occurred while updating the transfer." } }
+                });
             }
         }
     }
