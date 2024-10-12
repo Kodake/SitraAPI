@@ -13,6 +13,7 @@ using BackEnd.Endpoints.Products;
 using BackEnd.Repositories.AdministrativeTools;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 Log.Logger = new LoggerConfiguration()
@@ -35,7 +36,10 @@ Log.Logger = new LoggerConfiguration()
 builder.Host.UseSerilog();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+{
+    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

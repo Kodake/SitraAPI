@@ -2,9 +2,8 @@
 {
     public enum TransferStatus
     {
-        Pending = 1,
-        Transit = 2,
-        Received = 3,
-        Cancelled = 4
+        Transit = 1,
+        Received = 2,
+        Cancelled = 3
     }
 }

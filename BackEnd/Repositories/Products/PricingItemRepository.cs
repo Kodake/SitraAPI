@@ -23,7 +23,6 @@ namespace BackEnd.Repositories.Products
         public async Task<List<PricingItem>> GetAll(PaginationDTO paginationDTO, int itemId)
         {
             var queryable = context.PricingItems
-                .AsNoTracking()
                 .Where(x => x.ItemId == itemId)
                 .OrderBy(x => x.IsPrincipal);
 

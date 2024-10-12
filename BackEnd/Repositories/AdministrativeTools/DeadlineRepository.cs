@@ -31,7 +31,7 @@ namespace BackEnd.Repositories.AdministrativeTools
 
         public async Task<List<Deadline>> GetAll(StatusType status)
         {
-            IQueryable<Deadline> query = context.Deadlines.AsNoTracking();
+            IQueryable<Deadline> query = context.Deadlines.AsQueryable();
 
             switch (status)
             {

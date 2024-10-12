@@ -28,6 +28,6 @@ namespace BackEnd.Entities.Warehouses
         public int StockId { get; set; }
         public Stock? Stock { get; set; }
         public string Comment { get; set; } = string.Empty;
-        public TransferStatus Status { get; set; } = TransferStatus.Pending;
+        public TransferStatus Status { get; set; }
     }
 }

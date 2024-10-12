@@ -31,7 +31,7 @@ namespace BackEnd.Repositories.Finances
 
         public async Task<List<Tax>> GetAll(StatusType status)
         {
-            IQueryable<Tax> query = context.Taxes.AsNoTracking();
+            IQueryable<Tax> query = context.Taxes.AsQueryable();
 
             switch (status)
             {

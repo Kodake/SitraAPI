@@ -31,7 +31,7 @@ namespace BackEnd.Repositories.Products
 
         public async Task<List<Category>> GetAll(StatusType status)
         {
-            IQueryable<Category> query = context.Categories.AsNoTracking();
+            IQueryable<Category> query = context.Categories.AsQueryable();
 
             switch (status)
             {

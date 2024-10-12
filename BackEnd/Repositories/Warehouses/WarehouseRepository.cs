@@ -32,7 +32,7 @@ namespace BackEnd.Repositories.Products
 
         public async Task<List<Warehouse>> GetAll(StatusType status)
         {
-            IQueryable<Warehouse> query = context.Warehouses.AsNoTracking();
+            IQueryable<Warehouse> query = context.Warehouses.AsQueryable();
 
             switch (status)
             {

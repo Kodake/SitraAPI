@@ -23,7 +23,6 @@ namespace BackEnd.Repositories.Products
         public async Task<List<Item>> GetAll(PaginationDTO paginationDTO)
         {
             var queryable = context.Items
-                .AsNoTracking()
                 .Where(x => x.ItemType == ItemType.Product)
                 .OrderBy(x => x.Name);
 
@@ -43,7 +42,6 @@ namespace BackEnd.Repositories.Products
         public async Task<List<Item>> GetAll(StatusType status)
         {
             IQueryable<Item> query = context.Items
-                .AsNoTracking()
                 .Where(u => u.ItemType == ItemType.Product);
 
             switch (status)

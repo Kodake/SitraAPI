@@ -23,7 +23,6 @@ namespace BackEnd.Repositories.AdministrativeTools
         {
             var queryable = context.FiscalSupports
                 .AsQueryable()
-                .AsNoTracking()
                 .Include(p => p.Warehouse);
 
             await httpContext.AddPaginationParamsToHeaders(queryable);
@@ -36,7 +35,7 @@ namespace BackEnd.Repositories.AdministrativeTools
 
         public async Task<List<FiscalSupport>> GetAll(StatusType status)
         {
-            IQueryable<FiscalSupport> query = context.FiscalSupports.AsNoTracking();
+            IQueryable<FiscalSupport> query = context.FiscalSupports.AsQueryable();
 
             switch (status)
             {

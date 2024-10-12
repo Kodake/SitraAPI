@@ -26,13 +26,12 @@ namespace BackEnd.Repositories.Products
             return await queryable
                 .OrderBy(x => x.Name)
                 .Paginate(paginationDTO)
-                .AsNoTracking()
                 .ToListAsync();
         }
 
         public async Task<List<Unit>> GetAll(StatusType status)
         {
-            IQueryable<Unit> query = context.Units.AsNoTracking();
+            IQueryable<Unit> query = context.Units.AsQueryable();
 
             switch (status)
             {

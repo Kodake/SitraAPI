@@ -22,7 +22,6 @@ namespace BackEnd.Repositories.Warehouses
         public async Task<Transfer?> GetById(int id)
         {
             return await context.Transfers
-                .AsNoTracking()
                 .Include(t => t.Product)
                 .Include(t => t.Stock)
                     .ThenInclude(s => s.Warehouse)
@@ -34,7 +33,6 @@ namespace BackEnd.Repositories.Warehouses
         public async Task<List<Transfer>> GetAll(PaginationDTO paginationDTO)
         {
             var queryable = context.Transfers
-                .AsNoTracking()
                 .Include(t => t.Product)
                 .Include(t => t.Stock)
                     .ThenInclude(s => s.Warehouse)
@@ -60,7 +58,20 @@ namespace BackEnd.Repositories.Warehouses
 
         public async Task Update(Transfer transfer)
         {
-            context.Update(transfer);
+            // Check if the transfer is already being tracked
+            var existingTransfer = await context.Transfers.FindAsync(transfer.Id);
+            if (existingTransfer != null)
+            {
+                // If it exists, update the properties
+                existingTransfer.Status = transfer.Status; // or any other properties you need to update
+                context.Entry(existingTransfer).State = EntityState.Modified; // mark as modified
+            }
+            else
+            {
+                // Otherwise, add it as a new entity (this should be avoided if updating)
+                context.Transfers.Update(transfer);
+            }
+
             await context.SaveChangesAsync();
         }
     }
