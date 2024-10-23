@@ -5,6 +5,7 @@ using BackEnd.Entities.Products;
 using BackEnd.Entities.Warehouses;
 using Microsoft.EntityFrameworkCore;
 using BackEnd.Entities.AdministrativeTools;
+using BackEnd.Entities.Invoices;
 
 namespace BackEnd.Context
 {
@@ -120,6 +121,28 @@ namespace BackEnd.Context
                 .WithMany(w => w.Transfers)
                 .HasForeignKey(t => t.StockId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<SaleInvoiceItem>()
+                .HasOne(sii => sii.SaleInvoice)
+                .WithMany(w => w.SaleInvoiceItems)
+                .HasForeignKey(t => t.SaleInvoiceId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<SaleInvoice>()
+                .HasOne(si => si.FiscalSupport)
+                .WithMany()
+                .HasForeignKey(t => t.FiscalSupportId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<SaleInvoice>()
+                .HasOne(si => si.Deadline)
+                .WithMany()
+                .HasForeignKey(t => t.DeadlineId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<SaleInvoice>()
+                .HasIndex(si => si.FiscalSupportNumber)
+                .IsUnique();
         }
 
         public DbSet<Category> Categories { get; set; }
@@ -137,5 +160,6 @@ namespace BackEnd.Context
         public DbSet<FiscalSupport> FiscalSupports { get; set; }
         public DbSet<Deadline> Deadlines { get; set; }
         public DbSet<Transfer> Transfers { get; set; }
+        public DbSet<SaleInvoice> SaleInvoices { get; set; }
     }
 }

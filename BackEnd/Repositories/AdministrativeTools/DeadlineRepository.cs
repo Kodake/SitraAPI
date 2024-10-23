@@ -73,6 +73,7 @@ namespace BackEnd.Repositories.AdministrativeTools
             if (deadline != null)
             {
                 deadline.IsActive = true;
+                context.Entry(deadline).State = EntityState.Modified;
                 await context.SaveChangesAsync();
             }
         }
@@ -83,6 +84,7 @@ namespace BackEnd.Repositories.AdministrativeTools
             if (deadline != null)
             {
                 deadline.IsActive = false;
+                context.Entry(deadline).State = EntityState.Modified;
                 await context.SaveChangesAsync();
             }
         }

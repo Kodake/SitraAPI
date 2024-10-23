@@ -52,6 +52,7 @@ namespace BackEnd.Repositories.Finances
             if (currency != null)
             {
                 currency.IsActive = true;
+                context.Entry(currency).State = EntityState.Modified;
                 await context.SaveChangesAsync();
             }
         }
@@ -62,6 +63,7 @@ namespace BackEnd.Repositories.Finances
             if (currency != null)
             {
                 currency.IsActive = false;
+                context.Entry(currency).State = EntityState.Modified;
                 await context.SaveChangesAsync();
             }
         }

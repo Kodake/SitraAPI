@@ -1,6 +1,7 @@
 ﻿using BackEnd.Context;
 using BackEnd.DTOs;
 using BackEnd.Entities.Contacts;
+using BackEnd.Entities.Warehouses;
 using BackEnd.Helpers;
 using BackEnd.Repositories.Contacts;
 using Microsoft.EntityFrameworkCore;
@@ -53,6 +54,7 @@ namespace BackEnd.Repositories.Products
             if (contact != null)
             {
                 contact.IsActive = true;
+                context.Entry(contact).State = EntityState.Modified;
                 await context.SaveChangesAsync();
             }
         }
@@ -63,6 +65,7 @@ namespace BackEnd.Repositories.Products
             if (contact != null)
             {
                 contact.IsActive = false;
+                context.Entry(contact).State = EntityState.Modified;
                 await context.SaveChangesAsync();
             }
         }

@@ -91,6 +91,7 @@ namespace BackEnd.Repositories.Products
             if (service != null)
             {
                 service.IsActive = true;
+                context.Entry(service).State = EntityState.Modified;
                 await context.SaveChangesAsync();
             }
         }
@@ -101,6 +102,7 @@ namespace BackEnd.Repositories.Products
             if (service != null)
             {
                 service.IsActive = false;
+                context.Entry(service).State = EntityState.Modified;
                 await context.SaveChangesAsync();
             }
         }

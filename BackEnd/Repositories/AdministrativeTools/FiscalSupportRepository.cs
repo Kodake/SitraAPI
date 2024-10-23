@@ -1,6 +1,7 @@
 ﻿using BackEnd.Context;
 using BackEnd.DTOs;
 using BackEnd.Entities.AdministrativeTools;
+using BackEnd.Entities.Finances;
 using BackEnd.Enums;
 using BackEnd.Helpers;
 using Microsoft.EntityFrameworkCore;
@@ -77,6 +78,7 @@ namespace BackEnd.Repositories.AdministrativeTools
             if (fiscalSupport != null)
             {
                 fiscalSupport.IsActive = true;
+                context.Entry(fiscalSupport).State = EntityState.Modified;
                 await context.SaveChangesAsync();
             }
         }
@@ -87,6 +89,7 @@ namespace BackEnd.Repositories.AdministrativeTools
             if (fiscalSupport != null)
             {
                 fiscalSupport.IsActive = false;
+                context.Entry(fiscalSupport).State = EntityState.Modified;
                 await context.SaveChangesAsync();
             }
         }

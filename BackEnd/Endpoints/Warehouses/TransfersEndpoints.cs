@@ -205,6 +205,7 @@ namespace BackEnd.Endpoints
                 }
 
                 mapper.Map(dto, existingTransfer);
+                existingTransfer.UpdatedAt = DateTime.UtcNow;
                 existingTransfer.Status = dto.Status;
 
                 await repository.Update(existingTransfer);

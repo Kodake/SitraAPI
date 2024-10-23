@@ -1,6 +1,7 @@
 using BackEnd.Context;
 using BackEnd.DTOs;
 using BackEnd.Entities.Finances;
+using BackEnd.Entities.Products;
 using BackEnd.Enums;
 using BackEnd.Helpers;
 using Microsoft.EntityFrameworkCore;
@@ -73,6 +74,7 @@ namespace BackEnd.Repositories.Finances
             if (tax != null)
             {
                 tax.IsActive = true;
+                context.Entry(tax).State = EntityState.Modified;
                 await context.SaveChangesAsync();
             }
         }
@@ -83,6 +85,7 @@ namespace BackEnd.Repositories.Finances
             if (tax != null)
             {
                 tax.IsActive = false;
+                context.Entry(tax).State = EntityState.Modified;
                 await context.SaveChangesAsync();
             }
         }

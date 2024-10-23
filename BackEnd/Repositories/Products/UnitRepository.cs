@@ -1,6 +1,7 @@
 ﻿using BackEnd.Context;
 using BackEnd.DTOs;
 using BackEnd.Entities.Products;
+using BackEnd.Entities.Warehouses;
 using BackEnd.Enums;
 using BackEnd.Helpers;
 using Microsoft.EntityFrameworkCore;
@@ -73,6 +74,7 @@ namespace BackEnd.Repositories.Products
             if (unit != null)
             {
                 unit.IsActive = true;
+                context.Entry(unit).State = EntityState.Modified;
                 await context.SaveChangesAsync();
             }
         }
@@ -83,6 +85,7 @@ namespace BackEnd.Repositories.Products
             if (unit != null)
             {
                 unit.IsActive = false;
+                context.Entry(unit).State = EntityState.Modified;
                 await context.SaveChangesAsync();
             }
         }

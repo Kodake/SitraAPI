@@ -5,7 +5,7 @@ namespace BackEnd.Entities.Invoices
     public sealed class SaleInvoiceItem
     {
         public int Id { get; set; }
-        public int SaleInvoiceId { get; set; }
+        public Guid SaleInvoiceId { get; set; }
         public SaleInvoice? SaleInvoice { get; set; }
         public int ItemId { get; set; }
         public Item? Item { get; set; }
