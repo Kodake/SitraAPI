@@ -1,4 +1,5 @@
-﻿using BackEnd.Enums;
+﻿using BackEnd.Entities.Invoices;
+using BackEnd.Enums;
 
 namespace BackEnd.Entities.Contacts
 {
@@ -15,5 +16,7 @@ namespace BackEnd.Entities.Contacts
         public string? Phone2 { get; set; }
         public string? Email { get; set; }
         public bool IsActive { get; set; } = true;
+        public ICollection<SaleInvoice> BillerInvoices { get; set; } = new List<SaleInvoice>();
+        public ICollection<SaleInvoice> BuyerInvoices { get; set; } = new List<SaleInvoice>();
     }
 }

@@ -96,6 +96,7 @@ namespace BackEnd.Repositories.Products
         public async Task Update(Item product)
         {
             context.Update(product);
+            context.Entry(product).State = EntityState.Modified;
             await context.SaveChangesAsync();
         }
 

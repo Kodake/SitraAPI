@@ -23,9 +23,8 @@ namespace BackEnd.Repositories.Warehouses
         {
             return await context.Transfers
                 .Include(t => t.Product)
-                .Include(t => t.Stock)
-                    .ThenInclude(s => s.Warehouse)
                 .Include(t => t.DestinationWarehouse)
+                .AsNoTracking()
                 .Where(t => t.Product.ItemType == ItemType.Product)
                 .FirstOrDefaultAsync(t => t.Id == id);
         }
@@ -58,17 +57,7 @@ namespace BackEnd.Repositories.Warehouses
 
         public async Task Update(Transfer transfer)
         {
-            var existingTransfer = await context.Transfers.FindAsync(transfer.Id);
-            if (existingTransfer != null)
-            {
-                existingTransfer.Status = transfer.Status;
-                context.Entry(existingTransfer).State = EntityState.Modified;
-            }
-            else
-            {
-                context.Transfers.Update(transfer);
-            }
-
+            context.Transfers.Update(transfer);
             await context.SaveChangesAsync();
         }
     }

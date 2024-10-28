@@ -10,9 +10,6 @@ using BackEnd.Repositories.Warehouses;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
-using Microsoft.EntityFrameworkCore;
-using Moq;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Security.Cryptography.Xml;
 using System.Transactions;
 
@@ -29,7 +26,12 @@ namespace BackEnd.Endpoints
                .AddEndpointFilter<ValidationFilter<CreateTransferDTO>>()
                //.RequireAuthorization()
                .WithOpenApi();
-            group.MapPut("/{id:int}", Update).DisableAntiforgery()
+            group.MapPut("/received/{id:int}", Received).DisableAntiforgery()
+               .AddEndpointFilter<ValidationFilter<CreateTransferDTO>>()
+               //.RequireAuthorization()
+               .WithOpenApi();
+            ////.RequireAuthorization("isAdmin");
+            group.MapPut("/cancelled/{id:int}", Cancelled).DisableAntiforgery()
                .AddEndpointFilter<ValidationFilter<CreateTransferDTO>>()
                //.RequireAuthorization()
                .WithOpenApi();
@@ -59,127 +61,96 @@ namespace BackEnd.Endpoints
             return TypedResults.Ok(transferDTO);
         }
 
-        static async Task<Results<Created<TransferDTO>, ValidationProblem>> Create(
-            [FromBody] CreateTransferDTO dto,
-            [FromServices] ITransferRepository repository,
+        static async Task<Results<Ok<TransferDTO>, ValidationProblem>> Create(
+            [FromServices] ITransferRepository transferRepository,
             [FromServices] IStockRepository stockRepository,
-            IOutputCacheStore outputCacheStore,
             [FromServices] IMapper mapper,
-            [FromServices] ApplicationDbContext dbContext)
+            [FromBody] CreateTransferDTO dto,
+            [FromServices] ApplicationDbContext dbContext,
+            IOutputCacheStore outputCacheStore)
         {
-            using var transaction = await dbContext.Database.BeginTransactionAsync();
+            var stockOrigin = await stockRepository.GetByItemIdAndWarehouseId(dto.ProductId, dto.OriginWarehouseId);
+            if (stockOrigin == null || stockOrigin.Qty < dto.Qty)
+            {
+                return TypedResults.ValidationProblem(new Dictionary<string, string[]>
+                {
+                    { "Error", new[] { stockOrigin == null ? "Origin stock not found." : "Insufficient stock quantity." } }
+                });
+            }
+
+            var stockDestination = await stockRepository.GetByItemIdAndWarehouseId(dto.ProductId, dto.DestinationWarehouseId);
+
             try
             {
-                var transfer = mapper.Map<Transfer>(dto);
-
-                var stockOrigin = await stockRepository.GetByItemIdAndWarehouseId(dto.ProductId, dto.OriginWarehouseId);
-                var stockDestination = await stockRepository.GetByItemIdAndWarehouseId(dto.ProductId, dto.DestinationWarehouseId);
-
-                if (stockOrigin == null)
-                {
-                    return TypedResults.ValidationProblem(new Dictionary<string, string[]>
-                    {
-                        { "Error", new[] { "Origin stock not found." } }
-                    });
-                }
-
+                using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
                 if (stockDestination == null)
                 {
-                    return TypedResults.ValidationProblem(new Dictionary<string, string[]>
+                    stockDestination = new Stock
                     {
-                        { "Error", new[] { "Destination stock not found." } }
-                    });
+                        ItemId = dto.ProductId,
+                        WarehouseId = dto.DestinationWarehouseId,
+                        Qty = 0
+                    };
+                    await stockRepository.Create(stockDestination);
                 }
 
-                switch (dto.Status)
-                {
-                    case TransferStatus.Received:
-                        stockOrigin.Qty -= dto.Qty;
-                        await stockRepository.Update(stockOrigin);
-
-                        if (stockDestination != null)
-                        {
-                            stockDestination.Qty += dto.Qty;
-                            await stockRepository.Update(stockDestination);
-                        }
-                        else
-                        {
-                            var newStock = new Stock
-                            {
-                                ItemId = dto.ProductId,
-                                WarehouseId = dto.DestinationWarehouseId,
-                                Qty = dto.Qty
-                            };
-                            await stockRepository.Create(newStock);
-                        }
-                        break;
-
-                    case TransferStatus.Transit:
-                        stockOrigin.Qty -= dto.Qty;
-                        await stockRepository.Update(stockOrigin);
-                        break;
-
-                    case TransferStatus.Cancelled:
-                        break;
-
-                    default:
-                        return TypedResults.ValidationProblem(new Dictionary<string, string[]>
-                        {
-                            { "Error", new[] { "Invalid transfer status." } }
-                        });
-                }
-
+                var transfer = mapper.Map<Transfer>(dto);
                 transfer.StockId = stockOrigin.Id;
+                transfer.Status = TransferStatus.Transit;
+                transfer.OriginWarehouseId = dto.OriginWarehouseId;
 
-                var id = await repository.Create(transfer);
-                await transaction.CommitAsync();
+                stockOrigin.Qty -= dto.Qty;
+
+                await transferRepository.Create(transfer);
+                await stockRepository.Update(stockOrigin);
+                await stockRepository.Update(stockDestination);
 
                 await outputCacheStore.EvictByTagAsync("transfers-get", default);
                 await outputCacheStore.EvictByTagAsync("stocks-get", default);
                 await outputCacheStore.EvictByTagAsync("warehouses-get", default);
                 await outputCacheStore.EvictByTagAsync("products-get", default);
+                transaction.Complete();
 
                 var transferDTO = mapper.Map<TransferDTO>(transfer);
-                return TypedResults.Created($"/transfers/{id}", transferDTO);
+                return TypedResults.Ok(transferDTO);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                await transaction.RollbackAsync();
                 return TypedResults.ValidationProblem(new Dictionary<string, string[]>
                 {
-                    { "Error", new[] { "An error occurred while creating the transfer." } }
+                    { "Error", new[] { $"Transaction failed: {ex.Message}" } }
                 });
             }
         }
 
-        static async Task<Results<Ok<TransferDTO>, NotFound, ValidationProblem>> Update(
+        static async Task<Results<Ok<TransferDTO>, NotFound, ValidationProblem>> Received(
             int id,
             [FromBody] CreateTransferDTO dto,
             [FromServices] ITransferRepository repository,
             [FromServices] IStockRepository stockRepository,
-            IOutputCacheStore outputCacheStore,
             [FromServices] IMapper mapper,
-            [FromServices] ApplicationDbContext dbContext)
+            [FromServices] ApplicationDbContext dbContext,
+            IOutputCacheStore outputCacheStore)
         {
-            using var transaction = await dbContext.Database.BeginTransactionAsync();
+            var existingTransfer = await repository.GetById(id);
+            if (existingTransfer == null)
+            {
+                return TypedResults.NotFound();
+            }
+
+            var stockDestination = await stockRepository.GetByItemIdAndWarehouseId(dto.ProductId, dto.DestinationWarehouseId);
+
+            if (stockDestination == null)
+            {
+                return TypedResults.ValidationProblem(new Dictionary<string, string[]>
+                {
+                    { "Error", new[] { "Destination stock not found." } }
+                });
+            }
+
             try
             {
-                var existingTransfer = await repository.GetById(id);
-                if (existingTransfer == null)
-                {
-                    return TypedResults.NotFound();
-                }
-
-                var stockOrigin = await stockRepository.GetByItemIdAndWarehouseId(dto.ProductId, dto.OriginWarehouseId);
-                var stockDestination = await stockRepository.GetByItemIdAndWarehouseId(dto.ProductId, dto.DestinationWarehouseId);
-
-                if (stockOrigin == null || stockDestination == null)
-                {
-                    return TypedResults.ValidationProblem(new Dictionary<string, string[]>
-                    {
-                        { "Error", new[] { stockOrigin == null ? "Origin stock not found." : "Destination stock not found." } }
-                    });
-                }
+                using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
 
                 if (existingTransfer.Status == TransferStatus.Cancelled ||
                     (dto.Status == TransferStatus.Cancelled && existingTransfer.Status == TransferStatus.Received) ||
@@ -191,42 +162,103 @@ namespace BackEnd.Endpoints
                     });
                 }
 
-                switch (dto.Status)
+                if (dto.Status == TransferStatus.Received)
                 {
-                    case TransferStatus.Received:
-                        stockDestination.Qty += existingTransfer.Qty;
-                        await stockRepository.Update(stockDestination);
-                        break;
-
-                    case TransferStatus.Cancelled:
-                        stockOrigin.Qty += existingTransfer.Qty;
-                        await stockRepository.Update(stockOrigin);
-                        break;
+                    var stockDTO = mapper.Map<StockDTO>(stockDestination);
+                    stockDTO.Qty += existingTransfer.Qty;
+                    var stock = mapper.Map<Stock>(stockDTO);
+                    await stockRepository.Update(stock);
                 }
 
-                mapper.Map(dto, existingTransfer);
                 existingTransfer.UpdatedAt = DateTime.UtcNow;
                 existingTransfer.Status = dto.Status;
 
                 await repository.Update(existingTransfer);
-                await dbContext.SaveChangesAsync();
-
-                await transaction.CommitAsync();
 
                 await outputCacheStore.EvictByTagAsync("transfers-get", default);
                 await outputCacheStore.EvictByTagAsync("stocks-get", default);
                 await outputCacheStore.EvictByTagAsync("warehouses-get", default);
                 await outputCacheStore.EvictByTagAsync("products-get", default);
+                transaction.Complete();
 
                 var transferDTO = mapper.Map<TransferDTO>(existingTransfer);
                 return TypedResults.Ok(transferDTO);
             }
             catch (Exception ex)
             {
-                await transaction.RollbackAsync();
                 return TypedResults.ValidationProblem(new Dictionary<string, string[]>
                 {
-                    { "Error", new[] { "An error occurred while updating the transfer: " + ex.Message } }
+                    { "Error", new[] { $"Transaction failed: {ex.Message}" } }
+                });
+            }
+        }
+
+        static async Task<Results<Ok<TransferDTO>, NotFound, ValidationProblem>> Cancelled(
+            int id,
+            [FromBody] CreateTransferDTO dto,
+            [FromServices] ITransferRepository repository,
+            [FromServices] IStockRepository stockRepository,
+            [FromServices] IMapper mapper,
+            [FromServices] ApplicationDbContext dbContext,
+            IOutputCacheStore outputCacheStore)
+        {
+            var existingTransfer = await repository.GetById(id);
+            if (existingTransfer == null)
+            {
+                return TypedResults.NotFound();
+            }
+
+            var stockDestination = await stockRepository.GetByItemIdAndWarehouseId(dto.ProductId, dto.OriginWarehouseId);
+
+            if (stockDestination == null)
+            {
+                return TypedResults.ValidationProblem(new Dictionary<string, string[]>
+                {
+                    { "Error", new[] { "Destination stock not found." } }
+                });
+            }
+
+            try
+            {
+                using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+
+                if (existingTransfer.Status == TransferStatus.Cancelled ||
+                    (dto.Status == TransferStatus.Cancelled && existingTransfer.Status == TransferStatus.Received) ||
+                    (dto.Status == TransferStatus.Transit))
+                {
+                    return TypedResults.ValidationProblem(new Dictionary<string, string[]>
+                    {
+                        { "Error", new[] { "Cannot change the status of this transfer." } }
+                    });
+                }
+
+                if (dto.Status == TransferStatus.Cancelled)
+                {
+                    var stockDTO = mapper.Map<StockDTO>(stockDestination);
+                    stockDTO.Qty += existingTransfer.Qty;
+                    var stock = mapper.Map<Stock>(stockDTO);
+                    await stockRepository.Update(stock);
+                }
+
+                existingTransfer.UpdatedAt = DateTime.UtcNow;
+                existingTransfer.Status = dto.Status;
+
+                await repository.Update(existingTransfer);
+
+                await outputCacheStore.EvictByTagAsync("transfers-get", default);
+                await outputCacheStore.EvictByTagAsync("stocks-get", default);
+                await outputCacheStore.EvictByTagAsync("warehouses-get", default);
+                await outputCacheStore.EvictByTagAsync("products-get", default);
+                transaction.Complete();
+
+                var transferDTO = mapper.Map<TransferDTO>(existingTransfer);
+                return TypedResults.Ok(transferDTO);
+            }
+            catch (Exception ex)
+            {
+                return TypedResults.ValidationProblem(new Dictionary<string, string[]>
+                {
+                    { "Error", new[] { $"Transaction failed: {ex.Message}" } }
                 });
             }
         }

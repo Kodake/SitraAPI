@@ -8,7 +8,6 @@ using BackEnd.Repositories.Warehouses;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace BackEnd.Endpoints
 {

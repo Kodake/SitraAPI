@@ -9,7 +9,6 @@ namespace BackEnd.DTOs.Warehouses
         public int OriginWarehouseId { get; set; }
         public int DestinationWarehouseId { get; set; }
         public double Qty { get; set; }
-        public int StockId { get; set; }
         public TransferStatus Status { get; set; }
         public string Comment { get; set; } = string.Empty;
     }

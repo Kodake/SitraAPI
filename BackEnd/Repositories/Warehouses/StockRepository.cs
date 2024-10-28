@@ -47,27 +47,22 @@ namespace BackEnd.Repositories.Warehouses
 
         public async Task Update(Stock stock)
         {
-            // Check if the stock is already being tracked
             var existingStock = await context.Stocks.FindAsync(stock.Id);
             if (existingStock != null)
             {
-                // If it exists, update the properties
-                existingStock.Qty = stock.Qty; // or any other properties you need to update
-                context.Entry(existingStock).State = EntityState.Modified; // mark as modified
-            }
-            else
-            {
-                // Otherwise, add it as a new entity (this should be avoided if updating)
-                context.Stocks.Update(stock);
+                context.Entry(existingStock).State = EntityState.Detached;
             }
 
+            context.Stocks.Update(stock);
             await context.SaveChangesAsync();
         }
 
         public async Task<Stock?> GetByItemIdAndWarehouseId(int itemId, int warehouseId)
         {
             return await context.Stocks
-                .FirstOrDefaultAsync(s => s.ItemId == itemId && s.WarehouseId == warehouseId);
+                .Where(s => s.ItemId == itemId && s.WarehouseId == warehouseId)
+                .AsNoTracking()
+                .FirstOrDefaultAsync();
         }
     }
 }

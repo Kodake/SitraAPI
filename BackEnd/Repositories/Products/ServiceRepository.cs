@@ -82,6 +82,7 @@ namespace BackEnd.Repositories.Products
         public async Task Update(Item service)
         {
             context.Update(service);
+            context.Entry(service).State = EntityState.Modified;
             await context.SaveChangesAsync();
         }
 

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackEnd.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241009114109_OriginWarehouseIdPropToTransferTable")]
-    partial class OriginWarehouseIdPropToTransferTable
+    [Migration("20241027233253_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -165,8 +165,8 @@ namespace BackEnd.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<decimal>("Rate")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Rate")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -194,6 +194,122 @@ namespace BackEnd.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Taxes");
+                });
+
+            modelBuilder.Entity("BackEnd.Entities.Invoices.SaleInvoice", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<int>("BillerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BuyerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CurrencyId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DeadlineId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("DeliveryFees")
+                        .HasColumnType("float");
+
+                    b.Property<int>("FiscalSupportId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FiscalSupportNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PaymentMethod")
+                        .HasColumnType("int");
+
+                    b.Property<double>("PaymentReceived")
+                        .HasColumnType("float");
+
+                    b.Property<double>("PaymentReturned")
+                        .HasColumnType("float");
+
+                    b.Property<int>("PricingId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<double>("TotalAmount")
+                        .HasColumnType("float");
+
+                    b.Property<double>("TotalItems")
+                        .HasColumnType("float");
+
+                    b.Property<double>("TotalPrice")
+                        .HasColumnType("float");
+
+                    b.Property<double>("TotalQtyItems")
+                        .HasColumnType("float");
+
+                    b.Property<double>("TotalTaxes")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BillerId");
+
+                    b.HasIndex("BuyerId");
+
+                    b.HasIndex("CurrencyId");
+
+                    b.HasIndex("DeadlineId");
+
+                    b.HasIndex("PricingId");
+
+                    b.ToTable("SaleInvoices");
+                });
+
+            modelBuilder.Entity("BackEnd.Entities.Invoices.SaleInvoiceItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<double>("BasePrice")
+                        .HasColumnType("float");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Qty")
+                        .HasColumnType("float");
+
+                    b.Property<long>("SaleInvoiceId")
+                        .HasColumnType("bigint");
+
+                    b.Property<double>("TotalAmount")
+                        .HasColumnType("float");
+
+                    b.Property<double>("TotalPrice")
+                        .HasColumnType("float");
+
+                    b.Property<double>("TotalTaxes")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("SaleInvoiceId");
+
+                    b.ToTable("SaleInvoiceItems");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Products.Brand", b =>
@@ -460,6 +576,8 @@ namespace BackEnd.Migrations
 
                     b.HasIndex("DestinationWarehouseId");
 
+                    b.HasIndex("OriginWarehouseId");
+
                     b.HasIndex("ProductId");
 
                     b.HasIndex("StockId");
@@ -722,6 +840,68 @@ namespace BackEnd.Migrations
                     b.Navigation("Warehouse");
                 });
 
+            modelBuilder.Entity("BackEnd.Entities.Invoices.SaleInvoice", b =>
+                {
+                    b.HasOne("BackEnd.Entities.Contacts.Contact", "Biller")
+                        .WithMany("BillerInvoices")
+                        .HasForeignKey("BillerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("BackEnd.Entities.Contacts.Contact", "Buyer")
+                        .WithMany("BuyerInvoices")
+                        .HasForeignKey("BuyerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("BackEnd.Entities.Finances.Currency", "Currency")
+                        .WithMany()
+                        .HasForeignKey("CurrencyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BackEnd.Entities.AdministrativeTools.Deadline", "Deadline")
+                        .WithMany()
+                        .HasForeignKey("DeadlineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BackEnd.Entities.Products.Pricing", "Pricing")
+                        .WithMany()
+                        .HasForeignKey("PricingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Biller");
+
+                    b.Navigation("Buyer");
+
+                    b.Navigation("Currency");
+
+                    b.Navigation("Deadline");
+
+                    b.Navigation("Pricing");
+                });
+
+            modelBuilder.Entity("BackEnd.Entities.Invoices.SaleInvoiceItem", b =>
+                {
+                    b.HasOne("BackEnd.Entities.Products.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BackEnd.Entities.Invoices.SaleInvoice", "SaleInvoice")
+                        .WithMany("SaleInvoiceItems")
+                        .HasForeignKey("SaleInvoiceId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Item");
+
+                    b.Navigation("SaleInvoice");
+                });
+
             modelBuilder.Entity("BackEnd.Entities.Products.Item", b =>
                 {
                     b.HasOne("BackEnd.Entities.Products.Brand", "Brand")
@@ -806,8 +986,14 @@ namespace BackEnd.Migrations
             modelBuilder.Entity("BackEnd.Entities.Warehouses.Transfer", b =>
                 {
                     b.HasOne("BackEnd.Entities.Warehouses.Warehouse", "DestinationWarehouse")
-                        .WithMany("Transfers")
+                        .WithMany("DestinationTransfers")
                         .HasForeignKey("DestinationWarehouseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("BackEnd.Entities.Warehouses.Warehouse", "OriginWarehouse")
+                        .WithMany("OriginTransfers")
+                        .HasForeignKey("OriginWarehouseId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -818,12 +1004,14 @@ namespace BackEnd.Migrations
                         .IsRequired();
 
                     b.HasOne("BackEnd.Entities.Warehouses.Stock", "Stock")
-                        .WithMany("Transfers")
+                        .WithMany()
                         .HasForeignKey("StockId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("DestinationWarehouse");
+
+                    b.Navigation("OriginWarehouse");
 
                     b.Navigation("Product");
 
@@ -881,9 +1069,21 @@ namespace BackEnd.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("BackEnd.Entities.Contacts.Contact", b =>
+                {
+                    b.Navigation("BillerInvoices");
+
+                    b.Navigation("BuyerInvoices");
+                });
+
             modelBuilder.Entity("BackEnd.Entities.Finances.Tax", b =>
                 {
                     b.Navigation("ItemTaxes");
+                });
+
+            modelBuilder.Entity("BackEnd.Entities.Invoices.SaleInvoice", b =>
+                {
+                    b.Navigation("SaleInvoiceItems");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Products.Brand", b =>
@@ -917,18 +1117,15 @@ namespace BackEnd.Migrations
                     b.Navigation("Items");
                 });
 
-            modelBuilder.Entity("BackEnd.Entities.Warehouses.Stock", b =>
-                {
-                    b.Navigation("Transfers");
-                });
-
             modelBuilder.Entity("BackEnd.Entities.Warehouses.Warehouse", b =>
                 {
+                    b.Navigation("DestinationTransfers");
+
                     b.Navigation("FiscalSupports");
 
-                    b.Navigation("Stocks");
+                    b.Navigation("OriginTransfers");
 
-                    b.Navigation("Transfers");
+                    b.Navigation("Stocks");
                 });
 #pragma warning restore 612, 618
         }

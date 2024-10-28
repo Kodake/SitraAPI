@@ -7,18 +7,8 @@ namespace BackEnd.DTOs.Warehouses
         public int Id { get; set; }
         public int ProductId { get; set; }
         public ProductDTO? Product { get; set; }
-        private int originWarehouseId;
-        public int OriginWarehouseId
-        {
-            get
-            {
-                return Stock?.WarehouseId ?? originWarehouseId;
-            }
-            set
-            {
-                originWarehouseId = value;
-            }
-        }
+        public int OriginWarehouseId { get; set; }
+        public WarehouseDTO? OriginWarehouse { get; set; }
         public int DestinationWarehouseId { get; set; }
         public WarehouseDTO? DestinationWarehouse { get; set; }
         public double Qty { get; set; }

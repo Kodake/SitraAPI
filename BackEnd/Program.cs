@@ -13,6 +13,8 @@ using BackEnd.Endpoints.Products;
 using BackEnd.Repositories.AdministrativeTools;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
+using BackEnd.Repositories.Invoices;
+using BackEnd.Endpoints.Invoices;
 
 var builder = WebApplication.CreateBuilder(args);
 Log.Logger = new LoggerConfiguration()
@@ -36,17 +38,14 @@ builder.Host.UseSerilog();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+    .EnableSensitiveDataLogging();
 });
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-options.UseSqlServer("name=DefaultConnection"));
 
 builder.Services.AddIdentityApiEndpoints<IdentityUser>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -114,6 +113,7 @@ builder.Services.AddScoped<IPricingItemRepository, PricingItemRepository>();
 builder.Services.AddScoped<IPricingRepository, PricingRepository>();
 builder.Services.AddScoped<IFiscalSupportRepository, FiscalSupportRepository>();
 builder.Services.AddScoped<IDeadlineRepository, DeadlineRepository>();
+builder.Services.AddScoped<ISaleInvoiceRepository, SaleInvoiceRepository>();
 
 builder.Services.AddHttpContextAccessor();
 
@@ -155,6 +155,7 @@ apiGroup.MapGroup("/pricingItems").MapPricingItems();
 apiGroup.MapGroup("/fiscalSupports").MapFiscalSupports();
 apiGroup.MapGroup("/deadlines").MapDeadlines();
 apiGroup.MapGroup("/transfers").MapTransfers();
+apiGroup.MapGroup("/invoices").MapInvoices();
 
 app.UseCors();
 

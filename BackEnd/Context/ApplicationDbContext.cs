@@ -29,7 +29,6 @@ namespace BackEnd.Context
             modelBuilder.Entity<Unit>().Property(p => p.Name).HasMaxLength(20);
             modelBuilder.Entity<Unit>().Property(p => p.ShortName).HasMaxLength(20);
 
-            modelBuilder.Entity<Currency>().Property(p => p.Rate).HasColumnType("decimal(18,2)").IsRequired();
             modelBuilder.Entity<Currency>().Property(p => p.Code).HasMaxLength(20);
             modelBuilder.Entity<Currency>().Property(p => p.Name).HasMaxLength(50);
 
@@ -80,11 +79,13 @@ namespace BackEnd.Context
                 .WithMany(c => c.Items)
                 .HasForeignKey(p => p.CategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<Item>()
                 .HasOne(p => p.Unit)
                 .WithMany(u => u.Items)
                 .HasForeignKey(p => p.UnitId)
                 .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<Item>()
                 .HasOne(p => p.Brand)
                 .WithMany(u => u.Items)
@@ -112,37 +113,47 @@ namespace BackEnd.Context
 
             modelBuilder.Entity<Transfer>()
                 .HasOne(t => t.DestinationWarehouse)
-                .WithMany(w => w.Transfers)
+                .WithMany(w => w.DestinationTransfers)
                 .HasForeignKey(t => t.DestinationWarehouseId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Transfer>()
-                .HasOne(t => t.Stock)
-                .WithMany(w => w.Transfers)
-                .HasForeignKey(t => t.StockId)
+                .HasOne(t => t.OriginWarehouse)
+                .WithMany(w => w.OriginTransfers)
+                .HasForeignKey(t => t.OriginWarehouseId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            //modelBuilder.Entity<SaleInvoice>()
+            //    .HasOne(si => si.FiscalSupport)
+            //    .WithMany()
+            //    .HasForeignKey(t => t.FiscalSupportId)
+            //    .OnDelete(DeleteBehavior.Restrict);
+
+            //modelBuilder.Entity<SaleInvoice>()
+            //    .HasOne(si => si.Deadline)
+            //    .WithMany()
+            //    .HasForeignKey(t => t.DeadlineId)
+            //    .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<SaleInvoice>()
+                .HasOne(invoice => invoice.Biller)
+                .WithMany(contact => contact.BillerInvoices)
+                .HasForeignKey(invoice => invoice.BillerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<SaleInvoice>()
+                .HasOne(invoice => invoice.Buyer)
+                .WithMany(contact => contact.BuyerInvoices)
+                .HasForeignKey(invoice => invoice.BuyerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<SaleInvoice>().Ignore(p => p.FiscalSupport);
 
             modelBuilder.Entity<SaleInvoiceItem>()
                 .HasOne(sii => sii.SaleInvoice)
                 .WithMany(w => w.SaleInvoiceItems)
                 .HasForeignKey(t => t.SaleInvoiceId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<SaleInvoice>()
-                .HasOne(si => si.FiscalSupport)
-                .WithMany()
-                .HasForeignKey(t => t.FiscalSupportId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<SaleInvoice>()
-                .HasOne(si => si.Deadline)
-                .WithMany()
-                .HasForeignKey(t => t.DeadlineId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<SaleInvoice>()
-                .HasIndex(si => si.FiscalSupportNumber)
-                .IsUnique();
         }
 
         public DbSet<Category> Categories { get; set; }
@@ -161,5 +172,6 @@ namespace BackEnd.Context
         public DbSet<Deadline> Deadlines { get; set; }
         public DbSet<Transfer> Transfers { get; set; }
         public DbSet<SaleInvoice> SaleInvoices { get; set; }
+        public DbSet<SaleInvoiceItem> SaleInvoiceItems { get; set; }
     }
 }

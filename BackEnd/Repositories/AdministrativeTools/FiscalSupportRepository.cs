@@ -69,6 +69,7 @@ namespace BackEnd.Repositories.AdministrativeTools
         public async Task Update(FiscalSupport fiscalSupport)
         {
             context.Update(fiscalSupport);
+            context.Entry(fiscalSupport).State = EntityState.Modified;
             await context.SaveChangesAsync();
         }
 

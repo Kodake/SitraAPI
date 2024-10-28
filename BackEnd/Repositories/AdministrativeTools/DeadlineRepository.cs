@@ -64,6 +64,7 @@ namespace BackEnd.Repositories.AdministrativeTools
         public async Task Update(Deadline deadline)
         {
             context.Update(deadline);
+            context.Entry(deadline).State = EntityState.Modified;
             await context.SaveChangesAsync();
         }
 

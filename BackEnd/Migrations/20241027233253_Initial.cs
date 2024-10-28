@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BackEnd.Migrations
 {
     /// <inheritdoc />
-    public partial class AddedCommentToTransfersTable : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -110,7 +110,7 @@ namespace BackEnd.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Code = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Rate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Rate = table.Column<double>(type: "float", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -305,6 +305,66 @@ namespace BackEnd.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SaleInvoices",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PricingId = table.Column<int>(type: "int", nullable: false),
+                    BillerId = table.Column<int>(type: "int", nullable: false),
+                    BuyerId = table.Column<int>(type: "int", nullable: false),
+                    FiscalSupportId = table.Column<int>(type: "int", nullable: false),
+                    DeadlineId = table.Column<int>(type: "int", nullable: false),
+                    CurrencyId = table.Column<int>(type: "int", nullable: false),
+                    FiscalSupportNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DeliveryFees = table.Column<double>(type: "float", nullable: false),
+                    TotalQtyItems = table.Column<double>(type: "float", nullable: false),
+                    TotalItems = table.Column<double>(type: "float", nullable: false),
+                    TotalAmount = table.Column<double>(type: "float", nullable: false),
+                    TotalPrice = table.Column<double>(type: "float", nullable: false),
+                    TotalTaxes = table.Column<double>(type: "float", nullable: false),
+                    PaymentReceived = table.Column<double>(type: "float", nullable: false),
+                    PaymentReturned = table.Column<double>(type: "float", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    PaymentMethod = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SaleInvoices", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SaleInvoices_Contacts_BillerId",
+                        column: x => x.BillerId,
+                        principalTable: "Contacts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SaleInvoices_Contacts_BuyerId",
+                        column: x => x.BuyerId,
+                        principalTable: "Contacts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_SaleInvoices_Currencies_CurrencyId",
+                        column: x => x.CurrencyId,
+                        principalTable: "Currencies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SaleInvoices_Deadlines_DeadlineId",
+                        column: x => x.DeadlineId,
+                        principalTable: "Deadlines",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SaleInvoices_Pricings_PricingId",
+                        column: x => x.PricingId,
+                        principalTable: "Pricings",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Items",
                 columns: table => new
                 {
@@ -423,6 +483,37 @@ namespace BackEnd.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SaleInvoiceItems",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SaleInvoiceId = table.Column<long>(type: "bigint", nullable: false),
+                    ItemId = table.Column<int>(type: "int", nullable: false),
+                    Qty = table.Column<double>(type: "float", nullable: false),
+                    BasePrice = table.Column<double>(type: "float", nullable: false),
+                    TotalAmount = table.Column<double>(type: "float", nullable: false),
+                    TotalPrice = table.Column<double>(type: "float", nullable: false),
+                    TotalTaxes = table.Column<double>(type: "float", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SaleInvoiceItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SaleInvoiceItems_Items_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Items",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SaleInvoiceItems_SaleInvoices_SaleInvoiceId",
+                        column: x => x.SaleInvoiceId,
+                        principalTable: "SaleInvoices",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Stocks",
                 columns: table => new
                 {
@@ -458,6 +549,7 @@ namespace BackEnd.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProductId = table.Column<int>(type: "int", nullable: false),
+                    OriginWarehouseId = table.Column<int>(type: "int", nullable: false),
                     DestinationWarehouseId = table.Column<int>(type: "int", nullable: false),
                     Qty = table.Column<double>(type: "float", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -480,10 +572,16 @@ namespace BackEnd.Migrations
                         column: x => x.StockId,
                         principalTable: "Stocks",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Transfers_Warehouses_DestinationWarehouseId",
                         column: x => x.DestinationWarehouseId,
+                        principalTable: "Warehouses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Transfers_Warehouses_OriginWarehouseId",
+                        column: x => x.OriginWarehouseId,
                         principalTable: "Warehouses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -564,6 +662,41 @@ namespace BackEnd.Migrations
                 column: "PricingId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SaleInvoiceItems_ItemId",
+                table: "SaleInvoiceItems",
+                column: "ItemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SaleInvoiceItems_SaleInvoiceId",
+                table: "SaleInvoiceItems",
+                column: "SaleInvoiceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SaleInvoices_BillerId",
+                table: "SaleInvoices",
+                column: "BillerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SaleInvoices_BuyerId",
+                table: "SaleInvoices",
+                column: "BuyerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SaleInvoices_CurrencyId",
+                table: "SaleInvoices",
+                column: "CurrencyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SaleInvoices_DeadlineId",
+                table: "SaleInvoices",
+                column: "DeadlineId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SaleInvoices_PricingId",
+                table: "SaleInvoices",
+                column: "PricingId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Stocks_ItemId",
                 table: "Stocks",
                 column: "ItemId");
@@ -577,6 +710,11 @@ namespace BackEnd.Migrations
                 name: "IX_Transfers_DestinationWarehouseId",
                 table: "Transfers",
                 column: "DestinationWarehouseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transfers_OriginWarehouseId",
+                table: "Transfers",
+                column: "OriginWarehouseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Transfers_ProductId",
@@ -608,15 +746,6 @@ namespace BackEnd.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Contacts");
-
-            migrationBuilder.DropTable(
-                name: "Currencies");
-
-            migrationBuilder.DropTable(
-                name: "Deadlines");
-
-            migrationBuilder.DropTable(
                 name: "FiscalSupports");
 
             migrationBuilder.DropTable(
@@ -624,6 +753,9 @@ namespace BackEnd.Migrations
 
             migrationBuilder.DropTable(
                 name: "PricingItems");
+
+            migrationBuilder.DropTable(
+                name: "SaleInvoiceItems");
 
             migrationBuilder.DropTable(
                 name: "Transfers");
@@ -638,10 +770,22 @@ namespace BackEnd.Migrations
                 name: "Taxes");
 
             migrationBuilder.DropTable(
-                name: "Pricings");
+                name: "SaleInvoices");
 
             migrationBuilder.DropTable(
                 name: "Stocks");
+
+            migrationBuilder.DropTable(
+                name: "Contacts");
+
+            migrationBuilder.DropTable(
+                name: "Currencies");
+
+            migrationBuilder.DropTable(
+                name: "Deadlines");
+
+            migrationBuilder.DropTable(
+                name: "Pricings");
 
             migrationBuilder.DropTable(
                 name: "Items");

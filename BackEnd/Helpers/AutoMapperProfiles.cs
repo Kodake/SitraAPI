@@ -1,14 +1,18 @@
 ﻿using AutoMapper;
+using BackEnd.Context;
 using BackEnd.DTOs.AdministrativeTools;
 using BackEnd.DTOs.Contacts;
 using BackEnd.DTOs.Finances;
+using BackEnd.DTOs.Invoices;
 using BackEnd.DTOs.Products;
 using BackEnd.DTOs.Warehouses;
 using BackEnd.Entities.AdministrativeTools;
 using BackEnd.Entities.Contacts;
 using BackEnd.Entities.Finances;
+using BackEnd.Entities.Invoices;
 using BackEnd.Entities.Products;
 using BackEnd.Entities.Warehouses;
+using System;
 
 namespace BackEnd.Helpers
 {
@@ -198,13 +202,24 @@ namespace BackEnd.Helpers
 
             CreateMap<Transfer, TransferDTO>()
             .ForMember(dest => dest.Product, opt => opt.MapFrom(src => src.Product))
+            .ForMember(dest => dest.OriginWarehouse, opt => opt.MapFrom(src => src.OriginWarehouse))
             .ForMember(dest => dest.DestinationWarehouse, opt => opt.MapFrom(src => src.DestinationWarehouse))
             .ForMember(dest => dest.Stock, opt => opt.MapFrom(src => src.Stock));
 
             CreateMap<Transfer, TransferListDTO>()
             .ForMember(dest => dest.Product, opt => opt.MapFrom(src => src.Product))
+            .ForMember(dest => dest.OriginWarehouse, opt => opt.MapFrom(src => src.OriginWarehouse))
             .ForMember(dest => dest.DestinationWarehouse, opt => opt.MapFrom(src => src.DestinationWarehouse))
             .ForMember(dest => dest.Stock, opt => opt.MapFrom(src => src.Stock));
+
+            CreateMap<CreateSaleInvoiceDTO, SaleInvoice>()
+            .ForMember(dest => dest.Deadline, opt => opt.Ignore())
+            .ForMember(dest => dest.Buyer, opt => opt.Ignore())
+            .ForMember(dest => dest.Biller, opt => opt.Ignore())
+            .ForMember(dest => dest.Pricing, opt => opt.Ignore())
+            .ForMember(dest => dest.FiscalSupport, opt => opt.Ignore());
+
+            CreateMap<SaleInvoiceItemDTO, SaleInvoiceItem>();
         }
     }
 }

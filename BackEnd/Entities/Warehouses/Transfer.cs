@@ -8,20 +8,10 @@ namespace BackEnd.Entities.Warehouses
         public int Id { get; set; }
         public int ProductId { get; set; }
         public Item? Product { get; set; } = null!;
-        private int originWarehouseId;
-        public int OriginWarehouseId
-        {
-            get
-            {
-                return Stock?.WarehouseId ?? originWarehouseId;
-            }
-            set
-            {
-                originWarehouseId = value;
-            }
-        }
+        public int OriginWarehouseId { get; set; }
+        public Warehouse OriginWarehouse { get; set; } = null!;
         public int DestinationWarehouseId { get; set; }
-        public Warehouse? DestinationWarehouse { get; set; } = null!;
+        public Warehouse DestinationWarehouse { get; set; } = null!;
         public double Qty { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
