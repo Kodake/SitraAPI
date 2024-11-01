@@ -7,6 +7,7 @@ namespace BackEnd.Repositories.Products
     {
         Task<List<Pricing>> GetAll(PaginationDTO paginationDTO);
         Task<Pricing?> GetById(int id);
+        Task<List<Pricing>> GetPricings();
         Task<Pricing> Create(Pricing pricing);
         Task Update(Pricing pricing);
         Task<Pricing?> GetPricingByName(string? name);

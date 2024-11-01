@@ -35,6 +35,20 @@ namespace BackEnd.Repositories.Products
             return await context.Contacts.FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        public async Task<List<Contact>> GetCustomers()
+        {
+            return await context.Contacts
+                .Where(x => x.ContactType != Enums.ContactType.Biller && x.IsActive)
+                .ToListAsync();
+        }
+
+        public async Task<List<Contact>> GetBillers()
+        {
+            return await context.Contacts
+                .Where(x => x.ContactType == Enums.ContactType.Biller && x.IsActive)
+                .ToListAsync();
+        }
+
         public async Task<int> Create(Contact contact)
         {
             context.Add(contact);
@@ -54,7 +68,6 @@ namespace BackEnd.Repositories.Products
             if (contact != null)
             {
                 contact.IsActive = true;
-                context.Entry(contact).State = EntityState.Modified;
                 await context.SaveChangesAsync();
             }
         }
@@ -65,7 +78,6 @@ namespace BackEnd.Repositories.Products
             if (contact != null)
             {
                 contact.IsActive = false;
-                context.Entry(contact).State = EntityState.Modified;
                 await context.SaveChangesAsync();
             }
         }

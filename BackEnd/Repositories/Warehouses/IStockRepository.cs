@@ -1,4 +1,5 @@
 ﻿using BackEnd.DTOs;
+using BackEnd.Entities.Products;
 using BackEnd.Entities.Warehouses;
 
 namespace BackEnd.Repositories.Warehouses

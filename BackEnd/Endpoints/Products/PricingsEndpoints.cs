@@ -19,6 +19,7 @@ namespace BackEnd.Endpoints
                 .AddPaginationParamsOpenAPI();
             group.MapGet("/unregistered-pricings/{id:int}", GetUnregisteredPricingsForItem).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("pricings-get"));
             group.MapGet("/{id:int}", GetById);
+            group.MapGet("/selects", GetPricings);
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreatePricingDTO>>()
                 //.RequireAuthorization("isAdmin")
@@ -59,6 +60,14 @@ namespace BackEnd.Endpoints
 
             var pricingDTO = mapper.Map<PricingDTO>(pricing);
             return TypedResults.Ok(pricingDTO);
+        }
+
+        static async Task<Ok<List<PricingListDTO>>> GetPricings(IPricingRepository repository,
+            IMapper mapper)
+        {
+            var pricings = await repository.GetPricings();
+            var pricingsDTO = mapper.Map<List<PricingListDTO>>(pricings);
+            return TypedResults.Ok(pricingsDTO);
         }
 
         static async Task<Results<Created<PricingDTO>, ValidationProblem>> Create([FromBody] CreatePricingDTO dto,

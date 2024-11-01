@@ -6,6 +6,7 @@ namespace BackEnd.Repositories.Finances
     public interface ICurrencyRepository
     {
         Task<Currency?> GetById(int id);
+        Task<List<Currency>> GetCurrencies();
         Task<List<Currency>> GetAll(PaginationDTO paginationDTO);
         Task<int> Create(Currency category);
         Task Update(Currency category);

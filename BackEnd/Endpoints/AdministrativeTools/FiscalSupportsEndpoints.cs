@@ -23,6 +23,7 @@ namespace BackEnd.Endpoints
                 .AddPaginationParamsOpenAPI();
             group.MapGet("/selects", GetSelects).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("fiscal-supports-get"));
             group.MapGet("/{id:int}", GetById);
+            group.MapGet("/supportType/{supportType}/warehouse/{warehouseId:int}", GetByDocumentTypeAndWarehouseId);
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateFiscalSupportDTO>>()
                 //.RequireAuthorization()
@@ -64,6 +65,14 @@ namespace BackEnd.Endpoints
             }
 
             var fiscalSupportDTO = mapper.Map<FiscalSupportDTO>(fiscalSupport);
+            return TypedResults.Ok(fiscalSupportDTO);
+        }
+
+        static async Task<Ok<List<FiscalSupportDTO>>> GetByDocumentTypeAndWarehouseId([FromServices] IFiscalSupportRepository repository,
+            [FromServices] IMapper mapper, [FromRoute] FiscalSupportType supportType, int warehouseId)
+        {
+            var fiscalSupport = await repository.GetByDocumentTypeAndWarehouseId(supportType, warehouseId);
+            var fiscalSupportDTO = mapper.Map<List<FiscalSupportDTO>>(fiscalSupport);
             return TypedResults.Ok(fiscalSupportDTO);
         }
 

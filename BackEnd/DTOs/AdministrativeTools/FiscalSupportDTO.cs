@@ -14,6 +14,17 @@ namespace BackEnd.DTOs.AdministrativeTools
         public int FinalSequence { get; set; }
         public int SpaceNumber { get; set; }
         public int WarehouseId { get; set; }
+        public string FiscalSupportNumber => GenerateFiscalSupportNumber();
+        private string GenerateFiscalSupportNumber()
+        {
+            string fiscalSupportName = Enum.GetName(typeof(FiscalSupportType), FiscalSupportType) ?? "Unknown";
+            char symbolChar = Symbol.Length > 0 ? Symbol[0] : '?';
+            string repeatedSymbols = new string(symbolChar, SpaceNumber);
+            string sequence = InitialSequence.ToString().PadLeft(SpaceNumber, symbolChar);
+            string finalSymbols = repeatedSymbols[..^SpaceNumber] + sequence;
+
+            return $"{fiscalSupportName}{finalSymbols}";
+        }
         public WarehouseDTO Warehouse { get; set; } = null!;
     }
 }

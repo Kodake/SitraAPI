@@ -73,7 +73,6 @@ namespace BackEnd.Repositories.Products
             if (brand != null)
             {
                 brand.IsActive = true;
-                context.Entry(brand).State = EntityState.Modified;
                 await context.SaveChangesAsync();
             }
         }
@@ -84,7 +83,6 @@ namespace BackEnd.Repositories.Products
             if (brand != null)
             {
                 brand.IsActive = false;
-                context.Entry(brand).State = EntityState.Modified;
                 await context.SaveChangesAsync();
             }
         }

@@ -39,6 +39,7 @@ builder.Host.UseSerilog();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+    //.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
     .EnableSensitiveDataLogging();
 });
 
@@ -107,6 +108,7 @@ builder.Services.AddScoped<IContactRepository, ContactRepository>();
 builder.Services.AddScoped<IWarehouseRepository, WarehouseRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
+builder.Services.AddScoped<IItemRepository, ItemRepository>();
 builder.Services.AddScoped<IStockRepository, StockRepository>();
 builder.Services.AddScoped<ITransferRepository, TransferRepository>();
 builder.Services.AddScoped<IPricingItemRepository, PricingItemRepository>();
@@ -149,6 +151,7 @@ apiGroup.MapGroup("/taxes").MapTaxes();
 apiGroup.MapGroup("/warehouses").MapWarehouses();
 apiGroup.MapGroup("/products").MapProducts();
 apiGroup.MapGroup("/services").MapServices();
+apiGroup.MapGroup("/items").MapItems();
 apiGroup.MapGroup("/stocks").MapStocks();
 apiGroup.MapGroup("/pricings").MapPricings();
 apiGroup.MapGroup("/pricingItems").MapPricingItems();

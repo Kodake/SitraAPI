@@ -62,6 +62,7 @@ namespace BackEnd.Endpoints
 
             await outputCacheStore.EvictByTagAsync("pricing-items-get", default);
             await outputCacheStore.EvictByTagAsync("products-get", default);
+            await outputCacheStore.EvictByTagAsync("services-get", default);
             return TypedResults.Ok();
         }
 

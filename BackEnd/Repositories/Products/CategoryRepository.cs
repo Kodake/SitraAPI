@@ -74,7 +74,6 @@ namespace BackEnd.Repositories.Products
             if (category != null)
             {
                 category.IsActive = true;
-                context.Entry(category).State = EntityState.Modified;
                 await context.SaveChangesAsync();
             }
         }
@@ -85,7 +84,6 @@ namespace BackEnd.Repositories.Products
             if (category != null)
             {
                 category.IsActive = false;
-                context.Entry(category).State = EntityState.Modified;
                 await context.SaveChangesAsync();
             }
         }

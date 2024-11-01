@@ -74,7 +74,6 @@ namespace BackEnd.Repositories.Finances
             if (tax != null)
             {
                 tax.IsActive = true;
-                context.Entry(tax).State = EntityState.Modified;
                 await context.SaveChangesAsync();
             }
         }
@@ -85,7 +84,6 @@ namespace BackEnd.Repositories.Finances
             if (tax != null)
             {
                 tax.IsActive = false;
-                context.Entry(tax).State = EntityState.Modified;
                 await context.SaveChangesAsync();
             }
         }

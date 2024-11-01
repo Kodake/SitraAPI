@@ -33,6 +33,12 @@ namespace BackEnd.Repositories.Products
             return await context.Pricings.FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        public async Task<List<Pricing>> GetPricings()
+        {
+            return await context.Pricings
+                .ToListAsync();
+        }
+
         public async Task<Pricing> Create(Pricing pricing)
         {
             context.Pricings.Add(pricing);

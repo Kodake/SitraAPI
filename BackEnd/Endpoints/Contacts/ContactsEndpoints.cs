@@ -17,6 +17,8 @@ namespace BackEnd.Endpoints
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("contacts-get"))
                 .AddPaginationParamsOpenAPI();
+            group.MapGet("/customers", GetCustomers);
+            group.MapGet("/billers", GetBillers);
             group.MapGet("/{id:int}", GetById);
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateContactDTO>>()
@@ -36,6 +38,22 @@ namespace BackEnd.Endpoints
             [FromServices] IMapper mapper, PaginationDTO pagination)
         {
             var contacts = await repository.GetAll(pagination);
+            var contactsDTO = mapper.Map<List<ContactListDTO>>(contacts);
+            return TypedResults.Ok(contactsDTO);
+        }
+
+        static async Task<Ok<List<ContactListDTO>>> GetCustomers([FromServices] IContactRepository repository,
+            [FromServices] IMapper mapper)
+        {
+            var contacts = await repository.GetCustomers();
+            var contactsDTO = mapper.Map<List<ContactListDTO>>(contacts);
+            return TypedResults.Ok(contactsDTO);
+        }
+
+        static async Task<Ok<List<ContactListDTO>>> GetBillers([FromServices] IContactRepository repository,
+            [FromServices] IMapper mapper)
+        {
+            var contacts = await repository.GetBillers();
             var contactsDTO = mapper.Map<List<ContactListDTO>>(contacts);
             return TypedResults.Ok(contactsDTO);
         }

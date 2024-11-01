@@ -110,6 +110,7 @@ namespace BackEnd.Endpoints.Products
                 await transaction.CommitAsync();
 
                 await outputCacheStore.EvictByTagAsync("pricing-items-get", default);
+                await outputCacheStore.EvictByTagAsync("pricings-get", default);
                 await outputCacheStore.EvictByTagAsync("services-get", default);
                 var serviceDTO = mapper.Map<ServiceDTO>(service);
                 return TypedResults.Created($"/services/{id}", serviceDTO);
@@ -221,7 +222,8 @@ namespace BackEnd.Endpoints.Products
                 }
 
                 await transaction.CommitAsync();
-                await outputCacheStore.EvictByTagAsync("pricing-items-get", default);
+                await outputCacheStore.EvictByTagAsync("pricing-items-get", default);                
+                await outputCacheStore.EvictByTagAsync("pricings-get", default);
                 await outputCacheStore.EvictByTagAsync("services-get", default);
 
                 return TypedResults.Ok();

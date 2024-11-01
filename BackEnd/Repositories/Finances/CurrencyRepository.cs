@@ -33,6 +33,13 @@ namespace BackEnd.Repositories.Finances
             return await context.Currencies.FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        public async Task<List<Currency>> GetCurrencies()
+        {
+            return await context.Currencies
+                .Where(x => x.IsActive)
+                .ToListAsync();
+        }
+
         public async Task<int> Create(Currency currency)
         {
             context.Add(currency);
@@ -52,7 +59,6 @@ namespace BackEnd.Repositories.Finances
             if (currency != null)
             {
                 currency.IsActive = true;
-                context.Entry(currency).State = EntityState.Modified;
                 await context.SaveChangesAsync();
             }
         }
@@ -63,7 +69,6 @@ namespace BackEnd.Repositories.Finances
             if (currency != null)
             {
                 currency.IsActive = false;
-                context.Entry(currency).State = EntityState.Modified;
                 await context.SaveChangesAsync();
             }
         }

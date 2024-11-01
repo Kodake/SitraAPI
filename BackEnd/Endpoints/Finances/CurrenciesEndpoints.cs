@@ -18,6 +18,7 @@ namespace BackEnd.Endpoints
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("currencies-get"))
                 .AddPaginationParamsOpenAPI();
             group.MapGet("/{id:int}", GetById);
+            group.MapGet("/selects", GetCurrencies);
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateCurrencyDTO>>()
                 //.RequireAuthorization()
@@ -52,6 +53,14 @@ namespace BackEnd.Endpoints
 
             var currencyDTO = mapper.Map<CurrencyDTO>(currency);
             return TypedResults.Ok(currencyDTO);
+        }
+
+        static async Task<Ok<List<CurrencyListDTO>>> GetCurrencies([FromServices] ICurrencyRepository repository,
+            [FromServices] IMapper mapper)
+        {
+            var currencies = await repository.GetCurrencies();
+            var currenciesDTO = mapper.Map<List<CurrencyListDTO>>(currencies);
+            return TypedResults.Ok(currenciesDTO);
         }
 
         static async Task<Results<Created<CurrencyDTO>, ValidationProblem>> Create([FromBody] CreateCurrencyDTO dto,

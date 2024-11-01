@@ -1,6 +1,5 @@
 ﻿using BackEnd.Context;
 using BackEnd.DTOs;
-using BackEnd.Entities.Contacts;
 using BackEnd.Entities.Warehouses;
 using BackEnd.Enums;
 using BackEnd.Helpers;
@@ -100,7 +99,6 @@ namespace BackEnd.Repositories.Products
             if (warehouse != null)
             {
                 warehouse.IsActive = true;
-                context.Entry(warehouse).State = EntityState.Modified;
                 await context.SaveChangesAsync();
             }
         }
@@ -111,7 +109,6 @@ namespace BackEnd.Repositories.Products
             if (warehouse != null)
             {
                 warehouse.IsActive = false;
-                context.Entry(warehouse).State = EntityState.Modified;
                 await context.SaveChangesAsync();
             }
         }

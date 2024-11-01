@@ -56,7 +56,17 @@ namespace BackEnd.Repositories.AdministrativeTools
 
         public async Task<FiscalSupport?> GetById(int id)
         {
-            return await context.FiscalSupports.FirstOrDefaultAsync(x => x.Id == id);
+            return await context.FiscalSupports
+                .Include(x => x.Warehouse)
+                .FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<List<FiscalSupport>> GetByDocumentTypeAndWarehouseId(FiscalSupportType supportType, int warehouseId)
+        {
+            return await context.FiscalSupports
+                .Include(x => x.Warehouse)
+                .Where(x => x.FiscalSupportType == supportType && x.WarehouseId == warehouseId)
+                .ToListAsync();
         }
 
         public async Task<int> Create(FiscalSupport fiscalSupport)
@@ -69,7 +79,6 @@ namespace BackEnd.Repositories.AdministrativeTools
         public async Task Update(FiscalSupport fiscalSupport)
         {
             context.Update(fiscalSupport);
-            context.Entry(fiscalSupport).State = EntityState.Modified;
             await context.SaveChangesAsync();
         }
 
@@ -79,7 +88,6 @@ namespace BackEnd.Repositories.AdministrativeTools
             if (fiscalSupport != null)
             {
                 fiscalSupport.IsActive = true;
-                context.Entry(fiscalSupport).State = EntityState.Modified;
                 await context.SaveChangesAsync();
             }
         }
@@ -90,7 +98,6 @@ namespace BackEnd.Repositories.AdministrativeTools
             if (fiscalSupport != null)
             {
                 fiscalSupport.IsActive = false;
-                context.Entry(fiscalSupport).State = EntityState.Modified;
                 await context.SaveChangesAsync();
             }
         }

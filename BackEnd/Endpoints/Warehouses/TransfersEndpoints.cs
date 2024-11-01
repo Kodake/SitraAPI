@@ -10,7 +10,6 @@ using BackEnd.Repositories.Warehouses;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
-using System.Security.Cryptography.Xml;
 using System.Transactions;
 
 namespace BackEnd.Endpoints

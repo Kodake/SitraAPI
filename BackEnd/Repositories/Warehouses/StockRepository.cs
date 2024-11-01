@@ -47,12 +47,6 @@ namespace BackEnd.Repositories.Warehouses
 
         public async Task Update(Stock stock)
         {
-            var existingStock = await context.Stocks.FindAsync(stock.Id);
-            if (existingStock != null)
-            {
-                context.Entry(existingStock).State = EntityState.Detached;
-            }
-
             context.Stocks.Update(stock);
             await context.SaveChangesAsync();
         }

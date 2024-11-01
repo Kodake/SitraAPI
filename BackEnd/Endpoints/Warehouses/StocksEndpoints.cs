@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BackEnd.DTOs;
 using BackEnd.DTOs.Warehouses;
+using BackEnd.Entities.Products;
 using BackEnd.Entities.Warehouses;
 using BackEnd.Filters;
 using BackEnd.Helpers;

@@ -15,5 +15,6 @@ namespace BackEnd.Repositories.AdministrativeTools
         Task Deactivate(int id);
         Task<bool> Exists(int id);
         Task<bool> Exists(int id, string code);
+        Task<List<FiscalSupport>> GetByDocumentTypeAndWarehouseId(FiscalSupportType supportType, int warehouseId);
     }
 }

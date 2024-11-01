@@ -8,7 +8,7 @@ namespace BackEnd.Entities.Products
         public int Id { get; set; }
         public ItemType ItemType { get; set; }
         public string Name { get; set; } = string.Empty;
-        public string? Reference { get; set; }
+        public string? Reference { get; set; } = string.Empty;
         public string? Description { get; set; }
         public double? TotalPrice
         {

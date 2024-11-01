@@ -134,6 +134,29 @@ namespace BackEnd.Helpers
                     Amount = pt.Tax.Amount
                 }).ToList()));
 
+            CreateMap<Item, ItemListDTO>()
+                .ForMember(dest => dest.PricingItems, opt => opt.MapFrom(src => src.PricingItems.Select(pt => new PricingItemDTO
+                {
+                    ItemId = pt.Item.Id,
+                    PricingId = pt.Pricing.Id,
+                    InitialCost = pt.InitialCost,
+                    BasePrice = pt.BasePrice,
+                    Percentage = pt.Pricing.Percentage,
+                    IsPrincipal = pt.IsPrincipal
+                }).ToList()))
+                .ForMember(dest => dest.Taxes, opt => opt.MapFrom(src => src.ItemTaxes.Select(pt => new TaxDTO
+                {
+                    Id = pt.Tax.Id,
+                    Name = pt.Tax.Name,
+                    Amount = pt.Tax.Amount
+                }).ToList()))
+                .ForMember(dest => dest.Unit, opt => opt.MapFrom(src => src.Unit != null ? new UnitDTO
+                {
+                    Id = src.Unit.Id,
+                    Name = src.Unit.Name,
+                    ShortName = src.Unit.ShortName
+                } : null));
+
             CreateMap<Item, ServiceDTO>()
                 .ForMember(dest => dest.PricingItems, opt => opt.MapFrom(src => src.PricingItems.Select(pt => new PricingItemDTO
                 {

@@ -40,7 +40,6 @@ namespace BackEnd.Endpoints.Invoices
             {
                 var saleInvoice = mapper.Map<SaleInvoice>(dto);
 
-                // Validaciones de IDs
                 if (await pricingRepository.GetById(dto.PricingId) == null)
                     return ValidationError("Invalid pricing id.");
 
@@ -64,19 +63,15 @@ namespace BackEnd.Endpoints.Invoices
                 if (!TryUpdateFiscalSupportSequence(fiscalSupportDB))
                     return ValidationError("Maximum fiscal supports reached for this warehouse.");
 
-                // Generar el número de soporte fiscal
                 saleInvoice.FiscalSupportNumber = GenerateFiscalSupportNumber(fiscalSupportDB);
                 await fiscalSupportRepository.Update(fiscalSupportDB);
 
                 double currencyRate = currencyDB.Rate;
 
-                // Calcular las propiedades de la factura con los items
                 await CalculateInvoiceTotals(dto.SaleInvoiceItems, saleInvoice, productRepository, currencyRate);
 
-                // Guardar la factura
                 var invoiceId = await repository.Create(saleInvoice);
 
-                // Agregar los items de la factura
                 await AddInvoiceItems(dto.SaleInvoiceItems, invoiceId, repository, productRepository, mapper, currencyRate);
 
                 await transaction.CommitAsync();
