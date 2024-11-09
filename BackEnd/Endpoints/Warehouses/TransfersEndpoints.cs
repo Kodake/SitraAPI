@@ -124,7 +124,7 @@ namespace BackEnd.Endpoints
 
         static async Task<Results<Ok<TransferDTO>, NotFound, ValidationProblem>> Received(
             int id,
-            [FromBody] CreateTransferDTO dto,
+            [FromBody] CreateTransferStatusDTO dto,
             [FromServices] ITransferRepository repository,
             [FromServices] IStockRepository stockRepository,
             [FromServices] IMapper mapper,
@@ -137,7 +137,7 @@ namespace BackEnd.Endpoints
                 return TypedResults.NotFound();
             }
 
-            var stockDestination = await stockRepository.GetByItemIdAndWarehouseId(dto.ProductId, dto.DestinationWarehouseId);
+            var stockDestination = await stockRepository.GetByItemIdAndWarehouseId(existingTransfer.ProductId, existingTransfer.DestinationWarehouseId);
 
             if (stockDestination == null)
             {
@@ -151,9 +151,7 @@ namespace BackEnd.Endpoints
             {
                 using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
 
-                if (existingTransfer.Status == TransferStatus.Cancelled ||
-                    (dto.Status == TransferStatus.Cancelled && existingTransfer.Status == TransferStatus.Received) ||
-                    (dto.Status == TransferStatus.Transit))
+                if (existingTransfer.Status == TransferStatus.Cancelled || existingTransfer.Status == TransferStatus.Received)
                 {
                     return TypedResults.ValidationProblem(new Dictionary<string, string[]>
                     {
@@ -161,16 +159,13 @@ namespace BackEnd.Endpoints
                     });
                 }
 
-                if (dto.Status == TransferStatus.Received)
-                {
-                    var stockDTO = mapper.Map<StockDTO>(stockDestination);
-                    stockDTO.Qty += existingTransfer.Qty;
-                    var stock = mapper.Map<Stock>(stockDTO);
-                    await stockRepository.Update(stock);
-                }
+                var stockDTO = mapper.Map<StockDTO>(stockDestination);
+                stockDTO.Qty += existingTransfer.Qty;
+                var stock = mapper.Map<Stock>(stockDTO);
+                await stockRepository.Update(stock);
 
                 existingTransfer.UpdatedAt = DateTime.UtcNow;
-                existingTransfer.Status = dto.Status;
+                existingTransfer.Status = TransferStatus.Received;
 
                 await repository.Update(existingTransfer);
 
@@ -194,7 +189,7 @@ namespace BackEnd.Endpoints
 
         static async Task<Results<Ok<TransferDTO>, NotFound, ValidationProblem>> Cancelled(
             int id,
-            [FromBody] CreateTransferDTO dto,
+            [FromBody] CreateTransferStatusDTO dto,
             [FromServices] ITransferRepository repository,
             [FromServices] IStockRepository stockRepository,
             [FromServices] IMapper mapper,
@@ -207,7 +202,7 @@ namespace BackEnd.Endpoints
                 return TypedResults.NotFound();
             }
 
-            var stockDestination = await stockRepository.GetByItemIdAndWarehouseId(dto.ProductId, dto.OriginWarehouseId);
+            var stockDestination = await stockRepository.GetByItemIdAndWarehouseId(existingTransfer.ProductId, existingTransfer.OriginWarehouseId);
 
             if (stockDestination == null)
             {
@@ -221,9 +216,7 @@ namespace BackEnd.Endpoints
             {
                 using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
 
-                if (existingTransfer.Status == TransferStatus.Cancelled ||
-                    (dto.Status == TransferStatus.Cancelled && existingTransfer.Status == TransferStatus.Received) ||
-                    (dto.Status == TransferStatus.Transit))
+                if (existingTransfer.Status == TransferStatus.Cancelled || existingTransfer.Status == TransferStatus.Received)
                 {
                     return TypedResults.ValidationProblem(new Dictionary<string, string[]>
                     {
@@ -231,16 +224,13 @@ namespace BackEnd.Endpoints
                     });
                 }
 
-                if (dto.Status == TransferStatus.Cancelled)
-                {
-                    var stockDTO = mapper.Map<StockDTO>(stockDestination);
-                    stockDTO.Qty += existingTransfer.Qty;
-                    var stock = mapper.Map<Stock>(stockDTO);
-                    await stockRepository.Update(stock);
-                }
+                var stockDTO = mapper.Map<StockDTO>(stockDestination);
+                stockDTO.Qty += existingTransfer.Qty;
+                var stock = mapper.Map<Stock>(stockDTO);
+                await stockRepository.Update(stock);
 
                 existingTransfer.UpdatedAt = DateTime.UtcNow;
-                existingTransfer.Status = dto.Status;
+                existingTransfer.Status = TransferStatus.Cancelled;
 
                 await repository.Update(existingTransfer);
 

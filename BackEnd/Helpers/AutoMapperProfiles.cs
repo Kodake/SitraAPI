@@ -223,6 +223,8 @@ namespace BackEnd.Helpers
 
             CreateMap<CreateTransferDTO, Transfer>();
 
+            CreateMap<CreateTransferStatusDTO, Transfer>();
+
             CreateMap<Transfer, TransferDTO>()
             .ForMember(dest => dest.Product, opt => opt.MapFrom(src => src.Product))
             .ForMember(dest => dest.OriginWarehouse, opt => opt.MapFrom(src => src.OriginWarehouse))

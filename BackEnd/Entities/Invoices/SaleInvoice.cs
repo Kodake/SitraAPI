@@ -14,7 +14,7 @@ namespace BackEnd.Entities.Invoices
         public Pricing Pricing { get; set; } = null!;
         public int BillerId { get; set; }
         public Contact Biller { get; set; } = null!;
-        public int BuyerId { get; set; }
+        public int CustomerId { get; set; }
         public Contact Buyer { get; set; } = null!;
         public int FiscalSupportId { get; set; }
         public FiscalSupport FiscalSupport { get; set; } = null!;

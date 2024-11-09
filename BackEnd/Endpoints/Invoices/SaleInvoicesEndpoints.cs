@@ -46,15 +46,12 @@ namespace BackEnd.Endpoints.Invoices
                 if (await contactRepository.GetById(dto.BillerId) == null)
                     return ValidationError("Invalid biller id.");
 
-                if (await contactRepository.GetById(dto.BuyerId) == null)
+                if (await contactRepository.GetById(dto.CustomerId) == null)
                     return ValidationError("Invalid buyer id.");
 
                 var fiscalSupportDB = await fiscalSupportRepository.GetById(dto.FiscalSupportId);
                 if (fiscalSupportDB == null)
                     return ValidationError("Invalid fiscal support id.");
-
-                if (await deadlineRepository.GetById(dto.DeadlineId) == null)
-                    return ValidationError("Invalid deadline id.");
 
                 var currencyDB = await currencyRepository.GetById(dto.CurrencyId);
                 if (currencyDB == null)
@@ -68,11 +65,12 @@ namespace BackEnd.Endpoints.Invoices
 
                 double currencyRate = currencyDB.Rate;
 
-                await CalculateInvoiceTotals(dto.SaleInvoiceItems, saleInvoice, productRepository, currencyRate);
+                //await CalculateInvoiceTotals(dto.SaleInvoiceItems, saleInvoice, productRepository, currencyRate);
 
+                saleInvoice.DeadlineId = 1;
                 var invoiceId = await repository.Create(saleInvoice);
 
-                await AddInvoiceItems(dto.SaleInvoiceItems, invoiceId, repository, productRepository, mapper, currencyRate);
+                //await AddInvoiceItems(dto.SaleInvoiceItems, invoiceId, repository, productRepository, mapper, currencyRate);
 
                 await transaction.CommitAsync();
                 return TypedResults.Created($"/invoices/{invoiceId}");

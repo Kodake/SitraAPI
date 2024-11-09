@@ -144,7 +144,7 @@ namespace BackEnd.Context
             modelBuilder.Entity<SaleInvoice>()
                 .HasOne(invoice => invoice.Buyer)
                 .WithMany(contact => contact.BuyerInvoices)
-                .HasForeignKey(invoice => invoice.BuyerId)
+                .HasForeignKey(invoice => invoice.CustomerId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<SaleInvoice>().Ignore(p => p.FiscalSupport);

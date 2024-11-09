@@ -158,7 +158,7 @@ apiGroup.MapGroup("/pricingItems").MapPricingItems();
 apiGroup.MapGroup("/fiscalSupports").MapFiscalSupports();
 apiGroup.MapGroup("/deadlines").MapDeadlines();
 apiGroup.MapGroup("/transfers").MapTransfers();
-apiGroup.MapGroup("/invoices").MapInvoices();
+apiGroup.MapGroup("/saleInvoices").MapInvoices();
 
 app.UseCors();
 

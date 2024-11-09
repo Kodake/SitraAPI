@@ -18,11 +18,11 @@ namespace BackEnd.Repositories.Products
 
         public async Task<List<Item>> GetByPricingIdAndWarehouseId(int pricingId, int warehouseId)
         {
-            var items = await context.Items
+            return await context.Items
                 .Include(x => x.Stocks.Where(s => s.WarehouseId == warehouseId))
                 .Include(x => x.Unit)
                 .Include(x => x.ItemTaxes)
-                    .ThenInclude(x => x.Tax)
+                    .ThenInclude(it => it.Tax)
                 .Include(x => x.PricingItems)
                     .ThenInclude(pi => pi.Pricing)
                 .Where(x =>
@@ -33,8 +33,6 @@ namespace BackEnd.Repositories.Products
                     )
                 )
                 .ToListAsync();
-
-            return items;
         }
     }
 }

@@ -1506,35 +1506,6 @@
     ]
   },
   {
-    "ContainingType": "BackEnd.Endpoints.Invoices.SaleInvoicesEndpoints",
-    "Method": "Create",
-    "RelativePath": "api/v1/invoices/",
-    "HttpMethod": "POST",
-    "IsController": false,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "dto",
-        "Type": "BackEnd.DTOs.Invoices.CreateSaleInvoiceDTO",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 201
-      },
-      {
-        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
-        "MediaTypes": [
-          "application/problem\u002Bjson"
-        ],
-        "StatusCode": 400
-      }
-    ]
-  },
-  {
     "ContainingType": "BackEnd.Endpoints.ItemsEndpoints",
     "Method": "GetByPricingIdAndWarehouseId",
     "RelativePath": "api/v1/items/pricing/{pricingId:int}/warehouse/{warehouseId:int}/",
@@ -2063,6 +2034,35 @@
         "Type": "System.Void",
         "MediaTypes": [],
         "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "BackEnd.Endpoints.Invoices.SaleInvoicesEndpoints",
+    "Method": "Create",
+    "RelativePath": "api/v1/saleInvoices/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "BackEnd.DTOs.Invoices.CreateSaleInvoiceDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 201
       },
       {
         "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
@@ -2702,7 +2702,7 @@
       },
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.Warehouses.CreateTransferDTO",
+        "Type": "BackEnd.DTOs.Warehouses.CreateTransferStatusDTO",
         "IsRequired": true
       }
     ],
@@ -2743,7 +2743,7 @@
       },
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.Warehouses.CreateTransferDTO",
+        "Type": "BackEnd.DTOs.Warehouses.CreateTransferStatusDTO",
         "IsRequired": true
       }
     ],

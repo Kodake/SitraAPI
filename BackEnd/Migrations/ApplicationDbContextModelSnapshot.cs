@@ -204,10 +204,10 @@ namespace BackEnd.Migrations
                     b.Property<int>("BillerId")
                         .HasColumnType("int");
 
-                    b.Property<int>("BuyerId")
+                    b.Property<int>("CurrencyId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CurrencyId")
+                    b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Date")
@@ -260,9 +260,9 @@ namespace BackEnd.Migrations
 
                     b.HasIndex("BillerId");
 
-                    b.HasIndex("BuyerId");
-
                     b.HasIndex("CurrencyId");
+
+                    b.HasIndex("CustomerId");
 
                     b.HasIndex("DeadlineId");
 
@@ -845,16 +845,16 @@ namespace BackEnd.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("BackEnd.Entities.Contacts.Contact", "Buyer")
-                        .WithMany("BuyerInvoices")
-                        .HasForeignKey("BuyerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("BackEnd.Entities.Finances.Currency", "Currency")
                         .WithMany()
                         .HasForeignKey("CurrencyId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BackEnd.Entities.Contacts.Contact", "Buyer")
+                        .WithMany("BuyerInvoices")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("BackEnd.Entities.AdministrativeTools.Deadline", "Deadline")
