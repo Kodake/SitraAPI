@@ -24,18 +24,18 @@ namespace BackEnd.Validations
             .MinimumLength(2).WithMessage(Utilities.MinimunLengthMessage)
             .MaximumLength(50).WithMessage(Utilities.MaximunLengthMessage)
             .Must(Utilities.FirstCharUppercase).WithMessage(Utilities.FirstCharUpperMessage)
-            .MustAsync(async (nombre, _) =>
+            .MustAsync(async (name, _) =>
             {
-                var existe = await repository.Exists(id, nombre);
-                return !existe;
-            }).WithMessage(x => $"Ya existe una marca con el nombre {x.Name}");
+                var exists = await repository.Exists(id, name);
+                return !exists;
+            }).WithMessage(x => string.Format(Utilities.NameAlreadyExistsWith, x.Name));
 
             RuleFor(x => x.PricingType)
-            .IsInEnum().WithMessage("Invalid pricing type specified.");
+            .IsInEnum().WithMessage(Utilities.InvalidEnumValueMessage);
 
             RuleFor(x => x.Percentage)
-            .NotNull().WithMessage("Percentage is required when PricingType is Percentage.")
-            .GreaterThan(0).WithMessage("Percentage must be greater than zero.")
+            .NotNull().WithMessage(x => string.Format(Utilities.RequiredFieldForConditionMessage, nameof(x.PricingType), nameof(x.Percentage)))
+            .GreaterThan(0).WithMessage(Utilities.GreatherThanZero)
             .When(x => x.PricingType == PricingType.Percentage);
         }
     }

@@ -11,6 +11,6 @@ namespace BackEnd.DTOs.Invoices
         public double TotalTaxes { get; set; }
         public InvoiceStatus Status { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
-        public List<SaleInvoiceItemDTO> SaleInvoiceItems { get; set; } = new();
+        public List<SaleInvoiceItemDTO> SaleInvoiceItems { get; set; } = [];
     }
 }

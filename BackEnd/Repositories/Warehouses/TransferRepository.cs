@@ -19,13 +19,13 @@ namespace BackEnd.Repositories.Warehouses
             httpContext = httpContextAccessor.HttpContext!;
         }
 
-        public async Task<Transfer?> GetById(int id)
+        public async Task<Transfer?> GetById(long id)
         {
             return await context.Transfers
                 .Include(t => t.Product)
                 .Include(t => t.DestinationWarehouse)
                 .AsNoTracking()
-                .Where(t => t.Product.ItemType == ItemType.Product)
+                .Where(t => t.Product!.ItemType == ItemType.Product)
                 .FirstOrDefaultAsync(t => t.Id == id);
         }
 
@@ -34,9 +34,9 @@ namespace BackEnd.Repositories.Warehouses
             var queryable = context.Transfers
                 .Include(t => t.Product)
                 .Include(t => t.Stock)
-                    .ThenInclude(s => s.Warehouse)
+                    .ThenInclude(s => s!.Warehouse)
                 .Include(t => t.DestinationWarehouse)
-                .Where(t => t.Product.ItemType == ItemType.Product)
+                .Where(t => t.Product!.ItemType == ItemType.Product)
                 .OrderByDescending(t => t.Status == TransferStatus.Transit)
                 .ThenBy(t => t.Id);
 
@@ -48,7 +48,7 @@ namespace BackEnd.Repositories.Warehouses
         }
 
 
-        public async Task<int> Create(Transfer transfer)
+        public async Task<long> Create(Transfer transfer)
         {
             context.Add(transfer);
             await context.SaveChangesAsync();

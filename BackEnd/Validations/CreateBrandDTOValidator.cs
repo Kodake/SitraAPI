@@ -8,7 +8,7 @@ namespace BackEnd.Validations
     public class CreateBrandDTOValidator : AbstractValidator<CreateBrandDTO>
     {
         public CreateBrandDTOValidator(IUnitRepository repository,
-            IHttpContextAccessor httpContextAccessor)
+          IHttpContextAccessor httpContextAccessor)
         {
             var routeId = httpContextAccessor.HttpContext?.Request.RouteValues["id"];
             var id = 0;
@@ -23,12 +23,11 @@ namespace BackEnd.Validations
             .MinimumLength(2).WithMessage(Utilities.MinimunLengthMessage)
             .MaximumLength(50).WithMessage(Utilities.MaximunLengthMessage)
             .Must(Utilities.FirstCharUppercase).WithMessage(Utilities.FirstCharUpperMessage)
-            .MustAsync(async (nombre, _) =>
+            .MustAsync(async (name, _) =>
             {
-                var existe = await repository.Exists(id, nombre);
-                return !existe;
-            }).WithMessage(x => $"Ya existe una marca con el nombre {x.Name}");
-
+                var exists = await repository.Exists(id, name);
+                return !exists;
+            }).WithMessage(x => string.Format(Utilities.NameAlreadyExistsWith, x.Name));
         }
     }
 }

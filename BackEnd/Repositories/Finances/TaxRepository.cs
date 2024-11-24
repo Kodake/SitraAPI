@@ -1,7 +1,6 @@
 using BackEnd.Context;
 using BackEnd.DTOs;
 using BackEnd.Entities.Finances;
-using BackEnd.Entities.Products;
 using BackEnd.Enums;
 using BackEnd.Helpers;
 using Microsoft.EntityFrameworkCore;
@@ -50,12 +49,12 @@ namespace BackEnd.Repositories.Finances
             return await query.OrderBy(u => u.Id).ToListAsync();
         }
 
-        public async Task<Tax?> GetById(int id)
+        public async Task<Tax?> GetById(long id)
         {
             return await context.Taxes.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<int> Create(Tax tax)
+        public async Task<long> Create(Tax tax)
         {
             context.Add(tax);
             await context.SaveChangesAsync();
@@ -68,7 +67,7 @@ namespace BackEnd.Repositories.Finances
             await context.SaveChangesAsync();
         }
 
-        public async Task Activate(int id)
+        public async Task Activate(long id)
         {
             var tax = await context.Taxes.FirstOrDefaultAsync(x => x.Id == id);
             if (tax != null)
@@ -78,7 +77,7 @@ namespace BackEnd.Repositories.Finances
             }
         }
 
-        public async Task Deactivate(int id)
+        public async Task Deactivate(long id)
         {
             var tax = await context.Taxes.FirstOrDefaultAsync(x => x.Id == id);
             if (tax != null)
@@ -88,7 +87,7 @@ namespace BackEnd.Repositories.Finances
             }
         }
 
-        public async Task<bool> Exists(int id)
+        public async Task<bool> Exists(long id)
         {
             return await context.Taxes.AnyAsync(x => x.Id == id);
         }

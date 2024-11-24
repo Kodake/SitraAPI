@@ -8,12 +8,12 @@ namespace BackEnd.Repositories.Products
     {
         Task<List<Unit>> GetAll(PaginationDTO paginationDTO);
         Task<List<Unit>> GetAll(StatusType status);
-        Task<Unit?> GetById(int id);
-        Task<int> Create(Unit unit);
+        Task<Unit?> GetById(long id);
+        Task<long> Create(Unit unit);
         Task Update(Unit unit);
-        Task Activate(int id);
-        Task Deactivate(int id);
-        Task<bool> Exists(int id);
-        Task<bool> Exists(int id, string name);
+        Task Activate(long id);
+        Task Deactivate(long id);
+        Task<bool> Exists(long id);
+        Task<bool> Exists(long id, string name);
     }
 }

@@ -6,42 +6,16 @@ using System.Text.Json.Serialization;
 namespace BackEnd.DTOs.Products;
 public class ProductListDTO
 {
-    public int Id { get; set; }
+    public long Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public ItemType ItemType { get; set; }
-    public double InitialCost
-    {
-        get
-        {
-            return PricingItems?.FirstOrDefault(p => p.IsPrincipal)?.InitialCost ?? 0;
-        }
-    }
-    public double BasePrice
-    {
-        get
-        {
-            return PricingItems?.FirstOrDefault(p => p.IsPrincipal)?.BasePrice ?? 0;
-        }
-    }
-    public double Percentage
-    {
-        get
-        {
-            return PricingItems?.FirstOrDefault(p => p.IsPrincipal)?.Percentage ?? 0;
-        }
-    }
-    public double TotalPrice
-    {
-        get
-        {
-            double totalTaxes = Taxes.Sum(pt => pt.Amount);
-            return BasePrice + (BasePrice * totalTaxes / 100);
-        }
-    }
+    public double InitialCost { get; set; }
+    public double BasePrice { get; set; }
+    public double Percentage { get; set; }
+    public double TotalPrice { get; set; }
     public bool IsActive { get; set; }
-    public List<TaxDTO> Taxes { get; set; } = new List<TaxDTO>();
+    public List<TaxDTO> Taxes { get; set; } = [];
     [JsonIgnore]
-    public List<PricingItemDTO>? PricingItems { get; set; } = new List<PricingItemDTO>();
-
-    public List<StockDTO>? Stocks { get; set; } = new List<StockDTO>();
+    public List<PricingItemDTO>? PricingItems { get; set; } = [];
+    public List<StockDTO>? Stocks { get; set; } = [];
 }

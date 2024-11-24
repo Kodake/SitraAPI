@@ -20,7 +20,7 @@ namespace BackEnd.Repositories.Products
             httpContext = httpContextAccessor.HttpContext!;
         }
 
-        public async Task<List<PricingItem>> GetAll(PaginationDTO paginationDTO, int itemId)
+        public async Task<List<PricingItem>> GetAll(PaginationDTO paginationDTO, long itemId)
         {
             var queryable = context.PricingItems
                 .Where(x => x.ItemId == itemId)
@@ -36,19 +36,19 @@ namespace BackEnd.Repositories.Products
             return items;
         }
 
-        public async Task<PricingItem?> GetById(int id)
+        public async Task<PricingItem?> GetById(long id)
         {
             return await context.PricingItems.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<int> Create(PricingItem pricingItem)
+        public async Task<long> Create(PricingItem pricingItem)
         {
             context.Add(pricingItem);
             await context.SaveChangesAsync();
             return pricingItem.Id;
         }
 
-        public async Task<PricingItem?> GetPricingItemByItemIdAndPricingId(int itemId, int pricingId)
+        public async Task<PricingItem?> GetPricingItemByItemIdAndPricingId(long itemId, long pricingId)
         {
             return await context.PricingItems.FirstOrDefaultAsync(pi => pi.ItemId == itemId && pi.PricingId == pricingId);
         }
@@ -60,7 +60,7 @@ namespace BackEnd.Repositories.Products
             return pricingItem;
         }
 
-        public async Task<bool> Activate(int id)
+        public async Task<bool> Activate(long id)
         {
             var pricingItemToSetPrincipal = await context.PricingItems
                 .Include(pi => pi.Item)
@@ -87,12 +87,12 @@ namespace BackEnd.Repositories.Products
             return true;
         }
 
-        public async Task<bool> Exists(int pricingId, int itemId)
+        public async Task<bool> Exists(long pricingId, long itemId)
         {
             return await context.PricingItems.AnyAsync(pi => pi.PricingId == pricingId && pi.ItemId == itemId);
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(long id)
         {
             var pricingItem = await context.PricingItems.FirstOrDefaultAsync(x => x.Id == id);
             if (pricingItem != null)

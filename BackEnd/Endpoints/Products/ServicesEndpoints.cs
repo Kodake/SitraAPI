@@ -198,7 +198,7 @@ namespace BackEnd.Endpoints.Products
                     {
                         pricing = new Pricing
                         {
-                            Name = Enum.GetName(PricingName.Principal) ?? "Principal",
+                            Name = Enum.GetName(PricingName.Principal) ?? "PRINCIPAL",
                             PricingType = PricingType.Value
                         };
 

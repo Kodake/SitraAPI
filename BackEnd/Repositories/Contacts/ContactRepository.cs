@@ -30,7 +30,7 @@ namespace BackEnd.Repositories.Products
                 .ToListAsync();
         }
 
-        public async Task<Contact?> GetById(int id)
+        public async Task<Contact?> GetById(long id)
         {
             return await context.Contacts.FirstOrDefaultAsync(x => x.Id == id);
         }
@@ -49,7 +49,7 @@ namespace BackEnd.Repositories.Products
                 .ToListAsync();
         }
 
-        public async Task<int> Create(Contact contact)
+        public async Task<long> Create(Contact contact)
         {
             context.Add(contact);
             await context.SaveChangesAsync();
@@ -62,7 +62,7 @@ namespace BackEnd.Repositories.Products
             await context.SaveChangesAsync();
         }
 
-        public async Task Activate(int id)
+        public async Task Activate(long id)
         {
             var contact = await context.Contacts.FirstOrDefaultAsync(x => x.Id == id);
             if (contact != null)
@@ -72,7 +72,7 @@ namespace BackEnd.Repositories.Products
             }
         }
 
-        public async Task Deactivate(int id)
+        public async Task Deactivate(long id)
         {
             var contact = await context.Contacts.FirstOrDefaultAsync(x => x.Id == id);
             if (contact != null)
@@ -82,12 +82,12 @@ namespace BackEnd.Repositories.Products
             }
         }
 
-        public async Task<bool> Exists(int id)
+        public async Task<bool> Exists(long id)
         {
             return await context.Contacts.AnyAsync(x => x.Id == id);
         }
 
-        public async Task<bool> Exists(int id, string name)
+        public async Task<bool> Exists(long id, string name)
         {
             return await context.Contacts.AnyAsync(x => x.Id != id && x.Name == name);
         }

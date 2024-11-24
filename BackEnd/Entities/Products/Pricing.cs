@@ -4,7 +4,7 @@ namespace BackEnd.Entities.Products
 {
     public sealed class Pricing
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public PricingType PricingType { get; set; }
         public double? Percentage { get; set; }

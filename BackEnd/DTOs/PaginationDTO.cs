@@ -9,7 +9,7 @@ namespace BackEnd.DTOs
         private const int initialRecordsPerPage = 10;
         public int Page { get; set; } = initialPage;
         private int recordsPerPage = initialRecordsPerPage;
-        private readonly int maximunRecordsPerPage = 50;
+        private readonly int maxRecordsPerPage = 50;
 
         public int RecordsPerPage
         {
@@ -20,7 +20,7 @@ namespace BackEnd.DTOs
 
             set
             {
-                recordsPerPage = (value > maximunRecordsPerPage) ? maximunRecordsPerPage : value;
+                recordsPerPage = (value > maxRecordsPerPage) ? maxRecordsPerPage : value;
             }
         }
 

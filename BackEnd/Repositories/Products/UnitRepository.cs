@@ -1,7 +1,6 @@
 ﻿using BackEnd.Context;
 using BackEnd.DTOs;
 using BackEnd.Entities.Products;
-using BackEnd.Entities.Warehouses;
 using BackEnd.Enums;
 using BackEnd.Helpers;
 using Microsoft.EntityFrameworkCore;
@@ -50,12 +49,12 @@ namespace BackEnd.Repositories.Products
             return await query.OrderBy(u => u.Id).ToListAsync();
         }
 
-        public async Task<Unit?> GetById(int id)
+        public async Task<Unit?> GetById(long id)
         {
             return await context.Units.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<int> Create(Unit unit)
+        public async Task<long> Create(Unit unit)
         {
             context.Add(unit);
             await context.SaveChangesAsync();
@@ -68,7 +67,7 @@ namespace BackEnd.Repositories.Products
             await context.SaveChangesAsync();
         }
 
-        public async Task Activate(int id)
+        public async Task Activate(long id)
         {
             var unit = await context.Units.FirstOrDefaultAsync(x => x.Id == id);
             if (unit != null)
@@ -78,7 +77,7 @@ namespace BackEnd.Repositories.Products
             }
         }
 
-        public async Task Deactivate(int id)
+        public async Task Deactivate(long id)
         {
             var unit = await context.Units.FirstOrDefaultAsync(x => x.Id == id);
             if (unit != null)
@@ -88,12 +87,12 @@ namespace BackEnd.Repositories.Products
             }
         }
 
-        public async Task<bool> Exists(int id)
+        public async Task<bool> Exists(long id)
         {
             return await context.Units.AnyAsync(x => x.Id == id);
         }
 
-        public async Task<bool> Exists(int id, string name)
+        public async Task<bool> Exists(long id, string name)
         {
             return await context.Units.AnyAsync(x => x.Id != id && x.Name == name);
         }

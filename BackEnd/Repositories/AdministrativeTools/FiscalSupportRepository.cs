@@ -54,14 +54,14 @@ namespace BackEnd.Repositories.AdministrativeTools
             return await query.OrderBy(u => u.Id).ToListAsync();
         }
 
-        public async Task<FiscalSupport?> GetById(int id)
+        public async Task<FiscalSupport?> GetById(long id)
         {
             return await context.FiscalSupports
                 .Include(x => x.Warehouse)
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<List<FiscalSupport>> GetByDocumentTypeAndWarehouseId(FiscalSupportType supportType, int warehouseId)
+        public async Task<List<FiscalSupport>> GetByDocumentTypeAndWarehouseId(FiscalSupportType supportType, long warehouseId)
         {
             return await context.FiscalSupports
                 .Include(x => x.Warehouse)
@@ -69,7 +69,7 @@ namespace BackEnd.Repositories.AdministrativeTools
                 .ToListAsync();
         }
 
-        public async Task<int> Create(FiscalSupport fiscalSupport)
+        public async Task<long> Create(FiscalSupport fiscalSupport)
         {
             context.Add(fiscalSupport);
             await context.SaveChangesAsync();
@@ -82,7 +82,7 @@ namespace BackEnd.Repositories.AdministrativeTools
             await context.SaveChangesAsync();
         }
 
-        public async Task Activate(int id)
+        public async Task Activate(long id)
         {
             var fiscalSupport = await context.FiscalSupports.FirstOrDefaultAsync(x => x.Id == id);
             if (fiscalSupport != null)
@@ -92,7 +92,7 @@ namespace BackEnd.Repositories.AdministrativeTools
             }
         }
 
-        public async Task Deactivate(int id)
+        public async Task Deactivate(long id)
         {
             var fiscalSupport = await context.FiscalSupports.FirstOrDefaultAsync(x => x.Id == id);
             if (fiscalSupport != null)
@@ -102,12 +102,12 @@ namespace BackEnd.Repositories.AdministrativeTools
             }
         }
 
-        public async Task<bool> Exists(int id)
+        public async Task<bool> Exists(long id)
         {
             return await context.FiscalSupports.AnyAsync(x => x.Id == id);
         }
 
-        public async Task<bool> Exists(int id, string name)
+        public async Task<bool> Exists(long id, string name)
         {
             return await context.FiscalSupports.AnyAsync(x => x.Id != id && x.Name == name);
         }

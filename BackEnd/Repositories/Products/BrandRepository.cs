@@ -49,12 +49,12 @@ namespace BackEnd.Repositories.Products
             return await query.OrderBy(u => u.Id).ToListAsync();
         }
 
-        public async Task<Brand?> GetById(int id)
+        public async Task<Brand?> GetById(long id)
         {
             return await context.Brands.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<int> Create(Brand brand)
+        public async Task<long> Create(Brand brand)
         {
             context.Add(brand);
             await context.SaveChangesAsync();
@@ -67,7 +67,7 @@ namespace BackEnd.Repositories.Products
             await context.SaveChangesAsync();
         }
 
-        public async Task Activate(int id)
+        public async Task Activate(long id)
         {
             var brand = await context.Brands.FirstOrDefaultAsync(x => x.Id == id);
             if (brand != null)
@@ -77,7 +77,7 @@ namespace BackEnd.Repositories.Products
             }
         }
 
-        public async Task Deactivate(int id)
+        public async Task Deactivate(long id)
         {
             var brand = await context.Brands.FirstOrDefaultAsync(x => x.Id == id);
             if (brand != null)
@@ -87,12 +87,12 @@ namespace BackEnd.Repositories.Products
             }
         }
 
-        public async Task<bool> Exists(int id)
+        public async Task<bool> Exists(long id)
         {
             return await context.Brands.AnyAsync(x => x.Id == id);
         }
 
-        public async Task<bool> Exists(int id, string name)
+        public async Task<bool> Exists(long id, string name)
         {
             return await context.Brands.AnyAsync(x => x.Id != id && x.Name == name);
         }

@@ -23,12 +23,12 @@ namespace BackEnd.Validations
             .MinimumLength(2).WithMessage(Utilities.MinimunLengthMessage)
             .MaximumLength(50).WithMessage(Utilities.MaximunLengthMessage)
             .Must(Utilities.FirstCharUppercase).WithMessage(Utilities.FirstCharUpperMessage)
-            .MustAsync(async (code, _) => 
+            .MustAsync(async (code, _) =>
             {
-                var existe = await repository.Exists(id, code);
-                return !existe;
-            }).WithMessage(x => $"Ya existe una contacto con el código {x.Name}");
-            
+                var exists = await repository.Exists(id, code);
+                return !exists;
+            }).WithMessage(x => string.Format(Utilities.NameAlreadyExistsWith, x.Name));
+
             RuleFor(x => x.Province)
             .MaximumLength(2).WithMessage(Utilities.MaximunLengthMessage)
             .Must(Utilities.FirstCharUppercase).WithMessage(Utilities.FirstCharUpperMessage);

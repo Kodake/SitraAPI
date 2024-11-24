@@ -59,7 +59,7 @@ namespace BackEnd.Repositories.Products
             return await query.OrderBy(u => u.Id).ToListAsync();
         }
 
-        public async Task<Item?> GetById(int id)
+        public async Task<Item?> GetById(long id)
         {
             return await context.Items
                 .Where(x => x.ItemType == ItemType.Service)
@@ -72,7 +72,7 @@ namespace BackEnd.Repositories.Products
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public async Task<int> Create(Item service)
+        public async Task<long> Create(Item service)
         {
             context.Add(service);
             await context.SaveChangesAsync();
@@ -85,7 +85,7 @@ namespace BackEnd.Repositories.Products
             await context.SaveChangesAsync();
         }
 
-        public async Task Activate(int id)
+        public async Task Activate(long id)
         {
             var service = await context.Items.FirstOrDefaultAsync(x => x.Id == id && x.ItemType == ItemType.Service);
             if (service != null)
@@ -95,7 +95,7 @@ namespace BackEnd.Repositories.Products
             }
         }
 
-        public async Task Deactivate(int id)
+        public async Task Deactivate(long id)
         {
             var service = await context.Items.FirstOrDefaultAsync(x => x.Id == id && x.ItemType == ItemType.Service);
             if (service != null)
@@ -105,12 +105,12 @@ namespace BackEnd.Repositories.Products
             }
         }
 
-        public async Task<bool> Exists(int id)
+        public async Task<bool> Exists(long id)
         {
             return await context.Items.AnyAsync(x => x.Id == id && x.ItemType == ItemType.Service);
         }
 
-        public async Task<bool> Exists(int id, string name)
+        public async Task<bool> Exists(long id, string name)
         {
             return await context.Items.AnyAsync(x => x.Id != id && x.Name == name && x.ItemType == ItemType.Service);
         }

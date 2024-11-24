@@ -4,17 +4,17 @@ namespace BackEnd.DTOs.Warehouses
 {
     public class TransferDTO
     {
-        public int Id { get; set; }
-        public int ProductId { get; set; }
+        public long Id { get; set; }
+        public long ProductId { get; set; }
         public ProductDTO? Product { get; set; }
-        public int OriginWarehouseId { get; set; }
+        public long OriginWarehouseId { get; set; }
         public WarehouseDTO? OriginWarehouse { get; set; }
-        public int DestinationWarehouseId { get; set; }
+        public long DestinationWarehouseId { get; set; }
         public WarehouseDTO? DestinationWarehouse { get; set; }
         public double Qty { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
-        public int StockId { get; set; }
+        public long StockId { get; set; }
         public StockDTO? Stock { get; set; }
         public TransferStatus Status { get; set; }
         public string Comment { get; set; } = string.Empty;

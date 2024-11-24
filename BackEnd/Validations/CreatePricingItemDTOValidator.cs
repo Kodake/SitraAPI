@@ -1,5 +1,4 @@
 ﻿using BackEnd.DTOs.Products;
-using BackEnd.DTOs.Warehouses;
 using BackEnd.Helpers;
 using BackEnd.Repositories.Products;
 using FluentValidation;
@@ -27,17 +26,17 @@ namespace BackEnd.Validations
 
             RuleFor(x => x.InitialCost)
                 .NotEmpty().WithMessage(Utilities.RequiredFieldMessage)
-                .GreaterThan(0).WithMessage("The initial cost must be a positive value.");
+                .GreaterThan(0).WithMessage(Utilities.GreatherThanZero);
 
             RuleFor(x => x.BasePrice)
                 .NotEmpty().WithMessage(Utilities.RequiredFieldMessage)
-                .GreaterThan(0).WithMessage("The base price must be a positive value.");
+                .GreaterThan(0).WithMessage(Utilities.GreatherThanZero);
 
 
             RuleFor(x => x)
                 .MustAsync(async (dto, cancellation) =>
                     !await repository.Exists(dto.PricingId, dto.ItemId))
-                .WithMessage("A PricingItem with the same PricingId and ItemId already exists.");
+            .WithMessage(dto => string.Format(Utilities.NameAlreadyExistsWith, $"PricingId: {dto.PricingId} & ItemId: {dto.ItemId}"));
         }
     }
 }

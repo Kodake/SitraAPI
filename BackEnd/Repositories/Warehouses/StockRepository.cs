@@ -33,7 +33,7 @@ namespace BackEnd.Repositories.Warehouses
                 .ToListAsync();
         }
 
-        public async Task<Stock?> GetById(int id)
+        public async Task<Stock?> GetById(long id)
         {
             return await context.Stocks.FirstOrDefaultAsync(x => x.Id == id);
         }
@@ -41,7 +41,7 @@ namespace BackEnd.Repositories.Warehouses
         public async Task<bool> Create(Stock stock)
         {
             context.Add(stock);
-            int changes = await context.SaveChangesAsync();
+            long changes = await context.SaveChangesAsync();
             return changes > 0;
         }
 
@@ -51,7 +51,7 @@ namespace BackEnd.Repositories.Warehouses
             await context.SaveChangesAsync();
         }
 
-        public async Task<Stock?> GetByItemIdAndWarehouseId(int itemId, int warehouseId)
+        public async Task<Stock?> GetByItemIdAndWarehouseId(long itemId, long warehouseId)
         {
             return await context.Stocks
                 .Where(s => s.ItemId == itemId && s.WarehouseId == warehouseId)

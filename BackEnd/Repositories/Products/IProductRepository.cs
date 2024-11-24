@@ -6,14 +6,14 @@ namespace BackEnd.Repositories.Products;
 
 public interface IProductRepository
 {
-    Task<Item?> GetById(int id);
+    Task<Item?> GetById(long id);
     Task<List<Item>> GetAll(PaginationDTO paginationDTO);
     Task<List<Item>> GetAll(StatusType status);
     Task<IEnumerable<Item>> GetAll();
-    Task<int> Create(Item product);
+    Task<long> Create(Item product);
     Task Update(Item product);
-    Task Activate(int id);
-    Task Deactivate(int id);
-    Task<bool> Exists(int id);
-    Task<bool> Exists(int id, string name);
+    Task Activate(long id);
+    Task Deactivate(long id);
+    Task<bool> Exists(long id);
+    Task<bool> Exists(long id, string name);
 }

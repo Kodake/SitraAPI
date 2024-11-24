@@ -1,5 +1,6 @@
 ﻿using BackEnd.Context;
 using BackEnd.Entities.Products;
+using BackEnd.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace BackEnd.Repositories.Products
@@ -19,7 +20,7 @@ namespace BackEnd.Repositories.Products
         public async Task<List<Item>> GetByPricingIdAndWarehouseId(int pricingId, int warehouseId)
         {
             return await context.Items
-                .Include(x => x.Stocks.Where(s => s.WarehouseId == warehouseId))
+                .Include(x => x.Stocks)
                 .Include(x => x.Unit)
                 .Include(x => x.ItemTaxes)
                     .ThenInclude(it => it.Tax)
@@ -28,8 +29,8 @@ namespace BackEnd.Repositories.Products
                 .Where(x =>
                     x.PricingItems.Any(pi => pi.PricingId == pricingId) &&
                     (
-                        !x.Stocks.Any() ||
-                        x.Stocks.Any(s => s.WarehouseId == warehouseId)
+                        x.ItemType == ItemType.Service ||
+                        x.Stocks.Any(s => s.WarehouseId == warehouseId && s.Qty > 0)
                     )
                 )
                 .ToListAsync();

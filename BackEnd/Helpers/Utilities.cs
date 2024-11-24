@@ -8,6 +8,11 @@
         public static string FirstCharUpperMessage = "El campo {PropertyName} debe comenzar con mayúsculas";
         public static string EmailMessage = "El campo {PropertyName} debe ser un email válido";
         public static string GreatherThanZero = "El campo {PropertyName} debe ser mayor a ";
+        public static string NameAlreadyExistsWith = "Ya existe con el nombre {0}";
+        public static string NotExistsWith = "No existe {PropertyName} con el valor {0}";
+        public static string InvalidEnumValueMessage = "El campo {PropertyName} tiene un valor inválido";
+        public static string RequiredFieldForConditionMessage = "El campo {PropertyName} es obligatorio cuando {0} es {1}";
+        public static string MaximumSupportsReachedMessage = "Maximum fiscal supports reached for this warehouse";
 
         public static string GreaterThanOrEqualToMensaje(DateTime minDate)
         {

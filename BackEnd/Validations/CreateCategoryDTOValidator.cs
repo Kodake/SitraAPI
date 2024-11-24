@@ -23,11 +23,11 @@ namespace BackEnd.Validations
             .MinimumLength(3).WithMessage(Utilities.MinimunLengthMessage)
             .MaximumLength(50).WithMessage(Utilities.MaximunLengthMessage)
             .Must(Utilities.FirstCharUppercase).WithMessage(Utilities.FirstCharUpperMessage)
-            .MustAsync(async (nombre, _) =>
+            .MustAsync(async (name, _) =>
             {
-                var existe = await repository.Exists(id, nombre);
-                return !existe;
-            }).WithMessage(x => $"Ya existe una categoría con el nombre {x.Name}");
+                var exists = await repository.Exists(id, name);
+                return !exists;
+            }).WithMessage(x => string.Format(Utilities.NameAlreadyExistsWith, x.Name));
 
             RuleFor(x => x.Description)
             .MaximumLength(100).WithMessage(Utilities.MaximunLengthMessage);

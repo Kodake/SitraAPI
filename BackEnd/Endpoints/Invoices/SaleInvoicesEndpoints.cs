@@ -4,11 +4,14 @@ using BackEnd.DTOs.Invoices;
 using BackEnd.Entities.AdministrativeTools;
 using BackEnd.Entities.Invoices;
 using BackEnd.Enums;
+using BackEnd.Helpers;
 using BackEnd.Repositories.AdministrativeTools;
 using BackEnd.Repositories.Contacts;
 using BackEnd.Repositories.Finances;
 using BackEnd.Repositories.Invoices;
 using BackEnd.Repositories.Products;
+using BackEnd.Repositories.Warehouses;
+using FluentValidation;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,6 +27,7 @@ namespace BackEnd.Endpoints.Invoices
 
         static async Task<Results<Created, ValidationProblem>> Create(
             [FromBody] CreateSaleInvoiceDTO dto,
+            [FromServices] IValidator<CreateSaleInvoiceDTO> validator,
             [FromServices] ISaleInvoiceRepository repository,
             [FromServices] IPricingRepository pricingRepository,
             [FromServices] IContactRepository contactRepository,
@@ -31,46 +35,50 @@ namespace BackEnd.Endpoints.Invoices
             [FromServices] IDeadlineRepository deadlineRepository,
             [FromServices] ICurrencyRepository currencyRepository,
             [FromServices] IProductRepository productRepository,
+            [FromServices] IStockRepository stockRepository,
             [FromServices] IMapper mapper,
             [FromServices] ApplicationDbContext dbContext)
         {
+            var validationResult = await validator.ValidateAsync(dto);
+            if (!validationResult.IsValid)
+            {
+                return (Results<Created, ValidationProblem>)Results.ValidationProblem(validationResult.ToDictionary());
+            }
+
             using var transaction = await dbContext.Database.BeginTransactionAsync();
 
             try
             {
-                var saleInvoice = mapper.Map<SaleInvoice>(dto);
-
-                if (await pricingRepository.GetById(dto.PricingId) == null)
-                    return ValidationError("Invalid pricing id.");
-
-                if (await contactRepository.GetById(dto.BillerId) == null)
-                    return ValidationError("Invalid biller id.");
-
-                if (await contactRepository.GetById(dto.CustomerId) == null)
-                    return ValidationError("Invalid buyer id.");
-
                 var fiscalSupportDB = await fiscalSupportRepository.GetById(dto.FiscalSupportId);
-                if (fiscalSupportDB == null)
-                    return ValidationError("Invalid fiscal support id.");
-
                 var currencyDB = await currencyRepository.GetById(dto.CurrencyId);
-                if (currencyDB == null)
-                    return ValidationError("Invalid currency id.");
 
-                if (!TryUpdateFiscalSupportSequence(fiscalSupportDB))
-                    return ValidationError("Maximum fiscal supports reached for this warehouse.");
+                if (fiscalSupportDB == null || currencyDB == null)
+                {
+                    return TypedResults.ValidationProblem(new Dictionary<string, string[]>
+                    {
+                        {
+                            nameof(dto.FiscalSupportId),
+                            new[] { string.Format(Utilities.NotExistsWith, nameof(dto.FiscalSupportId), dto.FiscalSupportId) }
+                        },
+                        {
+                            nameof(dto.CurrencyId),
+                            new[] { string.Format(Utilities.NotExistsWith, nameof(dto.CurrencyId), dto.CurrencyId) }
+                        }
+                    });
+                }
 
+                var saleInvoice = mapper.Map<SaleInvoice>(dto);
                 saleInvoice.FiscalSupportNumber = GenerateFiscalSupportNumber(fiscalSupportDB);
                 await fiscalSupportRepository.Update(fiscalSupportDB);
 
                 double currencyRate = currencyDB.Rate;
-
-                //await CalculateInvoiceTotals(dto.SaleInvoiceItems, saleInvoice, productRepository, currencyRate);
+                await CalculateInvoiceTotals(dto.SaleInvoiceItems, saleInvoice, productRepository, currencyRate);
 
                 saleInvoice.DeadlineId = 1;
                 var invoiceId = await repository.Create(saleInvoice);
 
-                //await AddInvoiceItems(dto.SaleInvoiceItems, invoiceId, repository, productRepository, mapper, currencyRate);
+                await AddInvoiceItems(dto.SaleInvoiceItems, invoiceId, repository, productRepository, mapper, currencyRate);
+                await ReduceStock(dto, stockRepository);
 
                 await transaction.CommitAsync();
                 return TypedResults.Created($"/invoices/{invoiceId}");
@@ -79,6 +87,25 @@ namespace BackEnd.Endpoints.Invoices
             {
                 await transaction.RollbackAsync();
                 return HandleException(ex);
+            }
+        }
+
+        private static async Task ReduceStock(CreateSaleInvoiceDTO dto, IStockRepository stockRepository)
+        {
+            foreach (var item in dto.SaleInvoiceItems)
+            {
+                if (item.ItemType == ItemType.Product)
+                {
+                    var stock = await stockRepository.GetByItemIdAndWarehouseId(item.ItemId, dto.WarehouseId);
+
+                    if (stock == null)
+                    {
+                        throw new InvalidOperationException($"Stock not found for ItemId {item.ItemId} in the specified warehouse.");
+                    }
+
+                    stock.Qty -= item.Qty;
+                    await stockRepository.Update(stock);
+                }
             }
         }
 
@@ -108,9 +135,8 @@ namespace BackEnd.Endpoints.Invoices
 
             saleInvoice.TotalQtyItems = totalQtyItems;
             saleInvoice.TotalItems = totalItems;
-            saleInvoice.TotalPrice = totalPrice + saleInvoice.DeliveryFees;
+            saleInvoice.TotalPrice = totalPrice + saleInvoice.Shipping ?? 0;
             saleInvoice.TotalAmount = totalAmount;
-            saleInvoice.PaymentReturned = saleInvoice.PaymentReceived - saleInvoice.TotalPrice;
             saleInvoice.TotalTaxes = totalTaxes;
         }
 
@@ -141,23 +167,14 @@ namespace BackEnd.Endpoints.Invoices
             }
         }
 
-        private static bool TryUpdateFiscalSupportSequence(FiscalSupport fiscalSupport)
-        {
-            const int increment = 1;
-            var nextSequence = fiscalSupport.InitialSequence + increment;
-            if (nextSequence > fiscalSupport.FinalSequence) return false;
-
-            fiscalSupport.InitialSequence = nextSequence;
-            return true;
-        }
-
         private static string GenerateFiscalSupportNumber(FiscalSupport fiscalSupport)
         {
             string fiscalSupportName = Enum.GetName(typeof(FiscalSupportType), fiscalSupport.FiscalSupportType) ?? "Unknown";
             char symbolChar = fiscalSupport.Symbol.Length > 0 ? fiscalSupport.Symbol[0] : '?';
-            string repeatedSymbols = new string(symbolChar, fiscalSupport.SpaceNumber);
-            string sequence = fiscalSupport.InitialSequence.ToString().PadLeft(fiscalSupport.SpaceNumber, symbolChar);
-            string finalSymbols = repeatedSymbols[..^fiscalSupport.SpaceNumber] + sequence;
+            int validSpaceNumber = (int)fiscalSupport.SpaceNumber;
+            string repeatedSymbols = new string(symbolChar, validSpaceNumber);
+            string sequence = ((int)fiscalSupport.InitialSequence).ToString().PadLeft(validSpaceNumber, symbolChar);
+            string finalSymbols = repeatedSymbols[..^validSpaceNumber] + sequence;
 
             return $"{fiscalSupportName}{finalSymbols}";
         }

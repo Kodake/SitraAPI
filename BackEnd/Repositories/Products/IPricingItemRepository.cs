@@ -6,13 +6,13 @@ namespace BackEnd.Repositories.Products
 {
     public interface IPricingItemRepository
     {
-        Task<List<PricingItem>> GetAll(PaginationDTO paginationDTO, int itemId);
-        Task<PricingItem?> GetById(int id);
-        Task<int> Create(PricingItem pricingItem);
-        Task<PricingItem?> GetPricingItemByItemIdAndPricingId(int itemId, int pricingId);
+        Task<List<PricingItem>> GetAll(PaginationDTO paginationDTO, long itemId);
+        Task<PricingItem?> GetById(long id);
+        Task<long> Create(PricingItem pricingItem);
+        Task<PricingItem?> GetPricingItemByItemIdAndPricingId(long itemId, long pricingId);
         Task<PricingItem> Update(PricingItem pricingItem);
-        Task<bool> Activate(int id);
-        Task<bool> Exists(int pricingId, int itemId);
-        Task Delete(int id);
+        Task<bool> Activate(long id);
+        Task<bool> Exists(long pricingId, long itemId);
+        Task Delete(long id);
     }
 }

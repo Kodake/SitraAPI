@@ -5,14 +5,14 @@ namespace BackEnd.Repositories.Finances
 {
     public interface ICurrencyRepository
     {
-        Task<Currency?> GetById(int id);
+        Task<Currency?> GetById(long id);
         Task<List<Currency>> GetCurrencies();
         Task<List<Currency>> GetAll(PaginationDTO paginationDTO);
-        Task<int> Create(Currency category);
+        Task<long> Create(Currency category);
         Task Update(Currency category);
-        Task Activate(int id);
-        Task Deactivate(int id);
-        Task<bool> Exists(int id);
-        Task<bool> Exists(int id, string code);
+        Task Activate(long id);
+        Task Deactivate(long id);
+        Task<bool> Exists(long id);
+        Task<bool> Exists(long id, string code);
     }
 }

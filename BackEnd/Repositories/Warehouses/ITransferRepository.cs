@@ -5,9 +5,9 @@ namespace BackEnd.Repositories.Warehouses
 {
     public interface ITransferRepository
     {
-        Task<Transfer?> GetById(int id);
+        Task<Transfer?> GetById(long id);
         Task<List<Transfer>> GetAll(PaginationDTO paginationDTO);
-        Task<int> Create(Transfer transfer);
+        Task<long> Create(Transfer transfer);
         Task Update(Transfer transfer);
     }
 }

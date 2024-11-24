@@ -50,7 +50,7 @@ namespace BackEnd.Repositories.Products
             return await query.OrderBy(u => u.Id).ToListAsync();
         }
 
-        public async Task<IEnumerable<Warehouse>> GetStockWarehouseByProductId(int productId)
+        public async Task<IEnumerable<Warehouse>> GetStockWarehouseByProductId(long productId)
         {
             return await context.Warehouses
                 .Where(p => p.Stocks.Any(pi => pi.ItemId == productId))
@@ -63,7 +63,7 @@ namespace BackEnd.Repositories.Products
                 }).ToListAsync();
         }
 
-        public async Task<IEnumerable<Warehouse>> GetUnregisteredWarehouseById(int id)
+        public async Task<IEnumerable<Warehouse>> GetUnregisteredWarehouseById(long id)
         {
             return await context.Warehouses
                 .Where(pi => pi.Id != id)
@@ -75,12 +75,12 @@ namespace BackEnd.Repositories.Products
                 }).ToListAsync();
         }
 
-        public async Task<Warehouse?> GetById(int id)
+        public async Task<Warehouse?> GetById(long id)
         {
             return await context.Warehouses.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<int> Create(Warehouse warehouse)
+        public async Task<long> Create(Warehouse warehouse)
         {
             context.Add(warehouse);
             await context.SaveChangesAsync();
@@ -93,7 +93,7 @@ namespace BackEnd.Repositories.Products
             await context.SaveChangesAsync();
         }
 
-        public async Task Activate(int id)
+        public async Task Activate(long id)
         {
             var warehouse = await context.Warehouses.FirstOrDefaultAsync(x => x.Id == id);
             if (warehouse != null)
@@ -103,7 +103,7 @@ namespace BackEnd.Repositories.Products
             }
         }
 
-        public async Task Deactivate(int id)
+        public async Task Deactivate(long id)
         {
             var warehouse = await context.Warehouses.FirstOrDefaultAsync(x => x.Id == id);
             if (warehouse != null)
@@ -113,12 +113,12 @@ namespace BackEnd.Repositories.Products
             }
         }
 
-        public async Task<bool> Exists(int id)
+        public async Task<bool> Exists(long id)
         {
             return await context.Warehouses.AnyAsync(x => x.Id == id);
         }
 
-        public async Task<bool> Exists(int id, string name)
+        public async Task<bool> Exists(long id, string name)
         {
             return await context.Warehouses.AnyAsync(x => x.Id != id && x.Name == name);
         }

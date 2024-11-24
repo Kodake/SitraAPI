@@ -5,7 +5,7 @@ namespace BackEnd.Entities.Products
 {
     public sealed class Item
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public ItemType ItemType { get; set; }
         public string Name { get; set; } = string.Empty;
         public string? Reference { get; set; } = string.Empty;
@@ -35,11 +35,11 @@ namespace BackEnd.Entities.Products
                 }
             }
         }
-        public int? BrandId { get; set; } = null!;
+        public long? BrandId { get; set; } = null!;
         public Brand? Brand { get; set; }
-        public int? CategoryId { get; set; } = null!;
+        public long? CategoryId { get; set; } = null!;
         public Category? Category { get; set; }
-        public int? UnitId { get; set; } = null!;
+        public long? UnitId { get; set; } = null!;
         public Unit? Unit { get; set; }
         public bool IsActive { get; set; } = true;
         public ICollection<ItemTaxes> ItemTaxes { get; set; } = [];

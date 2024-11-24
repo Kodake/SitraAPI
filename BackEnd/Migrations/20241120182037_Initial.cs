@@ -54,7 +54,7 @@ namespace BackEnd.Migrations
                 name: "Brands",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     ImageURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -69,7 +69,7 @@ namespace BackEnd.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
@@ -84,7 +84,7 @@ namespace BackEnd.Migrations
                 name: "Contacts",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ContactType = table.Column<int>(type: "int", nullable: true),
                     IdentificationType = table.Column<int>(type: "int", nullable: true),
@@ -106,7 +106,7 @@ namespace BackEnd.Migrations
                 name: "Currencies",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Code = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
@@ -122,10 +122,10 @@ namespace BackEnd.Migrations
                 name: "Deadlines",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Days = table.Column<int>(type: "int", nullable: false),
+                    Days = table.Column<long>(type: "bigint", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -137,7 +137,7 @@ namespace BackEnd.Migrations
                 name: "Pricings",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PricingType = table.Column<int>(type: "int", nullable: false),
@@ -152,7 +152,7 @@ namespace BackEnd.Migrations
                 name: "Taxes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Amount = table.Column<double>(type: "float", nullable: false),
@@ -167,7 +167,7 @@ namespace BackEnd.Migrations
                 name: "Units",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     ShortName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
@@ -182,7 +182,7 @@ namespace BackEnd.Migrations
                 name: "Warehouses",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Address = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
@@ -311,23 +311,22 @@ namespace BackEnd.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PricingId = table.Column<int>(type: "int", nullable: false),
-                    BillerId = table.Column<int>(type: "int", nullable: false),
-                    BuyerId = table.Column<int>(type: "int", nullable: false),
-                    FiscalSupportId = table.Column<int>(type: "int", nullable: false),
-                    DeadlineId = table.Column<int>(type: "int", nullable: false),
-                    CurrencyId = table.Column<int>(type: "int", nullable: false),
+                    PricingId = table.Column<long>(type: "bigint", nullable: false),
+                    BillerId = table.Column<long>(type: "bigint", nullable: false),
+                    CustomerId = table.Column<long>(type: "bigint", nullable: false),
+                    FiscalSupportId = table.Column<long>(type: "bigint", nullable: false),
+                    DeadlineId = table.Column<long>(type: "bigint", nullable: false),
+                    CurrencyId = table.Column<long>(type: "bigint", nullable: false),
                     FiscalSupportNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DeliveryFees = table.Column<double>(type: "float", nullable: false),
+                    Shipping = table.Column<double>(type: "float", nullable: true),
+                    Discount = table.Column<double>(type: "float", nullable: true),
                     TotalQtyItems = table.Column<double>(type: "float", nullable: false),
                     TotalItems = table.Column<double>(type: "float", nullable: false),
                     TotalAmount = table.Column<double>(type: "float", nullable: false),
                     TotalPrice = table.Column<double>(type: "float", nullable: false),
                     TotalTaxes = table.Column<double>(type: "float", nullable: false),
-                    PaymentReceived = table.Column<double>(type: "float", nullable: false),
-                    PaymentReturned = table.Column<double>(type: "float", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    PaymentMethod = table.Column<int>(type: "int", nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -339,8 +338,8 @@ namespace BackEnd.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_SaleInvoices_Contacts_BuyerId",
-                        column: x => x.BuyerId,
+                        name: "FK_SaleInvoices_Contacts_CustomerId",
+                        column: x => x.CustomerId,
                         principalTable: "Contacts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -368,15 +367,15 @@ namespace BackEnd.Migrations
                 name: "Items",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ItemType = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Reference = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    BrandId = table.Column<int>(type: "int", nullable: true),
-                    CategoryId = table.Column<int>(type: "int", nullable: true),
-                    UnitId = table.Column<int>(type: "int", nullable: true),
+                    BrandId = table.Column<long>(type: "bigint", nullable: true),
+                    CategoryId = table.Column<long>(type: "bigint", nullable: true),
+                    UnitId = table.Column<long>(type: "bigint", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -406,16 +405,16 @@ namespace BackEnd.Migrations
                 name: "FiscalSupports",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DocumentType = table.Column<int>(type: "int", nullable: false),
                     FiscalSupportType = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Symbol = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: false),
-                    InitialSequence = table.Column<int>(type: "int", nullable: false),
-                    FinalSequence = table.Column<int>(type: "int", nullable: false),
-                    SpaceNumber = table.Column<int>(type: "int", nullable: false),
-                    WarehouseId = table.Column<int>(type: "int", nullable: false),
+                    InitialSequence = table.Column<long>(type: "bigint", nullable: false),
+                    FinalSequence = table.Column<long>(type: "bigint", nullable: false),
+                    SpaceNumber = table.Column<long>(type: "bigint", nullable: false),
+                    WarehouseId = table.Column<long>(type: "bigint", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -433,8 +432,8 @@ namespace BackEnd.Migrations
                 name: "ItemTaxes",
                 columns: table => new
                 {
-                    ItemId = table.Column<int>(type: "int", nullable: false),
-                    TaxId = table.Column<int>(type: "int", nullable: false)
+                    ItemId = table.Column<long>(type: "bigint", nullable: false),
+                    TaxId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -457,10 +456,10 @@ namespace BackEnd.Migrations
                 name: "PricingItems",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ItemId = table.Column<int>(type: "int", nullable: false),
-                    PricingId = table.Column<int>(type: "int", nullable: false),
+                    ItemId = table.Column<long>(type: "bigint", nullable: false),
+                    PricingId = table.Column<long>(type: "bigint", nullable: false),
                     InitialCost = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     BasePrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     IsPrincipal = table.Column<bool>(type: "bit", nullable: false)
@@ -486,10 +485,10 @@ namespace BackEnd.Migrations
                 name: "SaleInvoiceItems",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SaleInvoiceId = table.Column<long>(type: "bigint", nullable: false),
-                    ItemId = table.Column<int>(type: "int", nullable: false),
+                    ItemId = table.Column<long>(type: "bigint", nullable: false),
                     Qty = table.Column<double>(type: "float", nullable: false),
                     BasePrice = table.Column<double>(type: "float", nullable: false),
                     TotalAmount = table.Column<double>(type: "float", nullable: false),
@@ -517,10 +516,10 @@ namespace BackEnd.Migrations
                 name: "Stocks",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ItemId = table.Column<int>(type: "int", nullable: false),
-                    WarehouseId = table.Column<int>(type: "int", nullable: false),
+                    ItemId = table.Column<long>(type: "bigint", nullable: false),
+                    WarehouseId = table.Column<long>(type: "bigint", nullable: false),
                     Qty = table.Column<double>(type: "float", nullable: false),
                     MinQty = table.Column<double>(type: "float", nullable: true),
                     MaxQty = table.Column<double>(type: "float", nullable: true)
@@ -546,15 +545,15 @@ namespace BackEnd.Migrations
                 name: "Transfers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductId = table.Column<int>(type: "int", nullable: false),
-                    OriginWarehouseId = table.Column<int>(type: "int", nullable: false),
-                    DestinationWarehouseId = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<long>(type: "bigint", nullable: false),
+                    OriginWarehouseId = table.Column<long>(type: "bigint", nullable: false),
+                    DestinationWarehouseId = table.Column<long>(type: "bigint", nullable: false),
                     Qty = table.Column<double>(type: "float", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    StockId = table.Column<int>(type: "int", nullable: false),
+                    StockId = table.Column<long>(type: "bigint", nullable: false),
                     Comment = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false)
                 },
@@ -677,14 +676,14 @@ namespace BackEnd.Migrations
                 column: "BillerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SaleInvoices_BuyerId",
-                table: "SaleInvoices",
-                column: "BuyerId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_SaleInvoices_CurrencyId",
                 table: "SaleInvoices",
                 column: "CurrencyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SaleInvoices_CustomerId",
+                table: "SaleInvoices",
+                column: "CustomerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SaleInvoices_DeadlineId",

@@ -28,7 +28,7 @@ namespace BackEnd.Repositories.Finances
                 .ToListAsync();
         }
 
-        public async Task<Currency?> GetById(int id)
+        public async Task<Currency?> GetById(long id)
         {
             return await context.Currencies.FirstOrDefaultAsync(x => x.Id == id);
         }
@@ -40,7 +40,7 @@ namespace BackEnd.Repositories.Finances
                 .ToListAsync();
         }
 
-        public async Task<int> Create(Currency currency)
+        public async Task<long> Create(Currency currency)
         {
             context.Add(currency);
             await context.SaveChangesAsync();
@@ -53,7 +53,7 @@ namespace BackEnd.Repositories.Finances
             await context.SaveChangesAsync();
         }
 
-        public async Task Activate(int id)
+        public async Task Activate(long id)
         {
             var currency = await context.Currencies.FirstOrDefaultAsync(x => x.Id == id);
             if (currency != null)
@@ -63,7 +63,7 @@ namespace BackEnd.Repositories.Finances
             }
         }
 
-        public async Task Deactivate(int id)
+        public async Task Deactivate(long id)
         {
             var currency = await context.Currencies.FirstOrDefaultAsync(x => x.Id == id);
             if (currency != null)
@@ -73,12 +73,12 @@ namespace BackEnd.Repositories.Finances
             }
         }
 
-        public async Task<bool> Exists(int id)
+        public async Task<bool> Exists(long id)
         {
             return await context.Currencies.AnyAsync(x => x.Id == id);
         }
 
-        public async Task<bool> Exists(int id, string code)
+        public async Task<bool> Exists(long id, string code)
         {
             return await context.Currencies.AnyAsync(x => x.Id != id && x.Code == code);
         }

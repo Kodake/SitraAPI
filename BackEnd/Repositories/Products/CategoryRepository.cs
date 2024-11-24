@@ -50,12 +50,12 @@ namespace BackEnd.Repositories.Products
         }
 
 
-        public async Task<Category?> GetById(int id)
+        public async Task<Category?> GetById(long id)
         {
             return await context.Categories.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<int> Create(Category category)
+        public async Task<long> Create(Category category)
         {
             context.Add(category);
             await context.SaveChangesAsync();
@@ -68,7 +68,7 @@ namespace BackEnd.Repositories.Products
             await context.SaveChangesAsync();
         }
 
-        public async Task Activate(int id)
+        public async Task Activate(long id)
         {
             var category = await context.Categories.FirstOrDefaultAsync(x => x.Id == id);
             if (category != null)
@@ -78,7 +78,7 @@ namespace BackEnd.Repositories.Products
             }
         }
 
-        public async Task Deactivate(int id)
+        public async Task Deactivate(long id)
         {
             var category = await context.Categories.FirstOrDefaultAsync(x => x.Id == id);
             if (category != null)
@@ -88,12 +88,12 @@ namespace BackEnd.Repositories.Products
             }
         }
 
-        public async Task<bool> Exists(int id)
+        public async Task<bool> Exists(long id)
         {
             return await context.Categories.AnyAsync(x => x.Id == id);
         }
 
-        public async Task<bool> Exists(int id, string name)
+        public async Task<bool> Exists(long id, string name)
         {
             return await context.Categories.AnyAsync(x => x.Id != id && x.Name == name);
         }

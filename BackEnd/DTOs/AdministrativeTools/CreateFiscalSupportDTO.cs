@@ -9,9 +9,9 @@ namespace BackEnd.DTOs.AdministrativeTools
         public FiscalSupportType FiscalSupportType { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Symbol { get; set; } = string.Empty;
-        public int InitialSequence { get; set; }
-        public int FinalSequence { get; set; }
-        public int SpaceNumber { get; set; }
-        public int WarehouseId { get; set; }
+        public long InitialSequence { get; set; }
+        public long FinalSequence { get; set; }
+        public long SpaceNumber { get; set; }
+        public long WarehouseId { get; set; }
     }
 }

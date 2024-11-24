@@ -8,13 +8,13 @@ namespace BackEnd.Repositories.AdministrativeTools
     {
         Task<List<FiscalSupport>> GetAll(PaginationDTO paginationDTO);
         Task<List<FiscalSupport>> GetAll(StatusType status);
-        Task<FiscalSupport?> GetById(int id);
-        Task<int> Create(FiscalSupport fiscalSupport);
+        Task<FiscalSupport?> GetById(long id);
+        Task<long> Create(FiscalSupport fiscalSupport);
         Task Update(FiscalSupport fiscalSupport);
-        Task Activate(int id);
-        Task Deactivate(int id);
-        Task<bool> Exists(int id);
-        Task<bool> Exists(int id, string code);
-        Task<List<FiscalSupport>> GetByDocumentTypeAndWarehouseId(FiscalSupportType supportType, int warehouseId);
+        Task Activate(long id);
+        Task Deactivate(long id);
+        Task<bool> Exists(long id);
+        Task<bool> Exists(long id, string code);
+        Task<List<FiscalSupport>> GetByDocumentTypeAndWarehouseId(FiscalSupportType supportType, long warehouseId);
     }
 }

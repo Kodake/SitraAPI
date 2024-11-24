@@ -25,9 +25,9 @@ namespace BackEnd.Validations
             .Must(Utilities.FirstCharUppercase).WithMessage(Utilities.FirstCharUpperMessage)
             .MustAsync(async (code, _) =>
             {
-                var existe = await repository.Exists(id, code);
-                return !existe;
-            }).WithMessage(x => $"Ya existe una moneda con el código {x.Code}");
+                var exists = await repository.Exists(id, code);
+                return !exists;
+            }).WithMessage(x => string.Format(Utilities.NameAlreadyExistsWith, x.Name));
 
             RuleFor(x => x.Code)
             .NotEmpty().WithMessage(Utilities.RequiredFieldMessage)

@@ -49,12 +49,12 @@ namespace BackEnd.Repositories.AdministrativeTools
             return await query.OrderBy(u => u.Id).ToListAsync();
         }
 
-        public async Task<Deadline?> GetById(int id)
+        public async Task<Deadline?> GetById(long id)
         {
             return await context.Deadlines.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<int> Create(Deadline deadline)
+        public async Task<long> Create(Deadline deadline)
         {
             context.Add(deadline);
             await context.SaveChangesAsync();
@@ -67,7 +67,7 @@ namespace BackEnd.Repositories.AdministrativeTools
             await context.SaveChangesAsync();
         }
 
-        public async Task Activate(int id)
+        public async Task Activate(long id)
         {
             var deadline = await context.Deadlines.FirstOrDefaultAsync(x => x.Id == id);
             if (deadline != null)
@@ -77,7 +77,7 @@ namespace BackEnd.Repositories.AdministrativeTools
             }
         }
 
-        public async Task Deactivate(int id)
+        public async Task Deactivate(long id)
         {
             var deadline = await context.Deadlines.FirstOrDefaultAsync(x => x.Id == id);
             if (deadline != null)
@@ -87,12 +87,12 @@ namespace BackEnd.Repositories.AdministrativeTools
             }
         }
 
-        public async Task<bool> Exists(int id)
+        public async Task<bool> Exists(long id)
         {
             return await context.Deadlines.AnyAsync(x => x.Id == id);
         }
 
-        public async Task<bool> Exists(int id, int days)
+        public async Task<bool> Exists(long id, long days)
         {
             return await context.Deadlines.AnyAsync(x => x.Id != id && x.Days == days);
         }

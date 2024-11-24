@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using BackEnd.Context;
 using BackEnd.DTOs.AdministrativeTools;
 using BackEnd.DTOs.Contacts;
 using BackEnd.DTOs.Finances;
@@ -12,7 +11,6 @@ using BackEnd.Entities.Finances;
 using BackEnd.Entities.Invoices;
 using BackEnd.Entities.Products;
 using BackEnd.Entities.Warehouses;
-using System;
 
 namespace BackEnd.Helpers
 {
@@ -37,7 +35,9 @@ namespace BackEnd.Helpers
             CreateMap<Pricing, PricingDTO>();
 
             CreateMap<CreatePricingItemDTO, PricingItem>();
-            CreateMap<PricingItem, PricingItemListDTO>();
+            CreateMap<PricingItem, PricingItemListDTO>()
+                .ForMember(des => des.Percentage, opt => opt.MapFrom(src =>
+                    src.Pricing.Percentage));
             CreateMap<PricingItem, PricingItemDTO>();
 
             CreateMap<CreateCurrencyDTO, Currency>();
@@ -57,7 +57,7 @@ namespace BackEnd.Helpers
             CreateMap<Warehouse, WarehouseDTO>();
 
             CreateMap<Item, ProductListDTO>()
-                .ForMember(dest => dest.PricingItems, opt => opt.MapFrom(src => src.PricingItems.Select(pt => new PricingItemDTO
+                .ForMember(des => des.PricingItems, opt => opt.MapFrom(src => src.PricingItems.Select(pt => new PricingItemDTO
                 {
                     ItemId = pt.Item.Id,
                     PricingId = pt.Pricing.Id,
@@ -66,15 +66,25 @@ namespace BackEnd.Helpers
                     Percentage = pt.Pricing.Percentage,
                     IsPrincipal = pt.IsPrincipal
                 }).ToList()))
-                .ForMember(dest => dest.Taxes, opt => opt.MapFrom(src => src.ItemTaxes.Select(pt => new TaxDTO
+                .ForMember(des => des.Taxes, opt => opt.MapFrom(src => src.ItemTaxes.Select(pt => new TaxDTO
                 {
                     Id = pt.Tax.Id,
                     Name = pt.Tax.Name,
                     Amount = pt.Tax.Amount
-                }).ToList()));
+                }).ToList()))
+                .ForMember(des => des.InitialCost, opt => opt.MapFrom(src =>
+                    src.PricingItems.FirstOrDefault(p => p.IsPrincipal)!.InitialCost))
+                .ForMember(des => des.BasePrice, opt => opt.MapFrom(src =>
+                    src.PricingItems.FirstOrDefault(p => p.IsPrincipal)!.BasePrice))
+                .ForMember(des => des.Percentage, opt => opt.MapFrom(src =>
+                    src.PricingItems.FirstOrDefault(p => p.IsPrincipal)!.Pricing!.Percentage))
+                .ForMember(des => des.TotalPrice, opt => opt.MapFrom(src =>
+                    src.PricingItems.FirstOrDefault(p => p.IsPrincipal)!.BasePrice +
+                    (src.PricingItems.FirstOrDefault(p => p.IsPrincipal)!.BasePrice * src.ItemTaxes.Sum(t => t.Tax.Amount) / 100)
+                ));
 
             CreateMap<Item, ProductDTO>()
-                .ForMember(dest => dest.PricingItems, opt => opt.MapFrom(src => src.PricingItems.Select(pt => new PricingItemDTO
+                .ForMember(des => des.PricingItems, opt => opt.MapFrom(src => src.PricingItems.Select(pt => new PricingItemDTO
                 {
                     ItemId = pt.Item.Id,
                     PricingId = pt.Pricing.Id,
@@ -83,42 +93,49 @@ namespace BackEnd.Helpers
                     Percentage = pt.Pricing.Percentage,
                     IsPrincipal = pt.IsPrincipal
                 }).ToList()))
-                .ForMember(dest => dest.Taxes, opt => opt.MapFrom(src => src.ItemTaxes.Select(pt => new TaxDTO
+                .ForMember(des => des.Taxes, opt => opt.MapFrom(src => src.ItemTaxes.Select(pt => new TaxDTO
                 {
                     Id = pt.Tax.Id,
                     Name = pt.Tax.Name,
                     Amount = pt.Tax.Amount
                 }).ToList()))
-                .ForMember(dest => dest.Brand, opt => opt.MapFrom(src => src.Brand != null ? new BrandDTO
+                .ForMember(des => des.Brand, opt => opt.MapFrom(src => src.Brand != null ? new BrandDTO
                 {
                     Id = src.Brand.Id,
                     Name = src.Brand.Name
                 } : null))
-                .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category != null ? new CategoryDTO
+                .ForMember(des => des.Category, opt => opt.MapFrom(src => src.Category != null ? new CategoryDTO
                 {
                     Id = src.Category.Id,
                     Name = src.Category.Name,
                     Description = src.Category.Description
                 } : null))
-                .ForMember(dest => dest.Unit, opt => opt.MapFrom(src => src.Unit != null ? new UnitDTO
+                .ForMember(des => des.Unit, opt => opt.MapFrom(src => src.Unit != null ? new UnitDTO
                 {
                     Id = src.Unit.Id,
                     Name = src.Unit.Name,
                     ShortName = src.Unit.ShortName
-                } : null));
+                } : null))
+                .ForMember(des => des.InitialCost, opt => opt.MapFrom(src =>
+                    src.PricingItems.FirstOrDefault(p => p.IsPrincipal)!.InitialCost))
+                .ForMember(des => des.BasePrice, opt => opt.MapFrom(src =>
+                    src.PricingItems.FirstOrDefault(p => p.IsPrincipal)!.BasePrice))
+                .ForMember(des => des.Percentage, opt => opt.MapFrom(src =>
+                    src.PricingItems.FirstOrDefault(p => p.IsPrincipal)!.Pricing!.Percentage))
+                .ForMember(des => des.TaxIds, opt => opt.MapFrom(src => src.ItemTaxes.Select(pt => pt.Tax.Id).ToList()));
 
             CreateMap<CreateProductDTO, Item>()
-                .ForMember(dest => dest.ItemTaxes, opt => opt.MapFrom(src => src.TaxIds.Select(id => new ItemTaxes { TaxId = id }).ToList()))
-                .ForMember(dest => dest.Brand, opt => opt.Ignore())
-                .ForMember(dest => dest.Category, opt => opt.Ignore())
-                .ForMember(dest => dest.Unit, opt => opt.Ignore());
+                .ForMember(des => des.ItemTaxes, opt => opt.MapFrom(src => src.TaxIds.Select(id => new ItemTaxes { TaxId = id }).ToList()))
+                .ForMember(des => des.Brand, opt => opt.Ignore())
+                .ForMember(des => des.Category, opt => opt.Ignore())
+                .ForMember(des => des.Unit, opt => opt.Ignore());
 
             CreateMap<CreateProductCsvDTO, Item>();
 
             CreateMap<ProductDTO, Item>();
 
             CreateMap<Item, ServiceListDTO>()
-                .ForMember(dest => dest.PricingItems, opt => opt.MapFrom(src => src.PricingItems.Select(pt => new PricingItemDTO
+                .ForMember(des => des.PricingItems, opt => opt.MapFrom(src => src.PricingItems.Select(pt => new PricingItemDTO
                 {
                     ItemId = pt.Item.Id,
                     PricingId = pt.Pricing.Id,
@@ -127,15 +144,23 @@ namespace BackEnd.Helpers
                     Percentage = pt.Pricing.Percentage,
                     IsPrincipal = pt.IsPrincipal
                 }).ToList()))
-                .ForMember(dest => dest.Taxes, opt => opt.MapFrom(src => src.ItemTaxes.Select(pt => new TaxDTO
+                .ForMember(des => des.Taxes, opt => opt.MapFrom(src => src.ItemTaxes.Select(pt => new TaxDTO
                 {
                     Id = pt.Tax.Id,
                     Name = pt.Tax.Name,
                     Amount = pt.Tax.Amount
-                }).ToList()));
+                }).ToList()))
+                .ForMember(des => des.BasePrice, opt => opt.MapFrom(src =>
+                    src.PricingItems.FirstOrDefault(p => p.IsPrincipal)!.BasePrice))
+                .ForMember(des => des.Percentage, opt => opt.MapFrom(src =>
+                    src.PricingItems.FirstOrDefault(p => p.IsPrincipal)!.Pricing!.Percentage))
+                .ForMember(des => des.TotalPrice, opt => opt.MapFrom(src =>
+                    src.PricingItems.FirstOrDefault(p => p.IsPrincipal)!.BasePrice +
+                    (src.PricingItems.FirstOrDefault(p => p.IsPrincipal)!.BasePrice * src.ItemTaxes.Sum(t => t.Tax.Amount) / 100)
+                ));
 
             CreateMap<Item, ItemListDTO>()
-                .ForMember(dest => dest.PricingItems, opt => opt.MapFrom(src => src.PricingItems.Select(pt => new PricingItemDTO
+                .ForMember(des => des.PricingItems, opt => opt.MapFrom(src => src.PricingItems.Select(pt => new PricingItemDTO
                 {
                     ItemId = pt.Item.Id,
                     PricingId = pt.Pricing.Id,
@@ -144,21 +169,30 @@ namespace BackEnd.Helpers
                     Percentage = pt.Pricing.Percentage,
                     IsPrincipal = pt.IsPrincipal
                 }).ToList()))
-                .ForMember(dest => dest.Taxes, opt => opt.MapFrom(src => src.ItemTaxes.Select(pt => new TaxDTO
+                .ForMember(des => des.Taxes, opt => opt.MapFrom(src => src.ItemTaxes.Select(pt => new TaxDTO
                 {
                     Id = pt.Tax.Id,
                     Name = pt.Tax.Name,
                     Amount = pt.Tax.Amount
                 }).ToList()))
-                .ForMember(dest => dest.Unit, opt => opt.MapFrom(src => src.Unit != null ? new UnitDTO
+                .ForMember(des => des.Unit, opt => opt.MapFrom(src => src.Unit != null ? new UnitDTO
                 {
                     Id = src.Unit.Id,
                     Name = src.Unit.Name,
                     ShortName = src.Unit.ShortName
-                } : null));
+                } : null))
+                .ForMember(des => des.InitialCost, opt => opt.MapFrom(src =>
+                    src.PricingItems.FirstOrDefault(p => p.PricingId == p.PricingId)!.InitialCost))
+                .ForMember(des => des.BasePrice, opt => opt.MapFrom(src =>
+                    src.PricingItems.FirstOrDefault(p => p.PricingId == p.PricingId)!.BasePrice))
+                .ForMember(des => des.Percentage, opt => opt.MapFrom(src =>
+                    src.PricingItems.FirstOrDefault(p => p.PricingId == p.PricingId)!.Pricing!.Percentage))
+                .ForMember(des => des.TotalPrice, opt => opt.MapFrom(src =>
+                    src.PricingItems.FirstOrDefault(p => p.PricingId == p.PricingId)!.BasePrice +
+                    (src.PricingItems.FirstOrDefault(p => p.PricingId == p.PricingId)!.BasePrice * src.ItemTaxes.Sum(t => t.Tax.Amount) / 100)));
 
             CreateMap<Item, ServiceDTO>()
-                .ForMember(dest => dest.PricingItems, opt => opt.MapFrom(src => src.PricingItems.Select(pt => new PricingItemDTO
+                .ForMember(des => des.PricingItems, opt => opt.MapFrom(src => src.PricingItems.Select(pt => new PricingItemDTO
                 {
                     ItemId = pt.Item.Id,
                     PricingId = pt.Pricing.Id,
@@ -167,54 +201,59 @@ namespace BackEnd.Helpers
                     Percentage = pt.Pricing.Percentage,
                     IsPrincipal = pt.IsPrincipal
                 }).ToList()))
-                .ForMember(dest => dest.Taxes, opt => opt.MapFrom(src => src.ItemTaxes.Select(pt => new TaxDTO
+                .ForMember(des => des.Taxes, opt => opt.MapFrom(src => src.ItemTaxes.Select(pt => new TaxDTO
                 {
                     Id = pt.Tax.Id,
                     Name = pt.Tax.Name,
                     Amount = pt.Tax.Amount
                 }).ToList()))
-                .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category != null ? new CategoryDTO
+                .ForMember(des => des.Category, opt => opt.MapFrom(src => src.Category != null ? new CategoryDTO
                 {
                     Id = src.Category.Id,
                     Name = src.Category.Name,
                     Description = src.Category.Description
                 } : null))
-                .ForMember(dest => dest.Unit, opt => opt.MapFrom(src => src.Unit != null ? new UnitDTO
+                .ForMember(des => des.Unit, opt => opt.MapFrom(src => src.Unit != null ? new UnitDTO
                 {
                     Id = src.Unit.Id,
                     Name = src.Unit.Name,
                     ShortName = src.Unit.ShortName
-                } : null));
+                } : null))
+                .ForMember(des => des.BasePrice, opt => opt.MapFrom(src =>
+                    src.PricingItems.FirstOrDefault(p => p.IsPrincipal)!.BasePrice))
+                .ForMember(des => des.Percentage, opt => opt.MapFrom(src =>
+                    src.PricingItems.FirstOrDefault(p => p.IsPrincipal)!.Pricing!.Percentage))
+                .ForMember(des => des.TaxIds, opt => opt.MapFrom(src => src.ItemTaxes.Select(pt => pt.Tax.Id).ToList()));
 
             CreateMap<CreateServiceDTO, Item>()
-                .ForMember(dest => dest.ItemTaxes, opt => opt.MapFrom(src => src.TaxIds.Select(id => new ItemTaxes { TaxId = id }).ToList()))
-                .ForMember(dest => dest.Category, opt => opt.Ignore())
-                .ForMember(dest => dest.Unit, opt => opt.Ignore());
+                .ForMember(des => des.ItemTaxes, opt => opt.MapFrom(src => src.TaxIds.Select(id => new ItemTaxes { TaxId = id }).ToList()))
+                .ForMember(des => des.Category, opt => opt.Ignore())
+                .ForMember(des => des.Unit, opt => opt.Ignore());
 
             CreateMap<CreateServiceCsvDTO, Item>();
 
             CreateMap<ServiceDTO, Item>();
 
             CreateMap<Stock, StockDTO>()
-                .ForMember(dest => dest.Product, opt => opt.MapFrom(src => src.Item))
-                .ForMember(dest => dest.Warehouse, opt => opt.MapFrom(src => src.Warehouse))
+                .ForMember(des => des.Product, opt => opt.MapFrom(src => src.Item))
+                .ForMember(des => des.Warehouse, opt => opt.MapFrom(src => src.Warehouse))
                 .ReverseMap();
 
             CreateMap<CreateStockDTO, Stock>();
 
             CreateMap<Stock, StockListDTO>()
-                .ForMember(dest => dest.Product, opt => opt.MapFrom(src => src.Item))
-                .ForMember(dest => dest.Warehouse, opt => opt.MapFrom(src => src.Warehouse))
+                .ForMember(des => des.Product, opt => opt.MapFrom(src => src.Item))
+                .ForMember(des => des.Warehouse, opt => opt.MapFrom(src => src.Warehouse))
                 .ReverseMap();
 
             CreateMap<FiscalSupport, FiscalSupportDTO>()
-                .ForMember(dest => dest.Warehouse, opt => opt.MapFrom(src => src.Warehouse))
+                .ForMember(des => des.Warehouse, opt => opt.MapFrom(src => src.Warehouse))
                 .ReverseMap();
 
             CreateMap<CreateFiscalSupportDTO, FiscalSupport>();
 
             CreateMap<FiscalSupport, FiscalSupportListDTO>()
-                .ForMember(dest => dest.Warehouse, opt => opt.MapFrom(src => src.Warehouse))
+                .ForMember(des => des.Warehouse, opt => opt.MapFrom(src => src.Warehouse))
                 .ReverseMap();
 
             CreateMap<CreateDeadlineDTO, Deadline>();
@@ -226,23 +265,23 @@ namespace BackEnd.Helpers
             CreateMap<CreateTransferStatusDTO, Transfer>();
 
             CreateMap<Transfer, TransferDTO>()
-            .ForMember(dest => dest.Product, opt => opt.MapFrom(src => src.Product))
-            .ForMember(dest => dest.OriginWarehouse, opt => opt.MapFrom(src => src.OriginWarehouse))
-            .ForMember(dest => dest.DestinationWarehouse, opt => opt.MapFrom(src => src.DestinationWarehouse))
-            .ForMember(dest => dest.Stock, opt => opt.MapFrom(src => src.Stock));
+            .ForMember(des => des.Product, opt => opt.MapFrom(src => src.Product))
+            .ForMember(des => des.OriginWarehouse, opt => opt.MapFrom(src => src.OriginWarehouse))
+            .ForMember(des => des.DestinationWarehouse, opt => opt.MapFrom(src => src.DestinationWarehouse))
+            .ForMember(des => des.Stock, opt => opt.MapFrom(src => src.Stock));
 
             CreateMap<Transfer, TransferListDTO>()
-            .ForMember(dest => dest.Product, opt => opt.MapFrom(src => src.Product))
-            .ForMember(dest => dest.OriginWarehouse, opt => opt.MapFrom(src => src.OriginWarehouse))
-            .ForMember(dest => dest.DestinationWarehouse, opt => opt.MapFrom(src => src.DestinationWarehouse))
-            .ForMember(dest => dest.Stock, opt => opt.MapFrom(src => src.Stock));
+            .ForMember(des => des.Product, opt => opt.MapFrom(src => src.Product))
+            .ForMember(des => des.OriginWarehouse, opt => opt.MapFrom(src => src.OriginWarehouse))
+            .ForMember(des => des.DestinationWarehouse, opt => opt.MapFrom(src => src.DestinationWarehouse))
+            .ForMember(des => des.Stock, opt => opt.MapFrom(src => src.Stock));
 
             CreateMap<CreateSaleInvoiceDTO, SaleInvoice>()
-            .ForMember(dest => dest.Deadline, opt => opt.Ignore())
-            .ForMember(dest => dest.Buyer, opt => opt.Ignore())
-            .ForMember(dest => dest.Biller, opt => opt.Ignore())
-            .ForMember(dest => dest.Pricing, opt => opt.Ignore())
-            .ForMember(dest => dest.FiscalSupport, opt => opt.Ignore());
+            .ForMember(des => des.Deadline, opt => opt.Ignore())
+            .ForMember(des => des.Buyer, opt => opt.Ignore())
+            .ForMember(des => des.Biller, opt => opt.Ignore())
+            .ForMember(des => des.Pricing, opt => opt.Ignore())
+            .ForMember(des => des.FiscalSupport, opt => opt.Ignore());
 
             CreateMap<SaleInvoiceItemDTO, SaleInvoiceItem>();
         }

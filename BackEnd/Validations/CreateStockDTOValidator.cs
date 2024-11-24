@@ -28,7 +28,7 @@ namespace BackEnd.Validations
 
             RuleFor(x => x.Qty)
                 .NotEmpty().WithMessage(Utilities.RequiredFieldMessage)
-                .GreaterThan(0).WithMessage("La cantidad debe ser un valor positivo.");
+                .GreaterThan(0).WithMessage(Utilities.GreatherThanZero);
         }
     }
 }

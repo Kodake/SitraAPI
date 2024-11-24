@@ -5,10 +5,10 @@ namespace BackEnd.DTOs.Warehouses
 {
     public class CreateTransferDTO
     {
-        public int Id { get; set; }
-        public int ProductId { get; set; }
-        public int OriginWarehouseId { get; set; }
-        public int DestinationWarehouseId { get; set; }
+        public long Id { get; set; }
+        public long ProductId { get; set; }
+        public long OriginWarehouseId { get; set; }
+        public long DestinationWarehouseId { get; set; }
         public double Qty { get; set; }
         public TransferStatus Status { get; set; }
         public string Comment { get; set; } = string.Empty;

@@ -4,10 +4,10 @@ namespace BackEnd.Entities.Invoices
 {
     public sealed class SaleInvoiceItem
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public long SaleInvoiceId { get; set; }
         public SaleInvoice SaleInvoice { get; set; } = null!;
-        public int ItemId { get; set; }
+        public long ItemId { get; set; }
         public Item Item { get; set; } = null!;
         public double Qty { get; set; }
         public double BasePrice { get; set; }

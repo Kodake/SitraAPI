@@ -20,12 +20,12 @@ namespace BackEnd.Validations
 
             RuleFor(x => x.Days)
             .NotNull().WithMessage(Utilities.RequiredFieldMessage)
-            .GreaterThanOrEqualTo(0).WithMessage("El valor de días no puede ser negativo")
+            .GreaterThanOrEqualTo(0).WithMessage(Utilities.GreatherThanZero)
             .MustAsync(async (days, _) =>
             {
-                var existe = await repository.Exists(id, days);
-                return !existe;
-            }).WithMessage(x => $"Ya existe un plazo con {x.Days} días");
+                var exists = await repository.Exists(id, days);
+                return !exists;
+            }).WithMessage(x => string.Format(Utilities.NameAlreadyExistsWith, x.Days));
         }
     }
 }

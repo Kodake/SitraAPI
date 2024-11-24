@@ -28,7 +28,7 @@ namespace BackEnd.Repositories.Products
                 .ToListAsync();
         }
 
-        public async Task<Pricing?> GetById(int id)
+        public async Task<Pricing?> GetById(long id)
         {
             return await context.Pricings.FirstOrDefaultAsync(x => x.Id == id);
         }
@@ -57,7 +57,7 @@ namespace BackEnd.Repositories.Products
             return await context.Pricings.FirstOrDefaultAsync(p => p.Name == name);
         }
 
-        public async Task<IEnumerable<Pricing>> GetUnregisteredPricingsForItem(int itemId)
+        public async Task<IEnumerable<Pricing>> GetUnregisteredPricingsForItem(long itemId)
         {
             return await context.Pricings
                 .Where(p => !p.PricingItems.Any(pi => pi.ItemId == itemId))
@@ -70,12 +70,12 @@ namespace BackEnd.Repositories.Products
                 }).ToListAsync();
         }
 
-        public async Task<bool> Exists(int id)
+        public async Task<bool> Exists(long id)
         {
             return await context.Pricings.AnyAsync(x => x.Id == id);
         }
 
-        public async Task<bool> Exists(int id, string name)
+        public async Task<bool> Exists(long id, string name)
         {
             return await context.Pricings.AnyAsync(x => x.Id != id && x.Name == name);
         }
