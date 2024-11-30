@@ -317,6 +317,7 @@ namespace BackEnd.Migrations
                     FiscalSupportId = table.Column<long>(type: "bigint", nullable: false),
                     DeadlineId = table.Column<long>(type: "bigint", nullable: false),
                     CurrencyId = table.Column<long>(type: "bigint", nullable: false),
+                    AccountsReceivableId = table.Column<long>(type: "bigint", nullable: false),
                     FiscalSupportNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Shipping = table.Column<double>(type: "float", nullable: true),
                     Discount = table.Column<double>(type: "float", nullable: true),
@@ -326,7 +327,8 @@ namespace BackEnd.Migrations
                     TotalPrice = table.Column<double>(type: "float", nullable: false),
                     TotalTaxes = table.Column<double>(type: "float", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DueDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -426,6 +428,35 @@ namespace BackEnd.Migrations
                         principalTable: "Warehouses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Receivables",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SaleInvoiceId = table.Column<long>(type: "bigint", nullable: false),
+                    ContactId = table.Column<long>(type: "bigint", nullable: false),
+                    TotalAmountDue = table.Column<double>(type: "float", nullable: false),
+                    TotalOutstanding = table.Column<double>(type: "float", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Receivables", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Receivables_Contacts_ContactId",
+                        column: x => x.ContactId,
+                        principalTable: "Contacts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Receivables_SaleInvoices_SaleInvoiceId",
+                        column: x => x.SaleInvoiceId,
+                        principalTable: "SaleInvoices",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -542,6 +573,29 @@ namespace BackEnd.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PaymentReceipts",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AccountsReceivableId = table.Column<long>(type: "bigint", nullable: false),
+                    Amount = table.Column<double>(type: "float", nullable: false),
+                    Account = table.Column<int>(type: "int", nullable: false),
+                    PaymentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PaymentMethod = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PaymentReceipts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PaymentReceipts_Receivables_AccountsReceivableId",
+                        column: x => x.AccountsReceivableId,
+                        principalTable: "Receivables",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Transfers",
                 columns: table => new
                 {
@@ -651,6 +705,11 @@ namespace BackEnd.Migrations
                 column: "ItemId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PaymentReceipts_AccountsReceivableId",
+                table: "PaymentReceipts",
+                column: "AccountsReceivableId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PricingItems_ItemId",
                 table: "PricingItems",
                 column: "ItemId");
@@ -659,6 +718,17 @@ namespace BackEnd.Migrations
                 name: "IX_PricingItems_PricingId",
                 table: "PricingItems",
                 column: "PricingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Receivables_ContactId",
+                table: "Receivables",
+                column: "ContactId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Receivables_SaleInvoiceId",
+                table: "Receivables",
+                column: "SaleInvoiceId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_SaleInvoiceItems_ItemId",
@@ -751,6 +821,9 @@ namespace BackEnd.Migrations
                 name: "ItemTaxes");
 
             migrationBuilder.DropTable(
+                name: "PaymentReceipts");
+
+            migrationBuilder.DropTable(
                 name: "PricingItems");
 
             migrationBuilder.DropTable(
@@ -769,10 +842,19 @@ namespace BackEnd.Migrations
                 name: "Taxes");
 
             migrationBuilder.DropTable(
-                name: "SaleInvoices");
+                name: "Receivables");
 
             migrationBuilder.DropTable(
                 name: "Stocks");
+
+            migrationBuilder.DropTable(
+                name: "SaleInvoices");
+
+            migrationBuilder.DropTable(
+                name: "Items");
+
+            migrationBuilder.DropTable(
+                name: "Warehouses");
 
             migrationBuilder.DropTable(
                 name: "Contacts");
@@ -785,12 +867,6 @@ namespace BackEnd.Migrations
 
             migrationBuilder.DropTable(
                 name: "Pricings");
-
-            migrationBuilder.DropTable(
-                name: "Items");
-
-            migrationBuilder.DropTable(
-                name: "Warehouses");
 
             migrationBuilder.DropTable(
                 name: "Brands");

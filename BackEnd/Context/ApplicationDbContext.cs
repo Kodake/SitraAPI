@@ -6,6 +6,7 @@ using BackEnd.Entities.Warehouses;
 using Microsoft.EntityFrameworkCore;
 using BackEnd.Entities.AdministrativeTools;
 using BackEnd.Entities.Invoices;
+using BackEnd.Entities.Accounts;
 
 namespace BackEnd.Context
 {
@@ -154,6 +155,27 @@ namespace BackEnd.Context
                 .WithMany(w => w.SaleInvoiceItems)
                 .HasForeignKey(t => t.SaleInvoiceId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Receivable>()
+                .HasKey(ar => ar.Id);
+
+            modelBuilder.Entity<Receivable>()
+                .HasOne(ar => ar.SaleInvoice)
+                .WithOne(s => s.AccountsReceivable)
+                .HasForeignKey<Receivable>(ar => ar.SaleInvoiceId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Receivable>()
+                .HasOne(sii => sii.Buyer)
+                .WithMany(w => w.Receivables)
+                .HasForeignKey(t => t.ContactId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Receivable>()
+                .HasMany(ar => ar.PaymentReceipts)
+                .WithOne(pr => pr.AccountsReceivable)
+                .HasForeignKey(pr => pr.AccountsReceivableId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
 
         public DbSet<Category> Categories { get; set; }
@@ -173,5 +195,7 @@ namespace BackEnd.Context
         public DbSet<Transfer> Transfers { get; set; }
         public DbSet<SaleInvoice> SaleInvoices { get; set; }
         public DbSet<SaleInvoiceItem> SaleInvoiceItems { get; set; }
+        public DbSet<Receivable> Receivables { get; set; }
+        public DbSet<PaymentReceipt> PaymentReceipts { get; set; }
     }
 }

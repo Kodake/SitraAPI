@@ -1,5 +1,7 @@
-﻿using BackEnd.Entities.Invoices;
+﻿using BackEnd.Entities.Accounts;
+using BackEnd.Entities.Invoices;
 using BackEnd.Enums;
+using System.Text.Json.Serialization;
 
 namespace BackEnd.Entities.Contacts
 {
@@ -18,5 +20,6 @@ namespace BackEnd.Entities.Contacts
         public bool IsActive { get; set; } = true;
         public ICollection<SaleInvoice> BillerInvoices { get; set; } = new List<SaleInvoice>();
         public ICollection<SaleInvoice> BuyerInvoices { get; set; } = new List<SaleInvoice>();
+        public ICollection<Receivable> Receivables { get; set; } = new List<Receivable>();
     }
 }

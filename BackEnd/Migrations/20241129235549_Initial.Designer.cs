@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackEnd.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241120182037_Initial")]
+    [Migration("20241129235549_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -24,6 +24,69 @@ namespace BackEnd.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("BackEnd.Entities.Accounts.PaymentReceipt", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<int>("Account")
+                        .HasColumnType("int");
+
+                    b.Property<long>("AccountsReceivableId")
+                        .HasColumnType("bigint");
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PaymentMethod")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountsReceivableId");
+
+                    b.ToTable("PaymentReceipts");
+                });
+
+            modelBuilder.Entity("BackEnd.Entities.Accounts.Receivable", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("ContactId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("SaleInvoiceId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<double>("TotalAmountDue")
+                        .HasColumnType("float");
+
+                    b.Property<double>("TotalOutstanding")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContactId");
+
+                    b.HasIndex("SaleInvoiceId")
+                        .IsUnique();
+
+                    b.ToTable("Receivables");
+                });
 
             modelBuilder.Entity("BackEnd.Entities.AdministrativeTools.Deadline", b =>
                 {
@@ -204,6 +267,9 @@ namespace BackEnd.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
+                    b.Property<long>("AccountsReceivableId")
+                        .HasColumnType("bigint");
+
                     b.Property<long>("BillerId")
                         .HasColumnType("bigint");
 
@@ -224,6 +290,9 @@ namespace BackEnd.Migrations
 
                     b.Property<double?>("Discount")
                         .HasColumnType("float");
+
+                    b.Property<DateTime?>("DueDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<long>("FiscalSupportId")
                         .HasColumnType("bigint");
@@ -826,6 +895,36 @@ namespace BackEnd.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("BackEnd.Entities.Accounts.PaymentReceipt", b =>
+                {
+                    b.HasOne("BackEnd.Entities.Accounts.Receivable", "AccountsReceivable")
+                        .WithMany("PaymentReceipts")
+                        .HasForeignKey("AccountsReceivableId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AccountsReceivable");
+                });
+
+            modelBuilder.Entity("BackEnd.Entities.Accounts.Receivable", b =>
+                {
+                    b.HasOne("BackEnd.Entities.Contacts.Contact", "Buyer")
+                        .WithMany("Receivables")
+                        .HasForeignKey("ContactId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("BackEnd.Entities.Invoices.SaleInvoice", "SaleInvoice")
+                        .WithOne("AccountsReceivable")
+                        .HasForeignKey("BackEnd.Entities.Accounts.Receivable", "SaleInvoiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Buyer");
+
+                    b.Navigation("SaleInvoice");
+                });
+
             modelBuilder.Entity("BackEnd.Entities.AdministrativeTools.FiscalSupport", b =>
                 {
                     b.HasOne("BackEnd.Entities.Warehouses.Warehouse", "Warehouse")
@@ -1066,11 +1165,18 @@ namespace BackEnd.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("BackEnd.Entities.Accounts.Receivable", b =>
+                {
+                    b.Navigation("PaymentReceipts");
+                });
+
             modelBuilder.Entity("BackEnd.Entities.Contacts.Contact", b =>
                 {
                     b.Navigation("BillerInvoices");
 
                     b.Navigation("BuyerInvoices");
+
+                    b.Navigation("Receivables");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Finances.Tax", b =>
@@ -1080,6 +1186,9 @@ namespace BackEnd.Migrations
 
             modelBuilder.Entity("BackEnd.Entities.Invoices.SaleInvoice", b =>
                 {
+                    b.Navigation("AccountsReceivable")
+                        .IsRequired();
+
                     b.Navigation("SaleInvoiceItems");
                 });
 

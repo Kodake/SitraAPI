@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using BackEnd.DTOs.Accounts;
 using BackEnd.DTOs.AdministrativeTools;
 using BackEnd.DTOs.Contacts;
 using BackEnd.DTOs.Finances;
 using BackEnd.DTOs.Invoices;
 using BackEnd.DTOs.Products;
 using BackEnd.DTOs.Warehouses;
+using BackEnd.Entities.Accounts;
 using BackEnd.Entities.AdministrativeTools;
 using BackEnd.Entities.Contacts;
 using BackEnd.Entities.Finances;
@@ -283,7 +285,13 @@ namespace BackEnd.Helpers
             .ForMember(des => des.Pricing, opt => opt.Ignore())
             .ForMember(des => des.FiscalSupport, opt => opt.Ignore());
 
+            CreateMap<SaleInvoice, SaleInvoiceDTO>();
+
             CreateMap<SaleInvoiceItemDTO, SaleInvoiceItem>();
+
+            CreateMap<Receivable, ReceivableListDTO>()
+            .ForMember(des => des.SaleInvoice, opt => opt.MapFrom(src => src.SaleInvoice))
+            .ForMember(des => des.Buyer, opt => opt.MapFrom(src => src.Buyer));
         }
     }
 }

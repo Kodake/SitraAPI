@@ -35,5 +35,23 @@
         {
             return $"El campo {{PropertyName}} debe tener menos de {maxLength} caracteres";
         }
+
+        public class InvoiceItemCalculator
+        {
+            public static double CalculateTotalAmount(double basePrice, double quantity)
+            {
+                return basePrice * quantity;
+            }
+
+            public static double CalculateTotalTaxes(double basePrice, double taxAmount, double quantity)
+            {
+                return (basePrice * taxAmount / 100) * quantity;
+            }
+
+            public static double CalculateTotalPrice(double totalAmount, double totalTaxes)
+            {
+                return totalAmount + totalTaxes;
+            }
+        }
     }
 }

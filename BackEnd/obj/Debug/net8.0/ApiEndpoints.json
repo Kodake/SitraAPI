@@ -2045,6 +2045,24 @@
     ]
   },
   {
+    "ContainingType": "BackEnd.Endpoints.ReceivablesEndpoints",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/receivables/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Accounts.ReceivableListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "BackEnd.Endpoints.Invoices.SaleInvoicesEndpoints",
     "Method": "Create",
     "RelativePath": "api/v1/saleInvoices/",

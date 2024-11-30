@@ -15,6 +15,8 @@ using Serilog;
 using Serilog.Sinks.MSSqlServer;
 using BackEnd.Repositories.Invoices;
 using BackEnd.Endpoints.Invoices;
+using BackEnd.Services.Invoices;
+using BackEnd.Repositories.Accounts;
 
 var builder = WebApplication.CreateBuilder(args);
 Log.Logger = new LoggerConfiguration()
@@ -116,6 +118,9 @@ builder.Services.AddScoped<IPricingRepository, PricingRepository>();
 builder.Services.AddScoped<IFiscalSupportRepository, FiscalSupportRepository>();
 builder.Services.AddScoped<IDeadlineRepository, DeadlineRepository>();
 builder.Services.AddScoped<ISaleInvoiceRepository, SaleInvoiceRepository>();
+builder.Services.AddScoped<IReceivableRepository, ReceivableRepository>();
+
+builder.Services.AddScoped<ISaleInvoiceService, SaleInvoiceService>();
 
 builder.Services.AddHttpContextAccessor();
 
@@ -159,6 +164,7 @@ apiGroup.MapGroup("/fiscalSupports").MapFiscalSupports();
 apiGroup.MapGroup("/deadlines").MapDeadlines();
 apiGroup.MapGroup("/transfers").MapTransfers();
 apiGroup.MapGroup("/saleInvoices").MapInvoices();
+apiGroup.MapGroup("/receivables").MapReceivables();
 
 app.UseCors();
 

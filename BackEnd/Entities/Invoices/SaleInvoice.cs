@@ -1,4 +1,5 @@
-﻿using BackEnd.Entities.AdministrativeTools;
+﻿using BackEnd.Entities.Accounts;
+using BackEnd.Entities.AdministrativeTools;
 using BackEnd.Entities.Contacts;
 using BackEnd.Entities.Finances;
 using BackEnd.Entities.Products;
@@ -21,6 +22,8 @@ namespace BackEnd.Entities.Invoices
         public Deadline Deadline { get; set; } = null!;
         public long CurrencyId { get; set; }
         public Currency Currency { get; set; } = null!;
+        public long AccountsReceivableId { get; set; }
+        public Receivable AccountsReceivable { get; set; } = null!;
         public string FiscalSupportNumber { get; set; } = string.Empty;
         public double? Shipping { get; set; } = null!;
         public double? Discount { get; set; } = null!;
@@ -31,6 +34,7 @@ namespace BackEnd.Entities.Invoices
         public double TotalTaxes { get; set; }
         public string? Description { get; set; } = null!;
         public string? Note { get; set; } = null!;
+        public DateTime? DueDate { get; set; } = null!;
         public ICollection<SaleInvoiceItem> SaleInvoiceItems { get; set; } = [];
     }
 }
