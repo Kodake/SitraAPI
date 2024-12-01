@@ -5,11 +5,11 @@ namespace BackEnd.Entities.Accounts
     public sealed class PaymentReceipt
     {
         public long Id { get; set; }
-        public long AccountsReceivableId { get; set; }
-        public Receivable AccountsReceivable { get; set; } = null!;
+        public long ReceivableId { get; set; }
+        public Receivable Receivable { get; set; } = null!;
         public double Amount { get; set; }
-        public Account Account { get; set; }
-        public DateTime PaymentDate { get; set; }
+        public TransactionType TransactionType { get; set; }
+        public DateTime PaymentDate { get; set; } = DateTime.UtcNow;
         public PaymentMethod PaymentMethod { get; set; }
     }
 }

@@ -1535,6 +1535,61 @@
     ]
   },
   {
+    "ContainingType": "BackEnd.Endpoints.PaymentReceiptsEndpoints",
+    "Method": "Create",
+    "RelativePath": "api/v1/paymentReceipts/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "BackEnd.DTOs.Accounts.CreatePaymentReceiptDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BackEnd.DTOs.Accounts.PaymentReceiptDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 201
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "BackEnd.Endpoints.PaymentReceiptsEndpoints",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/paymentReceipts/{receivableId:long}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "receivableId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Accounts.PaymentReceiptListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "BackEnd.Endpoints.PricingItemsEndpoints",
     "Method": "Create",
     "RelativePath": "api/v1/pricingItems/",

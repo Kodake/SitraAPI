@@ -161,7 +161,7 @@ namespace BackEnd.Context
 
             modelBuilder.Entity<Receivable>()
                 .HasOne(ar => ar.SaleInvoice)
-                .WithOne(s => s.AccountsReceivable)
+                .WithOne(s => s.Receivable)
                 .HasForeignKey<Receivable>(ar => ar.SaleInvoiceId)
                 .OnDelete(DeleteBehavior.Cascade);
 
@@ -173,8 +173,8 @@ namespace BackEnd.Context
 
             modelBuilder.Entity<Receivable>()
                 .HasMany(ar => ar.PaymentReceipts)
-                .WithOne(pr => pr.AccountsReceivable)
-                .HasForeignKey(pr => pr.AccountsReceivableId)
+                .WithOne(pr => pr.Receivable)
+                .HasForeignKey(pr => pr.ReceivableId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
 

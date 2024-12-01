@@ -14,6 +14,6 @@ namespace BackEnd.Entities.Accounts
         public double TotalAmountDue { get; set; }
         public double TotalOutstanding { get; set; }
         public AccountStatus Status { get; set; }
-        public ICollection<PaymentReceipt> PaymentReceipts { get; set; } = new List<PaymentReceipt>();
+        public ICollection<PaymentReceipt> PaymentReceipts { get; set; } = [];
     }
 }

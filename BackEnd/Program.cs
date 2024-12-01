@@ -119,8 +119,9 @@ builder.Services.AddScoped<IFiscalSupportRepository, FiscalSupportRepository>();
 builder.Services.AddScoped<IDeadlineRepository, DeadlineRepository>();
 builder.Services.AddScoped<ISaleInvoiceRepository, SaleInvoiceRepository>();
 builder.Services.AddScoped<IReceivableRepository, ReceivableRepository>();
+builder.Services.AddScoped<IPaymentReceiptRepository, PaymentReceiptRepository>();
 
-builder.Services.AddScoped<ISaleInvoiceService, SaleInvoiceService>();
+//builder.Services.AddScoped<ISaleInvoiceService, SaleInvoiceService>();
 
 builder.Services.AddHttpContextAccessor();
 
@@ -165,6 +166,7 @@ apiGroup.MapGroup("/deadlines").MapDeadlines();
 apiGroup.MapGroup("/transfers").MapTransfers();
 apiGroup.MapGroup("/saleInvoices").MapInvoices();
 apiGroup.MapGroup("/receivables").MapReceivables();
+apiGroup.MapGroup("/paymentReceipts").MapPaymentReceipts();
 
 app.UseCors();
 

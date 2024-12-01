@@ -22,8 +22,8 @@ namespace BackEnd.Entities.Invoices
         public Deadline Deadline { get; set; } = null!;
         public long CurrencyId { get; set; }
         public Currency Currency { get; set; } = null!;
-        public long AccountsReceivableId { get; set; }
-        public Receivable AccountsReceivable { get; set; } = null!;
+        public long ReceivableId { get; set; }
+        public Receivable Receivable { get; set; } = null!;
         public string FiscalSupportNumber { get; set; } = string.Empty;
         public double? Shipping { get; set; } = null!;
         public double? Discount { get; set; } = null!;

@@ -1,6 +1,6 @@
 ﻿namespace BackEnd.Enums
 {
-    public enum Account
+    public enum TransactionType
     {
         Cash = 1,
         Debit = 2,

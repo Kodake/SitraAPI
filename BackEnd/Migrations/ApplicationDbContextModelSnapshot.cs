@@ -30,12 +30,6 @@ namespace BackEnd.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<int>("Account")
-                        .HasColumnType("int");
-
-                    b.Property<long>("AccountsReceivableId")
-                        .HasColumnType("bigint");
-
                     b.Property<double>("Amount")
                         .HasColumnType("float");
 
@@ -45,9 +39,15 @@ namespace BackEnd.Migrations
                     b.Property<int>("PaymentMethod")
                         .HasColumnType("int");
 
+                    b.Property<long>("ReceivableId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("TransactionType")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountsReceivableId");
+                    b.HasIndex("ReceivableId");
 
                     b.ToTable("PaymentReceipts");
                 });
@@ -264,9 +264,6 @@ namespace BackEnd.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("AccountsReceivableId")
-                        .HasColumnType("bigint");
-
                     b.Property<long>("BillerId")
                         .HasColumnType("bigint");
 
@@ -302,6 +299,9 @@ namespace BackEnd.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("PricingId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ReceivableId")
                         .HasColumnType("bigint");
 
                     b.Property<double?>("Shipping")
@@ -894,13 +894,13 @@ namespace BackEnd.Migrations
 
             modelBuilder.Entity("BackEnd.Entities.Accounts.PaymentReceipt", b =>
                 {
-                    b.HasOne("BackEnd.Entities.Accounts.Receivable", "AccountsReceivable")
+                    b.HasOne("BackEnd.Entities.Accounts.Receivable", "Receivable")
                         .WithMany("PaymentReceipts")
-                        .HasForeignKey("AccountsReceivableId")
+                        .HasForeignKey("ReceivableId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AccountsReceivable");
+                    b.Navigation("Receivable");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Accounts.Receivable", b =>
@@ -912,7 +912,7 @@ namespace BackEnd.Migrations
                         .IsRequired();
 
                     b.HasOne("BackEnd.Entities.Invoices.SaleInvoice", "SaleInvoice")
-                        .WithOne("AccountsReceivable")
+                        .WithOne("Receivable")
                         .HasForeignKey("BackEnd.Entities.Accounts.Receivable", "SaleInvoiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1183,7 +1183,7 @@ namespace BackEnd.Migrations
 
             modelBuilder.Entity("BackEnd.Entities.Invoices.SaleInvoice", b =>
                 {
-                    b.Navigation("AccountsReceivable")
+                    b.Navigation("Receivable")
                         .IsRequired();
 
                     b.Navigation("SaleInvoiceItems");
