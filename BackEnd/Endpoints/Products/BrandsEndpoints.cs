@@ -35,9 +35,9 @@ namespace BackEnd.Endpoints
         }
 
         static async Task<Ok<List<BrandListDTO>>> GetAll(IBrandRepository repository,
-            IMapper mapper, PaginationDTO paginacion)
+            IMapper mapper, PaginationDTO pagination)
         {
-            var brands = await repository.GetAll(paginacion);
+            var brands = await repository.GetAll(pagination);
             var brandsDTO = mapper.Map<List<BrandListDTO>>(brands);
             return TypedResults.Ok(brandsDTO);
         }

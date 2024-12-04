@@ -35,9 +35,9 @@ namespace BackEnd.Endpoints
         }
 
         static async Task<Ok<List<UnitListDTO>>> GetAll(IUnitRepository repository,
-            IMapper mapper, PaginationDTO paginacion)
+            IMapper mapper, PaginationDTO pagination)
         {
-            var units = await repository.GetAll(paginacion);
+            var units = await repository.GetAll(pagination);
             var unitsDTO = mapper.Map<List<UnitListDTO>>(units);
             return TypedResults.Ok(unitsDTO);
         }

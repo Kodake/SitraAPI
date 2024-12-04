@@ -18,19 +18,13 @@ namespace BackEnd.Repositories.Accounts
             httpContext = httpContextAccessor.HttpContext!;
         }
 
-        public async Task<long> Create(PaymentReceipt paymentReceipt)
-        {
-            await context.PaymentReceipts.AddAsync(paymentReceipt);
-            await context.SaveChangesAsync();
-            return paymentReceipt.Id;
-        }
-
         public async Task<List<PaymentReceipt>> GetAll(PaginationDTO paginationDTO, long receivableId)
         {
             var queryable = context.PaymentReceipts
+                .AsNoTracking()
                 .Include(x => x.Receivable)
-                    .ThenInclude(x => x.SaleInvoice)
-                    .ThenInclude(x => x.Buyer)
+                .Include(x => x.Receivable.SaleInvoice)
+                .Include(x => x.Receivable.Buyer)
                 .Where(x => x.ReceivableId == receivableId)
                 .OrderBy(x => x.Id);
 
@@ -38,17 +32,36 @@ namespace BackEnd.Repositories.Accounts
 
             var payments = await queryable
                 .Paginate(paginationDTO)
-                .Include(p => p.Receivable)
                 .ToListAsync();
 
             return payments;
         }
 
-        public async Task<PaymentReceipt?> GetByIdAndReceivableId(long id, long receivableId)
+        public async Task<PaymentReceipt?> GetById(long id)
         {
             return await context.PaymentReceipts
                 .Include(p => p.Receivable)
-                .FirstOrDefaultAsync(x => x.Id == id && x.ReceivableId == receivableId);
+                    .ThenInclude(x => x.SaleInvoice)
+                    .ThenInclude(x => x.Buyer)
+                .FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<long> Create(long receivableId, PaymentReceipt paymentReceipt)
+        {
+            paymentReceipt.ReceivableId = receivableId;
+            await context.PaymentReceipts.AddAsync(paymentReceipt);
+            await context.SaveChangesAsync();
+            return paymentReceipt.Id;
+        }
+
+        public async Task Deactivate(long id)
+        {
+            var paymentReceipt = await context.PaymentReceipts.FirstOrDefaultAsync(x => x.Id == id);
+            if (paymentReceipt != null)
+            {
+                paymentReceipt.IsActive = false;
+                await context.SaveChangesAsync();
+            }
         }
     }
 }

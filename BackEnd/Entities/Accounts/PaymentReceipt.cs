@@ -11,5 +11,6 @@ namespace BackEnd.Entities.Accounts
         public TransactionType TransactionType { get; set; }
         public DateTime PaymentDate { get; set; } = DateTime.UtcNow;
         public PaymentMethod PaymentMethod { get; set; }
+        public bool IsActive { get; set; } = true;
     }
 }

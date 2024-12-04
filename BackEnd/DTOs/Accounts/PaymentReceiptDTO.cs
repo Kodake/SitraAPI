@@ -10,5 +10,8 @@ namespace BackEnd.DTOs.Accounts
         public TransactionType TransactionType { get; set; }
         public DateTime PaymentDate { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
+        public bool IsActive { get; set; }
+        public ReceivableDTO? Receivable { get; set; }
+
     }
 }

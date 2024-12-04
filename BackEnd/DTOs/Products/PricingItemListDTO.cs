@@ -1,6 +1,4 @@
-﻿using BackEnd.Entities.Products;
-
-namespace BackEnd.DTOs.Products
+﻿namespace BackEnd.DTOs.Products
 {
     public class PricingItemListDTO
     {

@@ -100,6 +100,7 @@ namespace BackEnd.Endpoints.Invoices
                 await transaction.CommitAsync();
                 await outputCacheStore.EvictByTagAsync("fiscal-supports-get", default);
                 await outputCacheStore.EvictByTagAsync("stocks-get", default);
+                await outputCacheStore.EvictByTagAsync("receivables-get", default);
                 return TypedResults.Created($"/invoices/{invoiceId}");
             }
             catch (Exception ex)

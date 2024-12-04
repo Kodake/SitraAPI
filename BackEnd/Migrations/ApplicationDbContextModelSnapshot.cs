@@ -33,6 +33,9 @@ namespace BackEnd.Migrations
                     b.Property<double>("Amount")
                         .HasColumnType("float");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("PaymentDate")
                         .HasColumnType("datetime2");
 

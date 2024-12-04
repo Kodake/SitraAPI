@@ -20,16 +20,32 @@ namespace BackEnd.Repositories.Accounts
 
         public async Task<List<Receivable>> GetAll(PaginationDTO paginationDTO)
         {
-            var queryable = context.Receivables.AsQueryable();
+            var queryable = context.Receivables
+                .Include(x => x.PaymentReceipts)
+                .Include(x => x.SaleInvoice)
+                .Include(x => x.Buyer);
 
             await httpContext.AddPaginationParamsToHeaders(queryable);
 
             return await queryable
                 .OrderBy(x => x.Id)
-                .Include(x => x.SaleInvoice)
-                .Include(x => x.Buyer)
                 .Paginate(paginationDTO)
                 .ToListAsync();
+        }
+
+        public async Task<Receivable?> GetAllById(long id)
+        {
+            return await context.Receivables
+                .Include(x => x.SaleInvoice)
+                .Include(x => x.Buyer)
+                .Include(x => x.PaymentReceipts.OrderByDescending(p => p.Id))
+                .FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<Receivable?> GetById(long id)
+        {
+            return await context.Receivables
+                .FirstOrDefaultAsync(r => r.Id == id);
         }
 
         public async Task<long> Create(Receivable receivable)
@@ -37,6 +53,12 @@ namespace BackEnd.Repositories.Accounts
             context.Receivables.Add(receivable);
             await context.SaveChangesAsync();
             return receivable.Id;
+        }
+
+        public async Task Update(Receivable receivable)
+        {
+            context.Update(receivable);
+            await context.SaveChangesAsync();
         }
 
         public async Task<bool> Exists(long id)

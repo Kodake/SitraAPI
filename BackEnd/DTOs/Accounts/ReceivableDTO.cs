@@ -14,5 +14,6 @@ namespace BackEnd.DTOs.Accounts
         public double TotalAmountDue { get; set; }
         public double TotalOutstanding { get; set; }
         public AccountStatus Status { get; set; }
+        public ICollection<PaymentReceiptListDTO> PaymentReceipts { get; set; } = [];
     }
 }

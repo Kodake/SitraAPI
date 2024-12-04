@@ -35,9 +35,9 @@ namespace BackEnd.Endpoints
         }
 
         static async Task<Ok<List<DeadlineListDTO>>> GetAll(IDeadlineRepository repository,
-            IMapper mapper, PaginationDTO paginacion)
+            IMapper mapper, PaginationDTO pagination)
         {
-            var deadlines = await repository.GetAll(paginacion);
+            var deadlines = await repository.GetAll(pagination);
             var deadlinesDTO = mapper.Map<List<DeadlineListDTO>>(deadlines);
             return TypedResults.Ok(deadlinesDTO);
         }

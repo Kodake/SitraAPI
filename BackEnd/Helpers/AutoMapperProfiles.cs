@@ -295,15 +295,16 @@ namespace BackEnd.Helpers
 
             CreateMap<Receivable, ReceivableDTO>()
             .ForMember(des => des.SaleInvoice, opt => opt.MapFrom(src => src.SaleInvoice))
-            .ForMember(des => des.Buyer, opt => opt.MapFrom(src => src.Buyer));
+            .ForMember(des => des.Buyer, opt => opt.MapFrom(src => src.Buyer))
+            .ForMember(des => des.PaymentReceipts, opt => opt.MapFrom(src => src.PaymentReceipts));
 
             CreateMap<CreatePaymentReceiptDTO, PaymentReceipt>()
             .ForMember(des => des.Receivable, opt => opt.Ignore());
 
-            CreateMap<PaymentReceipt, PaymentReceiptDTO>();
-
-            CreateMap<PaymentReceipt, PaymentReceiptListDTO>()
+            CreateMap<PaymentReceipt, PaymentReceiptDTO>()
             .ForMember(des => des.Receivable, opt => opt.MapFrom(src => src.Receivable));
+
+            CreateMap<PaymentReceipt, PaymentReceiptListDTO>();
         }
     }
 }

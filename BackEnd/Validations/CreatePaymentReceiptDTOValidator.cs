@@ -1,17 +1,14 @@
 ﻿using BackEnd.DTOs.Accounts;
+using BackEnd.Enums;
 using BackEnd.Helpers;
 using BackEnd.Repositories.Accounts;
-using BackEnd.Repositories.Finances;
-using BackEnd.Repositories.Products;
-using BackEnd.Repositories.Warehouses;
 using FluentValidation;
 
 namespace BackEnd.Validations
 {
     public class CreatePaymentReceiptDTOValidator : AbstractValidator<CreatePaymentReceiptDTO>
     {
-        public CreatePaymentReceiptDTOValidator(
-                                                IReceivableRepository receivableRepository,
+        public CreatePaymentReceiptDTOValidator(IReceivableRepository receivableRepository,
                                                 IHttpContextAccessor httpContextAccessor)
         {
             var routeId = httpContextAccessor.HttpContext?.Request.RouteValues["id"];
@@ -22,18 +19,23 @@ namespace BackEnd.Validations
                 int.TryParse(valorString, out id);
             }
 
-            RuleFor(x => x.ReceivableId)
-                .MustAsync(async (receivableId, _) => await receivableRepository.Exists(receivableId))
-                .WithMessage(x =>
-                    string.Format(
-                        "The ReceivableId '{0}' does not exist in the system. Please check and try again.",
-                        x.ReceivableId
-                    ));
-
+            RuleFor(dto => id)
+                .MustAsync(async (id, _) => await receivableRepository.Exists(id))
+                .WithMessage(Utilities.IdNotExistMessage)
+                .DependentRules(() =>
+                {
+                    RuleFor(_ => id)
+                        .MustAsync(async (receivableId, _) =>
+                        {
+                            var receivable = await receivableRepository.GetById(receivableId);
+                            return receivable == null || receivable.Status != AccountStatus.Paid;
+                        })
+                        .WithMessage(Utilities.ReceivableAlreadyPaidMessage);
+                });
 
             RuleFor(x => x.Amount)
                 .NotEmpty().WithMessage(Utilities.RequiredFieldMessage)
-                .GreaterThan(0).WithMessage(Utilities.GreatherThanZero);
+                .GreaterThan(0).WithMessage(x => Utilities.GreatherThanZero);
 
             RuleFor(x => x.PaymentMethod)
                 .IsInEnum().WithMessage(Utilities.InvalidEnumValueMessage);

@@ -15,22 +15,22 @@ namespace BackEnd.Endpoints
     {
         public static RouteGroupBuilder MapPricingItems(this RouteGroupBuilder group)
         {
-            group.MapGet("/{itemId:int}", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("pricing-items-get"))
+            group.MapGet("/item/{itemId:long}", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("pricing-items-get"))
                 .AddPaginationParamsOpenAPI();
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreatePricingItemDTO>>()
                 //.RequireAuthorization("isAdmin")
                 .WithOpenApi();
-            group.MapPatch("/{id:int}/activate", Activate);            
-            group.MapDelete("/{id:int}", Delete);
+            group.MapPatch("/{id:long}/activate", Activate);            
+            group.MapDelete("/{id:long}", Delete);
             //.RequireAuthorization("isAdmin");
             return group;
         }
 
         static async Task<Ok<List<PricingItemListDTO>>> GetAll(IPricingItemRepository repository,
-            IMapper mapper, [FromRoute] int itemId, PaginationDTO paginacion)
+            IMapper mapper, [FromRoute] long itemId, PaginationDTO pagination)
         {
-            var pricingItems = await repository.GetAll(paginacion, itemId);
+            var pricingItems = await repository.GetAll(pagination, itemId);
             var pricingItemsDTO = mapper.Map<List<PricingItemListDTO>>(pricingItems);
             return TypedResults.Ok(pricingItemsDTO);
         }
@@ -49,7 +49,7 @@ namespace BackEnd.Endpoints
             return TypedResults.Created($"/pricingItems/{id}", pricingItemDTO);
         }
 
-        static async Task<Results<NotFound, Ok>> Activate([FromRoute] int id,
+        static async Task<Results<NotFound, Ok>> Activate([FromRoute] long id,
              IPricingItemRepository repository,
              IOutputCacheStore outputCacheStore)
         {

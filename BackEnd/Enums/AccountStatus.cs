@@ -3,7 +3,8 @@
     public enum AccountStatus
     {
         PendingReceivable = 1,
-        Paid = 2,
-        Overdue = 3,
+        PartiallyPaid = 2,
+        Paid = 3,
+        Overdue = 4,
     }
 }

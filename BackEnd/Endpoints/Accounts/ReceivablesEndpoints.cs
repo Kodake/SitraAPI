@@ -1,9 +1,15 @@
 ﻿using AutoMapper;
 using BackEnd.DTOs;
 using BackEnd.DTOs.Accounts;
+using BackEnd.Entities.Accounts;
+using BackEnd.Enums;
+using BackEnd.Filters;
 using BackEnd.Helpers;
 using BackEnd.Repositories.Accounts;
+using BackEnd.Repositories.Contacts;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 
 namespace BackEnd.Endpoints
 {
@@ -14,15 +20,113 @@ namespace BackEnd.Endpoints
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("receivables-get"))
                 .AddPaginationParamsOpenAPI();
             //.RequireAuthorization("isAdmin");
+            group.MapGet("/{id:long}", GetAllById).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("receivables-get"))
+                .AddPaginationParamsOpenAPI();
+            //.RequireAuthorization("isAdmin");
+            group.MapPost("/{id:long}/addPayment", Create).DisableAntiforgery()
+                .AddEndpointFilter<ValidationFilter<CreatePaymentReceiptDTO>>()
+                //.RequireAuthorization("isAdmin")
+                .WithOpenApi();
+            group.MapDelete("/{id:int}/paymentReceipts/{paymentReceiptId}/deactivate", Deactivate);
+            //.RequireAuthorization("isAdmin");
             return group;
         }
 
         static async Task<Ok<List<ReceivableListDTO>>> GetAll(IReceivableRepository repository,
-            IMapper mapper, PaginationDTO paginacion)
+            IMapper mapper, PaginationDTO pagination)
         {
-            var receivables = await repository.GetAll(paginacion);
+            var receivables = await repository.GetAll(pagination);
             var receivablesDTO = mapper.Map<List<ReceivableListDTO>>(receivables);
             return TypedResults.Ok(receivablesDTO);
         }
+
+        static async Task<Ok<ReceivableDTO>> GetAllById(IReceivableRepository repository,
+            IMapper mapper, [FromRoute] long id)
+        {
+            var receivables = await repository.GetAllById(id);
+            var receivablesDTO = mapper.Map<ReceivableDTO>(receivables);
+            return TypedResults.Ok(receivablesDTO);
+        }
+
+        static async Task<Results<Created<PaymentReceiptDTO>, NotFound, ValidationProblem>> Create(
+            [FromBody] CreatePaymentReceiptDTO dto,
+            [FromRoute] long id,
+            IPaymentReceiptRepository repository,
+            IReceivableRepository receivableRepository,
+            IOutputCacheStore outputCacheStore,
+            IMapper mapper)
+        {
+            var paymentReceipt = mapper.Map<PaymentReceipt>(dto);
+
+            var receivable = await receivableRepository.GetById(id);
+            if (receivable == null)
+            {
+                return TypedResults.NotFound();
+            }
+
+            var paymentReceiptId = await repository.Create(id, paymentReceipt);
+
+            receivable.TotalOutstanding += paymentReceipt.Amount;
+
+            receivable.Status = receivable.TotalOutstanding switch
+            {
+                var total when total >= receivable.TotalAmountDue => AccountStatus.Paid,
+                var total when total > 0 => AccountStatus.PartiallyPaid,
+                _ => receivable.Status
+            };
+
+            await receivableRepository.Update(receivable);
+
+            await outputCacheStore.EvictByTagAsync("payment-receipts-get", default);
+            await outputCacheStore.EvictByTagAsync("receivables-get", default);
+
+            var paymentReceiptDTO = mapper.Map<PaymentReceiptDTO>(paymentReceipt);
+
+            return TypedResults.Created($"/{paymentReceiptId}/addPayment", paymentReceiptDTO);
+        }
+
+        static async Task<Results<NotFound, Ok>> Deactivate(
+            [FromRoute] long id,
+            [FromRoute] long paymentReceiptId,
+            [FromServices] IPaymentReceiptRepository paymentReceiptRepository,
+            [FromServices] IReceivableRepository receivableRepository,
+            [FromServices] IOutputCacheStore outputCacheStore)
+        {
+            var paymentReceipt = await paymentReceiptRepository.GetById(paymentReceiptId);
+            if (paymentReceipt == null || paymentReceipt.ReceivableId != id)
+            {
+                return TypedResults.NotFound();
+            }
+
+            var receivable = await receivableRepository.GetById(id);
+            if (receivable == null)
+            {
+                return TypedResults.NotFound();
+            }
+
+            receivable.TotalOutstanding -= paymentReceipt.Amount;
+
+            if (receivable.TotalOutstanding < 0)
+            {
+                receivable.TotalOutstanding = 0;
+            }
+
+            receivable.Status = receivable.TotalOutstanding switch
+            {
+                0 => AccountStatus.PendingReceivable,
+                var total when total < receivable.TotalAmountDue => AccountStatus.PartiallyPaid,
+                _ => receivable.Status
+            };
+
+            await paymentReceiptRepository.Deactivate(paymentReceiptId);
+
+            await receivableRepository.Update(receivable);
+
+            await outputCacheStore.EvictByTagAsync("payment-receipts-get", default);
+            await outputCacheStore.EvictByTagAsync("receivables-get", default);
+
+            return TypedResults.Ok();
+        }
+
     }
 }

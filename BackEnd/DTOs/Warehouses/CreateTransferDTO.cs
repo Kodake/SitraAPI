@@ -4,7 +4,6 @@ namespace BackEnd.DTOs.Warehouses
 {
     public class CreateTransferDTO
     {
-        public long Id { get; set; }
         public long ProductId { get; set; }
         public long OriginWarehouseId { get; set; }
         public long DestinationWarehouseId { get; set; }

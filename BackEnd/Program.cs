@@ -15,7 +15,6 @@ using Serilog;
 using Serilog.Sinks.MSSqlServer;
 using BackEnd.Repositories.Invoices;
 using BackEnd.Endpoints.Invoices;
-using BackEnd.Services.Invoices;
 using BackEnd.Repositories.Accounts;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -166,7 +165,6 @@ apiGroup.MapGroup("/deadlines").MapDeadlines();
 apiGroup.MapGroup("/transfers").MapTransfers();
 apiGroup.MapGroup("/saleInvoices").MapInvoices();
 apiGroup.MapGroup("/receivables").MapReceivables();
-apiGroup.MapGroup("/paymentReceipts").MapPaymentReceipts();
 
 app.UseCors();
 
