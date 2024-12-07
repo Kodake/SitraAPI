@@ -11,5 +11,6 @@ namespace BackEnd.Repositories.Accounts
         Task<bool> Exists(long id);
         Task<Receivable?> GetById(long id);
         Task Update(Receivable receivable);
+        Task<Receivable?> GetPaysById(long id);
     }
 }

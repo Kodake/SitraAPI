@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BackEnd.DTOs;
 using BackEnd.DTOs.Accounts;
+using BackEnd.DTOs.Contacts;
 using BackEnd.Entities.Accounts;
 using BackEnd.Enums;
 using BackEnd.Filters;
@@ -20,8 +21,8 @@ namespace BackEnd.Endpoints
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("receivables-get"))
                 .AddPaginationParamsOpenAPI();
             //.RequireAuthorization("isAdmin");
-            group.MapGet("/{id:long}", GetAllById).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("receivables-get"))
-                .AddPaginationParamsOpenAPI();
+            group.MapGet("/{id:long}", GetAllById).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("receivables-get"));
+            group.MapGet("/{id:long}/viewPays", GetPaysById).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("receivables-get"));
             //.RequireAuthorization("isAdmin");
             group.MapPost("/{id:long}/addPayment", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreatePaymentReceiptDTO>>()
@@ -40,12 +41,32 @@ namespace BackEnd.Endpoints
             return TypedResults.Ok(receivablesDTO);
         }
 
-        static async Task<Ok<ReceivableDTO>> GetAllById(IReceivableRepository repository,
+        static async Task<Results<Ok<ReceivableDTO>, NotFound>> GetAllById(IReceivableRepository repository,
             IMapper mapper, [FromRoute] long id)
         {
-            var receivables = await repository.GetAllById(id);
-            var receivablesDTO = mapper.Map<ReceivableDTO>(receivables);
-            return TypedResults.Ok(receivablesDTO);
+            var receivable = await repository.GetAllById(id);
+
+            if (receivable == null)
+            {
+                return TypedResults.NotFound();
+            }
+
+            var receivableDTO = mapper.Map<ReceivableDTO>(receivable);
+            return TypedResults.Ok(receivableDTO);
+        }
+
+        static async Task<Results<Ok<ReceivableDTO>, NotFound>> GetPaysById(IReceivableRepository repository,
+            IMapper mapper, [FromRoute] long id)
+        {
+            var receivable = await repository.GetPaysById(id);
+
+            if (receivable == null)
+            {
+                return TypedResults.NotFound();
+            }
+
+            var receivableDTO = mapper.Map<ReceivableDTO>(receivable);
+            return TypedResults.Ok(receivableDTO);
         }
 
         static async Task<Results<Created<PaymentReceiptDTO>, NotFound, ValidationProblem>> Create(
@@ -93,7 +114,7 @@ namespace BackEnd.Endpoints
             [FromServices] IOutputCacheStore outputCacheStore)
         {
             var paymentReceipt = await paymentReceiptRepository.GetById(paymentReceiptId);
-            if (paymentReceipt == null || paymentReceipt.ReceivableId != id)
+            if (paymentReceipt == null)
             {
                 return TypedResults.NotFound();
             }

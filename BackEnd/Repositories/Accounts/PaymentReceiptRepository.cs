@@ -1,7 +1,5 @@
 ﻿using BackEnd.Context;
-using BackEnd.DTOs;
 using BackEnd.Entities.Accounts;
-using BackEnd.Helpers;
 using Microsoft.EntityFrameworkCore;
 
 namespace BackEnd.Repositories.Accounts
@@ -16,25 +14,6 @@ namespace BackEnd.Repositories.Accounts
         {
             this.context = context;
             httpContext = httpContextAccessor.HttpContext!;
-        }
-
-        public async Task<List<PaymentReceipt>> GetAll(PaginationDTO paginationDTO, long receivableId)
-        {
-            var queryable = context.PaymentReceipts
-                .AsNoTracking()
-                .Include(x => x.Receivable)
-                .Include(x => x.Receivable.SaleInvoice)
-                .Include(x => x.Receivable.Buyer)
-                .Where(x => x.ReceivableId == receivableId)
-                .OrderBy(x => x.Id);
-
-            await httpContext.AddPaginationParamsToHeaders(queryable);
-
-            var payments = await queryable
-                .Paginate(paginationDTO)
-                .ToListAsync();
-
-            return payments;
         }
 
         public async Task<PaymentReceipt?> GetById(long id)

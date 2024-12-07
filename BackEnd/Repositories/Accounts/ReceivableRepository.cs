@@ -1,6 +1,7 @@
 ﻿using BackEnd.Context;
 using BackEnd.DTOs;
 using BackEnd.Entities.Accounts;
+using BackEnd.Enums;
 using BackEnd.Helpers;
 using Microsoft.EntityFrameworkCore;
 
@@ -40,6 +41,17 @@ namespace BackEnd.Repositories.Accounts
                 .Include(x => x.Buyer)
                 .Include(x => x.PaymentReceipts.OrderByDescending(p => p.Id))
                 .FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<Receivable?> GetPaysById(long id)
+        {
+            return await context.Receivables
+                .Include(x => x.SaleInvoice)
+                .Include(x => x.Buyer)
+                .Include(x => x.PaymentReceipts
+                    .Where(x => x.IsActive)
+                    .OrderByDescending(p => p.Id))
+                .FirstOrDefaultAsync(x => x.Id == id && x.Status == AccountStatus.Paid);
         }
 
         public async Task<Receivable?> GetById(long id)
