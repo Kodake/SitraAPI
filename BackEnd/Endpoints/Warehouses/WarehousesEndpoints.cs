@@ -5,6 +5,7 @@ using BackEnd.Entities.Warehouses;
 using BackEnd.Enums;
 using BackEnd.Filters;
 using BackEnd.Helpers;
+using BackEnd.Repositories;
 using BackEnd.Repositories.Warehouses;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -36,42 +37,51 @@ namespace BackEnd.Endpoints
             return group;
         }
 
-        static async Task<Ok<List<WarehouseListDTO>>> GetAll([FromServices] IWarehouseRepository repository,
+        static async Task<Ok<List<WarehouseListDTO>>> GetAll(
+            [FromServices] IUnitOfWork unitOfWork,
             [FromServices] IMapper mapper, PaginationDTO pagination)
         {
-            var warehouses = await repository.GetAll(pagination);
+            var warehouses = await unitOfWork.WarehouseRepository.GetAllAsync(pagination);
             var dto = mapper.Map<List<WarehouseListDTO>>(warehouses);
+
             return TypedResults.Ok(dto);
         }
 
-        static async Task<Ok<List<WarehouseListDTO>>> GetUnregisteredWarehouseById(IWarehouseRepository repository,
+        static async Task<Ok<List<WarehouseListDTO>>> GetUnregisteredWarehouseById(
+            [FromServices] IUnitOfWork unitOfWork,
             IMapper mapper, int id)
         {
-            var unregWarehouses = await repository.GetUnregisteredWarehouseById(id);
+            var unregWarehouses = await unitOfWork.WarehouseRepository.GetUnregisteredWarehouseById(id);
             var unregWarehousesDTO = mapper.Map<List<WarehouseListDTO>>(unregWarehouses);
+
             return TypedResults.Ok(unregWarehousesDTO);
         }
 
-        static async Task<Ok<List<WarehouseListDTO>>> GetWarehouseStockByProductId(IWarehouseRepository repository,
+        static async Task<Ok<List<WarehouseListDTO>>> GetWarehouseStockByProductId(
+            [FromServices] IUnitOfWork unitOfWork,
             IMapper mapper, int id)
         {
-            var stockWarehouses = await repository.GetStockWarehouseByProductId(id);
+            var stockWarehouses = await unitOfWork.WarehouseRepository.GetStockWarehouseByProductId(id);
             var stockWarehousesDTO = mapper.Map<List<WarehouseListDTO>>(stockWarehouses);
+
             return TypedResults.Ok(stockWarehousesDTO);
         }
 
-        static async Task<Ok<List<WarehouseListDTO>>> GetSelects(IWarehouseRepository repository,
+        static async Task<Ok<List<WarehouseListDTO>>> GetSelects(
+            [FromServices] IUnitOfWork unitOfWork,
             IMapper mapper, [FromQuery] StatusType status = StatusType.All)
         {
-            var warehouses = await repository.GetAll(status);
+            var warehouses = await unitOfWork.WarehouseRepository.GetAll(status);
             var warehousesDTO = mapper.Map<List<WarehouseListDTO>>(warehouses);
+
             return TypedResults.Ok(warehousesDTO);
         }
 
-        static async Task<Results<Ok<WarehouseDTO>, NotFound>> GetById([FromServices] IWarehouseRepository repository,
+        static async Task<Results<Ok<WarehouseDTO>, NotFound>> GetById(
+            [FromServices] IUnitOfWork unitOfWork,
             [FromServices] IMapper mapper, int id)
         {
-            var warehouse = await repository.GetById(id);
+            var warehouse = await unitOfWork.WarehouseRepository.GetByIdAsync(id);
 
             if (warehouse is null)
             {
@@ -79,28 +89,32 @@ namespace BackEnd.Endpoints
             }
 
             var warehouseDTO = mapper.Map<WarehouseDTO>(warehouse);
+
             return TypedResults.Ok(warehouseDTO);
         }
 
         static async Task<Results<Created<WarehouseDTO>, ValidationProblem>> Create([FromBody] CreateWarehouseDTO dto,
-           [FromServices] IWarehouseRepository repository,
+           [FromServices] IUnitOfWork unitOfWork,
            IOutputCacheStore outputCacheStore,
            [FromServices] IMapper mapper)
         {
             var warehouse = mapper.Map<Warehouse>(dto);
 
-            var id = await repository.Create(warehouse);
+            await unitOfWork.WarehouseRepository.CreateAsync(warehouse);
+            await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("warehouses-get", default);
+
             var warehouseDTO = mapper.Map<WarehouseDTO>(warehouse);
-            return TypedResults.Created($"/warehouses/{id}", warehouseDTO);
+
+            return TypedResults.Created($"/warehouses/{warehouse.Id}", warehouseDTO);
         }
 
         static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromBody] CreateWarehouseDTO dto,
-            [FromServices] IWarehouseRepository repository,
+            [FromServices] IUnitOfWork unitOfWork,
             IOutputCacheStore outputCacheStore,
             [FromServices] IMapper mapper)
         {
-            var warehouseDB = await repository.GetById(id);
+            var warehouseDB = await unitOfWork.WarehouseRepository.GetByIdAsync(id);
 
             if (warehouseDB is null)
             {
@@ -116,40 +130,44 @@ namespace BackEnd.Endpoints
             warehouseDB.ZipCode = dto.ZipCode;
             warehouseDB.IsActive = warehouseDB.IsActive;
 
-            await repository.Update(warehouseDB);
+            unitOfWork.WarehouseRepository.Update(warehouseDB);
+            await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("warehouses-get", default);
+
             return TypedResults.Ok();
         }
 
         static async Task<Results<NotFound, Ok>> Activate([FromRoute] int id,
-             [FromServices] IWarehouseRepository repository,
+             [FromServices] IUnitOfWork unitOfWork,
              IOutputCacheStore outputCacheStore)
         {
-            var warehouseDB = await repository.GetById(id);
+            var warehouseDB = await unitOfWork.WarehouseRepository.GetByIdAsync(id);
 
             if (warehouseDB is null)
             {
                 return TypedResults.NotFound();
             }
 
-            await repository.Activate(id);
+            await unitOfWork.WarehouseRepository.ActivateAsync(id);
             await outputCacheStore.EvictByTagAsync("warehouses-get", default);
+
             return TypedResults.Ok();
         }
 
         static async Task<Results<NotFound, Ok>> Deactivate([FromRoute] int id,
-             [FromServices] IWarehouseRepository repository,
+             [FromServices] IUnitOfWork unitOfWork,
              IOutputCacheStore outputCacheStore)
         {
-            var warehouseDB = await repository.GetById(id);
+            var warehouseDB = await unitOfWork.WarehouseRepository.GetByIdAsync(id);
 
             if (warehouseDB is null)
             {
                 return TypedResults.NotFound();
             }
 
-            await repository.Deactivate(id);
+            await unitOfWork.WarehouseRepository.DeactivateAsync(id);
             await outputCacheStore.EvictByTagAsync("warehouses-get", default);
+
             return TypedResults.Ok();
         }
     }

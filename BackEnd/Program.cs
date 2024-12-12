@@ -16,6 +16,8 @@ using Serilog.Sinks.MSSqlServer;
 using BackEnd.Repositories.Invoices;
 using BackEnd.Endpoints.Invoices;
 using BackEnd.Repositories.Accounts;
+using BackEnd.Repositories;
+using BackEnd.Repositories.Generics;
 
 var builder = WebApplication.CreateBuilder(args);
 Log.Logger = new LoggerConfiguration()
@@ -119,6 +121,8 @@ builder.Services.AddScoped<IDeadlineRepository, DeadlineRepository>();
 builder.Services.AddScoped<ISaleInvoiceRepository, SaleInvoiceRepository>();
 builder.Services.AddScoped<IReceivableRepository, ReceivableRepository>();
 builder.Services.AddScoped<IPaymentReceiptRepository, PaymentReceiptRepository>();
+builder.Services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 //builder.Services.AddScoped<ISaleInvoiceService, SaleInvoiceService>();
 

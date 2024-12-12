@@ -3,18 +3,19 @@ using NUnit.Framework;
 using BackEnd.DTOs;
 using BackEnd.Entities.Contacts;
 using BackEnd.Repositories.Contacts;
+using BackEnd.Repositories;
 
 namespace BackEnd.Tests.Repositories.Contacts
 {
     [TestFixture]
     public class ContactRepositoryTests
     {
-        private Mock<IContactRepository> _mockContactRepository = null!;
+        private Mock<IUnitOfWork> _unitOfWorkRepository = null!;
 
         [SetUp]
         public void Setup()
         {
-            _mockContactRepository = new Mock<IContactRepository>();
+            _unitOfWorkRepository = new Mock<IUnitOfWork>();
         }
 
         [Test]
@@ -23,10 +24,10 @@ namespace BackEnd.Tests.Repositories.Contacts
             // Arrange
             var contactId = 1;
             var expectedContact = new Contact { Id = contactId };
-            _mockContactRepository.Setup(repo => repo.GetById(contactId)).ReturnsAsync(expectedContact);
+            _unitOfWorkRepository.Setup(repo => repo.ContactRepository.GetByIdAsync(contactId)).ReturnsAsync(expectedContact);
 
             // Act
-            var result = await _mockContactRepository.Object.GetById(contactId);
+            var result = await _unitOfWorkRepository.Object.ContactRepository.GetByIdAsync(contactId);
 
             // Assert
             Assert.That(result, Is.Not.Null); // Ensure result is not null
@@ -39,42 +40,15 @@ namespace BackEnd.Tests.Repositories.Contacts
             // Arrange
             var paginationDTO = new PaginationDTO();
             var expectedContacts = new List<Contact> { new Contact { Id = 1 }, new Contact { Id = 2 } };
-            _mockContactRepository.Setup(repo => repo.GetAll(paginationDTO)).ReturnsAsync(expectedContacts);
+            _unitOfWorkRepository.Setup(repo => repo.ContactRepository.GetAllAsync(paginationDTO)).ReturnsAsync(expectedContacts);
 
             // Act
-            var result = await _mockContactRepository.Object.GetAll(paginationDTO);
+            var result = await _unitOfWorkRepository.Object.ContactRepository.GetAllAsync(paginationDTO);
 
             // Assert
             Assert.That(expectedContacts.Count, Is.EqualTo(result.Count));
         }
 
-        [Test]
-        public async Task Create_ReturnsContactId_WhenContactIsCreated()
-        {
-            // Arrange
-            var contact = new Contact();
-            var expectedId = 1;
-            _mockContactRepository.Setup(repo => repo.Create(contact)).ReturnsAsync(expectedId);
-
-            // Act
-            var result = await _mockContactRepository.Object.Create(contact);
-
-            // Assert
-            Assert.That(expectedId, Is.EqualTo(result));
-        }
-
-        [Test]
-        public async Task Update_CallsUpdateMethod()
-        {
-            // Arrange
-            var contact = new Contact();
-
-            // Act
-            await _mockContactRepository.Object.Update(contact);
-
-            // Assert
-            _mockContactRepository.Verify(repo => repo.Update(contact), Times.Once);
-        }
 
         [Test]
         public async Task Activate_CallsActivateMethod()
@@ -83,10 +57,10 @@ namespace BackEnd.Tests.Repositories.Contacts
             var contactId = 1;
 
             // Act
-            await _mockContactRepository.Object.Activate(contactId);
+            await _unitOfWorkRepository.Object.ContactRepository.ActivateAsync(contactId);
 
             // Assert
-            _mockContactRepository.Verify(repo => repo.Activate(contactId), Times.Once);
+            _unitOfWorkRepository.Verify(repo => repo.ContactRepository.ActivateAsync(contactId), Times.Once);
         }
 
         [Test]
@@ -96,10 +70,10 @@ namespace BackEnd.Tests.Repositories.Contacts
             var contactId = 1;
 
             // Act
-            await _mockContactRepository.Object.Deactivate(contactId);
+            await _unitOfWorkRepository.Object.ContactRepository.DeactivateAsync(contactId);
 
             // Assert
-            _mockContactRepository.Verify(repo => repo.Deactivate(contactId), Times.Once);
+            _unitOfWorkRepository.Verify(repo => repo.ContactRepository.DeactivateAsync(contactId), Times.Once);
         }
 
         [Test]
@@ -107,10 +81,10 @@ namespace BackEnd.Tests.Repositories.Contacts
         {
             // Arrange
             var contactId = 1;
-            _mockContactRepository.Setup(repo => repo.Exists(contactId)).ReturnsAsync(true);
+            _unitOfWorkRepository.Setup(repo => repo.ContactRepository.ExistsAsync(contactId)).ReturnsAsync(true);
 
             // Act
-            var result = await _mockContactRepository.Object.Exists(contactId);
+            var result = await _unitOfWorkRepository.Object.ContactRepository.ExistsAsync(contactId);
 
             // Assert
             Assert.That(result);
@@ -121,10 +95,10 @@ namespace BackEnd.Tests.Repositories.Contacts
         {
             // Arrange
             var contactId = 1;
-            _mockContactRepository.Setup(repo => repo.Exists(contactId)).ReturnsAsync(false);
+            _unitOfWorkRepository.Setup(repo => repo.ContactRepository.ExistsAsync(contactId)).ReturnsAsync(false);
 
             // Act
-            var result = await _mockContactRepository.Object.Exists(contactId);
+            var result = await _unitOfWorkRepository.Object.ContactRepository.ExistsAsync(contactId);
 
             // Assert
             Assert.That(false, Is.EqualTo(result));
@@ -136,10 +110,10 @@ namespace BackEnd.Tests.Repositories.Contacts
             // Arrange
             var contactId = 1;
             var code = "code123";
-            _mockContactRepository.Setup(repo => repo.Exists(contactId, code)).ReturnsAsync(true);
+            _unitOfWorkRepository.Setup(repo => repo.ContactRepository.Exists(contactId, code)).ReturnsAsync(true);
 
             // Act
-            var result = await _mockContactRepository.Object.Exists(contactId, code);
+            var result = await _unitOfWorkRepository.Object.ContactRepository.Exists(contactId, code);
 
             // Assert
             Assert.That(true, Is.EqualTo(result));
@@ -151,10 +125,10 @@ namespace BackEnd.Tests.Repositories.Contacts
             // Arrange
             var contactId = 1;
             var code = "code123";
-            _mockContactRepository.Setup(repo => repo.Exists(contactId, code)).ReturnsAsync(false);
+            _unitOfWorkRepository.Setup(repo => repo.ContactRepository.Exists(contactId, code)).ReturnsAsync(false);
 
             // Act
-            var result = await _mockContactRepository.Object.Exists(contactId, code);
+            var result = await _unitOfWorkRepository.Object.ContactRepository.Exists(contactId, code);
 
             // Assert
             Assert.That(false, Is.EqualTo(result));

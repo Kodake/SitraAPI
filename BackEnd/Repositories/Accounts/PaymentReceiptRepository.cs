@@ -13,7 +13,7 @@ namespace BackEnd.Repositories.Accounts
             IHttpContextAccessor httpContextAccessor)
         {
             this.context = context;
-            httpContext = httpContextAccessor.HttpContext!;
+            this.httpContext = httpContextAccessor.HttpContext!;
         }
 
         public async Task<PaymentReceipt?> GetById(long id)

@@ -22,11 +22,11 @@ namespace BackEnd.Validations
                 .WithMessage(x => string.Format(Utilities.NotExistsWith, x.PricingId));
 
             RuleFor(x => x.BillerId)
-                .MustAsync(async (id, _) => await contactRepository.Exists(id))
+                .MustAsync(async (id, _) => await contactRepository.ExistsAsync(id))
                 .WithMessage(x => string.Format(Utilities.NotExistsWith, x.BillerId));
 
             RuleFor(x => x.CustomerId)
-                .MustAsync(async (id, _) => await contactRepository.Exists(id))
+                .MustAsync(async (id, _) => await contactRepository.ExistsAsync(id))
                 .WithMessage(x => string.Format(Utilities.NotExistsWith, x.CustomerId));
 
             RuleFor(x => x.FiscalSupportId)
@@ -34,7 +34,7 @@ namespace BackEnd.Validations
                 .WithMessage(x => string.Format(Utilities.NotExistsWith, x.FiscalSupportId));
 
             RuleFor(x => x.CurrencyId)
-                .MustAsync(async (id, _) => await currencyRepository.Exists(id))
+                .MustAsync(async (id, _) => await currencyRepository.ExistsAsync(id))
                 .WithMessage(x => string.Format(Utilities.NotExistsWith, x.CurrencyId));
 
             RuleFor(x => x.FiscalSupportId)

@@ -1,34 +1,14 @@
 ﻿using BackEnd.Context;
-using BackEnd.DTOs;
 using BackEnd.Entities.Warehouses;
 using BackEnd.Enums;
-using BackEnd.Helpers;
-using BackEnd.Repositories.Warehouses;
 using Microsoft.EntityFrameworkCore;
 
-namespace BackEnd.Repositories.Products
+namespace BackEnd.Repositories.Warehouses
 {
-    public class WarehouseRepository : IWarehouseRepository
+    public class WarehouseRepository : RepositoryBase<Warehouse>, IWarehouseRepository
     {
-        private readonly ApplicationDbContext context;
-        private readonly HttpContext httpContext;
-
-        public WarehouseRepository(ApplicationDbContext context,
-            IHttpContextAccessor httpContextAccessor)
-        {
-            this.context = context;
-            httpContext = httpContextAccessor.HttpContext!;
-        }
-
-        public async Task<List<Warehouse>> GetAll(PaginationDTO paginationDTO)
-        {
-            var queryable = context.Warehouses.AsQueryable();
-            await httpContext.AddPaginationParamsToHeaders(queryable);
-            return await queryable
-                .OrderBy(x => x.Name)
-                .Paginate(paginationDTO)
-                .ToListAsync();
-        }
+        public WarehouseRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
+            : base(context, httpContextAccessor) { }
 
         public async Task<List<Warehouse>> GetAll(StatusType status)
         {
@@ -73,49 +53,6 @@ namespace BackEnd.Repositories.Products
                     Name = p.Name,
                     Stocks = p.Stocks,
                 }).ToListAsync();
-        }
-
-        public async Task<Warehouse?> GetById(long id)
-        {
-            return await context.Warehouses.FirstOrDefaultAsync(x => x.Id == id);
-        }
-
-        public async Task<long> Create(Warehouse warehouse)
-        {
-            context.Add(warehouse);
-            await context.SaveChangesAsync();
-            return warehouse.Id;
-        }
-
-        public async Task Update(Warehouse warehouse)
-        {
-            context.Update(warehouse);
-            await context.SaveChangesAsync();
-        }
-
-        public async Task Activate(long id)
-        {
-            var warehouse = await context.Warehouses.FirstOrDefaultAsync(x => x.Id == id);
-            if (warehouse != null)
-            {
-                warehouse.IsActive = true;
-                await context.SaveChangesAsync();
-            }
-        }
-
-        public async Task Deactivate(long id)
-        {
-            var warehouse = await context.Warehouses.FirstOrDefaultAsync(x => x.Id == id);
-            if (warehouse != null)
-            {
-                warehouse.IsActive = false;
-                await context.SaveChangesAsync();
-            }
-        }
-
-        public async Task<bool> Exists(long id)
-        {
-            return await context.Warehouses.AnyAsync(x => x.Id == id);
         }
 
         public async Task<bool> Exists(long id, string name)

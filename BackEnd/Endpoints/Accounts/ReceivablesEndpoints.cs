@@ -1,13 +1,11 @@
 ﻿using AutoMapper;
 using BackEnd.DTOs;
 using BackEnd.DTOs.Accounts;
-using BackEnd.DTOs.Contacts;
 using BackEnd.Entities.Accounts;
 using BackEnd.Enums;
 using BackEnd.Filters;
 using BackEnd.Helpers;
 using BackEnd.Repositories.Accounts;
-using BackEnd.Repositories.Contacts;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;

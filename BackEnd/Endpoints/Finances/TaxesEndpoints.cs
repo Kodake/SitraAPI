@@ -5,7 +5,7 @@ using BackEnd.Entities.Finances;
 using BackEnd.Enums;
 using BackEnd.Filters;
 using BackEnd.Helpers;
-using BackEnd.Repositories.Finances;
+using BackEnd.Repositories;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
@@ -33,26 +33,31 @@ namespace BackEnd.Endpoints
             return group;
         }
 
-        static async Task<Ok<List<TaxListDTO>>> GetSelects(ITaxRepository repository,
+        static async Task<Ok<List<TaxListDTO>>> GetSelects(
+            [FromServices] IUnitOfWork unitOfWork,
             IMapper mapper, [FromQuery] StatusType status = StatusType.All)
         {
-            var taxes = await repository.GetAll(status);
+            var taxes = await unitOfWork.TaxRepository.GetAll(status);
             var taxesDTO = mapper.Map<List<TaxListDTO>>(taxes);
+
             return TypedResults.Ok(taxesDTO);
         }
 
-        static async Task<Ok<List<TaxListDTO>>> GetAll([FromServices] ITaxRepository repository,
+        static async Task<Ok<List<TaxListDTO>>> GetAll(
+            [FromServices] IUnitOfWork unitOfWork,
             [FromServices] IMapper mapper, PaginationDTO pagination)
         {
-            var taxes = await repository.GetAll(pagination);
+            var taxes = await unitOfWork.TaxRepository.GetAllAsync(pagination);
             var taxesDTO = mapper.Map<List<TaxListDTO>>(taxes);
+
             return TypedResults.Ok(taxesDTO);
         }
 
-        static async Task<Results<Ok<TaxDTO>, NotFound>> GetById([FromServices] ITaxRepository repository,
+        static async Task<Results<Ok<TaxDTO>, NotFound>> GetById(
+            [FromServices] IUnitOfWork unitOfWork,
             [FromServices] IMapper mapper, int id)
         {
-            var tax = await repository.GetById(id);
+            var tax = await unitOfWork.TaxRepository.GetByIdAsync(id);
 
             if (tax is null)
             {
@@ -60,28 +65,32 @@ namespace BackEnd.Endpoints
             }
 
             var taxDTO = mapper.Map<TaxDTO>(tax);
+
             return TypedResults.Ok(taxDTO);
         }
 
         static async Task<Results<Created<TaxDTO>, ValidationProblem>> Create([FromBody] CreateTaxDTO dto,
-           [FromServices] ITaxRepository repository,
+           [FromServices] IUnitOfWork unitOfWork,
            IOutputCacheStore outputCacheStore,
            [FromServices] IMapper mapper)
         {
             var tax = mapper.Map<Tax>(dto);
 
-            var id = await repository.Create(tax);
+            await unitOfWork.TaxRepository.CreateAsync(tax);
+            await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("taxes-get", default);
+
             var taxDTO = mapper.Map<TaxDTO>(tax);
-            return TypedResults.Created($"/taxes/{id}", taxDTO);
+
+            return TypedResults.Created($"/taxes/{tax.Id}", taxDTO);
         }
 
         static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromBody] CreateTaxDTO dto,
-            [FromServices] ITaxRepository repository,
+            [FromServices] IUnitOfWork unitOfWork,
             IOutputCacheStore outputCacheStore,
             [FromServices] IMapper mapper)
         {
-            var taxDB = await repository.GetById(id);
+            var taxDB = await unitOfWork.TaxRepository.GetByIdAsync(id);
 
             if (taxDB is null)
             {
@@ -92,40 +101,46 @@ namespace BackEnd.Endpoints
             taxDB.Amount = dto.Amount;
             taxDB.IsActive = taxDB.IsActive;
 
-            await repository.Update(taxDB);
+            unitOfWork.TaxRepository.Update(taxDB);
+            await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("taxes-get", default);
+
             return TypedResults.Ok();
         }
 
         static async Task<Results<NotFound, Ok>> Activate([FromRoute] int id,
-             [FromServices] ITaxRepository repository,
+             [FromServices] IUnitOfWork unitOfWork,
              IOutputCacheStore outputCacheStore)
         {
-            var taxDB = await repository.GetById(id);
+            var taxDB = await unitOfWork.TaxRepository.GetByIdAsync(id);
 
             if (taxDB is null)
             {
                 return TypedResults.NotFound();
             }
 
-            await repository.Activate(id);
+            await unitOfWork.TaxRepository.ActivateAsync(id);
+            await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("taxes-get", default);
+
             return TypedResults.Ok();
         }
 
         static async Task<Results<NotFound, Ok>> Deactivate([FromRoute] int id,
-             [FromServices] ITaxRepository repository,
+             [FromServices] IUnitOfWork unitOfWork,
              IOutputCacheStore outputCacheStore)
         {
-            var taxDB = await repository.GetById(id);
+            var taxDB = await unitOfWork.TaxRepository.GetByIdAsync(id);
 
             if (taxDB is null)
             {
                 return TypedResults.NotFound();
             }
 
-            await repository.Deactivate(id);
+            await unitOfWork.TaxRepository.DeactivateAsync(id);
+            await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("taxes-get", default);
+
             return TypedResults.Ok();
         }
     }

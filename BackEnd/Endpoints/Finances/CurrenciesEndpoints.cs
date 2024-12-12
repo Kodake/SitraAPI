@@ -4,7 +4,7 @@ using BackEnd.DTOs.Finances;
 using BackEnd.Entities.Finances;
 using BackEnd.Filters;
 using BackEnd.Helpers;
-using BackEnd.Repositories.Finances;
+using BackEnd.Repositories;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
@@ -33,18 +33,21 @@ namespace BackEnd.Endpoints
             return group;
         }
 
-        static async Task<Ok<List<CurrencyListDTO>>> GetAll([FromServices] ICurrencyRepository repository,
+        static async Task<Ok<List<CurrencyListDTO>>> GetAll(
+            [FromServices] IUnitOfWork unitOfWork,
             [FromServices] IMapper mapper, PaginationDTO pagination)
         {
-            var currencies = await repository.GetAll(pagination);
+            var currencies = await unitOfWork.CurrencyRepository.GetAllAsync(pagination);
             var currenciesDTO = mapper.Map<List<CurrencyListDTO>>(currencies);
+
             return TypedResults.Ok(currenciesDTO);
         }
 
-        static async Task<Results<Ok<CurrencyDTO>, NotFound>> GetById([FromServices] ICurrencyRepository repository,
+        static async Task<Results<Ok<CurrencyDTO>, NotFound>> GetById(
+            [FromServices] IUnitOfWork unitOfWork,
             [FromServices] IMapper mapper, int id)
         {
-            var currency = await repository.GetById(id);
+            var currency = await unitOfWork.CurrencyRepository.GetByIdAsync(id);
 
             if (currency is null)
             {
@@ -52,36 +55,42 @@ namespace BackEnd.Endpoints
             }
 
             var currencyDTO = mapper.Map<CurrencyDTO>(currency);
+
             return TypedResults.Ok(currencyDTO);
         }
 
-        static async Task<Ok<List<CurrencyListDTO>>> GetCurrencies([FromServices] ICurrencyRepository repository,
+        static async Task<Ok<List<CurrencyListDTO>>> GetCurrencies(
+            [FromServices] IUnitOfWork unitOfWork,
             [FromServices] IMapper mapper)
         {
-            var currencies = await repository.GetCurrencies();
+            var currencies = await unitOfWork.CurrencyRepository.GetCurrencies();
             var currenciesDTO = mapper.Map<List<CurrencyListDTO>>(currencies);
+
             return TypedResults.Ok(currenciesDTO);
         }
 
         static async Task<Results<Created<CurrencyDTO>, ValidationProblem>> Create([FromBody] CreateCurrencyDTO dto,
-           [FromServices] ICurrencyRepository repository,
+           [FromServices] IUnitOfWork unitOfWork,
            IOutputCacheStore outputCacheStore,
            [FromServices] IMapper mapper)
         {
             var currency = mapper.Map<Currency>(dto);
 
-            var id = await repository.Create(currency);
+            await unitOfWork.CurrencyRepository.CreateAsync(currency);
+            await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("currencies-get", default);
+
             var currencyDTO = mapper.Map<CurrencyDTO>(currency);
-            return TypedResults.Created($"/currencies/{id}", currencyDTO);
+
+            return TypedResults.Created($"/currencies/{currency.Id}", currencyDTO);
         }
 
         static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromBody] CreateCurrencyDTO dto,
-            [FromServices] ICurrencyRepository repository,
+            [FromServices] IUnitOfWork unitOfWork,
             IOutputCacheStore outputCacheStore,
             [FromServices] IMapper mapper)
         {
-            var currencyDB = await repository.GetById(id);
+            var currencyDB = await unitOfWork.CurrencyRepository.GetByIdAsync(id);
 
             if (currencyDB is null)
             {
@@ -93,40 +102,47 @@ namespace BackEnd.Endpoints
             currencyDB.Name = dto.Name;
             currencyDB.IsActive = currencyDB.IsActive;
 
-            await repository.Update(currencyDB);
+            unitOfWork.CurrencyRepository.Update(currencyDB);
+            await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("currencies-get", default);
+
             return TypedResults.Ok();
         }
 
         static async Task<Results<NotFound, Ok>> Activate([FromRoute] int id,
-             [FromServices] ICurrencyRepository repository,
+             [FromServices] IUnitOfWork unitOfWork,
              IOutputCacheStore outputCacheStore)
         {
-            var currencyDB = await repository.GetById(id);
+            var currencyDB = await unitOfWork.CurrencyRepository.GetByIdAsync(id);
 
             if (currencyDB is null)
             {
                 return TypedResults.NotFound();
             }
 
-            await repository.Activate(id);
+            await unitOfWork.CurrencyRepository.ActivateAsync(id);
+            await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("currencies-get", default);
+
             return TypedResults.Ok();
         }
 
-        static async Task<Results<NotFound, Ok>> Deactivate([FromRoute] int id,
-             [FromServices] ICurrencyRepository repository,
-             IOutputCacheStore outputCacheStore)
+        static async Task<Results<NotFound, Ok>> Deactivate(
+            [FromRoute] int id,
+            [FromServices] IUnitOfWork unitOfWork,
+            [FromServices] IOutputCacheStore outputCacheStore)
         {
-            var currencyDB = await repository.GetById(id);
+            var currency = await unitOfWork.CurrencyRepository.GetByIdAsync(id);
 
-            if (currencyDB is null)
+            if (currency is null)
             {
                 return TypedResults.NotFound();
             }
 
-            await repository.Deactivate(id);
+            await unitOfWork.CurrencyRepository.DeactivateAsync(id);
+            await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("currencies-get", default);
+
             return TypedResults.Ok();
         }
     }

@@ -1,39 +1,15 @@
 ﻿using BackEnd.Context;
-using BackEnd.DTOs;
 using BackEnd.Entities.Contacts;
-using BackEnd.Entities.Warehouses;
-using BackEnd.Helpers;
 using BackEnd.Repositories.Contacts;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace BackEnd.Repositories.Products
 {
-    public class ContactRepository : IContactRepository
+    public class ContactRepository : RepositoryBase<Contact>, IContactRepository
     {
-        private readonly ApplicationDbContext context;
-        private readonly HttpContext httpContext;
-
-        public ContactRepository(ApplicationDbContext context,
-            IHttpContextAccessor httpContextAccessor)
-        {
-            this.context = context;
-            httpContext = httpContextAccessor.HttpContext!;
-        }
-
-        public async Task<List<Contact>> GetAll(PaginationDTO paginationDTO)
-        {
-            var queryable = context.Contacts.AsQueryable();
-            await httpContext.AddPaginationParamsToHeaders(queryable);
-            return await queryable
-                .OrderBy(x => x.Name)
-                .Paginate(paginationDTO)
-                .ToListAsync();
-        }
-
-        public async Task<Contact?> GetById(long id)
-        {
-            return await context.Contacts.FirstOrDefaultAsync(x => x.Id == id);
-        }
+        public ContactRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
+            : base(context, httpContextAccessor) { }
 
         public async Task<List<Contact>> GetCustomers()
         {
@@ -47,44 +23,6 @@ namespace BackEnd.Repositories.Products
             return await context.Contacts
                 .Where(x => x.ContactType == Enums.ContactType.Biller && x.IsActive)
                 .ToListAsync();
-        }
-
-        public async Task<long> Create(Contact contact)
-        {
-            context.Add(contact);
-            await context.SaveChangesAsync();
-            return contact.Id;
-        }
-
-        public async Task Update(Contact contact)
-        {
-            context.Update(contact);
-            await context.SaveChangesAsync();
-        }
-
-        public async Task Activate(long id)
-        {
-            var contact = await context.Contacts.FirstOrDefaultAsync(x => x.Id == id);
-            if (contact != null)
-            {
-                contact.IsActive = true;
-                await context.SaveChangesAsync();
-            }
-        }
-
-        public async Task Deactivate(long id)
-        {
-            var contact = await context.Contacts.FirstOrDefaultAsync(x => x.Id == id);
-            if (contact != null)
-            {
-                contact.IsActive = false;
-                await context.SaveChangesAsync();
-            }
-        }
-
-        public async Task<bool> Exists(long id)
-        {
-            return await context.Contacts.AnyAsync(x => x.Id == id);
         }
 
         public async Task<bool> Exists(long id, string name)

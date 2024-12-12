@@ -56,7 +56,7 @@ namespace BackEnd.Endpoints.Invoices
             try
             {
                 var fiscalSupportDB = await fiscalSupportRepository.GetById(dto.FiscalSupportId);
-                var currencyDB = await currencyRepository.GetById(dto.CurrencyId);
+                var currencyDB = await currencyRepository.GetByIdAsync(dto.CurrencyId);
 
                 if (fiscalSupportDB == null || currencyDB == null)
                 {
