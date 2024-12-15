@@ -7,19 +7,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BackEnd.Repositories.Products
 {
-    public class ServiceRepository : IServiceRepository
+    public class ServiceRepository : RepositoryBase<Item>, IServiceRepository
     {
-        private readonly ApplicationDbContext context;
-        private readonly HttpContext httpContext;
-
-        public ServiceRepository(ApplicationDbContext context,
-            IHttpContextAccessor httpContextAccessor)
+        private new readonly HttpContext httpContext;
+        public ServiceRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
+            : base(context, httpContextAccessor)
         {
-            this.context = context;
             httpContext = httpContextAccessor.HttpContext!;
         }
 
-        public async Task<List<Item>> GetAll(PaginationDTO paginationDTO)
+        public async new Task<List<Item>> GetAllAsync(PaginationDTO paginationDTO)
         {
             var queryable = context.Items
                 .Where(x => x.ItemType == ItemType.Service)
@@ -59,7 +56,7 @@ namespace BackEnd.Repositories.Products
             return await query.OrderBy(u => u.Id).ToListAsync();
         }
 
-        public async Task<Item?> GetById(long id)
+        public async new Task<Item?> GetByIdAsync(long id)
         {
             return await context.Items
                 .Where(x => x.ItemType == ItemType.Service)
@@ -72,40 +69,25 @@ namespace BackEnd.Repositories.Products
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public async Task<long> Create(Item service)
-        {
-            context.Add(service);
-            await context.SaveChangesAsync();
-            return service.Id;
-        }
-
-        public async Task Update(Item service)
-        {
-            context.Update(service);
-            await context.SaveChangesAsync();
-        }
-
-        public async Task Activate(long id)
+        public async new Task ActivateAsync(long id)
         {
             var service = await context.Items.FirstOrDefaultAsync(x => x.Id == id && x.ItemType == ItemType.Service);
             if (service != null)
             {
                 service.IsActive = true;
-                await context.SaveChangesAsync();
             }
         }
 
-        public async Task Deactivate(long id)
+        public async new Task DeactivateAsync(long id)
         {
             var service = await context.Items.FirstOrDefaultAsync(x => x.Id == id && x.ItemType == ItemType.Service);
             if (service != null)
             {
                 service.IsActive = false;
-                await context.SaveChangesAsync();
             }
         }
 
-        public async Task<bool> Exists(long id)
+        public async new Task<bool> ExistsAsync(long id)
         {
             return await context.Items.AnyAsync(x => x.Id == id && x.ItemType == ItemType.Service);
         }

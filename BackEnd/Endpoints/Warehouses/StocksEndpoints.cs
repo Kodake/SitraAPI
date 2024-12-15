@@ -5,6 +5,7 @@ using BackEnd.Entities.Products;
 using BackEnd.Entities.Warehouses;
 using BackEnd.Filters;
 using BackEnd.Helpers;
+using BackEnd.Repositories;
 using BackEnd.Repositories.Warehouses;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -31,18 +32,21 @@ namespace BackEnd.Endpoints
             return group;
         }
 
-        static async Task<Ok<List<StockListDTO>>> GetAll([FromServices] IStockRepository repository,
+        static async Task<Ok<List<StockListDTO>>> GetAll(
+            [FromServices] IUnitOfWork unitOfWork,
             [FromServices] IMapper mapper, PaginationDTO pagination)
         {
-            var stocks = await repository.GetAll(pagination);
+            var stocks = await unitOfWork.StockRepository.GetAllAsync(pagination);
             var stocksDTO = mapper.Map<List<StockListDTO>>(stocks);
+
             return TypedResults.Ok(stocksDTO);
         }
 
-        static async Task<Results<Ok<StockDTO>, NotFound>> GetById([FromServices] IStockRepository repository,
+        static async Task<Results<Ok<StockDTO>, NotFound>> GetById(
+            [FromServices] IUnitOfWork unitOfWork,
             [FromServices] IMapper mapper, int id)
         {
-            var stock = await repository.GetById(id);
+            var stock = await unitOfWork.StockRepository.GetByIdAsync(id);
 
             if (stock is null)
             {
@@ -50,41 +54,43 @@ namespace BackEnd.Endpoints
             }
 
             var stockDTO = mapper.Map<StockDTO>(stock);
+
             return TypedResults.Ok(stockDTO);
         }
 
-        static async Task<Results<Created<StockDTO>, ValidationProblem>> Create([FromBody] CreateStockDTO dto,
-           [FromServices] IStockRepository repository,
-           IOutputCacheStore outputCacheStore,
-           [FromServices] IMapper mapper)
-        {
-            var existingStock = await repository.GetByItemIdAndWarehouseId(dto.ItemId, dto.WarehouseId);
-
-            if (existingStock != null)
-            {
-                existingStock.Qty += dto.Qty;
-
-                await repository.Update(existingStock);
-                await outputCacheStore.EvictByTagAsync("stocks-get", default);
-
-                var existingStockDTO = mapper.Map<StockDTO>(existingStock);
-                return TypedResults.Created($"/stocks/{existingStockDTO.Id}", existingStockDTO);
-            }
-
-            var stock = mapper.Map<Stock>(dto);
-            var id = await repository.Create(stock);
-            await outputCacheStore.EvictByTagAsync("stocks-get", default);
-
-            var stockDTO = mapper.Map<StockDTO>(stock);
-            return TypedResults.Created($"/stocks/{id}", stockDTO);
-        }
-
-        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromBody] CreateStockDTO dto,
-            [FromServices] IStockRepository repository,
+        static async Task<Results<Created<StockDTO>, ValidationProblem>> Create(
+            [FromBody] CreateStockDTO dto,
+            [FromServices] IUnitOfWork unitOfWork,
             IOutputCacheStore outputCacheStore,
             [FromServices] IMapper mapper)
         {
-            var stockDB = await repository.GetById(id);
+            var stock = await unitOfWork.StockRepository.GetByItemIdAndWarehouseId(dto.ItemId, dto.WarehouseId);
+
+            if (stock != null)
+            {
+                stock.Qty += dto.Qty;
+                unitOfWork.StockRepository.Update(stock);
+            }
+            else
+            {
+                stock = mapper.Map<Stock>(dto);
+                await unitOfWork.StockRepository.CreateAsync(stock);
+            }
+
+            await unitOfWork.SaveChangesAsync();
+            await outputCacheStore.EvictByTagAsync("stocks-get", default);
+
+            var stockDTO = mapper.Map<StockDTO>(stock);
+
+            return TypedResults.Created($"/stocks/{stockDTO.Id}", stockDTO);
+        }
+
+        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromBody] CreateStockDTO dto,
+            [FromServices] IUnitOfWork unitOfWork,
+            IOutputCacheStore outputCacheStore,
+            [FromServices] IMapper mapper)
+        {
+            var stockDB = await unitOfWork.StockRepository.GetByIdAsync(id);
 
             if (stockDB is null)
             {
@@ -94,8 +100,10 @@ namespace BackEnd.Endpoints
             stockDB.Qty = dto.Qty;
             stockDB.WarehouseId = dto.WarehouseId;
 
-            await repository.Update(stockDB);
+            unitOfWork.StockRepository.Update(stockDB);
+            await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("stocks-get", default);
+
             return TypedResults.Ok();
         }
     }

@@ -1,15 +1,12 @@
 ﻿using BackEnd.DTOs;
-using BackEnd.Entities.Products;
 using BackEnd.Entities.Warehouses;
+using BackEnd.Repositories.Generics;
 
 namespace BackEnd.Repositories.Warehouses
 {
-    public interface IStockRepository
+    public interface IStockRepository : IRepositoryBase<Stock>
     {
-        Task<Stock?> GetById(long id);
-        Task<List<Stock>> GetAll(PaginationDTO paginationDTO);
-        Task<bool> Create(Stock stock);
-        Task Update(Stock stock);
+        new Task<List<Stock>> GetAllAsync(PaginationDTO paginationDTO);
         Task<Stock?> GetByItemIdAndWarehouseId(long itemId, long warehouseId);
     }
 }

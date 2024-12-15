@@ -18,7 +18,7 @@ namespace BackEnd.Validations
             ICurrencyRepository currencyRepository)
         {
             RuleFor(x => x.PricingId)
-                .MustAsync(async (id, _) => await pricingRepository.Exists(id))
+                .MustAsync(async (id, _) => await pricingRepository.ExistsAsync(id))
                 .WithMessage(x => string.Format(Utilities.NotExistsWith, x.PricingId));
 
             RuleFor(x => x.BillerId)

@@ -1,19 +1,12 @@
-﻿using BackEnd.DTOs;
-using BackEnd.Entities.Products;
+﻿using BackEnd.Entities.Products;
 using BackEnd.Enums;
+using BackEnd.Repositories.Generics;
 
 namespace BackEnd.Repositories.Products
 {
-    public interface IUnitRepository
+    public interface IUnitRepository : IRepositoryBase<Unit>
     {
-        Task<List<Unit>> GetAll(PaginationDTO paginationDTO);
         Task<List<Unit>> GetAll(StatusType status);
-        Task<Unit?> GetById(long id);
-        Task<long> Create(Unit unit);
-        Task Update(Unit unit);
-        Task Activate(long id);
-        Task Deactivate(long id);
-        Task<bool> Exists(long id);
         Task<bool> Exists(long id, string name);
     }
 }

@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
-using BackEnd.Context;
 using BackEnd.DTOs;
 using BackEnd.DTOs.Products;
 using BackEnd.Entities.Products;
 using BackEnd.Enums;
 using BackEnd.Filters;
 using BackEnd.Helpers;
-using BackEnd.Repositories.Products;
+using BackEnd.Repositories;
 using FluentValidation;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -37,26 +36,31 @@ namespace BackEnd.Endpoints.Products
             return group;
         }
 
-        static async Task<Ok<List<ServiceListDTO>>> GetAll([FromServices] IServiceRepository repository,
+        static async Task<Ok<List<ServiceListDTO>>> GetAll(
+            [FromServices] IUnitOfWork unitOfWork,
             [FromServices] IMapper mapper, PaginationDTO pagination)
         {
-            var services = await repository.GetAll(pagination);
+            var services = await unitOfWork.ServiceRepository.GetAllAsync(pagination);
             var servicesDTO = mapper.Map<List<ServiceListDTO>>(services);
+
             return TypedResults.Ok(servicesDTO);
         }
 
-        static async Task<Ok<List<ServiceListDTO>>> GetSelects(IServiceRepository repository,
+        static async Task<Ok<List<ServiceListDTO>>> GetSelects(
+            [FromServices] IUnitOfWork unitOfWork,
             IMapper mapper, [FromQuery] StatusType status = StatusType.All)
         {
-            var services = await repository.GetAll(status);
+            var services = await unitOfWork.ServiceRepository.GetAll(status);
             var servicesDTO = mapper.Map<List<ServiceListDTO>>(services);
+
             return TypedResults.Ok(servicesDTO);
         }
 
-        static async Task<Results<Ok<ServiceDTO>, NotFound>> GetById([FromServices] IServiceRepository repository,
+        static async Task<Results<Ok<ServiceDTO>, NotFound>> GetById(
+            [FromServices] IUnitOfWork unitOfWork,
             [FromServices] IMapper mapper, int id)
         {
-            var service = await repository.GetById(id);
+            var service = await unitOfWork.ServiceRepository.GetByIdAsync(id);
 
             if (service is null)
             {
@@ -64,27 +68,24 @@ namespace BackEnd.Endpoints.Products
             }
 
             var serviceDTO = mapper.Map<ServiceDTO>(service);
+
             return TypedResults.Ok(serviceDTO);
         }
 
-        static async Task<Results<Created<ServiceDTO>, ValidationProblem>> Create([FromBody] CreateServiceDTO dto,
-            [FromServices] IServiceRepository repository,
-            [FromServices] IPricingItemRepository pricingItemRepository,
-            [FromServices] IPricingRepository pricingRepository,
+        static async Task<Results<Created<ServiceDTO>, ValidationProblem>> Create(
+            [FromBody] CreateServiceDTO dto,
+            [FromServices] IUnitOfWork unitOfWork,
             IOutputCacheStore outputCacheStore,
-            [FromServices] IMapper mapper,
-            [FromServices] ApplicationDbContext context)
+            [FromServices] IMapper mapper)
         {
-            using var transaction = await context.Database.BeginTransactionAsync();
-
             try
             {
                 var service = mapper.Map<Item>(dto);
-                service.ItemType = ItemType.Service; // Create a Service
+                service.ItemType = ItemType.Service; // Crear un Producto
 
-                var id = await repository.Create(service);
-                var pricing = await pricingRepository.GetPricingByName(Enum.GetName(PricingName.Principal));
+                var serviceSaved = await unitOfWork.ServiceRepository.CreateAsync(service);
 
+                var pricing = await unitOfWork.PricingRepository.GetPricingByName(Enum.GetName(PricingName.Principal));
                 if (pricing == null)
                 {
                     pricing = new Pricing
@@ -92,59 +93,105 @@ namespace BackEnd.Endpoints.Products
                         Name = Enum.GetName(PricingName.Principal) ?? "Principal",
                         PricingType = PricingType.Value
                     };
-
-                    pricing = await pricingRepository.Create(pricing);
+                    pricing = await unitOfWork.PricingRepository.CreateAsync(pricing);
                 }
 
                 var pricingItem = new PricingItem
                 {
-                    ItemId = id,
-                    PricingId = pricing.Id,
+                    Item = service,
+                    Pricing = pricing,
                     InitialCost = dto.InitialCost,
                     BasePrice = dto.BasePrice,
                     IsPrincipal = true
                 };
 
-                await pricingItemRepository.Create(pricingItem);
-
-                await transaction.CommitAsync();
-
+                await unitOfWork.PricingItemRepository.CreateAsync(pricingItem);
+                await unitOfWork.SaveChangesAsync();
                 await outputCacheStore.EvictByTagAsync("pricing-items-get", default);
                 await outputCacheStore.EvictByTagAsync("pricings-get", default);
                 await outputCacheStore.EvictByTagAsync("services-get", default);
+
                 var serviceDTO = mapper.Map<ServiceDTO>(service);
-                return TypedResults.Created($"/services/{id}", serviceDTO);
+                return TypedResults.Created($"/services/{serviceSaved.Id}", serviceDTO);
+            }
+            catch (Exception ex)
+            {
+                return TypedResults.ValidationProblem(new Dictionary<string, string[]>
+                {
+                    { "Error", new[] { $"An error occurred while creating the service: {ex.Message}" } }
+                });
+            }
+        }
+
+        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromBody] CreateServiceDTO dto,
+            [FromServices] IUnitOfWork unitOfWork,
+            IOutputCacheStore outputCacheStore,
+            [FromServices] IMapper mapper)
+        {
+            try
+            {
+                var serviceDB = await unitOfWork.ServiceRepository.GetByIdAsync(id);
+                if (serviceDB is null)
+                {
+                    return TypedResults.NotFound();
+                }
+
+                serviceDB.Name = dto.Name;
+                serviceDB.Reference = dto.Reference;
+                serviceDB.Description = dto.Description;
+                serviceDB.CategoryId = dto.CategoryId;
+                serviceDB.UnitId = dto.UnitId;
+
+                serviceDB.ItemTaxes = dto.TaxIds.Select(taxId => new ItemTaxes
+                {
+                    TaxId = taxId,
+                    ItemId = serviceDB.Id
+                }).ToList();
+
+                var principalPricingItem = serviceDB.PricingItems.FirstOrDefault(x => x.IsPrincipal);
+                if (principalPricingItem != null)
+                {
+                    var pricingItem = await unitOfWork.PricingItemRepository
+                        .GetPricingItemByItemIdAndPricingId(id, principalPricingItem.PricingId);
+
+                    if (pricingItem != null)
+                    {
+                        pricingItem.InitialCost = dto.InitialCost;
+                        pricingItem.BasePrice = dto.BasePrice;
+                        unitOfWork.PricingItemRepository.Update(pricingItem);
+                    }
+                }
+
+                unitOfWork.ServiceRepository.Update(serviceDB);
+                await unitOfWork.SaveChangesAsync();
+                await outputCacheStore.EvictByTagAsync("pricing-items-get", default);
+                await outputCacheStore.EvictByTagAsync("services-get", default);
+
+                return TypedResults.Ok();
             }
             catch (Exception)
             {
-                await transaction.RollbackAsync();
                 return TypedResults.ValidationProblem(new Dictionary<string, string[]>
                 {
-                    { "Error", new[] { "An error occurred while creating the service." } }
+                    { "Error", new[] { "An error occurred while updating the product." } }
                 });
             }
         }
 
         public static async Task<Results<Ok, ValidationProblem>> UploadCsv(
             [FromForm] CsvDTO dto,
-            [FromServices] IServiceRepository repository,
-            [FromServices] IPricingItemRepository pricingItemRepository,
-            [FromServices] IPricingRepository pricingRepository,
+            [FromServices] IUnitOfWork unitOfWork,
             [FromServices] IMapper mapper,
             IOutputCacheStore outputCacheStore,
             [FromServices] IValidator<CreateServiceCsvDTO> validator,
-            [FromServices] ApplicationDbContext context,
             [FromServices] IConfiguration configuration)
         {
-            using var transaction = await context.Database.BeginTransactionAsync();
-
             try
             {
                 var validFileType = configuration.GetValue<string>("CsvUpload:ValidFileType");
                 var validFileName = configuration.GetValue<string>("CsvUpload:ServiceFileName");
 
-                var fileType = dto.CsvFile.ContentType;
-                if (fileType != validFileType)
+                if (dto.CsvFile.ContentType != validFileType)
                 {
                     return TypedResults.ValidationProblem(new Dictionary<string, string[]>
                     {
@@ -152,8 +199,7 @@ namespace BackEnd.Endpoints.Products
                     });
                 }
 
-                var fileName = dto.CsvFile.FileName;
-                if (fileName != validFileName)
+                if (dto.CsvFile.FileName != validFileName)
                 {
                     return TypedResults.ValidationProblem(new Dictionary<string, string[]>
                     {
@@ -167,7 +213,6 @@ namespace BackEnd.Endpoints.Products
                 var records = csv.GetRecords<CreateServiceCsvDTO>().ToList();
 
                 var maxFileRecords = configuration.GetValue<int>("CsvUpload:MaxFileRecords");
-
                 if (records.Count > maxFileRecords)
                 {
                     return TypedResults.ValidationProblem(new Dictionary<string, string[]>
@@ -181,7 +226,6 @@ namespace BackEnd.Endpoints.Products
                 foreach (var record in records)
                 {
                     var validationResult = await validator.ValidateAsync(record);
-
                     if (!validationResult.IsValid)
                     {
                         errors.Add(record.Name ?? "Unknown Service", validationResult.Errors.Select(e => e.ErrorMessage).ToArray());
@@ -190,30 +234,28 @@ namespace BackEnd.Endpoints.Products
 
                     var service = mapper.Map<Item>(record);
                     service.ItemType = ItemType.Service;
+                    var serviceSaved = await unitOfWork.ServiceRepository.CreateAsync(service);
 
-                    var id = await repository.Create(service);
-
-                    var pricing = await pricingRepository.GetPricingByName(Enum.GetName(PricingName.Principal));
+                    var pricing = await unitOfWork.PricingRepository.GetPricingByName(Enum.GetName(PricingName.Principal));
                     if (pricing == null)
                     {
                         pricing = new Pricing
                         {
-                            Name = Enum.GetName(PricingName.Principal) ?? "PRINCIPAL",
+                            Name = Enum.GetName(PricingName.Principal) ?? "Principal",
                             PricingType = PricingType.Value
                         };
-
-                        pricing = await pricingRepository.Create(pricing);
+                        pricing = await unitOfWork.PricingRepository.CreateAsync(pricing);
                     }
 
                     var pricingItem = new PricingItem
                     {
-                        ItemId = id,
-                        PricingId = pricing.Id,
+                        Item = serviceSaved,
+                        Pricing = pricing,
                         BasePrice = record.BasePrice,
                         IsPrincipal = true
                     };
 
-                    await pricingItemRepository.Create(pricingItem);
+                    await unitOfWork.PricingItemRepository.CreateAsync(pricingItem);
                 }
 
                 if (errors.Count > 0)
@@ -221,8 +263,9 @@ namespace BackEnd.Endpoints.Products
                     return TypedResults.ValidationProblem(errors);
                 }
 
-                await transaction.CommitAsync();
-                await outputCacheStore.EvictByTagAsync("pricing-items-get", default);                
+                await unitOfWork.SaveChangesAsync();
+
+                await outputCacheStore.EvictByTagAsync("pricing-items-get", default);
                 await outputCacheStore.EvictByTagAsync("pricings-get", default);
                 await outputCacheStore.EvictByTagAsync("services-get", default);
 
@@ -230,7 +273,6 @@ namespace BackEnd.Endpoints.Products
             }
             catch (Exception)
             {
-                await transaction.RollbackAsync();
                 return TypedResults.ValidationProblem(new Dictionary<string, string[]>
                 {
                     { "Error", new[] { "An error occurred while processing the CSV." } }
@@ -238,93 +280,39 @@ namespace BackEnd.Endpoints.Products
             }
         }
 
-        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromBody] CreateServiceDTO dto,
-            [FromServices] IServiceRepository repository,
-            [FromServices] IPricingItemRepository pricingItemRepository,
-            [FromServices] IPricingRepository pricingRepository,
-            IOutputCacheStore outputCacheStore,
-            [FromServices] IMapper mapper,
-            [FromServices] ApplicationDbContext context)
-        {
-            using var transaction = await context.Database.BeginTransactionAsync();
-
-            try
-            {
-                var serviceDB = await repository.GetById(id);
-                if (serviceDB is null)
-                {
-                    return TypedResults.NotFound();
-                }
-
-                serviceDB.Name = dto.Name;
-                serviceDB.Reference = dto.Reference;
-                serviceDB.Description = dto.Description;
-                serviceDB.CategoryId = dto.CategoryId;
-                serviceDB.UnitId = dto.UnitId;
-                serviceDB.ItemTaxes = dto.TaxIds.Select(taxId => new ItemTaxes
-                {
-                    TaxId = taxId,
-                    ItemId = serviceDB.Id
-                }).ToList();
-
-                var principalPricingItem = serviceDB.PricingItems.FirstOrDefault(x => x.IsPrincipal);
-                if (principalPricingItem != null)
-                {
-                    var pricingItem = await pricingItemRepository.GetPricingItemByItemIdAndPricingId(id, principalPricingItem.PricingId);
-                    if (pricingItem != null)
-                    {
-                        pricingItem.InitialCost = dto.InitialCost;
-                        pricingItem.BasePrice = dto.BasePrice;
-
-                        await pricingItemRepository.Update(pricingItem);
-                    }
-                }
-
-                await repository.Update(serviceDB);
-                await transaction.CommitAsync();
-                await outputCacheStore.EvictByTagAsync("pricing-items-get", default);
-                await outputCacheStore.EvictByTagAsync("services-get", default);
-                return TypedResults.Ok();
-            }
-            catch (Exception)
-            {
-                await transaction.RollbackAsync();
-                return TypedResults.ValidationProblem(new Dictionary<string, string[]>
-                {
-                    { "Error", new[] { "An error occurred while updating the service." } }
-                });
-            }
-        }
-
         static async Task<Results<NotFound, Ok>> Activate([FromRoute] int id,
-             [FromServices] IServiceRepository repository,
+             [FromServices] IUnitOfWork unitOfWork,
              IOutputCacheStore outputCacheStore)
         {
-            var serviceDB = await repository.GetById(id);
+            var serviceDB = await unitOfWork.ServiceRepository.GetByIdAsync(id);
 
             if (serviceDB is null)
             {
                 return TypedResults.NotFound();
             }
 
-            await repository.Activate(id);
+            await unitOfWork.ServiceRepository.ActivateAsync(id);
+            await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("services-get", default);
+
             return TypedResults.Ok();
         }
 
         static async Task<Results<NotFound, Ok>> Deactivate([FromRoute] int id,
-             [FromServices] IServiceRepository repository,
+             [FromServices] IUnitOfWork unitOfWork,
              IOutputCacheStore outputCacheStore)
         {
-            var serviceDB = await repository.GetById(id);
+            var serviceDB = await unitOfWork.ServiceRepository.GetByIdAsync(id);
 
             if (serviceDB is null)
             {
                 return TypedResults.NotFound();
             }
 
-            await repository.Deactivate(id);
+            await unitOfWork.ServiceRepository.DeactivateAsync(id);
+            await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("services-get", default);
+
             return TypedResults.Ok();
         }
     }

@@ -1,19 +1,12 @@
-using BackEnd.DTOs;
 using BackEnd.Entities.Products;
 using BackEnd.Enums;
+using BackEnd.Repositories.Generics;
 
 namespace BackEnd.Repositories.Products
 {
-    public interface IBrandRepository
+    public interface IBrandRepository : IRepositoryBase<Brand>
     {
-        Task<List<Brand>> GetAll(PaginationDTO paginationDTO);
         Task<List<Brand>> GetAll(StatusType status);
-        Task<Brand?> GetById(long id);
-        Task<long> Create(Brand brand);
-        Task Update(Brand brand);
-        Task Activate(long id);
-        Task Deactivate(long id);
-        Task<bool> Exists(long id);
         Task<bool> Exists(long id, string code);
     }
 }

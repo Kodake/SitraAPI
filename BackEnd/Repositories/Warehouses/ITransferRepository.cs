@@ -1,13 +1,12 @@
 ﻿using BackEnd.DTOs;
 using BackEnd.Entities.Warehouses;
+using BackEnd.Repositories.Generics;
 
 namespace BackEnd.Repositories.Warehouses
 {
-    public interface ITransferRepository
+    public interface ITransferRepository : IRepositoryBase<Transfer>
     {
-        Task<Transfer?> GetById(long id);
-        Task<List<Transfer>> GetAll(PaginationDTO paginationDTO);
-        Task<long> Create(Transfer transfer);
-        Task Update(Transfer transfer);
+        new Task<Transfer?> GetByIdAsync(long id);
+        new Task<List<Transfer>> GetAllAsync(PaginationDTO paginationDTO);
     }
 }

@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using BackEnd.DTOs.Finances;
 using BackEnd.DTOs.Products;
-using BackEnd.DTOs.Warehouses;
-using BackEnd.Repositories.Products;
+using BackEnd.Repositories;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BackEnd.Endpoints
 {
@@ -15,10 +14,11 @@ namespace BackEnd.Endpoints
             return group;
         }
 
-        static async Task<Ok<List<ItemListDTO>>> GetByPricingIdAndWarehouseId(IItemRepository repository,
+        static async Task<Ok<List<ItemListDTO>>> GetByPricingIdAndWarehouseId(
+            [FromServices] IUnitOfWork unitOfWork,
             IMapper mapper, int pricingId, int warehouseId)
         {
-            var items = await repository.GetByPricingIdAndWarehouseId(pricingId, warehouseId);
+            var items = await unitOfWork.ItemRepository.GetByPricingIdAndWarehouseId(pricingId, warehouseId);
             var itemsDTO = mapper.Map<List<ItemListDTO>>(items);
             itemsDTO.ForEach(dto => dto.PricingId = pricingId);
 

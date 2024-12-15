@@ -35,7 +35,7 @@ namespace BackEnd.Validations
 
             RuleFor(x => x)
                 .MustAsync(async (dto, cancellation) =>
-                    !await repository.Exists(dto.PricingId, dto.ItemId))
+                    !await repository.ExistsAsync(dto.PricingId, dto.ItemId))
             .WithMessage(dto => string.Format(Utilities.NameAlreadyExistsWith, $"PricingId: {dto.PricingId} & ItemId: {dto.ItemId}"));
         }
     }

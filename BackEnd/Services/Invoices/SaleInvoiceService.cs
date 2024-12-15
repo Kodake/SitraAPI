@@ -2,8 +2,8 @@
 using BackEnd.DTOs.Invoices;
 using BackEnd.Entities.Invoices;
 using BackEnd.Enums;
+using BackEnd.Repositories;
 using BackEnd.Repositories.Invoices;
-using BackEnd.Repositories.Products;
 using BackEnd.Repositories.Warehouses;
 using static BackEnd.Helpers.Utilities;
 
@@ -11,13 +11,13 @@ namespace BackEnd.Services.Invoices
 {
     public class SaleInvoiceService : ISaleInvoiceService
     {
-        public async Task CalculateInvoiceTotalsAsync(IEnumerable<SaleInvoiceItemDTO> items, SaleInvoice saleInvoice, IProductRepository productRepository, double currencyRate)
+        public async Task CalculateInvoiceTotalsAsync(IEnumerable<SaleInvoiceItemDTO> items, SaleInvoice saleInvoice, IUnitOfWork unitOfWork, double currencyRate)
         {
             double totalQtyItems = 0, totalItems = 0, totalAmount = 0, totalTaxes = 0;
 
             foreach (var itemDTO in items)
             {
-                var product = await productRepository.GetById(itemDTO.ItemId)
+                var product = await unitOfWork.ProductRepository.GetByIdAsync(itemDTO.ItemId)
                                ?? throw new Exception($"Product with id {itemDTO.ItemId} not found.");
 
                 var basePrice = product.PricingItems.First(x => x.ItemId == itemDTO.ItemId).BasePrice / currencyRate;
@@ -38,11 +38,11 @@ namespace BackEnd.Services.Invoices
             saleInvoice.TotalTaxes = totalTaxes;
         }
 
-        public async Task AddInvoiceItemsAsync(IEnumerable<SaleInvoiceItemDTO> items, long invoiceId, ISaleInvoiceRepository repository, IProductRepository productRepository, IMapper mapper, double currencyRate)
+        public async Task AddInvoiceItemsAsync(IEnumerable<SaleInvoiceItemDTO> items, long invoiceId, ISaleInvoiceRepository repository, IUnitOfWork unitOfWork, IMapper mapper, double currencyRate)
         {
             foreach (var itemDTO in items)
             {
-                var product = await productRepository.GetById(itemDTO.ItemId)
+                var product = await unitOfWork.ProductRepository.GetByIdAsync(itemDTO.ItemId)
                                ?? throw new Exception($"Product with id {itemDTO.ItemId} not found.");
 
                 var saleInvoiceItem = mapper.Map<SaleInvoiceItem>(itemDTO);
@@ -59,22 +59,23 @@ namespace BackEnd.Services.Invoices
             }
         }
 
-        public async Task ReduceStockAsync(CreateSaleInvoiceDTO dto, IStockRepository stockRepository)
+        public async Task ReduceStockAsync(CreateSaleInvoiceDTO dto, IUnitOfWork unitOfWork)
         {
             foreach (var item in dto.SaleInvoiceItems)
             {
                 if (item.ItemType == ItemType.Product)
                 {
-                    var stock = await stockRepository.GetByItemIdAndWarehouseId(item.ItemId, dto.WarehouseId);
+                    var stock = await unitOfWork.StockRepository.GetByItemIdAndWarehouseId(item.ItemId, dto.WarehouseId);
                     if (stock == null)
                     {
                         throw new InvalidOperationException($"Stock not found for ItemId {item.ItemId} in the specified warehouse.");
                     }
 
                     stock.Qty -= item.Qty;
-                    await stockRepository.Update(stock);
+                    unitOfWork.StockRepository.Update(stock);
                 }
             }
+            await unitOfWork.SaveChangesAsync();
         }
     }
 }

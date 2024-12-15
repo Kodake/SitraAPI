@@ -4,6 +4,7 @@ using BackEnd.DTOs.Products;
 using BackEnd.Entities.Products;
 using BackEnd.Filters;
 using BackEnd.Helpers;
+using BackEnd.Repositories;
 using BackEnd.Repositories.Products;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -32,26 +33,31 @@ namespace BackEnd.Endpoints
             return group;
         }
 
-        static async Task<Ok<List<PricingListDTO>>> GetAll(IPricingRepository repository,
+        static async Task<Ok<List<PricingListDTO>>> GetAll(
+            [FromServices] IUnitOfWork unitOfWork,
             IMapper mapper, PaginationDTO pagination)
         {
-            var pricings = await repository.GetAll(pagination);
+            var pricings = await unitOfWork.PricingRepository.GetAllAsync(pagination);
             var pricingsDTO = mapper.Map<List<PricingListDTO>>(pricings);
+
             return TypedResults.Ok(pricingsDTO);
         }
 
-        static async Task<Ok<List<PricingListDTO>>> GetUnregisteredPricingsForItem(IPricingRepository repository,
+        static async Task<Ok<List<PricingListDTO>>> GetUnregisteredPricingsForItem(
+            [FromServices] IUnitOfWork unitOfWork,
             IMapper mapper, int id)
         {
-            var unregPricings = await repository.GetUnregisteredPricingsForItem(id);
+            var unregPricings = await unitOfWork.PricingRepository.GetUnregisteredPricingsForItem(id);
             var unregPricingsDTO = mapper.Map<List<PricingListDTO>>(unregPricings);
+
             return TypedResults.Ok(unregPricingsDTO);
         }
 
-        static async Task<Results<Ok<PricingDTO>, NotFound>> GetById(IPricingRepository repository,
+        static async Task<Results<Ok<PricingDTO>, NotFound>> GetById(
+            [FromServices] IUnitOfWork unitOfWork,
             IMapper mapper, int id)
         {
-            var pricing = await repository.GetById(id);
+            var pricing = await unitOfWork.PricingRepository.GetByIdAsync(id);
 
             if (pricing is null)
             {
@@ -59,36 +65,43 @@ namespace BackEnd.Endpoints
             }
 
             var pricingDTO = mapper.Map<PricingDTO>(pricing);
+
             return TypedResults.Ok(pricingDTO);
         }
 
-        static async Task<Ok<List<PricingListDTO>>> GetPricings(IPricingRepository repository,
+        static async Task<Ok<List<PricingListDTO>>> GetPricings(
+            [FromServices] IUnitOfWork unitOfWork,
             IMapper mapper)
         {
-            var pricings = await repository.GetPricings();
+            var pricings = await unitOfWork.PricingRepository.GetAll();
+
             var pricingsDTO = mapper.Map<List<PricingListDTO>>(pricings);
+
             return TypedResults.Ok(pricingsDTO);
         }
 
         static async Task<Results<Created<PricingDTO>, ValidationProblem>> Create([FromBody] CreatePricingDTO dto,
-           IPricingRepository repository,
-           IOutputCacheStore outputCacheStore,
-           IMapper mapper)
+            [FromServices] IUnitOfWork unitOfWork,
+            IOutputCacheStore outputCacheStore,
+            IMapper mapper)
         {
             var pricing = mapper.Map<Pricing>(dto);
 
-            var pricingSaved = await repository.Create(pricing);
+            await unitOfWork.PricingRepository.CreateAsync(pricing);
+            await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("pricings-get", default);
+
             var pricingDTO = mapper.Map<PricingDTO>(pricing);
-            return TypedResults.Created($"/pricings/{pricingSaved.Id}", pricingDTO);
+
+            return TypedResults.Created($"/pricings/{pricing.Id}", pricingDTO);
         }
 
         static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromBody] CreatePricingDTO dto,
-           IPricingRepository repository,
-           IOutputCacheStore outputCacheStore,
-           IMapper mapper)
+            [FromServices] IUnitOfWork unitOfWork,
+            IOutputCacheStore outputCacheStore,
+            IMapper mapper)
         {
-            var pricingDB = await repository.GetById(id);
+            var pricingDB = await unitOfWork.PricingRepository.GetByIdAsync(id);
 
             if (pricingDB is null)
             {
@@ -99,8 +112,10 @@ namespace BackEnd.Endpoints
             pricingDB.PricingType = dto.PricingType;
             pricingDB.Percentage = dto.Percentage;
 
-            await repository.Update(pricingDB);
+            unitOfWork.PricingRepository.Update(pricingDB);
+            await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("pricings-get", default);
+
             return TypedResults.Ok();
         }
     }

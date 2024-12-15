@@ -2,16 +2,27 @@
 using BackEnd.Repositories.Contacts;
 using BackEnd.Repositories.Finances;
 using BackEnd.Repositories.Generics;
+using BackEnd.Repositories.Products;
 using BackEnd.Repositories.Warehouses;
 namespace BackEnd.Repositories
 {
     public interface IUnitOfWork: IDisposable
     {
         IRepositoryBase<T> Repository<T>() where T : class;
+        IDeadlineRepository DeadlineRepository { get; }
         IContactRepository ContactRepository { get; }
         ICurrencyRepository CurrencyRepository { get; }
         ITaxRepository TaxRepository { get; }
-        IDeadlineRepository DeadlineRepository { get; }
+        IItemRepository ItemRepository { get; }
+        IProductRepository ProductRepository { get; }
+        IServiceRepository ServiceRepository { get; }
+        ICategoryRepository CategoryRepository { get; }
+        IBrandRepository BrandRepository { get; }
+        IUnitRepository UnitRepository { get; }
+        IPricingItemRepository PricingItemRepository { get; }
+        IPricingRepository PricingRepository { get; }
+        IStockRepository StockRepository { get; }
+        ITransferRepository TransferRepository { get; }
         IWarehouseRepository WarehouseRepository { get; }
         Task<int> SaveChangesAsync();
     }

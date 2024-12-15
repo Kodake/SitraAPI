@@ -6,6 +6,7 @@ using BackEnd.Entities.Products;
 using BackEnd.Enums;
 using BackEnd.Filters;
 using BackEnd.Helpers;
+using BackEnd.Repositories;
 using BackEnd.Repositories.Products;
 using FluentValidation;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -38,34 +39,41 @@ namespace BackEnd.Endpoints
             return group;
         }
 
-        static async Task<Ok<List<ProductListDTO>>> GetAll([FromServices] IProductRepository repository,
+        static async Task<Ok<List<ProductListDTO>>> GetAll(
+            [FromServices] IUnitOfWork unitOfWork,
             [FromServices] IMapper mapper, PaginationDTO pagination)
         {
-            var products = await repository.GetAll(pagination);
+            var products = await unitOfWork.ProductRepository.GetAllAsync(pagination);
             var productsDTO = mapper.Map<List<ProductListDTO>>(products);
+
             return TypedResults.Ok(productsDTO);
         }
 
-        static async Task<Ok<List<ProductListDTO>>> GetSelects(IProductRepository repository,
+        static async Task<Ok<List<ProductListDTO>>> GetSelects(
+            [FromServices] IUnitOfWork unitOfWork,
             IMapper mapper, [FromQuery] StatusType status = StatusType.All)
         {
-            var products = await repository.GetAll(status);
+            var products = await unitOfWork.ProductRepository.GetAll(status);
             var productsDTO = mapper.Map<List<ProductListDTO>>(products);
+
             return TypedResults.Ok(productsDTO);
         }
 
-        static async Task<Ok<List<ProductListDTO>>> GetStockProducts(IProductRepository repository,
+        static async Task<Ok<List<ProductListDTO>>> GetStockProducts(
+            [FromServices] IUnitOfWork unitOfWork,
             IMapper mapper) 
         {
-            var products = await repository.GetAll();
+            var products = await unitOfWork.ProductRepository.GetAll();
             var productsDTO = mapper.Map<List<ProductListDTO>>(products);
+
             return TypedResults.Ok(productsDTO);
         }
 
-        static async Task<Results<Ok<ProductDTO>, NotFound>> GetById([FromServices] IProductRepository repository,
+        static async Task<Results<Ok<ProductDTO>, NotFound>> GetById(
+            [FromServices] IUnitOfWork unitOfWork,
             [FromServices] IMapper mapper, int id)
         {
-            var product = await repository.GetById(id);
+            var product = await unitOfWork.ProductRepository.GetByIdAsync(id);
 
             if (product is null)
             {
@@ -73,27 +81,24 @@ namespace BackEnd.Endpoints
             }
 
             var productDTO = mapper.Map<ProductDTO>(product);
+
             return TypedResults.Ok(productDTO);
         }
 
-        static async Task<Results<Created<ProductDTO>, ValidationProblem>> Create([FromBody] CreateProductDTO dto,
-           [FromServices] IProductRepository repository,
-           [FromServices] IPricingItemRepository pricingItemRepository,
-           [FromServices] IPricingRepository pricingRepository,
-           IOutputCacheStore outputCacheStore,
-           [FromServices] IMapper mapper,
-           [FromServices] ApplicationDbContext context)
+        static async Task<Results<Created<ProductDTO>, ValidationProblem>> Create(
+            [FromBody] CreateProductDTO dto,
+            [FromServices] IUnitOfWork unitOfWork,
+            IOutputCacheStore outputCacheStore,
+            [FromServices] IMapper mapper)
         {
-            using var transaction = await context.Database.BeginTransactionAsync();
-
             try
             {
                 var product = mapper.Map<Item>(dto);
-                product.ItemType = ItemType.Product; // Create a Product
+                product.ItemType = ItemType.Product; // Crear un Producto
 
-                var id = await repository.Create(product);
-                var pricing = await pricingRepository.GetPricingByName(Enum.GetName(PricingName.Principal));
+                var productSaved = await unitOfWork.ProductRepository.CreateAsync(product);
 
+                var pricing = await unitOfWork.PricingRepository.GetPricingByName(Enum.GetName(PricingName.Principal));
                 if (pricing == null)
                 {
                     pricing = new Pricing
@@ -101,51 +106,44 @@ namespace BackEnd.Endpoints
                         Name = Enum.GetName(PricingName.Principal) ?? "Principal",
                         PricingType = PricingType.Value
                     };
-
-                    pricing = await pricingRepository.Create(pricing);
+                    pricing = await unitOfWork.PricingRepository.CreateAsync(pricing);
                 }
 
                 var pricingItem = new PricingItem
                 {
-                    ItemId = id,
-                    PricingId = pricing.Id,
+                    Item = product,
+                    Pricing = pricing,
                     InitialCost = dto.InitialCost,
                     BasePrice = dto.BasePrice,
                     IsPrincipal = true
                 };
 
-                await pricingItemRepository.Create(pricingItem);
-
-                await transaction.CommitAsync();
-
+                await unitOfWork.PricingItemRepository.CreateAsync(pricingItem);
+                await unitOfWork.SaveChangesAsync();
                 await outputCacheStore.EvictByTagAsync("pricing-items-get", default);
+                await outputCacheStore.EvictByTagAsync("pricings-get", default);
                 await outputCacheStore.EvictByTagAsync("products-get", default);
+
                 var productDTO = mapper.Map<ProductDTO>(product);
-                return TypedResults.Created($"/products/{id}", productDTO);
+                return TypedResults.Created($"/products/{productSaved.Id}", productDTO);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                await transaction.RollbackAsync();
                 return TypedResults.ValidationProblem(new Dictionary<string, string[]>
                 {
-                    { "Error", new[] { "An error occurred while creating the product." } }
+                    { "Error", new[] { $"An error occurred while creating the product: {ex.Message}" } }
                 });
             }
         }
 
         static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromBody] CreateProductDTO dto,
-            [FromServices] IProductRepository repository,
-            [FromServices] IPricingItemRepository pricingItemRepository,
-            [FromServices] IPricingRepository pricingRepository,
+            [FromServices] IUnitOfWork unitOfWork,
             IOutputCacheStore outputCacheStore,
-            [FromServices] IMapper mapper,
-            [FromServices] ApplicationDbContext context)
+            [FromServices] IMapper mapper)
         {
-            using var transaction = await context.Database.BeginTransactionAsync();
-
             try
             {
-                var productDB = await repository.GetById(id);
+                var productDB = await unitOfWork.ProductRepository.GetByIdAsync(id);
                 if (productDB is null)
                 {
                     return TypedResults.NotFound();
@@ -157,6 +155,7 @@ namespace BackEnd.Endpoints
                 productDB.BrandId = dto.BrandId;
                 productDB.CategoryId = dto.CategoryId;
                 productDB.UnitId = dto.UnitId;
+
                 productDB.ItemTaxes = dto.TaxIds.Select(taxId => new ItemTaxes
                 {
                     TaxId = taxId,
@@ -166,25 +165,26 @@ namespace BackEnd.Endpoints
                 var principalPricingItem = productDB.PricingItems.FirstOrDefault(x => x.IsPrincipal);
                 if (principalPricingItem != null)
                 {
-                    var pricingItem = await pricingItemRepository.GetPricingItemByItemIdAndPricingId(id, principalPricingItem.PricingId);
+                    var pricingItem = await unitOfWork.PricingItemRepository
+                        .GetPricingItemByItemIdAndPricingId(id, principalPricingItem.PricingId);
+
                     if (pricingItem != null)
                     {
                         pricingItem.InitialCost = dto.InitialCost;
                         pricingItem.BasePrice = dto.BasePrice;
-
-                        await pricingItemRepository.Update(pricingItem);
+                        unitOfWork.PricingItemRepository.Update(pricingItem);
                     }
                 }
 
-                await repository.Update(productDB);
-                await transaction.CommitAsync();
+                unitOfWork.ProductRepository.Update(productDB);
+                await unitOfWork.SaveChangesAsync();
                 await outputCacheStore.EvictByTagAsync("pricing-items-get", default);
                 await outputCacheStore.EvictByTagAsync("products-get", default);
+
                 return TypedResults.Ok();
             }
             catch (Exception)
             {
-                await transaction.RollbackAsync();
                 return TypedResults.ValidationProblem(new Dictionary<string, string[]>
                 {
                     { "Error", new[] { "An error occurred while updating the product." } }
@@ -194,24 +194,18 @@ namespace BackEnd.Endpoints
 
         public static async Task<Results<Ok, ValidationProblem>> UploadCsv(
             [FromForm] CsvDTO dto,
-            [FromServices] IProductRepository repository,
-            [FromServices] IPricingItemRepository pricingItemRepository,
-            [FromServices] IPricingRepository pricingRepository,
+            [FromServices] IUnitOfWork unitOfWork,
             [FromServices] IMapper mapper,
             IOutputCacheStore outputCacheStore,
             [FromServices] IValidator<CreateProductCsvDTO> validator,
-            [FromServices] ApplicationDbContext context,
             [FromServices] IConfiguration configuration)
         {
-            using var transaction = await context.Database.BeginTransactionAsync();
-
             try
             {
                 var validFileType = configuration.GetValue<string>("CsvUpload:ValidFileType");
                 var validFileName = configuration.GetValue<string>("CsvUpload:ProductFileName");
 
-                var fileType = dto.CsvFile.ContentType;
-                if (fileType != validFileType)
+                if (dto.CsvFile.ContentType != validFileType)
                 {
                     return TypedResults.ValidationProblem(new Dictionary<string, string[]>
                     {
@@ -219,8 +213,7 @@ namespace BackEnd.Endpoints
                     });
                 }
 
-                var fileName = dto.CsvFile.FileName;
-                if (fileName != validFileName)
+                if (dto.CsvFile.FileName != validFileName)
                 {
                     return TypedResults.ValidationProblem(new Dictionary<string, string[]>
                     {
@@ -234,7 +227,6 @@ namespace BackEnd.Endpoints
                 var records = csv.GetRecords<CreateProductCsvDTO>().ToList();
 
                 var maxFileRecords = configuration.GetValue<int>("CsvUpload:MaxFileRecords");
-
                 if (records.Count > maxFileRecords)
                 {
                     return TypedResults.ValidationProblem(new Dictionary<string, string[]>
@@ -248,7 +240,6 @@ namespace BackEnd.Endpoints
                 foreach (var record in records)
                 {
                     var validationResult = await validator.ValidateAsync(record);
-
                     if (!validationResult.IsValid)
                     {
                         errors.Add(record.Name ?? "Unknown Product", validationResult.Errors.Select(e => e.ErrorMessage).ToArray());
@@ -257,10 +248,9 @@ namespace BackEnd.Endpoints
 
                     var product = mapper.Map<Item>(record);
                     product.ItemType = ItemType.Product;
+                    var productSaved = await unitOfWork.ProductRepository.CreateAsync(product);
 
-                    var id = await repository.Create(product);
-
-                    var pricing = await pricingRepository.GetPricingByName(Enum.GetName(PricingName.Principal));
+                    var pricing = await unitOfWork.PricingRepository.GetPricingByName(Enum.GetName(PricingName.Principal));
                     if (pricing == null)
                     {
                         pricing = new Pricing
@@ -268,20 +258,19 @@ namespace BackEnd.Endpoints
                             Name = Enum.GetName(PricingName.Principal) ?? "Principal",
                             PricingType = PricingType.Value
                         };
-
-                        pricing = await pricingRepository.Create(pricing);
+                        pricing = await unitOfWork.PricingRepository.CreateAsync(pricing);
                     }
 
                     var pricingItem = new PricingItem
                     {
-                        ItemId = id,
-                        PricingId = pricing.Id,
+                        Item = productSaved,
+                        Pricing = pricing,
                         InitialCost = record.InitialCost,
                         BasePrice = record.BasePrice,
                         IsPrincipal = true
                     };
 
-                    await pricingItemRepository.Create(pricingItem);
+                    await unitOfWork.PricingItemRepository.CreateAsync(pricingItem);
                 }
 
                 if (errors.Count > 0)
@@ -289,15 +278,16 @@ namespace BackEnd.Endpoints
                     return TypedResults.ValidationProblem(errors);
                 }
 
-                await transaction.CommitAsync();
+                await unitOfWork.SaveChangesAsync();
+
                 await outputCacheStore.EvictByTagAsync("pricing-items-get", default);
+                await outputCacheStore.EvictByTagAsync("pricings-get", default);
                 await outputCacheStore.EvictByTagAsync("products-get", default);
 
                 return TypedResults.Ok();
             }
             catch (Exception)
             {
-                await transaction.RollbackAsync();
                 return TypedResults.ValidationProblem(new Dictionary<string, string[]>
                 {
                     { "Error", new[] { "An error occurred while processing the CSV." } }
@@ -306,34 +296,38 @@ namespace BackEnd.Endpoints
         }
 
         static async Task<Results<NotFound, Ok>> Activate([FromRoute] int id,
-             [FromServices] IProductRepository repository,
+             [FromServices] IUnitOfWork unitOfWork,
              IOutputCacheStore outputCacheStore)
         {
-            var productDB = await repository.GetById(id);
+            var productDB = await unitOfWork.ProductRepository.GetByIdAsync(id);
 
             if (productDB is null)
             {
                 return TypedResults.NotFound();
             }
 
-            await repository.Activate(id);
+            await unitOfWork.ProductRepository.ActivateAsync(id);
+            await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("products-get", default);
+
             return TypedResults.Ok();
         }
 
         static async Task<Results<NotFound, Ok>> Deactivate([FromRoute] int id,
-             [FromServices] IProductRepository repository,
+             [FromServices] IUnitOfWork unitOfWork,
              IOutputCacheStore outputCacheStore)
         {
-            var productDB = await repository.GetById(id);
+            var productDB = await unitOfWork.ProductRepository.GetByIdAsync(id);
 
             if (productDB is null)
             {
                 return TypedResults.NotFound();
             }
 
-            await repository.Deactivate(id);
+            await unitOfWork.ProductRepository.DeactivateAsync(id);
+            await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("products-get", default);
+
             return TypedResults.Ok();
         }
     }

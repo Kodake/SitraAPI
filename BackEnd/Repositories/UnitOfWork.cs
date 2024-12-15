@@ -18,16 +18,36 @@ namespace BackEnd.Repositories
         public IContactRepository ContactRepository { get; }
         public ICurrencyRepository CurrencyRepository { get; }
         public ITaxRepository TaxRepository { get; }
+        public IItemRepository ItemRepository { get; }
+        public IProductRepository ProductRepository { get; }
+        public IServiceRepository ServiceRepository { get; }
+        public ICategoryRepository CategoryRepository { get; }
+        public IBrandRepository BrandRepository { get; }
+        public IUnitRepository UnitRepository { get; }
+        public IPricingItemRepository PricingItemRepository { get; }
+        public IPricingRepository PricingRepository { get; }
+        public IStockRepository StockRepository { get; }
+        public ITransferRepository TransferRepository { get; }
         public IWarehouseRepository WarehouseRepository { get; }
 
         public UnitOfWork(
             ApplicationDbContext context,
             IHttpContextAccessor httpContextAccessor)
         {
-            ContactRepository = new ContactRepository(context, httpContextAccessor);
             DeadlineRepository = new DeadlineRepository(context, httpContextAccessor);
+            ContactRepository = new ContactRepository(context, httpContextAccessor);
             CurrencyRepository = new CurrencyRepository(context, httpContextAccessor);
             TaxRepository = new TaxRepository(context, httpContextAccessor);
+            ItemRepository = new ItemRepository(context, httpContextAccessor);
+            ProductRepository = new ProductRepository(context, httpContextAccessor);
+            ServiceRepository = new ServiceRepository(context, httpContextAccessor);
+            CategoryRepository = new CategoryRepository(context, httpContextAccessor);
+            BrandRepository = new BrandRepository(context, httpContextAccessor);
+            UnitRepository = new UnitRepository(context, httpContextAccessor);
+            PricingItemRepository = new PricingItemRepository(context, httpContextAccessor);
+            PricingRepository = new PricingRepository(context, httpContextAccessor);
+            StockRepository = new StockRepository(context, httpContextAccessor);
+            TransferRepository = new TransferRepository(context, httpContextAccessor);
             WarehouseRepository = new WarehouseRepository(context, httpContextAccessor);
             _context = context;
             _httpContextAccessor = httpContextAccessor;

@@ -6,6 +6,7 @@ using BackEnd.Entities.AdministrativeTools;
 using BackEnd.Entities.Invoices;
 using BackEnd.Enums;
 using BackEnd.Helpers;
+using BackEnd.Repositories;
 using BackEnd.Repositories.Accounts;
 using BackEnd.Repositories.AdministrativeTools;
 using BackEnd.Repositories.Contacts;
@@ -32,14 +33,8 @@ namespace BackEnd.Endpoints.Invoices
             [FromBody] CreateSaleInvoiceDTO dto,
             [FromServices] IValidator<CreateSaleInvoiceDTO> validator,
             [FromServices] ISaleInvoiceRepository repository,
-            [FromServices] IPricingRepository pricingRepository,
-            [FromServices] IContactRepository contactRepository,
             [FromServices] IFiscalSupportRepository fiscalSupportRepository,
-            [FromServices] IDeadlineRepository deadlineRepository,
-            [FromServices] ICurrencyRepository currencyRepository,
-            [FromServices] IProductRepository productRepository,
-            [FromServices] IServiceRepository serviceRepository,
-            [FromServices] IStockRepository stockRepository,
+            [FromServices] IUnitOfWork unitOfWork,
             [FromServices] IReceivableRepository accountsReceivableRepository,
             IOutputCacheStore outputCacheStore,
             [FromServices] IMapper mapper,
@@ -56,7 +51,7 @@ namespace BackEnd.Endpoints.Invoices
             try
             {
                 var fiscalSupportDB = await fiscalSupportRepository.GetById(dto.FiscalSupportId);
-                var currencyDB = await currencyRepository.GetByIdAsync(dto.CurrencyId);
+                var currencyDB = await unitOfWork.CurrencyRepository.GetByIdAsync(dto.CurrencyId);
 
                 if (fiscalSupportDB == null || currencyDB == null)
                 {
@@ -78,7 +73,7 @@ namespace BackEnd.Endpoints.Invoices
                 await fiscalSupportRepository.Update(fiscalSupportDB);
 
                 double currencyRate = currencyDB.Rate;
-                await CalculateInvoiceTotals(dto.SaleInvoiceItems, saleInvoice, productRepository, serviceRepository, currencyRate);
+                await CalculateInvoiceTotals(dto.SaleInvoiceItems, saleInvoice, unitOfWork, currencyRate);
 
                 saleInvoice.DeadlineId = 1;
                 var invoiceId = await repository.Create(saleInvoice);
@@ -94,8 +89,8 @@ namespace BackEnd.Endpoints.Invoices
 
                 await accountsReceivableRepository.Create(accountsReceivable);
 
-                await AddInvoiceItems(dto.SaleInvoiceItems, invoiceId, repository, productRepository, serviceRepository, mapper, currencyRate);
-                await ReduceStock(dto, stockRepository);
+                await AddInvoiceItems(dto.SaleInvoiceItems, invoiceId, repository, unitOfWork, mapper, currencyRate);
+                await ReduceStock(dto, unitOfWork);
 
                 await transaction.CommitAsync();
                 await outputCacheStore.EvictByTagAsync("fiscal-supports-get", default);
@@ -110,13 +105,13 @@ namespace BackEnd.Endpoints.Invoices
             }
         }
 
-        private static async Task ReduceStock(CreateSaleInvoiceDTO dto, IStockRepository stockRepository)
+        private static async Task ReduceStock(CreateSaleInvoiceDTO dto, IUnitOfWork unitOfWork)
         {
             foreach (var item in dto.SaleInvoiceItems)
             {
                 if (item.ItemType == ItemType.Product)
                 {
-                    var stock = await stockRepository.GetByItemIdAndWarehouseId(item.ItemId, dto.WarehouseId);
+                    var stock = await unitOfWork.StockRepository.GetByItemIdAndWarehouseId(item.ItemId, dto.WarehouseId);
 
                     if (stock == null)
                     {
@@ -124,17 +119,18 @@ namespace BackEnd.Endpoints.Invoices
                     }
 
                     stock.Qty -= item.Qty;
-                    await stockRepository.Update(stock);
+                    unitOfWork.StockRepository.Update(stock);
                 }
             }
+
+            await unitOfWork.SaveChangesAsync();
         }
 
         private static async Task CalculateInvoiceTotals(
-    IEnumerable<SaleInvoiceItemDTO> items,
-    SaleInvoice saleInvoice,
-    IProductRepository productRepository,
-    IServiceRepository serviceRepository,
-    double currencyRate)
+            IEnumerable<SaleInvoiceItemDTO> items,
+            SaleInvoice saleInvoice,
+            IUnitOfWork unitOfWork,
+            double currencyRate)
         {
             double totalQtyItems = 0, totalItems = 0, totalAmount = 0, totalPrice = 0, totalTaxes = 0;
 
@@ -143,7 +139,7 @@ namespace BackEnd.Endpoints.Invoices
                 switch (itemDTO.ItemType)
                 {
                     case ItemType.Product:
-                        var product = await productRepository.GetById(itemDTO.ItemId)
+                        var product = await unitOfWork.ProductRepository.GetByIdAsync(itemDTO.ItemId)
                             ?? throw new Exception($"Product with id {itemDTO.ItemId} not found.");
 
                         var productBasePrice = product.PricingItems.First(x => x.ItemId == itemDTO.ItemId).BasePrice / currencyRate;
@@ -156,7 +152,7 @@ namespace BackEnd.Endpoints.Invoices
                         break;
 
                     case ItemType.Service:
-                        var service = await serviceRepository.GetById(itemDTO.ItemId)
+                        var service = await unitOfWork.ServiceRepository.GetByIdAsync(itemDTO.ItemId)
                             ?? throw new Exception($"Service with id {itemDTO.ItemId} not found.");
 
                         var serviceBasePrice = service.PricingItems.First(x => x.ItemId == itemDTO.ItemId).BasePrice / currencyRate;
@@ -183,20 +179,19 @@ namespace BackEnd.Endpoints.Invoices
         }
 
         private static async Task AddInvoiceItems(
-    IEnumerable<SaleInvoiceItemDTO> items,
-    long invoiceId,
-    ISaleInvoiceRepository repository,
-    IProductRepository productRepository,
-    IServiceRepository serviceRepository,
-    IMapper mapper,
-    double currencyRate)
+            IEnumerable<SaleInvoiceItemDTO> items,
+            long invoiceId,
+            ISaleInvoiceRepository repository,
+            IUnitOfWork unitOfWork,
+            IMapper mapper,
+            double currencyRate)
         {
             foreach (var itemDTO in items)
             {
                 switch (itemDTO.ItemType)
                 {
                     case ItemType.Product:
-                        var product = await productRepository.GetById(itemDTO.ItemId)
+                        var product = await unitOfWork.ProductRepository.GetByIdAsync(itemDTO.ItemId)
                             ?? throw new Exception($"Product with id {itemDTO.ItemId} not found.");
 
                         var productBasePrice = product.PricingItems.First(x => x.ItemId == itemDTO.ItemId).BasePrice / currencyRate;
@@ -213,7 +208,7 @@ namespace BackEnd.Endpoints.Invoices
                         break;
 
                     case ItemType.Service:
-                        var service = await serviceRepository.GetById(itemDTO.ItemId)
+                        var service = await unitOfWork.ServiceRepository.GetByIdAsync(itemDTO.ItemId)
                             ?? throw new Exception($"Service with id {itemDTO.ItemId} not found.");
 
                         var serviceBasePrice = service.PricingItems.First(x => x.ItemId == itemDTO.ItemId).BasePrice / currencyRate;

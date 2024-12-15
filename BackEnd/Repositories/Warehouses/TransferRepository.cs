@@ -7,19 +7,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BackEnd.Repositories.Warehouses
 {
-    public class TransferRepository : ITransferRepository
+    public class TransferRepository : RepositoryBase<Transfer>, ITransferRepository
     {
-        private readonly ApplicationDbContext context;
-        private readonly HttpContext httpContext;
-
-        public TransferRepository(ApplicationDbContext context,
-            IHttpContextAccessor httpContextAccessor)
+        private new readonly HttpContext httpContext;
+        public TransferRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
+            : base(context, httpContextAccessor)
         {
-            this.context = context;
             httpContext = httpContextAccessor.HttpContext!;
         }
 
-        public async Task<Transfer?> GetById(long id)
+        public async new Task<Transfer?> GetByIdAsync(long id)
         {
             return await context.Transfers
                 .Include(t => t.Product)
@@ -29,7 +26,7 @@ namespace BackEnd.Repositories.Warehouses
                 .FirstOrDefaultAsync(t => t.Id == id);
         }
 
-        public async Task<List<Transfer>> GetAll(PaginationDTO paginationDTO)
+        public async new Task<List<Transfer>> GetAllAsync(PaginationDTO paginationDTO)
         {
             var queryable = context.Transfers
                 .Include(t => t.Product)
@@ -45,20 +42,6 @@ namespace BackEnd.Repositories.Warehouses
             return await queryable
                 .Paginate(paginationDTO)
                 .ToListAsync();
-        }
-
-
-        public async Task<long> Create(Transfer transfer)
-        {
-            context.Add(transfer);
-            await context.SaveChangesAsync();
-            return transfer.Id;
-        }
-
-        public async Task Update(Transfer transfer)
-        {
-            context.Transfers.Update(transfer);
-            await context.SaveChangesAsync();
         }
     }
 }

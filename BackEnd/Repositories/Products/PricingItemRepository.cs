@@ -1,26 +1,20 @@
 ﻿using BackEnd.Context;
 using BackEnd.DTOs;
 using BackEnd.Entities.Products;
-using BackEnd.Enums;
 using BackEnd.Helpers;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace BackEnd.Repositories.Products
 {
-    public class PricingItemRepository : IPricingItemRepository
+    public class PricingItemRepository : RepositoryBase<PricingItem>, IPricingItemRepository
     {
-        private readonly ApplicationDbContext context;
-        private readonly HttpContext httpContext;
-
-        public PricingItemRepository(ApplicationDbContext context,
-            IHttpContextAccessor httpContextAccessor)
-        {
-            this.context = context;
+        private new readonly HttpContext httpContext;
+        public PricingItemRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
+            : base(context, httpContextAccessor) {
             httpContext = httpContextAccessor.HttpContext!;
         }
 
-        public async Task<List<PricingItem>> GetAll(PaginationDTO paginationDTO, long itemId)
+        public async Task<List<PricingItem>> GetAllAsync(PaginationDTO paginationDTO, long itemId)
         {
             var queryable = context.PricingItems
                 .Where(x => x.ItemId == itemId)
@@ -36,31 +30,12 @@ namespace BackEnd.Repositories.Products
             return items;
         }
 
-        public async Task<PricingItem?> GetById(long id)
-        {
-            return await context.PricingItems.FirstOrDefaultAsync(x => x.Id == id);
-        }
-
-        public async Task<long> Create(PricingItem pricingItem)
-        {
-            context.Add(pricingItem);
-            await context.SaveChangesAsync();
-            return pricingItem.Id;
-        }
-
         public async Task<PricingItem?> GetPricingItemByItemIdAndPricingId(long itemId, long pricingId)
         {
             return await context.PricingItems.FirstOrDefaultAsync(pi => pi.ItemId == itemId && pi.PricingId == pricingId);
         }
 
-        public async Task<PricingItem> Update(PricingItem pricingItem)
-        {
-            context.PricingItems.Update(pricingItem);
-            await context.SaveChangesAsync();
-            return pricingItem;
-        }
-
-        public async Task<bool> Activate(long id)
+        public async new Task<bool> ActivateAsync(long id)
         {
             var pricingItemToSetPrincipal = await context.PricingItems
                 .Include(pi => pi.Item)
@@ -82,12 +57,10 @@ namespace BackEnd.Repositories.Products
 
             pricingItemToSetPrincipal.IsPrincipal = true;
 
-            await context.SaveChangesAsync();
-
             return true;
         }
 
-        public async Task<bool> Exists(long pricingId, long itemId)
+        public async Task<bool> ExistsAsync(long pricingId, long itemId)
         {
             return await context.PricingItems.AnyAsync(pi => pi.PricingId == pricingId && pi.ItemId == itemId);
         }
@@ -98,7 +71,6 @@ namespace BackEnd.Repositories.Products
             if (pricingItem != null)
             {
                 context.PricingItems.Remove(pricingItem);
-                await context.SaveChangesAsync();
             }
         }
     }

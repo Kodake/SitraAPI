@@ -5,6 +5,7 @@ using BackEnd.Entities.Products;
 using BackEnd.Enums;
 using BackEnd.Filters;
 using BackEnd.Helpers;
+using BackEnd.Repositories;
 using BackEnd.Repositories.Products;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -34,26 +35,31 @@ namespace BackEnd.Endpoints
             return group;
         }
 
-        static async Task<Ok<List<UnitListDTO>>> GetAll(IUnitRepository repository,
+        static async Task<Ok<List<UnitListDTO>>> GetAll(
+            [FromServices] IUnitOfWork unitOfWork,
             IMapper mapper, PaginationDTO pagination)
         {
-            var units = await repository.GetAll(pagination);
+            var units = await unitOfWork.UnitRepository.GetAllAsync(pagination);
             var unitsDTO = mapper.Map<List<UnitListDTO>>(units);
+
             return TypedResults.Ok(unitsDTO);
         }
 
-        static async Task<Ok<List<UnitListDTO>>> GetSelects(IUnitRepository repository,
+        static async Task<Ok<List<UnitListDTO>>> GetSelects(
+            [FromServices] IUnitOfWork unitOfWork,
             IMapper mapper, [FromQuery] StatusType status = StatusType.All)
         {
-            var units = await repository.GetAll(status);
+            var units = await unitOfWork.UnitRepository.GetAll(status);
             var unitsDTO = mapper.Map<List<UnitListDTO>>(units);
+
             return TypedResults.Ok(unitsDTO);
         }
 
-        static async Task<Results<Ok<UnitDTO>, NotFound>> GetById(IUnitRepository repository,
+        static async Task<Results<Ok<UnitDTO>, NotFound>> GetById(
+            [FromServices] IUnitOfWork unitOfWork,
             IMapper mapper, int id)
         {
-            var unit = await repository.GetById(id);
+            var unit = await unitOfWork.UnitRepository.GetByIdAsync(id);
 
             if (unit is null)
             {
@@ -61,28 +67,32 @@ namespace BackEnd.Endpoints
             }
 
             var unitDTO = mapper.Map<UnitDTO>(unit);
+
             return TypedResults.Ok(unitDTO);
         }
 
         static async Task<Results<Created<UnitDTO>, ValidationProblem>> Create([FromBody] CreateUnitDTO dto,
-           [FromServices] IUnitRepository repository,
-           IOutputCacheStore outputCacheStore,
-           [FromServices] IMapper mapper)
-        {
-            var unit = mapper.Map<Unit>(dto);
-
-            var id = await repository.Create(unit);
-            await outputCacheStore.EvictByTagAsync("units-get", default);
-            var unitDTO = mapper.Map<UnitDTO>(unit);
-            return TypedResults.Created($"/units/{id}", unitDTO);
-        }
-
-        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromBody] CreateUnitDTO dto,
-            [FromServices] IUnitRepository repository,
+            [FromServices] IUnitOfWork unitOfWork,
             IOutputCacheStore outputCacheStore,
             [FromServices] IMapper mapper)
         {
-            var unitDB = await repository.GetById(id);
+            var unit = mapper.Map<Unit>(dto);
+
+            await unitOfWork.UnitRepository.CreateAsync(unit);
+            await unitOfWork.SaveChangesAsync();
+            await outputCacheStore.EvictByTagAsync("units-get", default);
+
+            var unitDTO = mapper.Map<UnitDTO>(unit);
+
+            return TypedResults.Created($"/units/{unit.Id}", unitDTO);
+        }
+
+        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromBody] CreateUnitDTO dto,
+            [FromServices] IUnitOfWork unitOfWork,
+            IOutputCacheStore outputCacheStore,
+            [FromServices] IMapper mapper)
+        {
+            var unitDB = await unitOfWork.UnitRepository.GetByIdAsync(id);
 
             if (unitDB is null)
             {
@@ -93,40 +103,46 @@ namespace BackEnd.Endpoints
             unitDB.ShortName = dto.ShortName;
             unitDB.IsActive = unitDB.IsActive;
 
-            await repository.Update(unitDB);
+            unitOfWork.UnitRepository.Update(unitDB);
+            await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("units-get", default);
+
             return TypedResults.Ok();
         }
 
         static async Task<Results<NotFound, Ok>> Activate([FromRoute] int id,
-             IUnitRepository repository,
-             IOutputCacheStore outputCacheStore)
+            [FromServices] IUnitOfWork unitOfWork,
+            IOutputCacheStore outputCacheStore)
         {
-            var unitDB = await repository.GetById(id);
+            var unitDB = await unitOfWork.UnitRepository.GetByIdAsync(id);
 
             if (unitDB is null)
             {
                 return TypedResults.NotFound();
             }
 
-            await repository.Activate(id);
+            await unitOfWork.UnitRepository.ActivateAsync(id);
+            await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("units-get", default);
+
             return TypedResults.Ok();
         }
 
         static async Task<Results<NotFound, Ok>> Deactivate([FromRoute] int id,
-             IUnitRepository repository,
-             IOutputCacheStore outputCacheStore)
+            [FromServices] IUnitOfWork unitOfWork,
+            IOutputCacheStore outputCacheStore)
         {
-            var unitDB = await repository.GetById(id);
+            var unitDB = await unitOfWork.UnitRepository.GetByIdAsync(id);
 
             if (unitDB is null)
             {
                 return TypedResults.NotFound();
             }
 
-            await repository.Deactivate(id);
+            await unitOfWork.UnitRepository.DeactivateAsync(id);
+            await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("units-get", default);
+
             return TypedResults.Ok();
         }
     }

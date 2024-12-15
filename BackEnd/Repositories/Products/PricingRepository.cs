@@ -1,55 +1,18 @@
 ﻿using BackEnd.Context;
-using BackEnd.DTOs;
 using BackEnd.Entities.Products;
-using BackEnd.Helpers;
 using Microsoft.EntityFrameworkCore;
 
 namespace BackEnd.Repositories.Products
 {
-    public class PricingRepository : IPricingRepository
+    public class PricingRepository : RepositoryBase<Pricing>, IPricingRepository
     {
-        private readonly ApplicationDbContext context;
-        private readonly HttpContext httpContext;
+        public PricingRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
+            : base(context, httpContextAccessor) { }
 
-        public PricingRepository(ApplicationDbContext context,
-            IHttpContextAccessor httpContextAccessor)
-        {
-            this.context = context;
-            httpContext = httpContextAccessor.HttpContext!;
-        }
-
-        public async Task<List<Pricing>> GetAll(PaginationDTO paginationDTO)
-        {
-            var queryable = context.Pricings.AsQueryable();
-            await httpContext.AddPaginationParamsToHeaders(queryable);
-            return await queryable
-                .OrderBy(x => x.Id)
-                .Paginate(paginationDTO)
-                .ToListAsync();
-        }
-
-        public async Task<Pricing?> GetById(long id)
-        {
-            return await context.Pricings.FirstOrDefaultAsync(x => x.Id == id);
-        }
-
-        public async Task<List<Pricing>> GetPricings()
+        public async Task<List<Pricing>> GetAll()
         {
             return await context.Pricings
                 .ToListAsync();
-        }
-
-        public async Task<Pricing> Create(Pricing pricing)
-        {
-            context.Pricings.Add(pricing);
-            await context.SaveChangesAsync();
-            return pricing;
-        }
-
-        public async Task Update(Pricing pricing)
-        {
-            context.Update(pricing);
-            await context.SaveChangesAsync();
         }
 
         public async Task<Pricing?> GetPricingByName(string? name)
@@ -68,11 +31,6 @@ namespace BackEnd.Repositories.Products
                     PricingType = p.PricingType,
                     Percentage = p.Percentage
                 }).ToListAsync();
-        }
-
-        public async Task<bool> Exists(long id)
-        {
-            return await context.Pricings.AnyAsync(x => x.Id == id);
         }
 
         public async Task<bool> Exists(long id, string name)

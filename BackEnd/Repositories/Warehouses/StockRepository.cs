@@ -6,19 +6,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BackEnd.Repositories.Warehouses
 {
-    public class StockRepository : IStockRepository
+    public class StockRepository : RepositoryBase<Stock>, IStockRepository
     {
-        private readonly ApplicationDbContext context;
-        private readonly HttpContext httpContext;
-
-        public StockRepository(ApplicationDbContext context,
-            IHttpContextAccessor httpContextAccessor)
+        private new readonly HttpContext httpContext;
+        public StockRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
+            : base(context, httpContextAccessor)
         {
-            this.context = context;
             httpContext = httpContextAccessor.HttpContext!;
         }
 
-        public async Task<List<Stock>> GetAll(PaginationDTO paginationDTO)
+        public async new Task<List<Stock>> GetAllAsync(PaginationDTO paginationDTO)
         {
             var queryable = context.Stocks
                 .AsQueryable()
@@ -31,24 +28,6 @@ namespace BackEnd.Repositories.Warehouses
                 .OrderBy(x => x.Item.Name)
                 .Paginate(paginationDTO)
                 .ToListAsync();
-        }
-
-        public async Task<Stock?> GetById(long id)
-        {
-            return await context.Stocks.FirstOrDefaultAsync(x => x.Id == id);
-        }
-
-        public async Task<bool> Create(Stock stock)
-        {
-            context.Add(stock);
-            long changes = await context.SaveChangesAsync();
-            return changes > 0;
-        }
-
-        public async Task Update(Stock stock)
-        {
-            context.Stocks.Update(stock);
-            await context.SaveChangesAsync();
         }
 
         public async Task<Stock?> GetByItemIdAndWarehouseId(long itemId, long warehouseId)

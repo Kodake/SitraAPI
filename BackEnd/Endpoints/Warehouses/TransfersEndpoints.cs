@@ -6,6 +6,7 @@ using BackEnd.Entities.Warehouses;
 using BackEnd.Enums;
 using BackEnd.Filters;
 using BackEnd.Helpers;
+using BackEnd.Repositories;
 using BackEnd.Repositories.Warehouses;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -38,18 +39,21 @@ namespace BackEnd.Endpoints
             return group;
         }
 
-        static async Task<Ok<List<TransferListDTO>>> GetAll([FromServices] ITransferRepository repository,
+        static async Task<Ok<List<TransferListDTO>>> GetAll(
+            [FromServices] IUnitOfWork unitOfWork,
             [FromServices] IMapper mapper, PaginationDTO pagination)
         {
-            var transfers = await repository.GetAll(pagination);
+            var transfers = await unitOfWork.TransferRepository.GetAllAsync(pagination);
             var transfersDTO = mapper.Map<List<TransferListDTO>>(transfers);
+
             return TypedResults.Ok(transfersDTO);
         }
 
-        static async Task<Results<Ok<TransferDTO>, NotFound>> GetById([FromServices] ITransferRepository repository,
+        static async Task<Results<Ok<TransferDTO>, NotFound>> GetById(
+            [FromServices] IUnitOfWork unitOfWork,
             [FromServices] IMapper mapper, int id)
         {
-            var transfer = await repository.GetById(id);
+            var transfer = await unitOfWork.TransferRepository.GetByIdAsync(id);
 
             if (transfer is null)
             {
@@ -57,18 +61,18 @@ namespace BackEnd.Endpoints
             }
 
             var transferDTO = mapper.Map<TransferDTO>(transfer);
+
             return TypedResults.Ok(transferDTO);
         }
 
         static async Task<Results<Ok<TransferDTO>, ValidationProblem>> Create(
-            [FromServices] ITransferRepository transferRepository,
-            [FromServices] IStockRepository stockRepository,
+            [FromServices] IUnitOfWork unitOfWork,
             [FromServices] IMapper mapper,
             [FromBody] CreateTransferDTO dto,
             [FromServices] ApplicationDbContext dbContext,
             IOutputCacheStore outputCacheStore)
         {
-            var stockOrigin = await stockRepository.GetByItemIdAndWarehouseId(dto.ProductId, dto.OriginWarehouseId);
+            var stockOrigin = await unitOfWork.StockRepository.GetByItemIdAndWarehouseId(dto.ProductId, dto.OriginWarehouseId);
             if (stockOrigin == null || stockOrigin.Qty < dto.Qty)
             {
                 return TypedResults.ValidationProblem(new Dictionary<string, string[]>
@@ -77,7 +81,7 @@ namespace BackEnd.Endpoints
                 });
             }
 
-            var stockDestination = await stockRepository.GetByItemIdAndWarehouseId(dto.ProductId, dto.DestinationWarehouseId);
+            var stockDestination = await unitOfWork.StockRepository.GetByItemIdAndWarehouseId(dto.ProductId, dto.DestinationWarehouseId);
 
             try
             {
@@ -90,7 +94,7 @@ namespace BackEnd.Endpoints
                         WarehouseId = dto.DestinationWarehouseId,
                         Qty = 0
                     };
-                    await stockRepository.Create(stockDestination);
+                    await unitOfWork.StockRepository.CreateAsync(stockDestination);
                 }
 
                 var transfer = mapper.Map<Transfer>(dto);
@@ -100,9 +104,10 @@ namespace BackEnd.Endpoints
 
                 stockOrigin.Qty -= dto.Qty;
 
-                await transferRepository.Create(transfer);
-                await stockRepository.Update(stockOrigin);
-                await stockRepository.Update(stockDestination);
+                await unitOfWork.TransferRepository.CreateAsync(transfer);
+                unitOfWork.StockRepository.Update(stockOrigin);
+                unitOfWork.StockRepository.Update(stockDestination);
+                await unitOfWork.SaveChangesAsync();
 
                 await outputCacheStore.EvictByTagAsync("transfers-get", default);
                 await outputCacheStore.EvictByTagAsync("stocks-get", default);
@@ -125,130 +130,86 @@ namespace BackEnd.Endpoints
         static async Task<Results<Ok<TransferDTO>, NotFound, ValidationProblem>> Received(
             int id,
             [FromBody] CreateTransferStatusDTO dto,
-            [FromServices] ITransferRepository repository,
-            [FromServices] IStockRepository stockRepository,
+            [FromServices] IUnitOfWork unitOfWork,
             [FromServices] IMapper mapper,
-            [FromServices] ApplicationDbContext dbContext,
             IOutputCacheStore outputCacheStore)
         {
-            var existingTransfer = await repository.GetById(id);
+            var existingTransfer = await unitOfWork.TransferRepository.GetByIdAsync(id);
             if (existingTransfer == null)
-            {
                 return TypedResults.NotFound();
-            }
 
-            var stockDestination = await stockRepository.GetByItemIdAndWarehouseId(existingTransfer.ProductId, existingTransfer.DestinationWarehouseId);
+            if (existingTransfer.Status == TransferStatus.Cancelled || existingTransfer.Status == TransferStatus.Received)
+                return TypedResults.ValidationProblem(new Dictionary<string, string[]>
+                {
+                    { "Error", new[] { "Cannot change the status of this transfer." } }
+                });
+
+            var stockDestination = await unitOfWork.StockRepository.GetByItemIdAndWarehouseId(existingTransfer.ProductId, existingTransfer.DestinationWarehouseId);
 
             if (stockDestination == null)
-            {
                 return TypedResults.ValidationProblem(new Dictionary<string, string[]>
                 {
                     { "Error", new[] { "Destination stock not found." } }
                 });
-            }
 
-            try
-            {
-                using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+            stockDestination.Qty += existingTransfer.Qty;
+            unitOfWork.StockRepository.Update(stockDestination);
 
-                if (existingTransfer.Status == TransferStatus.Cancelled || existingTransfer.Status == TransferStatus.Received)
-                {
-                    return TypedResults.ValidationProblem(new Dictionary<string, string[]>
-                    {
-                        { "Error", new[] { "Cannot change the status of this transfer." } }
-                    });
-                }
+            existingTransfer.Status = TransferStatus.Received;
+            existingTransfer.UpdatedAt = DateTime.UtcNow;
+            unitOfWork.TransferRepository.Update(existingTransfer);
 
-                var stockDTO = mapper.Map<StockDTO>(stockDestination);
-                stockDTO.Qty += existingTransfer.Qty;
-                var stock = mapper.Map<Stock>(stockDTO);
-                await stockRepository.Update(stock);
+            await unitOfWork.SaveChangesAsync();
+            await EvictCacheAsync(outputCacheStore);
 
-                existingTransfer.UpdatedAt = DateTime.UtcNow;
-                existingTransfer.Status = TransferStatus.Received;
-
-                await repository.Update(existingTransfer);
-
-                await outputCacheStore.EvictByTagAsync("transfers-get", default);
-                await outputCacheStore.EvictByTagAsync("stocks-get", default);
-                await outputCacheStore.EvictByTagAsync("warehouses-get", default);
-                await outputCacheStore.EvictByTagAsync("products-get", default);
-                transaction.Complete();
-
-                var transferDTO = mapper.Map<TransferDTO>(existingTransfer);
-                return TypedResults.Ok(transferDTO);
-            }
-            catch (Exception ex)
-            {
-                return TypedResults.ValidationProblem(new Dictionary<string, string[]>
-                {
-                    { "Error", new[] { $"Transaction failed: {ex.Message}" } }
-                });
-            }
+            var transferDTO = mapper.Map<TransferDTO>(existingTransfer);
+            return TypedResults.Ok(transferDTO);
         }
 
         static async Task<Results<Ok<TransferDTO>, NotFound, ValidationProblem>> Cancelled(
             int id,
             [FromBody] CreateTransferStatusDTO dto,
-            [FromServices] ITransferRepository repository,
-            [FromServices] IStockRepository stockRepository,
+            [FromServices] IUnitOfWork unitOfWork,
             [FromServices] IMapper mapper,
-            [FromServices] ApplicationDbContext dbContext,
             IOutputCacheStore outputCacheStore)
         {
-            var existingTransfer = await repository.GetById(id);
+            var existingTransfer = await unitOfWork.TransferRepository.GetByIdAsync(id);
             if (existingTransfer == null)
-            {
                 return TypedResults.NotFound();
-            }
 
-            var stockDestination = await stockRepository.GetByItemIdAndWarehouseId(existingTransfer.ProductId, existingTransfer.OriginWarehouseId);
+            if (existingTransfer.Status == TransferStatus.Cancelled || existingTransfer.Status == TransferStatus.Received)
+                return TypedResults.ValidationProblem(new Dictionary<string, string[]>
+                {
+                    { "Error", new[] { "Cannot change the status of this transfer." } }
+                });
 
+            var stockDestination = await unitOfWork.StockRepository.GetByItemIdAndWarehouseId(existingTransfer.ProductId, existingTransfer.OriginWarehouseId);
             if (stockDestination == null)
-            {
                 return TypedResults.ValidationProblem(new Dictionary<string, string[]>
                 {
-                    { "Error", new[] { "Destination stock not found." } }
+                    { "Error", new[] { "Origin stock not found." } }
                 });
-            }
 
-            try
+            stockDestination.Qty += existingTransfer.Qty;
+            unitOfWork.StockRepository.Update(stockDestination);
+
+            existingTransfer.Status = TransferStatus.Cancelled;
+            existingTransfer.UpdatedAt = DateTime.UtcNow;
+            unitOfWork.TransferRepository.Update(existingTransfer);
+
+            await unitOfWork.SaveChangesAsync();
+            await EvictCacheAsync(outputCacheStore);
+
+            var transferDTO = mapper.Map<TransferDTO>(existingTransfer);
+            return TypedResults.Ok(transferDTO);
+        }
+
+        private static async Task EvictCacheAsync(IOutputCacheStore outputCacheStore)
+        {
+            var tags = new[] { "transfers-get", "stocks-get", "warehouses-get", "products-get" };
+            foreach (var tag in tags)
             {
-                using var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
-
-                if (existingTransfer.Status == TransferStatus.Cancelled || existingTransfer.Status == TransferStatus.Received)
-                {
-                    return TypedResults.ValidationProblem(new Dictionary<string, string[]>
-                    {
-                        { "Error", new[] { "Cannot change the status of this transfer." } }
-                    });
-                }
-
-                var stockDTO = mapper.Map<StockDTO>(stockDestination);
-                stockDTO.Qty += existingTransfer.Qty;
-                var stock = mapper.Map<Stock>(stockDTO);
-                await stockRepository.Update(stock);
-
-                existingTransfer.UpdatedAt = DateTime.UtcNow;
-                existingTransfer.Status = TransferStatus.Cancelled;
-
-                await repository.Update(existingTransfer);
-
-                await outputCacheStore.EvictByTagAsync("transfers-get", default);
-                await outputCacheStore.EvictByTagAsync("stocks-get", default);
-                await outputCacheStore.EvictByTagAsync("warehouses-get", default);
-                await outputCacheStore.EvictByTagAsync("products-get", default);
-                transaction.Complete();
-
-                var transferDTO = mapper.Map<TransferDTO>(existingTransfer);
-                return TypedResults.Ok(transferDTO);
-            }
-            catch (Exception ex)
-            {
-                return TypedResults.ValidationProblem(new Dictionary<string, string[]>
-                {
-                    { "Error", new[] { $"Transaction failed: {ex.Message}" } }
-                });
+                await outputCacheStore.EvictByTagAsync(tag, default);
             }
         }
     }

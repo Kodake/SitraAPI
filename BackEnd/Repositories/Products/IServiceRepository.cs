@@ -1,19 +1,18 @@
 ﻿using BackEnd.DTOs;
 using BackEnd.Entities.Products;
 using BackEnd.Enums;
+using BackEnd.Repositories.Generics;
 
 namespace BackEnd.Repositories.Products
 {
-    public interface IServiceRepository
+    public interface IServiceRepository : IRepositoryBase<Item>
     {
-        Task<Item?> GetById(long id);
-        Task<List<Item>> GetAll(PaginationDTO paginationDTO);
+        new Task<Item?> GetByIdAsync(long id);
+        new Task<List<Item>> GetAllAsync(PaginationDTO paginationDTO);
         Task<List<Item>> GetAll(StatusType status);
-        Task<long> Create(Item service);
-        Task Update(Item service);
-        Task Activate(long id);
-        Task Deactivate(long id);
-        Task<bool> Exists(long id);
+        new Task ActivateAsync(long id);
+        new Task DeactivateAsync(long id);
+        new Task<bool> ExistsAsync(long id);
         Task<bool> Exists(long id, string name);
     }
 }

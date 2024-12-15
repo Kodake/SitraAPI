@@ -1,18 +1,15 @@
 ﻿using BackEnd.DTOs;
 using BackEnd.Entities.Products;
-using Microsoft.EntityFrameworkCore;
+using BackEnd.Repositories.Generics;
 
 namespace BackEnd.Repositories.Products
 {
-    public interface IPricingItemRepository
+    public interface IPricingItemRepository : IRepositoryBase<PricingItem>
     {
-        Task<List<PricingItem>> GetAll(PaginationDTO paginationDTO, long itemId);
-        Task<PricingItem?> GetById(long id);
-        Task<long> Create(PricingItem pricingItem);
+        Task<List<PricingItem>> GetAllAsync(PaginationDTO paginationDTO, long itemId);
         Task<PricingItem?> GetPricingItemByItemIdAndPricingId(long itemId, long pricingId);
-        Task<PricingItem> Update(PricingItem pricingItem);
-        Task<bool> Activate(long id);
-        Task<bool> Exists(long pricingId, long itemId);
+        new Task<bool> ActivateAsync(long id);
+        Task<bool> ExistsAsync(long pricingId, long itemId);
         Task Delete(long id);
     }
 }

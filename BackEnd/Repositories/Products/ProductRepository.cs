@@ -1,26 +1,22 @@
 ﻿using BackEnd.Context;
 using BackEnd.DTOs;
 using BackEnd.Entities.Products;
-using BackEnd.Entities.Warehouses;
 using BackEnd.Enums;
 using BackEnd.Helpers;
 using Microsoft.EntityFrameworkCore;
 
 namespace BackEnd.Repositories.Products
 {
-    public class ProductRepository : IProductRepository
+    public class ProductRepository : RepositoryBase<Item>, IProductRepository
     {
-        private readonly ApplicationDbContext context;
-        private readonly HttpContext httpContext;
-
-        public ProductRepository(ApplicationDbContext context,
-            IHttpContextAccessor httpContextAccessor)
+        private new readonly HttpContext httpContext;
+        public ProductRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
+            : base(context, httpContextAccessor)
         {
-            this.context = context;
             httpContext = httpContextAccessor.HttpContext!;
         }
 
-        public async Task<List<Item>> GetAll(PaginationDTO paginationDTO)
+        public async new Task<List<Item>> GetAllAsync(PaginationDTO paginationDTO)
         {
             var queryable = context.Items
                 .Where(x => x.ItemType == ItemType.Product)
@@ -72,7 +68,7 @@ namespace BackEnd.Repositories.Products
                 }).ToListAsync();
         }
 
-        public async Task<Item?> GetById(long id)
+        public async new Task<Item?> GetByIdAsync(long id)
         {
             return await context.Items
                 .Where(x => x.ItemType == ItemType.Product)
@@ -86,20 +82,7 @@ namespace BackEnd.Repositories.Products
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public async Task<long> Create(Item product)
-        {
-            context.Add(product);
-            await context.SaveChangesAsync();
-            return product.Id;
-        }
-
-        public async Task Update(Item product)
-        {
-            context.Update(product);
-            await context.SaveChangesAsync();
-        }
-
-        public async Task Activate(long id)
+        public async new Task ActivateAsync(long id)
         {
             var product = await context.Items.FirstOrDefaultAsync(x => x.Id == id && x.ItemType == ItemType.Product);
             if (product != null)
@@ -109,17 +92,16 @@ namespace BackEnd.Repositories.Products
             }
         }
 
-        public async Task Deactivate(long id)
+        public async new Task DeactivateAsync(long id)
         {
             var product = await context.Items.FirstOrDefaultAsync(x => x.Id == id && x.ItemType == ItemType.Product);
             if (product != null)
             {
                 product.IsActive = false;
-                await context.SaveChangesAsync();
             }
         }
 
-        public async Task<bool> Exists(long id)
+        public async new Task<bool> ExistsAsync(long id)
         {
             return await context.Items.AnyAsync(x => x.Id == id && x.ItemType == ItemType.Product);
         }

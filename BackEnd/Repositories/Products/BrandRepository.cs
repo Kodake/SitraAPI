@@ -1,33 +1,14 @@
 using BackEnd.Context;
-using BackEnd.DTOs;
 using BackEnd.Entities.Products;
 using BackEnd.Enums;
-using BackEnd.Helpers;
 using Microsoft.EntityFrameworkCore;
 
 namespace BackEnd.Repositories.Products
 {
-    public class BrandRepository : IBrandRepository
+    public class BrandRepository : RepositoryBase<Brand>, IBrandRepository
     {
-        private readonly ApplicationDbContext context;
-        private readonly HttpContext httpContext;
-
-        public BrandRepository(ApplicationDbContext context,
-            IHttpContextAccessor httpContextAccessor)
-        {
-            this.context = context;
-            httpContext = httpContextAccessor.HttpContext!;
-        }
-
-        public async Task<List<Brand>> GetAll(PaginationDTO paginationDTO)
-        {
-            var queryable = context.Brands.AsQueryable();
-            await httpContext.AddPaginationParamsToHeaders(queryable);
-            return await queryable
-                .OrderBy(x => x.Id)
-                .Paginate(paginationDTO)
-                .ToListAsync();
-        }
+        public BrandRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
+            : base(context, httpContextAccessor) { }
 
         public async Task<List<Brand>> GetAll(StatusType status)
         {
@@ -47,49 +28,6 @@ namespace BackEnd.Repositories.Products
             }
 
             return await query.OrderBy(u => u.Id).ToListAsync();
-        }
-
-        public async Task<Brand?> GetById(long id)
-        {
-            return await context.Brands.FirstOrDefaultAsync(x => x.Id == id);
-        }
-
-        public async Task<long> Create(Brand brand)
-        {
-            context.Add(brand);
-            await context.SaveChangesAsync();
-            return brand.Id;
-        }
-
-        public async Task Update(Brand brand)
-        {
-            context.Update(brand);
-            await context.SaveChangesAsync();
-        }
-
-        public async Task Activate(long id)
-        {
-            var brand = await context.Brands.FirstOrDefaultAsync(x => x.Id == id);
-            if (brand != null)
-            {
-                brand.IsActive = true;
-                await context.SaveChangesAsync();
-            }
-        }
-
-        public async Task Deactivate(long id)
-        {
-            var brand = await context.Brands.FirstOrDefaultAsync(x => x.Id == id);
-            if (brand != null)
-            {
-                brand.IsActive = false;
-                await context.SaveChangesAsync();
-            }
-        }
-
-        public async Task<bool> Exists(long id)
-        {
-            return await context.Brands.AnyAsync(x => x.Id == id);
         }
 
         public async Task<bool> Exists(long id, string name)

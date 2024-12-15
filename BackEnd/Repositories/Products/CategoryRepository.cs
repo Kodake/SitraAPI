@@ -1,33 +1,14 @@
 using BackEnd.Context;
-using BackEnd.DTOs;
 using BackEnd.Entities.Products;
 using BackEnd.Enums;
-using BackEnd.Helpers;
 using Microsoft.EntityFrameworkCore;
 
 namespace BackEnd.Repositories.Products
 {
-    public class CategoryRepository : ICategoryRepository
+    public class CategoryRepository : RepositoryBase<Category>, ICategoryRepository
     {
-        private readonly ApplicationDbContext context;
-        private readonly HttpContext httpContext;
-
-        public CategoryRepository(ApplicationDbContext context,
-            IHttpContextAccessor httpContextAccessor)
-        {
-            this.context = context;
-            httpContext = httpContextAccessor.HttpContext!;
-        }
-
-        public async Task<List<Category>> GetAll(PaginationDTO paginationDTO)
-        {
-            var queryable = context.Categories.AsQueryable();
-            await httpContext.AddPaginationParamsToHeaders(queryable);
-            return await queryable
-                .OrderBy(x => x.Name)
-                .Paginate(paginationDTO)
-                .ToListAsync();
-        }
+        public CategoryRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
+            : base(context, httpContextAccessor) { }
 
         public async Task<List<Category>> GetAll(StatusType status)
         {
@@ -47,50 +28,6 @@ namespace BackEnd.Repositories.Products
             }
 
             return await query.OrderBy(u => u.Id).ToListAsync();
-        }
-
-
-        public async Task<Category?> GetById(long id)
-        {
-            return await context.Categories.FirstOrDefaultAsync(x => x.Id == id);
-        }
-
-        public async Task<long> Create(Category category)
-        {
-            context.Add(category);
-            await context.SaveChangesAsync();
-            return category.Id;
-        }
-
-        public async Task Update(Category category)
-        {
-            context.Update(category);
-            await context.SaveChangesAsync();
-        }
-
-        public async Task Activate(long id)
-        {
-            var category = await context.Categories.FirstOrDefaultAsync(x => x.Id == id);
-            if (category != null)
-            {
-                category.IsActive = true;
-                await context.SaveChangesAsync();
-            }
-        }
-
-        public async Task Deactivate(long id)
-        {
-            var category = await context.Categories.FirstOrDefaultAsync(x => x.Id == id);
-            if (category != null)
-            {
-                category.IsActive = false;
-                await context.SaveChangesAsync();
-            }
-        }
-
-        public async Task<bool> Exists(long id)
-        {
-            return await context.Categories.AnyAsync(x => x.Id == id);
         }
 
         public async Task<bool> Exists(long id, string name)
