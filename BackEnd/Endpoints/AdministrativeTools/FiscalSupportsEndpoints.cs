@@ -7,6 +7,7 @@ using BackEnd.Entities.Products;
 using BackEnd.Enums;
 using BackEnd.Filters;
 using BackEnd.Helpers;
+using BackEnd.Repositories;
 using BackEnd.Repositories.AdministrativeTools;
 using BackEnd.Repositories.Products;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -38,26 +39,31 @@ namespace BackEnd.Endpoints
             return group;
         }
 
-        static async Task<Ok<List<FiscalSupportListDTO>>> GetAll([FromServices] IFiscalSupportRepository repository,
+        static async Task<Ok<List<FiscalSupportListDTO>>> GetAll(
+            [FromServices] IUnitOfWork unitOfWork,
             [FromServices] IMapper mapper, PaginationDTO pagination)
         {
-            var fiscalSupports = await repository.GetAll(pagination);
+            var fiscalSupports = await unitOfWork.FiscalSupportRepository.GetAllAsync(pagination);
             var fiscalSupportsDTO = mapper.Map<List<FiscalSupportListDTO>>(fiscalSupports);
+
             return TypedResults.Ok(fiscalSupportsDTO);
         }
 
-        static async Task<Ok<List<FiscalSupportListDTO>>> GetSelects(IFiscalSupportRepository repository,
+        static async Task<Ok<List<FiscalSupportListDTO>>> GetSelects(
+            [FromServices] IUnitOfWork unitOfWork,
             IMapper mapper, [FromQuery] StatusType status = StatusType.All)
         {
-            var fiscalSupports = await repository.GetAll(status);
+            var fiscalSupports = await unitOfWork.FiscalSupportRepository.GetAll(status);
             var fiscalSupportsDTO = mapper.Map<List<FiscalSupportListDTO>>(fiscalSupports);
+
             return TypedResults.Ok(fiscalSupportsDTO);
         }
 
-        static async Task<Results<Ok<FiscalSupportDTO>, NotFound>> GetById([FromServices] IFiscalSupportRepository repository,
+        static async Task<Results<Ok<FiscalSupportDTO>, NotFound>> GetById(
+            [FromServices] IUnitOfWork unitOfWork,
             [FromServices] IMapper mapper, int id)
         {
-            var fiscalSupport = await repository.GetById(id);
+            var fiscalSupport = await unitOfWork.FiscalSupportRepository.GetByIdAsync(id);
 
             if (fiscalSupport is null)
             {
@@ -65,36 +71,42 @@ namespace BackEnd.Endpoints
             }
 
             var fiscalSupportDTO = mapper.Map<FiscalSupportDTO>(fiscalSupport);
+
             return TypedResults.Ok(fiscalSupportDTO);
         }
 
-        static async Task<Ok<List<FiscalSupportDTO>>> GetByDocumentTypeAndWarehouseId([FromServices] IFiscalSupportRepository repository,
+        static async Task<Ok<List<FiscalSupportDTO>>> GetByDocumentTypeAndWarehouseId(
+            [FromServices] IUnitOfWork unitOfWork,
             [FromServices] IMapper mapper, [FromRoute] FiscalSupportType supportType, int warehouseId)
         {
-            var fiscalSupport = await repository.GetByDocumentTypeAndWarehouseId(supportType, warehouseId);
+            var fiscalSupport = await unitOfWork.FiscalSupportRepository.GetByDocumentTypeAndWarehouseId(supportType, warehouseId);
             var fiscalSupportDTO = mapper.Map<List<FiscalSupportDTO>>(fiscalSupport);
+
             return TypedResults.Ok(fiscalSupportDTO);
         }
 
         static async Task<Results<Created<FiscalSupportDTO>, ValidationProblem>> Create([FromBody] CreateFiscalSupportDTO dto,
-           [FromServices] IFiscalSupportRepository repository,
-           IOutputCacheStore outputCacheStore,
-           [FromServices] IMapper mapper)
-        {
-            var fiscalSupport = mapper.Map<FiscalSupport>(dto);
-
-            var id = await repository.Create(fiscalSupport);
-            await outputCacheStore.EvictByTagAsync("fiscal-supports-get", default);
-            var fiscalSupportDTO = mapper.Map<FiscalSupportDTO>(fiscalSupport);
-            return TypedResults.Created($"/fiscalSupports/{id}", fiscalSupportDTO);
-        }
-
-        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromBody] CreateFiscalSupportDTO dto,
-            [FromServices] IFiscalSupportRepository repository,
+            [FromServices] IUnitOfWork unitOfWork,
             IOutputCacheStore outputCacheStore,
             [FromServices] IMapper mapper)
         {
-            var fiscalSupportDB = await repository.GetById(id);
+            var fiscalSupport = mapper.Map<FiscalSupport>(dto);
+
+            await unitOfWork.FiscalSupportRepository.CreateAsync(fiscalSupport);
+            await unitOfWork.SaveChangesAsync();
+            await outputCacheStore.EvictByTagAsync("fiscal-supports-get", default);
+
+            var fiscalSupportDTO = mapper.Map<FiscalSupportDTO>(fiscalSupport);
+
+            return TypedResults.Created($"/fiscalSupports/{fiscalSupport.Id}", fiscalSupportDTO);
+        }
+
+        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromBody] CreateFiscalSupportDTO dto,
+            [FromServices] IUnitOfWork unitOfWork,
+            IOutputCacheStore outputCacheStore,
+            [FromServices] IMapper mapper)
+        {
+            var fiscalSupportDB = await unitOfWork.FiscalSupportRepository.GetByIdAsync(id);
 
             if (fiscalSupportDB is null)
             {
@@ -111,40 +123,46 @@ namespace BackEnd.Endpoints
             fiscalSupportDB.FinalSequence = dto.FinalSequence;
             fiscalSupportDB.IsActive = fiscalSupportDB.IsActive;
 
-            await repository.Update(fiscalSupportDB);
+            unitOfWork.FiscalSupportRepository.Update(fiscalSupportDB);
+            await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("fiscal-supports-get", default);
+
             return TypedResults.Ok();
         }
 
         static async Task<Results<NotFound, Ok>> Activate([FromRoute] int id,
-             [FromServices] IFiscalSupportRepository repository,
-             IOutputCacheStore outputCacheStore)
+            [FromServices] IUnitOfWork unitOfWork,
+            IOutputCacheStore outputCacheStore)
         {
-            var fiscalSupportDB = await repository.GetById(id);
+            var fiscalSupportDB = await unitOfWork.FiscalSupportRepository.GetByIdAsync(id);
 
             if (fiscalSupportDB is null)
             {
                 return TypedResults.NotFound();
             }
 
-            await repository.Activate(id);
+            await unitOfWork.FiscalSupportRepository.ActivateAsync(id);
+            await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("fiscal-supports-get", default);
+
             return TypedResults.Ok();
         }
 
         static async Task<Results<NotFound, Ok>> Deactivate([FromRoute] int id,
-             [FromServices] IFiscalSupportRepository repository,
-             IOutputCacheStore outputCacheStore)
+            [FromServices] IUnitOfWork unitOfWork,
+            IOutputCacheStore outputCacheStore)
         {
-            var fiscalSupportDB = await repository.GetById(id);
+            var fiscalSupportDB = await unitOfWork.FiscalSupportRepository.GetByIdAsync(id);
 
             if (fiscalSupportDB is null)
             {
                 return TypedResults.NotFound();
             }
 
-            await repository.Deactivate(id);
+            await unitOfWork.FiscalSupportRepository.DeactivateAsync(id);
+            await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("fiscal-supports-get", default);
+
             return TypedResults.Ok();
         }
     }

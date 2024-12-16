@@ -1,16 +1,13 @@
 ﻿using BackEnd.DTOs;
 using BackEnd.Entities.Accounts;
+using BackEnd.Repositories.Generics;
 
 namespace BackEnd.Repositories.Accounts
 {
-    public interface IReceivableRepository
+    public interface IReceivableRepository : IRepositoryBase<Receivable>
     {
-        Task<List<Receivable>> GetAll(PaginationDTO paginationDTO);
-        Task<Receivable?> GetAllById(long id);
-        Task<long> Create(Receivable receivable);
-        Task<bool> Exists(long id);
-        Task<Receivable?> GetById(long id);
-        Task Update(Receivable receivable);
-        Task<Receivable?> GetPaysById(long id);
+        new Task<List<Receivable>> GetAllAsync(PaginationDTO paginationDTO);
+        Task<Receivable?> GetAllByIdAsync(long id);
+        Task<Receivable?> GetPaysByIdAsync(long id);
     }
 }

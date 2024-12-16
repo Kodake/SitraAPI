@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
 using BackEnd.DTOs;
 using BackEnd.DTOs.Warehouses;
-using BackEnd.Entities.Products;
 using BackEnd.Entities.Warehouses;
 using BackEnd.Filters;
 using BackEnd.Helpers;
 using BackEnd.Repositories;
-using BackEnd.Repositories.Warehouses;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;

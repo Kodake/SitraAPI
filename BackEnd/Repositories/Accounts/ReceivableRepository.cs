@@ -7,19 +7,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BackEnd.Repositories.Accounts
 {
-    public class ReceivableRepository : IReceivableRepository
+    public class ReceivableRepository : RepositoryBase<Receivable>, IReceivableRepository
     {
-        private readonly ApplicationDbContext context;
-        private readonly HttpContext httpContext;
-
-        public ReceivableRepository(ApplicationDbContext context,
-            IHttpContextAccessor httpContextAccessor)
+        private new readonly HttpContext httpContext;
+        public ReceivableRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
+            : base(context, httpContextAccessor)
         {
-            this.context = context;
             httpContext = httpContextAccessor.HttpContext!;
         }
 
-        public async Task<List<Receivable>> GetAll(PaginationDTO paginationDTO)
+        public async new Task<List<Receivable>> GetAllAsync(PaginationDTO paginationDTO)
         {
             var queryable = context.Receivables
                 .Include(x => x.PaymentReceipts)
@@ -34,7 +31,7 @@ namespace BackEnd.Repositories.Accounts
                 .ToListAsync();
         }
 
-        public async Task<Receivable?> GetAllById(long id)
+        public async Task<Receivable?> GetAllByIdAsync(long id)
         {
             return await context.Receivables
                 .Include(x => x.SaleInvoice)
@@ -43,7 +40,7 @@ namespace BackEnd.Repositories.Accounts
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<Receivable?> GetPaysById(long id)
+        public async Task<Receivable?> GetPaysByIdAsync(long id)
         {
             return await context.Receivables
                 .Include(x => x.SaleInvoice)
@@ -52,30 +49,6 @@ namespace BackEnd.Repositories.Accounts
                     .Where(x => x.IsActive)
                     .OrderByDescending(p => p.Id))
                 .FirstOrDefaultAsync(x => x.Id == id && x.Status == AccountStatus.Paid);
-        }
-
-        public async Task<Receivable?> GetById(long id)
-        {
-            return await context.Receivables
-                .FirstOrDefaultAsync(r => r.Id == id);
-        }
-
-        public async Task<long> Create(Receivable receivable)
-        {
-            context.Receivables.Add(receivable);
-            await context.SaveChangesAsync();
-            return receivable.Id;
-        }
-
-        public async Task Update(Receivable receivable)
-        {
-            context.Update(receivable);
-            await context.SaveChangesAsync();
-        }
-
-        public async Task<bool> Exists(long id)
-        {
-            return await context.Receivables.AnyAsync(x => x.Id == id);
         }
     }
 }

@@ -317,7 +317,7 @@ namespace BackEnd.Migrations
                     FiscalSupportId = table.Column<long>(type: "bigint", nullable: false),
                     DeadlineId = table.Column<long>(type: "bigint", nullable: false),
                     CurrencyId = table.Column<long>(type: "bigint", nullable: false),
-                    AccountsReceivableId = table.Column<long>(type: "bigint", nullable: false),
+                    ReceivableId = table.Column<long>(type: "bigint", nullable: false),
                     FiscalSupportNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Shipping = table.Column<double>(type: "float", nullable: true),
                     Discount = table.Column<double>(type: "float", nullable: true),
@@ -578,18 +578,19 @@ namespace BackEnd.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AccountsReceivableId = table.Column<long>(type: "bigint", nullable: false),
+                    ReceivableId = table.Column<long>(type: "bigint", nullable: false),
                     Amount = table.Column<double>(type: "float", nullable: false),
-                    Account = table.Column<int>(type: "int", nullable: false),
+                    TransactionType = table.Column<int>(type: "int", nullable: false),
                     PaymentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PaymentMethod = table.Column<int>(type: "int", nullable: false)
+                    PaymentMethod = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PaymentReceipts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PaymentReceipts_Receivables_AccountsReceivableId",
-                        column: x => x.AccountsReceivableId,
+                        name: "FK_PaymentReceipts_Receivables_ReceivableId",
+                        column: x => x.ReceivableId,
                         principalTable: "Receivables",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -705,9 +706,9 @@ namespace BackEnd.Migrations
                 column: "ItemId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PaymentReceipts_AccountsReceivableId",
+                name: "IX_PaymentReceipts_ReceivableId",
                 table: "PaymentReceipts",
-                column: "AccountsReceivableId");
+                column: "ReceivableId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PricingItems_ItemId",

@@ -5,17 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BackEnd.Repositories.Products
 {
-    public class ItemRepository: IItemRepository
+    public class ItemRepository : RepositoryBase<Item>, IItemRepository
     {
-        private readonly ApplicationDbContext context;
-        private readonly HttpContext httpContext;
-
-        public ItemRepository(ApplicationDbContext context,
-            IHttpContextAccessor httpContextAccessor)
-        {
-            this.context = context;
-            httpContext = httpContextAccessor.HttpContext!;
-        }
+        public ItemRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
+            : base(context, httpContextAccessor)
+        { }
 
         public async Task<List<Item>> GetByPricingIdAndWarehouseId(int pricingId, int warehouseId)
         {

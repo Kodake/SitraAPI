@@ -5,6 +5,7 @@ using BackEnd.Entities.Accounts;
 using BackEnd.Enums;
 using BackEnd.Filters;
 using BackEnd.Helpers;
+using BackEnd.Repositories;
 using BackEnd.Repositories.Accounts;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -31,18 +32,21 @@ namespace BackEnd.Endpoints
             return group;
         }
 
-        static async Task<Ok<List<ReceivableListDTO>>> GetAll(IReceivableRepository repository,
+        static async Task<Ok<List<ReceivableListDTO>>> GetAll(
+            [FromServices] IUnitOfWork unitOfWork,
             IMapper mapper, PaginationDTO pagination)
         {
-            var receivables = await repository.GetAll(pagination);
+            var receivables = await unitOfWork.ReceivableRepository.GetAllAsync(pagination);
             var receivablesDTO = mapper.Map<List<ReceivableListDTO>>(receivables);
+
             return TypedResults.Ok(receivablesDTO);
         }
 
-        static async Task<Results<Ok<ReceivableDTO>, NotFound>> GetAllById(IReceivableRepository repository,
+        static async Task<Results<Ok<ReceivableDTO>, NotFound>> GetAllById(
+            [FromServices] IUnitOfWork unitOfWork,
             IMapper mapper, [FromRoute] long id)
         {
-            var receivable = await repository.GetAllById(id);
+            var receivable = await unitOfWork.ReceivableRepository.GetAllByIdAsync(id);
 
             if (receivable == null)
             {
@@ -50,13 +54,15 @@ namespace BackEnd.Endpoints
             }
 
             var receivableDTO = mapper.Map<ReceivableDTO>(receivable);
+
             return TypedResults.Ok(receivableDTO);
         }
 
-        static async Task<Results<Ok<ReceivableDTO>, NotFound>> GetPaysById(IReceivableRepository repository,
+        static async Task<Results<Ok<ReceivableDTO>, NotFound>> GetPaysById(
+            [FromServices] IUnitOfWork unitOfWork,
             IMapper mapper, [FromRoute] long id)
         {
-            var receivable = await repository.GetPaysById(id);
+            var receivable = await unitOfWork.ReceivableRepository.GetPaysByIdAsync(id);
 
             if (receivable == null)
             {
@@ -64,26 +70,28 @@ namespace BackEnd.Endpoints
             }
 
             var receivableDTO = mapper.Map<ReceivableDTO>(receivable);
+
             return TypedResults.Ok(receivableDTO);
         }
 
         static async Task<Results<Created<PaymentReceiptDTO>, NotFound, ValidationProblem>> Create(
             [FromBody] CreatePaymentReceiptDTO dto,
             [FromRoute] long id,
-            IPaymentReceiptRepository repository,
-            IReceivableRepository receivableRepository,
+            [FromServices] IUnitOfWork unitOfWork,
             IOutputCacheStore outputCacheStore,
             IMapper mapper)
         {
             var paymentReceipt = mapper.Map<PaymentReceipt>(dto);
 
-            var receivable = await receivableRepository.GetById(id);
+            var receivable = await unitOfWork.ReceivableRepository.GetByIdAsync(id);
+
             if (receivable == null)
             {
                 return TypedResults.NotFound();
             }
 
-            var paymentReceiptId = await repository.Create(id, paymentReceipt);
+            paymentReceipt.ReceivableId = id;
+            await unitOfWork.PaymentReceiptRepository.CreateAsync(paymentReceipt);
 
             receivable.TotalOutstanding += paymentReceipt.Amount;
 
@@ -94,30 +102,31 @@ namespace BackEnd.Endpoints
                 _ => receivable.Status
             };
 
-            await receivableRepository.Update(receivable);
-
+            unitOfWork.ReceivableRepository.Update(receivable);
+            await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("payment-receipts-get", default);
             await outputCacheStore.EvictByTagAsync("receivables-get", default);
 
             var paymentReceiptDTO = mapper.Map<PaymentReceiptDTO>(paymentReceipt);
 
-            return TypedResults.Created($"/{paymentReceiptId}/addPayment", paymentReceiptDTO);
+            return TypedResults.Created($"/{paymentReceipt.Id}/addPayment", paymentReceiptDTO);
         }
 
         static async Task<Results<NotFound, Ok>> Deactivate(
             [FromRoute] long id,
             [FromRoute] long paymentReceiptId,
-            [FromServices] IPaymentReceiptRepository paymentReceiptRepository,
-            [FromServices] IReceivableRepository receivableRepository,
+            [FromServices] IUnitOfWork unitOfWork,
             [FromServices] IOutputCacheStore outputCacheStore)
         {
-            var paymentReceipt = await paymentReceiptRepository.GetById(paymentReceiptId);
+            var paymentReceipt = await unitOfWork.PaymentReceiptRepository.GetByIdAsync(paymentReceiptId);
+
             if (paymentReceipt == null)
             {
                 return TypedResults.NotFound();
             }
 
-            var receivable = await receivableRepository.GetById(id);
+            var receivable = await unitOfWork.ReceivableRepository.GetByIdAsync(id);
+
             if (receivable == null)
             {
                 return TypedResults.NotFound();
@@ -137,10 +146,10 @@ namespace BackEnd.Endpoints
                 _ => receivable.Status
             };
 
-            await paymentReceiptRepository.Deactivate(paymentReceiptId);
+            await unitOfWork.PaymentReceiptRepository.DeactivateAsync(paymentReceiptId);
 
-            await receivableRepository.Update(receivable);
-
+            unitOfWork.ReceivableRepository.Update(receivable);
+            await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("payment-receipts-get", default);
             await outputCacheStore.EvictByTagAsync("receivables-get", default);
 

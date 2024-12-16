@@ -124,18 +124,6 @@ namespace BackEnd.Context
                 .HasForeignKey(t => t.OriginWarehouseId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            //modelBuilder.Entity<SaleInvoice>()
-            //    .HasOne(si => si.FiscalSupport)
-            //    .WithMany()
-            //    .HasForeignKey(t => t.FiscalSupportId)
-            //    .OnDelete(DeleteBehavior.Restrict);
-
-            //modelBuilder.Entity<SaleInvoice>()
-            //    .HasOne(si => si.Deadline)
-            //    .WithMany()
-            //    .HasForeignKey(t => t.DeadlineId)
-            //    .OnDelete(DeleteBehavior.Restrict);
-
             modelBuilder.Entity<SaleInvoice>()
                 .HasOne(invoice => invoice.Biller)
                 .WithMany(contact => contact.BillerInvoices)
@@ -155,9 +143,6 @@ namespace BackEnd.Context
                 .WithMany(w => w.SaleInvoiceItems)
                 .HasForeignKey(t => t.SaleInvoiceId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Receivable>()
-                .HasKey(ar => ar.Id);
 
             modelBuilder.Entity<Receivable>()
                 .HasOne(ar => ar.SaleInvoice)

@@ -20,14 +20,14 @@ namespace BackEnd.Validations
             }
 
             RuleFor(dto => id)
-                .MustAsync(async (id, _) => await receivableRepository.Exists(id))
+                .MustAsync(async (id, _) => await receivableRepository.ExistsAsync(id))
                 .WithMessage(Utilities.IdNotExistMessage)
                 .DependentRules(() =>
                 {
                     RuleFor(_ => id)
                         .MustAsync(async (receivableId, _) =>
                         {
-                            var receivable = await receivableRepository.GetById(receivableId);
+                            var receivable = await receivableRepository.GetByIdAsync(receivableId);
                             return receivable == null || receivable.Status != AccountStatus.Paid;
                         })
                         .WithMessage(Utilities.ReceivableAlreadyPaidMessage);

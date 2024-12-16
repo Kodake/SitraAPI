@@ -1,26 +1,22 @@
 ﻿using BackEnd.Context;
 using BackEnd.DTOs;
 using BackEnd.Entities.AdministrativeTools;
-using BackEnd.Entities.Finances;
 using BackEnd.Enums;
 using BackEnd.Helpers;
 using Microsoft.EntityFrameworkCore;
 
 namespace BackEnd.Repositories.AdministrativeTools
 {
-    public class FiscalSupportRepository : IFiscalSupportRepository
+    public class FiscalSupportRepository : RepositoryBase<FiscalSupport>, IFiscalSupportRepository
     {
-        private readonly ApplicationDbContext context;
-        private readonly HttpContext httpContext;
-
-        public FiscalSupportRepository(ApplicationDbContext context,
-            IHttpContextAccessor httpContextAccessor)
+        private new readonly HttpContext httpContext;
+        public FiscalSupportRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
+            : base(context, httpContextAccessor)
         {
-            this.context = context;
             httpContext = httpContextAccessor.HttpContext!;
         }
 
-        public async Task<List<FiscalSupport>> GetAll(PaginationDTO paginationDTO)
+        public async new Task<List<FiscalSupport>> GetAllAsync(PaginationDTO paginationDTO)
         {
             var queryable = context.FiscalSupports
                 .AsQueryable()
@@ -54,7 +50,7 @@ namespace BackEnd.Repositories.AdministrativeTools
             return await query.OrderBy(u => u.Id).ToListAsync();
         }
 
-        public async Task<FiscalSupport?> GetById(long id)
+        public async new Task<FiscalSupport?> GetByIdAsync(long id)
         {
             return await context.FiscalSupports
                 .Include(x => x.Warehouse)
@@ -67,44 +63,6 @@ namespace BackEnd.Repositories.AdministrativeTools
                 .Include(x => x.Warehouse)
                 .Where(x => x.FiscalSupportType == supportType && x.WarehouseId == warehouseId)
                 .ToListAsync();
-        }
-
-        public async Task<long> Create(FiscalSupport fiscalSupport)
-        {
-            context.Add(fiscalSupport);
-            await context.SaveChangesAsync();
-            return fiscalSupport.Id;
-        }
-
-        public async Task Update(FiscalSupport fiscalSupport)
-        {
-            context.Update(fiscalSupport);
-            await context.SaveChangesAsync();
-        }
-
-        public async Task Activate(long id)
-        {
-            var fiscalSupport = await context.FiscalSupports.FirstOrDefaultAsync(x => x.Id == id);
-            if (fiscalSupport != null)
-            {
-                fiscalSupport.IsActive = true;
-                await context.SaveChangesAsync();
-            }
-        }
-
-        public async Task Deactivate(long id)
-        {
-            var fiscalSupport = await context.FiscalSupports.FirstOrDefaultAsync(x => x.Id == id);
-            if (fiscalSupport != null)
-            {
-                fiscalSupport.IsActive = false;
-                await context.SaveChangesAsync();
-            }
-        }
-
-        public async Task<bool> Exists(long id)
-        {
-            return await context.FiscalSupports.AnyAsync(x => x.Id == id);
         }
 
         public async Task<bool> Exists(long id, string name)

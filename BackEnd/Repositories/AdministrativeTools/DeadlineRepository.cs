@@ -2,7 +2,6 @@
 using BackEnd.Entities.AdministrativeTools;
 using BackEnd.Enums;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace BackEnd.Repositories.AdministrativeTools
 {

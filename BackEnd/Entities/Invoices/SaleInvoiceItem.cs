@@ -2,11 +2,11 @@
 
 namespace BackEnd.Entities.Invoices
 {
-    public sealed class SaleInvoiceItem
+    public class SaleInvoiceItem
     {
         public long Id { get; set; }
         public long SaleInvoiceId { get; set; }
-        public SaleInvoice SaleInvoice { get; set; } = null!;
+        public virtual SaleInvoice SaleInvoice { get; set; } = null!;
         public long ItemId { get; set; }
         public Item Item { get; set; } = null!;
         public double Qty { get; set; }

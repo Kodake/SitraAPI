@@ -30,7 +30,7 @@ namespace BackEnd.Validations
                 .WithMessage(x => string.Format(Utilities.NotExistsWith, x.CustomerId));
 
             RuleFor(x => x.FiscalSupportId)
-                .MustAsync(async (id, _) => await fiscalSupportRepository.Exists(id))
+                .MustAsync(async (id, _) => await fiscalSupportRepository.ExistsAsync(id))
                 .WithMessage(x => string.Format(Utilities.NotExistsWith, x.FiscalSupportId));
 
             RuleFor(x => x.CurrencyId)
@@ -40,10 +40,10 @@ namespace BackEnd.Validations
             RuleFor(x => x.FiscalSupportId)
                 .MustAsync(async (id, _) =>
                 {
-                    var exists = await fiscalSupportRepository.Exists(id);
+                    var exists = await fiscalSupportRepository.ExistsAsync(id);
                     if (!exists) return false;
 
-                    var support = await fiscalSupportRepository.GetById(id);
+                    var support = await fiscalSupportRepository.GetByIdAsync(id);
                     return TryUpdateFiscalSupportSequence(support!);
                 })
                 .WithMessage(Utilities.MaximumSupportsReachedMessage);

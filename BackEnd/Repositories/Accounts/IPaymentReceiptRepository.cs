@@ -1,12 +1,10 @@
-﻿using BackEnd.DTOs;
-using BackEnd.Entities.Accounts;
+﻿using BackEnd.Entities.Accounts;
+using BackEnd.Repositories.Generics;
 
 namespace BackEnd.Repositories.Accounts
 {
-    public interface IPaymentReceiptRepository
+    public interface IPaymentReceiptRepository : IRepositoryBase<PaymentReceipt>
     {
-        Task<long> Create(long receivableId, PaymentReceipt paymentReceipt);
-        Task<PaymentReceipt?> GetById(long id);
-        Task Deactivate(long paymentReceiptId);
+        new Task<PaymentReceipt?> GetByIdAsync(long id);
     }
 }

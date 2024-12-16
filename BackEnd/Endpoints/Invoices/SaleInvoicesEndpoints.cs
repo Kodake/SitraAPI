@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using BackEnd.Context;
 using BackEnd.DTOs.Invoices;
 using BackEnd.Entities.Accounts;
 using BackEnd.Entities.AdministrativeTools;
@@ -7,13 +6,6 @@ using BackEnd.Entities.Invoices;
 using BackEnd.Enums;
 using BackEnd.Helpers;
 using BackEnd.Repositories;
-using BackEnd.Repositories.Accounts;
-using BackEnd.Repositories.AdministrativeTools;
-using BackEnd.Repositories.Contacts;
-using BackEnd.Repositories.Finances;
-using BackEnd.Repositories.Invoices;
-using BackEnd.Repositories.Products;
-using BackEnd.Repositories.Warehouses;
 using FluentValidation;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -32,25 +24,21 @@ namespace BackEnd.Endpoints.Invoices
         static async Task<Results<Created, ValidationProblem>> Create(
             [FromBody] CreateSaleInvoiceDTO dto,
             [FromServices] IValidator<CreateSaleInvoiceDTO> validator,
-            [FromServices] ISaleInvoiceRepository repository,
-            [FromServices] IFiscalSupportRepository fiscalSupportRepository,
             [FromServices] IUnitOfWork unitOfWork,
-            [FromServices] IReceivableRepository accountsReceivableRepository,
             IOutputCacheStore outputCacheStore,
-            [FromServices] IMapper mapper,
-            [FromServices] ApplicationDbContext dbContext)
+            [FromServices] IMapper mapper)
         {
+            // Validate DTO
             var validationResult = await validator.ValidateAsync(dto);
             if (!validationResult.IsValid)
             {
                 return (Results<Created, ValidationProblem>)Results.ValidationProblem(validationResult.ToDictionary());
             }
 
-            using var transaction = await dbContext.Database.BeginTransactionAsync();
-
             try
             {
-                var fiscalSupportDB = await fiscalSupportRepository.GetById(dto.FiscalSupportId);
+                // Fetch related data
+                var fiscalSupportDB = await unitOfWork.FiscalSupportRepository.GetByIdAsync(dto.FiscalSupportId);
                 var currencyDB = await unitOfWork.CurrencyRepository.GetByIdAsync(dto.CurrencyId);
 
                 if (fiscalSupportDB == null || currencyDB == null)
@@ -70,40 +58,43 @@ namespace BackEnd.Endpoints.Invoices
 
                 var saleInvoice = mapper.Map<SaleInvoice>(dto);
                 saleInvoice.FiscalSupportNumber = GenerateFiscalSupportNumber(fiscalSupportDB);
-                await fiscalSupportRepository.Update(fiscalSupportDB);
+                unitOfWork.FiscalSupportRepository.Update(fiscalSupportDB);
 
                 double currencyRate = currencyDB.Rate;
                 await CalculateInvoiceTotals(dto.SaleInvoiceItems, saleInvoice, unitOfWork, currencyRate);
 
                 saleInvoice.DeadlineId = 1;
-                var invoiceId = await repository.Create(saleInvoice);
+                await unitOfWork.SaleInvoiceRepository.CreateAsync(saleInvoice);
 
                 var accountsReceivable = new Receivable
                 {
-                    SaleInvoiceId = invoiceId,
+                    SaleInvoice = saleInvoice,
                     ContactId = saleInvoice.CustomerId,
-                    TotalAmountDue = saleInvoice.TotalAmount,
+                    TotalAmountDue = saleInvoice.TotalPrice,
                     TotalOutstanding = 0,
                     Status = AccountStatus.PendingReceivable,
                 };
 
-                await accountsReceivableRepository.Create(accountsReceivable);
+                await unitOfWork.ReceivableRepository.CreateAsync(accountsReceivable);
 
-                await AddInvoiceItems(dto.SaleInvoiceItems, invoiceId, repository, unitOfWork, mapper, currencyRate);
+                await AddInvoiceItems(dto.SaleInvoiceItems, saleInvoice, unitOfWork, mapper, currencyRate);
                 await ReduceStock(dto, unitOfWork);
-
-                await transaction.CommitAsync();
+                await unitOfWork.SaveChangesAsync();
                 await outputCacheStore.EvictByTagAsync("fiscal-supports-get", default);
                 await outputCacheStore.EvictByTagAsync("stocks-get", default);
                 await outputCacheStore.EvictByTagAsync("receivables-get", default);
-                return TypedResults.Created($"/invoices/{invoiceId}");
+
+                return TypedResults.Created($"/invoices/{saleInvoice.Id}");
             }
             catch (Exception ex)
             {
-                await transaction.RollbackAsync();
-                return HandleException(ex);
+                return TypedResults.ValidationProblem(new Dictionary<string, string[]>
+                {
+                    { "Error", new[] { $"An error occurred while creating the sale invoice: {ex.Message}" } }
+                });
             }
         }
+
 
         private static async Task ReduceStock(CreateSaleInvoiceDTO dto, IUnitOfWork unitOfWork)
         {
@@ -122,8 +113,6 @@ namespace BackEnd.Endpoints.Invoices
                     unitOfWork.StockRepository.Update(stock);
                 }
             }
-
-            await unitOfWork.SaveChangesAsync();
         }
 
         private static async Task CalculateInvoiceTotals(
@@ -173,15 +162,17 @@ namespace BackEnd.Endpoints.Invoices
 
             saleInvoice.TotalQtyItems = totalQtyItems;
             saleInvoice.TotalItems = totalItems;
-            saleInvoice.TotalPrice = totalPrice + (saleInvoice.Shipping ?? 0);
+            saleInvoice.TotalPrice = saleInvoice.Discount.HasValue && saleInvoice.Discount > 0
+                ? (double)((totalPrice + (saleInvoice.Shipping ?? 0))
+                   - ((totalPrice + (saleInvoice.Shipping ?? 0)) * saleInvoice.Discount.Value / 100))
+                : totalPrice + (saleInvoice.Shipping ?? 0);
             saleInvoice.TotalAmount = totalAmount;
             saleInvoice.TotalTaxes = totalTaxes;
         }
 
         private static async Task AddInvoiceItems(
             IEnumerable<SaleInvoiceItemDTO> items,
-            long invoiceId,
-            ISaleInvoiceRepository repository,
+            SaleInvoice saleInvoice,
             IUnitOfWork unitOfWork,
             IMapper mapper,
             double currencyRate)
@@ -202,9 +193,9 @@ namespace BackEnd.Endpoints.Invoices
                         productSaleInvoiceItem.TotalTaxes = (productBasePrice * productTaxAmount / 100) * itemDTO.Qty;
                         productSaleInvoiceItem.TotalPrice = productSaleInvoiceItem.TotalAmount + productSaleInvoiceItem.TotalTaxes;
                         productSaleInvoiceItem.BasePrice = productBasePrice;
-                        productSaleInvoiceItem.SaleInvoiceId = invoiceId;
+                        productSaleInvoiceItem.SaleInvoice = saleInvoice;
 
-                        await repository.AddInvoiceItem(productSaleInvoiceItem);
+                        await unitOfWork.SaleInvoiceRepository.AddInvoiceItem(productSaleInvoiceItem);
                         break;
 
                     case ItemType.Service:
@@ -219,9 +210,9 @@ namespace BackEnd.Endpoints.Invoices
                         serviceSaleInvoiceItem.TotalTaxes = (serviceBasePrice * serviceTaxAmount / 100) * itemDTO.Qty;
                         serviceSaleInvoiceItem.TotalPrice = serviceSaleInvoiceItem.TotalAmount + serviceSaleInvoiceItem.TotalTaxes;
                         serviceSaleInvoiceItem.BasePrice = serviceBasePrice;
-                        serviceSaleInvoiceItem.SaleInvoiceId = invoiceId;
+                        serviceSaleInvoiceItem.SaleInvoice = saleInvoice;
 
-                        await repository.AddInvoiceItem(serviceSaleInvoiceItem);
+                        await unitOfWork.SaleInvoiceRepository.AddInvoiceItem(serviceSaleInvoiceItem);
                         break;
 
                     default:
@@ -249,11 +240,6 @@ namespace BackEnd.Endpoints.Invoices
             {
                 { "Error", new[] { message } }
             });
-        }
-
-        private static ValidationProblem HandleException(Exception ex)
-        {
-            return ValidationError("An error occurred while creating the sale invoice.");
         }
     }
 }

@@ -8,9 +8,9 @@ namespace BackEnd.Entities.Accounts
     {
         public long Id { get; set; }
         public long SaleInvoiceId { get; set; }
-        public SaleInvoice SaleInvoice { get; set; } = null!;
+        public virtual SaleInvoice SaleInvoice { get; set; } = null!;
         public long ContactId { get; set; }
-        public Contact Buyer { get; set; } = null!;
+        public virtual Contact Buyer { get; set; } = null!;
         public double TotalAmountDue { get; set; }
         public double TotalOutstanding { get; set; }
         public AccountStatus Status { get; set; }

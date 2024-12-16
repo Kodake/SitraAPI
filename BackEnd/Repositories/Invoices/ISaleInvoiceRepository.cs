@@ -1,13 +1,11 @@
 ﻿using BackEnd.Entities.Invoices;
-using Microsoft.EntityFrameworkCore.Storage;
+using BackEnd.Repositories.Generics;
 
 namespace BackEnd.Repositories.Invoices
 {
-    public interface ISaleInvoiceRepository
+    public interface ISaleInvoiceRepository : IRepositoryBase<SaleInvoice>
     {
-        Task<IDbContextTransaction> BeginTransactionAsync();
-        Task<SaleInvoice?> GetById(long id);
-        Task<long> Create(SaleInvoice saleInvoice);
+        new Task<SaleInvoice?> GetByIdAsync(long id);
         Task AddInvoiceItem(SaleInvoiceItem item);
         Task<List<SaleInvoiceItem>> GetItemsByInvoiceId(long invoiceId);
     }

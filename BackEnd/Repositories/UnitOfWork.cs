@@ -1,8 +1,10 @@
 ﻿using BackEnd.Context;
+using BackEnd.Repositories.Accounts;
 using BackEnd.Repositories.AdministrativeTools;
 using BackEnd.Repositories.Contacts;
 using BackEnd.Repositories.Finances;
 using BackEnd.Repositories.Generics;
+using BackEnd.Repositories.Invoices;
 using BackEnd.Repositories.Products;
 using BackEnd.Repositories.Warehouses;
 
@@ -14,10 +16,14 @@ namespace BackEnd.Repositories
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly Dictionary<Type, object> _repositories = new();
 
+        public IReceivableRepository ReceivableRepository { get; }
+        public IPaymentReceiptRepository PaymentReceiptRepository { get; }
         public IDeadlineRepository DeadlineRepository { get; }
+        public IFiscalSupportRepository FiscalSupportRepository { get; }
         public IContactRepository ContactRepository { get; }
         public ICurrencyRepository CurrencyRepository { get; }
         public ITaxRepository TaxRepository { get; }
+        public ISaleInvoiceRepository SaleInvoiceRepository { get; }
         public IItemRepository ItemRepository { get; }
         public IProductRepository ProductRepository { get; }
         public IServiceRepository ServiceRepository { get; }
@@ -34,10 +40,14 @@ namespace BackEnd.Repositories
             ApplicationDbContext context,
             IHttpContextAccessor httpContextAccessor)
         {
+            ReceivableRepository = new ReceivableRepository(context, httpContextAccessor);
+            PaymentReceiptRepository = new PaymentReceiptRepository(context, httpContextAccessor);
             DeadlineRepository = new DeadlineRepository(context, httpContextAccessor);
+            FiscalSupportRepository = new FiscalSupportRepository(context, httpContextAccessor);
             ContactRepository = new ContactRepository(context, httpContextAccessor);
             CurrencyRepository = new CurrencyRepository(context, httpContextAccessor);
             TaxRepository = new TaxRepository(context, httpContextAccessor);
+            SaleInvoiceRepository = new SaleInvoiceRepository(context, httpContextAccessor);
             ItemRepository = new ItemRepository(context, httpContextAccessor);
             ProductRepository = new ProductRepository(context, httpContextAccessor);
             ServiceRepository = new ServiceRepository(context, httpContextAccessor);

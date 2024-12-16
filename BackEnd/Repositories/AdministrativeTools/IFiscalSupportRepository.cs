@@ -1,20 +1,16 @@
 ﻿using BackEnd.DTOs;
 using BackEnd.Entities.AdministrativeTools;
 using BackEnd.Enums;
+using BackEnd.Repositories.Generics;
 
 namespace BackEnd.Repositories.AdministrativeTools
 {
-    public interface IFiscalSupportRepository
+    public interface IFiscalSupportRepository : IRepositoryBase<FiscalSupport>
     {
-        Task<List<FiscalSupport>> GetAll(PaginationDTO paginationDTO);
+        new Task<List<FiscalSupport>> GetAllAsync(PaginationDTO paginationDTO);
         Task<List<FiscalSupport>> GetAll(StatusType status);
-        Task<FiscalSupport?> GetById(long id);
-        Task<long> Create(FiscalSupport fiscalSupport);
-        Task Update(FiscalSupport fiscalSupport);
-        Task Activate(long id);
-        Task Deactivate(long id);
-        Task<bool> Exists(long id);
-        Task<bool> Exists(long id, string code);
+        new Task<FiscalSupport?> GetByIdAsync(long id);
         Task<List<FiscalSupport>> GetByDocumentTypeAndWarehouseId(FiscalSupportType supportType, long warehouseId);
+        Task<bool> Exists(long id, string code);
     }
 }

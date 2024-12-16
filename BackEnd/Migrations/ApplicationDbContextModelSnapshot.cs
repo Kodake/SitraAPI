@@ -1186,8 +1186,7 @@ namespace BackEnd.Migrations
 
             modelBuilder.Entity("BackEnd.Entities.Invoices.SaleInvoice", b =>
                 {
-                    b.Navigation("Receivable")
-                        .IsRequired();
+                    b.Navigation("Receivable");
 
                     b.Navigation("SaleInvoiceItems");
                 });
