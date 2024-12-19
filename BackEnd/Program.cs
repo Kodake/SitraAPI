@@ -56,12 +56,6 @@ builder.Services.AddCors(opciones =>
 
 });
 
-builder.Services.AddControllers()
-    .AddJsonOptions(options =>
-    {
-        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-    });
-
 builder.Services.AddOutputCache();
 
 // Add services to the container.
