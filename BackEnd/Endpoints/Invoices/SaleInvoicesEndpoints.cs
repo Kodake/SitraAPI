@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using BackEnd.DTOs.Invoices;
+using BackEnd.DTOs;
+using BackEnd.DTOs.Invoices.SaleInvoices;
 using BackEnd.Entities.Accounts;
 using BackEnd.Entities.AdministrativeTools;
 using BackEnd.Entities.Invoices;
@@ -17,8 +18,20 @@ namespace BackEnd.Endpoints.Invoices
     {
         public static RouteGroupBuilder MapInvoices(this RouteGroupBuilder group)
         {
+            group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("receivables-get"))
+                .AddPaginationParamsOpenAPI();
             group.MapPost("/", Create).DisableAntiforgery().WithOpenApi();
             return group;
+        }
+
+        static async Task<Ok<List<SaleInvoiceListDTO>>> GetAll(
+            [FromServices] IUnitOfWork unitOfWork,
+            IMapper mapper, PaginationDTO pagination)
+        {
+            var saleInvoices = await unitOfWork.SaleInvoiceRepository.GetAllAsync(pagination);
+            var saleInvoicesDTO = mapper.Map<List<SaleInvoiceListDTO>>(saleInvoices);
+
+            return TypedResults.Ok(saleInvoicesDTO);
         }
 
         static async Task<Results<Created, ValidationProblem>> Create(
@@ -63,7 +76,6 @@ namespace BackEnd.Endpoints.Invoices
                 double currencyRate = currencyDB.Rate;
                 await CalculateInvoiceTotals(dto.SaleInvoiceItems, saleInvoice, unitOfWork, currencyRate);
 
-                saleInvoice.DeadlineId = 1;
                 await unitOfWork.SaleInvoiceRepository.CreateAsync(saleInvoice);
 
                 var accountsReceivable = new Receivable
@@ -76,7 +88,6 @@ namespace BackEnd.Endpoints.Invoices
                 };
 
                 await unitOfWork.ReceivableRepository.CreateAsync(accountsReceivable);
-
                 await AddInvoiceItems(dto.SaleInvoiceItems, saleInvoice, unitOfWork, mapper, currencyRate);
                 await ReduceStock(dto, unitOfWork);
                 await unitOfWork.SaveChangesAsync();
@@ -94,7 +105,6 @@ namespace BackEnd.Endpoints.Invoices
                 });
             }
         }
-
 
         private static async Task ReduceStock(CreateSaleInvoiceDTO dto, IUnitOfWork unitOfWork)
         {

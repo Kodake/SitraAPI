@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using BackEnd.DTOs;
-using BackEnd.DTOs.AdministrativeTools;
+using BackEnd.DTOs.AdministrativeTools.FiscalSupports;
 using BackEnd.DTOs.Products;
 using BackEnd.Entities.AdministrativeTools;
 using BackEnd.Entities.Products;

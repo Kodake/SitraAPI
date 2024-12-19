@@ -1,4 +1,4 @@
-﻿using BackEnd.DTOs.Warehouses;
+﻿using BackEnd.DTOs.Warehouses.Warehouses;
 using BackEnd.Helpers;
 using BackEnd.Repositories.Warehouses;
 using FluentValidation;

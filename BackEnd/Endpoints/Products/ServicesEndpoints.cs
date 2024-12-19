@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using BackEnd.DTOs;
-using BackEnd.DTOs.Products;
+using BackEnd.DTOs.Products.Services;
 using BackEnd.Entities.Products;
 using BackEnd.Enums;
 using BackEnd.Filters;

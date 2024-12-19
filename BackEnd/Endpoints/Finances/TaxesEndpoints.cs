@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using BackEnd.DTOs;
-using BackEnd.DTOs.Finances;
+using BackEnd.DTOs.Finances.Taxes;
 using BackEnd.Entities.Finances;
 using BackEnd.Enums;
 using BackEnd.Filters;

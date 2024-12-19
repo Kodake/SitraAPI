@@ -1,4 +1,6 @@
-﻿using BackEnd.Entities.Invoices;
+﻿using BackEnd.DTOs;
+using BackEnd.Entities.Invoices;
+using BackEnd.Entities.Warehouses;
 using BackEnd.Repositories.Generics;
 
 namespace BackEnd.Repositories.Invoices

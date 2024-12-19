@@ -1,4 +1,4 @@
-﻿using BackEnd.DTOs.AdministrativeTools;
+﻿using BackEnd.DTOs.AdministrativeTools.Deadlines;
 using BackEnd.Helpers;
 using BackEnd.Repositories.AdministrativeTools;
 using FluentValidation;

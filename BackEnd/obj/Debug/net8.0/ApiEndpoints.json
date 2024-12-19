@@ -9,7 +9,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Products.BrandListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Products.Brands.BrandListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],
@@ -27,17 +27,20 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.Products.CreateBrandDTO",
+        "Type": "BackEnd.DTOs.Products.Brands.CreateBrandDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Products.BrandDTO",
-        "MediaTypes": [
-          "application/json"
-        ],
+        "Type": "System.Void",
+        "MediaTypes": [],
         "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
       },
       {
         "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
@@ -64,7 +67,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Products.BrandDTO",
+        "Type": "BackEnd.DTOs.Products.Brands.BrandDTO",
         "MediaTypes": [
           "application/json"
         ],
@@ -92,7 +95,7 @@
       },
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.Products.CreateBrandDTO",
+        "Type": "BackEnd.DTOs.Products.Brands.CreateBrandDTO",
         "IsRequired": true
       }
     ],
@@ -186,7 +189,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Products.BrandListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Products.Brands.BrandListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],
@@ -204,7 +207,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Products.CategoryListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Products.Categories.CategoryListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],
@@ -222,13 +225,13 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.Products.CreateCategoryDTO",
+        "Type": "BackEnd.DTOs.Products.Categories.CreateCategoryDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Products.CategoryDTO",
+        "Type": "BackEnd.DTOs.Products.Categories.CategoryDTO",
         "MediaTypes": [
           "application/json"
         ],
@@ -259,7 +262,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Products.CategoryDTO",
+        "Type": "BackEnd.DTOs.Products.Categories.CategoryDTO",
         "MediaTypes": [
           "application/json"
         ],
@@ -287,7 +290,7 @@
       },
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.Products.CreateCategoryDTO",
+        "Type": "BackEnd.DTOs.Products.Categories.CreateCategoryDTO",
         "IsRequired": true
       }
     ],
@@ -381,7 +384,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Products.CategoryListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Products.Categories.CategoryListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],
@@ -399,7 +402,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Contacts.ContactListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Contacts.Contacts.ContactListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],
@@ -417,13 +420,13 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.Contacts.CreateContactDTO",
+        "Type": "BackEnd.DTOs.Contacts.Contacts.CreateContactDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Contacts.ContactDTO",
+        "Type": "BackEnd.DTOs.Contacts.Contacts.ContactDTO",
         "MediaTypes": [
           "application/json"
         ],
@@ -454,7 +457,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Contacts.ContactDTO",
+        "Type": "BackEnd.DTOs.Contacts.Contacts.ContactDTO",
         "MediaTypes": [
           "application/json"
         ],
@@ -482,7 +485,7 @@
       },
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.Contacts.CreateContactDTO",
+        "Type": "BackEnd.DTOs.Contacts.Contacts.CreateContactDTO",
         "IsRequired": true
       }
     ],
@@ -570,7 +573,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Contacts.ContactListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Contacts.Contacts.ContactListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],
@@ -588,7 +591,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Contacts.ContactListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Contacts.Contacts.ContactListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],
@@ -606,7 +609,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Finances.CurrencyListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Finances.Currencies.CurrencyListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],
@@ -624,13 +627,13 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.Finances.CreateCurrencyDTO",
+        "Type": "BackEnd.DTOs.Finances.Currencies.CreateCurrencyDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Finances.CurrencyDTO",
+        "Type": "BackEnd.DTOs.Finances.Currencies.CurrencyDTO",
         "MediaTypes": [
           "application/json"
         ],
@@ -661,7 +664,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Finances.CurrencyDTO",
+        "Type": "BackEnd.DTOs.Finances.Currencies.CurrencyDTO",
         "MediaTypes": [
           "application/json"
         ],
@@ -689,7 +692,7 @@
       },
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.Finances.CreateCurrencyDTO",
+        "Type": "BackEnd.DTOs.Finances.Currencies.CreateCurrencyDTO",
         "IsRequired": true
       }
     ],
@@ -777,7 +780,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Finances.CurrencyListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Finances.Currencies.CurrencyListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],
@@ -795,7 +798,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.AdministrativeTools.DeadlineListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.AdministrativeTools.Deadlines.DeadlineListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],
@@ -813,13 +816,13 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.AdministrativeTools.CreateDeadlineDTO",
+        "Type": "BackEnd.DTOs.AdministrativeTools.Deadlines.CreateDeadlineDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.AdministrativeTools.DeadlineDTO",
+        "Type": "BackEnd.DTOs.AdministrativeTools.Deadlines.DeadlineDTO",
         "MediaTypes": [
           "application/json"
         ],
@@ -850,7 +853,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.AdministrativeTools.DeadlineDTO",
+        "Type": "BackEnd.DTOs.AdministrativeTools.Deadlines.DeadlineDTO",
         "MediaTypes": [
           "application/json"
         ],
@@ -878,7 +881,7 @@
       },
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.AdministrativeTools.CreateDeadlineDTO",
+        "Type": "BackEnd.DTOs.AdministrativeTools.Deadlines.CreateDeadlineDTO",
         "IsRequired": true
       }
     ],
@@ -972,7 +975,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.AdministrativeTools.DeadlineListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.AdministrativeTools.Deadlines.DeadlineListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],
@@ -990,7 +993,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.AdministrativeTools.FiscalSupportListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.AdministrativeTools.FiscalSupports.FiscalSupportListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],
@@ -1008,13 +1011,13 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.AdministrativeTools.CreateFiscalSupportDTO",
+        "Type": "BackEnd.DTOs.AdministrativeTools.FiscalSupports.CreateFiscalSupportDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.AdministrativeTools.FiscalSupportDTO",
+        "Type": "BackEnd.DTOs.AdministrativeTools.FiscalSupports.FiscalSupportDTO",
         "MediaTypes": [
           "application/json"
         ],
@@ -1045,7 +1048,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.AdministrativeTools.FiscalSupportDTO",
+        "Type": "BackEnd.DTOs.AdministrativeTools.FiscalSupports.FiscalSupportDTO",
         "MediaTypes": [
           "application/json"
         ],
@@ -1073,7 +1076,7 @@
       },
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.AdministrativeTools.CreateFiscalSupportDTO",
+        "Type": "BackEnd.DTOs.AdministrativeTools.FiscalSupports.CreateFiscalSupportDTO",
         "IsRequired": true
       }
     ],
@@ -1167,7 +1170,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.AdministrativeTools.FiscalSupportListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.AdministrativeTools.FiscalSupports.FiscalSupportListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],
@@ -1196,7 +1199,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.AdministrativeTools.FiscalSupportDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.AdministrativeTools.FiscalSupports.FiscalSupportDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],
@@ -1526,7 +1529,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Products.ItemListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Products.Items.ItemListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],
@@ -1544,13 +1547,13 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.Products.CreatePricingItemDTO",
+        "Type": "BackEnd.DTOs.Products.PricingItems.CreatePricingItemDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Products.PricingItemDTO",
+        "Type": "BackEnd.DTOs.Products.PricingItems.PricingItemDTO",
         "MediaTypes": [
           "application/json"
         ],
@@ -1635,7 +1638,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Products.PricingItemListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Products.PricingItems.PricingItemListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],
@@ -1653,7 +1656,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Products.PricingListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Products.Pricings.PricingListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],
@@ -1671,13 +1674,13 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.Products.CreatePricingDTO",
+        "Type": "BackEnd.DTOs.Products.Pricings.CreatePricingDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Products.PricingDTO",
+        "Type": "BackEnd.DTOs.Products.Pricings.PricingDTO",
         "MediaTypes": [
           "application/json"
         ],
@@ -1708,7 +1711,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Products.PricingDTO",
+        "Type": "BackEnd.DTOs.Products.Pricings.PricingDTO",
         "MediaTypes": [
           "application/json"
         ],
@@ -1736,7 +1739,7 @@
       },
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.Products.CreatePricingDTO",
+        "Type": "BackEnd.DTOs.Products.Pricings.CreatePricingDTO",
         "IsRequired": true
       }
     ],
@@ -1770,7 +1773,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Products.PricingListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Products.Pricings.PricingListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],
@@ -1794,7 +1797,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Products.PricingListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Products.Pricings.PricingListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],
@@ -1812,7 +1815,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Products.ProductListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Products.Products.ProductListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],
@@ -1830,7 +1833,7 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.Products.CreateProductDTO",
+        "Type": "BackEnd.DTOs.Products.Products.CreateProductDTO",
         "IsRequired": true
       }
     ],
@@ -1895,7 +1898,7 @@
       },
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.Products.CreateProductDTO",
+        "Type": "BackEnd.DTOs.Products.Products.CreateProductDTO",
         "IsRequired": true
       }
     ],
@@ -1989,7 +1992,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Products.ProductListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Products.Products.ProductListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],
@@ -2007,7 +2010,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Products.ProductListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Products.Products.ProductListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],
@@ -2025,7 +2028,7 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.Products.CsvDTO",
+        "Type": "BackEnd.DTOs.CsvDTO",
         "IsRequired": true
       }
     ],
@@ -2054,7 +2057,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Accounts.ReceivableListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Accounts.Receivables.ReceivableListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],
@@ -2110,7 +2113,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Accounts.ReceivableDTO",
+        "Type": "BackEnd.DTOs.Accounts.Receivables.ReceivableDTO",
         "MediaTypes": [
           "application/json"
         ],
@@ -2133,7 +2136,7 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.Accounts.CreatePaymentReceiptDTO",
+        "Type": "BackEnd.DTOs.Accounts.PaymentReceipts.CreatePaymentReceiptDTO",
         "IsRequired": true
       },
       {
@@ -2144,7 +2147,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Accounts.PaymentReceiptDTO",
+        "Type": "BackEnd.DTOs.Accounts.PaymentReceipts.PaymentReceiptDTO",
         "MediaTypes": [
           "application/json"
         ],
@@ -2180,7 +2183,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Accounts.ReceivableDTO",
+        "Type": "BackEnd.DTOs.Accounts.Receivables.ReceivableDTO",
         "MediaTypes": [
           "application/json"
         ],
@@ -2195,6 +2198,24 @@
   },
   {
     "ContainingType": "BackEnd.Endpoints.Invoices.SaleInvoicesEndpoints",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/saleInvoices/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Invoices.SaleInvoices.SaleInvoiceListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BackEnd.Endpoints.Invoices.SaleInvoicesEndpoints",
     "Method": "Create",
     "RelativePath": "api/v1/saleInvoices/",
     "HttpMethod": "POST",
@@ -2203,7 +2224,7 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.Invoices.CreateSaleInvoiceDTO",
+        "Type": "BackEnd.DTOs.Invoices.SaleInvoices.CreateSaleInvoiceDTO",
         "IsRequired": true
       }
     ],
@@ -2232,7 +2253,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Products.ServiceListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Products.Services.ServiceListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],
@@ -2250,7 +2271,7 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.Products.CreateServiceDTO",
+        "Type": "BackEnd.DTOs.Products.Services.CreateServiceDTO",
         "IsRequired": true
       }
     ],
@@ -2315,7 +2336,7 @@
       },
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.Products.CreateServiceDTO",
+        "Type": "BackEnd.DTOs.Products.Services.CreateServiceDTO",
         "IsRequired": true
       }
     ],
@@ -2409,7 +2430,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Products.ServiceListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Products.Services.ServiceListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],
@@ -2427,7 +2448,7 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.Products.CsvDTO",
+        "Type": "BackEnd.DTOs.CsvDTO",
         "IsRequired": true
       }
     ],
@@ -2456,7 +2477,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Warehouses.StockListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Warehouses.Stocks.StockListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],
@@ -2474,13 +2495,13 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.Warehouses.CreateStockDTO",
+        "Type": "BackEnd.DTOs.Warehouses.Stocks.CreateStockDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Warehouses.StockDTO",
+        "Type": "BackEnd.DTOs.Warehouses.Stocks.StockDTO",
         "MediaTypes": [
           "application/json"
         ],
@@ -2511,7 +2532,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Warehouses.StockDTO",
+        "Type": "BackEnd.DTOs.Warehouses.Stocks.StockDTO",
         "MediaTypes": [
           "application/json"
         ],
@@ -2539,7 +2560,7 @@
       },
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.Warehouses.CreateStockDTO",
+        "Type": "BackEnd.DTOs.Warehouses.Stocks.CreateStockDTO",
         "IsRequired": true
       }
     ],
@@ -2573,7 +2594,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Finances.TaxListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Finances.Taxes.TaxListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],
@@ -2591,13 +2612,13 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.Finances.CreateTaxDTO",
+        "Type": "BackEnd.DTOs.Finances.Taxes.CreateTaxDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Finances.TaxDTO",
+        "Type": "BackEnd.DTOs.Finances.Taxes.TaxDTO",
         "MediaTypes": [
           "application/json"
         ],
@@ -2628,7 +2649,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Finances.TaxDTO",
+        "Type": "BackEnd.DTOs.Finances.Taxes.TaxDTO",
         "MediaTypes": [
           "application/json"
         ],
@@ -2656,7 +2677,7 @@
       },
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.Finances.CreateTaxDTO",
+        "Type": "BackEnd.DTOs.Finances.Taxes.CreateTaxDTO",
         "IsRequired": true
       }
     ],
@@ -2750,7 +2771,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Finances.TaxListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Finances.Taxes.TaxListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],
@@ -2768,7 +2789,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Warehouses.TransferListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Warehouses.Transfers.TransferListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],
@@ -2786,13 +2807,13 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.Warehouses.CreateTransferDTO",
+        "Type": "BackEnd.DTOs.Warehouses.Transfers.CreateTransferDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Warehouses.TransferDTO",
+        "Type": "BackEnd.DTOs.Warehouses.Transfers.TransferDTO",
         "MediaTypes": [
           "application/json"
         ],
@@ -2823,7 +2844,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Warehouses.TransferDTO",
+        "Type": "BackEnd.DTOs.Warehouses.Transfers.TransferDTO",
         "MediaTypes": [
           "application/json"
         ],
@@ -2851,13 +2872,13 @@
       },
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.Warehouses.CreateTransferStatusDTO",
+        "Type": "BackEnd.DTOs.Warehouses.Transfers.CreateTransferStatusDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Warehouses.TransferDTO",
+        "Type": "BackEnd.DTOs.Warehouses.Transfers.TransferDTO",
         "MediaTypes": [
           "application/json"
         ],
@@ -2892,13 +2913,13 @@
       },
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.Warehouses.CreateTransferStatusDTO",
+        "Type": "BackEnd.DTOs.Warehouses.Transfers.CreateTransferStatusDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Warehouses.TransferDTO",
+        "Type": "BackEnd.DTOs.Warehouses.Transfers.TransferDTO",
         "MediaTypes": [
           "application/json"
         ],
@@ -2928,7 +2949,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Products.UnitListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Products.Units.UnitListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],
@@ -2946,13 +2967,13 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.Products.CreateUnitDTO",
+        "Type": "BackEnd.DTOs.Products.Units.CreateUnitDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Products.UnitDTO",
+        "Type": "BackEnd.DTOs.Products.Units.UnitDTO",
         "MediaTypes": [
           "application/json"
         ],
@@ -2983,7 +3004,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Products.UnitDTO",
+        "Type": "BackEnd.DTOs.Products.Units.UnitDTO",
         "MediaTypes": [
           "application/json"
         ],
@@ -3011,7 +3032,7 @@
       },
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.Products.CreateUnitDTO",
+        "Type": "BackEnd.DTOs.Products.Units.CreateUnitDTO",
         "IsRequired": true
       }
     ],
@@ -3105,7 +3126,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Products.UnitListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Products.Units.UnitListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],
@@ -3123,7 +3144,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Warehouses.WarehouseListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Warehouses.Warehouses.WarehouseListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],
@@ -3141,13 +3162,13 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.Warehouses.CreateWarehouseDTO",
+        "Type": "BackEnd.DTOs.Warehouses.Warehouses.CreateWarehouseDTO",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Warehouses.WarehouseDTO",
+        "Type": "BackEnd.DTOs.Warehouses.Warehouses.WarehouseDTO",
         "MediaTypes": [
           "application/json"
         ],
@@ -3178,7 +3199,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Warehouses.WarehouseDTO",
+        "Type": "BackEnd.DTOs.Warehouses.Warehouses.WarehouseDTO",
         "MediaTypes": [
           "application/json"
         ],
@@ -3206,7 +3227,7 @@
       },
       {
         "Name": "dto",
-        "Type": "BackEnd.DTOs.Warehouses.CreateWarehouseDTO",
+        "Type": "BackEnd.DTOs.Warehouses.Warehouses.CreateWarehouseDTO",
         "IsRequired": true
       }
     ],
@@ -3300,7 +3321,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Warehouses.WarehouseListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Warehouses.Warehouses.WarehouseListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],
@@ -3324,7 +3345,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Warehouses.WarehouseListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Warehouses.Warehouses.WarehouseListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],
@@ -3348,7 +3369,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Warehouses.WarehouseListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Warehouses.Warehouses.WarehouseListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],

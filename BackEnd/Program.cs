@@ -4,20 +4,10 @@ using BackEnd.Context;
 using Microsoft.OpenApi.Models;
 using BackEnd.Helpers;
 using FluentValidation;
-using BackEnd.Repositories.Products;
-using BackEnd.Endpoints;
-using BackEnd.Repositories.Finances;
-using BackEnd.Repositories.Contacts;
-using BackEnd.Repositories.Warehouses;
-using BackEnd.Endpoints.Products;
-using BackEnd.Repositories.AdministrativeTools;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
-using BackEnd.Repositories.Invoices;
-using BackEnd.Endpoints.Invoices;
-using BackEnd.Repositories.Accounts;
-using BackEnd.Repositories;
-using BackEnd.Repositories.Generics;
+using BackEnd.MediatR;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 Log.Logger = new LoggerConfiguration()
@@ -66,6 +56,12 @@ builder.Services.AddCors(opciones =>
 
 });
 
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+    });
+
 builder.Services.AddOutputCache();
 
 // Add services to the container.
@@ -102,29 +98,9 @@ builder.Services.AddSwaggerGen(c =>
     c.OperationFilter<AuthorizationFilter>();
 });
 
-builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-builder.Services.AddScoped<IBrandRepository, BrandRepository>();
-builder.Services.AddScoped<IUnitRepository, UnitRepository>();
-builder.Services.AddScoped<ICurrencyRepository, CurrencyRepository>();
-builder.Services.AddScoped<ITaxRepository, TaxRepository>();
-builder.Services.AddScoped<IContactRepository, ContactRepository>();
-builder.Services.AddScoped<IWarehouseRepository, WarehouseRepository>();
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
-builder.Services.AddScoped<IItemRepository, ItemRepository>();
-builder.Services.AddScoped<IStockRepository, StockRepository>();
-builder.Services.AddScoped<ITransferRepository, TransferRepository>();
-builder.Services.AddScoped<IPricingItemRepository, PricingItemRepository>();
-builder.Services.AddScoped<IPricingRepository, PricingRepository>();
-builder.Services.AddScoped<IFiscalSupportRepository, FiscalSupportRepository>();
-builder.Services.AddScoped<IDeadlineRepository, DeadlineRepository>();
-builder.Services.AddScoped<ISaleInvoiceRepository, SaleInvoiceRepository>();
-builder.Services.AddScoped<IReceivableRepository, ReceivableRepository>();
-builder.Services.AddScoped<IPaymentReceiptRepository, PaymentReceiptRepository>();
-builder.Services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.RegisterRequestHandler();
 
-//builder.Services.AddScoped<ISaleInvoiceService, SaleInvoiceService>();
+builder.Services.RegisterRepositories();
 
 builder.Services.AddHttpContextAccessor();
 
@@ -147,28 +123,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGroup("/api/v1/identity").MapIdentityApi<IdentityUser>();
-
-var apiGroup = app.MapGroup("/api/v1");
-
-apiGroup.MapGroup("/contacts").MapContacts();
-apiGroup.MapGroup("/categories").MapCategories();
-apiGroup.MapGroup("/brands").MapBrands();
-apiGroup.MapGroup("/units").MapUnits();
-apiGroup.MapGroup("/currencies").MapCurrencies();
-apiGroup.MapGroup("/taxes").MapTaxes();
-apiGroup.MapGroup("/warehouses").MapWarehouses();
-apiGroup.MapGroup("/products").MapProducts();
-apiGroup.MapGroup("/services").MapServices();
-apiGroup.MapGroup("/items").MapItems();
-apiGroup.MapGroup("/stocks").MapStocks();
-apiGroup.MapGroup("/pricings").MapPricings();
-apiGroup.MapGroup("/pricingItems").MapPricingItems();
-apiGroup.MapGroup("/fiscalSupports").MapFiscalSupports();
-apiGroup.MapGroup("/deadlines").MapDeadlines();
-apiGroup.MapGroup("/transfers").MapTransfers();
-apiGroup.MapGroup("/saleInvoices").MapInvoices();
-apiGroup.MapGroup("/receivables").MapReceivables();
+app.MapApiRoutes();
 
 app.UseCors();
 

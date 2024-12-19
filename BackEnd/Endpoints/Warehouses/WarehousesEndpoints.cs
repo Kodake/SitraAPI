@@ -1,6 +1,6 @@
 using AutoMapper;
 using BackEnd.DTOs;
-using BackEnd.DTOs.Warehouses;
+using BackEnd.DTOs.Warehouses.Warehouses;
 using BackEnd.Entities.Warehouses;
 using BackEnd.Enums;
 using BackEnd.Filters;
@@ -148,6 +148,7 @@ namespace BackEnd.Endpoints
             }
 
             await unitOfWork.WarehouseRepository.ActivateAsync(id);
+            await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("warehouses-get", default);
 
             return TypedResults.Ok();
@@ -165,6 +166,7 @@ namespace BackEnd.Endpoints
             }
 
             await unitOfWork.WarehouseRepository.DeactivateAsync(id);
+            await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("warehouses-get", default);
 
             return TypedResults.Ok();

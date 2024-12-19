@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using BackEnd.DTOs;
-using BackEnd.DTOs.Products;
+using BackEnd.DTOs.Products.Pricings;
 using BackEnd.Entities.Products;
 using BackEnd.Filters;
 using BackEnd.Helpers;

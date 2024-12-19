@@ -6,8 +6,12 @@ namespace BackEnd.Repositories.Invoices
 {
     public class SaleInvoiceRepository : RepositoryBase<SaleInvoice>, ISaleInvoiceRepository
     {
+        private new readonly HttpContext httpContext;
         public SaleInvoiceRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
-            : base(context, httpContextAccessor) { }
+            : base(context, httpContextAccessor)
+        {
+            httpContext = httpContextAccessor.HttpContext!;
+        }
 
         public async new Task<SaleInvoice?> GetByIdAsync(long id)
         {

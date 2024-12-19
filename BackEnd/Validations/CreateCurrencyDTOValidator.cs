@@ -1,4 +1,4 @@
-﻿using BackEnd.DTOs.Finances;
+﻿using BackEnd.DTOs.Finances.Currencies;
 using BackEnd.Helpers;
 using BackEnd.Repositories.Finances;
 using FluentValidation;

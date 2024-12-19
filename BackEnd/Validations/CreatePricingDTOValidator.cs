@@ -1,4 +1,4 @@
-﻿using BackEnd.DTOs.Products;
+﻿using BackEnd.DTOs.Products.Pricings;
 using BackEnd.Enums;
 using BackEnd.Helpers;
 using BackEnd.Repositories.Products;

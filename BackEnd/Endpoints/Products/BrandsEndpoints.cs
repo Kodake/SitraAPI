@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
 using BackEnd.DTOs;
-using BackEnd.DTOs.Products;
+using BackEnd.DTOs.Products.Brands;
 using BackEnd.Entities.Products;
 using BackEnd.Enums;
 using BackEnd.Filters;
 using BackEnd.Helpers;
+using BackEnd.MediatR.Commands.Brands;
+using BackEnd.MediatR.Queries.Brands;
 using BackEnd.Repositories;
+using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
@@ -35,113 +38,68 @@ namespace BackEnd.Endpoints
         }
 
         static async Task<Ok<List<BrandListDTO>>> GetAll(
-            [FromServices] IUnitOfWork unitOfWork,
-            IMapper mapper, PaginationDTO pagination)
+            [FromServices] IMediator mediator,
+            PaginationDTO pagination)
         {
-            var brands = await unitOfWork.BrandRepository.GetAllAsync(pagination);
-            var brandsDTO = mapper.Map<List<BrandListDTO>>(brands);
-
-            return TypedResults.Ok(brandsDTO);
+            var query = new GetAllBrandsQuery(pagination);
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
         }
 
         static async Task<Ok<List<BrandListDTO>>> GetSelects(
-            [FromServices] IUnitOfWork unitOfWork,
-            IMapper mapper, [FromQuery] StatusType status = StatusType.All)
+            [FromServices] IMediator mediator,
+            [FromQuery] StatusType status = StatusType.All)
         {
-            var brands = await unitOfWork.BrandRepository.GetAll(status);
-            var brandsDTO = mapper.Map<List<BrandListDTO>>(brands);
-
-            return TypedResults.Ok(brandsDTO);
+            var query = new GetSelectsBrandsQuery(status);
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
         }
 
         static async Task<Results<Ok<BrandDTO>, NotFound>> GetById(
-            [FromServices] IUnitOfWork unitOfWork,
-            IMapper mapper, int id)
+            [FromServices] IMediator mediator,
+            int id)
         {
-            var brand = await unitOfWork.BrandRepository.GetByIdAsync(id);
-
-            if (brand is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            var brandDTO = mapper.Map<BrandDTO>(brand);
-
-            return TypedResults.Ok(brandDTO);
+            var query = new GetBrandByIdQuery(id);
+            var dto = await mediator.Send(query);
+            return dto == null ? TypedResults.NotFound() : TypedResults.Ok(dto);
         }
 
-        static async Task<Results<Created<BrandDTO>, ValidationProblem>> Create([FromBody] CreateBrandDTO dto,
-           [FromServices] IUnitOfWork unitOfWork,
-           IOutputCacheStore outputCacheStore,
-           IMapper mapper)
+        static async Task<Results<Created, NotFound, ValidationProblem>> Create(
+            [FromBody] CreateBrandDTO dto,
+            [FromServices] IMediator mediator)
         {
-            var brand = mapper.Map<Brand>(dto);
-
-            await unitOfWork.BrandRepository.CreateAsync(brand);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("brands-get", default);
-
-            var brandDTO = mapper.Map<BrandDTO>(brand);
-
-            return TypedResults.Created($"/brands/{brand.Id}", brandDTO);
+            var command = new CreateBrandCommand(dto);
+            var brandDTO = await mediator.Send(command);
+            return brandDTO == null ? TypedResults.NotFound() : TypedResults.Created();
         }
 
-        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromBody] CreateBrandDTO dto,
-           [FromServices] IUnitOfWork unitOfWork,
-           IOutputCacheStore outputCacheStore,
-           IMapper mapper)
+
+        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(
+            int id,
+            [FromBody] CreateBrandDTO dto,
+            [FromServices] IMediator mediator)
         {
-            var brandDB = await unitOfWork.BrandRepository.GetByIdAsync(id);
-
-            if (brandDB is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            brandDB.Name = dto.Name;
-            brandDB.IsActive = brandDB.IsActive;
-
-            unitOfWork.BrandRepository.Update(brandDB);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("brands-get", default);
-
-            return TypedResults.Ok();
+            var command = new UpdateBrandCommand(id, dto);
+            var success = await mediator.Send(command, default);
+            return success ? TypedResults.Ok() : TypedResults.NotFound();
         }
 
-        static async Task<Results<NotFound, Ok>> Activate([FromRoute] int id,
-            [FromServices] IUnitOfWork unitOfWork,
-            IOutputCacheStore outputCacheStore)
+        static async Task<Results<NotFound, Ok>> Activate(
+            [FromRoute] int id,
+            [FromServices] IMediator mediator)
         {
-            var brandDB = await unitOfWork.BrandRepository.GetByIdAsync(id);
-
-            if (brandDB is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            await unitOfWork.BrandRepository.ActivateAsync(id);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("brands-get", default);
-
-            return TypedResults.Ok();
+            var command = new ActivateBrandCommand(id);
+            var success = await mediator.Send(command, default);
+            return success ? TypedResults.Ok() : TypedResults.NotFound();
         }
 
-        static async Task<Results<NotFound, Ok>> Deactivate([FromRoute] int id,
-            [FromServices] IUnitOfWork unitOfWork,
-            IOutputCacheStore outputCacheStore)
+        static async Task<Results<NotFound, Ok>> Deactivate(
+            [FromRoute] int id,
+            [FromServices] IMediator mediator)
         {
-            var brandDB = await unitOfWork.BrandRepository.GetByIdAsync(id);
-
-            if (brandDB is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            await unitOfWork.BrandRepository.DeactivateAsync(id);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("brands-get", default);
-
-            return TypedResults.Ok();
+            var command = new DeactivateBrandCommand(id);
+            var success = await mediator.Send(command, default);
+            return success ? TypedResults.Ok() : TypedResults.NotFound();
         }
     }
 }

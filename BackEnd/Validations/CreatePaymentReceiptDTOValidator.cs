@@ -1,4 +1,4 @@
-﻿using BackEnd.DTOs.Accounts;
+﻿using BackEnd.DTOs.Accounts.PaymentReceipts;
 using BackEnd.Enums;
 using BackEnd.Helpers;
 using BackEnd.Repositories.Accounts;

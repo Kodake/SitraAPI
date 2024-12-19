@@ -391,3 +391,5 @@ C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Debug\net8.0\BackEnd.pdb
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Debug\net8.0\BackEnd.genruntimeconfig.cache
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Debug\net8.0\BackEnd.pdb
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Debug\net8.0\ref\BackEnd.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Debug\net8.0\MediatR.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Debug\net8.0\MediatR.Contracts.dll

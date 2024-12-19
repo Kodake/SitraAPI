@@ -1,4 +1,4 @@
-﻿using BackEnd.DTOs.Products;
+﻿using BackEnd.DTOs.Products.PricingItems;
 using BackEnd.Helpers;
 using BackEnd.Repositories.Products;
 using FluentValidation;

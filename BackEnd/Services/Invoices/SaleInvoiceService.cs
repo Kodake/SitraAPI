@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BackEnd.DTOs.Invoices;
+using BackEnd.DTOs.Invoices.SaleInvoices;
 using BackEnd.Entities.Invoices;
 using BackEnd.Enums;
 using BackEnd.Repositories;

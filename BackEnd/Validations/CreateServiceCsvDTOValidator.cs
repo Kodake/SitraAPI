@@ -1,4 +1,4 @@
-﻿using BackEnd.DTOs.Products;
+﻿using BackEnd.DTOs.Products.Services;
 using BackEnd.Helpers;
 using FluentValidation;
 

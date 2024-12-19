@@ -1,11 +1,23 @@
 ﻿using AutoMapper;
-using BackEnd.DTOs.Accounts;
-using BackEnd.DTOs.AdministrativeTools;
-using BackEnd.DTOs.Contacts;
-using BackEnd.DTOs.Finances;
-using BackEnd.DTOs.Invoices;
-using BackEnd.DTOs.Products;
-using BackEnd.DTOs.Warehouses;
+using BackEnd.DTOs.Accounts.PaymentReceipts;
+using BackEnd.DTOs.Accounts.Receivables;
+using BackEnd.DTOs.AdministrativeTools.Deadlines;
+using BackEnd.DTOs.AdministrativeTools.FiscalSupports;
+using BackEnd.DTOs.Contacts.Contacts;
+using BackEnd.DTOs.Finances.Currencies;
+using BackEnd.DTOs.Finances.Taxes;
+using BackEnd.DTOs.Invoices.SaleInvoices;
+using BackEnd.DTOs.Products.Brands;
+using BackEnd.DTOs.Products.Categories;
+using BackEnd.DTOs.Products.Items;
+using BackEnd.DTOs.Products.PricingItems;
+using BackEnd.DTOs.Products.Pricings;
+using BackEnd.DTOs.Products.Products;
+using BackEnd.DTOs.Products.Services;
+using BackEnd.DTOs.Products.Units;
+using BackEnd.DTOs.Warehouses.Stocks;
+using BackEnd.DTOs.Warehouses.Transfers;
+using BackEnd.DTOs.Warehouses.Warehouses;
 using BackEnd.Entities.Accounts;
 using BackEnd.Entities.AdministrativeTools;
 using BackEnd.Entities.Contacts;
@@ -279,15 +291,17 @@ namespace BackEnd.Helpers
             .ForMember(des => des.Stock, opt => opt.MapFrom(src => src.Stock));
 
             CreateMap<CreateSaleInvoiceDTO, SaleInvoice>()
-            .ForMember(des => des.Deadline, opt => opt.Ignore())
             .ForMember(des => des.Buyer, opt => opt.Ignore())
             .ForMember(des => des.Biller, opt => opt.Ignore())
             .ForMember(des => des.Pricing, opt => opt.Ignore())
+            .ForMember(des => des.Receivable, opt => opt.Ignore())
             .ForMember(des => des.FiscalSupport, opt => opt.Ignore());
 
             CreateMap<SaleInvoice, SaleInvoiceDTO>();
 
             CreateMap<SaleInvoiceItemDTO, SaleInvoiceItem>();
+
+            CreateMap<SaleInvoice, SaleInvoiceListDTO>();
 
             CreateMap<Receivable, ReceivableListDTO>()
             .ForMember(des => des.SaleInvoice, opt => opt.MapFrom(src => src.SaleInvoice))

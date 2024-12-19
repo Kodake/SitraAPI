@@ -1,4 +1,4 @@
-﻿using BackEnd.DTOs.Invoices;
+﻿using BackEnd.DTOs.Invoices.SaleInvoices;
 using BackEnd.Entities.AdministrativeTools;
 using BackEnd.Helpers;
 using BackEnd.Repositories.AdministrativeTools;

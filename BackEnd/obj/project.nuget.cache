@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "mPgIV/MqHbSt5Ya3IsGRDEh7rrDblDSwuZXcjKb5GHZBlV6GkwY9adVIOVEY7nL1TRahYLMSmUVEnI106PhCTg==",
+  "dgSpecHash": "PH4I327NUgkX7n2roYNQ2LMNgtnOV6opSp3qbnM/pOrfv1AB9BQXEp2bF/xN63G23qMCA6T/MuWJGluub+5y2w==",
   "success": true,
   "projectFilePath": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\BackEnd.csproj",
   "expectedPackageFiles": [
@@ -12,6 +12,8 @@
     "C:\\Users\\Kodake\\.nuget\\packages\\fluentvalidation\\11.9.2\\fluentvalidation.11.9.2.nupkg.sha512",
     "C:\\Users\\Kodake\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.9.2\\fluentvalidation.dependencyinjectionextensions.11.9.2.nupkg.sha512",
     "C:\\Users\\Kodake\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
+    "C:\\Users\\Kodake\\.nuget\\packages\\mediatr\\12.4.1\\mediatr.12.4.1.nupkg.sha512",
+    "C:\\Users\\Kodake\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
     "C:\\Users\\Kodake\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\8.0.7\\microsoft.aspnetcore.cryptography.internal.8.0.7.nupkg.sha512",
     "C:\\Users\\Kodake\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\8.0.7\\microsoft.aspnetcore.cryptography.keyderivation.8.0.7.nupkg.sha512",
     "C:\\Users\\Kodake\\.nuget\\packages\\microsoft.aspnetcore.identity.entityframeworkcore\\8.0.7\\microsoft.aspnetcore.identity.entityframeworkcore.8.0.7.nupkg.sha512",

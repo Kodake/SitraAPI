@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using BackEnd.DTOs;
-using BackEnd.DTOs.Products;
+using BackEnd.DTOs.Products.Categories;
 using BackEnd.Entities.Products;
 using BackEnd.Enums;
 using BackEnd.Filters;
@@ -87,7 +87,7 @@ namespace BackEnd.Endpoints
             return TypedResults.Created($"/categories/{category.Id}", categoryDTO);
         }
 
-        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromBody] CreateCategoryDTO dto,
+        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id,           [FromBody] CreateCategoryDTO dto,
             [FromServices] IUnitOfWork unitOfWork,
             IOutputCacheStore outputCacheStore,
             [FromServices] IMapper mapper)

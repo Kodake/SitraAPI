@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using BackEnd.DTOs;
-using BackEnd.DTOs.Finances;
+using BackEnd.DTOs.Finances.Currencies;
 using BackEnd.Entities.Finances;
 using BackEnd.Filters;
 using BackEnd.Helpers;

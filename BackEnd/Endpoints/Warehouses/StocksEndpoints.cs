@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using BackEnd.DTOs;
-using BackEnd.DTOs.Warehouses;
+using BackEnd.DTOs.Warehouses.Stocks;
 using BackEnd.Entities.Warehouses;
 using BackEnd.Filters;
 using BackEnd.Helpers;

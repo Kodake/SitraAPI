@@ -1,4 +1,4 @@
-﻿using BackEnd.DTOs.Contacts;
+﻿using BackEnd.DTOs.Contacts.Contacts;
 using BackEnd.Helpers;
 using BackEnd.Repositories.Contacts;
 using FluentValidation;

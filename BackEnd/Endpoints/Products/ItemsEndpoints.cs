@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BackEnd.DTOs.Products;
+using BackEnd.DTOs.Products.Items;
 using BackEnd.Repositories;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;

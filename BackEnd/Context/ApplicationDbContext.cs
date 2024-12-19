@@ -136,6 +136,12 @@ namespace BackEnd.Context
                 .HasForeignKey(invoice => invoice.CustomerId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<SaleInvoice>()
+                .HasOne(s => s.Receivable)
+                .WithOne(r => r.SaleInvoice)
+                .HasForeignKey<Receivable>(r => r.SaleInvoiceId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<SaleInvoice>().Ignore(p => p.FiscalSupport);
 
             modelBuilder.Entity<SaleInvoiceItem>()
@@ -149,12 +155,6 @@ namespace BackEnd.Context
                 .WithOne(s => s.Receivable)
                 .HasForeignKey<Receivable>(ar => ar.SaleInvoiceId)
                 .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<Receivable>()
-                .HasOne(sii => sii.Buyer)
-                .WithMany(w => w.Receivables)
-                .HasForeignKey(t => t.ContactId)
-                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Receivable>()
                 .HasMany(ar => ar.PaymentReceipts)

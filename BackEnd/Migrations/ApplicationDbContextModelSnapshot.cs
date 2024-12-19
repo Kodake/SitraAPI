@@ -279,9 +279,6 @@ namespace BackEnd.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("DeadlineId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -302,9 +299,6 @@ namespace BackEnd.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("PricingId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("ReceivableId")
                         .HasColumnType("bigint");
 
                     b.Property<double?>("Shipping")
@@ -332,8 +326,6 @@ namespace BackEnd.Migrations
                     b.HasIndex("CurrencyId");
 
                     b.HasIndex("CustomerId");
-
-                    b.HasIndex("DeadlineId");
 
                     b.HasIndex("PricingId");
 
@@ -909,9 +901,9 @@ namespace BackEnd.Migrations
             modelBuilder.Entity("BackEnd.Entities.Accounts.Receivable", b =>
                 {
                     b.HasOne("BackEnd.Entities.Contacts.Contact", "Buyer")
-                        .WithMany("Receivables")
+                        .WithMany()
                         .HasForeignKey("ContactId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BackEnd.Entities.Invoices.SaleInvoice", "SaleInvoice")
@@ -956,12 +948,6 @@ namespace BackEnd.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("BackEnd.Entities.AdministrativeTools.Deadline", "Deadline")
-                        .WithMany()
-                        .HasForeignKey("DeadlineId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("BackEnd.Entities.Products.Pricing", "Pricing")
                         .WithMany()
                         .HasForeignKey("PricingId")
@@ -973,8 +959,6 @@ namespace BackEnd.Migrations
                     b.Navigation("Buyer");
 
                     b.Navigation("Currency");
-
-                    b.Navigation("Deadline");
 
                     b.Navigation("Pricing");
                 });
@@ -1175,8 +1159,6 @@ namespace BackEnd.Migrations
                     b.Navigation("BillerInvoices");
 
                     b.Navigation("BuyerInvoices");
-
-                    b.Navigation("Receivables");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Finances.Tax", b =>

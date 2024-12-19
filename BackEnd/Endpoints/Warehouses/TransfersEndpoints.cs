@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using BackEnd.Context;
 using BackEnd.DTOs;
-using BackEnd.DTOs.Warehouses;
+using BackEnd.DTOs.Warehouses.Transfers;
 using BackEnd.Entities.Warehouses;
 using BackEnd.Enums;
 using BackEnd.Filters;

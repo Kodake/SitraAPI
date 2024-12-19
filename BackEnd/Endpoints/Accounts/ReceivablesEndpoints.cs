@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BackEnd.DTOs;
-using BackEnd.DTOs.Accounts;
+using BackEnd.DTOs.Accounts.PaymentReceipts;
+using BackEnd.DTOs.Accounts.Receivables;
 using BackEnd.Entities.Accounts;
 using BackEnd.Enums;
 using BackEnd.Filters;

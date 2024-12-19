@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using BackEnd.DTOs;
-using BackEnd.DTOs.Contacts;
+using BackEnd.DTOs.Contacts.Contacts;
 using BackEnd.Entities.Contacts;
 using BackEnd.Filters;
 using BackEnd.Helpers;

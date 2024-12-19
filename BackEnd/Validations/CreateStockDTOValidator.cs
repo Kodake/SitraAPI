@@ -1,4 +1,4 @@
-﻿using BackEnd.DTOs.Warehouses;
+﻿using BackEnd.DTOs.Warehouses.Stocks;
 using BackEnd.Helpers;
 using BackEnd.Repositories.Products;
 using BackEnd.Repositories.Warehouses;
