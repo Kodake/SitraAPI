@@ -30,8 +30,8 @@ namespace BackEnd.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<double>("Amount")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -72,11 +72,11 @@ namespace BackEnd.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<double>("TotalAmountDue")
-                        .HasColumnType("float");
+                    b.Property<decimal>("TotalAmountDue")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<double>("TotalOutstanding")
-                        .HasColumnType("float");
+                    b.Property<decimal>("TotalOutstanding")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -96,8 +96,8 @@ namespace BackEnd.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("Days")
-                        .HasColumnType("bigint");
+                    b.Property<int>("Days")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -228,8 +228,8 @@ namespace BackEnd.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<double>("Rate")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Rate")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -244,8 +244,8 @@ namespace BackEnd.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<double>("Amount")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -270,6 +270,9 @@ namespace BackEnd.Migrations
                     b.Property<long>("BillerId")
                         .HasColumnType("bigint");
 
+                    b.Property<int>("Condition")
+                        .HasColumnType("int");
+
                     b.Property<long>("CurrencyId")
                         .HasColumnType("bigint");
 
@@ -282,8 +285,8 @@ namespace BackEnd.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double?>("Discount")
-                        .HasColumnType("float");
+                    b.Property<decimal?>("Discount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("DueDate")
                         .HasColumnType("datetime2");
@@ -301,23 +304,23 @@ namespace BackEnd.Migrations
                     b.Property<long>("PricingId")
                         .HasColumnType("bigint");
 
-                    b.Property<double?>("Shipping")
-                        .HasColumnType("float");
+                    b.Property<decimal?>("Shipping")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<double>("TotalAmount")
-                        .HasColumnType("float");
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<double>("TotalItems")
-                        .HasColumnType("float");
+                    b.Property<decimal>("TotalItems")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<double>("TotalPrice")
-                        .HasColumnType("float");
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<double>("TotalQtyItems")
-                        .HasColumnType("float");
+                    b.Property<decimal>("TotalQtyItems")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<double>("TotalTaxes")
-                        .HasColumnType("float");
+                    b.Property<decimal>("TotalTaxes")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -340,26 +343,26 @@ namespace BackEnd.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<double>("BasePrice")
-                        .HasColumnType("float");
+                    b.Property<decimal>("BasePrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<long>("ItemId")
                         .HasColumnType("bigint");
 
-                    b.Property<double>("Qty")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Qty")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<long>("SaleInvoiceId")
                         .HasColumnType("bigint");
 
-                    b.Property<double>("TotalAmount")
-                        .HasColumnType("float");
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<double>("TotalPrice")
-                        .HasColumnType("float");
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<double>("TotalTaxes")
-                        .HasColumnType("float");
+                    b.Property<decimal>("TotalTaxes")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -368,6 +371,48 @@ namespace BackEnd.Migrations
                     b.HasIndex("SaleInvoiceId");
 
                     b.ToTable("SaleInvoiceItems");
+                });
+
+            modelBuilder.Entity("BackEnd.Entities.Invoices.SpotPayment", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<decimal>("AmountReceived")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("AmountReturned")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<long>("ContactId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PaymentMethod")
+                        .HasColumnType("int");
+
+                    b.Property<long>("SaleInvoiceId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("TransactionType")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContactId");
+
+                    b.HasIndex("SaleInvoiceId")
+                        .IsUnique();
+
+                    b.ToTable("SpotPayment");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Products.Brand", b =>
@@ -493,8 +538,8 @@ namespace BackEnd.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double?>("Percentage")
-                        .HasColumnType("float");
+                    b.Property<decimal?>("Percentage")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("PricingType")
                         .HasColumnType("int");
@@ -573,14 +618,14 @@ namespace BackEnd.Migrations
                     b.Property<long>("ItemId")
                         .HasColumnType("bigint");
 
-                    b.Property<double?>("MaxQty")
-                        .HasColumnType("float");
+                    b.Property<decimal?>("MaxQty")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<double?>("MinQty")
-                        .HasColumnType("float");
+                    b.Property<decimal?>("MinQty")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<double>("Qty")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Qty")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<long>("WarehouseId")
                         .HasColumnType("bigint");
@@ -618,8 +663,8 @@ namespace BackEnd.Migrations
                     b.Property<long>("ProductId")
                         .HasColumnType("bigint");
 
-                    b.Property<double>("Qty")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Qty")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -982,6 +1027,25 @@ namespace BackEnd.Migrations
                     b.Navigation("SaleInvoice");
                 });
 
+            modelBuilder.Entity("BackEnd.Entities.Invoices.SpotPayment", b =>
+                {
+                    b.HasOne("BackEnd.Entities.Contacts.Contact", "Buyer")
+                        .WithMany()
+                        .HasForeignKey("ContactId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BackEnd.Entities.Invoices.SaleInvoice", "SaleInvoice")
+                        .WithOne("SpotPayment")
+                        .HasForeignKey("BackEnd.Entities.Invoices.SpotPayment", "SaleInvoiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Buyer");
+
+                    b.Navigation("SaleInvoice");
+                });
+
             modelBuilder.Entity("BackEnd.Entities.Products.Item", b =>
                 {
                     b.HasOne("BackEnd.Entities.Products.Brand", "Brand")
@@ -1171,6 +1235,8 @@ namespace BackEnd.Migrations
                     b.Navigation("Receivable");
 
                     b.Navigation("SaleInvoiceItems");
+
+                    b.Navigation("SpotPayment");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Products.Brand", b =>

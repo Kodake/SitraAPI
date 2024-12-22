@@ -3,6 +3,7 @@ using BackEnd.Entities.AdministrativeTools;
 using BackEnd.Entities.Contacts;
 using BackEnd.Entities.Finances;
 using BackEnd.Entities.Products;
+using BackEnd.Enums;
 
 namespace BackEnd.Entities.Invoices
 {
@@ -32,6 +33,8 @@ namespace BackEnd.Entities.Invoices
         public string? Note { get; set; } = null!;
         public DateTime? DueDate { get; set; } = null!;
         public Receivable? Receivable { get; set; } = null!;
+        public SpotPayment? SpotPayment { get; set; } = null!;
+        public InvoiceCondition Condition { get; set; }
         public ICollection<SaleInvoiceItem> SaleInvoiceItems { get; set; } = [];
     }
 }

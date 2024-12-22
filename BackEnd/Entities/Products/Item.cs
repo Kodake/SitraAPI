@@ -10,31 +10,6 @@ namespace BackEnd.Entities.Products
         public string Name { get; set; } = string.Empty;
         public string? Reference { get; set; } = string.Empty;
         public string? Description { get; set; }
-        public double? TotalPrice
-        {
-            get
-            {
-                var principalPricingItem = PricingItems.FirstOrDefault(pi => pi.IsPrincipal);
-
-                if (principalPricingItem != null)
-                {
-                    double totalTaxes = ItemTaxes.Sum(pt => pt.Tax.Amount);
-                    return principalPricingItem?.BasePrice + (principalPricingItem?.BasePrice * totalTaxes / 100);
-                }
-                else
-                {
-                    double basePrice = 0;
-                    double totalTaxes = ItemTaxes.Sum(pt => pt.Tax.Amount);
-
-                    if (PricingItems.Count != 0)
-                    {
-                        basePrice = PricingItems.First().BasePrice;
-                    }
-
-                    return basePrice + (basePrice * totalTaxes / 100);
-                }
-            }
-        }
         public long? BrandId { get; set; } = null!;
         public Brand? Brand { get; set; }
         public long? CategoryId { get; set; } = null!;

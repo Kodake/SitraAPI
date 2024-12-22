@@ -7,162 +7,55 @@ using Microsoft.EntityFrameworkCore;
 using BackEnd.Entities.AdministrativeTools;
 using BackEnd.Entities.Invoices;
 using BackEnd.Entities.Accounts;
+using BackEnd.Context.Finances;
+using BackEnd.Context.Accounts;
+using BackEnd.Context.Warehouses;
+using BackEnd.Context.Products;
+using BackEnd.Context.Contacts;
+using BackEnd.Context.Invoices;
+using BackEnd.Context.AdministrativeTools;
 
 namespace BackEnd.Context
 {
     public class ApplicationDbContext : IdentityDbContext
     {
         public ApplicationDbContext(DbContextOptions options) : base(options)
-        {
+        { }
 
-        }
-
+        #region OnModelCreating
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfiguration(new PaymentReceiptConfiguration());
+            modelBuilder.ApplyConfiguration(new ReceivableConfiguration());
 
-            modelBuilder.Entity<Category>().Property(p => p.Name).HasMaxLength(50);
-            modelBuilder.Entity<Category>().Property(p => p.Description).HasMaxLength(100).IsRequired(false);
+            modelBuilder.ApplyConfiguration(new DeadlineConfiguration());
+            modelBuilder.ApplyConfiguration(new FiscalSupportConfiguration());
 
-            modelBuilder.Entity<Brand>().Property(p => p.Name).HasMaxLength(50);
-            modelBuilder.Entity<Brand>().Property(p => p.ImageURL).IsRequired(false);
+            modelBuilder.ApplyConfiguration(new ContactConfiguration());
 
-            modelBuilder.Entity<Unit>().Property(p => p.Name).HasMaxLength(20);
-            modelBuilder.Entity<Unit>().Property(p => p.ShortName).HasMaxLength(20);
+            modelBuilder.ApplyConfiguration(new CurrencyConfiguration());
+            modelBuilder.ApplyConfiguration(new ItemTaxesConfiguration());
+            modelBuilder.ApplyConfiguration(new TaxConfiguration());
 
-            modelBuilder.Entity<Currency>().Property(p => p.Code).HasMaxLength(20);
-            modelBuilder.Entity<Currency>().Property(p => p.Name).HasMaxLength(50);
+            modelBuilder.ApplyConfiguration(new SaleInvoiceConfiguration());
+            modelBuilder.ApplyConfiguration(new SaleInvoiceItemConfiguration());
+            modelBuilder.ApplyConfiguration(new SpotPaymentConfiguration());
 
-            modelBuilder.Entity<Contact>().Property(p => p.ContactType).HasConversion<int>().IsRequired(false);
-            modelBuilder.Entity<Contact>().Property(p => p.IdentificationType).HasConversion<int>().IsRequired(false);
-            modelBuilder.Entity<Contact>().Property(p => p.Province).HasMaxLength(2).IsRequired(false);
-            modelBuilder.Entity<Contact>().Property(p => p.Identification).HasMaxLength(15).IsRequired(false);
-            modelBuilder.Entity<Contact>().Property(p => p.Name).HasMaxLength(50);
-            modelBuilder.Entity<Contact>().Property(p => p.Address).HasMaxLength(100);
+            modelBuilder.ApplyConfiguration(new BrandConfiguration());
+            modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new ItemConfiguration());
+            modelBuilder.ApplyConfiguration(new PricingConfiguration());
+            modelBuilder.ApplyConfiguration(new PricingItemConfiguration());
+            modelBuilder.ApplyConfiguration(new UnitConfiguration());
 
-            modelBuilder.Entity<Warehouse>().Property(p => p.Name).HasMaxLength(50).IsRequired();
-            modelBuilder.Entity<Warehouse>().Property(p => p.Address).HasMaxLength(100).IsRequired();
-            modelBuilder.Entity<Warehouse>().Property(p => p.Phone).HasMaxLength(10).IsRequired(false);
-            modelBuilder.Entity<Warehouse>().Property(p => p.Email).HasMaxLength(50).IsRequired(false);
-            modelBuilder.Entity<Warehouse>().Property(p => p.City).HasMaxLength(50).IsRequired(false);
-            modelBuilder.Entity<Warehouse>().Property(p => p.Country).HasMaxLength(2).IsRequired(false);
-            modelBuilder.Entity<Warehouse>().Property(p => p.ZipCode).HasMaxLength(5).IsRequired(false);
-
-            modelBuilder.Entity<Item>().Property(p => p.ItemType).HasConversion<int>().IsRequired();
-            modelBuilder.Entity<Item>().Property(p => p.Name).HasMaxLength(50).IsRequired();
-            modelBuilder.Entity<Item>().Property(p => p.Reference).HasMaxLength(50).IsRequired(false);
-            modelBuilder.Entity<Item>().Property(p => p.Description).HasMaxLength(100).IsRequired(false);
-            modelBuilder.Entity<Item>().Property(p => p.TotalPrice).HasColumnType("decimal(18,2)");
-            modelBuilder.Entity<Item>().Ignore(p => p.TotalPrice);
-
-            modelBuilder.Entity<FiscalSupport>().Property(p => p.DocumentType).HasConversion<int>().IsRequired();
-            modelBuilder.Entity<FiscalSupport>().Property(p => p.FiscalSupportType).HasConversion<int>().IsRequired();
-            modelBuilder.Entity<FiscalSupport>().Property(p => p.Name).HasMaxLength(50).IsRequired();
-            modelBuilder.Entity<FiscalSupport>().Property(p => p.Symbol).HasMaxLength(1).IsRequired();
-            modelBuilder.Entity<FiscalSupport>().Property(p => p.InitialSequence).IsRequired();
-            modelBuilder.Entity<FiscalSupport>().Property(p => p.FinalSequence).IsRequired();
-            modelBuilder.Entity<FiscalSupport>().Property(p => p.SpaceNumber).IsRequired();
-            modelBuilder.Entity<FiscalSupport>()
-                .HasOne(p => p.Warehouse)
-                .WithMany(c => c.FiscalSupports)
-                .HasForeignKey(p => p.WarehouseId)
-                .OnDelete(DeleteBehavior.Restrict)
-                .IsRequired();
-
-            modelBuilder.Entity<Deadline>().Property(p => p.Name).HasMaxLength(50).IsRequired();
-            modelBuilder.Entity<Deadline>().Property(p => p.Days).IsRequired();
-
-            modelBuilder.Entity<PricingItem>().Property(p => p.InitialCost).HasColumnType("decimal(18,2)").IsRequired();
-            modelBuilder.Entity<PricingItem>().Property(p => p.BasePrice).HasColumnType("decimal(18,2)").IsRequired();
-
-            modelBuilder.Entity<Item>()
-                .HasOne(p => p.Category)
-                .WithMany(c => c.Items)
-                .HasForeignKey(p => p.CategoryId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Item>()
-                .HasOne(p => p.Unit)
-                .WithMany(u => u.Items)
-                .HasForeignKey(p => p.UnitId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Item>()
-                .HasOne(p => p.Brand)
-                .WithMany(u => u.Items)
-                .HasForeignKey(p => p.BrandId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<ItemTaxes>()
-                .HasKey(g => new { g.TaxId, g.ItemId });
-
-            modelBuilder.Entity<Stock>()
-                .HasOne(ps => ps.Item)
-                .WithMany(p => p.Stocks)
-                .HasForeignKey(ps => ps.ItemId);
-
-            modelBuilder.Entity<Stock>()
-                .HasOne(ps => ps.Warehouse)
-                .WithMany(w => w.Stocks)
-                .HasForeignKey(ps => ps.WarehouseId);
-
-            modelBuilder.Entity<Transfer>()
-                .HasOne(t => t.Product)
-                .WithMany(i => i.Transfers)
-                .HasForeignKey(t => t.ProductId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Transfer>()
-                .HasOne(t => t.DestinationWarehouse)
-                .WithMany(w => w.DestinationTransfers)
-                .HasForeignKey(t => t.DestinationWarehouseId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Transfer>()
-                .HasOne(t => t.OriginWarehouse)
-                .WithMany(w => w.OriginTransfers)
-                .HasForeignKey(t => t.OriginWarehouseId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<SaleInvoice>()
-                .HasOne(invoice => invoice.Biller)
-                .WithMany(contact => contact.BillerInvoices)
-                .HasForeignKey(invoice => invoice.BillerId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<SaleInvoice>()
-                .HasOne(invoice => invoice.Buyer)
-                .WithMany(contact => contact.BuyerInvoices)
-                .HasForeignKey(invoice => invoice.CustomerId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<SaleInvoice>()
-                .HasOne(s => s.Receivable)
-                .WithOne(r => r.SaleInvoice)
-                .HasForeignKey<Receivable>(r => r.SaleInvoiceId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<SaleInvoice>().Ignore(p => p.FiscalSupport);
-
-            modelBuilder.Entity<SaleInvoiceItem>()
-                .HasOne(sii => sii.SaleInvoice)
-                .WithMany(w => w.SaleInvoiceItems)
-                .HasForeignKey(t => t.SaleInvoiceId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Receivable>()
-                .HasOne(ar => ar.SaleInvoice)
-                .WithOne(s => s.Receivable)
-                .HasForeignKey<Receivable>(ar => ar.SaleInvoiceId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<Receivable>()
-                .HasMany(ar => ar.PaymentReceipts)
-                .WithOne(pr => pr.Receivable)
-                .HasForeignKey(pr => pr.ReceivableId)
-                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.ApplyConfiguration(new StockConfiguration());
+            modelBuilder.ApplyConfiguration(new TransferConfiguration());
+            modelBuilder.ApplyConfiguration(new WarehouseConfiguration());
         }
+        #endregion
 
+        #region DbSets
         public DbSet<Category> Categories { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Unit> Units { get; set; }
@@ -182,5 +75,6 @@ namespace BackEnd.Context
         public DbSet<SaleInvoiceItem> SaleInvoiceItems { get; set; }
         public DbSet<Receivable> Receivables { get; set; }
         public DbSet<PaymentReceipt> PaymentReceipts { get; set; }
+        #endregion
     }
 }

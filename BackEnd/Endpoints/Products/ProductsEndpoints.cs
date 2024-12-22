@@ -85,7 +85,7 @@ namespace BackEnd.Endpoints
             return TypedResults.Ok(productDTO);
         }
 
-        static async Task<Results<Created<ProductDTO>, ValidationProblem>> Create(
+        static async Task<Results<Created, ValidationProblem>> Create(
             [FromBody] CreateProductDTO dto,
             [FromServices] IUnitOfWork unitOfWork,
             IOutputCacheStore outputCacheStore,
@@ -124,8 +124,7 @@ namespace BackEnd.Endpoints
                 await outputCacheStore.EvictByTagAsync("pricings-get", default);
                 await outputCacheStore.EvictByTagAsync("products-get", default);
 
-                var productDTO = mapper.Map<ProductDTO>(product);
-                return TypedResults.Created($"/products/{productSaved.Id}", productDTO);
+                return TypedResults.Created();
             }
             catch (Exception ex)
             {

@@ -4,7 +4,7 @@
     {
         public long Id { get; set; }
         public string Name { get; set; } = string.Empty;
-        public long Days { get; set; }
+        public int Days { get; set; }
         public bool IsActive { get; set; } = true;
     }
 }

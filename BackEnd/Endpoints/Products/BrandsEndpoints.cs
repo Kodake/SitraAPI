@@ -1,17 +1,13 @@
-﻿using AutoMapper;
-using BackEnd.DTOs;
+﻿using BackEnd.DTOs;
 using BackEnd.DTOs.Products.Brands;
-using BackEnd.Entities.Products;
 using BackEnd.Enums;
 using BackEnd.Filters;
 using BackEnd.Helpers;
-using BackEnd.MediatR.Commands.Brands;
-using BackEnd.MediatR.Queries.Brands;
-using BackEnd.Repositories;
+using BackEnd.MediatR.Commands.Products.Brands;
+using BackEnd.MediatR.Queries.Products.Brands;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OutputCaching;
 
 namespace BackEnd.Endpoints
 {
@@ -25,15 +21,12 @@ namespace BackEnd.Endpoints
             group.MapGet("/{id:int}", GetById);
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateBrandDTO>>()
-                //.RequireAuthorization("isAdmin")
                 .WithOpenApi();
             group.MapPut("/{id:int}", Update).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateBrandDTO>>()
-                //.RequireAuthorization("isAdmin")
                 .WithOpenApi();
             group.MapPatch("/{id:int}/activate", Activate);
             group.MapDelete("/{id:int}/deactivate", Deactivate);
-            //.RequireAuthorization("isAdmin");
             return group;
         }
 
@@ -72,7 +65,6 @@ namespace BackEnd.Endpoints
             var brandDTO = await mediator.Send(command);
             return brandDTO == null ? TypedResults.NotFound() : TypedResults.Created();
         }
-
 
         static async Task<Results<Ok, NotFound, ValidationProblem>> Update(
             int id,

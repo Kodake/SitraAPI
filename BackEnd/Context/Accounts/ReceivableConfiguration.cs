@@ -1,0 +1,23 @@
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
+using BackEnd.Entities.Accounts;
+
+namespace BackEnd.Context.Accounts
+{
+    public class ReceivableConfiguration : IEntityTypeConfiguration<Receivable>
+    {
+        public void Configure(EntityTypeBuilder<Receivable> builder)
+        {
+            builder.Property(p => p.TotalAmountDue).HasColumnType("decimal(18,2)").IsRequired();
+            builder.Property(p => p.TotalOutstanding).HasColumnType("decimal(18,2)").IsRequired();
+            builder.HasOne(ar => ar.SaleInvoice)
+                .WithOne(s => s.Receivable)
+                .HasForeignKey<Receivable>(ar => ar.SaleInvoiceId)
+                .OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(ar => ar.PaymentReceipts)
+                .WithOne(pr => pr.Receivable)
+                .HasForeignKey(pr => pr.ReceivableId)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
+    }
+}

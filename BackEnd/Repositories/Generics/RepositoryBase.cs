@@ -27,6 +27,7 @@ public class RepositoryBase<T> : IRepositoryBase<T> where T : class
         }
 
         return await queryable
+            .OrderBy(x => EF.Property<long>(x, "Id"))
             .Paginate(paginationDTO)
             .ToListAsync();
     }

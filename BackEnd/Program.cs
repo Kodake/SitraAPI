@@ -7,7 +7,6 @@ using FluentValidation;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
 using BackEnd.MediatR;
-using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 Log.Logger = new LoggerConfiguration()
@@ -92,7 +91,7 @@ builder.Services.AddSwaggerGen(c =>
     c.OperationFilter<AuthorizationFilter>();
 });
 
-builder.Services.RegisterRequestHandler();
+builder.Services.RegisterRequestHandlers();
 
 builder.Services.RegisterRepositories();
 
@@ -108,7 +107,6 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

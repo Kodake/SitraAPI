@@ -1839,10 +1839,8 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "ProductDTO",
-        "MediaTypes": [
-          "application/json"
-        ],
+        "Type": "System.Void",
+        "MediaTypes": [],
         "StatusCode": 201
       },
       {
