@@ -13,12 +13,24 @@ namespace BackEnd.Profiles
     {
         public AutoMapperProfiles()
         {
-            AddProfile<AccountsProfile>();
-            AddProfile<AdministrativeToolsProfile>();
+            AddProfile<PaymentReceiptsProfile>();
+            AddProfile<ReceivablesProfile>();
+            AddProfile<DeadlinesProfile>();
+            AddProfile<FiscalSupportsProfile>();
             AddProfile<ContactsProfile>();
-            AddProfile<FinancesProfile>();
+            AddProfile<CurrenciesProfile>();
+            AddProfile<TaxesProfile>();
             AddProfile<InvoicesProfiles>();
+            AddProfile<BrandsProfile>();
+            AddProfile<CategoriesProfile>();
+            AddProfile<ItemsProfile>();
+            AddProfile<PricingItemsProfile>();
+            AddProfile<PricingsProfile>();
             AddProfile<ProductsProfile>();
+            AddProfile<ServicesProfile>();
+            AddProfile<UnitsProfile>();
+            AddProfile<StocksProfile>();
+            AddProfile<TransfersProfile>();
             AddProfile<WarehousesProfile>();
         }
 

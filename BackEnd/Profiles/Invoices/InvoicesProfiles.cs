@@ -16,9 +16,7 @@ namespace BackEnd.Profiles.Invoices
                 .ForMember(des => des.FiscalSupport, opt => opt.Ignore());
 
             CreateMap<SaleInvoice, SaleInvoiceDTO>();
-
             CreateMap<SaleInvoiceItemDTO, SaleInvoiceItem>();
-
             CreateMap<SaleInvoice, SaleInvoiceListDTO>();
         }
     }

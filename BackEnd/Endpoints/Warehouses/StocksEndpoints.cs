@@ -95,8 +95,10 @@ namespace BackEnd.Endpoints
                 return TypedResults.NotFound();
             }
 
-            stockDB.Qty = dto.Qty;
             stockDB.WarehouseId = dto.WarehouseId;
+            stockDB.Qty = dto.Qty;
+            stockDB.MinQty = dto.MinQty;
+            stockDB.MaxQty = dto.MaxQty;
 
             unitOfWork.StockRepository.Update(stockDB);
             await unitOfWork.SaveChangesAsync();

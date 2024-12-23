@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
-using BackEnd.DTOs.AdministrativeTools.Deadlines;
 using BackEnd.DTOs.AdministrativeTools.FiscalSupports;
 using BackEnd.Entities.AdministrativeTools;
 
 namespace BackEnd.Profiles.AdministrativeTools
 {
-    public class AdministrativeToolsProfile : Profile
+    public class FiscalSupportsProfile : Profile
     {
-        public AdministrativeToolsProfile()
+        public FiscalSupportsProfile()
         {
             CreateMap<FiscalSupport, FiscalSupportDTO>()
                 .ForMember(des => des.Warehouse, opt => opt.MapFrom(src => src.Warehouse))
@@ -18,10 +17,6 @@ namespace BackEnd.Profiles.AdministrativeTools
             CreateMap<FiscalSupport, FiscalSupportListDTO>()
                 .ForMember(des => des.Warehouse, opt => opt.MapFrom(src => src.Warehouse))
                 .ReverseMap();
-
-            CreateMap<CreateDeadlineDTO, Deadline>();
-            CreateMap<Deadline, DeadlineListDTO>();
-            CreateMap<Deadline, DeadlineDTO>();
         }
     }
 }

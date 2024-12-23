@@ -5,7 +5,6 @@ using BackEnd.Entities.Products;
 using BackEnd.Filters;
 using BackEnd.Helpers;
 using BackEnd.Repositories;
-using BackEnd.Repositories.Products;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
@@ -49,6 +48,8 @@ namespace BackEnd.Endpoints
             await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("pricing-items-get", default);
             await outputCacheStore.EvictByTagAsync("pricings-get", default);
+            await outputCacheStore.EvictByTagAsync("products-get", default);
+            await outputCacheStore.EvictByTagAsync("services-get", default);
 
             var pricingItemDTO = mapper.Map<PricingItemDTO>(pricingItem);
 
@@ -90,6 +91,8 @@ namespace BackEnd.Endpoints
             await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("pricing-items-get", default);
             await outputCacheStore.EvictByTagAsync("pricings-get", default);
+            await outputCacheStore.EvictByTagAsync("products-get", default);
+            await outputCacheStore.EvictByTagAsync("services-get", default);
 
             return TypedResults.Ok();
         }
