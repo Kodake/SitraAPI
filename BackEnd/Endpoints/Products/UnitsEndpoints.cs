@@ -1,15 +1,13 @@
-﻿using AutoMapper;
-using BackEnd.DTOs;
+﻿using BackEnd.DTOs;
 using BackEnd.DTOs.Products.Units;
-using BackEnd.Entities.Products;
 using BackEnd.Enums;
 using BackEnd.Filters;
 using BackEnd.Helpers;
-using BackEnd.Repositories;
-using BackEnd.Repositories.Products;
+using BackEnd.MediatR.Commands.Products.Units;
+using BackEnd.MediatR.Queries.Products.Units;
+using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OutputCaching;
 
 namespace BackEnd.Endpoints
 {
@@ -23,127 +21,77 @@ namespace BackEnd.Endpoints
             group.MapGet("/{id:int}", GetById);
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateUnitDTO>>()
-                //.RequireAuthorization("isAdmin")
                 .WithOpenApi();
             group.MapPut("/{id:int}", Update).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateUnitDTO>>()
-                //.RequireAuthorization("isAdmin")
                 .WithOpenApi();
             group.MapPatch("/{id:int}/activate", Activate);
             group.MapDelete("/{id:int}/deactivate", Deactivate);
-            //.RequireAuthorization("isAdmin");
             return group;
         }
 
         static async Task<Ok<List<UnitListDTO>>> GetAll(
-            [FromServices] IUnitOfWork unitOfWork,
-            IMapper mapper, PaginationDTO pagination)
+            [FromServices] IMediator mediator,
+            PaginationDTO pagination)
         {
-            var units = await unitOfWork.UnitRepository.GetAllAsync(pagination);
-            var unitsDTO = mapper.Map<List<UnitListDTO>>(units);
-
-            return TypedResults.Ok(unitsDTO);
+            var query = new GetAllUnitsQuery(pagination);
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
         }
 
         static async Task<Ok<List<UnitListDTO>>> GetSelects(
-            [FromServices] IUnitOfWork unitOfWork,
-            IMapper mapper, [FromQuery] StatusType status = StatusType.All)
+            [FromServices] IMediator mediator,
+            [FromQuery] StatusType status = StatusType.All)
         {
-            var units = await unitOfWork.UnitRepository.GetAll(status);
-            var unitsDTO = mapper.Map<List<UnitListDTO>>(units);
-
-            return TypedResults.Ok(unitsDTO);
+            var query = new GetSelectsUnitsQuery(status);
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
         }
 
         static async Task<Results<Ok<UnitDTO>, NotFound>> GetById(
-            [FromServices] IUnitOfWork unitOfWork,
-            IMapper mapper, int id)
+            [FromServices] IMediator mediator,
+            int id)
         {
-            var unit = await unitOfWork.UnitRepository.GetByIdAsync(id);
-
-            if (unit is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            var unitDTO = mapper.Map<UnitDTO>(unit);
-
-            return TypedResults.Ok(unitDTO);
+            var query = new GetUnitByIdQuery(id);
+            var dto = await mediator.Send(query);
+            return dto == null ? TypedResults.NotFound() : TypedResults.Ok(dto);
         }
 
-        static async Task<Results<Created<UnitDTO>, ValidationProblem>> Create([FromBody] CreateUnitDTO dto,
-            [FromServices] IUnitOfWork unitOfWork,
-            IOutputCacheStore outputCacheStore,
-            [FromServices] IMapper mapper)
+        static async Task<Results<Created, NotFound, ValidationProblem>> Create(
+            [FromBody] CreateUnitDTO dto,
+            [FromServices] IMediator mediator)
         {
-            var unit = mapper.Map<Unit>(dto);
-
-            await unitOfWork.UnitRepository.CreateAsync(unit);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("units-get", default);
-
-            var unitDTO = mapper.Map<UnitDTO>(unit);
-
-            return TypedResults.Created($"/units/{unit.Id}", unitDTO);
+            var command = new CreateUnitCommand(dto);
+            var unitDTO = await mediator.Send(command);
+            return unitDTO == null ? TypedResults.NotFound() : TypedResults.Created();
         }
 
-        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromBody] CreateUnitDTO dto,
-            [FromServices] IUnitOfWork unitOfWork,
-            IOutputCacheStore outputCacheStore,
-            [FromServices] IMapper mapper)
+        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(
+            int id,
+            [FromBody] CreateUnitDTO dto,
+            [FromServices] IMediator mediator)
         {
-            var unitDB = await unitOfWork.UnitRepository.GetByIdAsync(id);
-
-            if (unitDB is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            unitDB.Name = dto.Name;
-            unitDB.ShortName = dto.ShortName;
-            unitDB.IsActive = unitDB.IsActive;
-
-            unitOfWork.UnitRepository.Update(unitDB);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("units-get", default);
-
-            return TypedResults.Ok();
+            var command = new UpdateUnitCommand(id, dto);
+            var success = await mediator.Send(command, default);
+            return success ? TypedResults.Ok() : TypedResults.NotFound();
         }
 
-        static async Task<Results<NotFound, Ok>> Activate([FromRoute] int id,
-            [FromServices] IUnitOfWork unitOfWork,
-            IOutputCacheStore outputCacheStore)
+        static async Task<Results<NotFound, Ok>> Activate(
+            [FromRoute] int id,
+            [FromServices] IMediator mediator)
         {
-            var unitDB = await unitOfWork.UnitRepository.GetByIdAsync(id);
-
-            if (unitDB is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            await unitOfWork.UnitRepository.ActivateAsync(id);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("units-get", default);
-
-            return TypedResults.Ok();
+            var command = new ActivateUnitCommand(id);
+            var success = await mediator.Send(command, default);
+            return success ? TypedResults.Ok() : TypedResults.NotFound();
         }
 
-        static async Task<Results<NotFound, Ok>> Deactivate([FromRoute] int id,
-            [FromServices] IUnitOfWork unitOfWork,
-            IOutputCacheStore outputCacheStore)
+        static async Task<Results<NotFound, Ok>> Deactivate(
+            [FromRoute] int id,
+            [FromServices] IMediator mediator)
         {
-            var unitDB = await unitOfWork.UnitRepository.GetByIdAsync(id);
-
-            if (unitDB is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            await unitOfWork.UnitRepository.DeactivateAsync(id);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("units-get", default);
-
-            return TypedResults.Ok();
+            var command = new DeactivateUnitCommand(id);
+            var success = await mediator.Send(command, default);
+            return success ? TypedResults.Ok() : TypedResults.NotFound();
         }
     }
 }

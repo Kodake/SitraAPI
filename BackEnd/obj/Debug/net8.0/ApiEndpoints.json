@@ -2971,11 +2971,14 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Products.Units.UnitDTO",
-        "MediaTypes": [
-          "application/json"
-        ],
+        "Type": "System.Void",
+        "MediaTypes": [],
         "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
       },
       {
         "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",

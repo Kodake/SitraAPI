@@ -9,6 +9,7 @@ namespace BackEnd.MediatR
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(MediatRDependencyHandler).Assembly));
 
             services.AddBrandServices();
+            services.AddUnitServices();
 
             return services;
         }
