@@ -1,15 +1,13 @@
-﻿using AutoMapper;
-using BackEnd.DTOs;
+﻿using BackEnd.DTOs;
 using BackEnd.DTOs.Products.Categories;
-using BackEnd.Entities.Products;
 using BackEnd.Enums;
 using BackEnd.Filters;
 using BackEnd.Helpers;
-using BackEnd.Repositories;
-using BackEnd.Repositories.Products;
+using BackEnd.MediatR.Commands.Products.Categories;
+using BackEnd.MediatR.Queries.Products.Categories;
+using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OutputCaching;
 
 namespace BackEnd.Endpoints
 {
@@ -20,130 +18,80 @@ namespace BackEnd.Endpoints
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("categories-get"))
                 .AddPaginationParamsOpenAPI();
             group.MapGet("/selects", GetSelects).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("categories-get"));
-            group.MapGet("/{id:int}", GetById);
+            group.MapGet("/{id:long}", GetById);
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateCategoryDTO>>()
-                //.RequireAuthorization()
                 .WithOpenApi();
-            group.MapPut("/{id:int}", Update).DisableAntiforgery()
+            group.MapPut("/{id:long}", Update).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateCategoryDTO>>()
-                //.RequireAuthorization()
                 .WithOpenApi();
-            group.MapPatch("/{id:int}/activate", Activate);
-            group.MapDelete("/{id:int}/deactivate", Deactivate);
-            //.RequireAuthorization("isAdmin");
+            group.MapPatch("/{id:long}/activate", Activate);
+            group.MapDelete("/{id:long}/deactivate", Deactivate);
             return group;
         }
 
         static async Task<Ok<List<CategoryListDTO>>> GetAll(
-            [FromServices] IUnitOfWork unitOfWork,
-            [FromServices] IMapper mapper, PaginationDTO pagination)
+            [FromServices] IMediator mediator,
+            PaginationDTO pagination)
         {
-            var categories = await unitOfWork.CategoryRepository.GetAllAsync(pagination);
-            var categoriesDTO = mapper.Map<List<CategoryListDTO>>(categories);
-
-            return TypedResults.Ok(categoriesDTO);
+            var query = new GetAllCategoriesQuery(pagination);
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
         }
 
         static async Task<Ok<List<CategoryListDTO>>> GetSelects(
-            [FromServices] IUnitOfWork unitOfWork,
-            IMapper mapper, [FromQuery] StatusType status = StatusType.All)
+            [FromServices] IMediator mediator,
+            [FromQuery] StatusType status = StatusType.All)
         {
-            var categories = await unitOfWork.CategoryRepository.GetAll(status);
-            var categoriesDTO = mapper.Map<List<CategoryListDTO>>(categories);
-
-            return TypedResults.Ok(categoriesDTO);
+            var query = new GetSelectsCategoriesQuery(status);
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
         }
 
         static async Task<Results<Ok<CategoryDTO>, NotFound>> GetById(
-            [FromServices] IUnitOfWork unitOfWork,
-            [FromServices] IMapper mapper, int id)
+            [FromServices] IMediator mediator,
+            long id)
         {
-            var category = await unitOfWork.CategoryRepository.GetByIdAsync(id);
-
-            if (category is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            var categoryDTO = mapper.Map<CategoryDTO>(category);
-
-            return TypedResults.Ok(categoryDTO);
+            var query = new GetCategoryByIdQuery(id);
+            var dto = await mediator.Send(query);
+            return dto == null ? TypedResults.NotFound() : TypedResults.Ok(dto);
         }
 
-        static async Task<Results<Created<CategoryDTO>, ValidationProblem>> Create([FromBody] CreateCategoryDTO dto,
-            [FromServices] IUnitOfWork unitOfWork,
-            IOutputCacheStore outputCacheStore,
-            [FromServices] IMapper mapper)
+        static async Task<Results<Created, NotFound, ValidationProblem>> Create(
+            [FromBody] CreateCategoryDTO dto,
+            [FromServices] IMediator mediator)
         {
-            var category = mapper.Map<Category>(dto);
-
-            await unitOfWork.CategoryRepository.CreateAsync(category);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("categories-get", default);
-
-            var categoryDTO = mapper.Map<CategoryDTO>(category);
-
-            return TypedResults.Created($"/categories/{category.Id}", categoryDTO);
+            var command = new CreateCategoryCommand(dto);
+            var categoryDTO = await mediator.Send(command);
+            return categoryDTO == null ? TypedResults.NotFound() : TypedResults.Created();
         }
 
-        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id,           [FromBody] CreateCategoryDTO dto,
-            [FromServices] IUnitOfWork unitOfWork,
-            IOutputCacheStore outputCacheStore,
-            [FromServices] IMapper mapper)
+        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(
+            long id,
+            [FromBody] CreateCategoryDTO dto,
+            [FromServices] IMediator mediator)
         {
-            var categoryDB = await unitOfWork.CategoryRepository.GetByIdAsync(id);
-
-            if (categoryDB is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            categoryDB.Name = dto.Name;
-            categoryDB.Description = dto.Description;
-            categoryDB.IsActive = categoryDB.IsActive;
-
-            unitOfWork.CategoryRepository.Update(categoryDB);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("categories-get", default);
-
-            return TypedResults.Ok();
+            var command = new UpdateCategoryCommand(id, dto);
+            var success = await mediator.Send(command, default);
+            return success ? TypedResults.Ok() : TypedResults.NotFound();
         }
 
-        static async Task<Results<NotFound, Ok>> Activate([FromRoute] int id,
-            [FromServices] IUnitOfWork unitOfWork,
-            IOutputCacheStore outputCacheStore)
+        static async Task<Results<NotFound, Ok>> Activate(
+            [FromRoute] long id,
+            [FromServices] IMediator mediator)
         {
-            var categoryDB = await unitOfWork.CategoryRepository.GetByIdAsync(id);
-
-            if (categoryDB is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            await unitOfWork.CategoryRepository.ActivateAsync(id);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("categories-get", default);
-
-            return TypedResults.Ok();
+            var command = new ActivateCategoryCommand(id);
+            var success = await mediator.Send(command, default);
+            return success ? TypedResults.Ok() : TypedResults.NotFound();
         }
 
-        static async Task<Results<NotFound, Ok>> Deactivate([FromRoute] int id,
-            [FromServices] IUnitOfWork unitOfWork,
-            IOutputCacheStore outputCacheStore)
+        static async Task<Results<NotFound, Ok>> Deactivate(
+            [FromRoute] long id,
+            [FromServices] IMediator mediator)
         {
-            var categoryDB = await unitOfWork.CategoryRepository.GetByIdAsync(id);
-
-            if (categoryDB is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            await unitOfWork.CategoryRepository.DeactivateAsync(id);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("categories-get", default);
-
-            return TypedResults.Ok();
+            var command = new DeactivateCategoryCommand(id);
+            var success = await mediator.Send(command, default);
+            return success ? TypedResults.Ok() : TypedResults.NotFound();
         }
     }
 }

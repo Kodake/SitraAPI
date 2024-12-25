@@ -54,7 +54,7 @@
   {
     "ContainingType": "BackEnd.Endpoints.BrandsEndpoints",
     "Method": "GetById",
-    "RelativePath": "api/v1/brands/{id:int}",
+    "RelativePath": "api/v1/brands/{id:long}",
     "HttpMethod": "GET",
     "IsController": false,
     "Order": 0,
@@ -83,7 +83,7 @@
   {
     "ContainingType": "BackEnd.Endpoints.BrandsEndpoints",
     "Method": "Update",
-    "RelativePath": "api/v1/brands/{id:int}",
+    "RelativePath": "api/v1/brands/{id:long}",
     "HttpMethod": "PUT",
     "IsController": false,
     "Order": 0,
@@ -122,7 +122,7 @@
   {
     "ContainingType": "BackEnd.Endpoints.BrandsEndpoints",
     "Method": "Activate",
-    "RelativePath": "api/v1/brands/{id:int}/activate",
+    "RelativePath": "api/v1/brands/{id:long}/activate",
     "HttpMethod": "PATCH",
     "IsController": false,
     "Order": 0,
@@ -149,7 +149,7 @@
   {
     "ContainingType": "BackEnd.Endpoints.BrandsEndpoints",
     "Method": "Deactivate",
-    "RelativePath": "api/v1/brands/{id:int}/deactivate",
+    "RelativePath": "api/v1/brands/{id:long}/deactivate",
     "HttpMethod": "DELETE",
     "IsController": false,
     "Order": 0,
@@ -231,11 +231,14 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Products.Categories.CategoryDTO",
-        "MediaTypes": [
-          "application/json"
-        ],
+        "Type": "System.Void",
+        "MediaTypes": [],
         "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
       },
       {
         "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
@@ -249,14 +252,14 @@
   {
     "ContainingType": "BackEnd.Endpoints.CategoriesEndpoints",
     "Method": "GetById",
-    "RelativePath": "api/v1/categories/{id:int}",
+    "RelativePath": "api/v1/categories/{id:long}",
     "HttpMethod": "GET",
     "IsController": false,
     "Order": 0,
     "Parameters": [
       {
         "Name": "id",
-        "Type": "System.Int32",
+        "Type": "System.Int64",
         "IsRequired": true
       }
     ],
@@ -278,14 +281,14 @@
   {
     "ContainingType": "BackEnd.Endpoints.CategoriesEndpoints",
     "Method": "Update",
-    "RelativePath": "api/v1/categories/{id:int}",
+    "RelativePath": "api/v1/categories/{id:long}",
     "HttpMethod": "PUT",
     "IsController": false,
     "Order": 0,
     "Parameters": [
       {
         "Name": "id",
-        "Type": "System.Int32",
+        "Type": "System.Int64",
         "IsRequired": true
       },
       {
@@ -317,14 +320,14 @@
   {
     "ContainingType": "BackEnd.Endpoints.CategoriesEndpoints",
     "Method": "Activate",
-    "RelativePath": "api/v1/categories/{id:int}/activate",
+    "RelativePath": "api/v1/categories/{id:long}/activate",
     "HttpMethod": "PATCH",
     "IsController": false,
     "Order": 0,
     "Parameters": [
       {
         "Name": "id",
-        "Type": "System.Int32",
+        "Type": "System.Int64",
         "IsRequired": true
       }
     ],
@@ -344,14 +347,14 @@
   {
     "ContainingType": "BackEnd.Endpoints.CategoriesEndpoints",
     "Method": "Deactivate",
-    "RelativePath": "api/v1/categories/{id:int}/deactivate",
+    "RelativePath": "api/v1/categories/{id:long}/deactivate",
     "HttpMethod": "DELETE",
     "IsController": false,
     "Order": 0,
     "Parameters": [
       {
         "Name": "id",
-        "Type": "System.Int32",
+        "Type": "System.Int64",
         "IsRequired": true
       }
     ],
@@ -1511,19 +1514,19 @@
   {
     "ContainingType": "BackEnd.Endpoints.ItemsEndpoints",
     "Method": "GetByPricingIdAndWarehouseId",
-    "RelativePath": "api/v1/items/pricing/{pricingId:int}/warehouse/{warehouseId:int}/",
+    "RelativePath": "api/v1/items/pricing/{pricingId:long}/warehouse/{warehouseId:long}/",
     "HttpMethod": "GET",
     "IsController": false,
     "Order": 0,
     "Parameters": [
       {
         "Name": "pricingId",
-        "Type": "System.Int32",
+        "Type": "System.Int64",
         "IsRequired": true
       },
       {
         "Name": "warehouseId",
-        "Type": "System.Int32",
+        "Type": "System.Int64",
         "IsRequired": true
       }
     ],
@@ -1553,11 +1556,14 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Products.PricingItems.PricingItemDTO",
-        "MediaTypes": [
-          "application/json"
-        ],
+        "Type": "System.Void",
+        "MediaTypes": [],
         "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
       },
       {
         "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
@@ -1578,7 +1584,7 @@
     "Parameters": [
       {
         "Name": "id",
-        "Type": "System.Int32",
+        "Type": "System.Int64",
         "IsRequired": true
       }
     ],
@@ -1680,11 +1686,14 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Products.Pricings.PricingDTO",
-        "MediaTypes": [
-          "application/json"
-        ],
+        "Type": "System.Void",
+        "MediaTypes": [],
         "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
       },
       {
         "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
@@ -1698,14 +1707,14 @@
   {
     "ContainingType": "BackEnd.Endpoints.PricingsEndpoints",
     "Method": "GetById",
-    "RelativePath": "api/v1/pricings/{id:int}",
+    "RelativePath": "api/v1/pricings/{id:long}",
     "HttpMethod": "GET",
     "IsController": false,
     "Order": 0,
     "Parameters": [
       {
         "Name": "id",
-        "Type": "System.Int32",
+        "Type": "System.Int64",
         "IsRequired": true
       }
     ],
@@ -1727,14 +1736,14 @@
   {
     "ContainingType": "BackEnd.Endpoints.PricingsEndpoints",
     "Method": "Update",
-    "RelativePath": "api/v1/pricings/{id:int}",
+    "RelativePath": "api/v1/pricings/{id:long}",
     "HttpMethod": "PUT",
     "IsController": false,
     "Order": 0,
     "Parameters": [
       {
         "Name": "id",
-        "Type": "System.Int32",
+        "Type": "System.Int64",
         "IsRequired": true
       },
       {
@@ -1784,20 +1793,20 @@
   {
     "ContainingType": "BackEnd.Endpoints.PricingsEndpoints",
     "Method": "GetUnregisteredPricingsForItem",
-    "RelativePath": "api/v1/pricings/unregistered-pricings/{id:int}",
+    "RelativePath": "api/v1/pricings/unregistered-pricings/{id:long}",
     "HttpMethod": "GET",
     "IsController": false,
     "Order": 0,
     "Parameters": [
       {
         "Name": "id",
-        "Type": "System.Int32",
+        "Type": "System.Int64",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.Products.Pricings.PricingListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[BackEnd.DTOs.Products.Pricings.PricingListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "application/json"
         ],

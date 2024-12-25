@@ -1,6 +1,6 @@
-﻿using BackEnd.Repositories;
+﻿using AutoMapper;
 using BackEnd.Enums;
-using AutoMapper;
+using BackEnd.Repositories;
 
 namespace BackEnd.MediatR.Queries
 {
@@ -14,8 +14,8 @@ namespace BackEnd.MediatR.Queries
         }
 
         public abstract Task<List<TDto>> GetData(
-            IUnitOfWork unitOfWork, 
-            IMapper mapper, 
+            IUnitOfWork unitOfWork,
+            IMapper mapper,
             CancellationToken cancellationToken
         );
     }

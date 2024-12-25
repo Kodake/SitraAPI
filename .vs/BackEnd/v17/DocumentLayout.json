@@ -7,52 +7,12 @@
       "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\endpoints\\products\\brandsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\mediatr\\mediatrdependencyhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\mediatr\\mediatrdependencyhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\repositories\\generics\\repositorybase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\repositories\\generics\\repositorybase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\mediatr\\handlers\\products\\brandsrequesthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\mediatr\\handlers\\products\\brandsrequesthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\mediatr\\handlers\\products\\unitsrequesthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\mediatr\\handlers\\products\\unitsrequesthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\entities\\products\\unit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\entities\\products\\unit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\entities\\products\\brand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\entities\\products\\brand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\mediatr\\commands\\products\\units\\deactivateunitcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\mediatr\\commands\\products\\units\\deactivateunitcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\mediatr\\commands\\products\\units\\updateunitcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\mediatr\\commands\\products\\units\\updateunitcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\entities\\products\\pricingitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\entities\\products\\pricingitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\mediatr\\commands\\products\\units\\createunitcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\mediatr\\commands\\products\\units\\createunitcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\mediatr\\commands\\products\\units\\activateunitcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\mediatr\\commands\\products\\units\\activateunitcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\mediatr\\queries\\products\\units\\getselectsunitsquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\mediatr\\queries\\products\\units\\getselectsunitsquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\mediatr\\queries\\products\\units\\getallunitsquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\mediatr\\queries\\products\\units\\getallunitsquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\endpoints\\products\\servicesendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\endpoints\\products\\servicesendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -62,7 +22,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 320,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -86,177 +46,47 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "RepositoryBase.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\Generics\\RepositoryBase.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Repositories\\Generics\\RepositoryBase.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\Generics\\RepositoryBase.cs",
+              "RelativeToolTip": "BackEnd\\Repositories\\Generics\\RepositoryBase.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAqAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-25T20:17:48.45Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "BrandsEndpoints.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Products\\BrandsEndpoints.cs",
               "RelativeDocumentMoniker": "BackEnd\\Endpoints\\Products\\BrandsEndpoints.cs",
               "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Products\\BrandsEndpoints.cs",
               "RelativeToolTip": "BackEnd\\Endpoints\\Products\\BrandsEndpoints.cs",
-              "ViewState": "AQIAADgAAAAAAAAAAAAUwEEAAABXAAAA",
+              "ViewState": "AQIAADQAAAAAAAAAAAAiwEUAAAATAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-24T22:07:22.037Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "MediatRDependencyHandler.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\MediatR\\MediatRDependencyHandler.cs",
-              "RelativeDocumentMoniker": "BackEnd\\MediatR\\MediatRDependencyHandler.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\MediatR\\MediatRDependencyHandler.cs",
-              "RelativeToolTip": "BackEnd\\MediatR\\MediatRDependencyHandler.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAnAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-24T22:06:56.835Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Brand.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Products\\Brand.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Entities\\Products\\Brand.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Products\\Brand.cs",
-              "RelativeToolTip": "BackEnd\\Entities\\Products\\Brand.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-24T22:05:00.337Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "PricingItem.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Products\\PricingItem.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Entities\\Products\\PricingItem.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Products\\PricingItem.cs",
-              "RelativeToolTip": "BackEnd\\Entities\\Products\\PricingItem.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-24T22:04:18.1Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Unit.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Products\\Unit.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Entities\\Products\\Unit.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Products\\Unit.cs",
-              "RelativeToolTip": "BackEnd\\Entities\\Products\\Unit.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAcAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-24T22:04:15.088Z",
+              "WhenOpened": "2024-12-25T20:11:55.353Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "BrandsRequestHandler.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\MediatR\\Handlers\\Products\\BrandsRequestHandler.cs",
-              "RelativeDocumentMoniker": "BackEnd\\MediatR\\Handlers\\Products\\BrandsRequestHandler.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\MediatR\\Handlers\\Products\\BrandsRequestHandler.cs",
-              "RelativeToolTip": "BackEnd\\MediatR\\Handlers\\Products\\BrandsRequestHandler.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAACYAAAA",
+              "Title": "ServicesEndpoints.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Products\\ServicesEndpoints.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Endpoints\\Products\\ServicesEndpoints.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Products\\ServicesEndpoints.cs",
+              "RelativeToolTip": "BackEnd\\Endpoints\\Products\\ServicesEndpoints.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABIAAAAzAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-24T22:02:41.493Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "UpdateUnitCommand.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\MediatR\\Commands\\Products\\Units\\UpdateUnitCommand.cs",
-              "RelativeDocumentMoniker": "BackEnd\\MediatR\\Commands\\Products\\Units\\UpdateUnitCommand.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\MediatR\\Commands\\Products\\Units\\UpdateUnitCommand.cs",
-              "RelativeToolTip": "BackEnd\\MediatR\\Commands\\Products\\Units\\UpdateUnitCommand.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-24T22:02:20.921Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "DeactivateUnitCommand.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\MediatR\\Commands\\Products\\Units\\DeactivateUnitCommand.cs",
-              "RelativeDocumentMoniker": "BackEnd\\MediatR\\Commands\\Products\\Units\\DeactivateUnitCommand.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\MediatR\\Commands\\Products\\Units\\DeactivateUnitCommand.cs",
-              "RelativeToolTip": "BackEnd\\MediatR\\Commands\\Products\\Units\\DeactivateUnitCommand.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-24T22:02:20.309Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "CreateUnitCommand.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\MediatR\\Commands\\Products\\Units\\CreateUnitCommand.cs",
-              "RelativeDocumentMoniker": "BackEnd\\MediatR\\Commands\\Products\\Units\\CreateUnitCommand.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\MediatR\\Commands\\Products\\Units\\CreateUnitCommand.cs",
-              "RelativeToolTip": "BackEnd\\MediatR\\Commands\\Products\\Units\\CreateUnitCommand.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-24T22:02:18.715Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "ActivateUnitCommand.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\MediatR\\Commands\\Products\\Units\\ActivateUnitCommand.cs",
-              "RelativeDocumentMoniker": "BackEnd\\MediatR\\Commands\\Products\\Units\\ActivateUnitCommand.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\MediatR\\Commands\\Products\\Units\\ActivateUnitCommand.cs",
-              "RelativeToolTip": "BackEnd\\MediatR\\Commands\\Products\\Units\\ActivateUnitCommand.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-24T22:02:14.774Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "GetSelectsUnitsQuery.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\MediatR\\Queries\\Products\\Units\\GetSelectsUnitsQuery.cs",
-              "RelativeDocumentMoniker": "BackEnd\\MediatR\\Queries\\Products\\Units\\GetSelectsUnitsQuery.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\MediatR\\Queries\\Products\\Units\\GetSelectsUnitsQuery.cs",
-              "RelativeToolTip": "BackEnd\\MediatR\\Queries\\Products\\Units\\GetSelectsUnitsQuery.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAwAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-24T22:01:53.012Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "GetAllUnitsQuery.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\MediatR\\Queries\\Products\\Units\\GetAllUnitsQuery.cs",
-              "RelativeDocumentMoniker": "BackEnd\\MediatR\\Queries\\Products\\Units\\GetAllUnitsQuery.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\MediatR\\Queries\\Products\\Units\\GetAllUnitsQuery.cs",
-              "RelativeToolTip": "BackEnd\\MediatR\\Queries\\Products\\Units\\GetAllUnitsQuery.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAwAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-24T22:01:43.478Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "UnitsRequestHandler.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\MediatR\\Handlers\\Products\\UnitsRequestHandler.cs",
-              "RelativeDocumentMoniker": "BackEnd\\MediatR\\Handlers\\Products\\UnitsRequestHandler.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\MediatR\\Handlers\\Products\\UnitsRequestHandler.cs",
-              "RelativeToolTip": "BackEnd\\MediatR\\Handlers\\Products\\UnitsRequestHandler.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAEAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-24T21:59:36.964Z",
+              "WhenOpened": "2024-12-25T20:11:48.906Z",
               "EditorCaption": ""
             }
           ]
         },
         {
-          "DockedWidth": 200,
+          "DockedWidth": 320,
           "SelectedChildIndex": -1,
           "Children": [
             {

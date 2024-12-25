@@ -5,8 +5,8 @@ namespace BackEnd.Helpers
     public static class HttpContextExtensionsUtilities
     {
         public static T ExtractDefaultValue<T>(
-            this HttpContext context, 
-            string fieldName, 
+            this HttpContext context,
+            string fieldName,
             T defaultValue) where T : IParsable<T>
         {
             var value = context.Request.Query[fieldName];

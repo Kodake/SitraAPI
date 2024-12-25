@@ -1,15 +1,11 @@
 ﻿using AutoMapper;
 using BackEnd.DTOs;
 using BackEnd.DTOs.AdministrativeTools.FiscalSupports;
-using BackEnd.DTOs.Products;
 using BackEnd.Entities.AdministrativeTools;
-using BackEnd.Entities.Products;
 using BackEnd.Enums;
 using BackEnd.Filters;
 using BackEnd.Helpers;
 using BackEnd.Repositories;
-using BackEnd.Repositories.AdministrativeTools;
-using BackEnd.Repositories.Products;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;

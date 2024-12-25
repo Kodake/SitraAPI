@@ -1,12 +1,12 @@
+using BackEnd.Context;
+using BackEnd.Helpers;
+using BackEnd.MediatR;
+using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using BackEnd.Context;
 using Microsoft.OpenApi.Models;
-using BackEnd.Helpers;
-using FluentValidation;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
-using BackEnd.MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 Log.Logger = new LoggerConfiguration()

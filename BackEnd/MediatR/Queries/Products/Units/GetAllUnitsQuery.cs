@@ -1,7 +1,7 @@
-using BackEnd.Repositories;
 using AutoMapper;
 using BackEnd.DTOs;
 using BackEnd.DTOs.Products.Units;
+using BackEnd.Repositories;
 
 namespace BackEnd.MediatR.Queries.Products.Units
 {
@@ -12,8 +12,7 @@ namespace BackEnd.MediatR.Queries.Products.Units
         public override async Task<List<UnitListDTO>> GetData(
             IUnitOfWork unitOfWork,
             IMapper mapper,
-            CancellationToken cancellationToken
-            )
+            CancellationToken cancellationToken)
         {
             var units = await unitOfWork.UnitRepository.GetAllAsync(Pagination);
             return mapper.Map<List<UnitListDTO>>(units);

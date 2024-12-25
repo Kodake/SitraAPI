@@ -4,7 +4,6 @@ using BackEnd.Entities.Invoices;
 using BackEnd.Enums;
 using BackEnd.Repositories;
 using BackEnd.Repositories.Invoices;
-using BackEnd.Repositories.Warehouses;
 using static BackEnd.Helpers.Utilities;
 
 namespace BackEnd.Services.Invoices

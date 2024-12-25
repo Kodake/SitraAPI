@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using BackEnd.Context;
 using BackEnd.DTOs;
 using BackEnd.DTOs.Products.Products;
 using BackEnd.Entities.Products;
@@ -7,7 +6,6 @@ using BackEnd.Enums;
 using BackEnd.Filters;
 using BackEnd.Helpers;
 using BackEnd.Repositories;
-using BackEnd.Repositories.Products;
 using FluentValidation;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -61,7 +59,7 @@ namespace BackEnd.Endpoints
 
         static async Task<Ok<List<ProductListDTO>>> GetStockProducts(
             [FromServices] IUnitOfWork unitOfWork,
-            IMapper mapper) 
+            IMapper mapper)
         {
             var products = await unitOfWork.ProductRepository.GetAll();
             var productsDTO = mapper.Map<List<ProductListDTO>>(products);

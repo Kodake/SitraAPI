@@ -1,6 +1,6 @@
-﻿using AutoMapper;
-using BackEnd.DTOs.Products.Items;
-using BackEnd.Repositories;
+﻿using BackEnd.DTOs.Products.Items;
+using BackEnd.MediatR.Queries.Products.Items;
+using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,19 +10,17 @@ namespace BackEnd.Endpoints
     {
         public static RouteGroupBuilder MapItems(this RouteGroupBuilder group)
         {
-            group.MapGet("/pricing/{pricingId:int}/warehouse/{warehouseId:int}/", GetByPricingIdAndWarehouseId);
+            group.MapGet("/pricing/{pricingId:long}/warehouse/{warehouseId:long}/", GetByPricingIdAndWarehouseId);
             return group;
         }
 
         static async Task<Ok<List<ItemListDTO>>> GetByPricingIdAndWarehouseId(
-            [FromServices] IUnitOfWork unitOfWork,
-            IMapper mapper, int pricingId, int warehouseId)
+            [FromServices] IMediator mediator,
+            long pricingId, long warehouseId)
         {
-            var items = await unitOfWork.ItemRepository.GetByPricingIdAndWarehouseId(pricingId, warehouseId);
-            var itemsDTO = mapper.Map<List<ItemListDTO>>(items);
-            itemsDTO.ForEach(dto => dto.PricingId = pricingId);
-
-            return TypedResults.Ok(itemsDTO);
+            var query = new GetItemsByPricingIdAndWarehouseIdQuery(pricingId, warehouseId);
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
         }
     }
 }

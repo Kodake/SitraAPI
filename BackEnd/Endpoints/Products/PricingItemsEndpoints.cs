@@ -1,10 +1,10 @@
-﻿using AutoMapper;
-using BackEnd.DTOs;
+﻿using BackEnd.DTOs;
 using BackEnd.DTOs.Products.PricingItems;
-using BackEnd.Entities.Products;
 using BackEnd.Filters;
 using BackEnd.Helpers;
-using BackEnd.Repositories;
+using BackEnd.MediatR.Commands.Products.PricingItems;
+using BackEnd.MediatR.Queries.Products.PricingItems;
+using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
@@ -19,82 +19,50 @@ namespace BackEnd.Endpoints
                 .AddPaginationParamsOpenAPI();
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreatePricingItemDTO>>()
-                //.RequireAuthorization("isAdmin")
                 .WithOpenApi();
-            group.MapPatch("/{id:long}/activate", Activate);            
+            group.MapPatch("/{id:long}/activate", Activate);
             group.MapDelete("/{id:long}", Delete);
-            //.RequireAuthorization("isAdmin");
             return group;
         }
 
         static async Task<Ok<List<PricingItemListDTO>>> GetAll(
-            [FromServices] IUnitOfWork unitOfWork,
-            IMapper mapper, [FromRoute] long itemId, PaginationDTO pagination)
+            [FromServices] IMediator mediator,
+            [FromRoute] long itemId,
+            PaginationDTO pagination)
         {
-            var pricingItems = await unitOfWork.PricingItemRepository.GetAllAsync(pagination, itemId);
-            var pricingItemsDTO = mapper.Map<List<PricingItemListDTO>>(pricingItems);
-
-            return TypedResults.Ok(pricingItemsDTO);
+            var query = new GetAllPricingItemsByIdQuery(pagination, itemId);
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
         }
 
-        static async Task<Results<Created<PricingItemDTO>, ValidationProblem>> Create([FromBody] CreatePricingItemDTO dto,
-            [FromServices] IUnitOfWork unitOfWork,
-            IOutputCacheStore outputCacheStore,
-            IMapper mapper)
-        {
-            var pricingItem = mapper.Map<PricingItem>(dto);
-
-            await unitOfWork.PricingItemRepository.CreateAsync(pricingItem);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("pricing-items-get", default);
-            await outputCacheStore.EvictByTagAsync("pricings-get", default);
-            await outputCacheStore.EvictByTagAsync("products-get", default);
-            await outputCacheStore.EvictByTagAsync("services-get", default);
-
-            var pricingItemDTO = mapper.Map<PricingItemDTO>(pricingItem);
-
-            return TypedResults.Created($"/pricingItems/{pricingItem.Id}", pricingItemDTO);
-        }
-
-        static async Task<Results<NotFound, Ok>> Activate([FromRoute] long id,
-            [FromServices] IUnitOfWork unitOfWork,
+        static async Task<Results<Created, NotFound, ValidationProblem>> Create(
+            [FromBody] CreatePricingItemDTO dto,
+            [FromServices] IMediator mediator,
             IOutputCacheStore outputCacheStore)
         {
-            var success = await unitOfWork.PricingItemRepository.ActivateAsync(id);
-
-            if (!success)
-            {
-                return TypedResults.NotFound();
-            }
-
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("pricing-items-get", default);
-            await outputCacheStore.EvictByTagAsync("pricings-get", default);
-            await outputCacheStore.EvictByTagAsync("products-get", default);
-            await outputCacheStore.EvictByTagAsync("services-get", default);
-
-            return TypedResults.Ok();
+            var command = new CreatePricingItemCommand(dto);
+            var pricingItemDTO = await mediator.Send(command);
+            return pricingItemDTO == null ? TypedResults.NotFound() : TypedResults.Created();
         }
 
-        static async Task<Results<NotFound, Ok>> Delete([FromRoute] int id,
-            [FromServices] IUnitOfWork unitOfWork,
+        static async Task<Results<NotFound, Ok>> Activate(
+            [FromRoute] long id,
+            [FromServices] IMediator mediator,
             IOutputCacheStore outputCacheStore)
         {
-            var pricingItemDB = await unitOfWork.PricingItemRepository.GetByIdAsync(id);
+            var command = new ActivatePricingItemCommand(id);
+            var success = await mediator.Send(command);
+            return success ? TypedResults.Ok() : TypedResults.NotFound();
+        }
 
-            if (pricingItemDB is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            await unitOfWork.PricingItemRepository.Delete(id);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("pricing-items-get", default);
-            await outputCacheStore.EvictByTagAsync("pricings-get", default);
-            await outputCacheStore.EvictByTagAsync("products-get", default);
-            await outputCacheStore.EvictByTagAsync("services-get", default);
-
-            return TypedResults.Ok();
+        static async Task<Results<NotFound, Ok>> Delete(
+            [FromRoute] long id,
+            [FromServices] IMediator mediator,
+            IOutputCacheStore outputCacheStore)
+        {
+            var command = new DeletePricingItemCommand(id);
+            var success = await mediator.Send(command, default);
+            return success ? TypedResults.Ok() : TypedResults.NotFound();
         }
     }
 }

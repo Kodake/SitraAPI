@@ -5,9 +5,9 @@ namespace BackEnd.MediatR.Queries
 {
     public abstract class GetByIdQuery<TDto> : IQuery<TDto>
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
 
-        protected GetByIdQuery(int id)
+        protected GetByIdQuery(long id)
         {
             Id = id;
         }

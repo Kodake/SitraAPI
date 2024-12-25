@@ -1,5 +1,5 @@
-﻿using BackEnd.Repositories.Generics;
-using BackEnd.Repositories;
+﻿using BackEnd.Repositories;
+using BackEnd.Repositories.Generics;
 using System.Reflection;
 
 namespace BackEnd.MediatR

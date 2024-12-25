@@ -10,7 +10,7 @@ using BackEnd.Repositories.Warehouses;
 
 namespace BackEnd.Repositories
 {
-    public class UnitOfWork: IUnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;

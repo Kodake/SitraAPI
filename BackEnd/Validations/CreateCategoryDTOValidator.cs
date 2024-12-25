@@ -1,7 +1,7 @@
-﻿using BackEnd.Helpers;
-using FluentValidation;
+﻿using BackEnd.DTOs.Products.Categories;
+using BackEnd.Helpers;
 using BackEnd.Repositories.Products;
-using BackEnd.DTOs.Products.Categories;
+using FluentValidation;
 
 namespace BackEnd.Validations
 {

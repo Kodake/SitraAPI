@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using BackEnd.Entities.Accounts;
 using Microsoft.EntityFrameworkCore;
-using BackEnd.Entities.Accounts;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BackEnd.Context.Accounts
 {

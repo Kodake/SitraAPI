@@ -1,6 +1,4 @@
-﻿using BackEnd.Entities.Contacts;
-
-namespace BackEnd.DTOs.Invoices.SaleInvoices
+﻿namespace BackEnd.DTOs.Invoices.SaleInvoices
 {
     public class SaleInvoiceDTO
     {

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BackEnd.Context.Accounts
 {
-    public class PaymentReceiptConfiguration: IEntityTypeConfiguration<PaymentReceipt>
+    public class PaymentReceiptConfiguration : IEntityTypeConfiguration<PaymentReceipt>
     {
         public void Configure(EntityTypeBuilder<PaymentReceipt> builder)
         {

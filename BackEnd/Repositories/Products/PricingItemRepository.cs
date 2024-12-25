@@ -10,7 +10,8 @@ namespace BackEnd.Repositories.Products
     {
         private new readonly HttpContext httpContext;
         public PricingItemRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
-            : base(context, httpContextAccessor) {
+            : base(context, httpContextAccessor)
+        {
             httpContext = httpContextAccessor.HttpContext!;
         }
 

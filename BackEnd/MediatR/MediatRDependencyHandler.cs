@@ -10,6 +10,10 @@ namespace BackEnd.MediatR
 
             services.AddBrandServices();
             services.AddUnitServices();
+            services.AddCategoryServices();
+            services.AddPricingServices();
+            services.AddItemsServices();
+            services.AddPricingItemServices();
 
             return services;
         }

@@ -1,11 +1,10 @@
-﻿using AutoMapper;
-using BackEnd.DTOs;
+﻿using BackEnd.DTOs;
 using BackEnd.DTOs.Products.Pricings;
-using BackEnd.Entities.Products;
 using BackEnd.Filters;
 using BackEnd.Helpers;
-using BackEnd.Repositories;
-using BackEnd.Repositories.Products;
+using BackEnd.MediatR.Commands.Products.Pricings;
+using BackEnd.MediatR.Queries.Products.Pricings;
+using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
@@ -18,105 +17,72 @@ namespace BackEnd.Endpoints
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("pricings-get"))
                 .AddPaginationParamsOpenAPI();
-            group.MapGet("/unregistered-pricings/{id:int}", GetUnregisteredPricingsForItem).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("pricings-get"));
-            group.MapGet("/{id:int}", GetById);
+            group.MapGet("/unregistered-pricings/{id:long}", GetUnregisteredPricingsForItem).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("pricings-get"));
+            group.MapGet("/{id:long}", GetById);
             group.MapGet("/selects", GetPricings);
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreatePricingDTO>>()
-                //.RequireAuthorization("isAdmin")
                 .WithOpenApi();
-            group.MapPut("/{id:int}", Update).DisableAntiforgery()
+            group.MapPut("/{id:long}", Update).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreatePricingDTO>>()
-                //.RequireAuthorization("isAdmin")
                 .WithOpenApi();
-            //.RequireAuthorization("isAdmin");
             return group;
         }
 
         static async Task<Ok<List<PricingListDTO>>> GetAll(
-            [FromServices] IUnitOfWork unitOfWork,
-            IMapper mapper, PaginationDTO pagination)
+            [FromServices] IMediator mediator,
+            PaginationDTO pagination)
         {
-            var pricings = await unitOfWork.PricingRepository.GetAllAsync(pagination);
-            var pricingsDTO = mapper.Map<List<PricingListDTO>>(pricings);
-
-            return TypedResults.Ok(pricingsDTO);
+            var query = new GetAllPricingsQuery(pagination);
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
         }
 
-        static async Task<Ok<List<PricingListDTO>>> GetUnregisteredPricingsForItem(
-            [FromServices] IUnitOfWork unitOfWork,
-            IMapper mapper, int id)
+        static async Task<Ok<IEnumerable<PricingListDTO>>> GetUnregisteredPricingsForItem(
+            [FromServices] IMediator mediator,
+            long id)
         {
-            var unregPricings = await unitOfWork.PricingRepository.GetUnregisteredPricingsForItem(id);
-            var unregPricingsDTO = mapper.Map<List<PricingListDTO>>(unregPricings);
-
-            return TypedResults.Ok(unregPricingsDTO);
+            var query = new GetUnregisteredPricingsForItemQuery(id);
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
         }
 
         static async Task<Results<Ok<PricingDTO>, NotFound>> GetById(
-            [FromServices] IUnitOfWork unitOfWork,
-            IMapper mapper, int id)
+            [FromServices] IMediator mediator,
+            long id)
         {
-            var pricing = await unitOfWork.PricingRepository.GetByIdAsync(id);
-
-            if (pricing is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            var pricingDTO = mapper.Map<PricingDTO>(pricing);
-
-            return TypedResults.Ok(pricingDTO);
+            var query = new GetPricingByIdQuery(id);
+            var dto = await mediator.Send(query);
+            return dto == null ? TypedResults.NotFound() : TypedResults.Ok(dto);
         }
 
         static async Task<Ok<List<PricingListDTO>>> GetPricings(
-            [FromServices] IUnitOfWork unitOfWork,
-            IMapper mapper)
+            [FromServices] IMediator mediator)
         {
-            var pricings = await unitOfWork.PricingRepository.GetAll();
-
-            var pricingsDTO = mapper.Map<List<PricingListDTO>>(pricings);
-
-            return TypedResults.Ok(pricingsDTO);
+            var query = new GetSelectsPricingsQuery();
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
         }
 
-        static async Task<Results<Created<PricingDTO>, ValidationProblem>> Create([FromBody] CreatePricingDTO dto,
-            [FromServices] IUnitOfWork unitOfWork,
-            IOutputCacheStore outputCacheStore,
-            IMapper mapper)
+        static async Task<Results<Created, NotFound, ValidationProblem>> Create(
+            [FromBody] CreatePricingDTO dto,
+            [FromServices] IMediator mediator,
+            IOutputCacheStore outputCacheStore)
         {
-            var pricing = mapper.Map<Pricing>(dto);
-
-            await unitOfWork.PricingRepository.CreateAsync(pricing);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("pricings-get", default);
-
-            var pricingDTO = mapper.Map<PricingDTO>(pricing);
-
-            return TypedResults.Created($"/pricings/{pricing.Id}", pricingDTO);
+            var command = new CreatePricingCommand(dto);
+            var pricingDTO = await mediator.Send(command);
+            return pricingDTO == null ? TypedResults.NotFound() : TypedResults.Created();
         }
 
-        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromBody] CreatePricingDTO dto,
-            [FromServices] IUnitOfWork unitOfWork,
-            IOutputCacheStore outputCacheStore,
-            IMapper mapper)
+        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(
+            long id,
+            [FromBody] CreatePricingDTO dto,
+            [FromServices] IMediator mediator,
+            IOutputCacheStore outputCacheStore)
         {
-            var pricingDB = await unitOfWork.PricingRepository.GetByIdAsync(id);
-
-            if (pricingDB is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            pricingDB.Name = dto.Name;
-            pricingDB.PricingType = dto.PricingType;
-            pricingDB.Percentage = dto.Percentage;
-
-            unitOfWork.PricingRepository.Update(pricingDB);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("pricings-get", default);
-
-            return TypedResults.Ok();
+            var command = new UpdatePricingCommand(id, dto);
+            var success = await mediator.Send(command, default);
+            return success ? TypedResults.Ok() : TypedResults.NotFound();
         }
     }
 }

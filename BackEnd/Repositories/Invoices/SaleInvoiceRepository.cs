@@ -1,6 +1,6 @@
-﻿using BackEnd.Entities.Invoices;
+﻿using BackEnd.Context;
+using BackEnd.Entities.Invoices;
 using Microsoft.EntityFrameworkCore;
-using BackEnd.Context;
 
 namespace BackEnd.Repositories.Invoices
 {

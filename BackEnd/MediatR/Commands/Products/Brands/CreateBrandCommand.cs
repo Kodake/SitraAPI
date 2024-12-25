@@ -1,8 +1,8 @@
-﻿using BackEnd.Repositories;
-using Microsoft.AspNetCore.OutputCaching;
+﻿using AutoMapper;
 using BackEnd.DTOs.Products.Brands;
 using BackEnd.Entities.Products;
-using AutoMapper;
+using BackEnd.Repositories;
+using Microsoft.AspNetCore.OutputCaching;
 
 namespace BackEnd.MediatR.Commands.Products.Brands
 {

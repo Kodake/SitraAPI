@@ -1,6 +1,6 @@
-﻿using BackEnd.Endpoints.Invoices;
+﻿using BackEnd.Endpoints;
+using BackEnd.Endpoints.Invoices;
 using BackEnd.Endpoints.Products;
-using BackEnd.Endpoints;
 using Microsoft.AspNetCore.Identity;
 
 public static class ApiRouteExtensions

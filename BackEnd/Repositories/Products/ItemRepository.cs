@@ -11,7 +11,7 @@ namespace BackEnd.Repositories.Products
             : base(context, httpContextAccessor)
         { }
 
-        public async Task<List<Item>> GetByPricingIdAndWarehouseId(int pricingId, int warehouseId)
+        public async Task<List<Item>> GetByPricingIdAndWarehouseId(long pricingId, long warehouseId)
         {
             return await context.Items
                 .Include(x => x.Stocks)

@@ -1,19 +1,19 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using BackEnd.Context.Accounts;
+using BackEnd.Context.AdministrativeTools;
+using BackEnd.Context.Contacts;
+using BackEnd.Context.Finances;
+using BackEnd.Context.Invoices;
+using BackEnd.Context.Products;
+using BackEnd.Context.Warehouses;
+using BackEnd.Entities.Accounts;
+using BackEnd.Entities.AdministrativeTools;
 using BackEnd.Entities.Contacts;
 using BackEnd.Entities.Finances;
+using BackEnd.Entities.Invoices;
 using BackEnd.Entities.Products;
 using BackEnd.Entities.Warehouses;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using BackEnd.Entities.AdministrativeTools;
-using BackEnd.Entities.Invoices;
-using BackEnd.Entities.Accounts;
-using BackEnd.Context.Finances;
-using BackEnd.Context.Accounts;
-using BackEnd.Context.Warehouses;
-using BackEnd.Context.Products;
-using BackEnd.Context.Contacts;
-using BackEnd.Context.Invoices;
-using BackEnd.Context.AdministrativeTools;
 
 namespace BackEnd.Context
 {

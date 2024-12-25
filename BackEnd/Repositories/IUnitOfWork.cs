@@ -8,7 +8,7 @@ using BackEnd.Repositories.Products;
 using BackEnd.Repositories.Warehouses;
 namespace BackEnd.Repositories
 {
-    public interface IUnitOfWork: IDisposable
+    public interface IUnitOfWork : IDisposable
     {
         IRepositoryBase<T> Repository<T>() where T : class;
         IReceivableRepository ReceivableRepository { get; }

@@ -8,10 +8,10 @@ namespace BackEnd.MediatR.Commands
     public abstract class UpdateCommand<TEntity, TDto> : IRequest<bool>
         where TEntity : class
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public TDto Dto { get; set; }
 
-        protected UpdateCommand(int id, TDto dto)
+        protected UpdateCommand(long id, TDto dto)
         {
             Id = id;
             Dto = dto;

@@ -2,7 +2,6 @@
 using BackEnd.Entities.Contacts;
 using BackEnd.Repositories.Contacts;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace BackEnd.Repositories.Products
 {

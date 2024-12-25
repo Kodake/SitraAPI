@@ -18,15 +18,15 @@ namespace BackEnd.Endpoints
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("brands-get"))
                 .AddPaginationParamsOpenAPI();
             group.MapGet("/selects", GetSelects).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("brands-get"));
-            group.MapGet("/{id:int}", GetById);
+            group.MapGet("/{id:long}", GetById);
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateBrandDTO>>()
                 .WithOpenApi();
-            group.MapPut("/{id:int}", Update).DisableAntiforgery()
+            group.MapPut("/{id:long}", Update).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateBrandDTO>>()
                 .WithOpenApi();
-            group.MapPatch("/{id:int}/activate", Activate);
-            group.MapDelete("/{id:int}/deactivate", Deactivate);
+            group.MapPatch("/{id:long}/activate", Activate);
+            group.MapDelete("/{id:long}/deactivate", Deactivate);
             return group;
         }
 

@@ -1,7 +1,7 @@
-﻿using BackEnd.Repositories;
-using AutoMapper;
+﻿using AutoMapper;
 using BackEnd.DTOs.Products.Brands;
 using BackEnd.Enums;
+using BackEnd.Repositories;
 
 namespace BackEnd.MediatR.Queries.Products.Brands
 {

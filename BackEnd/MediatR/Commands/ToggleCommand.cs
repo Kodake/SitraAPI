@@ -6,9 +6,9 @@ namespace BackEnd.MediatR.Commands
 {
     public abstract class ToggleCommand : IRequest<bool>
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
 
-        protected ToggleCommand(int id)
+        protected ToggleCommand(long id)
         {
             Id = id;
         }

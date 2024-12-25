@@ -1,9 +1,8 @@
-﻿using Moq;
-using NUnit.Framework;
-using BackEnd.DTOs;
+﻿using BackEnd.DTOs;
 using BackEnd.Entities.Contacts;
-using BackEnd.Repositories.Contacts;
 using BackEnd.Repositories;
+using Moq;
+using NUnit.Framework;
 
 namespace BackEnd.Tests.Repositories.Contacts
 {

@@ -10,9 +10,9 @@ namespace BackEnd.MediatR.Commands.Products.Units
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, CancellationToken cancellationToken)
         {
-            var unit = await unitOfWork.UnitRepository.GetByIdAsync(Id);
+            var unitDB = await unitOfWork.UnitRepository.GetByIdAsync(Id);
 
-            if (unit == null) return false;
+            if (unitDB == null) return false;
 
             await unitOfWork.UnitRepository.ActivateAsync(Id);
             await unitOfWork.SaveChangesAsync();

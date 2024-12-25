@@ -1,7 +1,7 @@
-﻿using BackEnd.Repositories;
-using AutoMapper;
-using BackEnd.DTOs.Products.Brands;
+﻿using AutoMapper;
 using BackEnd.DTOs;
+using BackEnd.DTOs.Products.Brands;
+using BackEnd.Repositories;
 
 namespace BackEnd.MediatR.Queries.Products.Brands
 {
@@ -12,8 +12,7 @@ namespace BackEnd.MediatR.Queries.Products.Brands
         public override async Task<List<BrandListDTO>> GetData(
             IUnitOfWork unitOfWork,
             IMapper mapper,
-            CancellationToken cancellationToken
-            )
+            CancellationToken cancellationToken)
         {
             var brands = await unitOfWork.BrandRepository.GetAllAsync(Pagination);
             return mapper.Map<List<BrandListDTO>>(brands);

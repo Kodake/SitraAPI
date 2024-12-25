@@ -1,7 +1,6 @@
 ﻿using BackEnd.Context;
 using BackEnd.Entities.Finances;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace BackEnd.Repositories.Finances
 {
