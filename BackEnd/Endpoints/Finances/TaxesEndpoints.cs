@@ -1,14 +1,13 @@
-﻿using AutoMapper;
-using BackEnd.DTOs;
+﻿using BackEnd.DTOs;
 using BackEnd.DTOs.Finances.Taxes;
-using BackEnd.Entities.Finances;
-using BackEnd.Enums;
 using BackEnd.Filters;
 using BackEnd.Helpers;
-using BackEnd.Repositories;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OutputCaching;
+using BackEnd.MediatR.Commands.Finances.Taxes;
+using BackEnd.MediatR.Queries.Finances.Taxes;
+using MediatR;
+using BackEnd.Enums;
 
 namespace BackEnd.Endpoints
 {
@@ -19,129 +18,79 @@ namespace BackEnd.Endpoints
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("taxes-get"))
                 .AddPaginationParamsOpenAPI();
             group.MapGet("/selects", GetSelects).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("taxes-get"));
-            group.MapGet("/{id:int}", GetById);
+            group.MapGet("/{id:long}", GetById);
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateTaxDTO>>()
-                //.RequireAuthorization()
                 .WithOpenApi();
-            group.MapPut("/{id:int}", Update).DisableAntiforgery()
+            group.MapPut("/{id:long}", Update).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateTaxDTO>>()
-                //.RequireAuthorization()
                 .WithOpenApi();
-            group.MapPatch("/{id:int}/activate", Activate);
-            group.MapDelete("/{id:int}/deactivate", Deactivate);
+            group.MapPatch("/{id:long}/activate", Activate);
+            group.MapDelete("/{id:long}/deactivate", Deactivate);
             return group;
         }
 
-        static async Task<Ok<List<TaxListDTO>>> GetSelects(
-            [FromServices] IUnitOfWork unitOfWork,
-            IMapper mapper, [FromQuery] StatusType status = StatusType.All)
+        static async Task<Ok<List<TaxListDTO>>> GetAll(
+            [FromServices] IMediator mediator,
+            PaginationDTO pagination)
         {
-            var taxes = await unitOfWork.TaxRepository.GetAll(status);
-            var taxesDTO = mapper.Map<List<TaxListDTO>>(taxes);
-
-            return TypedResults.Ok(taxesDTO);
+            var query = new GetAllTaxesQuery(pagination);
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
         }
 
-        static async Task<Ok<List<TaxListDTO>>> GetAll(
-            [FromServices] IUnitOfWork unitOfWork,
-            [FromServices] IMapper mapper, PaginationDTO pagination)
+        static async Task<Ok<List<TaxListDTO>>> GetSelects(
+            [FromServices] IMediator mediator, [FromQuery] StatusType status = StatusType.All)
         {
-            var taxes = await unitOfWork.TaxRepository.GetAllAsync(pagination);
-            var taxesDTO = mapper.Map<List<TaxListDTO>>(taxes);
-
-            return TypedResults.Ok(taxesDTO);
+            var query = new GetSelectsTaxesQuery(status);
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
         }
 
         static async Task<Results<Ok<TaxDTO>, NotFound>> GetById(
-            [FromServices] IUnitOfWork unitOfWork,
-            [FromServices] IMapper mapper, int id)
+            [FromServices] IMediator mediator,
+            int id)
         {
-            var tax = await unitOfWork.TaxRepository.GetByIdAsync(id);
-
-            if (tax is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            var taxDTO = mapper.Map<TaxDTO>(tax);
-
-            return TypedResults.Ok(taxDTO);
+            var query = new GetTaxByIdQuery(id);
+            var dto = await mediator.Send(query);
+            return dto == null ? TypedResults.NotFound() : TypedResults.Ok(dto);
         }
 
-        static async Task<Results<Created<TaxDTO>, ValidationProblem>> Create([FromBody] CreateTaxDTO dto,
-           [FromServices] IUnitOfWork unitOfWork,
-           IOutputCacheStore outputCacheStore,
-           [FromServices] IMapper mapper)
+        static async Task<Results<Created, NotFound, ValidationProblem>> Create(
+            [FromBody] CreateTaxDTO dto,
+            [FromServices] IMediator mediator)
         {
-            var tax = mapper.Map<Tax>(dto);
-
-            await unitOfWork.TaxRepository.CreateAsync(tax);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("taxes-get", default);
-
-            var taxDTO = mapper.Map<TaxDTO>(tax);
-
-            return TypedResults.Created($"/taxes/{tax.Id}", taxDTO);
+            var command = new CreateTaxCommand(dto);
+            var taxDTO = await mediator.Send(command);
+            return taxDTO == null ? TypedResults.NotFound() : TypedResults.Created();
         }
 
-        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromBody] CreateTaxDTO dto,
-            [FromServices] IUnitOfWork unitOfWork,
-            IOutputCacheStore outputCacheStore,
-            [FromServices] IMapper mapper)
+        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(
+            int id,
+            [FromBody] CreateTaxDTO dto,
+            [FromServices] IMediator mediator)
         {
-            var taxDB = await unitOfWork.TaxRepository.GetByIdAsync(id);
-
-            if (taxDB is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            taxDB.Name = dto.Name;
-            taxDB.Amount = dto.Amount;
-            taxDB.IsActive = taxDB.IsActive;
-
-            unitOfWork.TaxRepository.Update(taxDB);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("taxes-get", default);
-
-            return TypedResults.Ok();
+            var command = new UpdateTaxCommand(id, dto);
+            var success = await mediator.Send(command, default);
+            return success ? TypedResults.Ok() : TypedResults.NotFound();
         }
 
-        static async Task<Results<NotFound, Ok>> Activate([FromRoute] int id,
-             [FromServices] IUnitOfWork unitOfWork,
-             IOutputCacheStore outputCacheStore)
+        static async Task<Results<NotFound, Ok>> Activate(
+            [FromRoute] int id,
+            [FromServices] IMediator mediator)
         {
-            var taxDB = await unitOfWork.TaxRepository.GetByIdAsync(id);
-
-            if (taxDB is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            await unitOfWork.TaxRepository.ActivateAsync(id);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("taxes-get", default);
-
-            return TypedResults.Ok();
+            var command = new ActivateTaxCommand(id);
+            var success = await mediator.Send(command, default);
+            return success ? TypedResults.Ok() : TypedResults.NotFound();
         }
 
-        static async Task<Results<NotFound, Ok>> Deactivate([FromRoute] int id,
-             [FromServices] IUnitOfWork unitOfWork,
-             IOutputCacheStore outputCacheStore)
+        static async Task<Results<NotFound, Ok>> Deactivate(
+            [FromRoute] int id,
+            [FromServices] IMediator mediator)
         {
-            var taxDB = await unitOfWork.TaxRepository.GetByIdAsync(id);
-
-            if (taxDB is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            await unitOfWork.TaxRepository.DeactivateAsync(id);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("taxes-get", default);
-
-            return TypedResults.Ok();
+            var command = new DeactivateTaxCommand(id);
+            var success = await mediator.Send(command, default);
+            return success ? TypedResults.Ok() : TypedResults.NotFound();
         }
     }
 }

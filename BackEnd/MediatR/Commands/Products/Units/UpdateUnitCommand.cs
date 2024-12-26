@@ -16,8 +16,7 @@ namespace BackEnd.MediatR.Commands.Products.Units
 
             if (unitDB == null) return false;
 
-            unitDB.Name = Dto.Name;
-            unitDB.ShortName = Dto.ShortName;
+            mapper.Map(Dto, unitDB);
             unitOfWork.UnitRepository.Update(unitDB);
             await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("units-get", default);

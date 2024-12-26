@@ -1,14 +1,14 @@
-﻿using AutoMapper;
-using BackEnd.DTOs;
+﻿using BackEnd.DTOs;
 using BackEnd.DTOs.AdministrativeTools.Deadlines;
-using BackEnd.Entities.AdministrativeTools;
 using BackEnd.Enums;
 using BackEnd.Filters;
 using BackEnd.Helpers;
-using BackEnd.Repositories;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
+using BackEnd.MediatR.Commands.AdministrativeTools.Deadlines;
+using BackEnd.MediatR.Queries.AdministrativeTools.Deadlines;
+using MediatR;
 
 namespace BackEnd.Endpoints
 {
@@ -31,110 +31,71 @@ namespace BackEnd.Endpoints
             return group;
         }
 
-        static async Task<Ok<List<DeadlineListDTO>>> GetAll(IUnitOfWork unitOfWork,
-            IMapper mapper, PaginationDTO pagination)
+        static async Task<Ok<List<DeadlineListDTO>>> GetAll(
+            [FromServices] IMediator mediator,
+            PaginationDTO pagination)
         {
-            var deadlines = await unitOfWork.DeadlineRepository.GetAllAsync(pagination);
-            var deadlinesDTO = mapper.Map<List<DeadlineListDTO>>(deadlines);
-
-            return TypedResults.Ok(deadlinesDTO);
+            var query = new GetAllDeadlinesQuery(pagination);
+            var result = await mediator.Send(query);
+            return TypedResults.Ok(result);
         }
 
-        static async Task<Ok<List<DeadlineListDTO>>> GetSelects(IUnitOfWork unitOfWork,
-            IMapper mapper, [FromQuery] StatusType status = StatusType.All)
+        static async Task<Ok<List<DeadlineListDTO>>> GetSelects(
+            [FromServices] IMediator mediator,
+            [FromQuery] StatusType status = StatusType.All)
         {
-            var deadlines = await unitOfWork.DeadlineRepository.GetAll(status);
-            var deadlinesDTO = mapper.Map<List<DeadlineListDTO>>(deadlines);
-
-            return TypedResults.Ok(deadlinesDTO);
+            var query = new GetSelectsDeadlinesQuery(status);
+            var result = await mediator.Send(query);
+            return TypedResults.Ok(result);
         }
 
-        static async Task<Results<Ok<DeadlineDTO>, NotFound>> GetById(IUnitOfWork unitOfWork,
-            IMapper mapper, int id)
+        static async Task<Results<Ok<DeadlineDTO>, NotFound>> GetById(
+            [FromServices] IMediator mediator,
+            int id)
         {
-            var deadline = await unitOfWork.DeadlineRepository.GetByIdAsync(id);
-
-            if (deadline is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            var deadlineDTO = mapper.Map<DeadlineDTO>(deadline);
-
-            return TypedResults.Ok(deadlineDTO);
+            var query = new GetDeadlineByIdQuery(id);
+            var result = await mediator.Send(query);
+            return result is null ? TypedResults.NotFound() : TypedResults.Ok(result);
         }
 
-        static async Task<Results<Created<DeadlineDTO>, ValidationProblem>> Create([FromBody] CreateDeadlineDTO dto,
-           IUnitOfWork unitOfWork,
-           IOutputCacheStore outputCacheStore,
-           IMapper mapper)
+        static async Task<Results<Created, NotFound, ValidationProblem>> Create(
+            [FromBody] CreateDeadlineDTO dto,
+            [FromServices] IMediator mediator,
+            IOutputCacheStore outputCacheStore)
         {
-            var deadline = mapper.Map<Deadline>(dto);
-
-            await unitOfWork.DeadlineRepository.CreateAsync(deadline);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("deadlines-get", default);
-
-            var deadlineDTO = mapper.Map<DeadlineDTO>(deadline);
-            return TypedResults.Created($"/deadlines/{deadline.Id}", deadlineDTO);
+            var command = new CreateDeadlineCommand(dto);
+            var deadlineDTO = await mediator.Send(command);
+            return deadlineDTO == null ? TypedResults.NotFound() : TypedResults.Created();
         }
 
-        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromBody] CreateDeadlineDTO dto,
-           IUnitOfWork unitOfWork,
-           IOutputCacheStore outputCacheStore,
-           IMapper mapper)
+        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(
+            int id, [FromBody] CreateDeadlineDTO dto,
+            [FromServices] IMediator mediator,
+            IOutputCacheStore outputCacheStore)
         {
-            var deadlineDB = await unitOfWork.DeadlineRepository.GetByIdAsync(id);
-
-            if (deadlineDB is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            deadlineDB.Name = dto.Name;
-            deadlineDB.Days = dto.Days;
-
-            unitOfWork.DeadlineRepository.Update(deadlineDB);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("deadlines-get", default);
-
-            return TypedResults.Ok();
+            var command = new UpdateDeadlineCommand(id, dto);
+            var result = await mediator.Send(command);
+            return result ? TypedResults.Ok() : TypedResults.NotFound();
         }
 
-        static async Task<Results<NotFound, Ok>> Activate([FromRoute] int id,
-             IUnitOfWork unitOfWork,
-             IOutputCacheStore outputCacheStore)
+        static async Task<Results<NotFound, Ok>> Activate(
+            [FromRoute] int id,
+            [FromServices] IMediator mediator,
+            IOutputCacheStore outputCacheStore)
         {
-            var deadlineDB = await unitOfWork.DeadlineRepository.GetByIdAsync(id);
-
-            if (deadlineDB is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            await unitOfWork.DeadlineRepository.ActivateAsync(id);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("deadlines-get", default);
-
-            return TypedResults.Ok();
+            var command = new ActivateDeadlineCommand(id);
+            var result = await mediator.Send(command);
+            return result ? TypedResults.Ok() : TypedResults.NotFound();
         }
 
-        static async Task<Results<NotFound, Ok>> Deactivate([FromRoute] int id,
-             IUnitOfWork unitOfWork,
-             IOutputCacheStore outputCacheStore)
+        static async Task<Results<NotFound, Ok>> Deactivate(
+            [FromRoute] int id,
+            [FromServices] IMediator mediator,
+            IOutputCacheStore outputCacheStore)
         {
-            var deadlineDB = await unitOfWork.DeadlineRepository.GetByIdAsync(id);
-
-            if (deadlineDB is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            await unitOfWork.DeadlineRepository.DeactivateAsync(id);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("deadlines-get", default);
-
-            return TypedResults.Ok();
+            var command = new DeactivateDeadlineCommand(id);
+            var result = await mediator.Send(command);
+            return result ? TypedResults.Ok() : TypedResults.NotFound();
         }
     }
 }

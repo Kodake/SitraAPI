@@ -429,11 +429,14 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Contacts.Contacts.ContactDTO",
-        "MediaTypes": [
-          "application/json"
-        ],
+        "Type": "System.Void",
+        "MediaTypes": [],
         "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
       },
       {
         "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
@@ -636,11 +639,14 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Finances.Currencies.CurrencyDTO",
-        "MediaTypes": [
-          "application/json"
-        ],
+        "Type": "System.Void",
+        "MediaTypes": [],
         "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
       },
       {
         "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
@@ -654,7 +660,7 @@
   {
     "ContainingType": "BackEnd.Endpoints.CurrenciesEndpoints",
     "Method": "GetById",
-    "RelativePath": "api/v1/currencies/{id:int}",
+    "RelativePath": "api/v1/currencies/{id:long}",
     "HttpMethod": "GET",
     "IsController": false,
     "Order": 0,
@@ -683,7 +689,7 @@
   {
     "ContainingType": "BackEnd.Endpoints.CurrenciesEndpoints",
     "Method": "Update",
-    "RelativePath": "api/v1/currencies/{id:int}",
+    "RelativePath": "api/v1/currencies/{id:long}",
     "HttpMethod": "PUT",
     "IsController": false,
     "Order": 0,
@@ -722,7 +728,7 @@
   {
     "ContainingType": "BackEnd.Endpoints.CurrenciesEndpoints",
     "Method": "Activate",
-    "RelativePath": "api/v1/currencies/{id:int}/activate",
+    "RelativePath": "api/v1/currencies/{id:long}/activate",
     "HttpMethod": "PATCH",
     "IsController": false,
     "Order": 0,
@@ -749,7 +755,7 @@
   {
     "ContainingType": "BackEnd.Endpoints.CurrenciesEndpoints",
     "Method": "Deactivate",
-    "RelativePath": "api/v1/currencies/{id:int}/deactivate",
+    "RelativePath": "api/v1/currencies/{id:long}/deactivate",
     "HttpMethod": "DELETE",
     "IsController": false,
     "Order": 0,
@@ -775,7 +781,7 @@
   },
   {
     "ContainingType": "BackEnd.Endpoints.CurrenciesEndpoints",
-    "Method": "GetCurrencies",
+    "Method": "GetSelects",
     "RelativePath": "api/v1/currencies/selects",
     "HttpMethod": "GET",
     "IsController": false,
@@ -1020,11 +1026,14 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.AdministrativeTools.FiscalSupports.FiscalSupportDTO",
-        "MediaTypes": [
-          "application/json"
-        ],
+        "Type": "System.Void",
+        "MediaTypes": [],
         "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
       },
       {
         "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
@@ -2625,11 +2634,14 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Finances.Taxes.TaxDTO",
-        "MediaTypes": [
-          "application/json"
-        ],
+        "Type": "System.Void",
+        "MediaTypes": [],
         "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
       },
       {
         "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
@@ -2643,7 +2655,7 @@
   {
     "ContainingType": "BackEnd.Endpoints.TaxesEndpoints",
     "Method": "GetById",
-    "RelativePath": "api/v1/taxes/{id:int}",
+    "RelativePath": "api/v1/taxes/{id:long}",
     "HttpMethod": "GET",
     "IsController": false,
     "Order": 0,
@@ -2672,7 +2684,7 @@
   {
     "ContainingType": "BackEnd.Endpoints.TaxesEndpoints",
     "Method": "Update",
-    "RelativePath": "api/v1/taxes/{id:int}",
+    "RelativePath": "api/v1/taxes/{id:long}",
     "HttpMethod": "PUT",
     "IsController": false,
     "Order": 0,
@@ -2711,7 +2723,7 @@
   {
     "ContainingType": "BackEnd.Endpoints.TaxesEndpoints",
     "Method": "Activate",
-    "RelativePath": "api/v1/taxes/{id:int}/activate",
+    "RelativePath": "api/v1/taxes/{id:long}/activate",
     "HttpMethod": "PATCH",
     "IsController": false,
     "Order": 0,
@@ -2738,7 +2750,7 @@
   {
     "ContainingType": "BackEnd.Endpoints.TaxesEndpoints",
     "Method": "Deactivate",
-    "RelativePath": "api/v1/taxes/{id:int}/deactivate",
+    "RelativePath": "api/v1/taxes/{id:long}/deactivate",
     "HttpMethod": "DELETE",
     "IsController": false,
     "Order": 0,

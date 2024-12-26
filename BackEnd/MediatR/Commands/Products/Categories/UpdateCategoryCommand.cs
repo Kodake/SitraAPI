@@ -16,8 +16,7 @@ namespace BackEnd.MediatR.Commands.Products.Categories
 
             if (categoryDB == null) return false;
 
-            categoryDB.Name = Dto.Name;
-            categoryDB.Description = Dto.Description;
+            mapper.Map(Dto, categoryDB);
             unitOfWork.CategoryRepository.Update(categoryDB);
             await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("categories-get", default);

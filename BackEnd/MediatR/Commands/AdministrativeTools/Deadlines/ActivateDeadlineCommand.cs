@@ -1,0 +1,23 @@
+using BackEnd.Repositories;
+using Microsoft.AspNetCore.OutputCaching;
+
+namespace BackEnd.MediatR.Commands.AdministrativeTools.Deadlines
+{
+    public class ActivateDeadlineCommand : ToggleCommand
+    {
+        public ActivateDeadlineCommand(int id) : base(id) { }
+
+        public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, CancellationToken cancellationToken)
+        {
+            var deadlineDB = await unitOfWork.DeadlineRepository.GetByIdAsync(Id);
+
+            if (deadlineDB == null) return false;
+
+            await unitOfWork.DeadlineRepository.ActivateAsync(Id);
+            await unitOfWork.SaveChangesAsync();
+            await outputCacheStore.EvictByTagAsync("deadlines-get", cancellationToken);
+
+            return true;
+        }
+    }
+}

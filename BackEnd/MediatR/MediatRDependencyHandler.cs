@@ -1,4 +1,7 @@
-﻿using BackEnd.MediatR.Handlers.Products;
+﻿using BackEnd.MediatR.Handlers.Finances;
+using BackEnd.MediatR.Handlers.Products;
+using BackEnd.MediatR.Handlers.Contacts;
+using BackEnd.MediatR.Handlers.AdministrativeTools;
 
 namespace BackEnd.MediatR
 {
@@ -14,6 +17,11 @@ namespace BackEnd.MediatR
             services.AddPricingServices();
             services.AddItemsServices();
             services.AddPricingItemServices();
+            services.AddCurrencyServices();
+            services.AddTaxServices();
+            services.AddContactServices();
+            services.AddDeadlineServices();
+            services.AddFiscalSupportServices();
 
             return services;
         }

@@ -1,0 +1,20 @@
+using AutoMapper;
+using BackEnd.DTOs.AdministrativeTools.FiscalSupports;
+using BackEnd.Repositories;
+
+namespace BackEnd.MediatR.Queries.AdministrativeTools.FiscalSupports
+{
+    public class GetFiscalSupportByIdQuery : GetByIdQuery<FiscalSupportDTO>
+    {
+        public GetFiscalSupportByIdQuery(int id) : base(id) { }
+
+        public override async Task<FiscalSupportDTO> GetData(
+            IUnitOfWork unitOfWork,
+            IMapper mapper,
+            CancellationToken cancellationToken)
+        {
+            var fiscalSupport = await unitOfWork.FiscalSupportRepository.GetByIdAsync(Id);
+            return mapper.Map<FiscalSupportDTO>(fiscalSupport);
+        }
+    }
+}

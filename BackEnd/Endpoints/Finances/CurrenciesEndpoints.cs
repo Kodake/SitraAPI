@@ -1,13 +1,12 @@
-﻿using AutoMapper;
-using BackEnd.DTOs;
+﻿using BackEnd.DTOs;
 using BackEnd.DTOs.Finances.Currencies;
-using BackEnd.Entities.Finances;
 using BackEnd.Filters;
 using BackEnd.Helpers;
-using BackEnd.Repositories;
+using BackEnd.MediatR.Commands.Finances.Currencies;
+using BackEnd.MediatR.Queries.Finances.Currencies;
+using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OutputCaching;
 
 namespace BackEnd.Endpoints
 {
@@ -17,133 +16,80 @@ namespace BackEnd.Endpoints
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("currencies-get"))
                 .AddPaginationParamsOpenAPI();
-            group.MapGet("/{id:int}", GetById);
-            group.MapGet("/selects", GetCurrencies);
+            group.MapGet("/selects", GetSelects).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("currencies-get"));
+            group.MapGet("/{id:long}", GetById);
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateCurrencyDTO>>()
-                //.RequireAuthorization()
                 .WithOpenApi();
-            group.MapPut("/{id:int}", Update).DisableAntiforgery()
+            group.MapPut("/{id:long}", Update).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateCurrencyDTO>>()
-                //.RequireAuthorization()
                 .WithOpenApi();
-            group.MapPatch("/{id:int}/activate", Activate);
-            group.MapDelete("/{id:int}/deactivate", Deactivate);
-            //.RequireAuthorization("isAdmin");
+            group.MapPatch("/{id:long}/activate", Activate);
+            group.MapDelete("/{id:long}/deactivate", Deactivate);
             return group;
         }
 
         static async Task<Ok<List<CurrencyListDTO>>> GetAll(
-            [FromServices] IUnitOfWork unitOfWork,
-            [FromServices] IMapper mapper, PaginationDTO pagination)
+            [FromServices] IMediator mediator,
+            PaginationDTO pagination)
         {
-            var currencies = await unitOfWork.CurrencyRepository.GetAllAsync(pagination);
-            var currenciesDTO = mapper.Map<List<CurrencyListDTO>>(currencies);
+            var query = new GetAllCurrenciesQuery(pagination);
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
+        }
 
-            return TypedResults.Ok(currenciesDTO);
+        static async Task<Ok<List<CurrencyListDTO>>> GetSelects(
+            [FromServices] IMediator mediator)
+        {
+            var query = new GetSelectsCurrenciesQuery();
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
         }
 
         static async Task<Results<Ok<CurrencyDTO>, NotFound>> GetById(
-            [FromServices] IUnitOfWork unitOfWork,
-            [FromServices] IMapper mapper, int id)
+            [FromServices] IMediator mediator,
+            int id)
         {
-            var currency = await unitOfWork.CurrencyRepository.GetByIdAsync(id);
-
-            if (currency is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            var currencyDTO = mapper.Map<CurrencyDTO>(currency);
-
-            return TypedResults.Ok(currencyDTO);
+            var query = new GetCurrencyByIdQuery(id);
+            var dto = await mediator.Send(query);
+            return dto == null ? TypedResults.NotFound() : TypedResults.Ok(dto);
         }
 
-        static async Task<Ok<List<CurrencyListDTO>>> GetCurrencies(
-            [FromServices] IUnitOfWork unitOfWork,
-            [FromServices] IMapper mapper)
+        static async Task<Results<Created, NotFound, ValidationProblem>> Create(
+            [FromBody] CreateCurrencyDTO dto,
+            [FromServices] IMediator mediator)
         {
-            var currencies = await unitOfWork.CurrencyRepository.GetCurrencies();
-            var currenciesDTO = mapper.Map<List<CurrencyListDTO>>(currencies);
-
-            return TypedResults.Ok(currenciesDTO);
+            var command = new CreateCurrencyCommand(dto);
+            var brandDTO = await mediator.Send(command);
+            return brandDTO == null ? TypedResults.NotFound() : TypedResults.Created();
         }
 
-        static async Task<Results<Created<CurrencyDTO>, ValidationProblem>> Create([FromBody] CreateCurrencyDTO dto,
-           [FromServices] IUnitOfWork unitOfWork,
-           IOutputCacheStore outputCacheStore,
-           [FromServices] IMapper mapper)
+        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(
+            int id,
+            [FromBody] CreateCurrencyDTO dto,
+            [FromServices] IMediator mediator)
         {
-            var currency = mapper.Map<Currency>(dto);
-
-            await unitOfWork.CurrencyRepository.CreateAsync(currency);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("currencies-get", default);
-
-            var currencyDTO = mapper.Map<CurrencyDTO>(currency);
-
-            return TypedResults.Created($"/currencies/{currency.Id}", currencyDTO);
+            var command = new UpdateCurrencyCommand(id, dto);
+            var success = await mediator.Send(command, default);
+            return success ? TypedResults.Ok() : TypedResults.NotFound();
         }
 
-        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromBody] CreateCurrencyDTO dto,
-            [FromServices] IUnitOfWork unitOfWork,
-            IOutputCacheStore outputCacheStore,
-            [FromServices] IMapper mapper)
+        static async Task<Results<NotFound, Ok>> Activate(
+            [FromRoute] int id,
+            [FromServices] IMediator mediator)
         {
-            var currencyDB = await unitOfWork.CurrencyRepository.GetByIdAsync(id);
-
-            if (currencyDB is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            currencyDB.Rate = dto.Rate;
-            currencyDB.Code = dto.Code;
-            currencyDB.Name = dto.Name;
-            currencyDB.IsActive = currencyDB.IsActive;
-
-            unitOfWork.CurrencyRepository.Update(currencyDB);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("currencies-get", default);
-
-            return TypedResults.Ok();
-        }
-
-        static async Task<Results<NotFound, Ok>> Activate([FromRoute] int id,
-             [FromServices] IUnitOfWork unitOfWork,
-             IOutputCacheStore outputCacheStore)
-        {
-            var currencyDB = await unitOfWork.CurrencyRepository.GetByIdAsync(id);
-
-            if (currencyDB is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            await unitOfWork.CurrencyRepository.ActivateAsync(id);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("currencies-get", default);
-
-            return TypedResults.Ok();
+            var command = new ActivateCurrencyCommand(id);
+            var success = await mediator.Send(command, default);
+            return success ? TypedResults.Ok() : TypedResults.NotFound();
         }
 
         static async Task<Results<NotFound, Ok>> Deactivate(
             [FromRoute] int id,
-            [FromServices] IUnitOfWork unitOfWork,
-            [FromServices] IOutputCacheStore outputCacheStore)
+            [FromServices] IMediator mediator)
         {
-            var currency = await unitOfWork.CurrencyRepository.GetByIdAsync(id);
-
-            if (currency is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            await unitOfWork.CurrencyRepository.DeactivateAsync(id);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("currencies-get", default);
-
-            return TypedResults.Ok();
+            var command = new DeactivateCurrencyCommand(id);
+            var success = await mediator.Send(command, default);
+            return success ? TypedResults.Ok() : TypedResults.NotFound();
         }
     }
 }

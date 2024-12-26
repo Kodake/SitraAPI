@@ -16,7 +16,7 @@ namespace BackEnd.MediatR.Commands.Products.Brands
 
             if (brandDB == null) return false;
 
-            brandDB.Name = Dto.Name;
+            mapper.Map(Dto, brandDB);
             unitOfWork.BrandRepository.Update(brandDB);
             await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("brands-get", default);

@@ -16,9 +16,7 @@ namespace BackEnd.MediatR.Commands.Products.Pricings
 
             if (pricingDB == null) return false;
 
-            pricingDB.Name = Dto.Name;
-            pricingDB.PricingType = Dto.PricingType;
-            pricingDB.Percentage = Dto.Percentage;
+            mapper.Map(Dto, pricingDB);
             unitOfWork.PricingRepository.Update(pricingDB);
             await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("pricings-get", default);
