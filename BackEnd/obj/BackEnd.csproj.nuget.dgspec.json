@@ -99,6 +99,10 @@
               "target": "Package",
               "version": "[4.6.0, )"
             },
+            "QuestPDF": {
+              "target": "Package",
+              "version": "[2024.12.1, )"
+            },
             "Serilog": {
               "target": "Package",
               "version": "[4.0.1, )"

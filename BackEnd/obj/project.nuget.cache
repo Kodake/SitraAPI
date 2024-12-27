@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "PH4I327NUgkX7n2roYNQ2LMNgtnOV6opSp3qbnM/pOrfv1AB9BQXEp2bF/xN63G23qMCA6T/MuWJGluub+5y2w==",
+  "dgSpecHash": "4pCLFm2Oon3dZeCPVL4xSIv0JTzGzzflzUsFOz5vScD3LOPOAZVO0qubfHW4CjMQib3mWO4sNlpZFEwg71gsMw==",
   "success": true,
   "projectFilePath": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\BackEnd.csproj",
   "expectedPackageFiles": [
@@ -75,6 +75,7 @@
     "C:\\Users\\Kodake\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
     "C:\\Users\\Kodake\\.nuget\\packages\\nunit\\4.1.0\\nunit.4.1.0.nupkg.sha512",
     "C:\\Users\\Kodake\\.nuget\\packages\\nunit3testadapter\\4.6.0\\nunit3testadapter.4.6.0.nupkg.sha512",
+    "C:\\Users\\Kodake\\.nuget\\packages\\questpdf\\2024.12.1\\questpdf.2024.12.1.nupkg.sha512",
     "C:\\Users\\Kodake\\.nuget\\packages\\serilog\\4.0.1\\serilog.4.0.1.nupkg.sha512",
     "C:\\Users\\Kodake\\.nuget\\packages\\serilog.aspnetcore\\8.0.2\\serilog.aspnetcore.8.0.2.nupkg.sha512",
     "C:\\Users\\Kodake\\.nuget\\packages\\serilog.enrichers.environment\\3.0.1\\serilog.enrichers.environment.3.0.1.nupkg.sha512",
