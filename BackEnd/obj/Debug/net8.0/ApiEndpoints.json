@@ -1865,6 +1865,11 @@
         "StatusCode": 201
       },
       {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
         "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
         "MediaTypes": [
           "application/problem\u002Bjson"
@@ -2347,11 +2352,14 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "ServiceDTO",
-        "MediaTypes": [
-          "application/json"
-        ],
+        "Type": "System.Void",
+        "MediaTypes": [],
         "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
       },
       {
         "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
@@ -2571,11 +2579,14 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Warehouses.Stocks.StockDTO",
-        "MediaTypes": [
-          "application/json"
-        ],
+        "Type": "System.Void",
+        "MediaTypes": [],
         "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
       },
       {
         "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
@@ -2886,11 +2897,14 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Warehouses.Transfers.TransferDTO",
-        "MediaTypes": [
-          "application/json"
-        ],
-        "StatusCode": 200
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
       },
       {
         "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
@@ -2951,10 +2965,8 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Warehouses.Transfers.TransferDTO",
-        "MediaTypes": [
-          "application/json"
-        ],
+        "Type": "System.Void",
+        "MediaTypes": [],
         "StatusCode": 200
       },
       {
@@ -2992,10 +3004,8 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Warehouses.Transfers.TransferDTO",
-        "MediaTypes": [
-          "application/json"
-        ],
+        "Type": "System.Void",
+        "MediaTypes": [],
         "StatusCode": 200
       },
       {

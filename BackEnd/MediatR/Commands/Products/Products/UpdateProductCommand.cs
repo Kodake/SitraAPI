@@ -1,0 +1,53 @@
+using AutoMapper;
+using BackEnd.DTOs.Products.Products;
+using BackEnd.Entities.Products;
+using BackEnd.Repositories;
+using MediatR;
+using Microsoft.AspNetCore.OutputCaching;
+
+namespace BackEnd.MediatR.Commands.Products.Products
+{
+    public class UpdateProductCommand : UpdateCommand<Item, CreateProductDTO>
+    {
+        public UpdateProductCommand(int id, CreateProductDTO dto) : base(id, dto) { }
+
+        public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
+        {
+            var productDB = await unitOfWork.ProductRepository.GetByIdAsync(Id);
+            if (productDB is null)
+            {
+                return false;
+            }
+
+            mapper.Map(Dto, productDB);
+
+            productDB.ItemTaxes = Dto.TaxIds.Select(taxId => new ItemTaxes
+            {
+                TaxId = taxId,
+                ItemId = productDB.Id
+            }).ToList();
+
+            var principalPricingItem = productDB.PricingItems.FirstOrDefault(x => x.IsPrincipal);
+            if (principalPricingItem != null)
+            {
+                var pricingItem = await unitOfWork.PricingItemRepository
+                    .GetPricingItemByItemIdAndPricingId(Id, principalPricingItem.PricingId);
+
+                if (pricingItem != null)
+                {
+                    pricingItem.InitialCost = Dto.InitialCost;
+                    pricingItem.BasePrice = Dto.BasePrice;
+                    unitOfWork.PricingItemRepository.Update(pricingItem);
+                }
+            }
+
+            unitOfWork.ProductRepository.Update(productDB);
+            await unitOfWork.SaveChangesAsync();
+            await outputCacheStore.EvictByTagAsync("pricing-items-get", default);
+            await outputCacheStore.EvictByTagAsync("pricings-get", default);
+            await outputCacheStore.EvictByTagAsync("products-get", default);
+
+            return true;
+        }
+    }
+}

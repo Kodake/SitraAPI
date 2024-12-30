@@ -5,8 +5,11 @@ using BackEnd.Entities.Products;
 using BackEnd.Enums;
 using BackEnd.Filters;
 using BackEnd.Helpers;
+using BackEnd.MediatR.Commands.Products.Services;
+using BackEnd.MediatR.Queries.Products.Services;
 using BackEnd.Repositories;
 using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
@@ -30,290 +33,85 @@ namespace BackEnd.Endpoints.Products
                 .WithOpenApi();
             group.MapPatch("/{id:int}/activate", Activate);
             group.MapDelete("/{id:int}/deactivate", Deactivate);
-            //.RequireAuthorization("isAdmin");
             group.MapPost("/upload-csv", UploadCsv).DisableAntiforgery()
                 .WithOpenApi();
             return group;
         }
 
         static async Task<Ok<List<ServiceListDTO>>> GetAll(
-            [FromServices] IUnitOfWork unitOfWork,
-            [FromServices] IMapper mapper, PaginationDTO pagination)
+            [FromServices] IMediator mediator,
+            PaginationDTO pagination)
         {
-            var services = await unitOfWork.ServiceRepository.GetAllAsync(pagination);
-            var servicesDTO = mapper.Map<List<ServiceListDTO>>(services);
-
-            return TypedResults.Ok(servicesDTO);
+            var query = new GetAllServicesQuery(pagination);
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
         }
 
         static async Task<Ok<List<ServiceListDTO>>> GetSelects(
-            [FromServices] IUnitOfWork unitOfWork,
-            IMapper mapper, [FromQuery] StatusType status = StatusType.All)
+            [FromServices] IMediator mediator,
+            [FromQuery] StatusType status = StatusType.All)
         {
-            var services = await unitOfWork.ServiceRepository.GetAll(status);
-            var servicesDTO = mapper.Map<List<ServiceListDTO>>(services);
-
-            return TypedResults.Ok(servicesDTO);
+            var query = new GetSelectsServicesQuery(status);
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
         }
 
         static async Task<Results<Ok<ServiceDTO>, NotFound>> GetById(
-            [FromServices] IUnitOfWork unitOfWork,
-            [FromServices] IMapper mapper, int id)
+            [FromServices] IMediator mediator,
+            int id)
         {
-            var service = await unitOfWork.ServiceRepository.GetByIdAsync(id);
-
-            if (service is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            var serviceDTO = mapper.Map<ServiceDTO>(service);
-
-            return TypedResults.Ok(serviceDTO);
+            var query = new GetServiceByIdQuery(id);
+            var dto = await mediator.Send(query);
+            return dto == null ? TypedResults.NotFound() : TypedResults.Ok(dto);
         }
 
-        static async Task<Results<Created<ServiceDTO>, ValidationProblem>> Create(
+        static async Task<Results<Created, NotFound, ValidationProblem>> Create(
             [FromBody] CreateServiceDTO dto,
-            [FromServices] IUnitOfWork unitOfWork,
-            IOutputCacheStore outputCacheStore,
-            [FromServices] IMapper mapper)
+            [FromServices] IMediator mediator)
         {
-            try
-            {
-                var service = mapper.Map<Item>(dto);
-                service.ItemType = ItemType.Service; // Crear un Producto
-
-                var serviceSaved = await unitOfWork.ServiceRepository.CreateAsync(service);
-
-                var pricing = await unitOfWork.PricingRepository.GetPricingByName(Enum.GetName(PricingName.Principal));
-                if (pricing == null)
-                {
-                    pricing = new Pricing
-                    {
-                        Name = Enum.GetName(PricingName.Principal) ?? "Principal",
-                        PricingType = PricingType.Value
-                    };
-                    pricing = await unitOfWork.PricingRepository.CreateAsync(pricing);
-                }
-
-                var pricingItem = new PricingItem
-                {
-                    Item = service,
-                    Pricing = pricing,
-                    InitialCost = dto.InitialCost,
-                    BasePrice = dto.BasePrice,
-                    IsPrincipal = true
-                };
-
-                await unitOfWork.PricingItemRepository.CreateAsync(pricingItem);
-                await unitOfWork.SaveChangesAsync();
-                await outputCacheStore.EvictByTagAsync("pricing-items-get", default);
-                await outputCacheStore.EvictByTagAsync("pricings-get", default);
-                await outputCacheStore.EvictByTagAsync("services-get", default);
-
-                var serviceDTO = mapper.Map<ServiceDTO>(service);
-                return TypedResults.Created($"/services/{serviceSaved.Id}", serviceDTO);
-            }
-            catch (Exception ex)
-            {
-                return TypedResults.ValidationProblem(new Dictionary<string, string[]>
-                {
-                    { "Error", new[] { $"An error occurred while creating the service: {ex.Message}" } }
-                });
-            }
+            var command = new CreateServiceCommand(dto);
+            var serviceDTO = await mediator.Send(command);
+            return serviceDTO == null ? TypedResults.NotFound() : TypedResults.Created();
         }
 
-        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromBody] CreateServiceDTO dto,
-            [FromServices] IUnitOfWork unitOfWork,
-            IOutputCacheStore outputCacheStore,
-            [FromServices] IMapper mapper)
+        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(
+            int id,
+            [FromBody] CreateServiceDTO dto,
+            [FromServices] IMediator mediator)
         {
-            try
-            {
-                var serviceDB = await unitOfWork.ServiceRepository.GetByIdAsync(id);
-                if (serviceDB is null)
-                {
-                    return TypedResults.NotFound();
-                }
+            var command = new UpdateServiceCommand(id, dto);
+            var success = await mediator.Send(command, default);
+            return success ? TypedResults.Ok() : TypedResults.NotFound();
+        }
 
-                serviceDB.Name = dto.Name;
-                serviceDB.Reference = dto.Reference;
-                serviceDB.Description = dto.Description;
-                serviceDB.CategoryId = dto.CategoryId;
-                serviceDB.UnitId = dto.UnitId;
+        static async Task<Results<NotFound, Ok>> Activate(
+            [FromRoute] int id,
+            [FromServices] IMediator mediator)
+        {
+            var command = new ActivateServiceCommand(id);
+            var success = await mediator.Send(command, default);
+            return success ? TypedResults.Ok() : TypedResults.NotFound();
+        }
 
-                serviceDB.ItemTaxes = dto.TaxIds.Select(taxId => new ItemTaxes
-                {
-                    TaxId = taxId,
-                    ItemId = serviceDB.Id
-                }).ToList();
-
-                var principalPricingItem = serviceDB.PricingItems.FirstOrDefault(x => x.IsPrincipal);
-                if (principalPricingItem != null)
-                {
-                    var pricingItem = await unitOfWork.PricingItemRepository
-                        .GetPricingItemByItemIdAndPricingId(id, principalPricingItem.PricingId);
-
-                    if (pricingItem != null)
-                    {
-                        pricingItem.InitialCost = dto.InitialCost;
-                        pricingItem.BasePrice = dto.BasePrice;
-                        unitOfWork.PricingItemRepository.Update(pricingItem);
-                    }
-                }
-
-                unitOfWork.ServiceRepository.Update(serviceDB);
-                await unitOfWork.SaveChangesAsync();
-                await outputCacheStore.EvictByTagAsync("pricing-items-get", default);
-                await outputCacheStore.EvictByTagAsync("services-get", default);
-
-                return TypedResults.Ok();
-            }
-            catch (Exception)
-            {
-                return TypedResults.ValidationProblem(new Dictionary<string, string[]>
-                {
-                    { "Error", new[] { "An error occurred while updating the product." } }
-                });
-            }
+        static async Task<Results<NotFound, Ok>> Deactivate(
+            [FromRoute] int id,
+            [FromServices] IMediator mediator)
+        {
+            var command = new DeactivateServiceCommand(id);
+            var success = await mediator.Send(command, default);
+            return success ? TypedResults.Ok() : TypedResults.NotFound();
         }
 
         public static async Task<Results<Ok, ValidationProblem>> UploadCsv(
             [FromForm] CsvDTO dto,
-            [FromServices] IUnitOfWork unitOfWork,
-            [FromServices] IMapper mapper,
-            IOutputCacheStore outputCacheStore,
-            [FromServices] IValidator<CreateServiceCsvDTO> validator,
-            [FromServices] IConfiguration configuration)
+            [FromServices] IMediator mediator)
         {
-            try
+            var command = new UploadCsvServiceCommand(dto);
+            var success = await mediator.Send(command);
+            return success ? TypedResults.Ok() : TypedResults.ValidationProblem(new Dictionary<string, string[]>
             {
-                var validFileType = configuration.GetValue<string>("CsvUpload:ValidFileType");
-                var validFileName = configuration.GetValue<string>("CsvUpload:ServiceFileName");
-
-                if (dto.CsvFile.ContentType != validFileType)
-                {
-                    return TypedResults.ValidationProblem(new Dictionary<string, string[]>
-                    {
-                        { "Error", new[] { "Invalid file format. Only CSV files are allowed." } }
-                    });
-                }
-
-                if (dto.CsvFile.FileName != validFileName)
-                {
-                    return TypedResults.ValidationProblem(new Dictionary<string, string[]>
-                    {
-                        { "Error", new[] { $"Invalid file name. The file must be named '{validFileName}'." } }
-                    });
-                }
-
-                using var reader = new StreamReader(dto.CsvFile.OpenReadStream());
-                using var csv = new CsvHelper.CsvReader(reader, CultureInfo.InvariantCulture);
-
-                var records = csv.GetRecords<CreateServiceCsvDTO>().ToList();
-
-                var maxFileRecords = configuration.GetValue<int>("CsvUpload:MaxFileRecords");
-                if (records.Count > maxFileRecords)
-                {
-                    return TypedResults.ValidationProblem(new Dictionary<string, string[]>
-                    {
-                        { "Error", new[] { $"Too many records. The maximum allowed is {maxFileRecords}." } }
-                    });
-                }
-
-                var errors = new Dictionary<string, string[]>();
-
-                foreach (var record in records)
-                {
-                    var validationResult = await validator.ValidateAsync(record);
-                    if (!validationResult.IsValid)
-                    {
-                        errors.Add(record.Name ?? "Unknown Service", validationResult.Errors.Select(e => e.ErrorMessage).ToArray());
-                        continue;
-                    }
-
-                    var service = mapper.Map<Item>(record);
-                    service.ItemType = ItemType.Service;
-                    var serviceSaved = await unitOfWork.ServiceRepository.CreateAsync(service);
-
-                    var pricing = await unitOfWork.PricingRepository.GetPricingByName(Enum.GetName(PricingName.Principal));
-                    if (pricing == null)
-                    {
-                        pricing = new Pricing
-                        {
-                            Name = Enum.GetName(PricingName.Principal) ?? "Principal",
-                            PricingType = PricingType.Value
-                        };
-                        pricing = await unitOfWork.PricingRepository.CreateAsync(pricing);
-                    }
-
-                    var pricingItem = new PricingItem
-                    {
-                        Item = serviceSaved,
-                        Pricing = pricing,
-                        BasePrice = record.BasePrice,
-                        IsPrincipal = true
-                    };
-
-                    await unitOfWork.PricingItemRepository.CreateAsync(pricingItem);
-                }
-
-                if (errors.Count > 0)
-                {
-                    return TypedResults.ValidationProblem(errors);
-                }
-
-                await unitOfWork.SaveChangesAsync();
-
-                await outputCacheStore.EvictByTagAsync("pricing-items-get", default);
-                await outputCacheStore.EvictByTagAsync("pricings-get", default);
-                await outputCacheStore.EvictByTagAsync("services-get", default);
-
-                return TypedResults.Ok();
-            }
-            catch (Exception)
-            {
-                return TypedResults.ValidationProblem(new Dictionary<string, string[]>
-                {
-                    { "Error", new[] { "An error occurred while processing the CSV." } }
-                });
-            }
-        }
-
-        static async Task<Results<NotFound, Ok>> Activate([FromRoute] int id,
-             [FromServices] IUnitOfWork unitOfWork,
-             IOutputCacheStore outputCacheStore)
-        {
-            var serviceDB = await unitOfWork.ServiceRepository.GetByIdAsync(id);
-
-            if (serviceDB is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            await unitOfWork.ServiceRepository.ActivateAsync(id);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("services-get", default);
-
-            return TypedResults.Ok();
-        }
-
-        static async Task<Results<NotFound, Ok>> Deactivate([FromRoute] int id,
-             [FromServices] IUnitOfWork unitOfWork,
-             IOutputCacheStore outputCacheStore)
-        {
-            var serviceDB = await unitOfWork.ServiceRepository.GetByIdAsync(id);
-
-            if (serviceDB is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            await unitOfWork.ServiceRepository.DeactivateAsync(id);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("services-get", default);
-
-            return TypedResults.Ok();
+                { "Error", new[] { "An error occurred while processing the CSV." } }
+            });
         }
     }
 }

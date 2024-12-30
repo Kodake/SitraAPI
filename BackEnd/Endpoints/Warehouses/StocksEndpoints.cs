@@ -1,13 +1,13 @@
-﻿using AutoMapper;
-using BackEnd.DTOs;
+﻿using BackEnd.DTOs;
 using BackEnd.DTOs.Warehouses.Stocks;
-using BackEnd.Entities.Warehouses;
 using BackEnd.Filters;
 using BackEnd.Helpers;
-using BackEnd.Repositories;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
+using BackEnd.MediatR.Commands.Warehouses.Stocks;
+using BackEnd.MediatR.Queries.Warehouses.Stocks;
+using MediatR;
 
 namespace BackEnd.Endpoints
 {
@@ -20,91 +20,49 @@ namespace BackEnd.Endpoints
             group.MapGet("/{id:int}", GetById);
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateStockDTO>>()
-                //.RequireAuthorization()
                 .WithOpenApi();
             group.MapPut("/{id:int}", Update).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateStockDTO>>()
-                //.RequireAuthorization()
                 .WithOpenApi();
-            //.RequireAuthorization("isAdmin");
             return group;
         }
 
         static async Task<Ok<List<StockListDTO>>> GetAll(
-            [FromServices] IUnitOfWork unitOfWork,
-            [FromServices] IMapper mapper, PaginationDTO pagination)
+            [FromServices] IMediator mediator,
+            PaginationDTO pagination)
         {
-            var stocks = await unitOfWork.StockRepository.GetAllAsync(pagination);
-            var stocksDTO = mapper.Map<List<StockListDTO>>(stocks);
-
-            return TypedResults.Ok(stocksDTO);
+            var query = new GetAllStocksQuery(pagination);
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
         }
 
         static async Task<Results<Ok<StockDTO>, NotFound>> GetById(
-            [FromServices] IUnitOfWork unitOfWork,
-            [FromServices] IMapper mapper, int id)
+            [FromServices] IMediator mediator,
+            int id)
         {
-            var stock = await unitOfWork.StockRepository.GetByIdAsync(id);
-
-            if (stock is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            var stockDTO = mapper.Map<StockDTO>(stock);
-
-            return TypedResults.Ok(stockDTO);
+            var query = new GetStockByIdQuery(id);
+            var dto = await mediator.Send(query);
+            return dto == null ? TypedResults.NotFound() : TypedResults.Ok(dto);
         }
 
-        static async Task<Results<Created<StockDTO>, ValidationProblem>> Create(
+        static async Task<Results<Created, NotFound, ValidationProblem>> Create(
             [FromBody] CreateStockDTO dto,
-            [FromServices] IUnitOfWork unitOfWork,
-            IOutputCacheStore outputCacheStore,
-            [FromServices] IMapper mapper)
+            [FromServices] IMediator mediator,
+            IOutputCacheStore outputCacheStore)
         {
-            var stock = await unitOfWork.StockRepository.GetByItemIdAndWarehouseId(dto.ItemId, dto.WarehouseId);
-
-            if (stock != null)
-            {
-                stock.Qty += dto.Qty;
-                unitOfWork.StockRepository.Update(stock);
-            }
-            else
-            {
-                stock = mapper.Map<Stock>(dto);
-                await unitOfWork.StockRepository.CreateAsync(stock);
-            }
-
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("stocks-get", default);
-
-            var stockDTO = mapper.Map<StockDTO>(stock);
-
-            return TypedResults.Created($"/stocks/{stockDTO.Id}", stockDTO);
+            var command = new CreateStockCommand(dto);
+            var stockDTO = await mediator.Send(command);
+            return stockDTO == null ? TypedResults.NotFound() : TypedResults.Created();
         }
 
-        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromBody] CreateStockDTO dto,
-            [FromServices] IUnitOfWork unitOfWork,
-            IOutputCacheStore outputCacheStore,
-            [FromServices] IMapper mapper)
+        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(
+            int id,
+            [FromBody] CreateStockDTO dto,
+            [FromServices] IMediator mediator)
         {
-            var stockDB = await unitOfWork.StockRepository.GetByIdAsync(id);
-
-            if (stockDB is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            stockDB.WarehouseId = dto.WarehouseId;
-            stockDB.Qty = dto.Qty;
-            stockDB.MinQty = dto.MinQty;
-            stockDB.MaxQty = dto.MaxQty;
-
-            unitOfWork.StockRepository.Update(stockDB);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("stocks-get", default);
-
-            return TypedResults.Ok();
+            var command = new UpdateStockCommand(id, dto);
+            var success = await mediator.Send(command, default);
+            return success ? TypedResults.Ok() : TypedResults.NotFound();
         }
     }
 }

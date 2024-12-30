@@ -1,16 +1,21 @@
-﻿using AutoMapper;
+﻿using System.Globalization;
+using AutoMapper;
 using BackEnd.DTOs;
 using BackEnd.DTOs.Products.Products;
+using BackEnd.DTOs.Products.Services;
 using BackEnd.Entities.Products;
 using BackEnd.Enums;
 using BackEnd.Filters;
 using BackEnd.Helpers;
+using BackEnd.MediatR.Commands;
+using BackEnd.MediatR.Commands.Products.Products;
+using BackEnd.MediatR.Queries.Products.Products;
 using BackEnd.Repositories;
 using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
-using System.Globalization;
 
 namespace BackEnd.Endpoints
 {
@@ -38,294 +43,87 @@ namespace BackEnd.Endpoints
         }
 
         static async Task<Ok<List<ProductListDTO>>> GetAll(
-            [FromServices] IUnitOfWork unitOfWork,
-            [FromServices] IMapper mapper, PaginationDTO pagination)
+            [FromServices] IMediator mediator,
+            PaginationDTO pagination)
         {
-            var products = await unitOfWork.ProductRepository.GetAllAsync(pagination);
-            var productsDTO = mapper.Map<List<ProductListDTO>>(products);
-
-            return TypedResults.Ok(productsDTO);
+            var query = new GetAllProductsQuery(pagination);
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
         }
 
         static async Task<Ok<List<ProductListDTO>>> GetSelects(
-            [FromServices] IUnitOfWork unitOfWork,
-            IMapper mapper, [FromQuery] StatusType status = StatusType.All)
+            [FromServices] IMediator mediator,
+            [FromQuery] StatusType status = StatusType.All)
         {
-            var products = await unitOfWork.ProductRepository.GetAll(status);
-            var productsDTO = mapper.Map<List<ProductListDTO>>(products);
-
-            return TypedResults.Ok(productsDTO);
+            var query = new GetSelectsProductsQuery(status);
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
         }
 
         static async Task<Ok<List<ProductListDTO>>> GetStockProducts(
-            [FromServices] IUnitOfWork unitOfWork,
-            IMapper mapper)
+            [FromServices] IMediator mediator)
         {
-            var products = await unitOfWork.ProductRepository.GetAll();
-            var productsDTO = mapper.Map<List<ProductListDTO>>(products);
-
-            return TypedResults.Ok(productsDTO);
+            var query = new GetStockProductsQuery();
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
         }
 
         static async Task<Results<Ok<ProductDTO>, NotFound>> GetById(
-            [FromServices] IUnitOfWork unitOfWork,
-            [FromServices] IMapper mapper, int id)
+            [FromServices] IMediator mediator,
+            int id)
         {
-            var product = await unitOfWork.ProductRepository.GetByIdAsync(id);
-
-            if (product is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            var productDTO = mapper.Map<ProductDTO>(product);
-
-            return TypedResults.Ok(productDTO);
+            var query = new GetProductByIdQuery(id);
+            var dto = await mediator.Send(query);
+            return dto == null ? TypedResults.NotFound() : TypedResults.Ok(dto);
         }
 
-        static async Task<Results<Created, ValidationProblem>> Create(
+        static async Task<Results<Created, NotFound, ValidationProblem>> Create(
             [FromBody] CreateProductDTO dto,
-            [FromServices] IUnitOfWork unitOfWork,
-            IOutputCacheStore outputCacheStore,
-            [FromServices] IMapper mapper)
+            [FromServices] IMediator mediator)
         {
-            try
-            {
-                var product = mapper.Map<Item>(dto);
-                product.ItemType = ItemType.Product; // Crear un Producto
-
-                var productSaved = await unitOfWork.ProductRepository.CreateAsync(product);
-
-                var pricing = await unitOfWork.PricingRepository.GetPricingByName(Enum.GetName(PricingName.Principal));
-                if (pricing == null)
-                {
-                    pricing = new Pricing
-                    {
-                        Name = Enum.GetName(PricingName.Principal) ?? "Principal",
-                        PricingType = PricingType.Value
-                    };
-                    pricing = await unitOfWork.PricingRepository.CreateAsync(pricing);
-                }
-
-                var pricingItem = new PricingItem
-                {
-                    Item = product,
-                    Pricing = pricing,
-                    InitialCost = dto.InitialCost,
-                    BasePrice = dto.BasePrice,
-                    IsPrincipal = true
-                };
-
-                await unitOfWork.PricingItemRepository.CreateAsync(pricingItem);
-                await unitOfWork.SaveChangesAsync();
-                await outputCacheStore.EvictByTagAsync("pricing-items-get", default);
-                await outputCacheStore.EvictByTagAsync("pricings-get", default);
-                await outputCacheStore.EvictByTagAsync("products-get", default);
-
-                return TypedResults.Created();
-            }
-            catch (Exception ex)
-            {
-                return TypedResults.ValidationProblem(new Dictionary<string, string[]>
-                {
-                    { "Error", new[] { $"An error occurred while creating the product: {ex.Message}" } }
-                });
-            }
+            var command = new CreateProductCommand(dto);
+            var productDTO = await mediator.Send(command);
+            return productDTO == null ? TypedResults.NotFound() : TypedResults.Created();
         }
 
-        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromBody] CreateProductDTO dto,
-            [FromServices] IUnitOfWork unitOfWork,
-            IOutputCacheStore outputCacheStore,
-            [FromServices] IMapper mapper)
+        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(
+            int id,
+            [FromBody] CreateProductDTO dto,
+            [FromServices] IMediator mediator)
         {
-            try
-            {
-                var productDB = await unitOfWork.ProductRepository.GetByIdAsync(id);
-                if (productDB is null)
-                {
-                    return TypedResults.NotFound();
-                }
+            var command = new UpdateProductCommand(id, dto);
+            var success = await mediator.Send(command, default);
+            return success ? TypedResults.Ok() : TypedResults.NotFound();
+        }
 
-                productDB.Name = dto.Name;
-                productDB.Reference = dto.Reference;
-                productDB.Description = dto.Description;
-                productDB.BrandId = dto.BrandId;
-                productDB.CategoryId = dto.CategoryId;
-                productDB.UnitId = dto.UnitId;
+        static async Task<Results<NotFound, Ok>> Activate(
+            [FromRoute] int id,
+            [FromServices] IMediator mediator)
+        {
+            var command = new ActivateProductCommand(id);
+            var success = await mediator.Send(command, default);
+            return success ? TypedResults.Ok() : TypedResults.NotFound();
+        }
 
-                productDB.ItemTaxes = dto.TaxIds.Select(taxId => new ItemTaxes
-                {
-                    TaxId = taxId,
-                    ItemId = productDB.Id
-                }).ToList();
-
-                var principalPricingItem = productDB.PricingItems.FirstOrDefault(x => x.IsPrincipal);
-                if (principalPricingItem != null)
-                {
-                    var pricingItem = await unitOfWork.PricingItemRepository
-                        .GetPricingItemByItemIdAndPricingId(id, principalPricingItem.PricingId);
-
-                    if (pricingItem != null)
-                    {
-                        pricingItem.InitialCost = dto.InitialCost;
-                        pricingItem.BasePrice = dto.BasePrice;
-                        unitOfWork.PricingItemRepository.Update(pricingItem);
-                    }
-                }
-
-                unitOfWork.ProductRepository.Update(productDB);
-                await unitOfWork.SaveChangesAsync();
-                await outputCacheStore.EvictByTagAsync("pricing-items-get", default);
-                await outputCacheStore.EvictByTagAsync("products-get", default);
-
-                return TypedResults.Ok();
-            }
-            catch (Exception)
-            {
-                return TypedResults.ValidationProblem(new Dictionary<string, string[]>
-                {
-                    { "Error", new[] { "An error occurred while updating the product." } }
-                });
-            }
+        static async Task<Results<NotFound, Ok>> Deactivate(
+            [FromRoute] int id,
+            [FromServices] IMediator mediator)
+        {
+            var command = new DeactivateProductCommand(id);
+            var success = await mediator.Send(command, default);
+            return success ? TypedResults.Ok() : TypedResults.NotFound();
         }
 
         public static async Task<Results<Ok, ValidationProblem>> UploadCsv(
             [FromForm] CsvDTO dto,
-            [FromServices] IUnitOfWork unitOfWork,
-            [FromServices] IMapper mapper,
-            IOutputCacheStore outputCacheStore,
-            [FromServices] IValidator<CreateProductCsvDTO> validator,
-            [FromServices] IConfiguration configuration)
+            [FromServices] IMediator mediator)
         {
-            try
+            var command = new UploadCsvProductCommand(dto);
+            var success = await mediator.Send(command);
+            return success ? TypedResults.Ok() : TypedResults.ValidationProblem(new Dictionary<string, string[]>
             {
-                var validFileType = configuration.GetValue<string>("CsvUpload:ValidFileType");
-                var validFileName = configuration.GetValue<string>("CsvUpload:ProductFileName");
-
-                if (dto.CsvFile.ContentType != validFileType)
-                {
-                    return TypedResults.ValidationProblem(new Dictionary<string, string[]>
-                    {
-                        { "Error", new[] { "Invalid file format. Only CSV files are allowed." } }
-                    });
-                }
-
-                if (dto.CsvFile.FileName != validFileName)
-                {
-                    return TypedResults.ValidationProblem(new Dictionary<string, string[]>
-                    {
-                        { "Error", new[] { $"Invalid file name. The file must be named '{validFileName}'." } }
-                    });
-                }
-
-                using var reader = new StreamReader(dto.CsvFile.OpenReadStream());
-                using var csv = new CsvHelper.CsvReader(reader, CultureInfo.InvariantCulture);
-
-                var records = csv.GetRecords<CreateProductCsvDTO>().ToList();
-
-                var maxFileRecords = configuration.GetValue<int>("CsvUpload:MaxFileRecords");
-                if (records.Count > maxFileRecords)
-                {
-                    return TypedResults.ValidationProblem(new Dictionary<string, string[]>
-                    {
-                        { "Error", new[] { $"Too many records. The maximum allowed is {maxFileRecords}." } }
-                    });
-                }
-
-                var errors = new Dictionary<string, string[]>();
-
-                foreach (var record in records)
-                {
-                    var validationResult = await validator.ValidateAsync(record);
-                    if (!validationResult.IsValid)
-                    {
-                        errors.Add(record.Name ?? "Unknown Product", validationResult.Errors.Select(e => e.ErrorMessage).ToArray());
-                        continue;
-                    }
-
-                    var product = mapper.Map<Item>(record);
-                    product.ItemType = ItemType.Product;
-                    var productSaved = await unitOfWork.ProductRepository.CreateAsync(product);
-
-                    var pricing = await unitOfWork.PricingRepository.GetPricingByName(Enum.GetName(PricingName.Principal));
-                    if (pricing == null)
-                    {
-                        pricing = new Pricing
-                        {
-                            Name = Enum.GetName(PricingName.Principal) ?? "Principal",
-                            PricingType = PricingType.Value
-                        };
-                        pricing = await unitOfWork.PricingRepository.CreateAsync(pricing);
-                    }
-
-                    var pricingItem = new PricingItem
-                    {
-                        Item = productSaved,
-                        Pricing = pricing,
-                        InitialCost = record.InitialCost,
-                        BasePrice = record.BasePrice,
-                        IsPrincipal = true
-                    };
-
-                    await unitOfWork.PricingItemRepository.CreateAsync(pricingItem);
-                }
-
-                if (errors.Count > 0)
-                {
-                    return TypedResults.ValidationProblem(errors);
-                }
-
-                await unitOfWork.SaveChangesAsync();
-
-                await outputCacheStore.EvictByTagAsync("pricing-items-get", default);
-                await outputCacheStore.EvictByTagAsync("pricings-get", default);
-                await outputCacheStore.EvictByTagAsync("products-get", default);
-
-                return TypedResults.Ok();
-            }
-            catch (Exception)
-            {
-                return TypedResults.ValidationProblem(new Dictionary<string, string[]>
-                {
-                    { "Error", new[] { "An error occurred while processing the CSV." } }
-                });
-            }
-        }
-
-        static async Task<Results<NotFound, Ok>> Activate([FromRoute] int id,
-             [FromServices] IUnitOfWork unitOfWork,
-             IOutputCacheStore outputCacheStore)
-        {
-            var productDB = await unitOfWork.ProductRepository.GetByIdAsync(id);
-
-            if (productDB is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            await unitOfWork.ProductRepository.ActivateAsync(id);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("products-get", default);
-
-            return TypedResults.Ok();
-        }
-
-        static async Task<Results<NotFound, Ok>> Deactivate([FromRoute] int id,
-             [FromServices] IUnitOfWork unitOfWork,
-             IOutputCacheStore outputCacheStore)
-        {
-            var productDB = await unitOfWork.ProductRepository.GetByIdAsync(id);
-
-            if (productDB is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            await unitOfWork.ProductRepository.DeactivateAsync(id);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("products-get", default);
-
-            return TypedResults.Ok();
+                { "Error", new[] { "An error occurred while processing the CSV." } }
+            });
         }
     }
 }

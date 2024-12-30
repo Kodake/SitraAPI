@@ -2,6 +2,7 @@
 using BackEnd.MediatR.Handlers.Products;
 using BackEnd.MediatR.Handlers.Contacts;
 using BackEnd.MediatR.Handlers.AdministrativeTools;
+using BackEnd.MediatR.Handlers.Warehouses;
 
 namespace BackEnd.MediatR
 {
@@ -22,6 +23,9 @@ namespace BackEnd.MediatR
             services.AddContactServices();
             services.AddDeadlineServices();
             services.AddFiscalSupportServices();
+            services.AddProductServices();
+            services.AddStockServices();
+            services.AddTransferServices();
 
             return services;
         }
