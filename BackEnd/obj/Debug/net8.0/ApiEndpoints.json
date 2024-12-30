@@ -2263,6 +2263,57 @@
     ]
   },
   {
+    "ContainingType": "BackEnd.Endpoints.Invoices.SaleInvoicesEndpoints",
+    "Method": "GetById",
+    "RelativePath": "api/v1/saleInvoices/{id:int}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BackEnd.DTOs.Invoices.SaleInvoices.SaleInvoiceDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "BackEnd.Endpoints.Invoices.SaleInvoicesEndpoints",
+    "Method": "GeneratePdf",
+    "RelativePath": "api/v1/saleInvoices/{invoiceId}/generate-pdf",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "invoiceId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "BackEnd.Endpoints.Products.ServicesEndpoints",
     "Method": "GetAll",
     "RelativePath": "api/v1/services/",

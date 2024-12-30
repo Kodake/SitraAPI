@@ -16,7 +16,13 @@ namespace BackEnd.Repositories.Invoices
         public async new Task<SaleInvoice?> GetByIdAsync(long id)
         {
             return await context.SaleInvoices
+                .Include(i => i.Buyer)
+                .Include(i => i.Biller)
+                .Include(i => i.Pricing)
                 .Include(i => i.SaleInvoiceItems)
+                    .ThenInclude(x => x.Item)
+                    .ThenInclude(x => x.ItemTaxes)
+                    .ThenInclude(x => x.Tax)
                 .FirstOrDefaultAsync(i => i.Id == id);
         }
 

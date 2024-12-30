@@ -18,6 +18,13 @@ namespace BackEnd.Profiles.Invoices
             CreateMap<SaleInvoice, SaleInvoiceDTO>();
             CreateMap<SaleInvoiceItemDTO, SaleInvoiceItem>();
             CreateMap<SaleInvoice, SaleInvoiceListDTO>();
+
+            CreateMap<SaleInvoiceItemDTO, SaleInvoiceItem>()
+                .ForMember(des => des.Item, opt => opt.Ignore());
+
+            CreateMap<SaleInvoiceItem, SaleInvoiceItemDTO>()
+                .ForMember(des => des.ItemType, opt => opt.MapFrom(src => src.Item.ItemType))
+                .ForMember(des => des.ItemTaxes, opt => opt.MapFrom(src => src.Item.ItemTaxes));
         }
     }
 }

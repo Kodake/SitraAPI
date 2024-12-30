@@ -17,9 +17,9 @@ namespace BackEnd.Entities.Products
         public long? UnitId { get; set; } = null!;
         public Unit? Unit { get; set; }
         public bool IsActive { get; set; } = true;
-        public ICollection<ItemTaxes> ItemTaxes { get; set; } = [];
-        public ICollection<Stock> Stocks { get; set; } = [];
-        public ICollection<PricingItem> PricingItems { get; set; } = [];
-        public ICollection<Transfer> Transfers { get; set; } = [];
+        public ICollection<ItemTaxes> ItemTaxes { get; set; } = new List<ItemTaxes>();
+        public ICollection<Stock> Stocks { get; set; } = new List<Stock>();
+        public ICollection<PricingItem> PricingItems { get; set; } = new List<PricingItem>();
+        public ICollection<Transfer> Transfers { get; set; } = new List<Transfer>();
     }
 }

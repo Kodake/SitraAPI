@@ -35,6 +35,6 @@ namespace BackEnd.Entities.Invoices
         public Receivable? Receivable { get; set; } = null!;
         public SpotPayment? SpotPayment { get; set; } = null!;
         public InvoiceCondition Condition { get; set; }
-        public ICollection<SaleInvoiceItem> SaleInvoiceItems { get; set; } = [];
+        public List<SaleInvoiceItem> SaleInvoiceItems { get; set; } = new List<SaleInvoiceItem>();
     }
 }

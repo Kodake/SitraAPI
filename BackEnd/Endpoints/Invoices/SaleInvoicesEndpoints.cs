@@ -11,6 +11,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
+using QuestPDF.Companion;
 
 namespace BackEnd.Endpoints.Invoices
 {
@@ -20,7 +21,9 @@ namespace BackEnd.Endpoints.Invoices
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("receivables-get"))
                 .AddPaginationParamsOpenAPI();
+            group.MapGet("/{id:int}", GetById);
             group.MapPost("/", Create).DisableAntiforgery().WithOpenApi();
+            group.MapGet("/{invoiceId}/generate-pdf", GeneratePdf).WithOpenApi();
             return group;
         }
 
@@ -32,6 +35,22 @@ namespace BackEnd.Endpoints.Invoices
             var saleInvoicesDTO = mapper.Map<List<SaleInvoiceListDTO>>(saleInvoices);
 
             return TypedResults.Ok(saleInvoicesDTO);
+        }
+
+        static async Task<Results<Ok<SaleInvoiceDTO>, NotFound>> GetById(
+            [FromServices] IUnitOfWork unitOfWork,
+            [FromServices] IMapper mapper, int id)
+        {
+            var saleInvoice = await unitOfWork.SaleInvoiceRepository.GetByIdAsync(id);
+
+            if (saleInvoice is null)
+            {
+                return TypedResults.NotFound();
+            }
+
+            var saleInvoiceDTO = mapper.Map<SaleInvoiceDTO>(saleInvoice);
+
+            return TypedResults.Ok(saleInvoiceDTO);
         }
 
         static async Task<Results<Created, ValidationProblem>> Create(
@@ -112,13 +131,7 @@ namespace BackEnd.Endpoints.Invoices
             {
                 if (item.ItemType == ItemType.Product)
                 {
-                    var stock = await unitOfWork.StockRepository.GetByItemIdAndWarehouseId(item.ItemId, dto.WarehouseId);
-
-                    if (stock == null)
-                    {
-                        throw new InvalidOperationException($"Stock not found for ItemId {item.ItemId} in the specified warehouse.");
-                    }
-
+                    var stock = await unitOfWork.StockRepository.GetByItemIdAndWarehouseId(item.ItemId, dto.WarehouseId) ?? throw new InvalidOperationException($"Stock not found for ItemId {item.ItemId} in the specified warehouse.");
                     stock.Qty -= item.Qty;
                     unitOfWork.StockRepository.Update(stock);
                 }
@@ -142,7 +155,7 @@ namespace BackEnd.Endpoints.Invoices
                             ?? throw new Exception($"Product with id {itemDTO.ItemId} not found.");
 
                         var productBasePrice = product.PricingItems.First(x => x.ItemId == itemDTO.ItemId).BasePrice / currencyRate;
-                        var productTaxAmount = product.ItemTaxes.FirstOrDefault(x => x.ItemId == itemDTO.ItemId)?.Tax?.Amount ?? 0;
+                        var productTaxAmount = product.ItemTaxes.Sum(x => x?.Tax?.Amount) ?? 0;
 
                         totalQtyItems += itemDTO.Qty;
                         totalItems += 1;
@@ -155,7 +168,7 @@ namespace BackEnd.Endpoints.Invoices
                             ?? throw new Exception($"Service with id {itemDTO.ItemId} not found.");
 
                         var serviceBasePrice = service.PricingItems.First(x => x.ItemId == itemDTO.ItemId).BasePrice / currencyRate;
-                        var serviceTaxAmount = service.ItemTaxes.FirstOrDefault(x => x.ItemId == itemDTO.ItemId)?.Tax?.Amount ?? 0;
+                        var serviceTaxAmount = service.ItemTaxes.Sum(x => x?.Tax?.Amount) ?? 0;
 
                         totalQtyItems += itemDTO.Qty;
                         totalItems += 1;
@@ -169,7 +182,6 @@ namespace BackEnd.Endpoints.Invoices
             }
 
             totalPrice = totalAmount + totalTaxes;
-
             saleInvoice.TotalQtyItems = totalQtyItems;
             saleInvoice.TotalItems = totalItems;
             saleInvoice.TotalPrice = saleInvoice.Discount.HasValue && saleInvoice.Discount > 0
@@ -189,48 +201,40 @@ namespace BackEnd.Endpoints.Invoices
         {
             foreach (var itemDTO in items)
             {
-                switch (itemDTO.ItemType)
+                var saleInvoiceItem = saleInvoice.SaleInvoiceItems.FirstOrDefault(i => i.ItemId == itemDTO.ItemId);
+                if (saleInvoiceItem == null)
                 {
-                    case ItemType.Product:
-                        var product = await unitOfWork.ProductRepository.GetByIdAsync(itemDTO.ItemId)
-                            ?? throw new Exception($"Product with id {itemDTO.ItemId} not found.");
-
-                        var productBasePrice = product.PricingItems.First(x => x.ItemId == itemDTO.ItemId).BasePrice / currencyRate;
-                        var productTaxAmount = product.ItemTaxes.FirstOrDefault(x => x.ItemId == itemDTO.ItemId)?.Tax?.Amount ?? 0;
-
-                        var productSaleInvoiceItem = mapper.Map<SaleInvoiceItem>(itemDTO);
-                        productSaleInvoiceItem.TotalAmount = productBasePrice * itemDTO.Qty;
-                        productSaleInvoiceItem.TotalTaxes = (productBasePrice * productTaxAmount / 100) * itemDTO.Qty;
-                        productSaleInvoiceItem.TotalPrice = productSaleInvoiceItem.TotalAmount + productSaleInvoiceItem.TotalTaxes;
-                        productSaleInvoiceItem.BasePrice = productBasePrice;
-                        productSaleInvoiceItem.SaleInvoice = saleInvoice;
-
-                        await unitOfWork.SaleInvoiceRepository.AddInvoiceItem(productSaleInvoiceItem);
-                        break;
-
-                    case ItemType.Service:
-                        var service = await unitOfWork.ServiceRepository.GetByIdAsync(itemDTO.ItemId)
-                            ?? throw new Exception($"Service with id {itemDTO.ItemId} not found.");
-
-                        var serviceBasePrice = service.PricingItems.First(x => x.ItemId == itemDTO.ItemId).BasePrice / currencyRate;
-                        var serviceTaxAmount = service.ItemTaxes.FirstOrDefault(x => x.ItemId == itemDTO.ItemId)?.Tax?.Amount ?? 0;
-
-                        var serviceSaleInvoiceItem = mapper.Map<SaleInvoiceItem>(itemDTO);
-                        serviceSaleInvoiceItem.TotalAmount = serviceBasePrice * itemDTO.Qty;
-                        serviceSaleInvoiceItem.TotalTaxes = (serviceBasePrice * serviceTaxAmount / 100) * itemDTO.Qty;
-                        serviceSaleInvoiceItem.TotalPrice = serviceSaleInvoiceItem.TotalAmount + serviceSaleInvoiceItem.TotalTaxes;
-                        serviceSaleInvoiceItem.BasePrice = serviceBasePrice;
-                        serviceSaleInvoiceItem.SaleInvoice = saleInvoice;
-
-                        await unitOfWork.SaleInvoiceRepository.AddInvoiceItem(serviceSaleInvoiceItem);
-                        break;
-
-                    default:
-                        throw new InvalidOperationException($"Unknown ItemType {itemDTO.ItemType} for ItemId {itemDTO.ItemId}");
+                    saleInvoiceItem = mapper.Map<SaleInvoiceItem>(itemDTO);
+                    saleInvoice.SaleInvoiceItems.Add(saleInvoiceItem);
                 }
+
+                saleInvoiceItem.SaleInvoiceId = saleInvoice.Id;
+                saleInvoiceItem.SaleInvoice = saleInvoice;
+
+                var (basePrice, taxAmount) = await GetItemPricingAndTax(itemDTO, unitOfWork, currencyRate);
+
+                saleInvoiceItem.TotalAmount = basePrice * itemDTO.Qty;
+                saleInvoiceItem.TotalTaxes = basePrice * taxAmount / 100 * itemDTO.Qty;
+                saleInvoiceItem.TotalPrice = saleInvoiceItem.TotalAmount + saleInvoiceItem.TotalTaxes;
+                saleInvoiceItem.BasePrice = basePrice;
+
+                await unitOfWork.SaleInvoiceRepository.AddInvoiceItem(saleInvoiceItem);
             }
         }
 
+        private static async Task<(double basePrice, double taxAmount)> GetItemPricingAndTax(
+            SaleInvoiceItemDTO itemDTO,
+            IUnitOfWork unitOfWork,
+            double currencyRate)
+        {
+            var item = await unitOfWork.ItemRepository.GetByIdAsync(itemDTO.ItemId)
+                ?? throw new Exception($"Item with id {itemDTO.ItemId} not found.");
+
+            var basePrice = item.PricingItems.First(x => x.ItemId == itemDTO.ItemId).BasePrice / currencyRate;
+            var taxAmount = item.ItemTaxes.Sum(x => x?.Tax?.Amount) ?? 0;
+
+            return (basePrice, taxAmount);
+        }
 
         private static string GenerateFiscalSupportNumber(FiscalSupport fiscalSupport)
         {
@@ -244,12 +248,21 @@ namespace BackEnd.Endpoints.Invoices
             return $"{fiscalSupportName}{finalSymbols}";
         }
 
-        private static ValidationProblem ValidationError(string message)
+        public static async Task<IResult> GeneratePdf(
+            [FromRoute] int invoiceId,
+            [FromServices] IUnitOfWork unitOfWork,
+            [FromServices] IMapper mapper)
         {
-            return TypedResults.ValidationProblem(new Dictionary<string, string[]>
-            {
-                { "Error", new[] { message } }
-            });
+            QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+            var saleInvoice = await unitOfWork.SaleInvoiceRepository.GetByIdAsync(invoiceId)
+                ?? throw new Exception($"Invoice with id {invoiceId} not found.");
+
+            var invoiceDocument = new InvoiceDocumentDTO(saleInvoice);
+            var filePath = Path.Combine(Path.GetTempPath(), $"Invoice_{invoiceId}.pdf");
+            invoiceDocument.GeneratePdf(filePath);
+
+            var fileBytes = await File.ReadAllBytesAsync(filePath);
+            return Results.File(fileBytes, "application/pdf", $"Invoice_{invoiceId}.pdf");
         }
     }
 }
