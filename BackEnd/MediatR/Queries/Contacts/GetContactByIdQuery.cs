@@ -6,7 +6,7 @@ namespace BackEnd.MediatR.Queries.Contacts
 {
     public class GetContactByIdQuery : GetByIdQuery<ContactDTO>
     {
-        public GetContactByIdQuery(int id) : base(id) { }
+        public GetContactByIdQuery(long id) : base(id) { }
 
         public override async Task<ContactDTO> GetData(
             IUnitOfWork unitOfWork,

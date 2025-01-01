@@ -1,8 +1,5 @@
-﻿using AutoMapper;
-using BackEnd.Context;
-using BackEnd.DTOs;
+﻿using BackEnd.DTOs;
 using BackEnd.DTOs.Warehouses.Transfers;
-using BackEnd.Entities.Warehouses;
 using BackEnd.Enums;
 using BackEnd.Filters;
 using BackEnd.Helpers;
@@ -20,14 +17,14 @@ namespace BackEnd.Endpoints
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("transfers-get"))
                 .AddPaginationParamsOpenAPI();
-            group.MapGet("/{id:int}", GetById);
+            group.MapGet("/{id:long}", GetById);
             group.MapPost("/", Create).DisableAntiforgery()
                .AddEndpointFilter<ValidationFilter<CreateTransferDTO>>()
                .WithOpenApi();
-            group.MapPut("/received/{id:int}", Received).DisableAntiforgery()
+            group.MapPut("/received/{id:long}", Received).DisableAntiforgery()
                .AddEndpointFilter<ValidationFilter<CreateTransferDTO>>()
                .WithOpenApi();
-            group.MapPut("/cancelled/{id:int}", Cancelled).DisableAntiforgery()
+            group.MapPut("/cancelled/{id:long}", Cancelled).DisableAntiforgery()
                .AddEndpointFilter<ValidationFilter<CreateTransferDTO>>()
                .WithOpenApi();
             return group;
@@ -44,7 +41,7 @@ namespace BackEnd.Endpoints
 
         static async Task<Results<Ok<TransferDTO>, NotFound>> GetById(
             [FromServices] IMediator mediator,
-            int id)
+            long id)
         {
             var query = new GetTransferByIdQuery(id);
             var dto = await mediator.Send(query);
@@ -61,7 +58,7 @@ namespace BackEnd.Endpoints
         }
 
         static async Task<Results<Ok, NotFound, ValidationProblem>> Received(
-            int id,
+            long id,
             [FromBody] CreateTransferStatusDTO dto,
             [FromServices] IMediator mediator)
         {
@@ -71,7 +68,7 @@ namespace BackEnd.Endpoints
         }
 
         static async Task<Results<Ok, NotFound, ValidationProblem>> Cancelled(
-            int id,
+            long id,
             [FromBody] CreateTransferStatusDTO dto,
             [FromServices] IMediator mediator)
         {

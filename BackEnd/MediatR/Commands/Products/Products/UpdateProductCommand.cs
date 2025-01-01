@@ -2,14 +2,13 @@ using AutoMapper;
 using BackEnd.DTOs.Products.Products;
 using BackEnd.Entities.Products;
 using BackEnd.Repositories;
-using MediatR;
 using Microsoft.AspNetCore.OutputCaching;
 
 namespace BackEnd.MediatR.Commands.Products.Products
 {
     public class UpdateProductCommand : UpdateCommand<Item, CreateProductDTO>
     {
-        public UpdateProductCommand(int id, CreateProductDTO dto) : base(id, dto) { }
+        public UpdateProductCommand(long id, CreateProductDTO dto) : base(id, dto) { }
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
         {

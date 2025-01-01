@@ -1,21 +1,13 @@
-﻿using System.Globalization;
-using AutoMapper;
-using BackEnd.DTOs;
+﻿using BackEnd.DTOs;
 using BackEnd.DTOs.Products.Products;
-using BackEnd.DTOs.Products.Services;
-using BackEnd.Entities.Products;
 using BackEnd.Enums;
 using BackEnd.Filters;
 using BackEnd.Helpers;
-using BackEnd.MediatR.Commands;
 using BackEnd.MediatR.Commands.Products.Products;
 using BackEnd.MediatR.Queries.Products.Products;
-using BackEnd.Repositories;
-using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OutputCaching;
 
 namespace BackEnd.Endpoints
 {
@@ -27,15 +19,15 @@ namespace BackEnd.Endpoints
                 .AddPaginationParamsOpenAPI();
             group.MapGet("/stock-products", GetStockProducts);
             group.MapGet("/selects", GetSelects).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("products-get"));
-            group.MapGet("/{id:int}", GetById);
+            group.MapGet("/{id:long}", GetById);
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateProductDTO>>()
                 .WithOpenApi();
-            group.MapPut("/{id:int}", Update).DisableAntiforgery()
+            group.MapPut("/{id:long}", Update).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateProductDTO>>()
                 .WithOpenApi();
-            group.MapPatch("/{id:int}/activate", Activate);
-            group.MapDelete("/{id:int}/deactivate", Deactivate);
+            group.MapPatch("/{id:long}/activate", Activate);
+            group.MapDelete("/{id:long}/deactivate", Deactivate);
             //.RequireAuthorization("isAdmin");
             group.MapPost("/upload-csv", UploadCsv).DisableAntiforgery()
                 .WithOpenApi();
@@ -70,7 +62,7 @@ namespace BackEnd.Endpoints
 
         static async Task<Results<Ok<ProductDTO>, NotFound>> GetById(
             [FromServices] IMediator mediator,
-            int id)
+            long id)
         {
             var query = new GetProductByIdQuery(id);
             var dto = await mediator.Send(query);
@@ -87,7 +79,7 @@ namespace BackEnd.Endpoints
         }
 
         static async Task<Results<Ok, NotFound, ValidationProblem>> Update(
-            int id,
+            long id,
             [FromBody] CreateProductDTO dto,
             [FromServices] IMediator mediator)
         {
@@ -97,7 +89,7 @@ namespace BackEnd.Endpoints
         }
 
         static async Task<Results<NotFound, Ok>> Activate(
-            [FromRoute] int id,
+            [FromRoute] long id,
             [FromServices] IMediator mediator)
         {
             var command = new ActivateProductCommand(id);
@@ -106,7 +98,7 @@ namespace BackEnd.Endpoints
         }
 
         static async Task<Results<NotFound, Ok>> Deactivate(
-            [FromRoute] int id,
+            [FromRoute] long id,
             [FromServices] IMediator mediator)
         {
             var command = new DeactivateProductCommand(id);

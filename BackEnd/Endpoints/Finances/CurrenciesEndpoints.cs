@@ -48,7 +48,7 @@ namespace BackEnd.Endpoints
 
         static async Task<Results<Ok<CurrencyDTO>, NotFound>> GetById(
             [FromServices] IMediator mediator,
-            int id)
+            long id)
         {
             var query = new GetCurrencyByIdQuery(id);
             var dto = await mediator.Send(query);
@@ -65,7 +65,7 @@ namespace BackEnd.Endpoints
         }
 
         static async Task<Results<Ok, NotFound, ValidationProblem>> Update(
-            int id,
+            long id,
             [FromBody] CreateCurrencyDTO dto,
             [FromServices] IMediator mediator)
         {
@@ -75,7 +75,7 @@ namespace BackEnd.Endpoints
         }
 
         static async Task<Results<NotFound, Ok>> Activate(
-            [FromRoute] int id,
+            [FromRoute] long id,
             [FromServices] IMediator mediator)
         {
             var command = new ActivateCurrencyCommand(id);
@@ -84,7 +84,7 @@ namespace BackEnd.Endpoints
         }
 
         static async Task<Results<NotFound, Ok>> Deactivate(
-            [FromRoute] int id,
+            [FromRoute] long id,
             [FromServices] IMediator mediator)
         {
             var command = new DeactivateCurrencyCommand(id);

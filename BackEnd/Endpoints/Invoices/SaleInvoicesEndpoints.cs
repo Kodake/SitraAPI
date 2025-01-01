@@ -11,7 +11,6 @@ using FluentValidation;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
-using QuestPDF.Companion;
 
 namespace BackEnd.Endpoints.Invoices
 {
@@ -21,7 +20,7 @@ namespace BackEnd.Endpoints.Invoices
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("receivables-get"))
                 .AddPaginationParamsOpenAPI();
-            group.MapGet("/{id:int}", GetById);
+            group.MapGet("/{id:long}", GetById);
             group.MapPost("/", Create).DisableAntiforgery().WithOpenApi();
             group.MapGet("/{invoiceId}/generate-pdf", GeneratePdf).WithOpenApi();
             return group;
@@ -39,7 +38,7 @@ namespace BackEnd.Endpoints.Invoices
 
         static async Task<Results<Ok<SaleInvoiceDTO>, NotFound>> GetById(
             [FromServices] IUnitOfWork unitOfWork,
-            [FromServices] IMapper mapper, int id)
+            [FromServices] IMapper mapper, long id)
         {
             var saleInvoice = await unitOfWork.SaleInvoiceRepository.GetByIdAsync(id);
 

@@ -6,7 +6,7 @@ namespace BackEnd.MediatR.Queries.Products.Brands
 {
     public class GetBrandByIdQuery : GetByIdQuery<BrandDTO>
     {
-        public GetBrandByIdQuery(int id) : base(id) { }
+        public GetBrandByIdQuery(long id) : base(id) { }
 
         public override async Task<BrandDTO> GetData(
             IUnitOfWork unitOfWork,

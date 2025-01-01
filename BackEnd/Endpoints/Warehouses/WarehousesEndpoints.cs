@@ -1,11 +1,11 @@
-using AutoMapper;
 using BackEnd.DTOs;
 using BackEnd.DTOs.Warehouses.Warehouses;
-using BackEnd.Entities.Warehouses;
 using BackEnd.Enums;
 using BackEnd.Filters;
 using BackEnd.Helpers;
-using BackEnd.Repositories;
+using BackEnd.MediatR.Commands.Warehouses.Warehouses;
+using BackEnd.MediatR.Queries.Warehouses.Warehouses;
+using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
@@ -18,158 +18,105 @@ namespace BackEnd.Endpoints
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("warehouses-get"))
                 .AddPaginationParamsOpenAPI();
-            group.MapGet("/stock-warehouses/{id:int}", GetWarehouseStockByProductId);
-            group.MapGet("/unregistered-warehouses/{id:int}", GetUnregisteredWarehouseById).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("warehouses-get"));
+            group.MapGet("/stock-warehouses/{id:long}", GetWarehouseStockByProductId);
+            group.MapGet("/unregistered-warehouses/{id:long}", GetUnregisteredWarehouseById).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("warehouses-get"));
             group.MapGet("/selects", GetSelects).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("warehouses-get"));
-            group.MapGet("/{id:int}", GetById);
+            group.MapGet("/{id:long}", GetById);
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateWarehouseDTO>>()
-                //.RequireAuthorization()
                 .WithOpenApi();
-            group.MapPut("/{id:int}", Update).DisableAntiforgery()
+            group.MapPut("/{id:long}", Update).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateWarehouseDTO>>()
-                //.RequireAuthorization()
                 .WithOpenApi();
-            group.MapPatch("/{id:int}/activate", Activate);
-            group.MapDelete("/{id:int}/deactivate", Deactivate);
-            //.RequireAuthorization("isAdmin");
+            group.MapPatch("/{id:long}/activate", Activate);
+            group.MapDelete("/{id:long}/deactivate", Deactivate);
             return group;
         }
 
         static async Task<Ok<List<WarehouseListDTO>>> GetAll(
-            [FromServices] IUnitOfWork unitOfWork,
-            [FromServices] IMapper mapper, PaginationDTO pagination)
+            [FromServices] IMediator mediator,
+            PaginationDTO pagination)
         {
-            var warehouses = await unitOfWork.WarehouseRepository.GetAllAsync(pagination);
-            var dto = mapper.Map<List<WarehouseListDTO>>(warehouses);
-
+            var query = new GetAllWarehousesQuery(pagination);
+            var dto = await mediator.Send(query);
             return TypedResults.Ok(dto);
         }
 
         static async Task<Ok<List<WarehouseListDTO>>> GetUnregisteredWarehouseById(
-            [FromServices] IUnitOfWork unitOfWork,
-            IMapper mapper, int id)
+            [FromServices] IMediator mediator,
+            long id)
         {
-            var unregWarehouses = await unitOfWork.WarehouseRepository.GetUnregisteredWarehouseById(id);
-            var unregWarehousesDTO = mapper.Map<List<WarehouseListDTO>>(unregWarehouses);
-
-            return TypedResults.Ok(unregWarehousesDTO);
+            var query = new GetUnregisteredWarehouseByIdQuery(id);
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
         }
 
         static async Task<Ok<List<WarehouseListDTO>>> GetWarehouseStockByProductId(
-            [FromServices] IUnitOfWork unitOfWork,
-            IMapper mapper, int id)
+            [FromServices] IMediator mediator,
+            long id)
         {
-            var stockWarehouses = await unitOfWork.WarehouseRepository.GetStockWarehouseByProductId(id);
-            var stockWarehousesDTO = mapper.Map<List<WarehouseListDTO>>(stockWarehouses);
-
-            return TypedResults.Ok(stockWarehousesDTO);
+            var query = new GetWarehouseStockByProductIdQuery(id);
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
         }
 
         static async Task<Ok<List<WarehouseListDTO>>> GetSelects(
-            [FromServices] IUnitOfWork unitOfWork,
-            IMapper mapper, [FromQuery] StatusType status = StatusType.All)
+            [FromServices] IMediator mediator,
+            [FromQuery] StatusType status = StatusType.All)
         {
-            var warehouses = await unitOfWork.WarehouseRepository.GetAll(status);
-            var warehousesDTO = mapper.Map<List<WarehouseListDTO>>(warehouses);
-
-            return TypedResults.Ok(warehousesDTO);
+            var query = new GetSelectsWarehousesQuery(status);
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
         }
 
         static async Task<Results<Ok<WarehouseDTO>, NotFound>> GetById(
-            [FromServices] IUnitOfWork unitOfWork,
-            [FromServices] IMapper mapper, int id)
+            [FromServices] IMediator mediator,
+            long id)
         {
-            var warehouse = await unitOfWork.WarehouseRepository.GetByIdAsync(id);
-
-            if (warehouse is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            var warehouseDTO = mapper.Map<WarehouseDTO>(warehouse);
-
-            return TypedResults.Ok(warehouseDTO);
+            var query = new GetWarehousesByIdQuery(id);
+            var dto = await mediator.Send(query);
+            return dto == null ? TypedResults.NotFound() : TypedResults.Ok(dto);
         }
 
-        static async Task<Results<Created<WarehouseDTO>, ValidationProblem>> Create([FromBody] CreateWarehouseDTO dto,
-           [FromServices] IUnitOfWork unitOfWork,
-           IOutputCacheStore outputCacheStore,
-           [FromServices] IMapper mapper)
+        static async Task<Results<Created, NotFound, ValidationProblem>> Create(
+            [FromBody] CreateWarehouseDTO dto,
+            [FromServices] IMediator mediator,
+            IOutputCacheStore outputCacheStore)
         {
-            var warehouse = mapper.Map<Warehouse>(dto);
-
-            await unitOfWork.WarehouseRepository.CreateAsync(warehouse);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("warehouses-get", default);
-
-            var warehouseDTO = mapper.Map<WarehouseDTO>(warehouse);
-
-            return TypedResults.Created($"/warehouses/{warehouse.Id}", warehouseDTO);
+            var command = new CreateWarehouseCommand(dto);
+            var warehouseDTO = await mediator.Send(command);
+            return warehouseDTO == null ? TypedResults.NotFound() : TypedResults.Created();
         }
 
-        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(int id, [FromBody] CreateWarehouseDTO dto,
-            [FromServices] IUnitOfWork unitOfWork,
-            IOutputCacheStore outputCacheStore,
-            [FromServices] IMapper mapper)
+        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(
+            long id,
+            [FromBody] CreateWarehouseDTO dto,
+            [FromServices] IMediator mediator,
+            IOutputCacheStore outputCacheStore)
         {
-            var warehouseDB = await unitOfWork.WarehouseRepository.GetByIdAsync(id);
-
-            if (warehouseDB is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            warehouseDB.Name = dto.Name;
-            warehouseDB.Address = dto.Address;
-            warehouseDB.Phone = dto.Phone;
-            warehouseDB.Email = dto.Email;
-            warehouseDB.City = dto.City;
-            warehouseDB.Country = dto.Country;
-            warehouseDB.ZipCode = dto.ZipCode;
-            warehouseDB.IsActive = warehouseDB.IsActive;
-
-            unitOfWork.WarehouseRepository.Update(warehouseDB);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("warehouses-get", default);
-
-            return TypedResults.Ok();
+            var command = new UpdateWarehouseCommand(id, dto);
+            var success = await mediator.Send(command);
+            return success ? TypedResults.Ok() : TypedResults.NotFound();
         }
 
-        static async Task<Results<NotFound, Ok>> Activate([FromRoute] int id,
-             [FromServices] IUnitOfWork unitOfWork,
-             IOutputCacheStore outputCacheStore)
+        static async Task<Results<NotFound, Ok>> Activate(
+            [FromRoute] long id,
+            [FromServices] IMediator mediator,
+            IOutputCacheStore outputCacheStore)
         {
-            var warehouseDB = await unitOfWork.WarehouseRepository.GetByIdAsync(id);
-
-            if (warehouseDB is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            await unitOfWork.WarehouseRepository.ActivateAsync(id);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("warehouses-get", default);
-
-            return TypedResults.Ok();
+            var command = new ActivateWarehouseCommand(id);
+            var success = await mediator.Send(command);
+            return success ? TypedResults.Ok() : TypedResults.NotFound();
         }
 
-        static async Task<Results<NotFound, Ok>> Deactivate([FromRoute] int id,
-             [FromServices] IUnitOfWork unitOfWork,
-             IOutputCacheStore outputCacheStore)
+        static async Task<Results<NotFound, Ok>> Deactivate(
+            [FromRoute] long id,
+            [FromServices] IMediator mediator,
+            IOutputCacheStore outputCacheStore)
         {
-            var warehouseDB = await unitOfWork.WarehouseRepository.GetByIdAsync(id);
-
-            if (warehouseDB is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            await unitOfWork.WarehouseRepository.DeactivateAsync(id);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("warehouses-get", default);
-
-            return TypedResults.Ok();
+            var command = new DeactivateWarehouseCommand(id);
+            var success = await mediator.Send(command);
+            return success ? TypedResults.Ok() : TypedResults.NotFound();
         }
     }
 }

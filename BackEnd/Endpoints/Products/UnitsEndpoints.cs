@@ -18,15 +18,15 @@ namespace BackEnd.Endpoints
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(3600)).Tag("units-get"))
                 .AddPaginationParamsOpenAPI();
             group.MapGet("/selects", GetSelects).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(3600)).Tag("units-get"));
-            group.MapGet("/{id:int}", GetById);
+            group.MapGet("/{id:long}", GetById);
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateUnitDTO>>()
                 .WithOpenApi();
-            group.MapPut("/{id:int}", Update).DisableAntiforgery()
+            group.MapPut("/{id:long}", Update).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateUnitDTO>>()
                 .WithOpenApi();
-            group.MapPatch("/{id:int}/activate", Activate);
-            group.MapDelete("/{id:int}/deactivate", Deactivate);
+            group.MapPatch("/{id:long}/activate", Activate);
+            group.MapDelete("/{id:long}/deactivate", Deactivate);
             return group;
         }
 
@@ -50,7 +50,7 @@ namespace BackEnd.Endpoints
 
         static async Task<Results<Ok<UnitDTO>, NotFound>> GetById(
             [FromServices] IMediator mediator,
-            int id)
+            long id)
         {
             var query = new GetUnitByIdQuery(id);
             var dto = await mediator.Send(query);
@@ -67,7 +67,7 @@ namespace BackEnd.Endpoints
         }
 
         static async Task<Results<Ok, NotFound, ValidationProblem>> Update(
-            int id,
+            long id,
             [FromBody] CreateUnitDTO dto,
             [FromServices] IMediator mediator)
         {
@@ -77,7 +77,7 @@ namespace BackEnd.Endpoints
         }
 
         static async Task<Results<NotFound, Ok>> Activate(
-            [FromRoute] int id,
+            [FromRoute] long id,
             [FromServices] IMediator mediator)
         {
             var command = new ActivateUnitCommand(id);
@@ -86,7 +86,7 @@ namespace BackEnd.Endpoints
         }
 
         static async Task<Results<NotFound, Ok>> Deactivate(
-            [FromRoute] int id,
+            [FromRoute] long id,
             [FromServices] IMediator mediator)
         {
             var command = new DeactivateUnitCommand(id);

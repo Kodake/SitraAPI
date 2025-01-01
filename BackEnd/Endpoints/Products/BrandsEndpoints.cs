@@ -50,7 +50,7 @@ namespace BackEnd.Endpoints
 
         static async Task<Results<Ok<BrandDTO>, NotFound>> GetById(
             [FromServices] IMediator mediator,
-            int id)
+            long id)
         {
             var query = new GetBrandByIdQuery(id);
             var dto = await mediator.Send(query);
@@ -67,7 +67,7 @@ namespace BackEnd.Endpoints
         }
 
         static async Task<Results<Ok, NotFound, ValidationProblem>> Update(
-            int id,
+            long id,
             [FromBody] CreateBrandDTO dto,
             [FromServices] IMediator mediator)
         {
@@ -77,7 +77,7 @@ namespace BackEnd.Endpoints
         }
 
         static async Task<Results<NotFound, Ok>> Activate(
-            [FromRoute] int id,
+            [FromRoute] long id,
             [FromServices] IMediator mediator)
         {
             var command = new ActivateBrandCommand(id);
@@ -86,7 +86,7 @@ namespace BackEnd.Endpoints
         }
 
         static async Task<Results<NotFound, Ok>> Deactivate(
-            [FromRoute] int id,
+            [FromRoute] long id,
             [FromServices] IMediator mediator)
         {
             var command = new DeactivateBrandCommand(id);

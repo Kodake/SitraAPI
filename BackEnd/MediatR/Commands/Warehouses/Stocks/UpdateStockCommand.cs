@@ -8,7 +8,7 @@ namespace BackEnd.MediatR.Commands.Warehouses.Stocks
 {
     public class UpdateStockCommand : UpdateCommand<Stock, CreateStockDTO>
     {
-        public UpdateStockCommand(int id, CreateStockDTO dto) : base(id, dto) { }
+        public UpdateStockCommand(long id, CreateStockDTO dto) : base(id, dto) { }
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
         {

@@ -1,13 +1,13 @@
 ﻿using BackEnd.DTOs;
 using BackEnd.DTOs.Finances.Taxes;
+using BackEnd.Enums;
 using BackEnd.Filters;
 using BackEnd.Helpers;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
 using BackEnd.MediatR.Commands.Finances.Taxes;
 using BackEnd.MediatR.Queries.Finances.Taxes;
 using MediatR;
-using BackEnd.Enums;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BackEnd.Endpoints
 {
@@ -49,7 +49,7 @@ namespace BackEnd.Endpoints
 
         static async Task<Results<Ok<TaxDTO>, NotFound>> GetById(
             [FromServices] IMediator mediator,
-            int id)
+            long id)
         {
             var query = new GetTaxByIdQuery(id);
             var dto = await mediator.Send(query);
@@ -66,7 +66,7 @@ namespace BackEnd.Endpoints
         }
 
         static async Task<Results<Ok, NotFound, ValidationProblem>> Update(
-            int id,
+            long id,
             [FromBody] CreateTaxDTO dto,
             [FromServices] IMediator mediator)
         {
@@ -76,7 +76,7 @@ namespace BackEnd.Endpoints
         }
 
         static async Task<Results<NotFound, Ok>> Activate(
-            [FromRoute] int id,
+            [FromRoute] long id,
             [FromServices] IMediator mediator)
         {
             var command = new ActivateTaxCommand(id);
@@ -85,7 +85,7 @@ namespace BackEnd.Endpoints
         }
 
         static async Task<Results<NotFound, Ok>> Deactivate(
-            [FromRoute] int id,
+            [FromRoute] long id,
             [FromServices] IMediator mediator)
         {
             var command = new DeactivateTaxCommand(id);

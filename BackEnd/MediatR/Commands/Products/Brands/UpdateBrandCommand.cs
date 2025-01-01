@@ -8,7 +8,7 @@ namespace BackEnd.MediatR.Commands.Products.Brands
 {
     public class UpdateBrandCommand : UpdateCommand<Brand, CreateBrandDTO>
     {
-        public UpdateBrandCommand(int id, CreateBrandDTO dto) : base(id, dto) { }
+        public UpdateBrandCommand(long id, CreateBrandDTO dto) : base(id, dto) { }
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
         {

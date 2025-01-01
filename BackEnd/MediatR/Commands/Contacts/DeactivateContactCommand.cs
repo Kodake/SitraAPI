@@ -5,7 +5,7 @@ namespace BackEnd.MediatR.Commands.Contacts
 {
     public class DeactivateContactCommand : ToggleCommand
     {
-        public DeactivateContactCommand(int id) : base(id) { }
+        public DeactivateContactCommand(long id) : base(id) { }
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, CancellationToken cancellationToken)
         {

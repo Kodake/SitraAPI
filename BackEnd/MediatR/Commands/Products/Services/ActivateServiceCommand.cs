@@ -5,7 +5,7 @@ namespace BackEnd.MediatR.Commands.Products.Services
 {
     public class ActivateServiceCommand : ToggleCommand
     {
-        public ActivateServiceCommand(int id) : base(id) { }
+        public ActivateServiceCommand(long id) : base(id) { }
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, CancellationToken cancellationToken)
         {

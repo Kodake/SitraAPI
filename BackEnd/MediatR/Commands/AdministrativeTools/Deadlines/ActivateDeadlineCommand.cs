@@ -5,7 +5,7 @@ namespace BackEnd.MediatR.Commands.AdministrativeTools.Deadlines
 {
     public class ActivateDeadlineCommand : ToggleCommand
     {
-        public ActivateDeadlineCommand(int id) : base(id) { }
+        public ActivateDeadlineCommand(long id) : base(id) { }
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, CancellationToken cancellationToken)
         {

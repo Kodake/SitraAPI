@@ -1,19 +1,13 @@
-﻿using AutoMapper;
-using BackEnd.DTOs;
+﻿using BackEnd.DTOs;
 using BackEnd.DTOs.Products.Services;
-using BackEnd.Entities.Products;
 using BackEnd.Enums;
 using BackEnd.Filters;
 using BackEnd.Helpers;
 using BackEnd.MediatR.Commands.Products.Services;
 using BackEnd.MediatR.Queries.Products.Services;
-using BackEnd.Repositories;
-using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OutputCaching;
-using System.Globalization;
 
 namespace BackEnd.Endpoints.Products
 {
@@ -24,15 +18,15 @@ namespace BackEnd.Endpoints.Products
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("services-get"))
                 .AddPaginationParamsOpenAPI();
             group.MapGet("/selects", GetSelects).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("services-get"));
-            group.MapGet("/{id:int}", GetById);
+            group.MapGet("/{id:long}", GetById);
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateServiceDTO>>()
                 .WithOpenApi();
-            group.MapPut("/{id:int}", Update).DisableAntiforgery()
+            group.MapPut("/{id:long}", Update).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateServiceDTO>>()
                 .WithOpenApi();
-            group.MapPatch("/{id:int}/activate", Activate);
-            group.MapDelete("/{id:int}/deactivate", Deactivate);
+            group.MapPatch("/{id:long}/activate", Activate);
+            group.MapDelete("/{id:long}/deactivate", Deactivate);
             group.MapPost("/upload-csv", UploadCsv).DisableAntiforgery()
                 .WithOpenApi();
             return group;
@@ -58,7 +52,7 @@ namespace BackEnd.Endpoints.Products
 
         static async Task<Results<Ok<ServiceDTO>, NotFound>> GetById(
             [FromServices] IMediator mediator,
-            int id)
+            long id)
         {
             var query = new GetServiceByIdQuery(id);
             var dto = await mediator.Send(query);
@@ -75,7 +69,7 @@ namespace BackEnd.Endpoints.Products
         }
 
         static async Task<Results<Ok, NotFound, ValidationProblem>> Update(
-            int id,
+            long id,
             [FromBody] CreateServiceDTO dto,
             [FromServices] IMediator mediator)
         {
@@ -85,7 +79,7 @@ namespace BackEnd.Endpoints.Products
         }
 
         static async Task<Results<NotFound, Ok>> Activate(
-            [FromRoute] int id,
+            [FromRoute] long id,
             [FromServices] IMediator mediator)
         {
             var command = new ActivateServiceCommand(id);
@@ -94,7 +88,7 @@ namespace BackEnd.Endpoints.Products
         }
 
         static async Task<Results<NotFound, Ok>> Deactivate(
-            [FromRoute] int id,
+            [FromRoute] long id,
             [FromServices] IMediator mediator)
         {
             var command = new DeactivateServiceCommand(id);

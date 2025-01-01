@@ -6,7 +6,7 @@ namespace BackEnd.MediatR.Queries.AdministrativeTools.FiscalSupports
 {
     public class GetFiscalSupportByIdQuery : GetByIdQuery<FiscalSupportDTO>
     {
-        public GetFiscalSupportByIdQuery(int id) : base(id) { }
+        public GetFiscalSupportByIdQuery(long id) : base(id) { }
 
         public override async Task<FiscalSupportDTO> GetData(
             IUnitOfWork unitOfWork,

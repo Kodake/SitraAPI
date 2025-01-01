@@ -20,16 +20,16 @@ namespace BackEnd.Endpoints
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("fiscalsupports-get"))
                 .AddPaginationParamsOpenAPI();
             group.MapGet("/selects", GetSelects).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("fiscalsupports-get"));
-            group.MapGet("/{id:int}", GetById);
-            group.MapGet("/supportType/{supportType}/warehouse/{warehouseId:int}", GetByDocumentTypeAndWarehouseId);
+            group.MapGet("/{id:long}", GetById);
+            group.MapGet("/supportType/{supportType}/warehouse/{warehouseId:long}", GetByDocumentTypeAndWarehouseId);
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateFiscalSupportDTO>>()
                 .WithOpenApi();
-            group.MapPut("/{id:int}", Update).DisableAntiforgery()
+            group.MapPut("/{id:long}", Update).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateFiscalSupportDTO>>()
                 .WithOpenApi();
-            group.MapPatch("/{id:int}/activate", Activate);
-            group.MapDelete("/{id:int}/deactivate", Deactivate);
+            group.MapPatch("/{id:long}/activate", Activate);
+            group.MapDelete("/{id:long}/deactivate", Deactivate);
             return group;
         }
 
@@ -53,7 +53,7 @@ namespace BackEnd.Endpoints
 
         static async Task<Results<Ok<FiscalSupportDTO>, NotFound>> GetById(
             [FromServices] IMediator mediator,
-            int id)
+            long id)
         {
             var query = new GetFiscalSupportByIdQuery(id);
             var result = await mediator.Send(query);
@@ -62,7 +62,7 @@ namespace BackEnd.Endpoints
 
         static async Task<Ok<List<FiscalSupportDTO>>> GetByDocumentTypeAndWarehouseId(
             [FromServices] IMediator mediator,
-            [FromRoute] FiscalSupportType supportType, int warehouseId)
+            [FromRoute] FiscalSupportType supportType, long warehouseId)
         {
             var query = new GetDocumentsByTypeIdAndWarehouseIdQuery(supportType, warehouseId);
             var result = await mediator.Send(query);
@@ -80,7 +80,7 @@ namespace BackEnd.Endpoints
         }
 
         static async Task<Results<Ok, NotFound, ValidationProblem>> Update(
-            int id, [FromBody] CreateFiscalSupportDTO dto,
+            long id, [FromBody] CreateFiscalSupportDTO dto,
             [FromServices] IMediator mediator,
             IOutputCacheStore outputCacheStore)
         {
@@ -90,7 +90,7 @@ namespace BackEnd.Endpoints
         }
 
         static async Task<Results<NotFound, Ok>> Activate(
-            [FromRoute] int id,
+            [FromRoute] long id,
             [FromServices] IMediator mediator,
             IOutputCacheStore outputCacheStore)
         {
@@ -100,7 +100,7 @@ namespace BackEnd.Endpoints
         }
 
         static async Task<Results<NotFound, Ok>> Deactivate(
-            [FromRoute] int id,
+            [FromRoute] long id,
             [FromServices] IMediator mediator,
             IOutputCacheStore outputCacheStore)
         {

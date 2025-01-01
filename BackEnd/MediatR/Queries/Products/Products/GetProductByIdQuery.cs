@@ -5,7 +5,7 @@ namespace BackEnd.MediatR.Queries.Products.Products
 {
     public class GetProductByIdQuery : GetByIdQuery<ProductDTO>
     {
-        public GetProductByIdQuery(int id) : base(id) { }
+        public GetProductByIdQuery(long id) : base(id) { }
 
         public override async Task<ProductDTO> GetData(
             IUnitOfWork unitOfWork,

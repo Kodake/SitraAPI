@@ -6,7 +6,7 @@ namespace BackEnd.MediatR.Queries.Warehouses.Transfers
 {
     public class GetTransferByIdQuery : GetByIdQuery<TransferDTO>
     {
-        public GetTransferByIdQuery(int id) : base(id) { }
+        public GetTransferByIdQuery(long id) : base(id) { }
 
         public override async Task<TransferDTO> GetData(
             IUnitOfWork unitOfWork,

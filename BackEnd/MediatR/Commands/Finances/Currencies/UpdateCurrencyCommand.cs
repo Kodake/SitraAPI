@@ -8,7 +8,7 @@ namespace BackEnd.MediatR.Commands.Finances.Currencies
 {
     public class UpdateCurrencyCommand : UpdateCommand<Currency, CreateCurrencyDTO>
     {
-        public UpdateCurrencyCommand(int id, CreateCurrencyDTO dto) : base(id, dto) { }
+        public UpdateCurrencyCommand(long id, CreateCurrencyDTO dto) : base(id, dto) { }
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
         {

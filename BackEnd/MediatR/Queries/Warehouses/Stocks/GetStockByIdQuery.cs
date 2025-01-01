@@ -6,7 +6,7 @@ namespace BackEnd.MediatR.Queries.Warehouses.Stocks
 {
     public class GetStockByIdQuery : GetByIdQuery<StockDTO>
     {
-        public GetStockByIdQuery(int id) : base(id) { }
+        public GetStockByIdQuery(long id) : base(id) { }
 
         public override async Task<StockDTO> GetData(
             IUnitOfWork unitOfWork,

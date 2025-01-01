@@ -2,12 +2,12 @@
 using BackEnd.DTOs.Warehouses.Stocks;
 using BackEnd.Filters;
 using BackEnd.Helpers;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OutputCaching;
 using BackEnd.MediatR.Commands.Warehouses.Stocks;
 using BackEnd.MediatR.Queries.Warehouses.Stocks;
 using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 
 namespace BackEnd.Endpoints
 {
@@ -17,11 +17,11 @@ namespace BackEnd.Endpoints
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("stocks-get"))
                 .AddPaginationParamsOpenAPI();
-            group.MapGet("/{id:int}", GetById);
+            group.MapGet("/{id:long}", GetById);
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateStockDTO>>()
                 .WithOpenApi();
-            group.MapPut("/{id:int}", Update).DisableAntiforgery()
+            group.MapPut("/{id:long}", Update).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateStockDTO>>()
                 .WithOpenApi();
             return group;
@@ -38,7 +38,7 @@ namespace BackEnd.Endpoints
 
         static async Task<Results<Ok<StockDTO>, NotFound>> GetById(
             [FromServices] IMediator mediator,
-            int id)
+            long id)
         {
             var query = new GetStockByIdQuery(id);
             var dto = await mediator.Send(query);
@@ -56,7 +56,7 @@ namespace BackEnd.Endpoints
         }
 
         static async Task<Results<Ok, NotFound, ValidationProblem>> Update(
-            int id,
+            long id,
             [FromBody] CreateStockDTO dto,
             [FromServices] IMediator mediator)
         {

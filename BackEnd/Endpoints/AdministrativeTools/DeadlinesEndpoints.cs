@@ -3,12 +3,12 @@ using BackEnd.DTOs.AdministrativeTools.Deadlines;
 using BackEnd.Enums;
 using BackEnd.Filters;
 using BackEnd.Helpers;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OutputCaching;
 using BackEnd.MediatR.Commands.AdministrativeTools.Deadlines;
 using BackEnd.MediatR.Queries.AdministrativeTools.Deadlines;
 using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 
 namespace BackEnd.Endpoints
 {
@@ -19,15 +19,15 @@ namespace BackEnd.Endpoints
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("deadlines-get"))
                 .AddPaginationParamsOpenAPI();
             group.MapGet("/selects", GetSelects).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("deadlines-get"));
-            group.MapGet("/{id:int}", GetById);
+            group.MapGet("/{id:long}", GetById);
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateDeadlineDTO>>()
                 .WithOpenApi();
-            group.MapPut("/{id:int}", Update).DisableAntiforgery()
+            group.MapPut("/{id:long}", Update).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateDeadlineDTO>>()
                 .WithOpenApi();
-            group.MapPatch("/{id:int}/activate", Activate);
-            group.MapDelete("/{id:int}/deactivate", Deactivate);
+            group.MapPatch("/{id:long}/activate", Activate);
+            group.MapDelete("/{id:long}/deactivate", Deactivate);
             return group;
         }
 
@@ -51,7 +51,7 @@ namespace BackEnd.Endpoints
 
         static async Task<Results<Ok<DeadlineDTO>, NotFound>> GetById(
             [FromServices] IMediator mediator,
-            int id)
+            long id)
         {
             var query = new GetDeadlineByIdQuery(id);
             var result = await mediator.Send(query);
@@ -69,7 +69,7 @@ namespace BackEnd.Endpoints
         }
 
         static async Task<Results<Ok, NotFound, ValidationProblem>> Update(
-            int id, [FromBody] CreateDeadlineDTO dto,
+            long id, [FromBody] CreateDeadlineDTO dto,
             [FromServices] IMediator mediator,
             IOutputCacheStore outputCacheStore)
         {
@@ -79,7 +79,7 @@ namespace BackEnd.Endpoints
         }
 
         static async Task<Results<NotFound, Ok>> Activate(
-            [FromRoute] int id,
+            [FromRoute] long id,
             [FromServices] IMediator mediator,
             IOutputCacheStore outputCacheStore)
         {
@@ -89,7 +89,7 @@ namespace BackEnd.Endpoints
         }
 
         static async Task<Results<NotFound, Ok>> Deactivate(
-            [FromRoute] int id,
+            [FromRoute] long id,
             [FromServices] IMediator mediator,
             IOutputCacheStore outputCacheStore)
         {

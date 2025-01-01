@@ -5,7 +5,7 @@ namespace BackEnd.MediatR.Commands.Finances.Currencies
 {
     public class DeactivateCurrencyCommand : ToggleCommand
     {
-        public DeactivateCurrencyCommand(int id) : base(id)
+        public DeactivateCurrencyCommand(long id) : base(id)
         { }
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, CancellationToken cancellationToken)

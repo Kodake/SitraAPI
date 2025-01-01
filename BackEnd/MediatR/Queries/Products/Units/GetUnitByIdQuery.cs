@@ -6,7 +6,7 @@ namespace BackEnd.MediatR.Queries.Products.Units
 {
     public class GetUnitByIdQuery : GetByIdQuery<UnitDTO>
     {
-        public GetUnitByIdQuery(int id) : base(id) { }
+        public GetUnitByIdQuery(long id) : base(id) { }
 
         public override async Task<UnitDTO> GetData(
             IUnitOfWork unitOfWork,

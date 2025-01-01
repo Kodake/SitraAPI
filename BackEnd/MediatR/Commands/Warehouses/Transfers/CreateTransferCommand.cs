@@ -4,6 +4,7 @@ using BackEnd.Entities.Warehouses;
 using BackEnd.Enums;
 using BackEnd.Repositories;
 using Microsoft.AspNetCore.OutputCaching;
+using System.Transactions;
 
 namespace BackEnd.MediatR.Commands.Warehouses.Transfers
 {
@@ -39,11 +40,15 @@ namespace BackEnd.MediatR.Commands.Warehouses.Transfers
 
             stockOrigin.Qty -= Dto.Qty;
 
-            await unitOfWork.TransferRepository.CreateAsync(transfer);
-            unitOfWork.StockRepository.Update(stockOrigin);
-            await unitOfWork.SaveChangesAsync();
-            unitOfWork.StockRepository.Update(stockDestination);
-            await unitOfWork.SaveChangesAsync();
+            using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                await unitOfWork.TransferRepository.CreateAsync(transfer);
+                unitOfWork.StockRepository.Update(stockOrigin);
+                unitOfWork.StockRepository.Update(stockDestination);
+                await unitOfWork.SaveChangesAsync();
+
+                transaction.Complete();
+            }
 
             await outputCacheStore.EvictByTagAsync("transfers-get", default);
             await outputCacheStore.EvictByTagAsync("stocks-get", default);

@@ -5,7 +5,7 @@ namespace BackEnd.MediatR.Commands.Finances.Taxes
 {
     public class DeactivateTaxCommand : ToggleCommand
     {
-        public DeactivateTaxCommand(int id) : base(id)
+        public DeactivateTaxCommand(long id) : base(id)
         { }
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, CancellationToken cancellationToken)

@@ -8,7 +8,7 @@ namespace BackEnd.MediatR.Commands.Finances.Taxes
 {
     public class UpdateTaxCommand : UpdateCommand<Tax, CreateTaxDTO>
     {
-        public UpdateTaxCommand(int id, CreateTaxDTO dto) : base(id, dto) { }
+        public UpdateTaxCommand(long id, CreateTaxDTO dto) : base(id, dto) { }
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
         {

@@ -5,7 +5,7 @@ namespace BackEnd.MediatR.Commands.AdministrativeTools.FiscalSupports
 {
     public class ActivateFiscalSupportCommand : ToggleCommand
     {
-        public ActivateFiscalSupportCommand(int id) : base(id) { }
+        public ActivateFiscalSupportCommand(long id) : base(id) { }
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, CancellationToken cancellationToken)
         {

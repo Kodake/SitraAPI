@@ -1,12 +1,11 @@
 using BackEnd.Repositories;
-using MediatR;
 using Microsoft.AspNetCore.OutputCaching;
 
 namespace BackEnd.MediatR.Commands.Products.Products
 {
     public class DeactivateProductCommand : ToggleCommand
     {
-        public DeactivateProductCommand(int id) : base(id) { }
+        public DeactivateProductCommand(long id) : base(id) { }
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, CancellationToken cancellationToken)
         {

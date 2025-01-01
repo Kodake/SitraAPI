@@ -27,7 +27,7 @@ namespace BackEnd.Endpoints
                 .AddEndpointFilter<ValidationFilter<CreatePaymentReceiptDTO>>()
                 //.RequireAuthorization("isAdmin")
                 .WithOpenApi();
-            group.MapDelete("/{id:int}/paymentReceipts/{paymentReceiptId}/deactivate", Deactivate);
+            group.MapDelete("/{id:long}/paymentReceipts/{paymentReceiptId}/deactivate", Deactivate);
             //.RequireAuthorization("isAdmin");
             return group;
         }

@@ -8,7 +8,7 @@ namespace BackEnd.MediatR.Commands.AdministrativeTools.Deadlines
 {
     public class UpdateDeadlineCommand : UpdateCommand<Deadline, CreateDeadlineDTO>
     {
-        public UpdateDeadlineCommand(int id, CreateDeadlineDTO dto) : base(id, dto) { }
+        public UpdateDeadlineCommand(long id, CreateDeadlineDTO dto) : base(id, dto) { }
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
         {

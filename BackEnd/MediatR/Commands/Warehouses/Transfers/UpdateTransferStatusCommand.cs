@@ -11,7 +11,7 @@ namespace BackEnd.MediatR.Commands.Warehouses.Transfers
     {
         private readonly TransferStatus _newStatus;
 
-        public UpdateTransferStatusCommand(int id, CreateTransferStatusDTO dto, TransferStatus newStatus) : base(id, dto)
+        public UpdateTransferStatusCommand(long id, CreateTransferStatusDTO dto, TransferStatus newStatus) : base(id, dto)
         {
             _newStatus = newStatus;
         }

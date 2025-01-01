@@ -8,7 +8,7 @@ namespace BackEnd.MediatR.Commands.Products.Units
 {
     public class UpdateUnitCommand : UpdateCommand<Unit, CreateUnitDTO>
     {
-        public UpdateUnitCommand(int id, CreateUnitDTO dto) : base(id, dto) { }
+        public UpdateUnitCommand(long id, CreateUnitDTO dto) : base(id, dto) { }
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
         {

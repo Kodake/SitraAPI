@@ -6,7 +6,7 @@ namespace BackEnd.MediatR.Queries.Finances.Taxes
 {
     public class GetTaxByIdQuery : GetByIdQuery<TaxDTO>
     {
-        public GetTaxByIdQuery(int id) : base(id) { }
+        public GetTaxByIdQuery(long id) : base(id) { }
 
         public override async Task<TaxDTO> GetData(
             IUnitOfWork unitOfWork,

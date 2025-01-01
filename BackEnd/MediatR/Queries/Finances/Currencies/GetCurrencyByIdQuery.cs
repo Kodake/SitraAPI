@@ -6,7 +6,7 @@ namespace BackEnd.MediatR.Queries.Finances.Currencies
 {
     public class GetCurrencyByIdQuery : GetByIdQuery<CurrencyDTO>
     {
-        public GetCurrencyByIdQuery(int id) : base(id) { }
+        public GetCurrencyByIdQuery(long id) : base(id) { }
 
         public override async Task<CurrencyDTO> GetData(
             IUnitOfWork unitOfWork,
