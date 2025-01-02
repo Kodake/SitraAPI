@@ -96,16 +96,37 @@ namespace BackEnd.Endpoints.Invoices
 
                 await unitOfWork.SaleInvoiceRepository.CreateAsync(saleInvoice);
 
-                var accountsReceivable = new Receivable
+                switch (dto.ConditionType)
                 {
-                    SaleInvoice = saleInvoice,
-                    ContactId = saleInvoice.CustomerId,
-                    TotalAmountDue = saleInvoice.TotalPrice,
-                    TotalOutstanding = 0,
-                    Status = AccountStatus.PendingReceivable,
-                };
+                    case InvoiceCondition.Credit:
+                        var accountsReceivable = new Receivable
+                        {
+                            SaleInvoice = saleInvoice,
+                            ContactId = saleInvoice.CustomerId,
+                            TotalAmountDue = saleInvoice.TotalPrice,
+                            TotalOutstanding = 0,
+                            Status = AccountStatus.PendingReceivable,
+                        };
 
-                await unitOfWork.ReceivableRepository.CreateAsync(accountsReceivable);
+                        await unitOfWork.ReceivableRepository.CreateAsync(accountsReceivable);
+                        break;
+
+                    case InvoiceCondition.Cash:
+                        var spotPayment = new SpotPayment
+                        {
+                            SaleInvoice = saleInvoice,
+                            ContactId = saleInvoice.CustomerId,
+                            AmountReceived = dto.AmountReceived ?? 0,
+                            AmountReturned = dto.AmountReturned ?? 0,
+                            PaymentMethod = dto.PaymentMethod,
+                            PaymentDate = DateTime.UtcNow,
+                            IsActive = true
+                        };
+
+                        await unitOfWork.SpotPaymentRepository.CreateAsync(spotPayment);
+                        break;
+                }
+
                 await AddInvoiceItems(dto.SaleInvoiceItems, saleInvoice, unitOfWork, mapper, currencyRate);
                 await ReduceStock(dto, unitOfWork);
                 await unitOfWork.SaveChangesAsync();

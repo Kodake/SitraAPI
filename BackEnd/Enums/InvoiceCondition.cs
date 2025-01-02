@@ -4,6 +4,6 @@
     {
         Cash = 1,
         Credit = 2,
-        Draft = 3,
+        //Draft = 3,
     }
 }

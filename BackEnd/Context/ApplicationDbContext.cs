@@ -73,6 +73,7 @@ namespace BackEnd.Context
         public DbSet<Transfer> Transfers { get; set; }
         public DbSet<SaleInvoice> SaleInvoices { get; set; }
         public DbSet<SaleInvoiceItem> SaleInvoiceItems { get; set; }
+        public DbSet<SpotPayment> SpotPayments { get; set; }
         public DbSet<Receivable> Receivables { get; set; }
         public DbSet<PaymentReceipt> PaymentReceipts { get; set; }
         #endregion

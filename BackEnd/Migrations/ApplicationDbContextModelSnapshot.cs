@@ -270,7 +270,7 @@ namespace BackEnd.Migrations
                     b.Property<long>("BillerId")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("Condition")
+                    b.Property<int>("ConditionType")
                         .HasColumnType("int");
 
                     b.Property<long>("CurrencyId")
@@ -401,9 +401,6 @@ namespace BackEnd.Migrations
 
                     b.Property<long>("SaleInvoiceId")
                         .HasColumnType("bigint");
-
-                    b.Property<int>("TransactionType")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

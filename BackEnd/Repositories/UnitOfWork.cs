@@ -24,6 +24,7 @@ namespace BackEnd.Repositories
         public ICurrencyRepository CurrencyRepository { get; }
         public ITaxRepository TaxRepository { get; }
         public ISaleInvoiceRepository SaleInvoiceRepository { get; }
+        public ISpotPaymentRepository SpotPaymentRepository { get; }
         public IItemRepository ItemRepository { get; }
         public IProductRepository ProductRepository { get; }
         public IServiceRepository ServiceRepository { get; }
@@ -48,6 +49,7 @@ namespace BackEnd.Repositories
             CurrencyRepository = new CurrencyRepository(context, httpContextAccessor);
             TaxRepository = new TaxRepository(context, httpContextAccessor);
             SaleInvoiceRepository = new SaleInvoiceRepository(context, httpContextAccessor);
+            SpotPaymentRepository = new SpotPaymentRepository(context, httpContextAccessor);
             ItemRepository = new ItemRepository(context, httpContextAccessor);
             ProductRepository = new ProductRepository(context, httpContextAccessor);
             ServiceRepository = new ServiceRepository(context, httpContextAccessor);

@@ -13,6 +13,10 @@ namespace BackEnd.DTOs.Invoices.SaleInvoices
         public long FiscalSupportId { get; set; }
         public double? Shipping { get; set; }
         public double? Discount { get; set; }
+        public InvoiceCondition ConditionType { get; set; }
+        public PaymentMethod PaymentMethod { get; set; }
+        public double? AmountReceived { get; set; }
+        public double? AmountReturned { get; set; }
         public string? Description { get; set; }
         public string? Note { get; set; }
         public List<SaleInvoiceItemDTO> SaleInvoiceItems { get; set; } = [];

@@ -12,7 +12,6 @@ namespace BackEnd.Entities.Invoices
         public virtual Contact Buyer { get; set; } = null!;
         public double AmountReceived { get; set; }
         public double AmountReturned { get; set; }
-        public TransactionType TransactionType { get; set; }
         public DateTime PaymentDate { get; set; } = DateTime.UtcNow;
         public PaymentMethod PaymentMethod { get; set; }
         public bool IsActive { get; set; } = true;
