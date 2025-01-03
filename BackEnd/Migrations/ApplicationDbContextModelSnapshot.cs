@@ -409,7 +409,7 @@ namespace BackEnd.Migrations
                     b.HasIndex("SaleInvoiceId")
                         .IsUnique();
 
-                    b.ToTable("SpotPayment");
+                    b.ToTable("SpotPayments");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Products.Brand", b =>

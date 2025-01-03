@@ -1,4 +1,5 @@
-﻿using BackEnd.MediatR.Handlers.AdministrativeTools;
+﻿using BackEnd.MediatR.Handlers.Accounts;
+using BackEnd.MediatR.Handlers.AdministrativeTools;
 using BackEnd.MediatR.Handlers.Contacts;
 using BackEnd.MediatR.Handlers.Finances;
 using BackEnd.MediatR.Handlers.Products;
@@ -27,6 +28,7 @@ namespace BackEnd.MediatR
             services.AddStockServices();
             services.AddTransferServices();
             services.AddWarehouseServices();
+            services.AddReceivableServices();
 
             return services;
         }

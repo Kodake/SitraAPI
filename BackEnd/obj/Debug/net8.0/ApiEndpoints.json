@@ -2139,10 +2139,8 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "BackEnd.DTOs.Accounts.PaymentReceipts.PaymentReceiptDTO",
-        "MediaTypes": [
-          "application/json"
-        ],
+        "Type": "System.Void",
+        "MediaTypes": [],
         "StatusCode": 201
       },
       {
