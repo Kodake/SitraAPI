@@ -396,7 +396,7 @@ namespace BackEnd.Migrations
                     b.Property<DateTime>("PaymentDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PaymentMethod")
+                    b.Property<int?>("PaymentMethod")
                         .HasColumnType("int");
 
                     b.Property<long>("SaleInvoiceId")

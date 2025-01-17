@@ -2,6 +2,7 @@
 using BackEnd.MediatR.Handlers.AdministrativeTools;
 using BackEnd.MediatR.Handlers.Contacts;
 using BackEnd.MediatR.Handlers.Finances;
+using BackEnd.MediatR.Handlers.Invoices;
 using BackEnd.MediatR.Handlers.Products;
 using BackEnd.MediatR.Handlers.Warehouses;
 
@@ -25,10 +26,12 @@ namespace BackEnd.MediatR
             services.AddDeadlineServices();
             services.AddFiscalSupportServices();
             services.AddProductServices();
+            services.AddServiceServices();
             services.AddStockServices();
             services.AddTransferServices();
             services.AddWarehouseServices();
             services.AddReceivableServices();
+            services.AddSpotPaymentsServices();
 
             return services;
         }

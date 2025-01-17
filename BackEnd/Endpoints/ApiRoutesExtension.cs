@@ -10,6 +10,7 @@ public static class ApiRouteExtensions
         var apiGroup = endpoints.MapGroup("/api/v1");
 
         apiGroup.MapGroup("/identity").MapIdentityApi<IdentityUser>();
+        apiGroup.MapGroup("/receivables").MapReceivables();
         apiGroup.MapGroup("/contacts").MapContacts();
         apiGroup.MapGroup("/categories").MapCategories();
         apiGroup.MapGroup("/brands").MapBrands();
@@ -27,7 +28,7 @@ public static class ApiRouteExtensions
         apiGroup.MapGroup("/deadlines").MapDeadlines();
         apiGroup.MapGroup("/transfers").MapTransfers();
         apiGroup.MapGroup("/saleInvoices").MapInvoices();
-        apiGroup.MapGroup("/receivables").MapReceivables();
+        apiGroup.MapGroup("/spotPayments").MapSpotPayments();
 
         return endpoints;
     }

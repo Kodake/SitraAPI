@@ -14,7 +14,7 @@ namespace BackEnd.DTOs.Invoices.SaleInvoices
         public double? Shipping { get; set; }
         public double? Discount { get; set; }
         public InvoiceCondition ConditionType { get; set; }
-        public PaymentMethod PaymentMethod { get; set; }
+        public PaymentMethod? PaymentMethod { get; set; }
         public double? AmountReceived { get; set; }
         public double? AmountReturned { get; set; }
         public string? Description { get; set; }

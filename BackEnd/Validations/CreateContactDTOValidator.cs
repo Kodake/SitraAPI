@@ -1,4 +1,5 @@
 ﻿using BackEnd.DTOs.Contacts.Contacts;
+using BackEnd.Enums;
 using BackEnd.Helpers;
 using BackEnd.Repositories.Contacts;
 using FluentValidation;
@@ -36,6 +37,14 @@ namespace BackEnd.Validations
             RuleFor(x => x.Identification)
             .MaximumLength(15).WithMessage(Utilities.MaximunLengthMessage)
             .Must(Utilities.FirstCharUppercase).WithMessage(Utilities.FirstCharUpperMessage);
+
+            RuleFor(x => x.ContactType)
+            .Must(value => value != null && Enum.IsDefined(typeof(ContactType), value))
+            .WithMessage(Utilities.InvalidEnumValueMessage);
+
+            RuleFor(x => x.IdentificationType)
+            .Must(value => value != null && Enum.IsDefined(typeof(IdentificationType), value))
+            .WithMessage(Utilities.InvalidEnumValueMessage);
 
             RuleFor(x => x.Address)
             .NotEmpty().WithMessage(Utilities.RequiredFieldMessage)

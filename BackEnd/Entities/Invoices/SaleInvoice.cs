@@ -22,19 +22,19 @@ namespace BackEnd.Entities.Invoices
         public long CurrencyId { get; set; }
         public Currency Currency { get; set; } = null!;
         public string FiscalSupportNumber { get; set; } = string.Empty;
-        public double? Shipping { get; set; } = null!;
-        public double? Discount { get; set; } = null!;
+        public InvoiceCondition ConditionType { get; set; }
         public double TotalQtyItems { get; set; }
         public double TotalItems { get; set; }
         public double TotalAmount { get; set; }
         public double TotalPrice { get; set; }
         public double TotalTaxes { get; set; }
+        public double? Shipping { get; set; } = null!;
+        public double? Discount { get; set; } = null!;
         public string? Description { get; set; } = null!;
         public string? Note { get; set; } = null!;
         public DateTime? DueDate { get; set; } = null!;
         public Receivable? Receivable { get; set; } = null!;
         public SpotPayment? SpotPayment { get; set; } = null!;
-        public InvoiceCondition ConditionType { get; set; }
         public List<SaleInvoiceItem> SaleInvoiceItems { get; set; } = new List<SaleInvoiceItem>();
     }
 }

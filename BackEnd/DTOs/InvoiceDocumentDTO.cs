@@ -36,10 +36,10 @@ namespace BackEnd.DTOs
                     var fontWeight = 0.8f;
                     if (SaleInvoice.Buyer.Identification != null)
                     {
-                        column.Item().Scale(fontWeight).Text($"IDENTIFICATION: {SaleInvoice.Buyer.Identification}" ?? "N/A");
+                        column.Item().Scale(fontWeight).Text($"IDENTIFICACIÓN: {SaleInvoice.Buyer.Identification}" ?? "N/A");
                     }
-                    column.Item().Scale(fontWeight).Text($"DATE: {SaleInvoice.Date.ToString("dd-MM-yyyy")}");
-                    column.Item().Scale(fontWeight).Text($"NOMBRE o RAZON SOCIAL: {SaleInvoice.Buyer.Name}");
+                    column.Item().Scale(fontWeight).Text($"FECHA: {SaleInvoice.Date.ToString("dd-MM-yyyy")}");
+                    column.Item().Scale(fontWeight).Text($"NOMBRE / RAZÓN SOCIAL: {SaleInvoice.Buyer.Name}");
                 });
 
                 row.RelativeItem().Border(1).Column(column =>
@@ -49,7 +49,7 @@ namespace BackEnd.DTOs
                     column.Item().Height(2, Unit.Centimetre).Image(logo);
                     column.Item().BorderBottom(1).Padding(padding).Text("Factura de Consumo Fiscal").SemiBold();
 
-                    column.Item().Padding(padding).Text($"NUMERO # {SaleInvoice.Id}");
+                    column.Item().Padding(padding).Text($"NÚMERO # {SaleInvoice.Id}");
                     column.Item().Text("");
 
                     column.Item().Padding(padding).Text($"COMPROBANTE FISCAL");
@@ -73,8 +73,50 @@ namespace BackEnd.DTOs
                 column.Item().Element(BuildTable);
                 column.Item().Text("");
                 column.Item().Text("");
-                column.Item().AlignRight().Text($"TOTAL TAXES: {SaleInvoice.TotalTaxes:N}");
-                column.Item().AlignRight().Text($"TOTAL PRICE: {SaleInvoice.TotalPrice:N}");
+                column.Item().AlignRight().Text($"SUBTOTAL: {SaleInvoice.TotalAmount:N}");
+
+                var taxSummary = new Dictionary<string, (double Amount, double Percentage)>();
+                foreach (var item in SaleInvoice.SaleInvoiceItems)
+                {
+                    foreach (var tax in item.Item.ItemTaxes)
+                    {
+                        var calculatedTaxAmount = item.Qty * item.BasePrice * tax.Tax.Amount / 100;
+
+                        if (taxSummary.ContainsKey(tax.Tax.Name))
+                        {
+                            taxSummary[tax.Tax.Name] = (
+                                Amount: taxSummary[tax.Tax.Name].Amount + calculatedTaxAmount,
+                                Percentage: tax.Tax.Amount
+                            );
+                        }
+                        else
+                        {
+                            taxSummary[tax.Tax.Name] = (calculatedTaxAmount, tax.Tax.Amount);
+                        }
+                    }
+                }
+
+                foreach (var tax in taxSummary)
+                {
+                    column.Item().AlignRight().Text($"{tax.Key} {tax.Value.Percentage:N}%: {tax.Value.Amount:N}");
+                }
+
+                column.Item().AlignRight().Text($"IMPUESTOS: {SaleInvoice.TotalTaxes:N}");
+                if (SaleInvoice.Shipping.HasValue)
+                {
+                    column.Item().AlignRight().Text($"ENVÍO: {SaleInvoice.Shipping:N}");
+                }
+
+                if (SaleInvoice.Discount.HasValue)
+                {
+                    var discountAmount = (SaleInvoice.TotalPrice) * SaleInvoice.Discount.Value / 100;
+                    column.Item().AlignRight().Text($"DESCUENTO ({SaleInvoice.Discount:N}%): {discountAmount:N}");
+                    column.Item().AlignRight().Text($"TOTAL: {(SaleInvoice.TotalPrice - discountAmount):N}");
+                }
+                else
+                {
+                    column.Item().AlignRight().Text($"TOTAL: {(SaleInvoice.TotalPrice + (SaleInvoice.Shipping ?? 0)):N}");
+                }
             });
         }
 
@@ -88,33 +130,34 @@ namespace BackEnd.DTOs
                     column.RelativeColumn();
                     column.RelativeColumn();
                     column.RelativeColumn();
+                    column.RelativeColumn();
                 });
 
                 table.Header(header =>
                 {
-                    header.Cell().Element(CellStyle).Text("DESCRIPCION");
+                    header.Cell().Element(CellStyle).Text("DESCRIPCIÓN");
                     header.Cell().Element(CellStyle).AlignRight().Text("CANTIDAD");
+                    header.Cell().Element(CellStyle).AlignRight().Text("VALOR");
+                    header.Cell().Element(CellStyle).AlignRight().Text("IMPUESTOS");
                     header.Cell().Element(CellStyle).AlignRight().Text("PRECIO");
-                    header.Cell().Element(CellStyle).AlignRight().Text("ITBIS");
+
                     static IContainer CellStyle(IContainer container)
                     {
-                        return container.DefaultTextStyle(x => x.SemiBold()).PaddingVertical(5).BorderBottom(1).BorderColor(Colors.Black);
+                        return container.DefaultTextStyle(x => x.SemiBold()).PaddingVertical(1).BorderBottom(1).BorderColor(Colors.Black);
                     }
                 });
 
                 foreach (var item in SaleInvoice.SaleInvoiceItems)
                 {
                     table.Cell().Element(CellStyle).Text(item.Item.Name);
-                    table.Cell().Element(CellStyle).AlignRight().Text(item.Qty.ToString());
-                    table.Cell().Element(CellStyle).AlignRight().Text($"{item.TotalPrice:N}");
+                    table.Cell().Element(CellStyle).AlignRight().Text($"{item.Qty} x {item.BasePrice}");
+                    table.Cell().Element(CellStyle).AlignRight().Text($"{item.TotalAmount:N}");
                     table.Cell().Element(CellStyle).AlignRight().Text($"{item.TotalTaxes:N}");
-
-                    //var concatenatedTaxNames = string.Join(" + ", item.Item.ItemTaxes.Select(t => t.Tax.Name));
-                    //table.Cell().Element(CellStyle).AlignRight().Text(concatenatedTaxNames);
+                    table.Cell().Element(CellStyle).AlignRight().Text($"{item.TotalPrice:N}");
 
                     static IContainer CellStyle(IContainer container)
                     {
-                        return container.BorderBottom(1).BorderColor(Colors.Grey.Lighten2).PaddingVertical(5);
+                        return container.BorderBottom(1).BorderColor(Colors.Grey.Lighten2).PaddingVertical(1);
                     }
                 }
             });

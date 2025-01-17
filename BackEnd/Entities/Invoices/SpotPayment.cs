@@ -13,7 +13,7 @@ namespace BackEnd.Entities.Invoices
         public double AmountReceived { get; set; }
         public double AmountReturned { get; set; }
         public DateTime PaymentDate { get; set; } = DateTime.UtcNow;
-        public PaymentMethod PaymentMethod { get; set; }
+        public PaymentMethod? PaymentMethod { get; set; }
         public bool IsActive { get; set; } = true;
     }
 }

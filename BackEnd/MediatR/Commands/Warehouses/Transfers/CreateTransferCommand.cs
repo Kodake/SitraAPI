@@ -30,7 +30,7 @@ namespace BackEnd.MediatR.Commands.Warehouses.Transfers
                     WarehouseId = Dto.DestinationWarehouseId,
                     Qty = 0
                 };
-                await unitOfWork.StockRepository.CreateAsync(stockDestination);
+
             }
 
             var transfer = mapper.Map<Transfer>(Dto);
@@ -42,11 +42,11 @@ namespace BackEnd.MediatR.Commands.Warehouses.Transfers
 
             using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
+                await unitOfWork.StockRepository.CreateAsync(stockDestination);
                 await unitOfWork.TransferRepository.CreateAsync(transfer);
                 unitOfWork.StockRepository.Update(stockOrigin);
                 unitOfWork.StockRepository.Update(stockDestination);
                 await unitOfWork.SaveChangesAsync();
-
                 transaction.Complete();
             }
 

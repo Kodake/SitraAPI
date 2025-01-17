@@ -34,12 +34,11 @@ namespace BackEnd.Repositories.Warehouses
         {
             return await context.Warehouses
                 .Where(p => p.Stocks.Any(pi => pi.ItemId == productId))
-                .Include(p => p.Stocks)
                 .Select(p => new Warehouse
                 {
                     Id = p.Id,
                     Name = p.Name,
-                    Stocks = p.Stocks,
+                    Stocks = p.Stocks.Where(stock => stock.ItemId == productId).ToList(),
                 }).ToListAsync();
         }
 

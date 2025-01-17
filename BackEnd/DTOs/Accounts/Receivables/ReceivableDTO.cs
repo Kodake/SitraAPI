@@ -1,7 +1,6 @@
 ﻿using BackEnd.DTOs.Accounts.PaymentReceipts;
 using BackEnd.DTOs.Contacts.Contacts;
 using BackEnd.DTOs.Invoices.SaleInvoices;
-using BackEnd.Entities.Contacts;
 using BackEnd.Enums;
 
 namespace BackEnd.DTOs.Accounts.Receivables
@@ -14,7 +13,6 @@ namespace BackEnd.DTOs.Accounts.Receivables
         public long ContactId { get; set; }
         public ContactDTO Buyer { get; set; } = null!;
         public long BillerId { get; set; }
-        public virtual Contact Biller { get; set; } = null!;
         public double TotalAmountDue { get; set; }
         public double TotalOutstanding { get; set; }
         public AccountStatus Status { get; set; }
