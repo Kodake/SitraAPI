@@ -88,6 +88,7 @@ namespace BackEnd.Endpoints.Invoices
                 }
 
                 var saleInvoice = mapper.Map<SaleInvoice>(dto);
+                saleInvoice.InvoiceType = InvoiceType.Invoice;
                 saleInvoice.FiscalSupportNumber = GenerateFiscalSupportNumber(fiscalSupportDB);
                 unitOfWork.FiscalSupportRepository.Update(fiscalSupportDB);
 

@@ -3,24 +3,56 @@
   "WorkspaceRootPath": "C:\\Users\\Kodake\\Desktop\\PosAPI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\endpoints\\invoices\\saleinvoicesendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\endpoints\\invoices\\saleinvoicesendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\endpoints\\invoices\\quotationsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\endpoints\\invoices\\quotationsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\mediatr\\commands\\accounts\\receivables\\createreceivablecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\mediatr\\commands\\accounts\\receivables\\createreceivablecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\dtos\\invoices\\saleinvoices\\saleinvoicedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\dtos\\invoices\\saleinvoices\\saleinvoicedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\validations\\createreceivabledtovalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\validations\\createreceivabledtovalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\validations\\createcontactdtovalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\validations\\createcontactdtovalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\entities\\invoices\\quotation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\entities\\invoices\\quotation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\entities\\invoices\\saleinvoice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\entities\\invoices\\saleinvoice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\repositories\\invoices\\isaleinvoicerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\repositories\\invoices\\isaleinvoicerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\repositories\\invoices\\saleinvoicerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\repositories\\invoices\\saleinvoicerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\context\\invoices\\quotationconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\context\\invoices\\quotationconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\dtos\\invoices\\saleinvoices\\saleinvoicelistdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\dtos\\invoices\\saleinvoices\\saleinvoicelistdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\entities\\warehouses\\warehouse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\entities\\warehouses\\warehouse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\profiles\\invoices\\invoicesprofiles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\profiles\\invoices\\invoicesprofiles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\context\\invoices\\saleinvoiceconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\context\\invoices\\saleinvoiceconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\migrations\\20250122011825_removedquotationidfromsaleinvoicetable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\migrations\\20250122011825_removedquotationidfromsaleinvoicetable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\migrations\\20250121235321_initial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\migrations\\20250121235321_initial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,7 +62,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 320,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -54,64 +86,166 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "CreateReceivableCommand.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\MediatR\\Commands\\Accounts\\Receivables\\CreateReceivableCommand.cs",
-              "RelativeDocumentMoniker": "BackEnd\\MediatR\\Commands\\Accounts\\Receivables\\CreateReceivableCommand.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\MediatR\\Commands\\Accounts\\Receivables\\CreateReceivableCommand.cs",
-              "RelativeToolTip": "BackEnd\\MediatR\\Commands\\Accounts\\Receivables\\CreateReceivableCommand.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAqAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-14T17:32:48.371Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "CreateReceivableDTOValidator.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Validations\\CreateReceivableDTOValidator.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Validations\\CreateReceivableDTOValidator.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Validations\\CreateReceivableDTOValidator.cs",
-              "RelativeToolTip": "BackEnd\\Validations\\CreateReceivableDTOValidator.cs",
+              "Title": "Quotation.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Invoices\\Quotation.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Entities\\Invoices\\Quotation.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Invoices\\Quotation.cs",
+              "RelativeToolTip": "BackEnd\\Entities\\Invoices\\Quotation.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-14T17:32:39.201Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "CreateContactDTOValidator.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Validations\\CreateContactDTOValidator.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Validations\\CreateContactDTOValidator.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Validations\\CreateContactDTOValidator.cs",
-              "RelativeToolTip": "BackEnd\\Validations\\CreateContactDTOValidator.cs",
-              "ViewState": "AQIAABAAAAAAAAAAAAAgwC0AAABeAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-14T17:32:27.23Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "SaleInvoicesEndpoints.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Invoices\\SaleInvoicesEndpoints.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Endpoints\\Invoices\\SaleInvoicesEndpoints.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Invoices\\SaleInvoicesEndpoints.cs",
-              "RelativeToolTip": "BackEnd\\Endpoints\\Invoices\\SaleInvoicesEndpoints.cs",
-              "ViewState": "AQIAAP8AAAAAAAAAAAAqwBMBAABWAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-14T17:29:47.614Z",
+              "WhenOpened": "2025-01-22T21:00:17.686Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
+              "Title": "ISaleInvoiceRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\Invoices\\ISaleInvoiceRepository.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Repositories\\Invoices\\ISaleInvoiceRepository.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\Invoices\\ISaleInvoiceRepository.cs",
+              "RelativeToolTip": "BackEnd\\Repositories\\Invoices\\ISaleInvoiceRepository.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAABJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-22T20:28:37.938Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "QuotationsEndpoints.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Invoices\\QuotationsEndpoints.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Endpoints\\Invoices\\QuotationsEndpoints.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Invoices\\QuotationsEndpoints.cs",
+              "RelativeToolTip": "BackEnd\\Endpoints\\Invoices\\QuotationsEndpoints.cs",
+              "ViewState": "AQIAAIYAAAAAAAAAAAAawJYAAAAQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-22T19:46:47.653Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "QuotationConfiguration.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Context\\Invoices\\QuotationConfiguration.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Context\\Invoices\\QuotationConfiguration.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Context\\Invoices\\QuotationConfiguration.cs",
+              "RelativeToolTip": "BackEnd\\Context\\Invoices\\QuotationConfiguration.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-22T19:45:52.521Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "SaleInvoiceListDTO.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\Invoices\\SaleInvoices\\SaleInvoiceListDTO.cs",
+              "RelativeDocumentMoniker": "BackEnd\\DTOs\\Invoices\\SaleInvoices\\SaleInvoiceListDTO.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\Invoices\\SaleInvoices\\SaleInvoiceListDTO.cs",
+              "RelativeToolTip": "BackEnd\\DTOs\\Invoices\\SaleInvoices\\SaleInvoiceListDTO.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-22T01:23:34.708Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SaleInvoiceDTO.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\Invoices\\SaleInvoices\\SaleInvoiceDTO.cs",
+              "RelativeDocumentMoniker": "BackEnd\\DTOs\\Invoices\\SaleInvoices\\SaleInvoiceDTO.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\Invoices\\SaleInvoices\\SaleInvoiceDTO.cs",
+              "RelativeToolTip": "BackEnd\\DTOs\\Invoices\\SaleInvoices\\SaleInvoiceDTO.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAA2AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-22T01:23:32.637Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Warehouse.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Warehouses\\Warehouse.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Entities\\Warehouses\\Warehouse.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Warehouses\\Warehouse.cs",
+              "RelativeToolTip": "BackEnd\\Entities\\Warehouses\\Warehouse.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAABGAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-22T01:22:58.286Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "InvoicesProfiles.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Profiles\\Invoices\\InvoicesProfiles.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Profiles\\Invoices\\InvoicesProfiles.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Profiles\\Invoices\\InvoicesProfiles.cs",
+              "RelativeToolTip": "BackEnd\\Profiles\\Invoices\\InvoicesProfiles.cs",
+              "ViewState": "AQIAAAgAAAAAAAAAAAAQwBkAAAAsAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-22T01:22:16.852Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "SaleInvoiceRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\Invoices\\SaleInvoiceRepository.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Repositories\\Invoices\\SaleInvoiceRepository.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\Invoices\\SaleInvoiceRepository.cs",
+              "RelativeToolTip": "BackEnd\\Repositories\\Invoices\\SaleInvoiceRepository.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAABRAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-22T01:20:48.924Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "SaleInvoiceConfiguration.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Context\\Invoices\\SaleInvoiceConfiguration.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Context\\Invoices\\SaleInvoiceConfiguration.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Context\\Invoices\\SaleInvoiceConfiguration.cs",
+              "RelativeToolTip": "BackEnd\\Context\\Invoices\\SaleInvoiceConfiguration.cs",
+              "ViewState": "AQIAAA0AAAAAAAAAAAD4vxwAAAA9AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-22T01:20:24.587Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "20250122011825_RemovedQuotationIdFromSaleInvoiceTable.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Migrations\\20250122011825_RemovedQuotationIdFromSaleInvoiceTable.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Migrations\\20250122011825_RemovedQuotationIdFromSaleInvoiceTable.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Migrations\\20250122011825_RemovedQuotationIdFromSaleInvoiceTable.cs",
+              "RelativeToolTip": "BackEnd\\Migrations\\20250122011825_RemovedQuotationIdFromSaleInvoiceTable.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-22T01:18:26.037Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "SaleInvoice.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Invoices\\SaleInvoice.cs",
               "RelativeDocumentMoniker": "BackEnd\\Entities\\Invoices\\SaleInvoice.cs",
               "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Invoices\\SaleInvoice.cs",
               "RelativeToolTip": "BackEnd\\Entities\\Invoices\\SaleInvoice.cs",
-              "ViewState": "AQIAAAwAAAAAAAAAAAAswBYAAAA3AAAA",
+              "ViewState": "AQIAABUAAAAAAAAAAAAowCIAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-14T17:23:10.567Z"
+              "WhenOpened": "2025-01-22T01:17:49.141Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "20250121235321_Initial.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Migrations\\20250121235321_Initial.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Migrations\\20250121235321_Initial.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Migrations\\20250121235321_Initial.cs",
+              "RelativeToolTip": "BackEnd\\Migrations\\20250121235321_Initial.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-21T23:53:21.316Z"
             }
           ]
         },

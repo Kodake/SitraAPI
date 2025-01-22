@@ -28,6 +28,7 @@ public static class ApiRouteExtensions
         apiGroup.MapGroup("/deadlines").MapDeadlines();
         apiGroup.MapGroup("/transfers").MapTransfers();
         apiGroup.MapGroup("/saleInvoices").MapInvoices();
+        apiGroup.MapGroup("/quotations").MapQuotations();
         apiGroup.MapGroup("/spotPayments").MapSpotPayments();
 
         return endpoints;

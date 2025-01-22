@@ -1,5 +1,6 @@
 ﻿using BackEnd.Entities.Accounts;
 using BackEnd.Entities.Invoices;
+using BackEnd.Entities.Warehouses;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -31,6 +32,16 @@ namespace BackEnd.Context.Invoices
                 .HasOne(s => s.Receivable)
                 .WithOne(r => r.SaleInvoice)
                 .HasForeignKey<Receivable>(r => r.SaleInvoiceId)
+                .OnDelete(DeleteBehavior.Cascade);
+            builder
+                .HasOne(s => s.SpotPayment)
+                .WithOne(r => r.SaleInvoice)
+                .HasForeignKey<SpotPayment>(r => r.SaleInvoiceId)
+                .OnDelete(DeleteBehavior.Cascade);
+            builder
+                .HasOne(s => s.Quotation)
+                .WithOne(r => r.SaleInvoice)
+                .HasForeignKey<Quotation>(r => r.SaleInvoiceId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

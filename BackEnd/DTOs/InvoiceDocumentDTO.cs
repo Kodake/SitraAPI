@@ -20,7 +20,6 @@ namespace BackEnd.DTOs
                 page =>
                 {
                     page.Margin(50);
-
                     page.Header().Element(BuildHeader);
                     page.Content().Element(BuildContent);
                     page.Footer().Element(BuildFooter);
@@ -115,7 +114,7 @@ namespace BackEnd.DTOs
                 }
                 else
                 {
-                    column.Item().AlignRight().Text($"TOTAL: {(SaleInvoice.TotalPrice + (SaleInvoice.Shipping ?? 0)):N}");
+                    column.Item().AlignRight().Text($"TOTAL: {(SaleInvoice.TotalPrice):N}");
                 }
             });
         }

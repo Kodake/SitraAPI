@@ -55,6 +55,11 @@ builder.Services.AddCors(opciones =>
 
 });
 
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+});
+
 builder.Services.AddOutputCache();
 
 // Add services to the container.

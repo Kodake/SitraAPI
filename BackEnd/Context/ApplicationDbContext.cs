@@ -40,6 +40,7 @@ namespace BackEnd.Context
 
             modelBuilder.ApplyConfiguration(new SaleInvoiceConfiguration());
             modelBuilder.ApplyConfiguration(new SaleInvoiceItemConfiguration());
+            modelBuilder.ApplyConfiguration(new QuotationConfiguration());
             modelBuilder.ApplyConfiguration(new SpotPaymentConfiguration());
 
             modelBuilder.ApplyConfiguration(new BrandConfiguration());
@@ -74,6 +75,7 @@ namespace BackEnd.Context
         public DbSet<SaleInvoice> SaleInvoices { get; set; }
         public DbSet<SaleInvoiceItem> SaleInvoiceItems { get; set; }
         public DbSet<SpotPayment> SpotPayments { get; set; }
+        public DbSet<Quotation> Quotations { get; set; }
         public DbSet<Receivable> Receivables { get; set; }
         public DbSet<PaymentReceipt> PaymentReceipts { get; set; }
         #endregion

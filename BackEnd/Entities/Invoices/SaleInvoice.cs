@@ -3,6 +3,7 @@ using BackEnd.Entities.AdministrativeTools;
 using BackEnd.Entities.Contacts;
 using BackEnd.Entities.Finances;
 using BackEnd.Entities.Products;
+using BackEnd.Entities.Warehouses;
 using BackEnd.Enums;
 
 namespace BackEnd.Entities.Invoices
@@ -17,12 +18,15 @@ namespace BackEnd.Entities.Invoices
         public Contact Biller { get; set; } = null!;
         public long CustomerId { get; set; }
         public Contact Buyer { get; set; } = null!;
-        public long FiscalSupportId { get; set; }
-        public FiscalSupport FiscalSupport { get; set; } = null!;
+        public long? FiscalSupportId { get; set; }
+        public FiscalSupport? FiscalSupport { get; set; } = null!;
+        public string? FiscalSupportNumber { get; set; } = string.Empty;
         public long CurrencyId { get; set; }
         public Currency Currency { get; set; } = null!;
-        public string FiscalSupportNumber { get; set; } = string.Empty;
-        public InvoiceCondition ConditionType { get; set; }
+        public long WarehouseId { get; set; }
+        public Warehouse Warehouse { get; set; } = null!;
+        public InvoiceCondition? ConditionType { get; set; }
+        public InvoiceType InvoiceType { get; set; }
         public double TotalQtyItems { get; set; }
         public double TotalItems { get; set; }
         public double TotalAmount { get; set; }
@@ -35,6 +39,7 @@ namespace BackEnd.Entities.Invoices
         public DateTime? DueDate { get; set; } = null!;
         public Receivable? Receivable { get; set; } = null!;
         public SpotPayment? SpotPayment { get; set; } = null!;
+        public Quotation? Quotation { get; set; } = null!;
         public List<SaleInvoiceItem> SaleInvoiceItems { get; set; } = new List<SaleInvoiceItem>();
     }
 }

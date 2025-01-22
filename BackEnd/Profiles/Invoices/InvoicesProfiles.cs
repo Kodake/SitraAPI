@@ -13,7 +13,17 @@ namespace BackEnd.Profiles.Invoices
                 .ForMember(des => des.Biller, opt => opt.Ignore())
                 .ForMember(des => des.Pricing, opt => opt.Ignore())
                 .ForMember(des => des.Receivable, opt => opt.Ignore())
-                .ForMember(des => des.FiscalSupport, opt => opt.Ignore());
+                .ForMember(des => des.FiscalSupport, opt => opt.Ignore())
+                .ForMember(des => des.Warehouse, opt => opt.Ignore());
+
+            CreateMap<CreateQuotationDTO, SaleInvoice>()
+                .ForMember(des => des.Buyer, opt => opt.Ignore())
+                .ForMember(des => des.Biller, opt => opt.Ignore())
+                .ForMember(des => des.Pricing, opt => opt.Ignore())
+                .ForMember(des => des.Receivable, opt => opt.Ignore())
+                .ForMember(des => des.Quotation, opt => opt.Ignore())
+                .ForMember(des => des.FiscalSupport, opt => opt.Ignore())
+                .ForMember(des => des.Warehouse, opt => opt.Ignore());
 
             CreateMap<SaleInvoice, SaleInvoiceDTO>();
             CreateMap<SaleInvoiceItemDTO, SaleInvoiceItem>();

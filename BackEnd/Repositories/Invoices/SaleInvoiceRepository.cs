@@ -19,6 +19,8 @@ namespace BackEnd.Repositories.Invoices
                 .Include(i => i.Buyer)
                 .Include(i => i.Biller)
                 .Include(i => i.Pricing)
+                .Include(i => i.Warehouse)
+                .Include(i => i.Quotation)
                 .Include(i => i.SaleInvoiceItems)
                     .ThenInclude(x => x.Item)
                     .ThenInclude(x => x.ItemTaxes)
@@ -36,6 +38,11 @@ namespace BackEnd.Repositories.Invoices
             return await context.SaleInvoiceItems
                 .Where(i => i.SaleInvoiceId == invoiceId)
                 .ToListAsync();
+        }
+
+        public void DeleteInvoiceItemsRange(IEnumerable<SaleInvoiceItem> items)
+        {
+            context.SaleInvoiceItems.RemoveRange(items);
         }
     }
 }

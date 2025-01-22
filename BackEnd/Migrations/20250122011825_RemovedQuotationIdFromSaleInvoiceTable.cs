@@ -5,24 +5,24 @@
 namespace BackEnd.Migrations
 {
     /// <inheritdoc />
-    public partial class AddedConditionTypeForSaleInvoiceTable : Migration
+    public partial class RemovedQuotationIdFromSaleInvoiceTable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
-                name: "Condition",
-                table: "SaleInvoices",
-                newName: "ConditionType");
+            migrationBuilder.DropColumn(
+                name: "QuotationId",
+                table: "SaleInvoices");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
-                name: "ConditionType",
+            migrationBuilder.AddColumn<long>(
+                name: "QuotationId",
                 table: "SaleInvoices",
-                newName: "Condition");
+                type: "bigint",
+                nullable: true);
         }
     }
 }

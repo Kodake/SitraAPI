@@ -259,6 +259,34 @@ namespace BackEnd.Migrations
                     b.ToTable("Taxes");
                 });
 
+            modelBuilder.Entity("BackEnd.Entities.Invoices.Quotation", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("ContactId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("QuotationNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("SaleInvoiceId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContactId");
+
+                    b.HasIndex("SaleInvoiceId")
+                        .IsUnique();
+
+                    b.ToTable("Quotations");
+                });
+
             modelBuilder.Entity("BackEnd.Entities.Invoices.SaleInvoice", b =>
                 {
                     b.Property<long>("Id")
@@ -270,7 +298,7 @@ namespace BackEnd.Migrations
                     b.Property<long>("BillerId")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("ConditionType")
+                    b.Property<int?>("ConditionType")
                         .HasColumnType("int");
 
                     b.Property<long>("CurrencyId")
@@ -291,12 +319,14 @@ namespace BackEnd.Migrations
                     b.Property<DateTime?>("DueDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("FiscalSupportId")
+                    b.Property<long?>("FiscalSupportId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("FiscalSupportNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("InvoiceType")
+                        .HasColumnType("int");
 
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
@@ -322,6 +352,9 @@ namespace BackEnd.Migrations
                     b.Property<decimal>("TotalTaxes")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<long>("WarehouseId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BillerId");
@@ -331,6 +364,8 @@ namespace BackEnd.Migrations
                     b.HasIndex("CustomerId");
 
                     b.HasIndex("PricingId");
+
+                    b.HasIndex("WarehouseId");
 
                     b.ToTable("SaleInvoices");
                 });
@@ -352,6 +387,9 @@ namespace BackEnd.Migrations
                     b.Property<decimal>("Qty")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<long?>("QuotationId")
+                        .HasColumnType("bigint");
+
                     b.Property<long>("SaleInvoiceId")
                         .HasColumnType("bigint");
 
@@ -367,6 +405,8 @@ namespace BackEnd.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ItemId");
+
+                    b.HasIndex("QuotationId");
 
                     b.HasIndex("SaleInvoiceId");
 
@@ -970,6 +1010,25 @@ namespace BackEnd.Migrations
                     b.Navigation("Warehouse");
                 });
 
+            modelBuilder.Entity("BackEnd.Entities.Invoices.Quotation", b =>
+                {
+                    b.HasOne("BackEnd.Entities.Contacts.Contact", "Buyer")
+                        .WithMany()
+                        .HasForeignKey("ContactId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BackEnd.Entities.Invoices.SaleInvoice", "SaleInvoice")
+                        .WithOne("Quotation")
+                        .HasForeignKey("BackEnd.Entities.Invoices.Quotation", "SaleInvoiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Buyer");
+
+                    b.Navigation("SaleInvoice");
+                });
+
             modelBuilder.Entity("BackEnd.Entities.Invoices.SaleInvoice", b =>
                 {
                     b.HasOne("BackEnd.Entities.Contacts.Contact", "Biller")
@@ -996,6 +1055,12 @@ namespace BackEnd.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("BackEnd.Entities.Warehouses.Warehouse", "Warehouse")
+                        .WithMany("SaleInvoices")
+                        .HasForeignKey("WarehouseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Biller");
 
                     b.Navigation("Buyer");
@@ -1003,6 +1068,8 @@ namespace BackEnd.Migrations
                     b.Navigation("Currency");
 
                     b.Navigation("Pricing");
+
+                    b.Navigation("Warehouse");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Invoices.SaleInvoiceItem", b =>
@@ -1012,6 +1079,10 @@ namespace BackEnd.Migrations
                         .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("BackEnd.Entities.Invoices.Quotation", null)
+                        .WithMany("SaleInvoiceItems")
+                        .HasForeignKey("QuotationId");
 
                     b.HasOne("BackEnd.Entities.Invoices.SaleInvoice", "SaleInvoice")
                         .WithMany("SaleInvoiceItems")
@@ -1227,8 +1298,15 @@ namespace BackEnd.Migrations
                     b.Navigation("ItemTaxes");
                 });
 
+            modelBuilder.Entity("BackEnd.Entities.Invoices.Quotation", b =>
+                {
+                    b.Navigation("SaleInvoiceItems");
+                });
+
             modelBuilder.Entity("BackEnd.Entities.Invoices.SaleInvoice", b =>
                 {
+                    b.Navigation("Quotation");
+
                     b.Navigation("Receivable");
 
                     b.Navigation("SaleInvoiceItems");
@@ -1274,6 +1352,8 @@ namespace BackEnd.Migrations
                     b.Navigation("FiscalSupports");
 
                     b.Navigation("OriginTransfers");
+
+                    b.Navigation("SaleInvoices");
 
                     b.Navigation("Stocks");
                 });

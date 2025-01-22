@@ -32,6 +32,7 @@ namespace BackEnd.Profiles
             AddProfile<StocksProfile>();
             AddProfile<TransfersProfile>();
             AddProfile<WarehousesProfile>();
+            AddProfile<QuotationsProfiles>();
         }
 
         private void AddProfile<TProfile>() where TProfile : Profile, new()
