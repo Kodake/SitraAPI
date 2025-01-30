@@ -21,7 +21,8 @@ namespace BackEnd.DTOs.AdministrativeTools.FiscalSupports
             char symbolChar = Symbol.Length > 0 ? Symbol[0] : '?';
             int validSpaceNumber = (int)SpaceNumber;
             string repeatedSymbols = new string(symbolChar, validSpaceNumber);
-            string sequence = ((int)InitialSequence).ToString().PadLeft(validSpaceNumber, symbolChar);
+            int newSequence = (int)InitialSequence + 1;
+            string sequence = newSequence.ToString().PadLeft(validSpaceNumber, symbolChar);
             string finalSymbols = repeatedSymbols[..^validSpaceNumber] + sequence;
 
             return $"{fiscalSupportName}{finalSymbols}";

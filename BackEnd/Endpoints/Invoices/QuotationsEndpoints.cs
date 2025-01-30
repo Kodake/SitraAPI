@@ -149,8 +149,6 @@ namespace BackEnd.Endpoints.Invoices
                 }
 
                 var saleInvoice = quotation.SaleInvoice;
-                var existingItems = saleInvoice.SaleInvoiceItems.ToList();
-                unitOfWork.SaleInvoiceRepository.DeleteInvoiceItemsRange(existingItems);
                 mapper.Map(dto, saleInvoice);
                 saleInvoice.InvoiceType = InvoiceType.Quotation;
 
@@ -162,6 +160,10 @@ namespace BackEnd.Endpoints.Invoices
                 quotation.ContactId = saleInvoice.CustomerId;
 
                 unitOfWork.QuotationRepository.Update(quotation);
+
+                var existingItems = saleInvoice.SaleInvoiceItems.ToList();
+
+                unitOfWork.SaleInvoiceRepository.DeleteInvoiceItemsRange(existingItems);
 
                 await AddInvoiceItems(dto.SaleInvoiceItems, saleInvoice, unitOfWork, mapper, currencyRate);
 
