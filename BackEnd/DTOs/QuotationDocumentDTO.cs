@@ -44,7 +44,7 @@ namespace BackEnd.DTOs
                 row.RelativeItem().Border(1).Column(column =>
                 {
                     var padding = 5;
-                    var logo = @"C:\Users\Kodake\Desktop\logo.png";
+                    var logo = @"C:\Users\Kodake\Desktop\logo-black.png";
 
                     column.Item().Height(2, Unit.Centimetre).Image(logo);
                     column.Item().BorderBottom(1).Padding(padding).Text("COTIZACIÓN").SemiBold();

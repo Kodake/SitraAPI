@@ -29,16 +29,14 @@ namespace BackEnd.MediatR.Queries.Invoices.Quotations
             {
                 QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
                 var saleInvoice = await _unitOfWork.SaleInvoiceRepository.GetByIdAsync(request.InvoiceId)
-                    ?? throw new Exception($"Quotation with number {request.InvoiceId} not found.");
+                    ?? throw new Exception($"Invoice with id {request.InvoiceId} not found.");
 
-                var quotationDocument = new QuotationDocumentDTO(saleInvoice);
-                var quotationNumber = saleInvoice.Quotation?.QuotationNumber ?? "Unknown";
-
-                var filePath = Path.Combine(Path.GetTempPath(), $"Quotation_{quotationNumber}.pdf");
-                quotationDocument.GeneratePdf(filePath);
+                var invoiceDocument = new QuotationDocumentDTO(saleInvoice);
+                var filePath = Path.Combine(Path.GetTempPath(), $"Quotation_{request.InvoiceId}.pdf");
+                invoiceDocument.GeneratePdf(filePath);
 
                 var fileBytes = await File.ReadAllBytesAsync(filePath);
-                return (fileBytes, $"Quotation_{quotationNumber}.pdf");
+                return (fileBytes, $"Quotation_{request.InvoiceId}.pdf");
             }
         }
     }

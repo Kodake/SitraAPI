@@ -8,6 +8,6 @@ namespace BackEnd.Repositories.Invoices
         new Task<SaleInvoice?> GetByIdAsync(long id);
         Task AddInvoiceItem(SaleInvoiceItem item);
         Task<List<SaleInvoiceItem>> GetItemsByInvoiceId(long invoiceId);
-        void DeleteInvoiceItemsRange(IEnumerable<SaleInvoiceItem> items);
+        Task DeleteInvoiceItemsByInvoiceId(long invoiceId);
     }
 }

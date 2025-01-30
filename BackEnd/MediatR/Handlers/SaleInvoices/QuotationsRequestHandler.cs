@@ -14,6 +14,7 @@ namespace BackEnd.MediatR.Handlers.Invoices
             services.AddTransient<IRequestHandler<GetAllQuotationsQuery, List<QuotationListDTO>>, QueryHandler<GetAllQuotationsQuery, List<QuotationListDTO>>>();
             services.AddTransient<IRequestHandler<CreateQuotationCommand, CreateQuotationDTO>, CreateCommandHandler<Entities.Invoices.Quotation, CreateQuotationDTO>>();
             services.AddTransient<IRequestHandler<UpdateQuotationCommand, bool>, UpdateCommandHandler<Entities.Invoices.Quotation, CreateQuotationDTO>>();
+            services.AddTransient<IRequestHandler<ProcessQuotationCommand, bool>, UpdateCommandHandler<Entities.Invoices.Quotation, CreateSaleInvoiceDTO>>();
 
             return services;
         }

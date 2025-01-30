@@ -48,9 +48,7 @@ namespace BackEnd.MediatR.Commands.Invoices.Quotations
 
             unitOfWork.QuotationRepository.Update(quotation);
 
-            var existingItems = saleInvoice.SaleInvoiceItems.ToList();
-
-            unitOfWork.SaleInvoiceRepository.DeleteInvoiceItemsRange(existingItems);
+            await unitOfWork.SaleInvoiceRepository.DeleteInvoiceItemsByInvoiceId(quotation.SaleInvoiceId);
 
             await AddInvoiceItems(Dto.SaleInvoiceItems, saleInvoice, unitOfWork, mapper, currencyRate);
 

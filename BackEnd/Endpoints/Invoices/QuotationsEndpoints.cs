@@ -19,6 +19,7 @@ namespace BackEnd.Endpoints.Invoices
                 .AddPaginationParamsOpenAPI();
             group.MapGet("/{id:long}", GetById);
             group.MapPost("/", Create).DisableAntiforgery().WithOpenApi();
+            group.MapPost("/{id:long}/process", Process).DisableAntiforgery().WithOpenApi();
             group.MapPut("/{id:long}", Update).DisableAntiforgery().WithOpenApi();
             group.MapGet("/{invoiceId}/generate-pdf", GeneratePdf).WithOpenApi();
             return group;
@@ -59,6 +60,17 @@ namespace BackEnd.Endpoints.Invoices
             IOutputCacheStore outputCacheStore)
         {
             var command = new UpdateQuotationCommand(id, dto);
+            var success = await mediator.Send(command);
+            return success ? TypedResults.Ok() : TypedResults.NotFound();
+        }
+
+        static async Task<Results<Ok, NotFound, ValidationProblem>> Process(
+            [FromRoute] long id,
+            [FromBody] CreateSaleInvoiceDTO dto,
+            [FromServices] IMediator mediator,
+            IOutputCacheStore outputCacheStore)
+        {
+            var command = new ProcessQuotationCommand(id, dto);
             var success = await mediator.Send(command);
             return success ? TypedResults.Ok() : TypedResults.NotFound();
         }

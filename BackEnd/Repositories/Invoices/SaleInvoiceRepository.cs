@@ -40,9 +40,16 @@ namespace BackEnd.Repositories.Invoices
                 .ToListAsync();
         }
 
-        public void DeleteInvoiceItemsRange(IEnumerable<SaleInvoiceItem> items)
+        public async Task DeleteInvoiceItemsByInvoiceId(long invoiceId)
         {
-            context.SaleInvoiceItems.RemoveRange(items);
+            var items = await context.SaleInvoiceItems
+                .Where(i => i.SaleInvoiceId == invoiceId)
+                .ToListAsync();
+
+            if (items.Count != 0)
+            {
+                context.SaleInvoiceItems.RemoveRange(items);
+            }
         }
     }
 }

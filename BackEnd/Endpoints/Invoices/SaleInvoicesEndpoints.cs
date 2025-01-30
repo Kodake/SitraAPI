@@ -6,8 +6,10 @@ using BackEnd.Entities.AdministrativeTools;
 using BackEnd.Entities.Invoices;
 using BackEnd.Enums;
 using BackEnd.Helpers;
+using BackEnd.MediatR.Queries.Invoices.SaleInvoices;
 using BackEnd.Repositories;
 using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
@@ -27,29 +29,21 @@ namespace BackEnd.Endpoints.Invoices
         }
 
         static async Task<Ok<List<SaleInvoiceListDTO>>> GetAll(
-            [FromServices] IUnitOfWork unitOfWork,
-            IMapper mapper, PaginationDTO pagination)
+            [FromServices] IMediator mediator,
+            PaginationDTO pagination)
         {
-            var saleInvoices = await unitOfWork.SaleInvoiceRepository.GetAllAsync(pagination);
-            var saleInvoicesDTO = mapper.Map<List<SaleInvoiceListDTO>>(saleInvoices);
-
-            return TypedResults.Ok(saleInvoicesDTO);
+            var query = new GetAllSaleInvoicesQuery(pagination);
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
         }
 
         static async Task<Results<Ok<SaleInvoiceDTO>, NotFound>> GetById(
-            [FromServices] IUnitOfWork unitOfWork,
-            [FromServices] IMapper mapper, long id)
+            [FromServices] IMediator mediator,
+            long id)
         {
-            var saleInvoice = await unitOfWork.SaleInvoiceRepository.GetByIdAsync(id);
-
-            if (saleInvoice is null)
-            {
-                return TypedResults.NotFound();
-            }
-
-            var saleInvoiceDTO = mapper.Map<SaleInvoiceDTO>(saleInvoice);
-
-            return TypedResults.Ok(saleInvoiceDTO);
+            var query = new GetSaleInvoiceByIdQuery(id);
+            var dto = await mediator.Send(query);
+            return dto == null ? TypedResults.NotFound() : TypedResults.Ok(dto);
         }
 
         static async Task<Results<Created, ValidationProblem>> Create(
@@ -271,19 +265,11 @@ namespace BackEnd.Endpoints.Invoices
 
         public static async Task<IResult> GeneratePdf(
             [FromRoute] int invoiceId,
-            [FromServices] IUnitOfWork unitOfWork,
-            [FromServices] IMapper mapper)
+            [FromServices] IMediator mediator)
         {
-            QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
-            var saleInvoice = await unitOfWork.SaleInvoiceRepository.GetByIdAsync(invoiceId)
-                ?? throw new Exception($"Invoice with id {invoiceId} not found.");
-
-            var invoiceDocument = new InvoiceDocumentDTO(saleInvoice);
-            var filePath = Path.Combine(Path.GetTempPath(), $"Invoice_{invoiceId}.pdf");
-            invoiceDocument.GeneratePdf(filePath);
-
-            var fileBytes = await File.ReadAllBytesAsync(filePath);
-            return Results.File(fileBytes, "application/pdf", $"Invoice_{invoiceId}.pdf");
+            var query = new GetSaleInvoicePdfQuery(invoiceId);
+            var (fileBytes, fileName) = await mediator.Send(query);
+            return Results.File(fileBytes, "application/pdf", fileName);
         }
     }
 }
