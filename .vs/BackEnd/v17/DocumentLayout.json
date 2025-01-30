@@ -7,12 +7,32 @@
       "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\endpoints\\invoices\\quotationsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\mediatr\\handlers\\contacts\\contactsrequesthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\mediatr\\handlers\\contacts\\contactsrequesthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\mediatr\\handlers\\invoices\\quotationsrequesthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\mediatr\\handlers\\invoices\\quotationsrequesthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\mediatr\\handlers\\invoices\\spotpaymentsrequesthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\mediatr\\handlers\\invoices\\spotpaymentsrequesthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\endpoints\\invoices\\spotpaymentsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\endpoints\\invoices\\spotpaymentsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\endpoints\\invoices\\saleinvoicesendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\endpoints\\invoices\\saleinvoicesendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\repositories\\invoices\\saleinvoicerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\repositories\\invoices\\saleinvoicerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\mediatr\\mediatrdependencyhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\mediatr\\mediatrdependencyhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,7 +42,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 320,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Bookmark",
@@ -46,28 +66,42 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "SpotPaymentsEndpoints.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Invoices\\SpotPaymentsEndpoints.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Endpoints\\Invoices\\SpotPaymentsEndpoints.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Invoices\\SpotPaymentsEndpoints.cs",
-              "RelativeToolTip": "BackEnd\\Endpoints\\Invoices\\SpotPaymentsEndpoints.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAAAA4AAAByAAAA",
+              "DocumentIndex": 6,
+              "Title": "SaleInvoiceRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\Invoices\\SaleInvoiceRepository.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Repositories\\Invoices\\SaleInvoiceRepository.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\Invoices\\SaleInvoiceRepository.cs",
+              "RelativeToolTip": "BackEnd\\Repositories\\Invoices\\SaleInvoiceRepository.cs",
+              "ViewState": "AQIAABwAAAAAAAAAAAAIwCwAAAA3AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-29T22:06:12.643Z",
+              "WhenOpened": "2025-01-30T17:33:16.604Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "SaleInvoicesEndpoints.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Invoices\\SaleInvoicesEndpoints.cs",
               "RelativeDocumentMoniker": "BackEnd\\Endpoints\\Invoices\\SaleInvoicesEndpoints.cs",
               "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Invoices\\SaleInvoicesEndpoints.cs",
               "RelativeToolTip": "BackEnd\\Endpoints\\Invoices\\SaleInvoicesEndpoints.cs",
+              "ViewState": "AQIAADUAAAAAAAAAAAAwwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-30T17:22:18.317Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "SpotPaymentsEndpoints.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Invoices\\SpotPaymentsEndpoints.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Endpoints\\Invoices\\SpotPaymentsEndpoints.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Invoices\\SpotPaymentsEndpoints.cs",
+              "RelativeToolTip": "BackEnd\\Endpoints\\Invoices\\SpotPaymentsEndpoints.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-29T22:06:11.807Z"
+              "WhenOpened": "2025-01-30T17:22:17.595Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -77,9 +111,61 @@
               "RelativeDocumentMoniker": "BackEnd\\Endpoints\\Invoices\\QuotationsEndpoints.cs",
               "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Invoices\\QuotationsEndpoints.cs",
               "RelativeToolTip": "BackEnd\\Endpoints\\Invoices\\QuotationsEndpoints.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAABwAAAA",
+              "ViewState": "AQIAACYAAAAAAAAAAAAwwDwAAAAqAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-28T15:39:01.017Z",
+              "WhenOpened": "2025-01-30T17:20:43.684Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ContactsRequestHandler.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\MediatR\\Handlers\\Contacts\\ContactsRequestHandler.cs",
+              "RelativeDocumentMoniker": "BackEnd\\MediatR\\Handlers\\Contacts\\ContactsRequestHandler.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\MediatR\\Handlers\\Contacts\\ContactsRequestHandler.cs",
+              "RelativeToolTip": "BackEnd\\MediatR\\Handlers\\Contacts\\ContactsRequestHandler.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-30T17:14:08.678Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "SpotPaymentsRequestHandler.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\MediatR\\Handlers\\Invoices\\SpotPaymentsRequestHandler.cs",
+              "RelativeDocumentMoniker": "BackEnd\\MediatR\\Handlers\\Invoices\\SpotPaymentsRequestHandler.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\MediatR\\Handlers\\Invoices\\SpotPaymentsRequestHandler.cs",
+              "RelativeToolTip": "BackEnd\\MediatR\\Handlers\\Invoices\\SpotPaymentsRequestHandler.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-30T17:14:03.276Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "QuotationsRequestHandler.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\MediatR\\Handlers\\Invoices\\QuotationsRequestHandler.cs",
+              "RelativeDocumentMoniker": "BackEnd\\MediatR\\Handlers\\Invoices\\QuotationsRequestHandler.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\MediatR\\Handlers\\Invoices\\QuotationsRequestHandler.cs",
+              "RelativeToolTip": "BackEnd\\MediatR\\Handlers\\Invoices\\QuotationsRequestHandler.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAABBAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-30T17:13:59.309Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "MediatRDependencyHandler.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\MediatR\\MediatRDependencyHandler.cs",
+              "RelativeDocumentMoniker": "BackEnd\\MediatR\\MediatRDependencyHandler.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\MediatR\\MediatRDependencyHandler.cs",
+              "RelativeToolTip": "BackEnd\\MediatR\\MediatRDependencyHandler.cs",
+              "ViewState": "AQIAAAIAAAAAAAAAAAAowCIAAAAtAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-30T17:13:37.24Z",
               "EditorCaption": ""
             }
           ]

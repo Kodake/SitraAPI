@@ -32,6 +32,7 @@ namespace BackEnd.MediatR
             services.AddWarehouseServices();
             services.AddReceivableServices();
             services.AddSpotPaymentsServices();
+            services.AddQuotationsServices();
 
             return services;
         }
