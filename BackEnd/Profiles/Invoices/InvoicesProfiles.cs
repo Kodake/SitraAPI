@@ -8,7 +8,7 @@ namespace BackEnd.Profiles.Invoices
     {
         public InvoicesProfiles()
         {
-            CreateMap<CreateSaleInvoiceDTO, SaleInvoice>()
+            CreateMap<CreateSaleInvoiceDTO, Invoice>()
                 .ForMember(des => des.Buyer, opt => opt.Ignore())
                 .ForMember(des => des.Biller, opt => opt.Ignore())
                 .ForMember(des => des.Pricing, opt => opt.Ignore())
@@ -16,7 +16,7 @@ namespace BackEnd.Profiles.Invoices
                 .ForMember(des => des.FiscalSupport, opt => opt.Ignore())
                 .ForMember(des => des.Warehouse, opt => opt.Ignore());
 
-            CreateMap<CreateQuotationDTO, SaleInvoice>()
+            CreateMap<CreateQuotationDTO, Invoice>()
                 .ForMember(des => des.Buyer, opt => opt.Ignore())
                 .ForMember(des => des.Biller, opt => opt.Ignore())
                 .ForMember(des => des.Pricing, opt => opt.Ignore())
@@ -25,14 +25,14 @@ namespace BackEnd.Profiles.Invoices
                 .ForMember(des => des.FiscalSupport, opt => opt.Ignore())
                 .ForMember(des => des.Warehouse, opt => opt.Ignore());
 
-            CreateMap<SaleInvoice, SaleInvoiceDTO>();
-            CreateMap<SaleInvoiceItemDTO, SaleInvoiceItem>();
-            CreateMap<SaleInvoice, SaleInvoiceListDTO>();
+            CreateMap<Invoice, SaleInvoiceDTO>();
+            CreateMap<SaleInvoiceItemDTO, InvoiceItem>();
+            CreateMap<Invoice, SaleInvoiceListDTO>();
 
-            CreateMap<SaleInvoiceItemDTO, SaleInvoiceItem>()
+            CreateMap<SaleInvoiceItemDTO, InvoiceItem>()
                 .ForMember(des => des.Item, opt => opt.Ignore());
 
-            CreateMap<SaleInvoiceItem, SaleInvoiceItemDTO>()
+            CreateMap<InvoiceItem, SaleInvoiceItemDTO>()
                 .ForMember(des => des.ItemType, opt => opt.MapFrom(src => src.Item.ItemType))
                 .ForMember(des => des.ItemTaxes, opt => opt.MapFrom(src => src.Item.ItemTaxes));
         }

@@ -9,11 +9,11 @@ namespace BackEnd.Profiles.Invoices
         public SpotPaymentsProfile()
         {
             CreateMap<SpotPayment, SpotPaymentListDTO>()
-                .ForMember(des => des.SaleInvoice, opt => opt.MapFrom(src => src.SaleInvoice))
+                .ForMember(des => des.Invoice, opt => opt.MapFrom(src => src.Invoice))
                 .ForMember(des => des.Buyer, opt => opt.MapFrom(src => src.Buyer));
 
             CreateMap<SpotPayment, SpotPaymentDTO>()
-                .ForMember(des => des.SaleInvoice, opt => opt.MapFrom(src => src.SaleInvoice))
+                .ForMember(des => des.Invoice, opt => opt.MapFrom(src => src.Invoice))
                 .ForMember(des => des.Buyer, opt => opt.MapFrom(src => src.Buyer));
         }
     }

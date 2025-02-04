@@ -2438,6 +2438,11 @@
         "StatusCode": 201
       },
       {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
         "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
         "MediaTypes": [
           "application/problem\u002Bjson"

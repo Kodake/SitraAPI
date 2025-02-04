@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BackEnd.Repositories.Invoices
 {
-    public class SaleInvoiceRepository : RepositoryBase<SaleInvoice>, ISaleInvoiceRepository
+    public class SaleInvoiceRepository : RepositoryBase<Invoice>, ISaleInvoiceRepository
     {
         private new readonly HttpContext httpContext;
         public SaleInvoiceRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
@@ -13,42 +13,42 @@ namespace BackEnd.Repositories.Invoices
             httpContext = httpContextAccessor.HttpContext!;
         }
 
-        public async new Task<SaleInvoice?> GetByIdAsync(long id)
+        public async new Task<Invoice?> GetByIdAsync(long id)
         {
-            return await context.SaleInvoices
+            return await context.Invoices
                 .Include(i => i.Buyer)
                 .Include(i => i.Biller)
                 .Include(i => i.Pricing)
                 .Include(i => i.Warehouse)
                 .Include(i => i.Quotation)
-                .Include(i => i.SaleInvoiceItems)
+                .Include(i => i.InvoiceItems)
                     .ThenInclude(x => x.Item)
                     .ThenInclude(x => x.ItemTaxes)
                     .ThenInclude(x => x.Tax)
                 .FirstOrDefaultAsync(i => i.Id == id);
         }
 
-        public async Task AddInvoiceItem(SaleInvoiceItem item)
+        public async Task AddInvoiceItem(InvoiceItem item)
         {
-            await context.SaleInvoiceItems.AddAsync(item);
+            await context.InvoiceItems.AddAsync(item);
         }
 
-        public async Task<List<SaleInvoiceItem>> GetItemsByInvoiceId(long invoiceId)
+        public async Task<List<InvoiceItem>> GetItemsByInvoiceId(long invoiceId)
         {
-            return await context.SaleInvoiceItems
-                .Where(i => i.SaleInvoiceId == invoiceId)
+            return await context.InvoiceItems
+                .Where(i => i.InvoiceId == invoiceId)
                 .ToListAsync();
         }
 
         public async Task DeleteInvoiceItemsByInvoiceId(long invoiceId)
         {
-            var items = await context.SaleInvoiceItems
-                .Where(i => i.SaleInvoiceId == invoiceId)
+            var items = await context.InvoiceItems
+                .Where(i => i.InvoiceId == invoiceId)
                 .ToListAsync();
 
             if (items.Count != 0)
             {
-                context.SaleInvoiceItems.RemoveRange(items);
+                context.InvoiceItems.RemoveRange(items);
             }
         }
     }

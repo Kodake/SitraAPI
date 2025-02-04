@@ -7,12 +7,12 @@ namespace BackEnd.DTOs
 {
     public class QuotationDocumentDTO : IDocument
     {
-        public QuotationDocumentDTO(SaleInvoice saleInvoice)
+        public QuotationDocumentDTO(Invoice saleInvoice)
         {
             SaleInvoice = saleInvoice;
         }
 
-        public SaleInvoice SaleInvoice { get; }
+        public Invoice SaleInvoice { get; }
 
         public void Compose(IDocumentContainer container)
         {
@@ -77,7 +77,7 @@ namespace BackEnd.DTOs
                 column.Item().AlignRight().Text($"SUBTOTAL: {SaleInvoice.TotalAmount:N}");
 
                 var taxSummary = new Dictionary<string, (double Amount, double Percentage)>();
-                foreach (var item in SaleInvoice.SaleInvoiceItems)
+                foreach (var item in SaleInvoice.InvoiceItems)
                 {
                     foreach (var tax in item.Item.ItemTaxes)
                     {
@@ -148,7 +148,7 @@ namespace BackEnd.DTOs
                     }
                 });
 
-                foreach (var item in SaleInvoice.SaleInvoiceItems)
+                foreach (var item in SaleInvoice.InvoiceItems)
                 {
                     table.Cell().Element(CellStyle).Text(item.Item.Name);
                     table.Cell().Element(CellStyle).AlignRight().Text($"{item.Qty} x {item.BasePrice}");

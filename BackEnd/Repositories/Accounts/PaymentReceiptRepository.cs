@@ -14,7 +14,7 @@ namespace BackEnd.Repositories.Accounts
         {
             return await context.PaymentReceipts
                 .Include(p => p.Receivable)
-                    .ThenInclude(x => x.SaleInvoice)
+                    .ThenInclude(x => x.Invoice)
                     .ThenInclude(x => x.Buyer)
                 .FirstOrDefaultAsync(x => x.Id == id);
         }

@@ -2,7 +2,7 @@
 {
     public enum InvoiceCondition
     {
-        Cash = 1,
+        Spot = 1, // Al contado / Efectivo
         Credit = 2,
     }
 }

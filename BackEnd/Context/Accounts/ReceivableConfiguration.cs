@@ -10,9 +10,9 @@ namespace BackEnd.Context.Accounts
         {
             builder.Property(p => p.TotalAmountDue).HasColumnType("decimal(18,2)").IsRequired();
             builder.Property(p => p.TotalOutstanding).HasColumnType("decimal(18,2)").IsRequired();
-            builder.HasOne(ar => ar.SaleInvoice)
+            builder.HasOne(ar => ar.Invoice)
                 .WithOne(s => s.Receivable)
-                .HasForeignKey<Receivable>(ar => ar.SaleInvoiceId)
+                .HasForeignKey<Receivable>(ar => ar.InvoiceId)
                 .OnDelete(DeleteBehavior.Cascade);
             builder.HasMany(ar => ar.PaymentReceipts)
                 .WithOne(pr => pr.Receivable)

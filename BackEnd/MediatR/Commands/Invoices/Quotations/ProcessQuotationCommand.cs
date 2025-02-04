@@ -39,13 +39,13 @@ namespace BackEnd.MediatR.Commands.Invoices.Quotations
                 throw new Exception("Fiscal support or currency not found.");
             }
 
-            var saleInvoice = mapper.Map<SaleInvoice>(Dto);
-            saleInvoice.InvoiceType = InvoiceType.Invoice;
+            var saleInvoice = mapper.Map<Invoice>(Dto);
+            saleInvoice.InvoiceType = InvoiceType.Sale;
             saleInvoice.FiscalSupportNumber = GenerateFiscalSupportNumber(fiscalSupportDB);
             unitOfWork.FiscalSupportRepository.Update(fiscalSupportDB);
 
             double currencyRate = currencyDB.Rate;
-            await CalculateInvoiceTotals(Dto.SaleInvoiceItems, saleInvoice, unitOfWork, currencyRate);
+            await CalculateInvoiceTotals(Dto.InvoiceItems, saleInvoice, unitOfWork, currencyRate);
 
             await unitOfWork.SaleInvoiceRepository.CreateAsync(saleInvoice);
 
@@ -54,7 +54,7 @@ namespace BackEnd.MediatR.Commands.Invoices.Quotations
                 case InvoiceCondition.Credit:
                     var accountsReceivable = new Receivable
                     {
-                        SaleInvoice = saleInvoice,
+                        Invoice = saleInvoice,
                         ContactId = saleInvoice.CustomerId,
                         TotalAmountDue = saleInvoice.TotalPrice,
                         TotalOutstanding = 0,
@@ -64,10 +64,10 @@ namespace BackEnd.MediatR.Commands.Invoices.Quotations
                     await unitOfWork.ReceivableRepository.CreateAsync(accountsReceivable);
                     break;
 
-                case InvoiceCondition.Cash:
+                case InvoiceCondition.Spot:
                     var spotPayment = new SpotPayment
                     {
-                        SaleInvoice = saleInvoice,
+                        Invoice = saleInvoice,
                         ContactId = saleInvoice.CustomerId,
                         AmountReceived = Dto.AmountReceived ?? 0,
                         AmountReturned = Dto.AmountReturned ?? 0,
@@ -80,7 +80,7 @@ namespace BackEnd.MediatR.Commands.Invoices.Quotations
                     break;
             }
 
-            await AddInvoiceItems(Dto.SaleInvoiceItems, saleInvoice, unitOfWork, mapper, currencyRate);
+            await AddInvoiceItems(Dto.InvoiceItems, saleInvoice, unitOfWork, mapper, currencyRate);
             await ReduceStock(Dto, unitOfWork);
             await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("fiscal-supports-get", cancellationToken);
@@ -104,7 +104,7 @@ namespace BackEnd.MediatR.Commands.Invoices.Quotations
 
         private static async Task ReduceStock(CreateSaleInvoiceDTO dto, IUnitOfWork unitOfWork)
         {
-            foreach (var item in dto.SaleInvoiceItems)
+            foreach (var item in dto.InvoiceItems)
             {
                 if (item.ItemType == ItemType.Product)
                 {
@@ -117,7 +117,7 @@ namespace BackEnd.MediatR.Commands.Invoices.Quotations
 
         private static async Task CalculateInvoiceTotals(
             IEnumerable<SaleInvoiceItemDTO> items,
-            SaleInvoice saleInvoice,
+            Invoice saleInvoice,
             IUnitOfWork unitOfWork,
             double currencyRate)
         {
@@ -171,22 +171,22 @@ namespace BackEnd.MediatR.Commands.Invoices.Quotations
 
         private static async Task AddInvoiceItems(
             IEnumerable<SaleInvoiceItemDTO> items,
-            SaleInvoice saleInvoice,
+            Invoice saleInvoice,
             IUnitOfWork unitOfWork,
             IMapper mapper,
             double currencyRate)
         {
             foreach (var itemDTO in items)
             {
-                var saleInvoiceItem = saleInvoice.SaleInvoiceItems.FirstOrDefault(i => i.ItemId == itemDTO.ItemId);
+                var saleInvoiceItem = saleInvoice.InvoiceItems.FirstOrDefault(i => i.ItemId == itemDTO.ItemId);
                 if (saleInvoiceItem == null)
                 {
-                    saleInvoiceItem = mapper.Map<SaleInvoiceItem>(itemDTO);
-                    saleInvoice.SaleInvoiceItems.Add(saleInvoiceItem);
+                    saleInvoiceItem = mapper.Map<InvoiceItem>(itemDTO);
+                    saleInvoice.InvoiceItems.Add(saleInvoiceItem);
                 }
 
-                saleInvoiceItem.SaleInvoiceId = saleInvoice.Id;
-                saleInvoiceItem.SaleInvoice = saleInvoice;
+                saleInvoiceItem.InvoiceId = saleInvoice.Id;
+                saleInvoiceItem.Invoice = saleInvoice;
 
                 var (basePrice, taxAmount) = await GetItemPricingAndTax(itemDTO, unitOfWork, currencyRate);
 

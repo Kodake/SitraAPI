@@ -18,7 +18,7 @@ namespace BackEnd.Repositories.Invoices
         public async new Task<List<Quotation>> GetAllAsync(PaginationDTO paginationDTO)
         {
             var queryable = context.Quotations
-                .Include(x => x.SaleInvoice)
+                .Include(x => x.Invoice)
                 .Include(x => x.Buyer);
 
             await httpContext.AddPaginationParamsToHeaders(queryable);
@@ -32,8 +32,8 @@ namespace BackEnd.Repositories.Invoices
         public async new Task<Quotation?> GetByIdAsync(long id)
         {
             return await context.Quotations
-                .Include(x => x.SaleInvoice)
-                    .ThenInclude(x => x.SaleInvoiceItems)
+                .Include(x => x.Invoice)
+                    .ThenInclude(x => x.InvoiceItems)
                 .Include(x => x.Buyer)
                 .FirstOrDefaultAsync(x => x.Id == id);
         }

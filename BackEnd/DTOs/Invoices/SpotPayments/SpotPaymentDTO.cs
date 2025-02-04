@@ -9,8 +9,8 @@ namespace BackEnd.DTOs.Invoices.SpotPayments
     public class SpotPaymentDTO
     {
         public long Id { get; set; }
-        public long SaleInvoiceId { get; set; }
-        public virtual SaleInvoiceDTO SaleInvoice { get; set; } = null!;
+        public long InvoiceId { get; set; }
+        public virtual SaleInvoiceDTO Invoice { get; set; } = null!;
         public long ContactId { get; set; }
         public virtual ContactDTO Buyer { get; set; } = null!;
         public double AmountReceived { get; set; }

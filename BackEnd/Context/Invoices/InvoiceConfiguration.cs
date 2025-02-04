@@ -1,14 +1,13 @@
 ﻿using BackEnd.Entities.Accounts;
 using BackEnd.Entities.Invoices;
-using BackEnd.Entities.Warehouses;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BackEnd.Context.Invoices
 {
-    public class SaleInvoiceConfiguration : IEntityTypeConfiguration<SaleInvoice>
+    public class InvoiceConfiguration : IEntityTypeConfiguration<Invoice>
     {
-        public void Configure(EntityTypeBuilder<SaleInvoice> builder)
+        public void Configure(EntityTypeBuilder<Invoice> builder)
         {
             builder.Property(p => p.Shipping).HasColumnType("decimal(18,2)").IsRequired(false);
             builder.Property(p => p.Discount).HasColumnType("decimal(18,2)").IsRequired(false);
@@ -30,18 +29,18 @@ namespace BackEnd.Context.Invoices
                 .OnDelete(DeleteBehavior.Restrict);
             builder
                 .HasOne(s => s.Receivable)
-                .WithOne(r => r.SaleInvoice)
-                .HasForeignKey<Receivable>(r => r.SaleInvoiceId)
+                .WithOne(r => r.Invoice)
+                .HasForeignKey<Receivable>(r => r.InvoiceId)
                 .OnDelete(DeleteBehavior.Cascade);
             builder
                 .HasOne(s => s.SpotPayment)
-                .WithOne(r => r.SaleInvoice)
-                .HasForeignKey<SpotPayment>(r => r.SaleInvoiceId)
+                .WithOne(r => r.Invoice)
+                .HasForeignKey<SpotPayment>(r => r.InvoiceId)
                 .OnDelete(DeleteBehavior.Cascade);
             builder
                 .HasOne(s => s.Quotation)
-                .WithOne(r => r.SaleInvoice)
-                .HasForeignKey<Quotation>(r => r.SaleInvoiceId)
+                .WithOne(r => r.Invoice)
+                .HasForeignKey<Quotation>(r => r.InvoiceId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

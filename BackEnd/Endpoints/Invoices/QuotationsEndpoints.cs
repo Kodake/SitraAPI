@@ -49,8 +49,8 @@ namespace BackEnd.Endpoints.Invoices
             IOutputCacheStore outputCacheStore)
         {
             var command = new CreateQuotationCommand(dto);
-            var contactDTO = await mediator.Send(command);
-            return contactDTO == null ? TypedResults.NotFound() : TypedResults.Created();
+            var quotationDTO = await mediator.Send(command);
+            return quotationDTO == null ? TypedResults.NotFound() : TypedResults.Created();
         }
 
         static async Task<Results<Ok, NotFound, ValidationProblem>> Update(

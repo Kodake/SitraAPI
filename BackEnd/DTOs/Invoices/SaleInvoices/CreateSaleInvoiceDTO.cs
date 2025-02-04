@@ -19,6 +19,6 @@ namespace BackEnd.DTOs.Invoices.SaleInvoices
         public double? AmountReturned { get; set; }
         public string? Description { get; set; }
         public string? Note { get; set; }
-        public List<SaleInvoiceItemDTO> SaleInvoiceItems { get; set; } = [];
+        public List<SaleInvoiceItemDTO> InvoiceItems { get; set; } = [];
     }
 }

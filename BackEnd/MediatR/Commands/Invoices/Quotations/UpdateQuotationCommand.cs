@@ -35,12 +35,12 @@ namespace BackEnd.MediatR.Commands.Invoices.Quotations
                 throw new Exception($"Currency with id {Dto.CurrencyId} not found.");
             }
 
-            var saleInvoice = quotation.SaleInvoice;
+            var saleInvoice = quotation.Invoice;
             mapper.Map(Dto, saleInvoice);
             saleInvoice.InvoiceType = InvoiceType.Quotation;
 
             double currencyRate = currencyDB.Rate;
-            await CalculateInvoiceTotals(Dto.SaleInvoiceItems, saleInvoice, unitOfWork, currencyRate);
+            await CalculateInvoiceTotals(Dto.InvoiceItems, saleInvoice, unitOfWork, currencyRate);
 
             unitOfWork.SaleInvoiceRepository.Update(saleInvoice);
 
@@ -48,9 +48,9 @@ namespace BackEnd.MediatR.Commands.Invoices.Quotations
 
             unitOfWork.QuotationRepository.Update(quotation);
 
-            await unitOfWork.SaleInvoiceRepository.DeleteInvoiceItemsByInvoiceId(quotation.SaleInvoiceId);
+            await unitOfWork.SaleInvoiceRepository.DeleteInvoiceItemsByInvoiceId(quotation.InvoiceId);
 
-            await AddInvoiceItems(Dto.SaleInvoiceItems, saleInvoice, unitOfWork, mapper, currencyRate);
+            await AddInvoiceItems(Dto.InvoiceItems, saleInvoice, unitOfWork, mapper, currencyRate);
 
             await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("quotations-get", cancellationToken);
@@ -60,7 +60,7 @@ namespace BackEnd.MediatR.Commands.Invoices.Quotations
 
         private static async Task CalculateInvoiceTotals(
             IEnumerable<SaleInvoiceItemDTO> items,
-            SaleInvoice saleInvoice,
+            Invoice saleInvoice,
             IUnitOfWork unitOfWork,
             double currencyRate)
         {
@@ -114,22 +114,22 @@ namespace BackEnd.MediatR.Commands.Invoices.Quotations
 
         private static async Task AddInvoiceItems(
             IEnumerable<SaleInvoiceItemDTO> items,
-            SaleInvoice saleInvoice,
+            Invoice saleInvoice,
             IUnitOfWork unitOfWork,
             IMapper mapper,
             double currencyRate)
         {
             foreach (var itemDTO in items)
             {
-                var saleInvoiceItem = saleInvoice.SaleInvoiceItems.FirstOrDefault(i => i.ItemId == itemDTO.ItemId);
+                var saleInvoiceItem = saleInvoice.InvoiceItems.FirstOrDefault(i => i.ItemId == itemDTO.ItemId);
                 if (saleInvoiceItem == null)
                 {
-                    saleInvoiceItem = mapper.Map<SaleInvoiceItem>(itemDTO);
-                    saleInvoice.SaleInvoiceItems.Add(saleInvoiceItem);
+                    saleInvoiceItem = mapper.Map<InvoiceItem>(itemDTO);
+                    saleInvoice.InvoiceItems.Add(saleInvoiceItem);
                 }
 
-                saleInvoiceItem.SaleInvoiceId = saleInvoice.Id;
-                saleInvoiceItem.SaleInvoice = saleInvoice;
+                saleInvoiceItem.InvoiceId = saleInvoice.Id;
+                saleInvoiceItem.Invoice = saleInvoice;
 
                 var (basePrice, taxAmount) = await GetItemPricingAndTax(itemDTO, unitOfWork, currencyRate);
 

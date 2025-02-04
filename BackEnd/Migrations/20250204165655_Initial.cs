@@ -370,7 +370,7 @@ namespace BackEnd.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SaleInvoices",
+                name: "Invoices",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -394,42 +394,41 @@ namespace BackEnd.Migrations
                     Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DueDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    QuotationId = table.Column<long>(type: "bigint", nullable: true)
+                    DueDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SaleInvoices", x => x.Id);
+                    table.PrimaryKey("PK_Invoices", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SaleInvoices_Contacts_BillerId",
+                        name: "FK_Invoices_Contacts_BillerId",
                         column: x => x.BillerId,
                         principalTable: "Contacts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_SaleInvoices_Contacts_CustomerId",
+                        name: "FK_Invoices_Contacts_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Contacts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_SaleInvoices_Currencies_CurrencyId",
+                        name: "FK_Invoices_Currencies_CurrencyId",
                         column: x => x.CurrencyId,
                         principalTable: "Currencies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_SaleInvoices_Pricings_PricingId",
+                        name: "FK_Invoices_Pricings_PricingId",
                         column: x => x.PricingId,
                         principalTable: "Pricings",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_SaleInvoices_Warehouses_WarehouseId",
+                        name: "FK_Invoices_Warehouses_WarehouseId",
                         column: x => x.WarehouseId,
                         principalTable: "Warehouses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -520,7 +519,7 @@ namespace BackEnd.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SaleInvoiceId = table.Column<long>(type: "bigint", nullable: false),
+                    InvoiceId = table.Column<long>(type: "bigint", nullable: false),
                     ContactId = table.Column<long>(type: "bigint", nullable: false),
                     QuotationNumber = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -534,9 +533,9 @@ namespace BackEnd.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Quotations_SaleInvoices_SaleInvoiceId",
-                        column: x => x.SaleInvoiceId,
-                        principalTable: "SaleInvoices",
+                        name: "FK_Quotations_Invoices_InvoiceId",
+                        column: x => x.InvoiceId,
+                        principalTable: "Invoices",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -547,7 +546,7 @@ namespace BackEnd.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SaleInvoiceId = table.Column<long>(type: "bigint", nullable: false),
+                    InvoiceId = table.Column<long>(type: "bigint", nullable: false),
                     ContactId = table.Column<long>(type: "bigint", nullable: false),
                     TotalAmountDue = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     TotalOutstanding = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -563,9 +562,9 @@ namespace BackEnd.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Receivables_SaleInvoices_SaleInvoiceId",
-                        column: x => x.SaleInvoiceId,
-                        principalTable: "SaleInvoices",
+                        name: "FK_Receivables_Invoices_InvoiceId",
+                        column: x => x.InvoiceId,
+                        principalTable: "Invoices",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -576,7 +575,7 @@ namespace BackEnd.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SaleInvoiceId = table.Column<long>(type: "bigint", nullable: false),
+                    InvoiceId = table.Column<long>(type: "bigint", nullable: false),
                     ContactId = table.Column<long>(type: "bigint", nullable: false),
                     AmountReceived = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     AmountReturned = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -594,9 +593,9 @@ namespace BackEnd.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_SpotPayments_SaleInvoices_SaleInvoiceId",
-                        column: x => x.SaleInvoiceId,
-                        principalTable: "SaleInvoices",
+                        name: "FK_SpotPayments_Invoices_InvoiceId",
+                        column: x => x.InvoiceId,
+                        principalTable: "Invoices",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -647,12 +646,12 @@ namespace BackEnd.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SaleInvoiceItems",
+                name: "InvoiceItems",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SaleInvoiceId = table.Column<long>(type: "bigint", nullable: false),
+                    InvoiceId = table.Column<long>(type: "bigint", nullable: false),
                     ItemId = table.Column<long>(type: "bigint", nullable: false),
                     Qty = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     BasePrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -663,24 +662,24 @@ namespace BackEnd.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SaleInvoiceItems", x => x.Id);
+                    table.PrimaryKey("PK_InvoiceItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SaleInvoiceItems_Items_ItemId",
+                        name: "FK_InvoiceItems_Invoices_InvoiceId",
+                        column: x => x.InvoiceId,
+                        principalTable: "Invoices",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_InvoiceItems_Items_ItemId",
                         column: x => x.ItemId,
                         principalTable: "Items",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_SaleInvoiceItems_Quotations_QuotationId",
+                        name: "FK_InvoiceItems_Quotations_QuotationId",
                         column: x => x.QuotationId,
                         principalTable: "Quotations",
                         principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_SaleInvoiceItems_SaleInvoices_SaleInvoiceId",
-                        column: x => x.SaleInvoiceId,
-                        principalTable: "SaleInvoices",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -752,6 +751,46 @@ namespace BackEnd.Migrations
                 column: "WarehouseId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_InvoiceItems_InvoiceId",
+                table: "InvoiceItems",
+                column: "InvoiceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InvoiceItems_ItemId",
+                table: "InvoiceItems",
+                column: "ItemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InvoiceItems_QuotationId",
+                table: "InvoiceItems",
+                column: "QuotationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Invoices_BillerId",
+                table: "Invoices",
+                column: "BillerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Invoices_CurrencyId",
+                table: "Invoices",
+                column: "CurrencyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Invoices_CustomerId",
+                table: "Invoices",
+                column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Invoices_PricingId",
+                table: "Invoices",
+                column: "PricingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Invoices_WarehouseId",
+                table: "Invoices",
+                column: "WarehouseId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Items_BrandId",
                 table: "Items",
                 column: "BrandId");
@@ -792,9 +831,9 @@ namespace BackEnd.Migrations
                 column: "ContactId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Quotations_SaleInvoiceId",
+                name: "IX_Quotations_InvoiceId",
                 table: "Quotations",
-                column: "SaleInvoiceId",
+                column: "InvoiceId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -803,50 +842,10 @@ namespace BackEnd.Migrations
                 column: "ContactId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Receivables_SaleInvoiceId",
+                name: "IX_Receivables_InvoiceId",
                 table: "Receivables",
-                column: "SaleInvoiceId",
+                column: "InvoiceId",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SaleInvoiceItems_ItemId",
-                table: "SaleInvoiceItems",
-                column: "ItemId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SaleInvoiceItems_QuotationId",
-                table: "SaleInvoiceItems",
-                column: "QuotationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SaleInvoiceItems_SaleInvoiceId",
-                table: "SaleInvoiceItems",
-                column: "SaleInvoiceId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SaleInvoices_BillerId",
-                table: "SaleInvoices",
-                column: "BillerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SaleInvoices_CurrencyId",
-                table: "SaleInvoices",
-                column: "CurrencyId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SaleInvoices_CustomerId",
-                table: "SaleInvoices",
-                column: "CustomerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SaleInvoices_PricingId",
-                table: "SaleInvoices",
-                column: "PricingId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SaleInvoices_WarehouseId",
-                table: "SaleInvoices",
-                column: "WarehouseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SpotPayments_ContactId",
@@ -854,9 +853,9 @@ namespace BackEnd.Migrations
                 column: "ContactId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SpotPayments_SaleInvoiceId",
+                name: "IX_SpotPayments_InvoiceId",
                 table: "SpotPayments",
-                column: "SaleInvoiceId",
+                column: "InvoiceId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -915,6 +914,9 @@ namespace BackEnd.Migrations
                 name: "FiscalSupports");
 
             migrationBuilder.DropTable(
+                name: "InvoiceItems");
+
+            migrationBuilder.DropTable(
                 name: "ItemTaxes");
 
             migrationBuilder.DropTable(
@@ -922,9 +924,6 @@ namespace BackEnd.Migrations
 
             migrationBuilder.DropTable(
                 name: "PricingItems");
-
-            migrationBuilder.DropTable(
-                name: "SaleInvoiceItems");
 
             migrationBuilder.DropTable(
                 name: "SpotPayments");
@@ -939,19 +938,19 @@ namespace BackEnd.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
+                name: "Quotations");
+
+            migrationBuilder.DropTable(
                 name: "Taxes");
 
             migrationBuilder.DropTable(
                 name: "Receivables");
 
             migrationBuilder.DropTable(
-                name: "Quotations");
-
-            migrationBuilder.DropTable(
                 name: "Stocks");
 
             migrationBuilder.DropTable(
-                name: "SaleInvoices");
+                name: "Invoices");
 
             migrationBuilder.DropTable(
                 name: "Items");

@@ -20,7 +20,7 @@ namespace BackEnd.Repositories.Accounts
         {
             var queryable = context.Receivables
                 .Include(x => x.PaymentReceipts)
-                .Include(x => x.SaleInvoice)
+                .Include(x => x.Invoice)
                 .Include(x => x.Buyer);
 
             await httpContext.AddPaginationParamsToHeaders(queryable);
@@ -34,7 +34,7 @@ namespace BackEnd.Repositories.Accounts
         public async Task<Receivable?> GetAllByIdAsync(long id)
         {
             return await context.Receivables
-                .Include(x => x.SaleInvoice)
+                .Include(x => x.Invoice)
                 .Include(x => x.Buyer)
                 .Include(x => x.PaymentReceipts.OrderByDescending(p => p.Id))
                 .FirstOrDefaultAsync(x => x.Id == id);
@@ -43,7 +43,7 @@ namespace BackEnd.Repositories.Accounts
         public async Task<Receivable?> GetPaysByIdAsync(long id)
         {
             return await context.Receivables
-                .Include(x => x.SaleInvoice)
+                .Include(x => x.Invoice)
                 .Include(x => x.Buyer)
                 .Include(x => x.PaymentReceipts
                     .Where(x => x.IsActive)

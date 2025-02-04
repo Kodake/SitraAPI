@@ -18,7 +18,7 @@ namespace BackEnd.Repositories.Invoices
         public async new Task<List<SpotPayment>> GetAllAsync(PaginationDTO paginationDTO)
         {
             var queryable = context.SpotPayments
-                .Include(x => x.SaleInvoice)
+                .Include(x => x.Invoice)
                 .Include(x => x.Buyer);
 
             await httpContext.AddPaginationParamsToHeaders(queryable);
@@ -32,7 +32,7 @@ namespace BackEnd.Repositories.Invoices
         public async new Task<SpotPayment?> GetByIdAsync(long id)
         {
             return await context.SpotPayments
-                .Include(x => x.SaleInvoice)
+                .Include(x => x.Invoice)
                 .Include(x => x.Buyer)
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
