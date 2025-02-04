@@ -8,9 +8,9 @@ namespace BackEnd.Context.Invoices
     {
         public void Configure(EntityTypeBuilder<Quotation> builder)
         {
-            builder.HasOne(ar => ar.SaleInvoice)
+            builder.HasOne(ar => ar.Invoice)
                 .WithOne(s => s.Quotation)
-                .HasForeignKey<Quotation>(ar => ar.SaleInvoiceId)
+                .HasForeignKey<Quotation>(ar => ar.InvoiceId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

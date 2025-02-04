@@ -2,7 +2,8 @@
 {
     public enum InvoiceType
     {
-        Invoice = 1,
-        Quotation = 2,
+        Sale = 1,
+        Purchase = 2,
+        Quotation = 3,
     }
 }

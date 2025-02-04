@@ -11,6 +11,6 @@
         public string QuotationNumber { get; set; } = string.Empty;
         public double? Shipping { get; set; }
         public double? Discount { get; set; }
-        public List<SaleInvoiceItemDTO> SaleInvoiceItems { get; set; } = [];
+        public List<SaleInvoiceItemDTO> InvoiceItems { get; set; } = [];
     }
 }

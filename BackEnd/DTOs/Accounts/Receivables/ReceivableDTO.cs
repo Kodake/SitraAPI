@@ -8,8 +8,8 @@ namespace BackEnd.DTOs.Accounts.Receivables
     public class ReceivableDTO
     {
         public long Id { get; set; }
-        public long SaleInvoiceId { get; set; }
-        public SaleInvoiceDTO SaleInvoice { get; set; } = null!;
+        public long InvoiceId { get; set; }
+        public SaleInvoiceDTO Invoice { get; set; } = null!;
         public long ContactId { get; set; }
         public ContactDTO Buyer { get; set; } = null!;
         public long BillerId { get; set; }

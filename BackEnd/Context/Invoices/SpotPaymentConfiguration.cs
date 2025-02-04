@@ -9,9 +9,9 @@ namespace BackEnd.Context.Invoices
     {
         public void Configure(EntityTypeBuilder<SpotPayment> builder)
         {
-            builder.HasOne(ar => ar.SaleInvoice)
+            builder.HasOne(ar => ar.Invoice)
                 .WithOne(s => s.SpotPayment)
-                .HasForeignKey<SpotPayment>(ar => ar.SaleInvoiceId)
+                .HasForeignKey<SpotPayment>(ar => ar.InvoiceId)
                 .OnDelete(DeleteBehavior.Cascade);
             builder.Property(p => p.AmountReceived).HasColumnType("decimal(18,2)").IsRequired();
             builder.Property(p => p.AmountReturned).HasColumnType("decimal(18,2)").IsRequired();

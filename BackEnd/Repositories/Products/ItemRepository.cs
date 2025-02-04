@@ -24,7 +24,7 @@ namespace BackEnd.Repositories.Products
                     x.PricingItems.Any(pi => pi.PricingId == pricingId) &&
                     (
                         x.ItemType == ItemType.Service ||
-                        x.Stocks.Any(s => s.WarehouseId == warehouseId && s.Qty > 0)
+                        x.Stocks.Any(s => s.WarehouseId == warehouseId)
                     )
                 )
                 .ToListAsync();

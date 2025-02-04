@@ -38,8 +38,8 @@ namespace BackEnd.Context
             modelBuilder.ApplyConfiguration(new ItemTaxesConfiguration());
             modelBuilder.ApplyConfiguration(new TaxConfiguration());
 
-            modelBuilder.ApplyConfiguration(new SaleInvoiceConfiguration());
-            modelBuilder.ApplyConfiguration(new SaleInvoiceItemConfiguration());
+            modelBuilder.ApplyConfiguration(new InvoiceConfiguration());
+            modelBuilder.ApplyConfiguration(new InvoiceItemConfiguration());
             modelBuilder.ApplyConfiguration(new QuotationConfiguration());
             modelBuilder.ApplyConfiguration(new SpotPaymentConfiguration());
 
@@ -72,8 +72,8 @@ namespace BackEnd.Context
         public DbSet<FiscalSupport> FiscalSupports { get; set; }
         public DbSet<Deadline> Deadlines { get; set; }
         public DbSet<Transfer> Transfers { get; set; }
-        public DbSet<SaleInvoice> SaleInvoices { get; set; }
-        public DbSet<SaleInvoiceItem> SaleInvoiceItems { get; set; }
+        public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<InvoiceItem> InvoiceItems { get; set; }
         public DbSet<SpotPayment> SpotPayments { get; set; }
         public DbSet<Quotation> Quotations { get; set; }
         public DbSet<Receivable> Receivables { get; set; }

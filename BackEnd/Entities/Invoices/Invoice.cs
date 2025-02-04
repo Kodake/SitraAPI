@@ -8,7 +8,7 @@ using BackEnd.Enums;
 
 namespace BackEnd.Entities.Invoices
 {
-    public class SaleInvoice
+    public class Invoice
     {
         public long Id { get; set; }
         public DateTime Date { get; set; } = DateTime.Now;
@@ -40,6 +40,6 @@ namespace BackEnd.Entities.Invoices
         public Receivable? Receivable { get; set; } = null!;
         public SpotPayment? SpotPayment { get; set; } = null!;
         public Quotation? Quotation { get; set; } = null!;
-        public List<SaleInvoiceItem> SaleInvoiceItems { get; set; } = new List<SaleInvoiceItem>();
+        public List<InvoiceItem> InvoiceItems { get; set; } = new List<InvoiceItem>();
     }
 }

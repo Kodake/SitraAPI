@@ -3,11 +3,11 @@ using BackEnd.Repositories.Generics;
 
 namespace BackEnd.Repositories.Invoices
 {
-    public interface ISaleInvoiceRepository : IRepositoryBase<SaleInvoice>
+    public interface ISaleInvoiceRepository : IRepositoryBase<Invoice>
     {
-        new Task<SaleInvoice?> GetByIdAsync(long id);
-        Task AddInvoiceItem(SaleInvoiceItem item);
-        Task<List<SaleInvoiceItem>> GetItemsByInvoiceId(long invoiceId);
-        void DeleteInvoiceItemsRange(IEnumerable<SaleInvoiceItem> items);
+        new Task<Invoice?> GetByIdAsync(long id);
+        Task AddInvoiceItem(InvoiceItem item);
+        Task<List<InvoiceItem>> GetItemsByInvoiceId(long invoiceId);
+        Task DeleteInvoiceItemsByInvoiceId(long invoiceId);
     }
 }

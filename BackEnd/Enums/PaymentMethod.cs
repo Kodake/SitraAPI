@@ -9,9 +9,8 @@
         DebitCard = 5,       // Tarjeta débito
         CreditCard = 6,      // Tarjeta crédito
         CreditSell = 7,      // Venta a crédito
-        Barter = 8,          // Permuta
-        GiftVoucher = 9,     // Bonos o certificados de regalos
-        Mixed = 10,          // Mixto
-        OtherSales = 11      // Otras formas de ventas
+        GiftVoucher = 8,     // Bonos o certificados de regalos
+        Mixed = 9,          // Mixto
+        OtherSales = 10      // Otras formas de ventas
     }
 }
