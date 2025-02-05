@@ -11,7 +11,9 @@ namespace BackEnd.Repositories
     public interface IUnitOfWork : IDisposable
     {
         IRepositoryBase<T> Repository<T>() where T : class;
+        IPayableRepository PayableRepository { get; }
         IReceivableRepository ReceivableRepository { get; }
+        IPayableReceiptRepository PayableReceiptRepository { get; }
         IPaymentReceiptRepository PaymentReceiptRepository { get; }
         IDeadlineRepository DeadlineRepository { get; }
         IFiscalSupportRepository FiscalSupportRepository { get; }
@@ -19,7 +21,9 @@ namespace BackEnd.Repositories
         ICurrencyRepository CurrencyRepository { get; }
         ITaxRepository TaxRepository { get; }
         ISaleInvoiceRepository SaleInvoiceRepository { get; }
+        IPurchaseInvoiceRepository PurchaseInvoiceRepository { get; }
         ISpotPaymentRepository SpotPaymentRepository { get; }
+        ISpotPayableRepository SpotPayableRepository { get; }
         IQuotationRepository QuotationRepository { get; }
         IItemRepository ItemRepository { get; }
         IProductRepository ProductRepository { get; }

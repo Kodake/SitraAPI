@@ -1,5 +1,7 @@
 ﻿using BackEnd.Context;
+using BackEnd.DTOs;
 using BackEnd.Entities.Invoices;
+using BackEnd.Helpers;
 using Microsoft.EntityFrameworkCore;
 
 namespace BackEnd.Repositories.Invoices
@@ -11,6 +13,20 @@ namespace BackEnd.Repositories.Invoices
             : base(context, httpContextAccessor)
         {
             httpContext = httpContextAccessor.HttpContext!;
+        }
+
+        public async new Task<List<Invoice>> GetAllAsync(PaginationDTO paginationDTO)
+        {
+            var queryable = context.Invoices
+                .Include(x => x.Buyer);
+
+            await httpContext.AddPaginationParamsToHeaders(queryable);
+
+            return await queryable
+                .Where(x => x.InvoiceType == Enums.InvoiceType.Sale)
+                .OrderBy(x => x.Id)
+                .Paginate(paginationDTO)
+                .ToListAsync();
         }
 
         public async new Task<Invoice?> GetByIdAsync(long id)

@@ -13,6 +13,5 @@ namespace BackEnd.DTOs.Accounts.PaymentReceipts
         public PaymentMethod PaymentMethod { get; set; }
         public bool IsActive { get; set; }
         public ReceivableDTO? Receivable { get; set; }
-
     }
 }

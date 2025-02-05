@@ -26,6 +26,8 @@ namespace BackEnd.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfiguration(new PayableConfiguration());
+            modelBuilder.ApplyConfiguration(new PayableReceiptConfiguration());
             modelBuilder.ApplyConfiguration(new PaymentReceiptConfiguration());
             modelBuilder.ApplyConfiguration(new ReceivableConfiguration());
 
@@ -42,6 +44,7 @@ namespace BackEnd.Context
             modelBuilder.ApplyConfiguration(new InvoiceItemConfiguration());
             modelBuilder.ApplyConfiguration(new QuotationConfiguration());
             modelBuilder.ApplyConfiguration(new SpotPaymentConfiguration());
+            modelBuilder.ApplyConfiguration(new SpotPayableConfiguration());
 
             modelBuilder.ApplyConfiguration(new BrandConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
@@ -75,9 +78,12 @@ namespace BackEnd.Context
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<InvoiceItem> InvoiceItems { get; set; }
         public DbSet<SpotPayment> SpotPayments { get; set; }
+        public DbSet<SpotPayable> SpotPayables { get; set; }
         public DbSet<Quotation> Quotations { get; set; }
         public DbSet<Receivable> Receivables { get; set; }
+        public DbSet<Payable> Payables { get; set; }
         public DbSet<PaymentReceipt> PaymentReceipts { get; set; }
+        public DbSet<PayableReceipt> PayableReceipts { get; set; }
         #endregion
     }
 }

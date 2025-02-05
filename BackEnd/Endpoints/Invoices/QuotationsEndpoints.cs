@@ -2,12 +2,12 @@
 using BackEnd.DTOs.Invoices.Quotations;
 using BackEnd.DTOs.Invoices.SaleInvoices;
 using BackEnd.Helpers;
+using BackEnd.MediatR.Commands.Invoices.Quotations;
+using BackEnd.MediatR.Queries.Invoices.Quotations;
+using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
-using BackEnd.MediatR.Commands.Invoices.Quotations;
-using MediatR;
-using BackEnd.MediatR.Queries.Invoices.Quotations;
 
 namespace BackEnd.Endpoints.Invoices
 {

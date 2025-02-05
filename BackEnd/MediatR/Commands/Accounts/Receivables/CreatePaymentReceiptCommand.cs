@@ -36,7 +36,7 @@ namespace BackEnd.MediatR.Commands.Accounts.Receivables
 
             unitOfWork.ReceivableRepository.Update(receivable);
             await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("payment-receipts-get", cancellationToken);
+            await outputCacheStore.EvictByTagAsync("paymentReceipts-get", cancellationToken);
             await outputCacheStore.EvictByTagAsync("receivables-get", cancellationToken);
 
             return Dto;

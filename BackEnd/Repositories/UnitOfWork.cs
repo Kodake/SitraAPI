@@ -16,7 +16,9 @@ namespace BackEnd.Repositories
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly Dictionary<Type, object> _repositories = new();
 
+        public IPayableRepository PayableRepository { get; }
         public IReceivableRepository ReceivableRepository { get; }
+        public IPayableReceiptRepository PayableReceiptRepository { get; }
         public IPaymentReceiptRepository PaymentReceiptRepository { get; }
         public IDeadlineRepository DeadlineRepository { get; }
         public IFiscalSupportRepository FiscalSupportRepository { get; }
@@ -24,8 +26,10 @@ namespace BackEnd.Repositories
         public ICurrencyRepository CurrencyRepository { get; }
         public ITaxRepository TaxRepository { get; }
         public ISaleInvoiceRepository SaleInvoiceRepository { get; }
+        public IPurchaseInvoiceRepository PurchaseInvoiceRepository { get; }
         public IQuotationRepository QuotationRepository { get; }
         public ISpotPaymentRepository SpotPaymentRepository { get; }
+        public ISpotPayableRepository SpotPayableRepository { get; }
         public IItemRepository ItemRepository { get; }
         public IProductRepository ProductRepository { get; }
         public IServiceRepository ServiceRepository { get; }
@@ -42,7 +46,9 @@ namespace BackEnd.Repositories
             ApplicationDbContext context,
             IHttpContextAccessor httpContextAccessor)
         {
+            PayableRepository = new PayableRepository(context, httpContextAccessor);
             ReceivableRepository = new ReceivableRepository(context, httpContextAccessor);
+            PayableReceiptRepository = new PayableReceiptRepository(context, httpContextAccessor);
             PaymentReceiptRepository = new PaymentReceiptRepository(context, httpContextAccessor);
             DeadlineRepository = new DeadlineRepository(context, httpContextAccessor);
             FiscalSupportRepository = new FiscalSupportRepository(context, httpContextAccessor);
@@ -50,8 +56,10 @@ namespace BackEnd.Repositories
             CurrencyRepository = new CurrencyRepository(context, httpContextAccessor);
             TaxRepository = new TaxRepository(context, httpContextAccessor);
             SaleInvoiceRepository = new SaleInvoiceRepository(context, httpContextAccessor);
+            PurchaseInvoiceRepository = new PurchaseInvoiceRepository(context, httpContextAccessor);
             QuotationRepository = new QuotationRepository(context, httpContextAccessor);
             SpotPaymentRepository = new SpotPaymentRepository(context, httpContextAccessor);
+            SpotPayableRepository = new SpotPayableRepository(context, httpContextAccessor);
             ItemRepository = new ItemRepository(context, httpContextAccessor);
             ProductRepository = new ProductRepository(context, httpContextAccessor);
             ServiceRepository = new ServiceRepository(context, httpContextAccessor);

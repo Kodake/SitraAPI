@@ -12,7 +12,7 @@ namespace BackEnd.Endpoints.Invoices
 {
     public static class SaleInvoicesEndpoints
     {
-        public static RouteGroupBuilder MapInvoices(this RouteGroupBuilder group)
+        public static RouteGroupBuilder MapSaleInvoices(this RouteGroupBuilder group)
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("saleInvoices-get"))
                 .AddPaginationParamsOpenAPI();

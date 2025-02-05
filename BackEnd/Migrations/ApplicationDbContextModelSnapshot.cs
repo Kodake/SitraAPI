@@ -22,6 +22,72 @@ namespace BackEnd.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("BackEnd.Entities.Accounts.Payable", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("ContactId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("InvoiceId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TotalAmountDue")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("TotalOutstanding")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContactId");
+
+                    b.HasIndex("InvoiceId")
+                        .IsUnique();
+
+                    b.ToTable("Payables");
+                });
+
+            modelBuilder.Entity("BackEnd.Entities.Accounts.PayableReceipt", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<long>("PayableId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PaymentMethod")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TransactionType")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PayableId");
+
+                    b.ToTable("PayableReceipts");
+                });
+
             modelBuilder.Entity("BackEnd.Entities.Accounts.PaymentReceipt", b =>
                 {
                     b.Property<long>("Id")
@@ -411,6 +477,39 @@ namespace BackEnd.Migrations
                         .IsUnique();
 
                     b.ToTable("Quotations");
+                });
+
+            modelBuilder.Entity("BackEnd.Entities.Invoices.SpotPayable", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("ContactId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("InvoiceId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("PaymentMethod")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContactId");
+
+                    b.HasIndex("InvoiceId")
+                        .IsUnique();
+
+                    b.ToTable("SpotPayables");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Invoices.SpotPayment", b =>
@@ -969,6 +1068,36 @@ namespace BackEnd.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("BackEnd.Entities.Accounts.Payable", b =>
+                {
+                    b.HasOne("BackEnd.Entities.Contacts.Contact", "Supplier")
+                        .WithMany()
+                        .HasForeignKey("ContactId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BackEnd.Entities.Invoices.Invoice", "Invoice")
+                        .WithOne("Payable")
+                        .HasForeignKey("BackEnd.Entities.Accounts.Payable", "InvoiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Invoice");
+
+                    b.Navigation("Supplier");
+                });
+
+            modelBuilder.Entity("BackEnd.Entities.Accounts.PayableReceipt", b =>
+                {
+                    b.HasOne("BackEnd.Entities.Accounts.Payable", "Payable")
+                        .WithMany("PayableReceipts")
+                        .HasForeignKey("PayableId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Payable");
+                });
+
             modelBuilder.Entity("BackEnd.Entities.Accounts.PaymentReceipt", b =>
                 {
                     b.HasOne("BackEnd.Entities.Accounts.Receivable", "Receivable")
@@ -1093,6 +1222,25 @@ namespace BackEnd.Migrations
                     b.Navigation("Buyer");
 
                     b.Navigation("Invoice");
+                });
+
+            modelBuilder.Entity("BackEnd.Entities.Invoices.SpotPayable", b =>
+                {
+                    b.HasOne("BackEnd.Entities.Contacts.Contact", "Supplier")
+                        .WithMany()
+                        .HasForeignKey("ContactId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BackEnd.Entities.Invoices.Invoice", "Invoice")
+                        .WithOne("SpotPayable")
+                        .HasForeignKey("BackEnd.Entities.Invoices.SpotPayable", "InvoiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Invoice");
+
+                    b.Navigation("Supplier");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Invoices.SpotPayment", b =>
@@ -1281,6 +1429,11 @@ namespace BackEnd.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("BackEnd.Entities.Accounts.Payable", b =>
+                {
+                    b.Navigation("PayableReceipts");
+                });
+
             modelBuilder.Entity("BackEnd.Entities.Accounts.Receivable", b =>
                 {
                     b.Navigation("PaymentReceipts");
@@ -1302,9 +1455,13 @@ namespace BackEnd.Migrations
                 {
                     b.Navigation("InvoiceItems");
 
+                    b.Navigation("Payable");
+
                     b.Navigation("Quotation");
 
                     b.Navigation("Receivable");
+
+                    b.Navigation("SpotPayable");
 
                     b.Navigation("SpotPayment");
                 });

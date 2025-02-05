@@ -1,7 +1,5 @@
 ﻿using BackEnd.DTOs.Contacts.Contacts;
 using BackEnd.DTOs.Invoices.SaleInvoices;
-using BackEnd.Entities.Contacts;
-using BackEnd.Entities.Invoices;
 using BackEnd.Enums;
 
 namespace BackEnd.DTOs.Invoices.SpotPayments

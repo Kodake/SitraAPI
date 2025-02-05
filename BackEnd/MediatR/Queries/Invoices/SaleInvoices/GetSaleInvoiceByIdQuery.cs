@@ -13,7 +13,7 @@ namespace BackEnd.MediatR.Queries.Invoices.SaleInvoices
             IMapper mapper,
             CancellationToken cancellationToken)
         {
-            var saleInvoice = await unitOfWork.QuotationRepository.GetByIdAsync(Id);
+            var saleInvoice = await unitOfWork.SaleInvoiceRepository.GetByIdAsync(Id);
             return mapper.Map<SaleInvoiceDTO>(saleInvoice);
         }
     }

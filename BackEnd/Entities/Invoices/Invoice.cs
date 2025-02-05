@@ -38,7 +38,9 @@ namespace BackEnd.Entities.Invoices
         public string? Note { get; set; } = null!;
         public DateTime? DueDate { get; set; } = null!;
         public Receivable? Receivable { get; set; } = null!;
+        public Payable? Payable { get; set; } = null!;
         public SpotPayment? SpotPayment { get; set; } = null!;
+        public SpotPayable? SpotPayable { get; set; } = null!;
         public Quotation? Quotation { get; set; } = null!;
         public List<InvoiceItem> InvoiceItems { get; set; } = new List<InvoiceItem>();
     }

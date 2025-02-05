@@ -1,6 +1,4 @@
-﻿using BackEnd.Enums;
-
-namespace BackEnd.DTOs.Warehouses.Transfers
+﻿namespace BackEnd.DTOs.Warehouses.Transfers
 {
     public class CreateTransferDTO
     {

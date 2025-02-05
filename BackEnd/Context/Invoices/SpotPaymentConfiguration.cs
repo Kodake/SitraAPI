@@ -1,5 +1,4 @@
-﻿using BackEnd.Entities.Accounts;
-using BackEnd.Entities.Invoices;
+﻿using BackEnd.Entities.Invoices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

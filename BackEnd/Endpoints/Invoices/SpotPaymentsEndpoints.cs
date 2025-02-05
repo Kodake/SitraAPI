@@ -12,9 +12,9 @@ namespace BackEnd.Endpoints
     {
         public static RouteGroupBuilder MapSpotPayments(this RouteGroupBuilder group)
         {
-            group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("spotpayments-get"))
+            group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("spotPayments-get"))
                 .AddPaginationParamsOpenAPI();
-            group.MapGet("/{id:long}", GetById).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("spotpayments-get"));
+            group.MapGet("/{id:long}", GetById).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("spotPayments-get"));
             return group;
         }
 

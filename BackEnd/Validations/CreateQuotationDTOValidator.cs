@@ -1,10 +1,6 @@
 ﻿using BackEnd.DTOs.Invoices.SaleInvoices;
 using BackEnd.Helpers;
 using BackEnd.Repositories;
-using BackEnd.Repositories.AdministrativeTools;
-using BackEnd.Repositories.Contacts;
-using BackEnd.Repositories.Finances;
-using BackEnd.Repositories.Products;
 using FluentValidation;
 
 namespace BackEnd.Validations

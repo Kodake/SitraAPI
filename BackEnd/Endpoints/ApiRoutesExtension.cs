@@ -27,9 +27,11 @@ public static class ApiRouteExtensions
         apiGroup.MapGroup("/fiscalSupports").MapFiscalSupports();
         apiGroup.MapGroup("/deadlines").MapDeadlines();
         apiGroup.MapGroup("/transfers").MapTransfers();
-        apiGroup.MapGroup("/saleInvoices").MapInvoices();
+        apiGroup.MapGroup("/saleInvoices").MapSaleInvoices();
+        apiGroup.MapGroup("/purchaseInvoices").MapPurchaseInvoices();
         apiGroup.MapGroup("/quotations").MapQuotations();
         apiGroup.MapGroup("/spotPayments").MapSpotPayments();
+        apiGroup.MapGroup("/spotPayables").MapSpotPayables();
 
         return endpoints;
     }

@@ -1,6 +1,7 @@
 ﻿using BackEnd.Context;
 using BackEnd.DTOs;
 using BackEnd.Entities.Invoices;
+using BackEnd.Enums;
 using BackEnd.Helpers;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,6 +25,7 @@ namespace BackEnd.Repositories.Invoices
             await httpContext.AddPaginationParamsToHeaders(queryable);
 
             return await queryable
+                .Where(x => x.Invoice.InvoiceType == InvoiceType.Quotation)
                 .OrderBy(x => x.Id)
                 .Paginate(paginationDTO)
                 .ToListAsync();

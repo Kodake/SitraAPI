@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BackEnd.DTOs.Invoices.PurchaseInvoices;
 using BackEnd.DTOs.Invoices.SaleInvoices;
 using BackEnd.Entities.Invoices;
 
@@ -8,10 +9,12 @@ namespace BackEnd.Profiles.Invoices
     {
         public InvoicesProfiles()
         {
+            // Sale Invoices
             CreateMap<CreateSaleInvoiceDTO, Invoice>()
                 .ForMember(des => des.Buyer, opt => opt.Ignore())
                 .ForMember(des => des.Biller, opt => opt.Ignore())
                 .ForMember(des => des.Pricing, opt => opt.Ignore())
+                .ForMember(des => des.Payable, opt => opt.Ignore())
                 .ForMember(des => des.Receivable, opt => opt.Ignore())
                 .ForMember(des => des.FiscalSupport, opt => opt.Ignore())
                 .ForMember(des => des.Warehouse, opt => opt.Ignore());
@@ -33,6 +36,27 @@ namespace BackEnd.Profiles.Invoices
                 .ForMember(des => des.Item, opt => opt.Ignore());
 
             CreateMap<InvoiceItem, SaleInvoiceItemDTO>()
+                .ForMember(des => des.ItemType, opt => opt.MapFrom(src => src.Item.ItemType))
+                .ForMember(des => des.ItemTaxes, opt => opt.MapFrom(src => src.Item.ItemTaxes));
+
+            // Purchase Invoices
+            CreateMap<CreatePurchaseInvoiceDTO, Invoice>()
+                .ForMember(des => des.Buyer, opt => opt.Ignore())
+                .ForMember(des => des.Biller, opt => opt.Ignore())
+                .ForMember(des => des.Pricing, opt => opt.Ignore())
+                .ForMember(des => des.Payable, opt => opt.Ignore())
+                .ForMember(des => des.Receivable, opt => opt.Ignore())
+                .ForMember(des => des.FiscalSupport, opt => opt.Ignore())
+                .ForMember(des => des.Warehouse, opt => opt.Ignore());
+
+            CreateMap<Invoice, PurchaseInvoiceDTO>();
+            CreateMap<PurchaseInvoiceItemDTO, InvoiceItem>();
+            CreateMap<Invoice, PurchaseInvoiceListDTO>();
+
+            CreateMap<PurchaseInvoiceItemDTO, InvoiceItem>()
+                .ForMember(des => des.Item, opt => opt.Ignore());
+
+            CreateMap<InvoiceItem, PurchaseInvoiceItemDTO>()
                 .ForMember(des => des.ItemType, opt => opt.MapFrom(src => src.Item.ItemType))
                 .ForMember(des => des.ItemTaxes, opt => opt.MapFrom(src => src.Item.ItemTaxes));
         }

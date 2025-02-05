@@ -59,8 +59,8 @@ namespace BackEnd.Endpoints
             [FromServices] IMediator mediator)
         {
             var command = new CreatePaymentReceiptCommand(id, dto);
-            var brandDTO = await mediator.Send(command);
-            return brandDTO == null ? TypedResults.NotFound() : TypedResults.Created();
+            var DTO = await mediator.Send(command);
+            return DTO == null ? TypedResults.NotFound() : TypedResults.Created();
         }
 
         static async Task<Results<NotFound, Ok>> Deactivate(
