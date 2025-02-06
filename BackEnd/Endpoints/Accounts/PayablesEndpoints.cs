@@ -21,7 +21,7 @@ namespace BackEnd.Endpoints
             group.MapGet("/{id:long}", GetAllById).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("payables-get"));
             group.MapGet("/{id:long}/viewPays", GetPaysById).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("payables-get"));
             group.MapPost("/{id:long}/addPayable", Create).DisableAntiforgery()
-                .AddEndpointFilter<ValidationFilter<CreatePaymentReceiptDTO>>()
+                .AddEndpointFilter<ValidationFilter<CreatePayableReceiptDTO>>()
                 .WithOpenApi();
             group.MapDelete("/{id:long}/payableReceipts/{payableReceiptId}/deactivate", Deactivate);
             return group;

@@ -30,7 +30,7 @@ namespace BackEnd.Validations
                             var receivable = await receivableRepository.GetByIdAsync(receivableId);
                             return receivable == null || receivable.Status != AccountStatus.Paid;
                         })
-                        .WithMessage(Utilities.ReceivableAlreadyPaidMessage);
+                        .WithMessage(Utilities.ReceiptAlreadyPaidMessage);
                 });
 
             RuleFor(x => x.Amount)
