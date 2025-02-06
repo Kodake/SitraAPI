@@ -101,6 +101,8 @@ namespace BackEnd.DTOs
                 }
 
                 column.Item().AlignRight().Text($"IMPUESTOS: {SaleInvoice.TotalTaxes:N}");
+                var subTaxes = SaleInvoice.TotalAmount + SaleInvoice.TotalTaxes;
+                column.Item().AlignRight().Text($"SUB + IMPUESTOS: {subTaxes:N}");
                 if (SaleInvoice.Shipping.HasValue)
                 {
                     column.Item().AlignRight().Text($"ENVÍO: {SaleInvoice.Shipping:N}");
@@ -108,14 +110,11 @@ namespace BackEnd.DTOs
 
                 if (SaleInvoice.Discount.HasValue)
                 {
-                    var discountAmount = (SaleInvoice.TotalPrice) * SaleInvoice.Discount.Value / 100;
+                    var discountAmount = (subTaxes + (SaleInvoice.Shipping ?? 0)) * SaleInvoice.Discount.Value / 100;
                     column.Item().AlignRight().Text($"DESCUENTO ({SaleInvoice.Discount:N}%): {discountAmount:N}");
-                    column.Item().AlignRight().Text($"TOTAL: {(SaleInvoice.TotalPrice - discountAmount):N}");
                 }
-                else
-                {
-                    column.Item().AlignRight().Text($"TOTAL: {(SaleInvoice.TotalPrice):N}");
-                }
+
+                column.Item().AlignRight().Text($"TOTAL: {(SaleInvoice.TotalPrice):N}");
             });
         }
 

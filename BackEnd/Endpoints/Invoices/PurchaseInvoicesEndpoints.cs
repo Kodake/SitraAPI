@@ -50,13 +50,16 @@ namespace BackEnd.Endpoints.Invoices
             return saleDTO == null ? TypedResults.NotFound() : TypedResults.Created();
         }
 
-        public static async Task<IResult> GeneratePdf(
+        static async Task<Results<FileContentHttpResult, NotFound>> GeneratePdf(
             [FromRoute] int invoiceId,
             [FromServices] IMediator mediator)
         {
             var query = new GetPurchaseInvoicePdfQuery(invoiceId);
-            var (fileBytes, fileName) = await mediator.Send(query);
-            return Results.File(fileBytes, "application/pdf", fileName);
+            var result = await mediator.Send(query);
+
+            return result == null
+                ? TypedResults.NotFound()
+                : TypedResults.File(result.Value.FileBytes, "application/pdf", result.Value.FileName);
         }
     }
 }

@@ -2170,7 +2170,7 @@
       {
         "Type": "System.Void",
         "MediaTypes": [],
-        "StatusCode": 200
+        "StatusCode": 404
       }
     ]
   },
@@ -2351,7 +2351,7 @@
       {
         "Type": "System.Void",
         "MediaTypes": [],
-        "StatusCode": 200
+        "StatusCode": 404
       }
     ]
   },
@@ -2601,7 +2601,7 @@
       {
         "Type": "System.Void",
         "MediaTypes": [],
-        "StatusCode": 200
+        "StatusCode": 404
       }
     ]
   },
