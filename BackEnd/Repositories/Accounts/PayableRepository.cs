@@ -36,6 +36,7 @@ namespace BackEnd.Repositories.Accounts
             return await context.Payables
                 .Include(x => x.Invoice)
                 .Include(x => x.Supplier)
+                .Include(x => x.Invoice.Biller)
                 .Include(x => x.PayableReceipts.OrderByDescending(p => p.Id))
                 .FirstOrDefaultAsync(x => x.Id == id);
         }

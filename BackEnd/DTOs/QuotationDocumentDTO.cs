@@ -7,12 +7,12 @@ namespace BackEnd.DTOs
 {
     public class QuotationDocumentDTO : IDocument
     {
-        public QuotationDocumentDTO(Invoice saleInvoice)
+        public QuotationDocumentDTO(Invoice invoice)
         {
-            SaleInvoice = saleInvoice;
+            Invoice = invoice;
         }
 
-        public Invoice SaleInvoice { get; }
+        public Invoice Invoice { get; }
 
         public void Compose(IDocumentContainer container)
         {
@@ -33,12 +33,13 @@ namespace BackEnd.DTOs
                 row.RelativeItem().Column(column =>
                 {
                     var fontWeight = 0.8f;
-                    if (SaleInvoice.Buyer.Identification != null)
+                    if (Invoice.Buyer.Identification != null)
                     {
-                        column.Item().Scale(fontWeight).Text($"IDENTIFICACIÓN: {SaleInvoice.Buyer.Identification}" ?? "N/A");
+                        column.Item().Scale(fontWeight).Text($"IDENTIFICACIÓN: {Invoice.Buyer.Identification}" ?? "N/A");
                     }
-                    column.Item().Scale(fontWeight).Text($"FECHA: {SaleInvoice.Date.ToString("dd-MM-yyyy")}");
-                    column.Item().Scale(fontWeight).Text($"NOMBRE / RAZÓN SOCIAL: {SaleInvoice.Buyer.Name}");
+                    column.Item().Scale(fontWeight).Text($"FECHA: {Invoice.Date.ToString("dd-MM-yyyy")}");
+                    column.Item().Scale(fontWeight).Text($"NOMBRE / RAZÓN SOCIAL: {Invoice.Buyer.Name}");
+                    column.Item().Scale(fontWeight).Text($"VENDEDOR: {Invoice.Biller.Name}");
                 });
 
                 row.RelativeItem().Border(1).Column(column =>
@@ -50,15 +51,15 @@ namespace BackEnd.DTOs
                     column.Item().BorderBottom(1).Padding(padding).Text("COTIZACIÓN").SemiBold();
 
                     column.Item().Padding(padding).Text("NÚMERO DE COTIZACIÓN").SemiBold();
-                    column.Item().Padding(padding).Text(SaleInvoice?.Quotation?.QuotationNumber);
+                    column.Item().Padding(padding).Text(Invoice?.Quotation?.QuotationNumber).SemiBold();
                     column.Item().Text("");
 
-                    if (SaleInvoice != null && SaleInvoice.DueDate.HasValue)
+                    if (Invoice != null && Invoice.DueDate.HasValue)
                     {
                         column.Item().Padding(padding).Text(text =>
                         {
                             text.Span("VENCIMIENTO: ").SemiBold();
-                            text.Span(SaleInvoice.DueDate.Value.ToString("dd-MM-yyyy"));
+                            text.Span(Invoice.DueDate.Value.ToString("dd-MM-yyyy"));
                         });
                     }
                 });
@@ -74,10 +75,10 @@ namespace BackEnd.DTOs
                 column.Item().Element(BuildTable);
                 column.Item().Text("");
                 column.Item().Text("");
-                column.Item().AlignRight().Text($"SUBTOTAL: {SaleInvoice.TotalAmount:N}");
+                column.Item().AlignRight().Text($"SUBTOTAL: {Invoice.TotalAmount:N}");
 
                 var taxSummary = new Dictionary<string, (double Amount, double Percentage)>();
-                foreach (var item in SaleInvoice.InvoiceItems)
+                foreach (var item in Invoice.InvoiceItems)
                 {
                     foreach (var tax in item.Item.ItemTaxes)
                     {
@@ -102,21 +103,21 @@ namespace BackEnd.DTOs
                     column.Item().AlignRight().Text($"{tax.Key} {tax.Value.Percentage:N}%: {tax.Value.Amount:N}");
                 }
 
-                column.Item().AlignRight().Text($"IMPUESTOS: {SaleInvoice.TotalTaxes:N}");
-                var subTaxes = SaleInvoice.TotalAmount + SaleInvoice.TotalTaxes;
+                column.Item().AlignRight().Text($"IMPUESTOS: {Invoice.TotalTaxes:N}");
+                var subTaxes = Invoice.TotalAmount + Invoice.TotalTaxes;
                 column.Item().AlignRight().Text($"SUB + IMPUESTOS: {subTaxes:N}");
-                if (SaleInvoice.Shipping.HasValue)
+                if (Invoice.Shipping.HasValue)
                 {
-                    column.Item().AlignRight().Text($"ENVÍO: {SaleInvoice.Shipping:N}");
+                    column.Item().AlignRight().Text($"ENVÍO: {Invoice.Shipping:N}");
                 }
 
-                if (SaleInvoice.Discount.HasValue)
+                if (Invoice.Discount.HasValue)
                 {
-                    var discountAmount = (subTaxes + (SaleInvoice.Shipping ?? 0)) * SaleInvoice.Discount.Value / 100;
-                    column.Item().AlignRight().Text($"DESCUENTO ({SaleInvoice.Discount:N}%): {discountAmount:N}");
+                    var discountAmount = (subTaxes + (Invoice.Shipping ?? 0)) * Invoice.Discount.Value / 100;
+                    column.Item().AlignRight().Text($"DESCUENTO ({Invoice.Discount:N}%): {discountAmount:N}");
                 }
 
-                column.Item().AlignRight().Text($"TOTAL: {(SaleInvoice.TotalPrice):N}");
+                column.Item().AlignRight().Text($"TOTAL: {(Invoice.TotalPrice):N}");
             });
         }
 
@@ -147,7 +148,7 @@ namespace BackEnd.DTOs
                     }
                 });
 
-                foreach (var item in SaleInvoice.InvoiceItems)
+                foreach (var item in Invoice.InvoiceItems)
                 {
                     table.Cell().Element(CellStyle).Text(item.Item.Name);
                     table.Cell().Element(CellStyle).AlignRight().Text($"{item.Qty} x {item.BasePrice}");
