@@ -11,6 +11,7 @@ public static class ApiRouteExtensions
 
         apiGroup.MapGroup("/identity").MapIdentityApi<IdentityUser>();
         apiGroup.MapGroup("/receivables").MapReceivables();
+        apiGroup.MapGroup("/payables").MapPayables();
         apiGroup.MapGroup("/contacts").MapContacts();
         apiGroup.MapGroup("/categories").MapCategories();
         apiGroup.MapGroup("/brands").MapBrands();

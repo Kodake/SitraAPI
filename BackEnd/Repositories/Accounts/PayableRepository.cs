@@ -48,7 +48,7 @@ namespace BackEnd.Repositories.Accounts
                 .Include(x => x.PayableReceipts
                     .Where(x => x.IsActive)
                     .OrderByDescending(p => p.Id))
-                .FirstOrDefaultAsync(x => x.Id == id && x.Status == AccountStatus.PendingPayable);
+                .FirstOrDefaultAsync(x => x.Id == id && x.Status == AccountStatus.Paid);
         }
     }
 }

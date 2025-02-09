@@ -86,6 +86,7 @@ namespace BackEnd.MediatR.Commands.Invoices.Quotations
             await outputCacheStore.EvictByTagAsync("fiscal-supports-get", cancellationToken);
             await outputCacheStore.EvictByTagAsync("stocks-get", cancellationToken);
             await outputCacheStore.EvictByTagAsync("receivables-get", cancellationToken);
+            await outputCacheStore.EvictByTagAsync("spotPayments-get", cancellationToken);
 
             return true;
         }

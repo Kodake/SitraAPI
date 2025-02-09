@@ -75,6 +75,7 @@ namespace BackEnd.MediatR.Commands.Invoices.PurchaseInvoices
             await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("stocks-get", cancellationToken);
             await outputCacheStore.EvictByTagAsync("payables-get", cancellationToken);
+            await outputCacheStore.EvictByTagAsync("spotPayables-get", cancellationToken);
 
             return Dto;
         }

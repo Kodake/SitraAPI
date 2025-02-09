@@ -13,7 +13,9 @@ namespace BackEnd.Profiles
     {
         public AutoMapperProfiles()
         {
+            AddProfile<PayableReceiptsProfile>();
             AddProfile<PaymentReceiptsProfile>();
+            AddProfile<PayablesProfile>();
             AddProfile<ReceivablesProfile>();
             AddProfile<DeadlinesProfile>();
             AddProfile<FiscalSupportsProfile>();

@@ -1,7 +1,6 @@
 ﻿using BackEnd.DTOs;
 using BackEnd.DTOs.Accounts.PayableReceipts;
 using BackEnd.DTOs.Accounts.Payables;
-using BackEnd.DTOs.Accounts.PaymentReceipts;
 using BackEnd.Filters;
 using BackEnd.Helpers;
 using BackEnd.MediatR.Commands.Accounts.Payables;
