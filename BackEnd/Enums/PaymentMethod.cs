@@ -10,7 +10,6 @@
         CreditCard = 6,      // Tarjeta crédito
         CreditSell = 7,      // Venta a crédito
         GiftVoucher = 8,     // Bonos o certificados de regalos
-        Mixed = 9,          // Mixto
-        OtherSales = 10      // Otras formas de ventas
+        OtherSales = 9      // Otras formas de ventas
     }
 }
