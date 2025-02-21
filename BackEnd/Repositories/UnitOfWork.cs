@@ -29,6 +29,7 @@ namespace BackEnd.Repositories
         public IPurchaseInvoiceRepository PurchaseInvoiceRepository { get; }
         public IQuotationRepository QuotationRepository { get; }
         public ISpotPaymentRepository SpotPaymentRepository { get; }
+        public IPaymentRepository PaymentRepository {  get; }
         public ISpotPayableRepository SpotPayableRepository { get; }
         public IItemRepository ItemRepository { get; }
         public IProductRepository ProductRepository { get; }
@@ -59,6 +60,7 @@ namespace BackEnd.Repositories
             PurchaseInvoiceRepository = new PurchaseInvoiceRepository(context, httpContextAccessor);
             QuotationRepository = new QuotationRepository(context, httpContextAccessor);
             SpotPaymentRepository = new SpotPaymentRepository(context, httpContextAccessor);
+            PaymentRepository = new PaymentRepository(context, httpContextAccessor);
             SpotPayableRepository = new SpotPayableRepository(context, httpContextAccessor);
             ItemRepository = new ItemRepository(context, httpContextAccessor);
             ProductRepository = new ProductRepository(context, httpContextAccessor);

@@ -48,6 +48,8 @@ namespace BackEnd.MediatR.Commands.Invoices.Quotations
             await CalculateInvoiceTotals(Dto.InvoiceItems, saleInvoice, unitOfWork, currencyRate);
 
             await unitOfWork.SaleInvoiceRepository.CreateAsync(saleInvoice);
+            
+            var payments = mapper.Map<List<Payment>>(Dto.Payments);
 
             switch (Dto.ConditionType)
             {
@@ -69,9 +71,8 @@ namespace BackEnd.MediatR.Commands.Invoices.Quotations
                     {
                         Invoice = saleInvoice,
                         ContactId = saleInvoice.CustomerId,
-                        AmountReceived = Dto.AmountReceived ?? 0,
+                        Payments = payments,
                         AmountReturned = Dto.AmountReturned ?? 0,
-                        PaymentMethod = Dto.PaymentMethod,
                         PaymentDate = DateTime.UtcNow,
                         IsActive = true
                     };

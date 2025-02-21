@@ -43,6 +43,7 @@ namespace BackEnd.Context
             modelBuilder.ApplyConfiguration(new InvoiceConfiguration());
             modelBuilder.ApplyConfiguration(new InvoiceItemConfiguration());
             modelBuilder.ApplyConfiguration(new QuotationConfiguration());
+            modelBuilder.ApplyConfiguration(new PaymentConfiguration());
             modelBuilder.ApplyConfiguration(new SpotPaymentConfiguration());
             modelBuilder.ApplyConfiguration(new SpotPayableConfiguration());
 
@@ -77,6 +78,7 @@ namespace BackEnd.Context
         public DbSet<Transfer> Transfers { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<InvoiceItem> InvoiceItems { get; set; }
+        public DbSet<Payment> Payments { get; set; }
         public DbSet<SpotPayment> SpotPayments { get; set; }
         public DbSet<SpotPayable> SpotPayables { get; set; }
         public DbSet<Quotation> Quotations { get; set; }

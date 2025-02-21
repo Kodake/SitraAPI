@@ -23,6 +23,7 @@ namespace BackEnd.Repositories
         ISaleInvoiceRepository SaleInvoiceRepository { get; }
         IPurchaseInvoiceRepository PurchaseInvoiceRepository { get; }
         ISpotPaymentRepository SpotPaymentRepository { get; }
+        IPaymentRepository PaymentRepository { get; }
         ISpotPayableRepository SpotPayableRepository { get; }
         IQuotationRepository QuotationRepository { get; }
         IItemRepository ItemRepository { get; }

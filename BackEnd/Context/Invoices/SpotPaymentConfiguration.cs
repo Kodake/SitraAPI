@@ -12,7 +12,7 @@ namespace BackEnd.Context.Invoices
                 .WithOne(s => s.SpotPayment)
                 .HasForeignKey<SpotPayment>(ar => ar.InvoiceId)
                 .OnDelete(DeleteBehavior.Cascade);
-            builder.Property(p => p.AmountReceived).HasColumnType("decimal(18,2)").IsRequired();
+            builder.HasMany(builder => builder.Payments);
             builder.Property(p => p.AmountReturned).HasColumnType("decimal(18,2)").IsRequired();
         }
     }

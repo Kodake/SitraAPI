@@ -451,6 +451,30 @@ namespace BackEnd.Migrations
                     b.ToTable("InvoiceItems");
                 });
 
+            modelBuilder.Entity("BackEnd.Entities.Invoices.Payment", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("PaymentMethod")
+                        .HasColumnType("int");
+
+                    b.Property<long>("SpotPaymentId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SpotPaymentId");
+
+                    b.ToTable("Payments");
+                });
+
             modelBuilder.Entity("BackEnd.Entities.Invoices.Quotation", b =>
                 {
                     b.Property<long>("Id")
@@ -519,9 +543,6 @@ namespace BackEnd.Migrations
                         .HasColumnType("bigint");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<decimal>("AmountReceived")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("AmountReturned")
                         .HasColumnType("decimal(18,2)");
@@ -1205,6 +1226,15 @@ namespace BackEnd.Migrations
                     b.Navigation("Item");
                 });
 
+            modelBuilder.Entity("BackEnd.Entities.Invoices.Payment", b =>
+                {
+                    b.HasOne("BackEnd.Entities.Invoices.SpotPayment", null)
+                        .WithMany("Payments")
+                        .HasForeignKey("SpotPaymentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("BackEnd.Entities.Invoices.Quotation", b =>
                 {
                     b.HasOne("BackEnd.Entities.Contacts.Contact", "Buyer")
@@ -1469,6 +1499,11 @@ namespace BackEnd.Migrations
             modelBuilder.Entity("BackEnd.Entities.Invoices.Quotation", b =>
                 {
                     b.Navigation("InvoiceItems");
+                });
+
+            modelBuilder.Entity("BackEnd.Entities.Invoices.SpotPayment", b =>
+                {
+                    b.Navigation("Payments");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Products.Brand", b =>

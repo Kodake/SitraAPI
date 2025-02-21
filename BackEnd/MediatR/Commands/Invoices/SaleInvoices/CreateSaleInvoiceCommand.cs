@@ -43,6 +43,8 @@ namespace BackEnd.MediatR.Commands.Invoices.SaleInvoices
 
             await unitOfWork.SaleInvoiceRepository.CreateAsync(saleInvoice);
 
+            var payments = Dto.Payments.Select(p => mapper.Map<Payment>(p)).ToList();
+
             switch (Dto.ConditionType)
             {
                 case InvoiceCondition.Credit:
@@ -63,14 +65,18 @@ namespace BackEnd.MediatR.Commands.Invoices.SaleInvoices
                     {
                         Invoice = saleInvoice,
                         ContactId = saleInvoice.CustomerId,
-                        AmountReceived = Dto.AmountReceived ?? 0,
                         AmountReturned = Dto.AmountReturned ?? 0,
-                        PaymentMethod = Dto.PaymentMethod,
                         PaymentDate = DateTime.UtcNow,
                         IsActive = true
                     };
 
                     await unitOfWork.SpotPaymentRepository.CreateAsync(spotPayment);
+
+                    foreach (var payment in payments)
+                    {
+                        payment.SpotPayment = spotPayment;
+                        await unitOfWork.PaymentRepository.CreateAsync(payment);
+                    }
                     break;
             }
 
