@@ -10,6 +10,7 @@ public class ItemConfiguration : IEntityTypeConfiguration<Item>
         builder.Property(p => p.ItemType).HasConversion<int>().IsRequired();
         builder.Property(p => p.Name).HasMaxLength(50).IsRequired();
         builder.Property(p => p.Reference).HasMaxLength(50).IsRequired(false);
+        builder.Property(p => p.Barcode).HasMaxLength(50).IsRequired(false);
         builder.Property(p => p.Description).HasMaxLength(100).IsRequired(false);
         builder.HasOne(p => p.Category)
             .WithMany(c => c.Items)

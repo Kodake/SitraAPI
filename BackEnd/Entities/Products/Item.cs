@@ -9,6 +9,7 @@ namespace BackEnd.Entities.Products
         public ItemType ItemType { get; set; }
         public string Name { get; set; } = string.Empty;
         public string? Reference { get; set; } = string.Empty;
+        public string? Barcode { get; set; } = string.Empty;
         public string? Description { get; set; }
         public long? BrandId { get; set; } = null!;
         public Brand? Brand { get; set; }

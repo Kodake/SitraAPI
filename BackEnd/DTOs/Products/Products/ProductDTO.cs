@@ -9,6 +9,7 @@ public class ProductDTO
     public long Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public string? Reference { get; set; }
+    public string? Barcode { get; set; }
     public string? Description { get; set; }
     public double InitialCost { get; set; }
     public double BasePrice { get; set; }

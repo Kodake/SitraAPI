@@ -15,6 +15,9 @@ namespace BackEnd.Validations
             RuleFor(x => x.Reference)
                 .MaximumLength(50).WithMessage(Utilities.MaximunLengthMessage);
 
+            RuleFor(x => x.Barcode)
+                .MaximumLength(50).WithMessage(Utilities.MaximunLengthMessage);
+
             RuleFor(x => x.Description)
                 .MaximumLength(100).WithMessage(Utilities.MaximunLengthMessage);
 

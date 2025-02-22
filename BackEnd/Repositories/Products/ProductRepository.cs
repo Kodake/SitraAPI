@@ -65,13 +65,13 @@ namespace BackEnd.Repositories.Products
                     Id = p.Id,
                     Name = p.Name,
                     Reference = p.Reference,
+                    Barcode = p.Barcode,
                 }).ToListAsync();
         }
 
         public async new Task<Item?> GetByIdAsync(long id)
         {
             return await context.Items
-                .Where(x => x.ItemType == ItemType.Product)
                 .Include(p => p.Unit)
                 .Include(p => p.Brand)
                 .Include(p => p.Category)
@@ -79,7 +79,7 @@ namespace BackEnd.Repositories.Products
                     .ThenInclude(p => p.Pricing)
                 .Include(p => p.ItemTaxes)
                     .ThenInclude(pt => pt.Tax)
-                .FirstOrDefaultAsync(p => p.Id == id);
+                .FirstOrDefaultAsync(p => p.Id == id && p.ItemType == ItemType.Product);
         }
 
         public async new Task ActivateAsync(long id)

@@ -629,6 +629,10 @@ namespace BackEnd.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
+                    b.Property<string>("Barcode")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<long?>("BrandId")
                         .HasColumnType("bigint");
 
@@ -1228,11 +1232,13 @@ namespace BackEnd.Migrations
 
             modelBuilder.Entity("BackEnd.Entities.Invoices.Payment", b =>
                 {
-                    b.HasOne("BackEnd.Entities.Invoices.SpotPayment", null)
+                    b.HasOne("BackEnd.Entities.Invoices.SpotPayment", "SpotPayment")
                         .WithMany("Payments")
                         .HasForeignKey("SpotPaymentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("SpotPayment");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Invoices.Quotation", b =>
