@@ -39,9 +39,6 @@ namespace BackEnd.Validations
 
             RuleFor(x => x.PaymentMethod)
                 .IsInEnum().WithMessage(Utilities.InvalidEnumValueMessage);
-
-            RuleFor(x => x.TransactionType)
-                .IsInEnum().WithMessage(Utilities.InvalidEnumValueMessage);
         }
     }
 }

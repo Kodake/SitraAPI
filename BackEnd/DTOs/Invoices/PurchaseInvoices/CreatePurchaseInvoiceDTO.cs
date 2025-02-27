@@ -8,10 +8,8 @@ namespace BackEnd.DTOs.Invoices.PurchaseInvoices
         public long CurrencyId { get; set; }
         public long WarehouseId { get; set; }
         public long SupplierId { get; set; }
-        public long BillerId { get; set; }
         public DocumentType DocumentType { get; set; }
         public string? FiscalSupportNumber { get; set; } = string.Empty;
-        public double? Shipping { get; set; }
         public InvoiceCondition ConditionType { get; set; }
         public PaymentMethod? PaymentMethod { get; set; }
         public string? Description { get; set; }

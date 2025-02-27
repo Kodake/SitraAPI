@@ -11,6 +11,7 @@ namespace BackEnd.DTOs.Invoices.SpotPayments
         public virtual SaleInvoiceDTO Invoice { get; set; } = null!;
         public long ContactId { get; set; }
         public virtual ContactDTO Buyer { get; set; } = null!;
+        public virtual ICollection<PaymentDTO> Payments { get; set; } = [];
         public double AmountReceived { get; set; }
         public double AmountReturned { get; set; }
         public DateTime PaymentDate { get; set; } = DateTime.UtcNow;

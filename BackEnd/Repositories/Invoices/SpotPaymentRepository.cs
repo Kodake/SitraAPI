@@ -18,6 +18,7 @@ namespace BackEnd.Repositories.Invoices
         public async new Task<List<SpotPayment>> GetAllAsync(PaginationDTO paginationDTO)
         {
             var queryable = context.SpotPayments
+                .Include(x => x.Payments)
                 .Include(x => x.Invoice)
                 .Include(x => x.Buyer);
 

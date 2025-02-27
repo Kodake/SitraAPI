@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackEnd.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250220211230_AddedPaymentsTableId")]
-    partial class AddedPaymentsTableId
+    [Migration("20250226235833_RemovedRequiredBillerForInvoiceTable")]
+    partial class RemovedRequiredBillerForInvoiceTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -81,9 +81,6 @@ namespace BackEnd.Migrations
                     b.Property<int>("PaymentMethod")
                         .HasColumnType("int");
 
-                    b.Property<int>("TransactionType")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("PayableId");
@@ -113,9 +110,6 @@ namespace BackEnd.Migrations
 
                     b.Property<long>("ReceivableId")
                         .HasColumnType("bigint");
-
-                    b.Property<int>("TransactionType")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -336,7 +330,7 @@ namespace BackEnd.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("BillerId")
+                    b.Property<long?>("BillerId")
                         .HasColumnType("bigint");
 
                     b.Property<int?>("ConditionType")
@@ -631,6 +625,10 @@ namespace BackEnd.Migrations
                         .HasColumnType("bigint");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("Barcode")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<long?>("BrandId")
                         .HasColumnType("bigint");
@@ -1168,8 +1166,7 @@ namespace BackEnd.Migrations
                     b.HasOne("BackEnd.Entities.Contacts.Contact", "Biller")
                         .WithMany("BillerInvoices")
                         .HasForeignKey("BillerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("BackEnd.Entities.Finances.Currency", "Currency")
                         .WithMany()
@@ -1231,11 +1228,13 @@ namespace BackEnd.Migrations
 
             modelBuilder.Entity("BackEnd.Entities.Invoices.Payment", b =>
                 {
-                    b.HasOne("BackEnd.Entities.Invoices.SpotPayment", null)
+                    b.HasOne("BackEnd.Entities.Invoices.SpotPayment", "SpotPayment")
                         .WithMany("Payments")
                         .HasForeignKey("SpotPaymentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("SpotPayment");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Invoices.Quotation", b =>

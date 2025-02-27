@@ -10,9 +10,9 @@ namespace BackEnd.Context.Invoices
         {
             builder.Property(p => p.Amount).HasColumnType("decimal(18,2)").IsRequired();
             builder.HasOne(p => p.SpotPayment)
-                   .WithMany(sp => sp.Payments)
-                   .HasForeignKey(p => p.SpotPaymentId)
-                   .IsRequired();
+                .WithMany(sp => sp.Payments)
+                .HasForeignKey(p => p.SpotPaymentId)
+                .IsRequired();
         }
     }
 }

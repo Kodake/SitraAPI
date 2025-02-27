@@ -17,6 +17,7 @@ namespace BackEnd.Endpoints
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("contacts-get"))
                 .AddPaginationParamsOpenAPI();
+            group.MapGet("/suppliers", GetSuppliers);
             group.MapGet("/customers", GetCustomers);
             group.MapGet("/billers", GetBillers);
             group.MapGet("/{id:long}", GetById);
@@ -36,6 +37,14 @@ namespace BackEnd.Endpoints
             PaginationDTO pagination)
         {
             var query = new GetAllContactsQuery(pagination);
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
+        }
+
+        static async Task<Ok<List<ContactListDTO>>> GetSuppliers(
+            [FromServices] IMediator mediator)
+        {
+            var query = new GetSelectsSuppliersQuery();
             var dto = await mediator.Send(query);
             return TypedResults.Ok(dto);
         }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -312,6 +313,7 @@ namespace BackEnd.Migrations
                     ItemType = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Reference = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Barcode = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     BrandId = table.Column<long>(type: "bigint", nullable: true),
                     CategoryId = table.Column<long>(type: "bigint", nullable: true),
@@ -513,6 +515,35 @@ namespace BackEnd.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Payables",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    InvoiceId = table.Column<long>(type: "bigint", nullable: false),
+                    ContactId = table.Column<long>(type: "bigint", nullable: false),
+                    TotalAmountDue = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TotalOutstanding = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Payables", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Payables_Contacts_ContactId",
+                        column: x => x.ContactId,
+                        principalTable: "Contacts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Payables_Invoices_InvoiceId",
+                        column: x => x.InvoiceId,
+                        principalTable: "Invoices",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Quotations",
                 columns: table => new
                 {
@@ -569,6 +600,35 @@ namespace BackEnd.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SpotPayables",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    InvoiceId = table.Column<long>(type: "bigint", nullable: false),
+                    ContactId = table.Column<long>(type: "bigint", nullable: false),
+                    PaymentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PaymentMethod = table.Column<int>(type: "int", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SpotPayables", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SpotPayables_Contacts_ContactId",
+                        column: x => x.ContactId,
+                        principalTable: "Contacts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SpotPayables_Invoices_InvoiceId",
+                        column: x => x.InvoiceId,
+                        principalTable: "Invoices",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SpotPayments",
                 columns: table => new
                 {
@@ -576,7 +636,6 @@ namespace BackEnd.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     InvoiceId = table.Column<long>(type: "bigint", nullable: false),
                     ContactId = table.Column<long>(type: "bigint", nullable: false),
-                    AmountReceived = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     AmountReturned = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     PaymentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PaymentMethod = table.Column<int>(type: "int", nullable: true),
@@ -645,6 +704,30 @@ namespace BackEnd.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PayableReceipts",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PayableId = table.Column<long>(type: "bigint", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TransactionType = table.Column<int>(type: "int", nullable: false),
+                    PaymentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PaymentMethod = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PayableReceipts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PayableReceipts_Payables_PayableId",
+                        column: x => x.PayableId,
+                        principalTable: "Payables",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "InvoiceItems",
                 columns: table => new
                 {
@@ -701,6 +784,27 @@ namespace BackEnd.Migrations
                         name: "FK_PaymentReceipts_Receivables_ReceivableId",
                         column: x => x.ReceivableId,
                         principalTable: "Receivables",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Payments",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SpotPaymentId = table.Column<long>(type: "bigint", nullable: false),
+                    PaymentMethod = table.Column<int>(type: "int", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Payments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Payments_SpotPayments_SpotPaymentId",
+                        column: x => x.SpotPaymentId,
+                        principalTable: "SpotPayments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -810,9 +914,30 @@ namespace BackEnd.Migrations
                 column: "ItemId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PayableReceipts_PayableId",
+                table: "PayableReceipts",
+                column: "PayableId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Payables_ContactId",
+                table: "Payables",
+                column: "ContactId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Payables_InvoiceId",
+                table: "Payables",
+                column: "InvoiceId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PaymentReceipts_ReceivableId",
                 table: "PaymentReceipts",
                 column: "ReceivableId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Payments_SpotPaymentId",
+                table: "Payments",
+                column: "SpotPaymentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PricingItems_ItemId",
@@ -843,6 +968,17 @@ namespace BackEnd.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Receivables_InvoiceId",
                 table: "Receivables",
+                column: "InvoiceId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SpotPayables_ContactId",
+                table: "SpotPayables",
+                column: "ContactId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SpotPayables_InvoiceId",
+                table: "SpotPayables",
                 column: "InvoiceId",
                 unique: true);
 
@@ -919,13 +1055,19 @@ namespace BackEnd.Migrations
                 name: "ItemTaxes");
 
             migrationBuilder.DropTable(
+                name: "PayableReceipts");
+
+            migrationBuilder.DropTable(
                 name: "PaymentReceipts");
+
+            migrationBuilder.DropTable(
+                name: "Payments");
 
             migrationBuilder.DropTable(
                 name: "PricingItems");
 
             migrationBuilder.DropTable(
-                name: "SpotPayments");
+                name: "SpotPayables");
 
             migrationBuilder.DropTable(
                 name: "Transfers");
@@ -943,7 +1085,13 @@ namespace BackEnd.Migrations
                 name: "Taxes");
 
             migrationBuilder.DropTable(
+                name: "Payables");
+
+            migrationBuilder.DropTable(
                 name: "Receivables");
+
+            migrationBuilder.DropTable(
+                name: "SpotPayments");
 
             migrationBuilder.DropTable(
                 name: "Stocks");

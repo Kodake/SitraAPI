@@ -78,9 +78,6 @@ namespace BackEnd.Migrations
                     b.Property<int>("PaymentMethod")
                         .HasColumnType("int");
 
-                    b.Property<int>("TransactionType")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("PayableId");
@@ -110,9 +107,6 @@ namespace BackEnd.Migrations
 
                     b.Property<long>("ReceivableId")
                         .HasColumnType("bigint");
-
-                    b.Property<int>("TransactionType")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -333,7 +327,7 @@ namespace BackEnd.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("BillerId")
+                    b.Property<long?>("BillerId")
                         .HasColumnType("bigint");
 
                     b.Property<int?>("ConditionType")
@@ -1169,8 +1163,7 @@ namespace BackEnd.Migrations
                     b.HasOne("BackEnd.Entities.Contacts.Contact", "Biller")
                         .WithMany("BillerInvoices")
                         .HasForeignKey("BillerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("BackEnd.Entities.Finances.Currency", "Currency")
                         .WithMany()

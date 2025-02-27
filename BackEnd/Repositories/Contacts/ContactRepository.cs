@@ -10,10 +10,17 @@ namespace BackEnd.Repositories.Products
         public ContactRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
             : base(context, httpContextAccessor) { }
 
+        public async Task<List<Contact>> GetSuppliers()
+        {
+            return await context.Contacts
+                .Where(x => x.ContactType == Enums.ContactType.Provider && x.IsActive)
+                .ToListAsync();
+        }
+
         public async Task<List<Contact>> GetCustomers()
         {
             return await context.Contacts
-                .Where(x => x.ContactType != Enums.ContactType.Biller && x.IsActive)
+                .Where(x => x.ContactType == Enums.ContactType.Customer && x.IsActive)
                 .ToListAsync();
         }
 

@@ -14,6 +14,7 @@ namespace BackEnd.MediatR.Handlers.Contacts
             services.AddTransient<IRequestHandler<GetContactByIdQuery, ContactDTO>, QueryHandler<GetContactByIdQuery, ContactDTO>>();
             services.AddTransient<IRequestHandler<GetSelectsBillersQuery, List<ContactListDTO>>, QueryHandler<GetSelectsBillersQuery, List<ContactListDTO>>>();
             services.AddTransient<IRequestHandler<GetSelectsCustomersQuery, List<ContactListDTO>>, QueryHandler<GetSelectsCustomersQuery, List<ContactListDTO>>>();
+            services.AddTransient<IRequestHandler<GetSelectsSuppliersQuery, List<ContactListDTO>>, QueryHandler<GetSelectsSuppliersQuery, List<ContactListDTO>>>();
             services.AddTransient<IRequestHandler<GetAllContactsQuery, List<ContactListDTO>>, QueryHandler<GetAllContactsQuery, List<ContactListDTO>>>();
             services.AddTransient<IRequestHandler<CreateContactCommand, CreateContactDTO>, CreateCommandHandler<Entities.Contacts.Contact, CreateContactDTO>>();
             services.AddTransient<IRequestHandler<UpdateContactCommand, bool>, UpdateCommandHandler<Entities.Contacts.Contact, CreateContactDTO>>();

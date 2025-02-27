@@ -17,10 +17,6 @@ namespace BackEnd.Validations
                 .MustAsync(async (id, _) => await unitOfWork.PricingRepository.ExistsAsync(id))
                 .WithMessage(x => string.Format(Utilities.NotExistsWith, x.PricingId));
 
-            RuleFor(x => x.BillerId)
-                .MustAsync(async (id, _) => await unitOfWork.ContactRepository.ExistsAsync(id))
-                .WithMessage(x => string.Format(Utilities.NotExistsWith, x.BillerId));
-
             RuleFor(x => x.SupplierId)
                 .MustAsync(async (id, _) => await unitOfWork.ContactRepository.ExistsAsync(id))
                 .WithMessage(x => string.Format(Utilities.NotExistsWith, x.SupplierId));

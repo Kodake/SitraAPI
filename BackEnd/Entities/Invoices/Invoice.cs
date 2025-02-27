@@ -14,7 +14,7 @@ namespace BackEnd.Entities.Invoices
         public DateTime Date { get; set; } = DateTime.Now;
         public long PricingId { get; set; }
         public Pricing Pricing { get; set; } = null!;
-        public long BillerId { get; set; }
+        public long? BillerId { get; set; }
         public Contact Biller { get; set; } = null!;
         public long CustomerId { get; set; }
         public Contact Buyer { get; set; } = null!;

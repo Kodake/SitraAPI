@@ -25,10 +25,6 @@ namespace BackEnd.Validations
             RuleFor(x => x.PaymentMethod)
                 .Must(value => Enum.IsDefined(typeof(PaymentMethod), value))
                 .WithMessage(Utilities.InvalidEnumValueMessage);
-
-            RuleFor(x => x.TransactionType)
-                .Must(value => Enum.IsDefined(typeof(TransactionType), value))
-                .WithMessage(Utilities.InvalidEnumValueMessage);
         }
     }
 }

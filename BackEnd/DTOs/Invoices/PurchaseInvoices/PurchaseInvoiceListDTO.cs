@@ -7,7 +7,6 @@ namespace BackEnd.DTOs.Invoices.PurchaseInvoices
         public long Id { get; set; }
         public DateTime Date { get; set; }
         public string? FiscalSupportNumber { get; set; } = string.Empty;
-        public double? Shipping { get; set; } = null!;
         public double? Discount { get; set; } = null!;
         public double TotalQtyItems { get; set; }
         public double TotalItems { get; set; }

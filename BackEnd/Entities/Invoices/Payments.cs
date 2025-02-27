@@ -8,6 +8,6 @@ namespace BackEnd.Entities.Invoices
         public long SpotPaymentId { get; set; }
         public SpotPayment SpotPayment { get; set; } = null!;
         public PaymentMethod PaymentMethod { get; set; }
-        public decimal Amount { get; set; }
+        public double Amount { get; set; }
     }
 }
