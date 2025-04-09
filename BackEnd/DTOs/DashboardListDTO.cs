@@ -1,0 +1,12 @@
+﻿namespace BackEnd.DTOs
+{
+    public class DashboardListDTO
+    {
+        public int TotalWarehouses { get; set; }
+        public int TotalContactsAdded { get; set; }
+        public int TotalSaleInvoicesEmitted { get; set; }
+        public double TotalProductsInStock { get; set; }
+        public double Last30DaysSales { get; set; }
+        public double Last30DaysPurchases { get; set; }
+    }
+}

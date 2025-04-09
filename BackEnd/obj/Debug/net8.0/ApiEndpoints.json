@@ -816,6 +816,24 @@
     ]
   },
   {
+    "ContainingType": "BackEnd.Endpoints.DashboardsEndpoints",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/dashboards/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.DashboardListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "BackEnd.Endpoints.DeadlinesEndpoints",
     "Method": "GetAll",
     "RelativePath": "api/v1/deadlines/",

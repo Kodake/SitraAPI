@@ -67,5 +67,20 @@ namespace BackEnd.Repositories.Invoices
                 context.InvoiceItems.RemoveRange(items);
             }
         }
+
+        public async Task<int> TotalSaleInvoicesEmitted()
+        {
+            return await context.Invoices
+                .Where(x => x.InvoiceType == Enums.InvoiceType.Sale)
+                .CountAsync();
+        }
+
+        public async Task<double> Last30DaysSales()
+        {
+            return await context.Invoices
+                .Where(x => x.InvoiceType == Enums.InvoiceType.Sale)
+                // && x.CreatedAt >= DateTime.UtcNow.AddDays(-30))
+                .SumAsync(x => x.TotalPrice);
+        }
     }
 }

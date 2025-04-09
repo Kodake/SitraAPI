@@ -35,5 +35,10 @@ namespace BackEnd.Repositories.Products
         {
             return await context.Contacts.AnyAsync(x => x.Id != id && x.Name == name);
         }
+
+        public async Task<int> TotalContactsAdded()
+        {
+            return await context.Contacts.CountAsync(x => x.IsActive);
+        }
     }
 }

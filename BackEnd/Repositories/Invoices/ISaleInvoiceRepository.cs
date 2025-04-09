@@ -11,5 +11,7 @@ namespace BackEnd.Repositories.Invoices
         Task AddInvoiceItem(InvoiceItem item);
         Task<List<InvoiceItem>> GetItemsByInvoiceId(long invoiceId);
         Task DeleteInvoiceItemsByInvoiceId(long invoiceId);
+        Task<int> TotalSaleInvoicesEmitted();
+        Task<double> Last30DaysSales();
     }
 }

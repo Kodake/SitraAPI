@@ -66,5 +66,13 @@ namespace BackEnd.Repositories.Invoices
                 context.InvoiceItems.RemoveRange(items);
             }
         }
+
+        public async Task<double> Last30DaysPurchases()
+        {
+            return await context.Invoices
+                .Where(i => i.InvoiceType == Enums.InvoiceType.Purchase)
+                // && i.CreatedAt >= DateTime.UtcNow.AddDays(-30))
+                .SumAsync(i => i.TotalPrice);
+        }
     }
 }

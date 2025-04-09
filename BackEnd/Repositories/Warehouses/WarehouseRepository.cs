@@ -58,5 +58,10 @@ namespace BackEnd.Repositories.Warehouses
         {
             return await context.Warehouses.AnyAsync(x => x.Id != id && x.Name == name);
         }
+
+        public async Task<int> TotalWarehousesAdded()
+        {
+            return await context.Warehouses.CountAsync(x => x.IsActive);
+        }
     }
 }

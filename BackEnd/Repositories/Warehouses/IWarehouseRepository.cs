@@ -10,5 +10,6 @@ namespace BackEnd.Repositories.Warehouses
         Task<IEnumerable<Warehouse>> GetStockWarehouseByProductId(long id);
         Task<IEnumerable<Warehouse>> GetUnregisteredWarehouseById(long id);
         Task<bool> Exists(long id, string code);
+        Task<int> TotalWarehousesAdded();
     }
 }

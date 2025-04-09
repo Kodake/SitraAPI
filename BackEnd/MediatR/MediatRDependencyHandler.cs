@@ -1,6 +1,7 @@
 ﻿using BackEnd.MediatR.Handlers.Accounts;
 using BackEnd.MediatR.Handlers.AdministrativeTools;
 using BackEnd.MediatR.Handlers.Contacts;
+using BackEnd.MediatR.Handlers.Dashboards;
 using BackEnd.MediatR.Handlers.Finances;
 using BackEnd.MediatR.Handlers.Invoices;
 using BackEnd.MediatR.Handlers.Products;
@@ -14,6 +15,7 @@ namespace BackEnd.MediatR
         {
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(MediatRDependencyHandler).Assembly));
 
+            services.AddDashboardServices();
             services.AddBrandServices();
             services.AddUnitServices();
             services.AddCategoryServices();
