@@ -1,16 +1,14 @@
 ﻿using AutoMapper;
 using BackEnd.DTOs;
-using BackEnd.DTOs.Contacts.Contacts;
-using BackEnd.Enums;
 using BackEnd.Repositories;
 
 namespace BackEnd.MediatR.Queries.Dashboards
 {
-    public class GetAllDashboardsQuery : GetSelectsQuery<DashboardListDTO>
+    public class GetAllDashboardsQuery : GetByQuery<DashboardDTO>
     {
-        public GetAllDashboardsQuery(StatusType status = StatusType.All) : base(status) { }
+        public GetAllDashboardsQuery() : base() { }
 
-        public override async Task<List<DashboardListDTO>> GetData(
+        public override async Task<DashboardDTO> GetData(
             IUnitOfWork unitOfWork,
             IMapper mapper,
             CancellationToken cancellationToken)
@@ -22,7 +20,7 @@ namespace BackEnd.MediatR.Queries.Dashboards
             var last30DaysSales = await unitOfWork.SaleInvoiceRepository.Last30DaysSales();
             var last30DaysPurchases = await unitOfWork.PurchaseInvoiceRepository.Last30DaysPurchases();
 
-            var dashboard = new DashboardListDTO
+            var dashboard = new DashboardDTO
             {
                 TotalWarehouses = totalWarehouses,
                 TotalContactsAdded = totalContactsAdded,
@@ -32,7 +30,7 @@ namespace BackEnd.MediatR.Queries.Dashboards
                 Last30DaysPurchases = last30DaysPurchases
             };
 
-            return [dashboard];
+            return dashboard;
         }
     }
 }

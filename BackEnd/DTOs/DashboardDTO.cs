@@ -1,6 +1,6 @@
 ﻿namespace BackEnd.DTOs
 {
-    public class DashboardListDTO
+    public class DashboardDTO
     {
         public int TotalWarehouses { get; set; }
         public int TotalContactsAdded { get; set; }

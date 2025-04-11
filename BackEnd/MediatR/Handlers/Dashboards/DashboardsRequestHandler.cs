@@ -8,7 +8,7 @@ namespace BackEnd.MediatR.Handlers.Dashboards
     {
         public static IServiceCollection AddDashboardServices(this IServiceCollection services)
         {
-            services.AddTransient<IRequestHandler<GetAllDashboardsQuery, List<DashboardListDTO>>, QueryHandler<GetAllDashboardsQuery, List<DashboardListDTO>>>();
+            services.AddTransient<IRequestHandler<GetAllDashboardsQuery, DashboardDTO>, QueryHandler<GetAllDashboardsQuery, DashboardDTO>>();
 
             return services;
         }

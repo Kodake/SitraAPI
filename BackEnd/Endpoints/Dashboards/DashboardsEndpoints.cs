@@ -1,4 +1,5 @@
 ﻿using BackEnd.DTOs;
+using BackEnd.DTOs.Contacts.Contacts;
 using BackEnd.MediatR.Queries.Dashboards;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -16,12 +17,12 @@ namespace BackEnd.Endpoints
             return group;
         }
 
-        static async Task<Ok<List<DashboardListDTO>>> GetAll(
+        static async Task<Results<Ok<DashboardDTO>, NotFound>> GetAll(
             [FromServices] IMediator mediator)
         {
             var query = new GetAllDashboardsQuery();
             var dto = await mediator.Send(query);
-            return TypedResults.Ok(dto);
+            return dto == null ? TypedResults.NotFound() : TypedResults.Ok(dto);
         }
     }
 }
