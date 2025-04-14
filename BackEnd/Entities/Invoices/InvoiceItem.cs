@@ -14,5 +14,7 @@ namespace BackEnd.Entities.Invoices
         public double TotalAmount { get; set; }
         public double TotalPrice { get; set; }
         public double TotalTaxes { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? UpdatedAt { get; set; }
     }
 }

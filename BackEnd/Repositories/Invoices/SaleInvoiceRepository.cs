@@ -1,6 +1,7 @@
 ﻿using BackEnd.Context;
 using BackEnd.DTOs;
 using BackEnd.Entities.Invoices;
+using BackEnd.Enums;
 using BackEnd.Helpers;
 using Microsoft.EntityFrameworkCore;
 
@@ -68,18 +69,17 @@ namespace BackEnd.Repositories.Invoices
             }
         }
 
-        public async Task<int> TotalSaleInvoicesEmitted()
+        public async Task<int> Last24HoursSaleInvoices()
         {
             return await context.Invoices
-                .Where(x => x.InvoiceType == Enums.InvoiceType.Sale)
+                .Where(x => x.InvoiceType == Enums.InvoiceType.Sale && x.CreatedAt >= DateTime.UtcNow.AddDays((double)TimeElapsed.Last24Hours))
                 .CountAsync();
         }
 
         public async Task<double> Last30DaysSales()
         {
             return await context.Invoices
-                .Where(x => x.InvoiceType == Enums.InvoiceType.Sale)
-                // && x.CreatedAt >= DateTime.UtcNow.AddDays(-30))
+                .Where(x => x.InvoiceType == Enums.InvoiceType.Sale && x.CreatedAt >= DateTime.UtcNow.AddDays((double)TimeElapsed.Last30Days))
                 .SumAsync(x => x.TotalPrice);
         }
     }

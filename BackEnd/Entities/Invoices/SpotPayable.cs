@@ -13,5 +13,7 @@ namespace BackEnd.Entities.Invoices
         public DateTime PaymentDate { get; set; } = DateTime.UtcNow;
         public PaymentMethod? PaymentMethod { get; set; }
         public bool IsActive { get; set; } = true;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? UpdatedAt { get; set; }
     }
 }

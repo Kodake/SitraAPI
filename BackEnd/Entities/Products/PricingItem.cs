@@ -10,5 +10,7 @@
         public double InitialCost { get; set; }
         public double BasePrice { get; set; }
         public bool IsPrincipal { get; set; } = false;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? UpdatedAt { get; set; }
     }
 }

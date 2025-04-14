@@ -8,5 +8,7 @@ namespace BackEnd.Entities.Products
         public long TaxId { get; set; }
         public Item Item { get; set; } = null!;
         public Tax Tax { get; set; } = null!;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? UpdatedAt { get; set; }
     }
 }

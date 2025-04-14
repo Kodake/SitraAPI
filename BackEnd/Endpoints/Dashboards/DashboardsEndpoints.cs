@@ -1,5 +1,4 @@
 ﻿using BackEnd.DTOs;
-using BackEnd.DTOs.Contacts.Contacts;
 using BackEnd.MediatR.Queries.Dashboards;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -12,8 +11,8 @@ namespace BackEnd.Endpoints
         public static RouteGroupBuilder MapDashboards(this RouteGroupBuilder group)
         {
             group.MapGet("/", GetAll);
-                //.CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("dashboards-get"))
-                //.AddPaginationParamsOpenAPI();
+            //.CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("dashboards-get"))
+            //.AddPaginationParamsOpenAPI();
             return group;
         }
 

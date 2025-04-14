@@ -18,6 +18,8 @@ namespace BackEnd.Entities.Products
         public long? UnitId { get; set; } = null!;
         public Unit? Unit { get; set; }
         public bool IsActive { get; set; } = true;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? UpdatedAt { get; set; }
         public ICollection<ItemTaxes> ItemTaxes { get; set; } = new List<ItemTaxes>();
         public ICollection<Stock> Stocks { get; set; } = new List<Stock>();
         public ICollection<PricingItem> PricingItems { get; set; } = new List<PricingItem>();

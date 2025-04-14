@@ -12,5 +12,7 @@ namespace BackEnd.Entities.Warehouses
         public double Qty { get; set; }
         public double? MinQty { get; set; }
         public double? MaxQty { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? UpdatedAt { get; set; }
     }
 }

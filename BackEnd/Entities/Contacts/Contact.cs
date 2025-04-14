@@ -16,6 +16,8 @@ namespace BackEnd.Entities.Contacts
         public string? Phone2 { get; set; }
         public string? Email { get; set; }
         public bool IsActive { get; set; } = true;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? UpdatedAt { get; set; }
         public ICollection<Invoice> BillerInvoices { get; set; } = new HashSet<Invoice>();
         public ICollection<Invoice> BuyerInvoices { get; set; } = new HashSet<Invoice>();
     }

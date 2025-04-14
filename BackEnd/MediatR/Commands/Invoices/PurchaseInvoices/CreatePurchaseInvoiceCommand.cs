@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using BackEnd.DTOs.Invoices.PurchaseInvoices;
-using BackEnd.DTOs.Invoices.SaleInvoices;
 using BackEnd.Entities.Accounts;
-using BackEnd.Entities.AdministrativeTools;
 using BackEnd.Entities.Invoices;
 using BackEnd.Enums;
 using BackEnd.Repositories;

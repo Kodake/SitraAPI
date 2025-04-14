@@ -11,5 +11,7 @@ namespace BackEnd.Entities.Invoices
         public virtual Contact Buyer { get; set; } = null!;
         public string QuotationNumber { get; set; } = string.Empty;
         public virtual List<InvoiceItem> InvoiceItems { get; set; } = new List<InvoiceItem>();
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? UpdatedAt { get; set; }
     }
 }

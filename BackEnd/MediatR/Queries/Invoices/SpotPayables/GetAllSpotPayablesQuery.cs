@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using BackEnd.DTOs;
-using BackEnd.Repositories;
 using BackEnd.DTOs.Invoices.SpotPayables;
+using BackEnd.Repositories;
 
 namespace BackEnd.MediatR.Queries.Invoices.SpotPayables
 {

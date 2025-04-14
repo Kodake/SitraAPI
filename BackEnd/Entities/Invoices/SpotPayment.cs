@@ -15,5 +15,7 @@ namespace BackEnd.Entities.Invoices
         public PaymentMethod? PaymentMethod { get; set; }
         public ICollection<Payment> Payments { get; set; } = new List<Payment>();
         public bool IsActive { get; set; } = true;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? UpdatedAt { get; set; }
     }
 }

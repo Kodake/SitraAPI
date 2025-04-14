@@ -16,5 +16,7 @@ namespace BackEnd.Entities.AdministrativeTools
         public long WarehouseId { get; set; }
         public Warehouse Warehouse { get; set; } = null!;
         public bool IsActive { get; set; } = true;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? UpdatedAt { get; set; }
     }
 }

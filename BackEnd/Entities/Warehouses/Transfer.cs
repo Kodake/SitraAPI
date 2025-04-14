@@ -13,11 +13,11 @@ namespace BackEnd.Entities.Warehouses
         public long DestinationWarehouseId { get; set; }
         public Warehouse DestinationWarehouse { get; set; } = null!;
         public double Qty { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? UpdatedAt { get; set; }
         public long StockId { get; set; }
         public Stock? Stock { get; set; }
         public string Comment { get; set; } = string.Empty;
         public TransferStatus Status { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? UpdatedAt { get; set; }
     }
 }

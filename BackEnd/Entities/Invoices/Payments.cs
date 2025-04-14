@@ -9,5 +9,7 @@ namespace BackEnd.Entities.Invoices
         public SpotPayment SpotPayment { get; set; } = null!;
         public PaymentMethod PaymentMethod { get; set; }
         public double Amount { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? UpdatedAt { get; set; }
     }
 }

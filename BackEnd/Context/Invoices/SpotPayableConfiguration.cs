@@ -1,6 +1,6 @@
 ﻿using BackEnd.Entities.Invoices;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace BackEnd.Context.Invoices
 {

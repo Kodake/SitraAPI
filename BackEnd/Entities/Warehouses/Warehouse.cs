@@ -13,6 +13,8 @@ namespace BackEnd.Entities.Warehouses
         public string? Country { get; set; }
         public string? ZipCode { get; set; }
         public bool IsActive { get; set; } = true;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? UpdatedAt { get; set; }
         public List<Stock> Stocks { get; set; } = [];
         public List<FiscalSupport> FiscalSupports { get; set; } = [];
         public List<Transfer> OriginTransfers { get; set; } = [];

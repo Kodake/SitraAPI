@@ -15,7 +15,7 @@ namespace BackEnd.MediatR.Queries.Dashboards
         {
             var totalWarehouses = await unitOfWork.WarehouseRepository.TotalWarehousesAdded();
             var totalContactsAdded = await unitOfWork.ContactRepository.TotalContactsAdded();
-            var totalSaleInvoicesEmitted = await unitOfWork.SaleInvoiceRepository.TotalSaleInvoicesEmitted();
+            var last24HoursSaleInvoices = await unitOfWork.SaleInvoiceRepository.Last24HoursSaleInvoices();
             var totalProductsInStock = await unitOfWork.StockRepository.TotalProductsInStock();
             var last30DaysSales = await unitOfWork.SaleInvoiceRepository.Last30DaysSales();
             var last30DaysPurchases = await unitOfWork.PurchaseInvoiceRepository.Last30DaysPurchases();
@@ -24,7 +24,7 @@ namespace BackEnd.MediatR.Queries.Dashboards
             {
                 TotalWarehouses = totalWarehouses,
                 TotalContactsAdded = totalContactsAdded,
-                TotalSaleInvoicesEmitted = totalSaleInvoicesEmitted,
+                Last24HoursSaleInvoices = last24HoursSaleInvoices,
                 TotalProductsInStock = totalProductsInStock,
                 Last30DaysSales = last30DaysSales,
                 Last30DaysPurchases = last30DaysPurchases
