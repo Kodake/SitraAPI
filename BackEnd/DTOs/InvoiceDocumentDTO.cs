@@ -39,7 +39,14 @@ namespace BackEnd.DTOs
                     }
                     column.Item().Scale(fontWeight).Text($"FECHA: {Invoice.Date.ToString("dd-MM-yyyy")}");
                     column.Item().Scale(fontWeight).Text($"NOMBRE / RAZÓN SOCIAL: {Invoice.Buyer.Name}");
-                    column.Item().Scale(fontWeight).Text($"VENDEDOR: {Invoice.Biller.Name}");
+                    if (Invoice.Biller is not null)
+                    {
+                        column.Item().Scale(fontWeight).Text($"VENDEDOR: {Invoice.Biller.Name}");
+                    }
+                    if (Invoice.Buyer is not null)
+                    {
+                        column.Item().Scale(fontWeight).Text($"SUPLIDOR: {Invoice.Buyer.Name}");
+                    }
                 });
 
                 row.RelativeItem().Border(1).Column(column =>

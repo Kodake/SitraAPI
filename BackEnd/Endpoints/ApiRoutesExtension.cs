@@ -1,7 +1,6 @@
 ﻿using BackEnd.Endpoints;
 using BackEnd.Endpoints.Invoices;
 using BackEnd.Endpoints.Products;
-using Microsoft.AspNetCore.Identity;
 
 public static class ApiRouteExtensions
 {
@@ -9,7 +8,7 @@ public static class ApiRouteExtensions
     {
         var apiGroup = endpoints.MapGroup("/api/v1");
 
-        apiGroup.MapGroup("/identity").MapIdentityApi<IdentityUser>();
+        apiGroup.MapGroup("/identity").MapAuths();
         apiGroup.MapGroup("/dashboards").MapDashboards();
         apiGroup.MapGroup("/receivables").MapReceivables();
         apiGroup.MapGroup("/payables").MapPayables();

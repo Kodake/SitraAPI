@@ -1,6 +1,11 @@
-﻿namespace BackEnd.Entities.Auths
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace BackEnd.Entities.Auths
 {
-    public class User
+    public class User : IdentityUser
     {
+        public string FirstName { get; set; } = null!;
+        public string LastName { get; set; } = null!;
+        public string TenantId { get; set; } = null!;
     }
 }

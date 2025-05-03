@@ -16,6 +16,9 @@ namespace BackEnd.Endpoints.Invoices
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("saleInvoices-get"))
                 .AddPaginationParamsOpenAPI();
+            group.MapGet("/sales-range", GetAllByDateRangeAndBiller).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("saleInvoices-get"))
+                .AddPaginationParamsOpenAPI();
+            group.MapGet("/sales-report", GenerateReportPdf).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("saleInvoices-get"));
             group.MapGet("/{id:long}", GetById);
             group.MapPost("/", Create).DisableAntiforgery().WithOpenApi();
             group.MapGet("/{invoiceId}/generate-pdf", GeneratePdf).WithOpenApi();
@@ -60,6 +63,30 @@ namespace BackEnd.Endpoints.Invoices
             return result == null
                 ? TypedResults.NotFound()
                 : TypedResults.File(result.Value.FileBytes, "application/pdf", result.Value.FileName);
+        }
+
+        static async Task<Results<FileContentHttpResult, NotFound>> GenerateReportPdf(
+            [FromServices] IMediator mediator,
+            DateTime from,
+            DateTime to)
+        {
+            var query = new GetSaleInvoiceReportPdfQuery(from, to);
+            var result = await mediator.Send(query);
+
+            return result == null
+                ? TypedResults.NotFound()
+                : TypedResults.File(result.Value.FileBytes, "application/pdf", result.Value.FileName);
+        }
+
+        static async Task<Ok<List<SaleInvoiceListDTO>>> GetAllByDateRangeAndBiller(
+            [FromServices] IMediator mediator,
+            DateTime from, 
+            DateTime to,
+            PaginationDTO pagination)
+        {
+            var query = new GetAllSaleInvoicesByDateRangeAndBillerQuery(from, to, pagination);
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
         }
     }
 }

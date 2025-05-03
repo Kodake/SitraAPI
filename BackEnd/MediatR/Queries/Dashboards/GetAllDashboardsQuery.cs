@@ -13,12 +13,12 @@ namespace BackEnd.MediatR.Queries.Dashboards
             IMapper mapper,
             CancellationToken cancellationToken)
         {
-            var totalWarehouses = await unitOfWork.WarehouseRepository.TotalWarehousesAdded();
-            var totalContactsAdded = await unitOfWork.ContactRepository.TotalContactsAdded();
-            var last24HoursSaleInvoices = await unitOfWork.SaleInvoiceRepository.Last24HoursSaleInvoices();
-            var totalProductsInStock = await unitOfWork.StockRepository.TotalProductsInStock();
-            var last30DaysSales = await unitOfWork.SaleInvoiceRepository.Last30DaysSales();
-            var last30DaysPurchases = await unitOfWork.PurchaseInvoiceRepository.Last30DaysPurchases();
+            var totalWarehouses = await unitOfWork.WarehouseRepository.TotalWarehousesAddedAsync();
+            var totalContactsAdded = await unitOfWork.ContactRepository.TotalContactsAddedAsync();
+            var last24HoursSaleInvoices = await unitOfWork.SaleInvoiceRepository.Last24HoursSaleInvoicesAsync();
+            var totalProductsInStock = await unitOfWork.StockRepository.TotalProductsInStockAsync();
+            var last30DaysSales = await unitOfWork.SaleInvoiceRepository.Last30DaysSalesAsync();
+            var last30DaysPurchases = await unitOfWork.PurchaseInvoiceRepository.Last30DaysPurchasesAsync();
 
             var dashboard = new DashboardDTO
             {

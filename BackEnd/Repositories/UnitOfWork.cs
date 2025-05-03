@@ -7,6 +7,7 @@ using BackEnd.Repositories.Generics;
 using BackEnd.Repositories.Invoices;
 using BackEnd.Repositories.Products;
 using BackEnd.Repositories.Warehouses;
+using Microsoft.AspNetCore.Identity;
 
 namespace BackEnd.Repositories
 {
@@ -42,6 +43,7 @@ namespace BackEnd.Repositories
         public IStockRepository StockRepository { get; }
         public ITransferRepository TransferRepository { get; }
         public IWarehouseRepository WarehouseRepository { get; }
+        public UserManager<IdentityUser> UserManager { get; }
 
         public UnitOfWork(
             ApplicationDbContext context,

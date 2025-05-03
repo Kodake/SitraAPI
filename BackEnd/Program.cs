@@ -1,9 +1,11 @@
 using BackEnd.Context;
+using BackEnd.Entities.Auths;
 using BackEnd.Helpers;
 using BackEnd.MediatR;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
@@ -40,11 +42,33 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddIdentityApiEndpoints<IdentityUser>()
+builder.Services.AddAuthorization();
+
+builder.Services.AddIdentityCore<User>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddScoped<UserManager<IdentityUser>>();
+builder.Services.AddIdentityCore<IdentityUser>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.AddScoped<UserManager<User>>();
 builder.Services.AddScoped<SignInManager<IdentityUser>>();
+
+builder.Services.AddAuthentication().AddJwtBearer(opciones =>
+{
+    opciones.MapInboundClaims = false;
+
+    opciones.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKeys = Keys.GetAllKeys(builder.Configuration),
+        ClockSkew = TimeSpan.Zero
+    };
+
+});
 
 builder.Services.AddCors(opciones =>
 {
@@ -125,5 +149,7 @@ app.MapApiRoutes();
 app.UseCors();
 
 app.UseOutputCache();
+
+app.UseAuthorization();
 
 app.Run();

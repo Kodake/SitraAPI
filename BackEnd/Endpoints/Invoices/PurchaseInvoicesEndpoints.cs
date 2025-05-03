@@ -1,8 +1,10 @@
 ﻿using BackEnd.DTOs;
 using BackEnd.DTOs.Invoices.PurchaseInvoices;
+using BackEnd.DTOs.Invoices.SaleInvoices;
 using BackEnd.Helpers;
 using BackEnd.MediatR.Commands.Invoices.PurchaseInvoices;
 using BackEnd.MediatR.Queries.Invoices.PurchaseInvoices;
+using BackEnd.MediatR.Queries.Invoices.SaleInvoices;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +18,9 @@ namespace BackEnd.Endpoints.Invoices
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("purchaseInvoices-get"))
                 .AddPaginationParamsOpenAPI();
+            group.MapGet("/purchases-range", GetAllByDateRange).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("purchaseInvoices-get"))
+                .AddPaginationParamsOpenAPI();
+            group.MapGet("/purchases-report", GenerateReportPdf).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("purchaseInvoices-get"));
             group.MapGet("/{id:long}", GetById);
             group.MapPost("/", Create).DisableAntiforgery().WithOpenApi();
             group.MapGet("/{invoiceId}/generate-pdf", GeneratePdf).WithOpenApi();
@@ -60,6 +65,30 @@ namespace BackEnd.Endpoints.Invoices
             return result == null
                 ? TypedResults.NotFound()
                 : TypedResults.File(result.Value.FileBytes, "application/pdf", result.Value.FileName);
+        }
+
+        static async Task<Results<FileContentHttpResult, NotFound>> GenerateReportPdf(
+            [FromServices] IMediator mediator,
+            DateTime from,
+            DateTime to)
+        {
+            var query = new GetPurchaseInvoiceReportPdfQuery(from, to);
+            var result = await mediator.Send(query);
+
+            return result == null
+                ? TypedResults.NotFound()
+                : TypedResults.File(result.Value.FileBytes, "application/pdf", result.Value.FileName);
+        }
+
+        static async Task<Ok<List<SaleInvoiceListDTO>>> GetAllByDateRange(
+            [FromServices] IMediator mediator,
+            DateTime from,
+            DateTime to,
+            PaginationDTO pagination)
+        {
+            var query = new GetAllPurchaseInvoicesByDateRangeQuery(from, to, pagination);
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
         }
     }
 }

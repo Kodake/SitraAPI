@@ -1,5 +1,6 @@
 ﻿using BackEnd.Context.Accounts;
 using BackEnd.Context.AdministrativeTools;
+using BackEnd.Context.Auths;
 using BackEnd.Context.Contacts;
 using BackEnd.Context.Finances;
 using BackEnd.Context.Invoices;
@@ -57,6 +58,8 @@ namespace BackEnd.Context
             modelBuilder.ApplyConfiguration(new StockConfiguration());
             modelBuilder.ApplyConfiguration(new TransferConfiguration());
             modelBuilder.ApplyConfiguration(new WarehouseConfiguration());
+
+            modelBuilder.ApplyConfiguration(new AuthConfiguration()).HasDefaultSchema("identity");
         }
         #endregion
 

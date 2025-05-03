@@ -16,21 +16,24 @@ namespace BackEnd.Endpoints
         public static RouteGroupBuilder MapProducts(this RouteGroupBuilder group)
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("products-get"))
-                .AddPaginationParamsOpenAPI();
-            group.MapGet("/stock-products", GetStockProducts);
-            group.MapGet("/selects", GetSelects).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("products-get"));
-            group.MapGet("/{id:long}", GetById);
+                .AddPaginationParamsOpenAPI().RequireAuthorization();
+            group.MapGet("/stock-products", GetStockProducts).RequireAuthorization();
+            group.MapGet("/selects", GetSelects).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("products-get")).RequireAuthorization();
+            group.MapGet("/{id:long}", GetById).RequireAuthorization();
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateProductDTO>>()
-                .WithOpenApi();
+                .WithOpenApi()
+                .RequireAuthorization();
             group.MapPut("/{id:long}", Update).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateProductDTO>>()
-                .WithOpenApi();
-            group.MapPatch("/{id:long}/activate", Activate);
-            group.MapDelete("/{id:long}/deactivate", Deactivate);
+                .WithOpenApi()
+                .RequireAuthorization();
+            group.MapPatch("/{id:long}/activate", Activate).RequireAuthorization();
+            group.MapDelete("/{id:long}/deactivate", Deactivate).RequireAuthorization();
             //.RequireAuthorization("isAdmin");
             group.MapPost("/upload-csv", UploadCsv).DisableAntiforgery()
-                .WithOpenApi();
+                .WithOpenApi()
+                .RequireAuthorization();
             return group;
         }
 

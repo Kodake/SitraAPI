@@ -68,11 +68,42 @@ namespace BackEnd.Repositories.Invoices
             }
         }
 
-        public async Task<double> Last30DaysPurchases()
+        public async Task<double> Last30DaysPurchasesAsync()
         {
             return await context.Invoices
                 .Where(i => i.InvoiceType == Enums.InvoiceType.Purchase && i.CreatedAt >= DateTime.UtcNow.AddDays((double)TimeElapsed.Last30Days))
                 .SumAsync(i => i.TotalPrice);
+        }
+
+        public async Task<List<Invoice>> GetPurchasesByDateRangeAsync(DateTime from, DateTime to, PaginationDTO paginationDTO)
+        {
+            to = to.Date.AddDays(1).AddTicks(-1);
+
+            var queryable = context.Invoices
+                .Where(x =>
+                    x.InvoiceType == InvoiceType.Purchase &&
+                    x.CreatedAt >= from &&
+                    x.CreatedAt <= to
+                );
+
+            await httpContext.AddPaginationParamsToHeaders(queryable);
+
+            return await queryable
+                .OrderBy(x => x.Id)
+                .Paginate(paginationDTO)
+                .ToListAsync();
+        }
+
+        public async Task<List<Invoice>> GetPurchasesReportByDateRangeAsync(DateTime from, DateTime to)
+        {
+            to = to.Date.AddDays(1).AddTicks(-1);
+
+            return await context.Invoices
+                .Where(x =>
+                    x.InvoiceType == InvoiceType.Purchase &&
+                    x.CreatedAt >= from &&
+                    x.CreatedAt <= to
+                ).ToListAsync();
         }
     }
 }

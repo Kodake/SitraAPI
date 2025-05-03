@@ -38,7 +38,7 @@ namespace BackEnd.Repositories.Warehouses
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<double> TotalProductsInStock()
+        public async Task<double> TotalProductsInStockAsync()
         {
             return await context.Stocks
                 .CountAsync(x => x.Qty > 0);

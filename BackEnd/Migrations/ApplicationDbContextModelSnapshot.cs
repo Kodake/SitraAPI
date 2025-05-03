@@ -17,6 +17,7 @@ namespace BackEnd.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasDefaultSchema("identity")
                 .HasAnnotation("ProductVersion", "8.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
@@ -58,7 +59,7 @@ namespace BackEnd.Migrations
                     b.HasIndex("InvoiceId")
                         .IsUnique();
 
-                    b.ToTable("Payables");
+                    b.ToTable("Payables", "identity");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Accounts.PayableReceipt", b =>
@@ -94,7 +95,7 @@ namespace BackEnd.Migrations
 
                     b.HasIndex("PayableId");
 
-                    b.ToTable("PayableReceipts");
+                    b.ToTable("PayableReceipts", "identity");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Accounts.PaymentReceipt", b =>
@@ -130,7 +131,7 @@ namespace BackEnd.Migrations
 
                     b.HasIndex("ReceivableId");
 
-                    b.ToTable("PaymentReceipts");
+                    b.ToTable("PaymentReceipts", "identity");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Accounts.Receivable", b =>
@@ -169,7 +170,7 @@ namespace BackEnd.Migrations
                     b.HasIndex("InvoiceId")
                         .IsUnique();
 
-                    b.ToTable("Receivables");
+                    b.ToTable("Receivables", "identity");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.AdministrativeTools.Deadline", b =>
@@ -199,7 +200,7 @@ namespace BackEnd.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Deadlines");
+                    b.ToTable("Deadlines", "identity");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.AdministrativeTools.FiscalSupport", b =>
@@ -251,7 +252,7 @@ namespace BackEnd.Migrations
 
                     b.HasIndex("WarehouseId");
 
-                    b.ToTable("FiscalSupports");
+                    b.ToTable("FiscalSupports", "identity");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Contacts.Contact", b =>
@@ -306,7 +307,7 @@ namespace BackEnd.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Contacts");
+                    b.ToTable("Contacts", "identity");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Finances.Currency", b =>
@@ -341,7 +342,7 @@ namespace BackEnd.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Currencies");
+                    b.ToTable("Currencies", "identity");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Finances.Tax", b =>
@@ -370,7 +371,7 @@ namespace BackEnd.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Taxes");
+                    b.ToTable("Taxes", "identity");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Invoices.Invoice", b =>
@@ -459,7 +460,7 @@ namespace BackEnd.Migrations
 
                     b.HasIndex("WarehouseId");
 
-                    b.ToTable("Invoices");
+                    b.ToTable("Invoices", "identity");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Invoices.InvoiceItem", b =>
@@ -508,7 +509,7 @@ namespace BackEnd.Migrations
 
                     b.HasIndex("QuotationId");
 
-                    b.ToTable("InvoiceItems");
+                    b.ToTable("InvoiceItems", "identity");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Invoices.Payment", b =>
@@ -538,7 +539,7 @@ namespace BackEnd.Migrations
 
                     b.HasIndex("SpotPaymentId");
 
-                    b.ToTable("Payments");
+                    b.ToTable("Payments", "identity");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Invoices.Quotation", b =>
@@ -572,7 +573,7 @@ namespace BackEnd.Migrations
                     b.HasIndex("InvoiceId")
                         .IsUnique();
 
-                    b.ToTable("Quotations");
+                    b.ToTable("Quotations", "identity");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Invoices.SpotPayable", b =>
@@ -611,7 +612,7 @@ namespace BackEnd.Migrations
                     b.HasIndex("InvoiceId")
                         .IsUnique();
 
-                    b.ToTable("SpotPayables");
+                    b.ToTable("SpotPayables", "identity");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Invoices.SpotPayment", b =>
@@ -653,7 +654,7 @@ namespace BackEnd.Migrations
                     b.HasIndex("InvoiceId")
                         .IsUnique();
 
-                    b.ToTable("SpotPayments");
+                    b.ToTable("SpotPayments", "identity");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Products.Brand", b =>
@@ -683,7 +684,7 @@ namespace BackEnd.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Brands");
+                    b.ToTable("Brands", "identity");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Products.Category", b =>
@@ -714,7 +715,7 @@ namespace BackEnd.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", "identity");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Products.Item", b =>
@@ -771,7 +772,7 @@ namespace BackEnd.Migrations
 
                     b.HasIndex("UnitId");
 
-                    b.ToTable("Items");
+                    b.ToTable("Items", "identity");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Products.ItemTaxes", b =>
@@ -792,7 +793,7 @@ namespace BackEnd.Migrations
 
                     b.HasIndex("ItemId");
 
-                    b.ToTable("ItemTaxes");
+                    b.ToTable("ItemTaxes", "identity");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Products.Pricing", b =>
@@ -821,7 +822,7 @@ namespace BackEnd.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Pricings");
+                    b.ToTable("Pricings", "identity");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Products.PricingItem", b =>
@@ -859,7 +860,7 @@ namespace BackEnd.Migrations
 
                     b.HasIndex("PricingId");
 
-                    b.ToTable("PricingItems");
+                    b.ToTable("PricingItems", "identity");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Products.Unit", b =>
@@ -891,7 +892,7 @@ namespace BackEnd.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Units");
+                    b.ToTable("Units", "identity");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Warehouses.Stock", b =>
@@ -929,7 +930,7 @@ namespace BackEnd.Migrations
 
                     b.HasIndex("WarehouseId");
 
-                    b.ToTable("Stocks");
+                    b.ToTable("Stocks", "identity");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Warehouses.Transfer", b =>
@@ -978,7 +979,7 @@ namespace BackEnd.Migrations
 
                     b.HasIndex("StockId");
 
-                    b.ToTable("Transfers");
+                    b.ToTable("Transfers", "identity");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Warehouses.Warehouse", b =>
@@ -1030,7 +1031,7 @@ namespace BackEnd.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Warehouses");
+                    b.ToTable("Warehouses", "identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -1057,7 +1058,7 @@ namespace BackEnd.Migrations
                         .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("AspNetRoles", (string)null);
+                    b.ToTable("AspNetRoles", "identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1082,7 +1083,7 @@ namespace BackEnd.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims", (string)null);
+                    b.ToTable("AspNetRoleClaims", "identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
@@ -1096,6 +1097,11 @@ namespace BackEnd.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("nvarchar(13)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -1147,7 +1153,11 @@ namespace BackEnd.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.ToTable("AspNetUsers", "identity");
+
+                    b.HasDiscriminator().HasValue("IdentityUser");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -1172,7 +1182,7 @@ namespace BackEnd.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims", (string)null);
+                    b.ToTable("AspNetUserClaims", "identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -1194,7 +1204,7 @@ namespace BackEnd.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins", (string)null);
+                    b.ToTable("AspNetUserLogins", "identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -1209,7 +1219,7 @@ namespace BackEnd.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles", (string)null);
+                    b.ToTable("AspNetUserRoles", "identity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -1228,7 +1238,28 @@ namespace BackEnd.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens", (string)null);
+                    b.ToTable("AspNetUserTokens", "identity");
+                });
+
+            modelBuilder.Entity("BackEnd.Entities.Auths.User", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("TenantId")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasDiscriminator().HasValue("User");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Accounts.Payable", b =>

@@ -1,0 +1,16 @@
+﻿using BackEnd.Entities.Auths;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace BackEnd.Context.Auths
+{
+    public class AuthConfiguration : IEntityTypeConfiguration<User>
+    {
+        public void Configure(EntityTypeBuilder<User> builder)
+        {
+            builder.Property(p => p.FirstName).HasMaxLength(50);
+            builder.Property(p => p.LastName).HasMaxLength(50);
+            builder.Property(p => p.TenantId).HasMaxLength(50).IsRequired(false);
+        }
+    }
+}

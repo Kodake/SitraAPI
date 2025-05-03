@@ -11,6 +11,8 @@ namespace BackEnd.Repositories.Invoices
         Task AddInvoiceItem(InvoiceItem item);
         Task<List<InvoiceItem>> GetItemsByInvoiceId(long invoiceId);
         Task DeleteInvoiceItemsByInvoiceId(long invoiceId);
-        Task<double> Last30DaysPurchases();
+        Task<double> Last30DaysPurchasesAsync();
+        Task<List<Invoice>> GetPurchasesByDateRangeAsync(DateTime from, DateTime to, PaginationDTO paginationDTO);
+        Task<List<Invoice>> GetPurchasesReportByDateRangeAsync(DateTime from, DateTime to);
     }
 }

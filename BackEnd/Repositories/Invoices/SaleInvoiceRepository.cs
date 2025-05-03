@@ -69,18 +69,49 @@ namespace BackEnd.Repositories.Invoices
             }
         }
 
-        public async Task<int> Last24HoursSaleInvoices()
+        public async Task<int> Last24HoursSaleInvoicesAsync()
         {
             return await context.Invoices
                 .Where(x => x.InvoiceType == Enums.InvoiceType.Sale && x.CreatedAt >= DateTime.UtcNow.AddDays((double)TimeElapsed.Last24Hours))
                 .CountAsync();
         }
 
-        public async Task<double> Last30DaysSales()
+        public async Task<double> Last30DaysSalesAsync()
         {
             return await context.Invoices
                 .Where(x => x.InvoiceType == Enums.InvoiceType.Sale && x.CreatedAt >= DateTime.UtcNow.AddDays((double)TimeElapsed.Last30Days))
                 .SumAsync(x => x.TotalPrice);
+        }
+
+        public async Task<List<Invoice>> GetSalesByDateRangeAsync(DateTime from, DateTime to, PaginationDTO paginationDTO)
+        {
+            to = to.Date.AddDays(1).AddTicks(-1);
+
+            var queryable = context.Invoices
+                .Where(x =>
+                    x.InvoiceType == InvoiceType.Sale &&
+                    x.CreatedAt >= from &&
+                    x.CreatedAt <= to
+                );
+
+            await httpContext.AddPaginationParamsToHeaders(queryable);
+
+            return await queryable
+                .OrderBy(x => x.Id)
+                .Paginate(paginationDTO)
+                .ToListAsync();
+        }
+
+        public async Task<List<Invoice>> GetSalesReportByDateRangeAsync(DateTime from, DateTime to)
+        {
+            to = to.Date.AddDays(1).AddTicks(-1);
+
+            return await context.Invoices
+                .Where(x =>
+                    x.InvoiceType == InvoiceType.Sale &&
+                    x.CreatedAt >= from &&
+                    x.CreatedAt <= to
+                ).ToListAsync();
         }
     }
 }

@@ -8,6 +8,6 @@ namespace BackEnd.Repositories.Warehouses
     {
         new Task<List<Stock>> GetAllAsync(PaginationDTO paginationDTO);
         Task<Stock?> GetByItemIdAndWarehouseId(long itemId, long warehouseId);
-        Task<double> TotalProductsInStock();
+        Task<double> TotalProductsInStockAsync();
     }
 }

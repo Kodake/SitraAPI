@@ -10,8 +10,12 @@ namespace BackEnd.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "identity");
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
+                schema: "identity",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -26,9 +30,14 @@ namespace BackEnd.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUsers",
+                schema: "identity",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Discriminator = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    TenantId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -51,6 +60,7 @@ namespace BackEnd.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Brands",
+                schema: "identity",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -68,6 +78,7 @@ namespace BackEnd.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Categories",
+                schema: "identity",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -85,6 +96,7 @@ namespace BackEnd.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Contacts",
+                schema: "identity",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -109,6 +121,7 @@ namespace BackEnd.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Currencies",
+                schema: "identity",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -127,6 +140,7 @@ namespace BackEnd.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Deadlines",
+                schema: "identity",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -144,6 +158,7 @@ namespace BackEnd.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Pricings",
+                schema: "identity",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -161,6 +176,7 @@ namespace BackEnd.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Taxes",
+                schema: "identity",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -178,6 +194,7 @@ namespace BackEnd.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Units",
+                schema: "identity",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -195,6 +212,7 @@ namespace BackEnd.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Warehouses",
+                schema: "identity",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -217,6 +235,7 @@ namespace BackEnd.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
+                schema: "identity",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -231,6 +250,7 @@ namespace BackEnd.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
+                        principalSchema: "identity",
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -238,6 +258,7 @@ namespace BackEnd.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
+                schema: "identity",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -252,6 +273,7 @@ namespace BackEnd.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserClaims_AspNetUsers_UserId",
                         column: x => x.UserId,
+                        principalSchema: "identity",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -259,6 +281,7 @@ namespace BackEnd.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserLogins",
+                schema: "identity",
                 columns: table => new
                 {
                     LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -272,6 +295,7 @@ namespace BackEnd.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserLogins_AspNetUsers_UserId",
                         column: x => x.UserId,
+                        principalSchema: "identity",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -279,6 +303,7 @@ namespace BackEnd.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserRoles",
+                schema: "identity",
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -290,12 +315,14 @@ namespace BackEnd.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
                         column: x => x.RoleId,
+                        principalSchema: "identity",
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetUsers_UserId",
                         column: x => x.UserId,
+                        principalSchema: "identity",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -303,6 +330,7 @@ namespace BackEnd.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserTokens",
+                schema: "identity",
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -316,6 +344,7 @@ namespace BackEnd.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserTokens_AspNetUsers_UserId",
                         column: x => x.UserId,
+                        principalSchema: "identity",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -323,6 +352,7 @@ namespace BackEnd.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Items",
+                schema: "identity",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -345,18 +375,21 @@ namespace BackEnd.Migrations
                     table.ForeignKey(
                         name: "FK_Items_Brands_BrandId",
                         column: x => x.BrandId,
+                        principalSchema: "identity",
                         principalTable: "Brands",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Items_Categories_CategoryId",
                         column: x => x.CategoryId,
+                        principalSchema: "identity",
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Items_Units_UnitId",
                         column: x => x.UnitId,
+                        principalSchema: "identity",
                         principalTable: "Units",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -364,6 +397,7 @@ namespace BackEnd.Migrations
 
             migrationBuilder.CreateTable(
                 name: "FiscalSupports",
+                schema: "identity",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -386,6 +420,7 @@ namespace BackEnd.Migrations
                     table.ForeignKey(
                         name: "FK_FiscalSupports_Warehouses_WarehouseId",
                         column: x => x.WarehouseId,
+                        principalSchema: "identity",
                         principalTable: "Warehouses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -393,6 +428,7 @@ namespace BackEnd.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Invoices",
+                schema: "identity",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -426,30 +462,35 @@ namespace BackEnd.Migrations
                     table.ForeignKey(
                         name: "FK_Invoices_Contacts_BillerId",
                         column: x => x.BillerId,
+                        principalSchema: "identity",
                         principalTable: "Contacts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Invoices_Contacts_CustomerId",
                         column: x => x.CustomerId,
+                        principalSchema: "identity",
                         principalTable: "Contacts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Invoices_Currencies_CurrencyId",
                         column: x => x.CurrencyId,
+                        principalSchema: "identity",
                         principalTable: "Currencies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Invoices_Pricings_PricingId",
                         column: x => x.PricingId,
+                        principalSchema: "identity",
                         principalTable: "Pricings",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Invoices_Warehouses_WarehouseId",
                         column: x => x.WarehouseId,
+                        principalSchema: "identity",
                         principalTable: "Warehouses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -457,6 +498,7 @@ namespace BackEnd.Migrations
 
             migrationBuilder.CreateTable(
                 name: "ItemTaxes",
+                schema: "identity",
                 columns: table => new
                 {
                     ItemId = table.Column<long>(type: "bigint", nullable: false),
@@ -470,12 +512,14 @@ namespace BackEnd.Migrations
                     table.ForeignKey(
                         name: "FK_ItemTaxes_Items_ItemId",
                         column: x => x.ItemId,
+                        principalSchema: "identity",
                         principalTable: "Items",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ItemTaxes_Taxes_TaxId",
                         column: x => x.TaxId,
+                        principalSchema: "identity",
                         principalTable: "Taxes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -483,6 +527,7 @@ namespace BackEnd.Migrations
 
             migrationBuilder.CreateTable(
                 name: "PricingItems",
+                schema: "identity",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -501,12 +546,14 @@ namespace BackEnd.Migrations
                     table.ForeignKey(
                         name: "FK_PricingItems_Items_ItemId",
                         column: x => x.ItemId,
+                        principalSchema: "identity",
                         principalTable: "Items",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PricingItems_Pricings_PricingId",
                         column: x => x.PricingId,
+                        principalSchema: "identity",
                         principalTable: "Pricings",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -514,6 +561,7 @@ namespace BackEnd.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Stocks",
+                schema: "identity",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -532,12 +580,14 @@ namespace BackEnd.Migrations
                     table.ForeignKey(
                         name: "FK_Stocks_Items_ItemId",
                         column: x => x.ItemId,
+                        principalSchema: "identity",
                         principalTable: "Items",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Stocks_Warehouses_WarehouseId",
                         column: x => x.WarehouseId,
+                        principalSchema: "identity",
                         principalTable: "Warehouses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -545,6 +595,7 @@ namespace BackEnd.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Payables",
+                schema: "identity",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -563,12 +614,14 @@ namespace BackEnd.Migrations
                     table.ForeignKey(
                         name: "FK_Payables_Contacts_ContactId",
                         column: x => x.ContactId,
+                        principalSchema: "identity",
                         principalTable: "Contacts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Payables_Invoices_InvoiceId",
                         column: x => x.InvoiceId,
+                        principalSchema: "identity",
                         principalTable: "Invoices",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -576,6 +629,7 @@ namespace BackEnd.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Quotations",
+                schema: "identity",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -592,12 +646,14 @@ namespace BackEnd.Migrations
                     table.ForeignKey(
                         name: "FK_Quotations_Contacts_ContactId",
                         column: x => x.ContactId,
+                        principalSchema: "identity",
                         principalTable: "Contacts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Quotations_Invoices_InvoiceId",
                         column: x => x.InvoiceId,
+                        principalSchema: "identity",
                         principalTable: "Invoices",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -605,6 +661,7 @@ namespace BackEnd.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Receivables",
+                schema: "identity",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -623,12 +680,14 @@ namespace BackEnd.Migrations
                     table.ForeignKey(
                         name: "FK_Receivables_Contacts_ContactId",
                         column: x => x.ContactId,
+                        principalSchema: "identity",
                         principalTable: "Contacts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Receivables_Invoices_InvoiceId",
                         column: x => x.InvoiceId,
+                        principalSchema: "identity",
                         principalTable: "Invoices",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -636,6 +695,7 @@ namespace BackEnd.Migrations
 
             migrationBuilder.CreateTable(
                 name: "SpotPayables",
+                schema: "identity",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -654,12 +714,14 @@ namespace BackEnd.Migrations
                     table.ForeignKey(
                         name: "FK_SpotPayables_Contacts_ContactId",
                         column: x => x.ContactId,
+                        principalSchema: "identity",
                         principalTable: "Contacts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_SpotPayables_Invoices_InvoiceId",
                         column: x => x.InvoiceId,
+                        principalSchema: "identity",
                         principalTable: "Invoices",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -667,6 +729,7 @@ namespace BackEnd.Migrations
 
             migrationBuilder.CreateTable(
                 name: "SpotPayments",
+                schema: "identity",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -686,12 +749,14 @@ namespace BackEnd.Migrations
                     table.ForeignKey(
                         name: "FK_SpotPayments_Contacts_ContactId",
                         column: x => x.ContactId,
+                        principalSchema: "identity",
                         principalTable: "Contacts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_SpotPayments_Invoices_InvoiceId",
                         column: x => x.InvoiceId,
+                        principalSchema: "identity",
                         principalTable: "Invoices",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -699,6 +764,7 @@ namespace BackEnd.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Transfers",
+                schema: "identity",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -719,24 +785,28 @@ namespace BackEnd.Migrations
                     table.ForeignKey(
                         name: "FK_Transfers_Items_ProductId",
                         column: x => x.ProductId,
+                        principalSchema: "identity",
                         principalTable: "Items",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Transfers_Stocks_StockId",
                         column: x => x.StockId,
+                        principalSchema: "identity",
                         principalTable: "Stocks",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Transfers_Warehouses_DestinationWarehouseId",
                         column: x => x.DestinationWarehouseId,
+                        principalSchema: "identity",
                         principalTable: "Warehouses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Transfers_Warehouses_OriginWarehouseId",
                         column: x => x.OriginWarehouseId,
+                        principalSchema: "identity",
                         principalTable: "Warehouses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -744,6 +814,7 @@ namespace BackEnd.Migrations
 
             migrationBuilder.CreateTable(
                 name: "PayableReceipts",
+                schema: "identity",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -762,6 +833,7 @@ namespace BackEnd.Migrations
                     table.ForeignKey(
                         name: "FK_PayableReceipts_Payables_PayableId",
                         column: x => x.PayableId,
+                        principalSchema: "identity",
                         principalTable: "Payables",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -769,6 +841,7 @@ namespace BackEnd.Migrations
 
             migrationBuilder.CreateTable(
                 name: "InvoiceItems",
+                schema: "identity",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -790,24 +863,28 @@ namespace BackEnd.Migrations
                     table.ForeignKey(
                         name: "FK_InvoiceItems_Invoices_InvoiceId",
                         column: x => x.InvoiceId,
+                        principalSchema: "identity",
                         principalTable: "Invoices",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_InvoiceItems_Items_ItemId",
                         column: x => x.ItemId,
+                        principalSchema: "identity",
                         principalTable: "Items",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_InvoiceItems_Quotations_QuotationId",
                         column: x => x.QuotationId,
+                        principalSchema: "identity",
                         principalTable: "Quotations",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "PaymentReceipts",
+                schema: "identity",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -826,6 +903,7 @@ namespace BackEnd.Migrations
                     table.ForeignKey(
                         name: "FK_PaymentReceipts_Receivables_ReceivableId",
                         column: x => x.ReceivableId,
+                        principalSchema: "identity",
                         principalTable: "Receivables",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -833,6 +911,7 @@ namespace BackEnd.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Payments",
+                schema: "identity",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -849,6 +928,7 @@ namespace BackEnd.Migrations
                     table.ForeignKey(
                         name: "FK_Payments_SpotPayments_SpotPaymentId",
                         column: x => x.SpotPaymentId,
+                        principalSchema: "identity",
                         principalTable: "SpotPayments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -856,11 +936,13 @@ namespace BackEnd.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
+                schema: "identity",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
+                schema: "identity",
                 table: "AspNetRoles",
                 column: "NormalizedName",
                 unique: true,
@@ -868,26 +950,31 @@ namespace BackEnd.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
+                schema: "identity",
                 table: "AspNetUserClaims",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserLogins_UserId",
+                schema: "identity",
                 table: "AspNetUserLogins",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserRoles_RoleId",
+                schema: "identity",
                 table: "AspNetUserRoles",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
+                schema: "identity",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
+                schema: "identity",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true,
@@ -895,176 +982,210 @@ namespace BackEnd.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_FiscalSupports_WarehouseId",
+                schema: "identity",
                 table: "FiscalSupports",
                 column: "WarehouseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_InvoiceItems_InvoiceId",
+                schema: "identity",
                 table: "InvoiceItems",
                 column: "InvoiceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_InvoiceItems_ItemId",
+                schema: "identity",
                 table: "InvoiceItems",
                 column: "ItemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_InvoiceItems_QuotationId",
+                schema: "identity",
                 table: "InvoiceItems",
                 column: "QuotationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Invoices_BillerId",
+                schema: "identity",
                 table: "Invoices",
                 column: "BillerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Invoices_CurrencyId",
+                schema: "identity",
                 table: "Invoices",
                 column: "CurrencyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Invoices_CustomerId",
+                schema: "identity",
                 table: "Invoices",
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Invoices_PricingId",
+                schema: "identity",
                 table: "Invoices",
                 column: "PricingId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Invoices_WarehouseId",
+                schema: "identity",
                 table: "Invoices",
                 column: "WarehouseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Items_BrandId",
+                schema: "identity",
                 table: "Items",
                 column: "BrandId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Items_CategoryId",
+                schema: "identity",
                 table: "Items",
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Items_UnitId",
+                schema: "identity",
                 table: "Items",
                 column: "UnitId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ItemTaxes_ItemId",
+                schema: "identity",
                 table: "ItemTaxes",
                 column: "ItemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PayableReceipts_PayableId",
+                schema: "identity",
                 table: "PayableReceipts",
                 column: "PayableId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Payables_ContactId",
+                schema: "identity",
                 table: "Payables",
                 column: "ContactId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Payables_InvoiceId",
+                schema: "identity",
                 table: "Payables",
                 column: "InvoiceId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_PaymentReceipts_ReceivableId",
+                schema: "identity",
                 table: "PaymentReceipts",
                 column: "ReceivableId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Payments_SpotPaymentId",
+                schema: "identity",
                 table: "Payments",
                 column: "SpotPaymentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PricingItems_ItemId",
+                schema: "identity",
                 table: "PricingItems",
                 column: "ItemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PricingItems_PricingId",
+                schema: "identity",
                 table: "PricingItems",
                 column: "PricingId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Quotations_ContactId",
+                schema: "identity",
                 table: "Quotations",
                 column: "ContactId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Quotations_InvoiceId",
+                schema: "identity",
                 table: "Quotations",
                 column: "InvoiceId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Receivables_ContactId",
+                schema: "identity",
                 table: "Receivables",
                 column: "ContactId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Receivables_InvoiceId",
+                schema: "identity",
                 table: "Receivables",
                 column: "InvoiceId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_SpotPayables_ContactId",
+                schema: "identity",
                 table: "SpotPayables",
                 column: "ContactId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SpotPayables_InvoiceId",
+                schema: "identity",
                 table: "SpotPayables",
                 column: "InvoiceId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_SpotPayments_ContactId",
+                schema: "identity",
                 table: "SpotPayments",
                 column: "ContactId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SpotPayments_InvoiceId",
+                schema: "identity",
                 table: "SpotPayments",
                 column: "InvoiceId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Stocks_ItemId",
+                schema: "identity",
                 table: "Stocks",
                 column: "ItemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Stocks_WarehouseId",
+                schema: "identity",
                 table: "Stocks",
                 column: "WarehouseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Transfers_DestinationWarehouseId",
+                schema: "identity",
                 table: "Transfers",
                 column: "DestinationWarehouseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Transfers_OriginWarehouseId",
+                schema: "identity",
                 table: "Transfers",
                 column: "OriginWarehouseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Transfers_ProductId",
+                schema: "identity",
                 table: "Transfers",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Transfers_StockId",
+                schema: "identity",
                 table: "Transfers",
                 column: "StockId");
         }
@@ -1073,100 +1194,132 @@ namespace BackEnd.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AspNetRoleClaims");
+                name: "AspNetRoleClaims",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserClaims");
+                name: "AspNetUserClaims",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserLogins");
+                name: "AspNetUserLogins",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserRoles");
+                name: "AspNetUserRoles",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserTokens");
+                name: "AspNetUserTokens",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "Deadlines");
+                name: "Deadlines",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "FiscalSupports");
+                name: "FiscalSupports",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "InvoiceItems");
+                name: "InvoiceItems",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "ItemTaxes");
+                name: "ItemTaxes",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "PayableReceipts");
+                name: "PayableReceipts",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "PaymentReceipts");
+                name: "PaymentReceipts",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "Payments");
+                name: "Payments",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "PricingItems");
+                name: "PricingItems",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "SpotPayables");
+                name: "SpotPayables",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "Transfers");
+                name: "Transfers",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "AspNetRoles",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "AspNetUsers",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "Quotations");
+                name: "Quotations",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "Taxes");
+                name: "Taxes",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "Payables");
+                name: "Payables",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "Receivables");
+                name: "Receivables",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "SpotPayments");
+                name: "SpotPayments",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "Stocks");
+                name: "Stocks",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "Invoices");
+                name: "Invoices",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "Items");
+                name: "Items",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "Contacts");
+                name: "Contacts",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "Currencies");
+                name: "Currencies",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "Pricings");
+                name: "Pricings",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "Warehouses");
+                name: "Warehouses",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "Brands");
+                name: "Brands",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "Categories",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "Units");
+                name: "Units",
+                schema: "identity");
         }
     }
 }
