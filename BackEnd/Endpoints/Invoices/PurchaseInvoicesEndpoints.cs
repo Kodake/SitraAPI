@@ -2,9 +2,9 @@
 using BackEnd.DTOs.Invoices.PurchaseInvoices;
 using BackEnd.DTOs.Invoices.SaleInvoices;
 using BackEnd.Helpers;
-using BackEnd.MediatR.Commands.Invoices.PurchaseInvoices;
-using BackEnd.MediatR.Queries.Invoices.PurchaseInvoices;
-using BackEnd.MediatR.Queries.Invoices.SaleInvoices;
+using BackEnd.Mediator.Commands.Invoices.PurchaseInvoices;
+using BackEnd.Mediator.Queries.Invoices.PurchaseInvoices;
+using BackEnd.Mediator.Queries.Invoices.SaleInvoices;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;

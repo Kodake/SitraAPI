@@ -8,16 +8,14 @@ namespace BackEnd.Validations
 {
     public class CreateStockDTOValidator : AbstractValidator<CreateStockDTO>
     {
-        public CreateStockDTOValidator(IProductRepository productRepository,
-                                       IWarehouseRepository warehouseRepository,
-                                       IHttpContextAccessor httpContextAccessor)
+        public CreateStockDTOValidator(IHttpContextAccessor httpContextAccessor)
         {
             var routeId = httpContextAccessor.HttpContext?.Request.RouteValues["id"];
             var id = 0;
 
             if (routeId is string valorString)
             {
-                int.TryParse(valorString, out id);
+                _ = int.TryParse(valorString, out id);
             }
 
             RuleFor(x => x.ItemId)

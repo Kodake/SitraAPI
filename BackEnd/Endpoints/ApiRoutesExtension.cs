@@ -1,4 +1,5 @@
 ﻿using BackEnd.Endpoints;
+using BackEnd.Endpoints.CashBoxes;
 using BackEnd.Endpoints.Invoices;
 using BackEnd.Endpoints.Products;
 
@@ -33,6 +34,7 @@ public static class ApiRouteExtensions
         apiGroup.MapGroup("/quotations").MapQuotations();
         apiGroup.MapGroup("/spotPayments").MapSpotPayments();
         apiGroup.MapGroup("/spotPayables").MapSpotPayables();
+        apiGroup.MapGroup("/pettyCashes").MapPettyCashes();
 
         return endpoints;
     }

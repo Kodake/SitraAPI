@@ -7,14 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BackEnd.Repositories.Accounts
 {
-    public class PayableRepository : RepositoryBase<Payable>, IPayableRepository
+    public class PayableRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor) : RepositoryBase<Payable>(context, httpContextAccessor), IPayableRepository
     {
-        private new readonly HttpContext httpContext;
-        public PayableRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
-            : base(context, httpContextAccessor)
-        {
-            httpContext = httpContextAccessor.HttpContext!;
-        }
+        private new readonly HttpContext httpContext = httpContextAccessor.HttpContext!;
 
         public async new Task<List<Payable>> GetAllAsync(PaginationDTO paginationDTO)
         {

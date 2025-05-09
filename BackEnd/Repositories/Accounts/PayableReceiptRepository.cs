@@ -4,12 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BackEnd.Repositories.Accounts
 {
-    public class PayableReceiptRepository : RepositoryBase<PayableReceipt>, IPayableReceiptRepository
+    public class PayableReceiptRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor) : RepositoryBase<PayableReceipt>(context, httpContextAccessor), IPayableReceiptRepository
     {
-        public PayableReceiptRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
-            : base(context, httpContextAccessor)
-        { }
-
         public async new Task<PayableReceipt?> GetByIdAsync(long id)
         {
             return await context.PayableReceipts

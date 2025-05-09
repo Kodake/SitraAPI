@@ -2,8 +2,8 @@
 using BackEnd.DTOs.Warehouses.Stocks;
 using BackEnd.Filters;
 using BackEnd.Helpers;
-using BackEnd.MediatR.Commands.Warehouses.Stocks;
-using BackEnd.MediatR.Queries.Warehouses.Stocks;
+using BackEnd.Mediator.Commands.Warehouses.Stocks;
+using BackEnd.Mediator.Queries.Warehouses.Stocks;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;

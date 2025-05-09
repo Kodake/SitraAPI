@@ -1,0 +1,27 @@
+using AutoMapper;
+using BackEnd.DTOs.Products.Units;
+using BackEnd.Entities.Products;
+using BackEnd.Repositories;
+using Microsoft.AspNetCore.OutputCaching;
+
+namespace BackEnd.Mediator.Commands.Products.Units
+{
+    public class UpdateUnitCommand : UpdateCommand<Unit, CreateUnitDTO>
+    {
+        public UpdateUnitCommand(long id, CreateUnitDTO dto) : base(id, dto) { }
+
+        public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
+        {
+            var unitDB = await unitOfWork.UnitRepository.GetByIdAsync(Id);
+
+            if (unitDB == null) return false;
+
+            mapper.Map(Dto, unitDB);
+            unitOfWork.UnitRepository.Update(unitDB);
+            await unitOfWork.SaveChangesAsync();
+            await outputCacheStore.EvictByTagAsync("units-get", default);
+
+            return true;
+        }
+    }
+}

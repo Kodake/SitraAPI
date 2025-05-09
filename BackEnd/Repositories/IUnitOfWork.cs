@@ -1,11 +1,13 @@
 ﻿using BackEnd.Repositories.Accounts;
 using BackEnd.Repositories.AdministrativeTools;
+using BackEnd.Repositories.CashBoxes;
 using BackEnd.Repositories.Contacts;
 using BackEnd.Repositories.Finances;
 using BackEnd.Repositories.Generics;
 using BackEnd.Repositories.Invoices;
 using BackEnd.Repositories.Products;
 using BackEnd.Repositories.Warehouses;
+using BackEnd.Services;
 namespace BackEnd.Repositories
 {
     public interface IUnitOfWork : IDisposable
@@ -37,6 +39,9 @@ namespace BackEnd.Repositories
         IStockRepository StockRepository { get; }
         ITransferRepository TransferRepository { get; }
         IWarehouseRepository WarehouseRepository { get; }
+        IPettyCashRepository PettyCashRepository { get; }
+        IPettyCashMovementRepository PettyCashMovementRepository { get; }
+        IUserService UserService { get; }
         Task<int> SaveChangesAsync();
     }
 }

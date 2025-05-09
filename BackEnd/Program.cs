@@ -1,6 +1,7 @@
 using BackEnd.Context;
 using BackEnd.Entities.Auths;
 using BackEnd.Helpers;
+using BackEnd.Mediator;
 using BackEnd.MediatR;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
@@ -47,12 +48,12 @@ builder.Services.AddAuthorization();
 builder.Services.AddIdentityCore<User>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddIdentityCore<IdentityUser>()
+builder.Services.AddIdentityCore<User>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
 builder.Services.AddScoped<UserManager<User>>();
-builder.Services.AddScoped<SignInManager<IdentityUser>>();
+builder.Services.AddScoped<SignInManager<User>>();
 
 builder.Services.AddAuthentication().AddJwtBearer(opciones =>
 {

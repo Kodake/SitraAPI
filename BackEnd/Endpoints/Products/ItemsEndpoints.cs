@@ -1,5 +1,5 @@
 ﻿using BackEnd.DTOs.Products.Items;
-using BackEnd.MediatR.Queries.Products.Items;
+using BackEnd.Mediator.Queries.Products.Items;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;

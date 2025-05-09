@@ -17,7 +17,7 @@ namespace BackEnd.Filters
 
             if (toValidate is null)
             {
-                return TypedResults.Problem("No pudo ser encontrada la entidad a validar");
+                return TypedResults.Problem("No entity to validate found.");
             }
 
             var validationResult = await validator.ValidateAsync(toValidate);

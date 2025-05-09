@@ -1,5 +1,5 @@
 ﻿using BackEnd.DTOs;
-using BackEnd.MediatR.Queries.Dashboards;
+using BackEnd.Mediator.Queries.Dashboards;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;

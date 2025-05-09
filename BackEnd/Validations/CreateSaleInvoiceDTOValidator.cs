@@ -8,12 +8,8 @@ namespace BackEnd.Validations
 {
     public class CreateSaleInvoiceDTOValidator : AbstractValidator<CreateSaleInvoiceDTO>
     {
-        private IUnitOfWork unitOfWork;
-
         public CreateSaleInvoiceDTOValidator(IUnitOfWork unitOfWork)
         {
-            this.unitOfWork = unitOfWork;
-
             RuleFor(x => x.PricingId)
                 .MustAsync(async (id, _) => await unitOfWork.PricingRepository.ExistsAsync(id))
                 .WithMessage(x => string.Format(Utilities.NotExistsWith, x.PricingId));

@@ -4,6 +4,7 @@ using BackEnd.DTOs.Auths;
 using BackEnd.Entities.Auths;
 using BackEnd.Filters;
 using BackEnd.Helpers;
+using BackEnd.Repositories;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -47,10 +48,11 @@ namespace BackEnd.Endpoints
             return TypedResults.Created();
         }
 
-        static async Task<Results<Ok<TokenResponseDTO>, BadRequest, ValidationProblem>> Login(
+        static async Task<Results<Ok<TokenResponseDTO>, BadRequest, BadRequest<string>, ValidationProblem>> Login(
             CreateLoginUserDTO dto,
-            [FromServices] SignInManager<IdentityUser> signInManager,
-            [FromServices] UserManager<IdentityUser> userManager,
+            [FromServices] SignInManager<User> signInManager,
+            [FromServices] UserManager<User> userManager,
+            [FromServices] IUnitOfWork unitOfWork,
             IConfiguration configuration)
         {
             var user = await userManager.FindByEmailAsync(dto.Email);
@@ -62,6 +64,14 @@ namespace BackEnd.Endpoints
 
             var result = await signInManager.CheckPasswordSignInAsync(user,
                 dto.Password, lockoutOnFailure: false);
+
+            var openPettyCash = await unitOfWork.PettyCashRepository.GetOpenPettyCashAsync();
+
+            if (openPettyCash != null && openPettyCash.User.Email != user.Email)
+            {
+                return TypedResults.BadRequest($"The petty cash opened by user {openPettyCash.User.Email} must be closed before logging in.");
+            }
+
 
             if (result.Succeeded)
             {
@@ -75,7 +85,7 @@ namespace BackEnd.Endpoints
         }
 
         private async static Task<TokenResponseDTO> BuildToken(CreateLoginUserDTO dto,
-            IConfiguration configuration, UserManager<IdentityUser> userManager)
+            IConfiguration configuration, UserManager<User> userManager)
         {
             var claims = new List<Claim>
             {

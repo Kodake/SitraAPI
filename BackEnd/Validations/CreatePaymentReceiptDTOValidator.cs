@@ -16,7 +16,7 @@ namespace BackEnd.Validations
 
             if (routeId is string valorString)
             {
-                int.TryParse(valorString, out id);
+                _ = int.TryParse(valorString, out id);
             }
 
             RuleFor(dto => id)

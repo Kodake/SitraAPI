@@ -1,8 +1,8 @@
 ﻿using BackEnd.DTOs;
 using BackEnd.DTOs.Invoices.SaleInvoices;
 using BackEnd.Helpers;
-using BackEnd.MediatR.Commands.Invoices.SaleInvoices;
-using BackEnd.MediatR.Queries.Invoices.SaleInvoices;
+using BackEnd.Mediator.Commands.Invoices.SaleInvoices;
+using BackEnd.Mediator.Queries.Invoices.SaleInvoices;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +20,7 @@ namespace BackEnd.Endpoints.Invoices
                 .AddPaginationParamsOpenAPI();
             group.MapGet("/sales-report", GenerateReportPdf).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("saleInvoices-get"));
             group.MapGet("/{id:long}", GetById);
-            group.MapPost("/", Create).DisableAntiforgery().WithOpenApi();
+            group.MapPost("/", Create).DisableAntiforgery().WithOpenApi().RequireAuthorization();
             group.MapGet("/{invoiceId}/generate-pdf", GeneratePdf).WithOpenApi();
             return group;
         }

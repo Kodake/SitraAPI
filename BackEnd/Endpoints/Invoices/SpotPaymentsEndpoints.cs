@@ -1,7 +1,7 @@
 ﻿using BackEnd.DTOs;
 using BackEnd.DTOs.Invoices.SpotPayments;
 using BackEnd.Helpers;
-using BackEnd.MediatR.Queries.Invoices.SpotPayments;
+using BackEnd.Mediator.Queries.Invoices.SpotPayments;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;

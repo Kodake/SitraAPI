@@ -2,8 +2,8 @@
 using BackEnd.DTOs.Finances.Currencies;
 using BackEnd.Filters;
 using BackEnd.Helpers;
-using BackEnd.MediatR.Commands.Finances.Currencies;
-using BackEnd.MediatR.Queries.Finances.Currencies;
+using BackEnd.Mediator.Commands.Finances.Currencies;
+using BackEnd.Mediator.Queries.Finances.Currencies;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;

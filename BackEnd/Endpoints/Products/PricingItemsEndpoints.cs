@@ -2,8 +2,8 @@
 using BackEnd.DTOs.Products.PricingItems;
 using BackEnd.Filters;
 using BackEnd.Helpers;
-using BackEnd.MediatR.Commands.Products.PricingItems;
-using BackEnd.MediatR.Queries.Products.PricingItems;
+using BackEnd.Mediator.Commands.Products.PricingItems;
+using BackEnd.Mediator.Queries.Products.PricingItems;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;

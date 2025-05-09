@@ -2,8 +2,8 @@
 using BackEnd.DTOs.Contacts.Contacts;
 using BackEnd.Filters;
 using BackEnd.Helpers;
-using BackEnd.MediatR.Commands.Contacts;
-using BackEnd.MediatR.Queries.Contacts;
+using BackEnd.Mediator.Commands.Contacts;
+using BackEnd.Mediator.Queries.Contacts;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;

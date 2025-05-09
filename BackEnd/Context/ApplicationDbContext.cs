@@ -4,6 +4,7 @@ using BackEnd.Context.Auths;
 using BackEnd.Context.Contacts;
 using BackEnd.Context.Finances;
 using BackEnd.Context.Invoices;
+using BackEnd.Context.CashBoxes;
 using BackEnd.Context.Products;
 using BackEnd.Context.Warehouses;
 using BackEnd.Entities.Accounts;
@@ -11,14 +12,16 @@ using BackEnd.Entities.AdministrativeTools;
 using BackEnd.Entities.Contacts;
 using BackEnd.Entities.Finances;
 using BackEnd.Entities.Invoices;
+using BackEnd.Entities.CashBoxes;
 using BackEnd.Entities.Products;
 using BackEnd.Entities.Warehouses;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using BackEnd.Entities.Auths;
 
 namespace BackEnd.Context
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<User>
     {
         public ApplicationDbContext(DbContextOptions options) : base(options)
         { }
@@ -59,6 +62,9 @@ namespace BackEnd.Context
             modelBuilder.ApplyConfiguration(new TransferConfiguration());
             modelBuilder.ApplyConfiguration(new WarehouseConfiguration());
 
+            modelBuilder.ApplyConfiguration(new PettyCashConfiguration());
+            modelBuilder.ApplyConfiguration(new PettyCashMovementConfiguration());
+
             modelBuilder.ApplyConfiguration(new AuthConfiguration()).HasDefaultSchema("identity");
         }
         #endregion
@@ -89,6 +95,8 @@ namespace BackEnd.Context
         public DbSet<Payable> Payables { get; set; }
         public DbSet<PaymentReceipt> PaymentReceipts { get; set; }
         public DbSet<PayableReceipt> PayableReceipts { get; set; }
+        public DbSet<PettyCash> PettyCashes { get; set; }
+        public DbSet<PettyCashMovement> PettyCashMovements{ get; set; }
         #endregion
     }
 }

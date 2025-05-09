@@ -1,12 +1,15 @@
 ﻿using BackEnd.Context;
+using BackEnd.Entities.Auths;
 using BackEnd.Repositories.Accounts;
 using BackEnd.Repositories.AdministrativeTools;
+using BackEnd.Repositories.CashBoxes;
 using BackEnd.Repositories.Contacts;
 using BackEnd.Repositories.Finances;
 using BackEnd.Repositories.Generics;
 using BackEnd.Repositories.Invoices;
 using BackEnd.Repositories.Products;
 using BackEnd.Repositories.Warehouses;
+using BackEnd.Services;
 using Microsoft.AspNetCore.Identity;
 
 namespace BackEnd.Repositories
@@ -43,11 +46,14 @@ namespace BackEnd.Repositories
         public IStockRepository StockRepository { get; }
         public ITransferRepository TransferRepository { get; }
         public IWarehouseRepository WarehouseRepository { get; }
-        public UserManager<IdentityUser> UserManager { get; }
+        public IPettyCashRepository PettyCashRepository { get; }
+        public IPettyCashMovementRepository PettyCashMovementRepository { get; }
+        public IUserService UserService { get; }
 
         public UnitOfWork(
             ApplicationDbContext context,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor, 
+            UserManager<User> userManager)
         {
             PayableRepository = new PayableRepository(context, httpContextAccessor);
             ReceivableRepository = new ReceivableRepository(context, httpContextAccessor);
@@ -75,6 +81,9 @@ namespace BackEnd.Repositories
             StockRepository = new StockRepository(context, httpContextAccessor);
             TransferRepository = new TransferRepository(context, httpContextAccessor);
             WarehouseRepository = new WarehouseRepository(context, httpContextAccessor);
+            PettyCashRepository = new PettyCashRepository(context, httpContextAccessor);
+            PettyCashMovementRepository = new PettyCashMovementRepository(context, httpContextAccessor);
+            UserService = new UserService(context, httpContextAccessor, userManager);
             _context = context;
             _httpContextAccessor = httpContextAccessor;
         }
