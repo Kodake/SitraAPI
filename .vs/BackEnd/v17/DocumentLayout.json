@@ -3,32 +3,48 @@
   "WorkspaceRootPath": "C:\\Users\\Kodake\\Desktop\\PosAPI\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\mediator\\commands\\cashboxes\\createwithdrawalpettycashmovementcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\mediator\\commands\\cashboxes\\createwithdrawalpettycashmovementcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\mediator\\commands\\invoices\\purchaseinvoices\\createpurchaseinvoicecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\mediator\\commands\\invoices\\purchaseinvoices\\createpurchaseinvoicecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\entities\\contacts\\contact.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\entities\\contacts\\contact.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\mediator\\queries\\cashboxes\\getpettycashbyuseridquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\mediator\\queries\\cashboxes\\getpettycashbyuseridquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\mediator\\queries\\cashboxes\\getallpettycashmovementsbyidquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\mediator\\queries\\cashboxes\\getallpettycashmovementsbyidquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\enums\\invoicecondition.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\enums\\invoicecondition.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\endpoints\\cashboxes\\pettycashmovementsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\endpoints\\cashboxes\\pettycashmovementsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\enums\\invoicetype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\enums\\invoicetype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\mediator\\queries\\cashboxes\\getallwithdrawalpettycashmovementsbyidquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\mediator\\queries\\cashboxes\\getallwithdrawalpettycashmovementsbyidquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\repositories\\cashboxes\\pettycashmovementrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\repositories\\cashboxes\\pettycashmovementrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\repositories\\cashboxes\\ipettycashmovementrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\repositories\\cashboxes\\ipettycashmovementrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\endpoints\\invoices\\saleinvoicesendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\endpoints\\invoices\\saleinvoicesendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\mediator\\commands\\invoices\\saleinvoices\\createsaleinvoicecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\mediator\\commands\\invoices\\saleinvoices\\createsaleinvoicecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\endpoints\\cashboxes\\pettycashesendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\endpoints\\cashboxes\\pettycashesendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\dtos\\cashboxes\\withdrawalpettycashmovementlistdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\dtos\\cashboxes\\withdrawalpettycashmovementlistdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,7 +54,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 320,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -62,88 +78,136 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "InvoiceCondition.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Enums\\InvoiceCondition.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Enums\\InvoiceCondition.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Enums\\InvoiceCondition.cs",
-              "RelativeToolTip": "BackEnd\\Enums\\InvoiceCondition.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAABAAAA",
+              "DocumentIndex": 0,
+              "Title": "CreateWithdrawalPettyCashMovementCommand.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Commands\\CashBoxes\\CreateWithdrawalPettyCashMovementCommand.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Mediator\\Commands\\CashBoxes\\CreateWithdrawalPettyCashMovementCommand.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Commands\\CashBoxes\\CreateWithdrawalPettyCashMovementCommand.cs",
+              "RelativeToolTip": "BackEnd\\Mediator\\Commands\\CashBoxes\\CreateWithdrawalPettyCashMovementCommand.cs",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAiwCoAAAAYAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-09T15:05:51.843Z"
+              "WhenOpened": "2025-05-20T00:44:18.048Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CreatePurchaseInvoiceCommand.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Commands\\Invoices\\PurchaseInvoices\\CreatePurchaseInvoiceCommand.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Mediator\\Commands\\Invoices\\PurchaseInvoices\\CreatePurchaseInvoiceCommand.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Commands\\Invoices\\PurchaseInvoices\\CreatePurchaseInvoiceCommand.cs",
+              "RelativeToolTip": "BackEnd\\Mediator\\Commands\\Invoices\\PurchaseInvoices\\CreatePurchaseInvoiceCommand.cs",
+              "ViewState": "AQIAACcAAAAAAAAAAAAiwD4AAAAmAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T00:44:00.498Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "InvoiceType.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Enums\\InvoiceType.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Enums\\InvoiceType.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Enums\\InvoiceType.cs",
-              "RelativeToolTip": "BackEnd\\Enums\\InvoiceType.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAWAAAA",
+              "Title": "Contact.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Contacts\\Contact.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Entities\\Contacts\\Contact.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Contacts\\Contact.cs",
+              "RelativeToolTip": "BackEnd\\Entities\\Contacts\\Contact.cs",
+              "ViewState": "AQIAAAUAAAAAAAAAAAAgwBIAAAAyAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-09T15:05:30.656Z"
+              "WhenOpened": "2025-05-20T00:43:42.179Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "PettyCashMovementRepository.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\CashBoxes\\PettyCashMovementRepository.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Repositories\\CashBoxes\\PettyCashMovementRepository.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\CashBoxes\\PettyCashMovementRepository.cs",
-              "RelativeToolTip": "BackEnd\\Repositories\\CashBoxes\\PettyCashMovementRepository.cs",
-              "ViewState": "AQIAAAUAAAAAAAAAAAAjwBQAAABGAAAA",
+              "Title": "GetPettyCashByUserIdQuery.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Queries\\CashBoxes\\GetPettyCashByUserIdQuery.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Mediator\\Queries\\CashBoxes\\GetPettyCashByUserIdQuery.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Queries\\CashBoxes\\GetPettyCashByUserIdQuery.cs",
+              "RelativeToolTip": "BackEnd\\Mediator\\Queries\\CashBoxes\\GetPettyCashByUserIdQuery.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-09T14:34:46.259Z"
+              "WhenOpened": "2025-05-19T23:17:11.801Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "IPettyCashMovementRepository.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\CashBoxes\\IPettyCashMovementRepository.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Repositories\\CashBoxes\\IPettyCashMovementRepository.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\CashBoxes\\IPettyCashMovementRepository.cs",
-              "RelativeToolTip": "BackEnd\\Repositories\\CashBoxes\\IPettyCashMovementRepository.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAqwAkAAAAsAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-09T14:34:34.624Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
               "Title": "GetAllPettyCashMovementsByIdQuery.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Queries\\CashBoxes\\GetAllPettyCashMovementsByIdQuery.cs",
               "RelativeDocumentMoniker": "BackEnd\\Mediator\\Queries\\CashBoxes\\GetAllPettyCashMovementsByIdQuery.cs",
               "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Queries\\CashBoxes\\GetAllPettyCashMovementsByIdQuery.cs",
               "RelativeToolTip": "BackEnd\\Mediator\\Queries\\CashBoxes\\GetAllPettyCashMovementsByIdQuery.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAB5AAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAuAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-09T14:29:32.395Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-19T23:17:05.803Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "SaleInvoicesEndpoints.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Invoices\\SaleInvoicesEndpoints.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Endpoints\\Invoices\\SaleInvoicesEndpoints.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Invoices\\SaleInvoicesEndpoints.cs",
-              "RelativeToolTip": "BackEnd\\Endpoints\\Invoices\\SaleInvoicesEndpoints.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABsAAAA/AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-09T12:43:54.721Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "CreateSaleInvoiceCommand.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Commands\\Invoices\\SaleInvoices\\CreateSaleInvoiceCommand.cs",
               "RelativeDocumentMoniker": "BackEnd\\Mediator\\Commands\\Invoices\\SaleInvoices\\CreateSaleInvoiceCommand.cs",
               "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Commands\\Invoices\\SaleInvoices\\CreateSaleInvoiceCommand.cs",
               "RelativeToolTip": "BackEnd\\Mediator\\Commands\\Invoices\\SaleInvoices\\CreateSaleInvoiceCommand.cs",
-              "ViewState": "AQIAABAAAAAAAAAAAAA1wB0AAACmAAAA",
+              "ViewState": "AQIAANEAAAAAAAAAAADgv+MAAAAXAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-09T12:43:54.731Z"
+              "WhenOpened": "2025-05-19T22:57:35.83Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "GetAllWithdrawalPettyCashMovementsByIdQuery.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Queries\\CashBoxes\\GetAllWithdrawalPettyCashMovementsByIdQuery.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Mediator\\Queries\\CashBoxes\\GetAllWithdrawalPettyCashMovementsByIdQuery.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Queries\\CashBoxes\\GetAllWithdrawalPettyCashMovementsByIdQuery.cs",
+              "RelativeToolTip": "BackEnd\\Mediator\\Queries\\CashBoxes\\GetAllWithdrawalPettyCashMovementsByIdQuery.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAABcAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-19T22:56:36.372Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "PettyCashMovementRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\CashBoxes\\PettyCashMovementRepository.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Repositories\\CashBoxes\\PettyCashMovementRepository.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\CashBoxes\\PettyCashMovementRepository.cs",
+              "RelativeToolTip": "BackEnd\\Repositories\\CashBoxes\\PettyCashMovementRepository.cs",
+              "ViewState": "AQIAAAEAAAAAAAAAAAArwB0AAABJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-19T21:35:28.171Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "PettyCashesEndpoints.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\CashBoxes\\PettyCashesEndpoints.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Endpoints\\CashBoxes\\PettyCashesEndpoints.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\CashBoxes\\PettyCashesEndpoints.cs",
+              "RelativeToolTip": "BackEnd\\Endpoints\\CashBoxes\\PettyCashesEndpoints.cs",
+              "ViewState": "AQIAACEAAAAAAAAAAAA5wCYAAAAyAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-19T21:34:51.819Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "WithdrawalPettyCashMovementListDTO.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\CashBoxes\\WithdrawalPettyCashMovementListDTO.cs",
+              "RelativeDocumentMoniker": "BackEnd\\DTOs\\CashBoxes\\WithdrawalPettyCashMovementListDTO.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\CashBoxes\\WithdrawalPettyCashMovementListDTO.cs",
+              "RelativeToolTip": "BackEnd\\DTOs\\CashBoxes\\WithdrawalPettyCashMovementListDTO.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAvAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-19T21:25:34.353Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "PettyCashMovementsEndpoints.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\CashBoxes\\PettyCashMovementsEndpoints.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Endpoints\\CashBoxes\\PettyCashMovementsEndpoints.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\CashBoxes\\PettyCashMovementsEndpoints.cs",
+              "RelativeToolTip": "BackEnd\\Endpoints\\CashBoxes\\PettyCashMovementsEndpoints.cs",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAAABcAAAAZAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-19T21:13:50.845Z"
             }
           ]
         },

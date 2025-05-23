@@ -14,12 +14,16 @@ namespace BackEnd.Profiles.CashBoxes
             CreateMap<CreateClosePettyCashDTO, PettyCash>();
 
             CreateMap<PettyCash, PettyCashDTO>()
-                .ForMember(des => des.User, opt => opt.MapFrom(src => src.User))
-                .ForMember(des => des.PettyCashMovements, opt => opt.MapFrom(src => src.PettyCashMovements));
+                .ForMember(des => des.PaymentMethods, opt => opt.Ignore())
+                .ForMember(des => des.User, opt => opt.MapFrom(src => src.User));
 
             CreateMap<User, UserDTO>();
 
-            CreateMap<PettyCashMovement, PettyCashMovementListDTO>();
+            CreateMap<PettyCashMovement, PettyCashMovementListDTO>()
+                .ForMember(des => des.FiscalSupportNumber, opt => opt.MapFrom(src => src.Invoice!.FiscalSupportNumber));
+
+            CreateMap<CreateWithdrawalPettyCashMovementDTO, PettyCashMovement>();
+            CreateMap<PettyCashMovement, WithdrawalPettyCashMovementListDTO>();
         }
     }
 }

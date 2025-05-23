@@ -52,7 +52,7 @@ namespace BackEnd.Repositories
 
         public UnitOfWork(
             ApplicationDbContext context,
-            IHttpContextAccessor httpContextAccessor, 
+            IHttpContextAccessor httpContextAccessor,
             UserManager<User> userManager)
         {
             PayableRepository = new PayableRepository(context, httpContextAccessor);

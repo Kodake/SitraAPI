@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
-using BackEnd.Repositories;
 using BackEnd.DTOs.CashBoxes;
+using BackEnd.Enums;
+using BackEnd.Repositories;
 
 namespace BackEnd.Mediator.Queries.CashBoxes
 {
@@ -17,7 +18,35 @@ namespace BackEnd.Mediator.Queries.CashBoxes
                 ?? throw new UnauthorizedAccessException("No user authenticated found.");
 
             var pettyCash = await unitOfWork.PettyCashRepository.GetAllByUserIdAsync(user.Id);
-            return mapper.Map<PettyCashDTO?>(pettyCash);
+            if (pettyCash == null)
+                return null;
+
+            var paymentMethods = await unitOfWork.PettyCashMovementRepository
+                .GetPaymentMethodSumsAsync(pettyCash.Id);
+
+            var totalWithdrawals = await unitOfWork.PettyCashMovementRepository
+                .GetTotalWithdrawalsAsync(pettyCash.Id);
+
+            var dto = mapper.Map<PettyCashDTO>(pettyCash);
+
+            dto.PaymentMethods = paymentMethods
+                .Where(kvp => kvp.Key is PaymentMethod)
+                .Select(kvp => new PaymentMethodAmountListDTO
+                {
+                    Method = (PaymentMethod)kvp.Key,
+                    Amount = kvp.Value
+                })
+                .ToList();
+
+            dto.TotalBilled = paymentMethods.TryGetValue("Total", out var total)
+                ? total
+                : dto.PaymentMethods.Sum(p => p.Amount);
+
+            dto.WithdrawalAmount = totalWithdrawals;
+
+            dto.ClosingAmount = dto.OpeningAmount + dto.TotalBilled - dto.WithdrawalAmount;
+
+            return dto;
         }
     }
 }

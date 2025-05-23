@@ -11,6 +11,7 @@ namespace BackEnd.Entities.CashBoxes
         public double OpeningAmount { get; set; }
         public DateTime OpeningDate { get; set; }
         public double? ClosingAmount { get; set; }
+        public double? WithdrawalAmount { get; set; }
         public DateTime? ClosingDate { get; set; }
         public PettyCashStatus Status { get; set; }
         public string? Comments { get; set; }

@@ -1615,6 +1615,88 @@
     ]
   },
   {
+    "ContainingType": "BackEnd.Endpoints.CashBoxes.PettyCashesEndpoints",
+    "Method": "GetAllById",
+    "RelativePath": "api/v1/pettyCashes/{pettyCashId:long}/pettyCashPayments",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pettyCashId",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.CashBoxes.PaymentMethodAmountListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BackEnd.Endpoints.CashBoxes.PettyCashMovementsEndpoints",
+    "Method": "Create",
+    "RelativePath": "api/v1/pettyCashMovements/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "BackEnd.DTOs.CashBoxes.CreateWithdrawalPettyCashMovementDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "BackEnd.Endpoints.CashBoxes.PettyCashMovementsEndpoints",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/pettyCashMovements/{pettyCashId:long}/withdrawals",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pettyCashId",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[BackEnd.DTOs.CashBoxes.WithdrawalPettyCashMovementListDTO, BackEnd, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "BackEnd.Endpoints.PricingItemsEndpoints",
     "Method": "Create",
     "RelativePath": "api/v1/pricingItems/",

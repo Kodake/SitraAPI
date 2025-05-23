@@ -35,6 +35,7 @@ public static class ApiRouteExtensions
         apiGroup.MapGroup("/spotPayments").MapSpotPayments();
         apiGroup.MapGroup("/spotPayables").MapSpotPayables();
         apiGroup.MapGroup("/pettyCashes").MapPettyCashes();
+        apiGroup.MapGroup("/pettyCashMovements").MapPettyCashMovements();
 
         return endpoints;
     }

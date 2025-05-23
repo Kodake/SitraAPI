@@ -14,7 +14,6 @@ namespace BackEnd.Mediator.Queries.CashBoxes
             IMapper mapper,
             CancellationToken cancellationToken)
         {
-            var pettyCashTotalAmount = await unitOfWork.PettyCashMovementRepository.GetTotalAmountPaidAsync(PettyCashId);
             var pettyCashMovements = await unitOfWork.PettyCashMovementRepository.GetAllAsync(Pagination, PettyCashId);
             return mapper.Map<List<PettyCashMovementListDTO>>(pettyCashMovements);
         }

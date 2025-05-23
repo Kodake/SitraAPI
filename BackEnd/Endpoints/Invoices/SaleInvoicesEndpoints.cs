@@ -80,7 +80,7 @@ namespace BackEnd.Endpoints.Invoices
 
         static async Task<Ok<List<SaleInvoiceListDTO>>> GetAllByDateRangeAndBiller(
             [FromServices] IMediator mediator,
-            DateTime from, 
+            DateTime from,
             DateTime to,
             PaginationDTO pagination)
         {

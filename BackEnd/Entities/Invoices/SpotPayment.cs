@@ -1,5 +1,4 @@
 ﻿using BackEnd.Entities.Contacts;
-using BackEnd.Enums;
 
 namespace BackEnd.Entities.Invoices
 {
@@ -12,7 +11,6 @@ namespace BackEnd.Entities.Invoices
         public virtual Contact Buyer { get; set; } = null!;
         public double AmountReturned { get; set; }
         public DateTime PaymentDate { get; set; } = DateTime.UtcNow;
-        public PaymentMethod? PaymentMethod { get; set; }
         public ICollection<Payment> Payments { get; set; } = new List<Payment>();
         public bool IsActive { get; set; } = true;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

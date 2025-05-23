@@ -10,9 +10,6 @@ namespace BackEnd.Validations
         {
             RuleFor(x => x.Comments)
                 .MaximumLength(100).WithMessage(Utilities.MaximunLengthMessage);
-
-            RuleFor(x => x.ClosingAmount)
-                .GreaterThan(0).WithMessage(Utilities.GreatherThanZero);
         }
     }
 }

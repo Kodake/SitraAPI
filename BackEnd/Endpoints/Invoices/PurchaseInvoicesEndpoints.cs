@@ -4,7 +4,6 @@ using BackEnd.DTOs.Invoices.SaleInvoices;
 using BackEnd.Helpers;
 using BackEnd.Mediator.Commands.Invoices.PurchaseInvoices;
 using BackEnd.Mediator.Queries.Invoices.PurchaseInvoices;
-using BackEnd.Mediator.Queries.Invoices.SaleInvoices;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;

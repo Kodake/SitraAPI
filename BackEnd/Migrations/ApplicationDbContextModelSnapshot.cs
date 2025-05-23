@@ -363,6 +363,9 @@ namespace BackEnd.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<double?>("WithdrawalAmount")
+                        .HasColumnType("float");
+
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
@@ -384,7 +387,7 @@ namespace BackEnd.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("InvoiceId")
+                    b.Property<long?>("InvoiceId")
                         .HasColumnType("bigint");
 
                     b.Property<long>("PettyCashId")
@@ -787,9 +790,6 @@ namespace BackEnd.Migrations
 
                     b.Property<DateTime>("PaymentDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("PaymentMethod")
-                        .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -1401,8 +1401,7 @@ namespace BackEnd.Migrations
                     b.HasOne("BackEnd.Entities.Invoices.Invoice", "Invoice")
                         .WithMany()
                         .HasForeignKey("InvoiceId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("BackEnd.Entities.CashBoxes.PettyCash", "PettyCash")
                         .WithMany("PettyCashMovements")

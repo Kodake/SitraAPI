@@ -9,7 +9,7 @@ namespace BackEnd.Validations
         public CreateOpenPettyCashDTOValidator()
         {
             RuleFor(x => x.OpeningAmount)
-                .GreaterThan(0).WithMessage(Utilities.GreatherThanZero);
+                .GreaterThanOrEqualTo(0).WithMessage(Utilities.GreaterThanOrEqualToZero);
         }
     }
 }

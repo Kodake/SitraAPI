@@ -9,7 +9,11 @@ namespace BackEnd.Mediator.Commands.CashBoxes
 {
     public class UpdateClosePettyCashCommand(long id, CreateClosePettyCashDTO dto) : UpdateCommand<PettyCash, CreateClosePettyCashDTO>(id, dto)
     {
-        public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAction(
+            IUnitOfWork unitOfWork,
+            IOutputCacheStore outputCacheStore,
+            IMapper mapper,
+            CancellationToken cancellationToken)
         {
             var user = await unitOfWork.UserService.GetUserAsync()
                 ?? throw new UnauthorizedAccessException("No user authenticated found.");
@@ -19,10 +23,23 @@ namespace BackEnd.Mediator.Commands.CashBoxes
             if (pettyCashDB == null || pettyCashDB.UserId != user.Id)
                 return false;
 
-            pettyCashDB.ClosingAmount = Dto.ClosingAmount;
             pettyCashDB.Comments = Dto.Comments;
             pettyCashDB.ClosingDate = DateTime.UtcNow;
             pettyCashDB.Status = PettyCashStatus.Closed;
+
+            var paymentMethods = await unitOfWork.PettyCashMovementRepository
+                .GetPaymentMethodSumsAsync(pettyCashDB.Id);
+
+            var totalWithdrawals = await unitOfWork.PettyCashMovementRepository
+                .GetTotalWithdrawalsAsync(pettyCashDB.Id);
+
+            var totalBilled = paymentMethods.TryGetValue("Total", out var total)
+                ? total
+                : paymentMethods
+                    .Where(kvp => kvp.Key is PaymentMethod)
+                    .Sum(kvp => kvp.Value);
+
+            pettyCashDB.ClosingAmount = pettyCashDB.OpeningAmount + totalBilled - totalWithdrawals;
 
             unitOfWork.PettyCashRepository.Update(pettyCashDB);
             await unitOfWork.SaveChangesAsync();
@@ -30,5 +47,6 @@ namespace BackEnd.Mediator.Commands.CashBoxes
 
             return true;
         }
+
     }
 }

@@ -1,13 +1,13 @@
 ﻿using BackEnd.DTOs;
+using BackEnd.DTOs.CashBoxes;
 using BackEnd.Filters;
+using BackEnd.Helpers;
+using BackEnd.Mediator.Commands.CashBoxes;
+using BackEnd.Mediator.Queries.CashBoxes;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using BackEnd.DTOs.CashBoxes;
-using BackEnd.Mediator.Queries.CashBoxes;
 using Microsoft.AspNetCore.OutputCaching;
-using BackEnd.Mediator.Commands.CashBoxes;
-using BackEnd.Helpers;
 
 namespace BackEnd.Endpoints.CashBoxes
 {
@@ -19,6 +19,7 @@ namespace BackEnd.Endpoints.CashBoxes
                 .AddPaginationParamsOpenAPI();
             group.MapGet("/", GetById).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("pettyCashes-get"))
                 .RequireAuthorization();
+            group.MapGet("/{pettyCashId:long}/pettyCashPayments", GetAllById).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("pettyCashes-get"));
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateOpenPettyCashDTO>>()
                 .RequireAuthorization()
@@ -48,14 +49,23 @@ namespace BackEnd.Endpoints.CashBoxes
             return TypedResults.Ok(dto);
         }
 
+        static async Task<Ok<List<PaymentMethodAmountListDTO>>> GetAllById(
+            [FromServices] IMediator mediator,
+            [FromRoute] long pettyCashId)
+        {
+            var query = new GetAllPaymentMethodSummaryByIdQuery(pettyCashId);
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
+        }
+
         static async Task<Results<Created, NotFound, ValidationProblem>> Create(
             [FromBody] CreateOpenPettyCashDTO dto,
             [FromServices] IMediator mediator,
             IOutputCacheStore outputCacheStore)
         {
             var command = new CreateOpenPettyCashCommand(dto);
-            var contactDTO = await mediator.Send(command);
-            return contactDTO == null ? TypedResults.NotFound() : TypedResults.Created();
+            var pettyCashDTO = await mediator.Send(command);
+            return pettyCashDTO == null ? TypedResults.NotFound() : TypedResults.Created();
         }
 
         static async Task<Results<Ok, NotFound, ValidationProblem>> Update(

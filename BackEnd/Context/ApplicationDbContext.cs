@@ -1,23 +1,23 @@
 ﻿using BackEnd.Context.Accounts;
 using BackEnd.Context.AdministrativeTools;
 using BackEnd.Context.Auths;
+using BackEnd.Context.CashBoxes;
 using BackEnd.Context.Contacts;
 using BackEnd.Context.Finances;
 using BackEnd.Context.Invoices;
-using BackEnd.Context.CashBoxes;
 using BackEnd.Context.Products;
 using BackEnd.Context.Warehouses;
 using BackEnd.Entities.Accounts;
 using BackEnd.Entities.AdministrativeTools;
+using BackEnd.Entities.Auths;
+using BackEnd.Entities.CashBoxes;
 using BackEnd.Entities.Contacts;
 using BackEnd.Entities.Finances;
 using BackEnd.Entities.Invoices;
-using BackEnd.Entities.CashBoxes;
 using BackEnd.Entities.Products;
 using BackEnd.Entities.Warehouses;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using BackEnd.Entities.Auths;
 
 namespace BackEnd.Context
 {
@@ -96,7 +96,7 @@ namespace BackEnd.Context
         public DbSet<PaymentReceipt> PaymentReceipts { get; set; }
         public DbSet<PayableReceipt> PayableReceipts { get; set; }
         public DbSet<PettyCash> PettyCashes { get; set; }
-        public DbSet<PettyCashMovement> PettyCashMovements{ get; set; }
+        public DbSet<PettyCashMovement> PettyCashMovements { get; set; }
         #endregion
     }
 }

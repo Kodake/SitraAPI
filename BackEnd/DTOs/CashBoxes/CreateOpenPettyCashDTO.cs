@@ -1,6 +1,4 @@
-﻿using BackEnd.Enums;
-
-namespace BackEnd.DTOs.CashBoxes
+﻿namespace BackEnd.DTOs.CashBoxes
 {
     public class CreateOpenPettyCashDTO
     {

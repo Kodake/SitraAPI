@@ -24,8 +24,8 @@ namespace BackEnd.Mediator.Commands.Warehouses.Transfers
                 throw new InvalidOperationException("Cannot change the status of this transfer.");
             }
 
-            var stockDestination = await unitOfWork.StockRepository.GetByItemIdAndWarehouseId(existingTransfer.ProductId, _newStatus == TransferStatus.Received 
-                ? existingTransfer.DestinationWarehouseId : existingTransfer.OriginWarehouseId) 
+            var stockDestination = await unitOfWork.StockRepository.GetByItemIdAndWarehouseId(existingTransfer.ProductId, _newStatus == TransferStatus.Received
+                ? existingTransfer.DestinationWarehouseId : existingTransfer.OriginWarehouseId)
                 ?? throw new InvalidOperationException(_newStatus == TransferStatus.Received ? "Destination stock not found." : "Origin stock not found.");
 
             stockDestination.Qty += existingTransfer.Qty;
