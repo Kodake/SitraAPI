@@ -27,19 +27,23 @@ namespace BackEnd.Mediator.Commands.CashBoxes
             pettyCashDB.ClosingDate = DateTime.UtcNow;
             pettyCashDB.Status = PettyCashStatus.Closed;
 
-            var paymentMethods = await unitOfWork.PettyCashMovementRepository
-                .GetPaymentMethodSumsAsync(pettyCashDB.Id);
+            //var paymentMethods = await unitOfWork.PettyCashMovementRepository
+            //    .GetPaymentMethodSumsAsync(pettyCashDB.Id);
 
-            var totalWithdrawals = await unitOfWork.PettyCashMovementRepository
-                .GetTotalWithdrawalsAsync(pettyCashDB.Id);
+            //var totalWithdrawals = await unitOfWork.PettyCashMovementRepository
+            //    .GetTotalWithdrawalsAsync(pettyCashDB.Id);
 
-            var totalBilled = paymentMethods.TryGetValue("Total", out var total)
-                ? total
-                : paymentMethods
-                    .Where(kvp => kvp.Key is PaymentMethod)
-                    .Sum(kvp => kvp.Value);
+            //var totalBilled = paymentMethods.TryGetValue("Total", out var total)
+            //    ? total
+            //    : paymentMethods
+            //        .Where(kvp => kvp.Key is PaymentMethod)
+            //        .Sum(kvp => kvp.Value);
 
-            pettyCashDB.ClosingAmount = pettyCashDB.OpeningAmount + totalBilled - totalWithdrawals;
+            //var cashBilled = paymentMethods.TryGetValue(PaymentMethod.Cash, out var cash)
+            //    ? cash
+            //    : 0;
+
+            //pettyCashDB.ClosingAmount = pettyCashDB.OpeningAmount + cashBilled - totalWithdrawals;
 
             unitOfWork.PettyCashRepository.Update(pettyCashDB);
             await unitOfWork.SaveChangesAsync();

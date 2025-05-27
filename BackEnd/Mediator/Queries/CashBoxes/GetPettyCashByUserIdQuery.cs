@@ -38,13 +38,15 @@ namespace BackEnd.Mediator.Queries.CashBoxes
                 })
                 .ToList();
 
-            dto.TotalBilled = paymentMethods.TryGetValue("Total", out var total)
-                ? total
-                : dto.PaymentMethods.Sum(p => p.Amount);
+            dto.CashBilled = paymentMethods.TryGetValue(PaymentMethod.Cash, out var cash)
+                ? cash
+                : 0;
+
+            dto.TotalBilled = dto.PaymentMethods.Sum(p => p.Amount);
 
             dto.WithdrawalAmount = totalWithdrawals;
 
-            dto.ClosingAmount = dto.OpeningAmount + dto.TotalBilled - dto.WithdrawalAmount;
+            //dto.ClosingAmount = dto.OpeningAmount + dto.CashBilled - dto.WithdrawalAmount;
 
             return dto;
         }

@@ -16,6 +16,7 @@
         public static string MaximumSupportsReachedMessage = "Maximum fiscal supports reached for this warehouse";
         public static string IdNotExistMessage = "El Id {0} no existe. Favor, verifique y vuelva a intentarlo";
         public static string ReceiptAlreadyPaidMessage = "El recibo asociado ya ha sido pagado. No se pueden realizar más pagos";
+        public static string WithdrawnAmountWontBeGreatherThanAvailableCash = "The withdrawn amount cannot be greater than the available cash";
 
 
         public static string GreaterThanOrEqualToMensaje(DateTime minDate)

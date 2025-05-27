@@ -230,6 +230,14 @@ namespace BackEnd.Mediator.Commands.Invoices.SaleInvoices
             };
 
             await unitOfWork.PettyCashMovementRepository.CreateAsync(movement);
+
+            var cashPaymentsTotal = Dto.Payments
+                .Where(x => x.PaymentId == PaymentMethod.Cash)
+                .Sum(x => x.Amount);
+
+            pettyCash.ClosingAmount += cashPaymentsTotal;
+
+            unitOfWork.PettyCashRepository.Update(pettyCash);
         }
 
         private static string GenerateFiscalSupportNumber(FiscalSupport fiscalSupport)

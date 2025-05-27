@@ -16,6 +16,7 @@ namespace BackEnd.DTOs.CashBoxes
         public PettyCashStatus Status { get; set; }
         public string? Comments { get; set; }
         public List<PaymentMethodAmountListDTO> PaymentMethods { get; set; } = [];
+        public double CashBilled { get; set; }
         public double TotalBilled { get; set; }
     }
 }

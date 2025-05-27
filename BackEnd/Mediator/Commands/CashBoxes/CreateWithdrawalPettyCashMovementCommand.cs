@@ -25,12 +25,12 @@ namespace BackEnd.Mediator.Commands.CashBoxes
                 throw new Exception($"Petty cash is currently opened by {otherOpenPettyCash.User.Email}. Please wait until it is closed.");
             }
 
-            var existingUserPettyCash = await unitOfWork.PettyCashRepository.GetOpenPettyCashByUserIdAsync(user.Id)
+            var pettyCashDB = await unitOfWork.PettyCashRepository.GetOpenPettyCashByUserIdAsync(user.Id)
                 ?? throw new Exception("You don't have an open petty cash. Please open one before making a withdrawal.");
 
             var movement = new PettyCashMovement
             {
-                PettyCashId = existingUserPettyCash.Id,
+                PettyCashId = pettyCashDB.Id,
                 Amount = Dto.WithdrawalAmount,
                 Type = MovementType.CashWithdrawals,
                 CreatedAt = DateTime.UtcNow,
@@ -41,9 +41,10 @@ namespace BackEnd.Mediator.Commands.CashBoxes
             await unitOfWork.PettyCashMovementRepository.CreateAsync(movement);
 
             var totalWithdrawals = await unitOfWork.PettyCashMovementRepository
-                .GetTotalWithdrawalsAsync(existingUserPettyCash.Id);
+                .GetTotalWithdrawalsAsync(pettyCashDB.Id);
 
-            existingUserPettyCash.WithdrawalAmount = totalWithdrawals;
+            pettyCashDB.ClosingAmount -= Dto.WithdrawalAmount;
+            pettyCashDB.WithdrawalAmount = totalWithdrawals;
 
             await unitOfWork.SaveChangesAsync();
 

@@ -7,8 +7,7 @@ namespace BackEnd.Validations
 {
     public class CreateTaxDTOValidator : AbstractValidator<CreateTaxDTO>
     {
-        public CreateTaxDTOValidator(ITaxRepository repository,
-            IHttpContextAccessor httpContextAccessor)
+        public CreateTaxDTOValidator(IHttpContextAccessor httpContextAccessor)
         {
             var routeId = httpContextAccessor.HttpContext?.Request.RouteValues["id"];
             var id = 0;
