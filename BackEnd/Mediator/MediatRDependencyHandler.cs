@@ -18,8 +18,10 @@ namespace BackEnd.Mediator
 
             services.AddDashboardServices();
             services.AddBrandServices();
+            services.AddModelServices();
             services.AddUnitServices();
             services.AddCategoryServices();
+            services.AddSubCategoryServices();
             services.AddPricingServices();
             services.AddItemsServices();
             services.AddPricingItemServices();

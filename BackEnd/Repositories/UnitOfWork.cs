@@ -39,7 +39,9 @@ namespace BackEnd.Repositories
         public IProductRepository ProductRepository { get; }
         public IServiceRepository ServiceRepository { get; }
         public ICategoryRepository CategoryRepository { get; }
+        public ISubCategoryRepository SubCategoryRepository { get; }
         public IBrandRepository BrandRepository { get; }
+        public IModelRepository ModelRepository { get; }
         public IUnitRepository UnitRepository { get; }
         public IPricingItemRepository PricingItemRepository { get; }
         public IPricingRepository PricingRepository { get; }
@@ -74,7 +76,9 @@ namespace BackEnd.Repositories
             ProductRepository = new ProductRepository(context, httpContextAccessor);
             ServiceRepository = new ServiceRepository(context, httpContextAccessor);
             CategoryRepository = new CategoryRepository(context, httpContextAccessor);
+            SubCategoryRepository = new SubCategoryRepository(context, httpContextAccessor);
             BrandRepository = new BrandRepository(context, httpContextAccessor);
+            ModelRepository = new ModelRepository(context, httpContextAccessor);
             UnitRepository = new UnitRepository(context, httpContextAccessor);
             PricingItemRepository = new PricingItemRepository(context, httpContextAccessor);
             PricingRepository = new PricingRepository(context, httpContextAccessor);

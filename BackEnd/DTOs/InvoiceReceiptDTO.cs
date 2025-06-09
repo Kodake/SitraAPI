@@ -2,6 +2,7 @@
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+using System.Reflection;
 
 namespace BackEnd.DTOs
 {
@@ -13,9 +14,16 @@ namespace BackEnd.DTOs
         {
             Invoice = invoice;
 
-            var logoPath = @"C:\Users\Kodake\Desktop\logo-black.png";
-            if (File.Exists(logoPath))
-                LogoImage = File.ReadAllBytes(logoPath);
+            var assembly = Assembly.GetExecutingAssembly();
+            var resourceName = "BackEnd.Resources.logo-black.png"; // Adjust namespace + folder + file name
+
+            using var stream = assembly.GetManifestResourceStream(resourceName);
+            if (stream != null)
+            {
+                using var ms = new MemoryStream();
+                stream.CopyTo(ms);
+                LogoImage = ms.ToArray();
+            }
         }
 
         public Invoice Invoice { get; }

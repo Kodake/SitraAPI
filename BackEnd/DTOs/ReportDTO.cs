@@ -2,6 +2,7 @@
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+using System.Reflection;
 
 namespace BackEnd.DTOs
 {
@@ -39,8 +40,15 @@ namespace BackEnd.DTOs
                 row.RelativeItem().Border(1).Column(column =>
                 {
                     var padding = 5;
-                    var logo = @"C:\Users\Kodake\Desktop\logo-black.png";
-                    column.Item().Height(2, Unit.Centimetre).Image(logo);
+                    var assembly = Assembly.GetExecutingAssembly();
+                    var resourcePath = "BackEnd.Resources.logo-black.png";
+
+                    var stream = assembly.GetManifestResourceStream(resourcePath);
+
+                    if (stream != null)
+                    {
+                        column.Item().Height(2, Unit.Centimetre).Image(stream);
+                    }
                     column.Item().BorderBottom(1).Padding(padding).Row(row =>
                     {
                         row.RelativeItem().Text(ReportName).SemiBold();

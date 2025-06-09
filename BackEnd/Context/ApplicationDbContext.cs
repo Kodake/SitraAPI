@@ -52,7 +52,9 @@ namespace BackEnd.Context
             modelBuilder.ApplyConfiguration(new SpotPayableConfiguration());
 
             modelBuilder.ApplyConfiguration(new BrandConfiguration());
+            modelBuilder.ApplyConfiguration(new ModelConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new SubCategoryConfiguration());
             modelBuilder.ApplyConfiguration(new ItemConfiguration());
             modelBuilder.ApplyConfiguration(new PricingConfiguration());
             modelBuilder.ApplyConfiguration(new PricingItemConfiguration());
@@ -71,7 +73,9 @@ namespace BackEnd.Context
 
         #region DbSets
         public DbSet<Category> Categories { get; set; }
+        public DbSet<SubCategory> SubCategories { get; set; }
         public DbSet<Brand> Brands { get; set; }
+        public DbSet<Model> Models { get; set; }
         public DbSet<Unit> Units { get; set; }
         public DbSet<Currency> Currencies { get; set; }
         public DbSet<Contact> Contacts { get; set; }

@@ -943,6 +943,42 @@ namespace BackEnd.Migrations
                     b.ToTable("ItemTaxes", "identity");
                 });
 
+            modelBuilder.Entity("BackEnd.Entities.Products.Model", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("BrandId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BrandId");
+
+                    b.ToTable("Models", "identity");
+                });
+
             modelBuilder.Entity("BackEnd.Entities.Products.Pricing", b =>
                 {
                     b.Property<long>("Id")
@@ -1008,6 +1044,42 @@ namespace BackEnd.Migrations
                     b.HasIndex("PricingId");
 
                     b.ToTable("PricingItems", "identity");
+                });
+
+            modelBuilder.Entity("BackEnd.Entities.Products.SubCategory", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("CategoryId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("SubCategories", "identity");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Products.Unit", b =>
@@ -1590,6 +1662,17 @@ namespace BackEnd.Migrations
                     b.Navigation("Tax");
                 });
 
+            modelBuilder.Entity("BackEnd.Entities.Products.Model", b =>
+                {
+                    b.HasOne("BackEnd.Entities.Products.Brand", "Brand")
+                        .WithMany("Models")
+                        .HasForeignKey("BrandId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Brand");
+                });
+
             modelBuilder.Entity("BackEnd.Entities.Products.PricingItem", b =>
                 {
                     b.HasOne("BackEnd.Entities.Products.Item", "Item")
@@ -1607,6 +1690,17 @@ namespace BackEnd.Migrations
                     b.Navigation("Item");
 
                     b.Navigation("Pricing");
+                });
+
+            modelBuilder.Entity("BackEnd.Entities.Products.SubCategory", b =>
+                {
+                    b.HasOne("BackEnd.Entities.Products.Category", "Category")
+                        .WithMany("SubCategories")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Warehouses.Stock", b =>
@@ -1769,11 +1863,15 @@ namespace BackEnd.Migrations
             modelBuilder.Entity("BackEnd.Entities.Products.Brand", b =>
                 {
                     b.Navigation("Items");
+
+                    b.Navigation("Models");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Products.Category", b =>
                 {
                     b.Navigation("Items");
+
+                    b.Navigation("SubCategories");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Products.Item", b =>

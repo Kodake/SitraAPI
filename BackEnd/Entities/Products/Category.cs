@@ -9,5 +9,6 @@
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
         public ICollection<Item> Items { get; set; } = [];
+        public ICollection<SubCategory> SubCategories { get; set; } = [];
     }
 }
