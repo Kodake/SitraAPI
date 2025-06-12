@@ -1,6 +1,5 @@
 ﻿using BackEnd.DTOs;
 using BackEnd.DTOs.Products.Models;
-using BackEnd.Enums;
 using BackEnd.Filters;
 using BackEnd.Helpers;
 using BackEnd.Mediator.Commands.Products.Models;
@@ -17,7 +16,7 @@ namespace BackEnd.Endpoints
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("models-get"))
                 .AddPaginationParamsOpenAPI();
-            group.MapGet("/selects", GetSelects).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("models-get"));
+            group.MapGet("/brand/{brandId:long}/", GetByBrandId);
             group.MapGet("/{id:long}", GetById);
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateModelDTO>>()
@@ -39,11 +38,11 @@ namespace BackEnd.Endpoints
             return TypedResults.Ok(dto);
         }
 
-        static async Task<Ok<List<ModelListDTO>>> GetSelects(
+        static async Task<Ok<List<ModelListDTO>>> GetByBrandId(
             [FromServices] IMediator mediator,
-            [FromQuery] StatusType status = StatusType.All)
+            long brandId)
         {
-            var query = new GetSelectsModelsQuery(status);
+            var query = new GetModelsByBrandIdQuery(brandId);
             var dto = await mediator.Send(query);
             return TypedResults.Ok(dto);
         }

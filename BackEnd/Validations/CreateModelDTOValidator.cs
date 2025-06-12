@@ -28,7 +28,7 @@ namespace BackEnd.Validations
             .Must(Utilities.FirstCharUppercase).WithMessage(Utilities.FirstCharUpperMessage)
             .MustAsync(async (name, _) =>
             {
-                var exists = await unitOfWork.SubCategoryRepository.Exists(id, name);
+                var exists = await unitOfWork.ModelRepository.Exists(id, name);
                 return !exists;
             }).WithMessage(x => string.Format(Utilities.NameAlreadyExistsWith, x.Name));
 

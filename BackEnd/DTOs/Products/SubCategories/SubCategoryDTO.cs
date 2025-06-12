@@ -1,4 +1,4 @@
-﻿using BackEnd.Entities.Products;
+﻿using BackEnd.DTOs.Products.Categories;
 
 namespace BackEnd.DTOs.Products.SubCategories
 {
@@ -8,6 +8,6 @@ namespace BackEnd.DTOs.Products.SubCategories
         public string Name { get; set; } = string.Empty;
         public string? Description { get; set; }
         public long CategoryId { get; set; }
-        public Category Category { get; set; } = default!;
+        public CategoryDTO Category { get; set; } = default!;
     }
 }

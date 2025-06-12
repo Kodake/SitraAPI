@@ -1,6 +1,5 @@
 ﻿using BackEnd.DTOs;
 using BackEnd.DTOs.Products.SubCategories;
-using BackEnd.Enums;
 using BackEnd.Filters;
 using BackEnd.Helpers;
 using BackEnd.Mediator.Commands.Products.SubCategories;
@@ -17,7 +16,7 @@ namespace BackEnd.Endpoints
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("subCategories-get"))
                 .AddPaginationParamsOpenAPI();
-            group.MapGet("/selects", GetSelects).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("subCategories-get"));
+            group.MapGet("/category/{brandId:long}/", GetByCategoryId);
             group.MapGet("/{id:long}", GetById);
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateSubCategoryDTO>>()
@@ -39,11 +38,11 @@ namespace BackEnd.Endpoints
             return TypedResults.Ok(dto);
         }
 
-        static async Task<Ok<List<SubCategoryListDTO>>> GetSelects(
+        static async Task<Ok<List<SubCategoryListDTO>>> GetByCategoryId(
             [FromServices] IMediator mediator,
-            [FromQuery] StatusType status = StatusType.All)
+            long categoryId)
         {
-            var query = new GetSelectsSubCategoriesQuery(status);
+            var query = new GetSubCategoriesByCategoryIdQuery(categoryId);
             var dto = await mediator.Send(query);
             return TypedResults.Ok(dto);
         }

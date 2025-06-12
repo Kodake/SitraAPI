@@ -1528,16 +1528,16 @@
   },
   {
     "ContainingType": "BackEnd.Endpoints.ModelsEndpoints",
-    "Method": "GetSelects",
-    "RelativePath": "api/v1/models/selects",
+    "Method": "GetByBrandId",
+    "RelativePath": "api/v1/models/brand/{brandId:long}/",
     "HttpMethod": "GET",
     "IsController": false,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "status",
-        "Type": "BackEnd.Enums.StatusType",
-        "IsRequired": false
+        "Name": "brandId",
+        "Type": "System.Int64",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": [
@@ -3676,16 +3676,16 @@
   },
   {
     "ContainingType": "BackEnd.Endpoints.SubCategoriesEndpoints",
-    "Method": "GetSelects",
-    "RelativePath": "api/v1/subCategories/selects",
+    "Method": "GetByCategoryId",
+    "RelativePath": "api/v1/subCategories/category/{brandId:long}/",
     "HttpMethod": "GET",
     "IsController": false,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "status",
-        "Type": "BackEnd.Enums.StatusType",
-        "IsRequired": false
+        "Name": "categoryId",
+        "Type": "System.Int64",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": [

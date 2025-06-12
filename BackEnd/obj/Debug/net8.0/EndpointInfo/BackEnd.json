@@ -1722,17 +1722,19 @@
         }
       }
     },
-    "/api/v1/models/selects": {
+    "/api/v1/models/brand/{brandId}": {
       "get": {
         "tags": [
           "ModelsEndpoints"
         ],
         "parameters": [
           {
-            "name": "status",
-            "in": "query",
+            "name": "brandId",
+            "in": "path",
+            "required": true,
             "schema": {
-              "$ref": "#/components/schemas/StatusType"
+              "type": "integer",
+              "format": "int64"
             }
           }
         ],
@@ -4519,17 +4521,19 @@
         }
       }
     },
-    "/api/v1/subCategories/selects": {
+    "/api/v1/subCategories/category/{brandId}": {
       "get": {
         "tags": [
           "SubCategoriesEndpoints"
         ],
         "parameters": [
           {
-            "name": "status",
+            "name": "categoryId",
             "in": "query",
+            "required": true,
             "schema": {
-              "$ref": "#/components/schemas/StatusType"
+              "type": "integer",
+              "format": "int64"
             }
           }
         ],
@@ -7200,7 +7204,7 @@
             "format": "int64"
           },
           "brand": {
-            "$ref": "#/components/schemas/Brand"
+            "$ref": "#/components/schemas/BrandDTO"
           }
         },
         "additionalProperties": false
@@ -8763,7 +8767,7 @@
             "format": "int64"
           },
           "category": {
-            "$ref": "#/components/schemas/Category"
+            "$ref": "#/components/schemas/CategoryDTO"
           }
         },
         "additionalProperties": false

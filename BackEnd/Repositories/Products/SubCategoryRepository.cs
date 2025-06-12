@@ -1,34 +1,46 @@
 ﻿using BackEnd.Context;
+using BackEnd.DTOs;
 using BackEnd.Entities.Products;
-using BackEnd.Enums;
+using BackEnd.Helpers;
 using Microsoft.EntityFrameworkCore;
 
 namespace BackEnd.Repositories.Products
 {
     public class SubCategoryRepository : RepositoryBase<SubCategory>, ISubCategoryRepository
     {
+        private new readonly HttpContext httpContext;
         public SubCategoryRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
-            : base(context, httpContextAccessor) { }
-
-        public async Task<List<SubCategory>> GetAll(StatusType status)
+            : base(context, httpContextAccessor)
         {
-            IQueryable<SubCategory> query = context.SubCategories.AsQueryable();
-
-            switch (status)
-            {
-                case StatusType.Activated:
-                    query = query.Where(u => u.IsActive);
-                    break;
-                case StatusType.Deactivated:
-                    query = query.Where(u => !u.IsActive);
-                    break;
-                case StatusType.All:
-                default:
-                    break;
-            }
-
-            return await query.OrderBy(u => u.Id).ToListAsync();
+            httpContext = httpContextAccessor.HttpContext!;
         }
+
+        public async new Task<List<SubCategory>> GetAllAsync(PaginationDTO paginationDTO)
+        {
+            var queryable = context.SubCategories
+                .OrderBy(x => x.Name);
+
+            await httpContext.AddPaginationParamsToHeaders(queryable);
+
+            var subCategories = await queryable
+                .Paginate(paginationDTO)
+                .Include(p => p.Category)
+                .ToListAsync();
+
+            return subCategories;
+        }
+
+        public async new Task<SubCategory?> GetByIdAsync(long id)
+        {
+            return await context.SubCategories
+                .Include(p => p.Category)
+                .FirstOrDefaultAsync(p => p.Id == id);
+        }
+
+        public Task<List<SubCategory>> GetByCategoryId(long categoryId) =>
+            context.SubCategories
+                .Where(x => x.CategoryId == categoryId)
+                .ToListAsync();
 
         public async Task<bool> Exists(long id, string name)
         {
