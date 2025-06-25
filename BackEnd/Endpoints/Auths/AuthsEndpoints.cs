@@ -67,11 +67,10 @@ namespace BackEnd.Endpoints
 
             var openPettyCash = await unitOfWork.PettyCashRepository.GetOpenPettyCashAsync();
 
-            if (openPettyCash != null && openPettyCash.User.Email != user.Email)
-            {
-                return TypedResults.BadRequest($"The petty cash opened by user {openPettyCash.User.Email} must be closed before logging in.");
-            }
-
+            //if (openPettyCash != null && openPettyCash.User.Email != user.Email)
+            //{
+            //    return TypedResults.BadRequest($"The petty cash opened by user {openPettyCash.User.Email} must be closed before logging in.");
+            //}
 
             if (result.Succeeded)
             {
