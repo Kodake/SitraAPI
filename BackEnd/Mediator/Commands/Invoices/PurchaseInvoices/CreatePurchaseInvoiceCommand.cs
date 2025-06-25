@@ -45,7 +45,7 @@ namespace BackEnd.Mediator.Commands.Invoices.PurchaseInvoices
                     var accountsPayable = new Payable
                     {
                         Invoice = purchaseInvoice,
-                        ContactId = purchaseInvoice.CustomerId,
+                        ContactId = purchaseInvoice.CustomerId != 0 ? purchaseInvoice.CustomerId : null,
                         TotalAmountDue = purchaseInvoice.TotalPrice,
                         TotalOutstanding = 0,
                         Status = AccountStatus.PendingPayable,
@@ -58,7 +58,7 @@ namespace BackEnd.Mediator.Commands.Invoices.PurchaseInvoices
                     var spotPayable = new SpotPayable
                     {
                         Invoice = purchaseInvoice,
-                        ContactId = purchaseInvoice.CustomerId,
+                        ContactId = purchaseInvoice.CustomerId != 0 ? purchaseInvoice.CustomerId : null,
                         PaymentMethod = Dto.PaymentMethod,
                         PaymentDate = DateTime.UtcNow,
                         IsActive = true

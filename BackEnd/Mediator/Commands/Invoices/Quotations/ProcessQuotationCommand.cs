@@ -57,7 +57,7 @@ namespace BackEnd.Mediator.Commands.Invoices.Quotations
                     var accountsReceivable = new Receivable
                     {
                         Invoice = saleInvoice,
-                        ContactId = saleInvoice.CustomerId,
+                        ContactId = saleInvoice.CustomerId != 0 ? saleInvoice.CustomerId : null,
                         TotalAmountDue = saleInvoice.TotalPrice,
                         TotalOutstanding = 0,
                         Status = AccountStatus.PendingReceivable,
@@ -70,7 +70,7 @@ namespace BackEnd.Mediator.Commands.Invoices.Quotations
                     var spotPayment = new SpotPayment
                     {
                         Invoice = saleInvoice,
-                        ContactId = saleInvoice.CustomerId,
+                        ContactId = saleInvoice.CustomerId != 0 ? saleInvoice.CustomerId : null,
                         AmountReturned = Dto.AmountReturned ?? 0,
                         PaymentDate = DateTime.UtcNow,
                         IsActive = true

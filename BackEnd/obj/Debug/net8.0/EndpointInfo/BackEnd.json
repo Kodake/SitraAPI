@@ -6352,18 +6352,21 @@
           },
           "customerId": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "nullable": true
           },
           "billerId": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "nullable": true
           },
           "documentType": {
             "$ref": "#/components/schemas/DocumentType"
           },
           "fiscalSupportId": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "nullable": true
           },
           "shipping": {
             "type": "number",

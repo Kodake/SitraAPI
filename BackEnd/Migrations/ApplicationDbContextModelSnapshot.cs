@@ -31,7 +31,7 @@ namespace BackEnd.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("ContactId")
+                    b.Property<long?>("ContactId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("CreatedAt")
@@ -142,13 +142,13 @@ namespace BackEnd.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("ContactId")
+                    b.Property<long?>("ContactId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("InvoiceId")
+                    b.Property<long?>("InvoiceId")
                         .HasColumnType("bigint");
 
                     b.Property<int>("Status")
@@ -168,7 +168,8 @@ namespace BackEnd.Migrations
                     b.HasIndex("ContactId");
 
                     b.HasIndex("InvoiceId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[InvoiceId] IS NOT NULL");
 
                     b.ToTable("Receivables", "identity");
                 });
@@ -544,7 +545,7 @@ namespace BackEnd.Migrations
                     b.Property<long>("CurrencyId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("CustomerId")
+                    b.Property<long?>("CustomerId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("Date")
@@ -700,13 +701,13 @@ namespace BackEnd.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("ContactId")
+                    b.Property<long?>("ContactId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("InvoiceId")
+                    b.Property<long?>("InvoiceId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("QuotationNumber")
@@ -721,7 +722,8 @@ namespace BackEnd.Migrations
                     b.HasIndex("ContactId");
 
                     b.HasIndex("InvoiceId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[InvoiceId] IS NOT NULL");
 
                     b.ToTable("Quotations", "identity");
                 });
@@ -734,13 +736,13 @@ namespace BackEnd.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("ContactId")
+                    b.Property<long?>("ContactId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("InvoiceId")
+                    b.Property<long?>("InvoiceId")
                         .HasColumnType("bigint");
 
                     b.Property<bool>("IsActive")
@@ -760,7 +762,8 @@ namespace BackEnd.Migrations
                     b.HasIndex("ContactId");
 
                     b.HasIndex("InvoiceId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[InvoiceId] IS NOT NULL");
 
                     b.ToTable("SpotPayables", "identity");
                 });
@@ -776,7 +779,7 @@ namespace BackEnd.Migrations
                     b.Property<decimal>("AmountReturned")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<long>("ContactId")
+                    b.Property<long?>("ContactId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTime>("CreatedAt")
@@ -1390,9 +1393,7 @@ namespace BackEnd.Migrations
                 {
                     b.HasOne("BackEnd.Entities.Contacts.Contact", "Supplier")
                         .WithMany()
-                        .HasForeignKey("ContactId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ContactId");
 
                     b.HasOne("BackEnd.Entities.Invoices.Invoice", "Invoice")
                         .WithOne("Payable")
@@ -1431,15 +1432,12 @@ namespace BackEnd.Migrations
                 {
                     b.HasOne("BackEnd.Entities.Contacts.Contact", "Buyer")
                         .WithMany()
-                        .HasForeignKey("ContactId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ContactId");
 
                     b.HasOne("BackEnd.Entities.Invoices.Invoice", "Invoice")
                         .WithOne("Receivable")
                         .HasForeignKey("BackEnd.Entities.Accounts.Receivable", "InvoiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Buyer");
 
@@ -1502,8 +1500,7 @@ namespace BackEnd.Migrations
                     b.HasOne("BackEnd.Entities.Contacts.Contact", "Buyer")
                         .WithMany("BuyerInvoices")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("BackEnd.Entities.Products.Pricing", "Pricing")
                         .WithMany()
@@ -1566,15 +1563,12 @@ namespace BackEnd.Migrations
                 {
                     b.HasOne("BackEnd.Entities.Contacts.Contact", "Buyer")
                         .WithMany()
-                        .HasForeignKey("ContactId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ContactId");
 
                     b.HasOne("BackEnd.Entities.Invoices.Invoice", "Invoice")
                         .WithOne("Quotation")
                         .HasForeignKey("BackEnd.Entities.Invoices.Quotation", "InvoiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Buyer");
 
@@ -1585,15 +1579,12 @@ namespace BackEnd.Migrations
                 {
                     b.HasOne("BackEnd.Entities.Contacts.Contact", "Supplier")
                         .WithMany()
-                        .HasForeignKey("ContactId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ContactId");
 
                     b.HasOne("BackEnd.Entities.Invoices.Invoice", "Invoice")
                         .WithOne("SpotPayable")
                         .HasForeignKey("BackEnd.Entities.Invoices.SpotPayable", "InvoiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Invoice");
 
@@ -1604,9 +1595,7 @@ namespace BackEnd.Migrations
                 {
                     b.HasOne("BackEnd.Entities.Contacts.Contact", "Buyer")
                         .WithMany()
-                        .HasForeignKey("ContactId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ContactId");
 
                     b.HasOne("BackEnd.Entities.Invoices.Invoice", "Invoice")
                         .WithOne("SpotPayment")

@@ -13,7 +13,11 @@ namespace BackEnd.Mediator.Commands.Invoices.Quotations
     {
         public UpdateQuotationCommand(long id, CreateQuotationDTO dto) : base(id, dto) { }
 
-        public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
+        public override async Task<bool> ExecuteAction(
+            IUnitOfWork unitOfWork,
+            IOutputCacheStore outputCacheStore,
+            IMapper mapper,
+            CancellationToken cancellationToken)
         {
             // Validate DTO
             var validator = new CreateQuotationDTOValidator(unitOfWork);
@@ -29,8 +33,16 @@ namespace BackEnd.Mediator.Commands.Invoices.Quotations
                 return false;
             }
 
-            var currencyDB = await unitOfWork.CurrencyRepository.GetByIdAsync(Dto.CurrencyId) ?? throw new Exception($"Currency with id {Dto.CurrencyId} not found.");
+            if (quotation.Invoice == null)
+            {
+                throw new Exception($"Quotation with Id {Id} does not have an associated invoice.");
+            }
+
+            var currencyDB = await unitOfWork.CurrencyRepository.GetByIdAsync(Dto.CurrencyId)
+                ?? throw new Exception($"Currency with id {Dto.CurrencyId} not found.");
+
             var saleInvoice = quotation.Invoice;
+
             mapper.Map(Dto, saleInvoice);
             saleInvoice.InvoiceType = InvoiceType.Quotation;
 

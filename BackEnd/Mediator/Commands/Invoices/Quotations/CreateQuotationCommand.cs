@@ -40,7 +40,7 @@ namespace BackEnd.Mediator.Commands.Invoices.Quotations
             var quotation = new Quotation
             {
                 Invoice = saleInvoice,
-                ContactId = saleInvoice.CustomerId,
+                ContactId = saleInvoice.CustomerId != 0 ? saleInvoice.CustomerId : null,
                 QuotationNumber = Dto.QuotationNumber,
             };
 

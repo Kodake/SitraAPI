@@ -34,12 +34,14 @@ namespace BackEnd.DTOs
                 row.RelativeItem().Column(column =>
                 {
                     var fontWeight = 0.8f;
-                    if (Invoice.Buyer.Identification != null)
+                    if (!string.IsNullOrEmpty(Invoice.Buyer?.Identification))
                     {
                         column.Item().Scale(fontWeight).Text($"IDENTIFICACIÓN: {Invoice.Buyer.Identification}" ?? "N/A");
                     }
                     column.Item().Scale(fontWeight).Text($"FECHA: {Invoice.Date.ToString("dd-MM-yyyy")}");
-                    column.Item().Scale(fontWeight).Text($"NOMBRE / RAZÓN SOCIAL: {Invoice.Buyer.Name}");
+                    column.Item()
+                          .Scale(fontWeight)
+                          .Text($"NOMBRE / RAZÓN SOCIAL: {Invoice.Buyer?.Name ?? "N/A"}");
                     if (Invoice.Biller is not null)
                     {
                         column.Item().Scale(fontWeight).Text($"VENDEDOR: {Invoice.Biller.Name}");

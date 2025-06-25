@@ -12,10 +12,8 @@ using Microsoft.AspNetCore.OutputCaching;
 
 namespace BackEnd.Mediator.Commands.Invoices.SaleInvoices
 {
-    public class CreateSaleInvoiceCommand : CreateCommand<Invoice, CreateSaleInvoiceDTO>
+    public class CreateSaleInvoiceCommand(CreateSaleInvoiceDTO dto) : CreateCommand<Invoice, CreateSaleInvoiceDTO>(dto)
     {
-        public CreateSaleInvoiceCommand(CreateSaleInvoiceDTO dto) : base(dto) { }
-
         public override async Task<CreateSaleInvoiceDTO> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
         {
             try
@@ -38,24 +36,38 @@ namespace BackEnd.Mediator.Commands.Invoices.SaleInvoices
 
                 // Validate DTO
                 var validator = new CreateSaleInvoiceDTOValidator(unitOfWork);
-                var validationResult = await validator.ValidateAsync(Dto);
+                var validationResult = await validator.ValidateAsync(Dto, cancellationToken);
                 if (!validationResult.IsValid)
                 {
                     throw new ValidationException(validationResult.Errors);
                 }
 
-                var fiscalSupportDB = await unitOfWork.FiscalSupportRepository.GetByIdAsync(Dto.FiscalSupportId);
+                var fiscalSupportDB = Dto.FiscalSupportId.HasValue
+                    ? await unitOfWork.FiscalSupportRepository.GetByIdAsync(Dto.FiscalSupportId.Value)
+                    : null;
+
                 var currencyDB = await unitOfWork.CurrencyRepository.GetByIdAsync(Dto.CurrencyId);
 
-                if (fiscalSupportDB == null || currencyDB == null)
-                {
-                    throw new Exception("Fiscal support or currency not found.");
-                }
+                if (currencyDB == null)
+                    throw new Exception("Currency not found.");
+
+                if (Dto.FiscalSupportId.HasValue && fiscalSupportDB == null)
+                    throw new Exception("Fiscal support not found.");
 
                 var saleInvoice = mapper.Map<Invoice>(Dto);
                 saleInvoice.InvoiceType = InvoiceType.Sale;
-                saleInvoice.FiscalSupportNumber = GenerateFiscalSupportNumber(fiscalSupportDB);
-                unitOfWork.FiscalSupportRepository.Update(fiscalSupportDB);
+
+                if (fiscalSupportDB != null)
+                {
+                    saleInvoice.FiscalSupportNumber = GenerateFiscalSupportNumber(fiscalSupportDB);
+                    unitOfWork.FiscalSupportRepository.Update(fiscalSupportDB);
+                }
+
+                if (fiscalSupportDB != null)
+                {
+                    saleInvoice.FiscalSupportNumber = GenerateFiscalSupportNumber(fiscalSupportDB);
+                    unitOfWork.FiscalSupportRepository.Update(fiscalSupportDB);
+                }
 
                 double currencyRate = currencyDB.Rate;
                 await CalculateInvoiceTotals(Dto.InvoiceItems, saleInvoice, unitOfWork, currencyRate);
@@ -83,7 +95,7 @@ namespace BackEnd.Mediator.Commands.Invoices.SaleInvoices
                         var spotPayment = new SpotPayment
                         {
                             Invoice = saleInvoice,
-                            ContactId = saleInvoice.CustomerId,
+                            ContactId = saleInvoice.CustomerId == 0 ? null : saleInvoice.CustomerId,
                             AmountReturned = Dto.AmountReturned ?? 0,
                             PaymentDate = DateTime.UtcNow,
                             IsActive = true
@@ -245,7 +257,7 @@ namespace BackEnd.Mediator.Commands.Invoices.SaleInvoices
             string fiscalSupportName = Enum.GetName(typeof(FiscalSupportType), fiscalSupport.FiscalSupportType) ?? "Unknown";
             char symbolChar = fiscalSupport.Symbol.Length > 0 ? fiscalSupport.Symbol[0] : '?';
             int validSpaceNumber = (int)fiscalSupport.SpaceNumber;
-            string repeatedSymbols = new string(symbolChar, validSpaceNumber);
+            string repeatedSymbols = new(symbolChar, validSpaceNumber);
             string sequence = ((int)fiscalSupport.InitialSequence).ToString().PadLeft(validSpaceNumber, symbolChar);
             string finalSymbols = repeatedSymbols[..^validSpaceNumber] + sequence;
 

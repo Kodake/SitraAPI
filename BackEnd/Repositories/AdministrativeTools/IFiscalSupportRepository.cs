@@ -9,7 +9,7 @@ namespace BackEnd.Repositories.AdministrativeTools
     {
         new Task<List<FiscalSupport>> GetAllAsync(PaginationDTO paginationDTO);
         Task<List<FiscalSupport>> GetAll(StatusType status);
-        new Task<FiscalSupport?> GetByIdAsync(long id);
+        Task<FiscalSupport?> GetByIdAsync(long? id);
         Task<List<FiscalSupport>> GetByDocumentTypeAndWarehouseId(FiscalSupportType supportType, long warehouseId);
         Task<bool> Exists(long id, string code);
     }

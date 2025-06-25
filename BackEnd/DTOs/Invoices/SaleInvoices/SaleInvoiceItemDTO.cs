@@ -8,6 +8,6 @@ namespace BackEnd.DTOs.Invoices.SaleInvoices
         public long ItemId { get; set; }
         public ItemType ItemType { get; set; }
         public double Qty { get; set; }
-        public ICollection<ItemTaxes> ItemTaxes { get; set; } = new List<ItemTaxes>();
+        public ICollection<ItemTaxes> ItemTaxes { get; set; } = [];
     }
 }

@@ -7,14 +7,14 @@ namespace BackEnd.DTOs.Invoices.SaleInvoices
         public long PricingId { get; set; }
         public long CurrencyId { get; set; }
         public long WarehouseId { get; set; }
-        public long CustomerId { get; set; }
-        public long BillerId { get; set; }
-        public DocumentType DocumentType { get; set; }
-        public long FiscalSupportId { get; set; }
+        public long? CustomerId { get; set; }
+        public long? BillerId { get; set; }
+        public DocumentType? DocumentType { get; set; }
+        public long? FiscalSupportId { get; set; }
         public double? Shipping { get; set; }
         public double? Discount { get; set; }
         public InvoiceCondition ConditionType { get; set; }
-        public List<PaymentDTO> Payments { get; set; } = new List<PaymentDTO>();
+        public List<PaymentDTO> Payments { get; set; } = [];
         public double? AmountReturned { get; set; }
         public string? Description { get; set; }
         public string? Note { get; set; }

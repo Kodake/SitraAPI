@@ -55,18 +55,16 @@ namespace BackEnd.DTOs
                 column.Item().Text(" ");
                 column.Item().Text($"NÚMERO: {Invoice.Id}");
                 column.Item().Text($"FECHA: {Invoice.Date:dd-MM-yyyy}");
-                column.Item().Text($"CLIENTE: {Invoice.Buyer.Name}");
 
-                if (!string.IsNullOrWhiteSpace(Invoice.Buyer.Identification))
+                column.Item().Text($"CLIENTE: {Invoice.Buyer?.Name ?? "N/A"}");
+
+                if (!string.IsNullOrWhiteSpace(Invoice.Buyer?.Identification))
+                {
                     column.Item().Text($"ID: {Invoice.Buyer.Identification}");
+                }
 
                 column.Item().Text(" ");
 
-                //foreach (var item in Invoice.InvoiceItems)
-                //{
-                //    column.Item().Text($"{item.Item.Name}");
-                //    column.Item().Text($"{item.Qty} x {item.BasePrice:N2} = {item.TotalPrice:N2}").AlignRight();
-                //}
 
                 foreach (var item in Invoice.InvoiceItems)
                 {

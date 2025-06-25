@@ -34,13 +34,35 @@ namespace BackEnd.DTOs
                 row.RelativeItem().Column(column =>
                 {
                     var fontWeight = 0.8f;
-                    if (Invoice.Buyer.Identification != null)
+
+                    if (Invoice.Buyer != null)
                     {
-                        column.Item().Scale(fontWeight).Text($"IDENTIFICACIÓN: {Invoice.Buyer.Identification}" ?? "N/A");
+                        var identification = !string.IsNullOrEmpty(Invoice.Buyer.Identification)
+                                             ? Invoice.Buyer.Identification
+                                             : "N/A";
+                        column.Item().Scale(fontWeight).Text($"IDENTIFICACIÓN: {identification}");
+
+                        var buyerName = !string.IsNullOrEmpty(Invoice.Buyer.Name)
+                                        ? Invoice.Buyer.Name
+                                        : "N/A";
+                        column.Item().Scale(fontWeight).Text($"NOMBRE / RAZÓN SOCIAL: {buyerName}");
                     }
+                    else
+                    {
+                        column.Item().Scale(fontWeight).Text("IDENTIFICACIÓN: N/A");
+                        column.Item().Scale(fontWeight).Text("NOMBRE / RAZÓN SOCIAL: N/A");
+                    }
+
                     column.Item().Scale(fontWeight).Text($"FECHA: {Invoice.Date.ToString("dd-MM-yyyy")}");
-                    column.Item().Scale(fontWeight).Text($"NOMBRE / RAZÓN SOCIAL: {Invoice.Buyer.Name}");
-                    column.Item().Scale(fontWeight).Text($"VENDEDOR: {Invoice.Biller.Name}");
+
+                    if (Invoice.Biller != null && !string.IsNullOrEmpty(Invoice.Biller.Name))
+                    {
+                        column.Item().Scale(fontWeight).Text($"VENDEDOR: {Invoice.Biller.Name}");
+                    }
+                    else
+                    {
+                        column.Item().Scale(fontWeight).Text("VENDEDOR: N/A");
+                    }
                 });
 
                 row.RelativeItem().Border(1).Column(column =>

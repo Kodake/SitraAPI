@@ -57,7 +57,7 @@ namespace BackEnd.Repositories.Invoices
                 .ToListAsync();
         }
 
-        public async Task DeleteInvoiceItemsByInvoiceId(long invoiceId)
+        public async Task DeleteInvoiceItemsByInvoiceId(long? invoiceId)
         {
             var items = await context.InvoiceItems
                 .Where(i => i.InvoiceId == invoiceId)

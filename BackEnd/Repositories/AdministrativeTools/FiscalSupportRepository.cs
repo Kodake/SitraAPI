@@ -50,7 +50,7 @@ namespace BackEnd.Repositories.AdministrativeTools
             return await query.OrderBy(u => u.Id).ToListAsync();
         }
 
-        public async new Task<FiscalSupport?> GetByIdAsync(long id)
+        public async Task<FiscalSupport?> GetByIdAsync(long? id)
         {
             return await context.FiscalSupports
                 .Include(x => x.Warehouse)

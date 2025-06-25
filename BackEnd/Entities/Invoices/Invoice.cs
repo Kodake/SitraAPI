@@ -15,9 +15,9 @@ namespace BackEnd.Entities.Invoices
         public long PricingId { get; set; }
         public Pricing Pricing { get; set; } = null!;
         public long? BillerId { get; set; }
-        public Contact Biller { get; set; } = null!;
-        public long CustomerId { get; set; }
-        public Contact Buyer { get; set; } = null!;
+        public Contact? Biller { get; set; } = null!;
+        public long? CustomerId { get; set; }
+        public Contact? Buyer { get; set; } = null!;
         public long? FiscalSupportId { get; set; }
         public FiscalSupport? FiscalSupport { get; set; } = null!;
         public string? FiscalSupportNumber { get; set; } = string.Empty;
@@ -44,6 +44,6 @@ namespace BackEnd.Entities.Invoices
         public SpotPayment? SpotPayment { get; set; } = null!;
         public SpotPayable? SpotPayable { get; set; } = null!;
         public Quotation? Quotation { get; set; } = null!;
-        public List<InvoiceItem> InvoiceItems { get; set; } = new List<InvoiceItem>();
+        public List<InvoiceItem> InvoiceItems { get; set; } = [];
     }
 }

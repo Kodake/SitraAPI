@@ -15,15 +15,19 @@ namespace BackEnd.Validations
                 .WithMessage(x => string.Format(Utilities.NotExistsWith, x.PricingId));
 
             RuleFor(x => x.BillerId)
-                .MustAsync(async (id, _) => await unitOfWork.ContactRepository.ExistsAsync(id))
+                .MustAsync(async (id, _) =>
+                    !id.HasValue || await unitOfWork.ContactRepository.ExistsAsync(id.Value))
                 .WithMessage(x => string.Format(Utilities.NotExistsWith, x.BillerId));
 
-            RuleFor(x => x.CustomerId)
-                .MustAsync(async (id, _) => await unitOfWork.ContactRepository.ExistsAsync(id))
+
+            RuleFor(x => x.BillerId)
+                .MustAsync(async (id, _) =>
+                    !id.HasValue || await unitOfWork.ContactRepository.ExistsAsync(id.Value))
                 .WithMessage(x => string.Format(Utilities.NotExistsWith, x.CustomerId));
 
             RuleFor(x => x.FiscalSupportId)
-                .MustAsync(async (id, _) => await unitOfWork.FiscalSupportRepository.ExistsAsync(id))
+                .MustAsync(async (id, _) =>
+                    !id.HasValue || await unitOfWork.FiscalSupportRepository.ExistsAsync(id.Value))
                 .WithMessage(x => string.Format(Utilities.NotExistsWith, x.FiscalSupportId));
 
             RuleFor(x => x.CurrencyId)
@@ -33,10 +37,13 @@ namespace BackEnd.Validations
             RuleFor(x => x.FiscalSupportId)
                 .MustAsync(async (id, _) =>
                 {
-                    var exists = await unitOfWork.FiscalSupportRepository.ExistsAsync(id);
+                    if (!id.HasValue)
+                        return true;
+
+                    var exists = await unitOfWork.FiscalSupportRepository.ExistsAsync(id.Value);
                     if (!exists) return false;
 
-                    var support = await unitOfWork.FiscalSupportRepository.GetByIdAsync(id);
+                    var support = await unitOfWork.FiscalSupportRepository.GetByIdAsync(id.Value);
                     return TryUpdateFiscalSupportSequence(support!);
                 })
                 .WithMessage(Utilities.MaximumSupportsReachedMessage);

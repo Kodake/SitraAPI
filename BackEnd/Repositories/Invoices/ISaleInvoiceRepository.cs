@@ -10,7 +10,7 @@ namespace BackEnd.Repositories.Invoices
         new Task<Invoice?> GetByIdAsync(long id);
         Task AddInvoiceItem(InvoiceItem item);
         Task<List<InvoiceItem>> GetItemsByInvoiceId(long invoiceId);
-        Task DeleteInvoiceItemsByInvoiceId(long invoiceId);
+        Task DeleteInvoiceItemsByInvoiceId(long? invoiceId);
         Task<int> Last24HoursSaleInvoicesAsync();
         Task<double> Last30DaysSalesAsync();
         Task<List<Invoice>> GetSalesByDateRangeAsync(DateTime from, DateTime to, PaginationDTO paginationDTO);
