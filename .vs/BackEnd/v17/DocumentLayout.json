@@ -3,6 +3,22 @@
   "WorkspaceRootPath": "C:\\Users\\Kodake\\Desktop\\PosAPI\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\endpoints\\auths\\authsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\endpoints\\auths\\authsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\endpoints\\invoices\\quotationsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\endpoints\\invoices\\quotationsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\context\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\context\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\repositories\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\repositories\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\endpoints\\finances\\expensesendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\endpoints\\finances\\expensesendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -131,16 +147,8 @@
       "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\validations\\createproductdtovalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\endpoints\\auths\\authsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\endpoints\\auths\\authsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\endpoints\\invoices\\saleinvoicesendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\endpoints\\invoices\\saleinvoicesendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\repositories\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\repositories\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\repositories\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -233,10 +241,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\context\\invoices\\spotpayableconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\context\\invoices\\spotpayableconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\context\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\context\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\context\\finances\\currencyconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -379,10 +383,6 @@
       "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\endpoints\\invoices\\purchaseinvoicesendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\endpoints\\invoices\\quotationsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\endpoints\\invoices\\quotationsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\endpoints\\invoices\\spotpaymentsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\endpoints\\invoices\\spotpaymentsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -468,7 +468,7 @@
         },
         {
           "DockedWidth": 320,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Bookmark",
@@ -476,56 +476,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ApiRoutesExtension.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\ApiRoutesExtension.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Endpoints\\ApiRoutesExtension.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\ApiRoutesExtension.cs",
-              "RelativeToolTip": "BackEnd\\Endpoints\\ApiRoutesExtension.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAIA5wBcAAAAyAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-06T21:19:49.895Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ExpensesEndpoints.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Finances\\ExpensesEndpoints.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Endpoints\\Finances\\ExpensesEndpoints.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Finances\\ExpensesEndpoints.cs",
-              "RelativeToolTip": "BackEnd\\Endpoints\\Finances\\ExpensesEndpoints.cs",
-              "ViewState": "AgIAABwAAAAAAAAAAAAgwCgAAAAuAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-06T21:17:45.979Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "TaxesRequestHandler.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Handlers\\Finances\\TaxesRequestHandler.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Mediator\\Handlers\\Finances\\TaxesRequestHandler.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Handlers\\Finances\\TaxesRequestHandler.cs",
-              "RelativeToolTip": "BackEnd\\Mediator\\Handlers\\Finances\\TaxesRequestHandler.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-06T21:14:37.231Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "CurrenciesRequestHandler.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Handlers\\Finances\\CurrenciesRequestHandler.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Mediator\\Handlers\\Finances\\CurrenciesRequestHandler.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Handlers\\Finances\\CurrenciesRequestHandler.cs",
-              "RelativeToolTip": "BackEnd\\Mediator\\Handlers\\Finances\\CurrenciesRequestHandler.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-06T21:14:15.888Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 12,
               "Title": "ExpensesRequestHandler.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Handlers\\Finances\\ExpensesRequestHandler.cs",
               "RelativeDocumentMoniker": "BackEnd\\Mediator\\Handlers\\Finances\\ExpensesRequestHandler.cs",
@@ -537,7 +488,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 19,
               "Title": "DeactivateCurrencyCommand.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Commands\\Finances\\Currencies\\DeactivateCurrencyCommand.cs",
               "RelativeDocumentMoniker": "BackEnd\\Mediator\\Commands\\Finances\\Currencies\\DeactivateCurrencyCommand.cs",
@@ -549,7 +500,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "CreateExpenseDTO.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\Finances\\Expenses\\CreateExpenseDTO.cs",
               "RelativeDocumentMoniker": "BackEnd\\DTOs\\Finances\\Expenses\\CreateExpenseDTO.cs",
@@ -557,12 +508,11 @@
               "RelativeToolTip": "BackEnd\\DTOs\\Finances\\Expenses\\CreateExpenseDTO.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-06T20:42:23.459Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-06T20:42:23.459Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "GetExpenseByIdQuery.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Queries\\Finances\\Expenses\\GetExpenseByIdQuery.cs",
               "RelativeDocumentMoniker": "BackEnd\\Mediator\\Queries\\Finances\\Expenses\\GetExpenseByIdQuery.cs",
@@ -570,12 +520,108 @@
               "RelativeToolTip": "BackEnd\\Mediator\\Queries\\Finances\\Expenses\\GetExpenseByIdQuery.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAA8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-06T21:03:38.092Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-06T21:03:38.092Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "QuotationsEndpoints.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Invoices\\QuotationsEndpoints.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Endpoints\\Invoices\\QuotationsEndpoints.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Invoices\\QuotationsEndpoints.cs",
+              "RelativeToolTip": "BackEnd\\Endpoints\\Invoices\\QuotationsEndpoints.cs",
+              "ViewState": "AgIAACYAAAAAAAAAAAAwwDIAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-04T03:09:41.448Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "UnitOfWork.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\UnitOfWork.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Repositories\\UnitOfWork.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\UnitOfWork.cs",
+              "RelativeToolTip": "BackEnd\\Repositories\\UnitOfWork.cs",
+              "ViewState": "AgIAAGMAAAAAAAAAAAAmwHAAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-06T20:55:31.084Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Context\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Context\\ApplicationDbContext.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Context\\ApplicationDbContext.cs",
+              "RelativeToolTip": "BackEnd\\Context\\ApplicationDbContext.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAmwBoAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-06T20:35:55.981Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AuthsEndpoints.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Auths\\AuthsEndpoints.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Endpoints\\Auths\\AuthsEndpoints.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Auths\\AuthsEndpoints.cs",
+              "RelativeToolTip": "BackEnd\\Endpoints\\Auths\\AuthsEndpoints.cs",
+              "ViewState": "AgIAAFQAAAAAAAAAAAAowGcAAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-06T18:54:18.63Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ExpensesEndpoints.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Finances\\ExpensesEndpoints.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Endpoints\\Finances\\ExpensesEndpoints.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Finances\\ExpensesEndpoints.cs",
+              "RelativeToolTip": "BackEnd\\Endpoints\\Finances\\ExpensesEndpoints.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAAgwC4AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-06T21:17:45.979Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "CurrenciesRequestHandler.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Handlers\\Finances\\CurrenciesRequestHandler.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Mediator\\Handlers\\Finances\\CurrenciesRequestHandler.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Handlers\\Finances\\CurrenciesRequestHandler.cs",
+              "RelativeToolTip": "BackEnd\\Mediator\\Handlers\\Finances\\CurrenciesRequestHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-06T21:14:15.888Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "TaxesRequestHandler.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Handlers\\Finances\\TaxesRequestHandler.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Mediator\\Handlers\\Finances\\TaxesRequestHandler.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Handlers\\Finances\\TaxesRequestHandler.cs",
+              "RelativeToolTip": "BackEnd\\Mediator\\Handlers\\Finances\\TaxesRequestHandler.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-06T21:14:37.231Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "ApiRoutesExtension.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\ApiRoutesExtension.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Endpoints\\ApiRoutesExtension.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\ApiRoutesExtension.cs",
+              "RelativeToolTip": "BackEnd\\Endpoints\\ApiRoutesExtension.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAIA5wBcAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-06T21:19:49.895Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "20250706212513_AddedExpensesTable.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Migrations\\20250706212513_AddedExpensesTable.cs",
               "RelativeDocumentMoniker": "BackEnd\\Migrations\\20250706212513_AddedExpensesTable.cs",
@@ -583,12 +629,11 @@
               "RelativeToolTip": "BackEnd\\Migrations\\20250706212513_AddedExpensesTable.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-06T21:25:13.602Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-06T21:25:13.602Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 16,
               "Title": "UpdateExpenseCommand.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Commands\\Finances\\Expenses\\UpdateExpenseCommand.cs",
               "RelativeDocumentMoniker": "BackEnd\\Mediator\\Commands\\Finances\\Expenses\\UpdateExpenseCommand.cs",
@@ -600,7 +645,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 8,
               "Title": "MediatRDependencyHandler.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\MediatRDependencyHandler.cs",
               "RelativeDocumentMoniker": "BackEnd\\Mediator\\MediatRDependencyHandler.cs",
@@ -612,7 +657,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 10,
               "Title": "TaxesEndpoints.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Finances\\TaxesEndpoints.cs",
               "RelativeDocumentMoniker": "BackEnd\\Endpoints\\Finances\\TaxesEndpoints.cs",
@@ -624,7 +669,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 11,
               "Title": "CurrenciesEndpoints.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Finances\\CurrenciesEndpoints.cs",
               "RelativeDocumentMoniker": "BackEnd\\Endpoints\\Finances\\CurrenciesEndpoints.cs",
@@ -636,7 +681,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 20,
               "Title": "UpdateCurrencyCommand.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Commands\\Finances\\Currencies\\UpdateCurrencyCommand.cs",
               "RelativeDocumentMoniker": "BackEnd\\Mediator\\Commands\\Finances\\Currencies\\UpdateCurrencyCommand.cs",
@@ -648,7 +693,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 15,
               "Title": "DeactivateExpenseCommand.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Commands\\Finances\\Expenses\\DeactivateExpenseCommand.cs",
               "RelativeDocumentMoniker": "BackEnd\\Mediator\\Commands\\Finances\\Expenses\\DeactivateExpenseCommand.cs",
@@ -660,7 +705,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 18,
               "Title": "CreateExpenseCommand.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Commands\\Finances\\Expenses\\CreateExpenseCommand.cs",
               "RelativeDocumentMoniker": "BackEnd\\Mediator\\Commands\\Finances\\Expenses\\CreateExpenseCommand.cs",
@@ -672,7 +717,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 17,
               "Title": "ActivateExpenseCommand.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Commands\\Finances\\Expenses\\ActivateExpenseCommand.cs",
               "RelativeDocumentMoniker": "BackEnd\\Mediator\\Commands\\Finances\\Expenses\\ActivateExpenseCommand.cs",
@@ -684,7 +729,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 22,
               "Title": "ActivateCurrencyCommand.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Commands\\Finances\\Currencies\\ActivateCurrencyCommand.cs",
               "RelativeDocumentMoniker": "BackEnd\\Mediator\\Commands\\Finances\\Currencies\\ActivateCurrencyCommand.cs",
@@ -696,7 +741,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 21,
               "Title": "CreateCurrencyCommand.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Commands\\Finances\\Currencies\\CreateCurrencyCommand.cs",
               "RelativeDocumentMoniker": "BackEnd\\Mediator\\Commands\\Finances\\Currencies\\CreateCurrencyCommand.cs",
@@ -708,7 +753,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 31,
               "Title": "GetAllExpensesQuery.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Queries\\Finances\\Expenses\\GetAllExpensesQuery.cs",
               "RelativeDocumentMoniker": "BackEnd\\Mediator\\Queries\\Finances\\Expenses\\GetAllExpensesQuery.cs",
@@ -720,7 +765,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 30,
               "Title": "Brand.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Products\\Brand.cs",
               "RelativeDocumentMoniker": "BackEnd\\Entities\\Products\\Brand.cs",
@@ -732,7 +777,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 29,
               "Title": "Currency.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Finances\\Currency.cs",
               "RelativeDocumentMoniker": "BackEnd\\Entities\\Finances\\Currency.cs",
@@ -744,7 +789,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 24,
               "Title": "Expense.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Finances\\Expense.cs",
               "RelativeDocumentMoniker": "BackEnd\\Entities\\Finances\\Expense.cs",
@@ -756,7 +801,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 28,
               "Title": "CreateCurrencyDTO.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\Finances\\Currencies\\CreateCurrencyDTO.cs",
               "RelativeDocumentMoniker": "BackEnd\\DTOs\\Finances\\Currencies\\CreateCurrencyDTO.cs",
@@ -768,7 +813,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 27,
               "Title": "CurrencyDTO.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\Finances\\Currencies\\CurrencyDTO.cs",
               "RelativeDocumentMoniker": "BackEnd\\DTOs\\Finances\\Currencies\\CurrencyDTO.cs",
@@ -780,7 +825,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 26,
               "Title": "CurrencyListDTO.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\Finances\\Currencies\\CurrencyListDTO.cs",
               "RelativeDocumentMoniker": "BackEnd\\DTOs\\Finances\\Currencies\\CurrencyListDTO.cs",
@@ -792,7 +837,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 23,
               "Title": "ExpenseListDTO.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\Finances\\Expenses\\ExpenseListDTO.cs",
               "RelativeDocumentMoniker": "BackEnd\\DTOs\\Finances\\Expenses\\ExpenseListDTO.cs",
@@ -804,7 +849,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 25,
               "Title": "ExpenseDTO.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\Finances\\Expenses\\ExpenseDTO.cs",
               "RelativeDocumentMoniker": "BackEnd\\DTOs\\Finances\\Expenses\\ExpenseDTO.cs",
@@ -816,7 +861,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 32,
               "Title": "GetCurrencyByIdQuery.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Queries\\Finances\\Currencies\\GetCurrencyByIdQuery.cs",
               "RelativeDocumentMoniker": "BackEnd\\Mediator\\Queries\\Finances\\Currencies\\GetCurrencyByIdQuery.cs",
@@ -828,7 +873,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 33,
               "Title": "GetAllCurrenciesQuery.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Queries\\Finances\\Currencies\\GetAllCurrenciesQuery.cs",
               "RelativeDocumentMoniker": "BackEnd\\Mediator\\Queries\\Finances\\Currencies\\GetAllCurrenciesQuery.cs",
@@ -840,7 +885,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 38,
               "Title": "RepositoryDependencyHandler.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\RepositoryDependencyHandler.cs",
               "RelativeDocumentMoniker": "BackEnd\\Repositories\\RepositoryDependencyHandler.cs",
@@ -852,7 +897,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 39,
               "Title": "MappingProfile.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Profiles\\MappingProfile.cs",
               "RelativeDocumentMoniker": "BackEnd\\Profiles\\MappingProfile.cs",
@@ -864,19 +909,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
-              "Title": "UnitOfWork.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\UnitOfWork.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Repositories\\UnitOfWork.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\UnitOfWork.cs",
-              "RelativeToolTip": "BackEnd\\Repositories\\UnitOfWork.cs",
-              "ViewState": "AgIAAD0AAAAAAAAAAAAAAE0AAABUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-06T20:55:31.084Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 37,
               "Title": "IUnitOfWork.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\IUnitOfWork.cs",
               "RelativeDocumentMoniker": "BackEnd\\Repositories\\IUnitOfWork.cs",
@@ -888,7 +921,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 36,
               "Title": "SaleInvoicesEndpoints.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Invoices\\SaleInvoicesEndpoints.cs",
               "RelativeDocumentMoniker": "BackEnd\\Endpoints\\Invoices\\SaleInvoicesEndpoints.cs",
@@ -900,19 +933,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
-              "Title": "AuthsEndpoints.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Auths\\AuthsEndpoints.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Endpoints\\Auths\\AuthsEndpoints.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Auths\\AuthsEndpoints.cs",
-              "RelativeToolTip": "BackEnd\\Endpoints\\Auths\\AuthsEndpoints.cs",
-              "ViewState": "AgIAAAEAAAAAAAAAAAAEwBUAAABRAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-06T18:54:18.63Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 34,
               "Title": "CreatePurchaseInvoiceDTOValidator.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Validations\\CreatePurchaseInvoiceDTOValidator.cs",
               "RelativeDocumentMoniker": "BackEnd\\Validations\\CreatePurchaseInvoiceDTOValidator.cs",
@@ -924,7 +945,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 35,
               "Title": "CreateProductDTOValidator.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Validations\\CreateProductDTOValidator.cs",
               "RelativeDocumentMoniker": "BackEnd\\Validations\\CreateProductDTOValidator.cs",
@@ -936,7 +957,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
+              "DocumentIndex": 40,
               "Title": "AutoMapperProfiles.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Profiles\\AutoMapperProfiles.cs",
               "RelativeDocumentMoniker": "BackEnd\\Profiles\\AutoMapperProfiles.cs",
@@ -948,7 +969,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
+              "DocumentIndex": 41,
               "Title": "ExpensesProfile.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Profiles\\Finances\\ExpensesProfile.cs",
               "RelativeDocumentMoniker": "BackEnd\\Profiles\\Finances\\ExpensesProfile.cs",
@@ -960,7 +981,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 41,
+              "DocumentIndex": 43,
               "Title": "TaxesProfile.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Profiles\\Finances\\TaxesProfile.cs",
               "RelativeDocumentMoniker": "BackEnd\\Profiles\\Finances\\TaxesProfile.cs",
@@ -972,7 +993,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 43,
+              "DocumentIndex": 45,
               "Title": "CurrencyRepository.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\Finances\\CurrencyRepository.cs",
               "RelativeDocumentMoniker": "BackEnd\\Repositories\\Finances\\CurrencyRepository.cs",
@@ -984,7 +1005,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 45,
+              "DocumentIndex": 47,
               "Title": "ICurrencyRepository.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\Finances\\ICurrencyRepository.cs",
               "RelativeDocumentMoniker": "BackEnd\\Repositories\\Finances\\ICurrencyRepository.cs",
@@ -996,7 +1017,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 44,
+              "DocumentIndex": 46,
               "Title": "IExpenseRepository.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\Finances\\IExpenseRepository.cs",
               "RelativeDocumentMoniker": "BackEnd\\Repositories\\Finances\\IExpenseRepository.cs",
@@ -1008,7 +1029,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 40,
+              "DocumentIndex": 42,
               "Title": "CurrenciesProfile.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Profiles\\Finances\\CurrenciesProfile.cs",
               "RelativeDocumentMoniker": "BackEnd\\Profiles\\Finances\\CurrenciesProfile.cs",
@@ -1020,7 +1041,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 46,
+              "DocumentIndex": 48,
               "Title": "ITaxRepository.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\Finances\\ITaxRepository.cs",
               "RelativeDocumentMoniker": "BackEnd\\Repositories\\Finances\\ITaxRepository.cs",
@@ -1032,7 +1053,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 47,
+              "DocumentIndex": 49,
               "Title": "TaxRepository.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\Finances\\TaxRepository.cs",
               "RelativeDocumentMoniker": "BackEnd\\Repositories\\Finances\\TaxRepository.cs",
@@ -1044,7 +1065,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 42,
+              "DocumentIndex": 44,
               "Title": "ExpenseRepository.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\Finances\\ExpenseRepository.cs",
               "RelativeDocumentMoniker": "BackEnd\\Repositories\\Finances\\ExpenseRepository.cs",
@@ -1056,7 +1077,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 49,
+              "DocumentIndex": 51,
               "Title": "CreateQuotationDTOValidator.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Validations\\CreateQuotationDTOValidator.cs",
               "RelativeDocumentMoniker": "BackEnd\\Validations\\CreateQuotationDTOValidator.cs",
@@ -1068,7 +1089,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 50,
+              "DocumentIndex": 52,
               "Title": "CreateRegistrationUserDTOValidator.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Validations\\CreateRegistrationUserDTOValidator.cs",
               "RelativeDocumentMoniker": "BackEnd\\Validations\\CreateRegistrationUserDTOValidator.cs",
@@ -1080,7 +1101,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 52,
+              "DocumentIndex": 54,
               "Title": "CreateStockDTOValidator.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Validations\\CreateStockDTOValidator.cs",
               "RelativeDocumentMoniker": "BackEnd\\Validations\\CreateStockDTOValidator.cs",
@@ -1092,7 +1113,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 51,
+              "DocumentIndex": 53,
               "Title": "CreateSaleInvoiceDTOValidator.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Validations\\CreateSaleInvoiceDTOValidator.cs",
               "RelativeDocumentMoniker": "BackEnd\\Validations\\CreateSaleInvoiceDTOValidator.cs",
@@ -1104,7 +1125,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 54,
+              "DocumentIndex": 56,
               "Title": "CreateBrandDTOValidator.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Validations\\CreateBrandDTOValidator.cs",
               "RelativeDocumentMoniker": "BackEnd\\Validations\\CreateBrandDTOValidator.cs",
@@ -1116,7 +1137,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 48,
+              "DocumentIndex": 50,
               "Title": "CreateExpenseDTOValidator.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Validations\\CreateExpenseDTOValidator.cs",
               "RelativeDocumentMoniker": "BackEnd\\Validations\\CreateExpenseDTOValidator.cs",
@@ -1128,7 +1149,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 55,
+              "DocumentIndex": 57,
               "Title": "BrandDTO.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\Products\\Brands\\BrandDTO.cs",
               "RelativeDocumentMoniker": "BackEnd\\DTOs\\Products\\Brands\\BrandDTO.cs",
@@ -1140,7 +1161,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 53,
+              "DocumentIndex": 55,
               "Title": "CreateCurrencyDTOValidator.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Validations\\CreateCurrencyDTOValidator.cs",
               "RelativeDocumentMoniker": "BackEnd\\Validations\\CreateCurrencyDTOValidator.cs",
@@ -1152,7 +1173,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 56,
+              "DocumentIndex": 58,
               "Title": "BrandListDTO.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\Products\\Brands\\BrandListDTO.cs",
               "RelativeDocumentMoniker": "BackEnd\\DTOs\\Products\\Brands\\BrandListDTO.cs",
@@ -1164,7 +1185,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 57,
+              "DocumentIndex": 59,
               "Title": "SpotPayableConfiguration.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Context\\Invoices\\SpotPayableConfiguration.cs",
               "RelativeDocumentMoniker": "BackEnd\\Context\\Invoices\\SpotPayableConfiguration.cs",
@@ -1176,19 +1197,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 58,
-              "Title": "ApplicationDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Context\\ApplicationDbContext.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Context\\ApplicationDbContext.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Context\\ApplicationDbContext.cs",
-              "RelativeToolTip": "BackEnd\\Context\\ApplicationDbContext.cs",
-              "ViewState": "AgIAAFMAAAAAAAAAAAAAwFoAAABAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-06T20:35:55.981Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 62,
+              "DocumentIndex": 63,
               "Title": "ItemConfiguration.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Context\\Products\\ItemConfiguration.cs",
               "RelativeDocumentMoniker": "BackEnd\\Context\\Products\\ItemConfiguration.cs",
@@ -1200,7 +1209,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 63,
+              "DocumentIndex": 64,
               "Title": "CategoryConfiguration.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Context\\Products\\CategoryConfiguration.cs",
               "RelativeDocumentMoniker": "BackEnd\\Context\\Products\\CategoryConfiguration.cs",
@@ -1212,7 +1221,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 64,
+              "DocumentIndex": 65,
               "Title": "SpotPaymentConfiguration.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Context\\Invoices\\SpotPaymentConfiguration.cs",
               "RelativeDocumentMoniker": "BackEnd\\Context\\Invoices\\SpotPaymentConfiguration.cs",
@@ -1224,7 +1233,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 65,
+              "DocumentIndex": 66,
               "Title": "QuotationConfiguration.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Context\\Invoices\\QuotationConfiguration.cs",
               "RelativeDocumentMoniker": "BackEnd\\Context\\Invoices\\QuotationConfiguration.cs",
@@ -1236,7 +1245,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 59,
+              "DocumentIndex": 60,
               "Title": "CurrencyConfiguration.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Context\\Finances\\CurrencyConfiguration.cs",
               "RelativeDocumentMoniker": "BackEnd\\Context\\Finances\\CurrencyConfiguration.cs",
@@ -1248,7 +1257,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 60,
+              "DocumentIndex": 61,
               "Title": "ExpenseConfiguration.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Context\\Finances\\ExpenseConfiguration.cs",
               "RelativeDocumentMoniker": "BackEnd\\Context\\Finances\\ExpenseConfiguration.cs",
@@ -1260,7 +1269,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 61,
+              "DocumentIndex": 62,
               "Title": "ItemTaxesConfiguration.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Context\\Finances\\ItemTaxesConfiguration.cs",
               "RelativeDocumentMoniker": "BackEnd\\Context\\Finances\\ItemTaxesConfiguration.cs",
@@ -1272,7 +1281,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 66,
+              "DocumentIndex": 67,
               "Title": "PaymentConfiguration.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Context\\Invoices\\PaymentConfiguration.cs",
               "RelativeDocumentMoniker": "BackEnd\\Context\\Invoices\\PaymentConfiguration.cs",
@@ -1284,7 +1293,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 67,
+              "DocumentIndex": 68,
               "Title": "InvoiceItemConfiguration.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Context\\Invoices\\InvoiceItemConfiguration.cs",
               "RelativeDocumentMoniker": "BackEnd\\Context\\Invoices\\InvoiceItemConfiguration.cs",
@@ -1296,7 +1305,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 68,
+              "DocumentIndex": 69,
               "Title": "InvoiceConfiguration.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Context\\Invoices\\InvoiceConfiguration.cs",
               "RelativeDocumentMoniker": "BackEnd\\Context\\Invoices\\InvoiceConfiguration.cs",
@@ -1308,7 +1317,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 69,
+              "DocumentIndex": 70,
               "Title": "TaxConfiguration.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Context\\Finances\\TaxConfiguration.cs",
               "RelativeDocumentMoniker": "BackEnd\\Context\\Finances\\TaxConfiguration.cs",
@@ -1320,7 +1329,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 73,
+              "DocumentIndex": 74,
               "Title": "CreateOpenPettyCashCommand.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Commands\\CashBoxes\\CreateOpenPettyCashCommand.cs",
               "RelativeDocumentMoniker": "BackEnd\\Mediator\\Commands\\CashBoxes\\CreateOpenPettyCashCommand.cs",
@@ -1332,7 +1341,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 74,
+              "DocumentIndex": 75,
               "Title": "DeactivateDeadlineCommand.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Commands\\AdministrativeTools\\Deadlines\\DeactivateDeadlineCommand.cs",
               "RelativeDocumentMoniker": "BackEnd\\Mediator\\Commands\\AdministrativeTools\\Deadlines\\DeactivateDeadlineCommand.cs",
@@ -1344,7 +1353,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 75,
+              "DocumentIndex": 76,
               "Title": "DeactivateReceivableCommand.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Commands\\Accounts\\Receivables\\DeactivateReceivableCommand.cs",
               "RelativeDocumentMoniker": "BackEnd\\Mediator\\Commands\\Accounts\\Receivables\\DeactivateReceivableCommand.cs",
@@ -1356,7 +1365,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 72,
+              "DocumentIndex": 73,
               "Title": "PayableReceiptListDTO.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\Accounts\\PayableReceipts\\PayableReceiptListDTO.cs",
               "RelativeDocumentMoniker": "BackEnd\\DTOs\\Accounts\\PayableReceipts\\PayableReceiptListDTO.cs",
@@ -1368,7 +1377,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 71,
+              "DocumentIndex": 72,
               "Title": "PettyCashDTO.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\CashBoxes\\PettyCashDTO.cs",
               "RelativeDocumentMoniker": "BackEnd\\DTOs\\CashBoxes\\PettyCashDTO.cs",
@@ -1380,7 +1389,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 70,
+              "DocumentIndex": 71,
               "Title": "PurchaseInvoiceDTO.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\Invoices\\PurchaseInvoices\\PurchaseInvoiceDTO.cs",
               "RelativeDocumentMoniker": "BackEnd\\DTOs\\Invoices\\PurchaseInvoices\\PurchaseInvoiceDTO.cs",
@@ -1392,7 +1401,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 76,
+              "DocumentIndex": 77,
               "Title": "HttpContextExtensionsUtilities.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Helpers\\HttpContextExtensionsUtilities.cs",
               "RelativeDocumentMoniker": "BackEnd\\Helpers\\HttpContextExtensionsUtilities.cs",
@@ -1404,7 +1413,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 77,
+              "DocumentIndex": 78,
               "Title": "GetSaleInvoiceReceiptPdfQuery.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Queries\\Invoices\\SaleInvoices\\GetSaleInvoiceReceiptPdfQuery.cs",
               "RelativeDocumentMoniker": "BackEnd\\Mediator\\Queries\\Invoices\\SaleInvoices\\GetSaleInvoiceReceiptPdfQuery.cs",
@@ -1416,7 +1425,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 78,
+              "DocumentIndex": 79,
               "Title": "BrandsEndpoints.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Products\\BrandsEndpoints.cs",
               "RelativeDocumentMoniker": "BackEnd\\Endpoints\\Products\\BrandsEndpoints.cs",
@@ -1428,7 +1437,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 79,
+              "DocumentIndex": 80,
               "Title": "CreatePayableReceiptCommand.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Commands\\Accounts\\Payables\\CreatePayableReceiptCommand.cs",
               "RelativeDocumentMoniker": "BackEnd\\Mediator\\Commands\\Accounts\\Payables\\CreatePayableReceiptCommand.cs",
@@ -1440,7 +1449,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 88,
+              "DocumentIndex": 89,
               "Title": "CreateProductDTO.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\Products\\Products\\CreateProductDTO.cs",
               "RelativeDocumentMoniker": "BackEnd\\DTOs\\Products\\Products\\CreateProductDTO.cs",
@@ -1452,7 +1461,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 83,
+              "DocumentIndex": 84,
               "Title": "ProductsEndpoints.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Products\\ProductsEndpoints.cs",
               "RelativeDocumentMoniker": "BackEnd\\Endpoints\\Products\\ProductsEndpoints.cs",
@@ -1464,7 +1473,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 84,
+              "DocumentIndex": 85,
               "Title": "UpdateProductCommand.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Commands\\Products\\Products\\UpdateProductCommand.cs",
               "RelativeDocumentMoniker": "BackEnd\\Mediator\\Commands\\Products\\Products\\UpdateProductCommand.cs",
@@ -1476,7 +1485,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 85,
+              "DocumentIndex": 86,
               "Title": "Item.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Products\\Item.cs",
               "RelativeDocumentMoniker": "BackEnd\\Entities\\Products\\Item.cs",
@@ -1488,7 +1497,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 80,
+              "DocumentIndex": 81,
               "Title": "CreateSaleInvoiceCommand.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Commands\\Invoices\\SaleInvoices\\CreateSaleInvoiceCommand.cs",
               "RelativeDocumentMoniker": "BackEnd\\Mediator\\Commands\\Invoices\\SaleInvoices\\CreateSaleInvoiceCommand.cs",
@@ -1500,7 +1509,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 82,
+              "DocumentIndex": 83,
               "Title": "ProductsProfile.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Profiles\\Products\\ProductsProfile.cs",
               "RelativeDocumentMoniker": "BackEnd\\Profiles\\Products\\ProductsProfile.cs",
@@ -1512,7 +1521,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 81,
+              "DocumentIndex": 82,
               "Title": "ProductsRequestHandler.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Handlers\\Products\\ProductsRequestHandler.cs",
               "RelativeDocumentMoniker": "BackEnd\\Mediator\\Handlers\\Products\\ProductsRequestHandler.cs",
@@ -1524,7 +1533,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 89,
+              "DocumentIndex": 90,
               "Title": "ValidationFilter.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Filters\\ValidationFilter.cs",
               "RelativeDocumentMoniker": "BackEnd\\Filters\\ValidationFilter.cs",
@@ -1536,7 +1545,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 86,
+              "DocumentIndex": 87,
               "Title": "CreateProductCommand.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Commands\\Products\\Products\\CreateProductCommand.cs",
               "RelativeDocumentMoniker": "BackEnd\\Mediator\\Commands\\Products\\Products\\CreateProductCommand.cs",
@@ -1544,12 +1553,11 @@
               "RelativeToolTip": "BackEnd\\Mediator\\Commands\\Products\\Products\\CreateProductCommand.cs",
               "ViewState": "AgIAAC8AAAAAAAAAAAAowEUAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-05T20:58:35.041Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-05T20:58:35.041Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 87,
+              "DocumentIndex": 88,
               "Title": "UpdateProductDTO.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\Products\\Products\\UpdateProductDTO.cs",
               "RelativeDocumentMoniker": "BackEnd\\DTOs\\Products\\Products\\UpdateProductDTO.cs",
@@ -1573,7 +1581,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 91,
+              "DocumentIndex": 92,
               "Title": "GetSaleInvoicePdfQuery.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Queries\\Invoices\\SaleInvoices\\GetSaleInvoicePdfQuery.cs",
               "RelativeDocumentMoniker": "BackEnd\\Mediator\\Queries\\Invoices\\SaleInvoices\\GetSaleInvoicePdfQuery.cs",
@@ -1597,7 +1605,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 90,
+              "DocumentIndex": 91,
               "Title": "SaleInvoicesRequestHandler.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Handlers\\Invoices\\SaleInvoicesRequestHandler.cs",
               "RelativeDocumentMoniker": "BackEnd\\Mediator\\Handlers\\Invoices\\SaleInvoicesRequestHandler.cs",
@@ -1609,7 +1617,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 92,
+              "DocumentIndex": 93,
               "Title": "GetSaleInvoiceByIdQuery.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Queries\\Invoices\\SaleInvoices\\GetSaleInvoiceByIdQuery.cs",
               "RelativeDocumentMoniker": "BackEnd\\Mediator\\Queries\\Invoices\\SaleInvoices\\GetSaleInvoiceByIdQuery.cs",
@@ -1670,18 +1678,6 @@
             {
               "$type": "Document",
               "DocumentIndex": 94,
-              "Title": "QuotationsEndpoints.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Invoices\\QuotationsEndpoints.cs",
-              "RelativeDocumentMoniker": "BackEnd\\Endpoints\\Invoices\\QuotationsEndpoints.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Invoices\\QuotationsEndpoints.cs",
-              "RelativeToolTip": "BackEnd\\Endpoints\\Invoices\\QuotationsEndpoints.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-04T03:09:41.448Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 93,
               "Title": "PurchaseInvoicesEndpoints.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Invoices\\PurchaseInvoicesEndpoints.cs",
               "RelativeDocumentMoniker": "BackEnd\\Endpoints\\Invoices\\PurchaseInvoicesEndpoints.cs",

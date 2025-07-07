@@ -99,8 +99,12 @@ namespace BackEnd.Endpoints
 
             var openPettyCash = await unitOfWork.PettyCashRepository.GetOpenPettyCashAsync();
 
-            if (openPettyCash != null &&
-                openPettyCash.User != null &&
+            if (openPettyCash == null)
+            {
+                return TypedResults.BadRequest("Debe abrir la caja chica antes de continuar.");
+            }
+
+            if (openPettyCash.User != null &&
                 !string.Equals(openPettyCash.User.Email?.Trim(), userEmail.Trim(), StringComparison.OrdinalIgnoreCase))
             {
                 return TypedResults.BadRequest(
@@ -109,6 +113,7 @@ namespace BackEnd.Endpoints
 
             return TypedResults.Ok();
         }
+
 
         private static async Task<Results<Ok, BadRequest<string>>> ValidateOpenedPettyCashEndpoint(
             HttpContext httpContext,
