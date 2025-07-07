@@ -22,6 +22,7 @@ namespace BackEnd.Endpoints.Invoices
             group.MapGet("/{id:long}", GetById);
             group.MapPost("/", Create).DisableAntiforgery().WithOpenApi().RequireAuthorization();
             group.MapGet("/{invoiceId}/generate-pdf", GeneratePdf).WithOpenApi();
+            group.MapGet("/{invoiceId}/generate-receipt-pdf", GenerateReceiptPdf).WithOpenApi();
             return group;
         }
 
@@ -43,14 +44,17 @@ namespace BackEnd.Endpoints.Invoices
             return dto == null ? TypedResults.NotFound() : TypedResults.Ok(dto);
         }
 
-        static async Task<Results<Created, NotFound, ValidationProblem>> Create(
+        static async Task<Results<Created<CreateSaleInvoiceDTO>, NotFound, ValidationProblem>> Create(
             [FromBody] CreateSaleInvoiceDTO dto,
             [FromServices] IMediator mediator,
             IOutputCacheStore outputCacheStore)
         {
             var command = new CreateSaleInvoiceCommand(dto);
             var saleDTO = await mediator.Send(command);
-            return saleDTO == null ? TypedResults.NotFound() : TypedResults.Created();
+
+            return saleDTO == null
+                ? TypedResults.NotFound()
+                : TypedResults.Created(string.Empty, saleDTO);
         }
 
         static async Task<Results<FileContentHttpResult, NotFound>> GeneratePdf(
@@ -58,6 +62,18 @@ namespace BackEnd.Endpoints.Invoices
             [FromServices] IMediator mediator)
         {
             var query = new GetSaleInvoicePdfQuery(invoiceId);
+            var result = await mediator.Send(query);
+
+            return result == null
+                ? TypedResults.NotFound()
+                : TypedResults.File(result.Value.FileBytes, "application/pdf", result.Value.FileName);
+        }
+
+        static async Task<Results<FileContentHttpResult, NotFound>> GenerateReceiptPdf(
+            [FromRoute] int invoiceId,
+            [FromServices] IMediator mediator)
+        {
+            var query = new GetSaleInvoiceReceiptPdfQuery(invoiceId);
             var result = await mediator.Send(query);
 
             return result == null

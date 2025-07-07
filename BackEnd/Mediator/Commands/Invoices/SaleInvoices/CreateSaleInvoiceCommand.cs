@@ -63,12 +63,6 @@ namespace BackEnd.Mediator.Commands.Invoices.SaleInvoices
                     unitOfWork.FiscalSupportRepository.Update(fiscalSupportDB);
                 }
 
-                if (fiscalSupportDB != null)
-                {
-                    saleInvoice.FiscalSupportNumber = GenerateFiscalSupportNumber(fiscalSupportDB);
-                    unitOfWork.FiscalSupportRepository.Update(fiscalSupportDB);
-                }
-
                 double currencyRate = currencyDB.Rate;
                 await CalculateInvoiceTotals(Dto.InvoiceItems, saleInvoice, unitOfWork, currencyRate);
 
@@ -120,6 +114,7 @@ namespace BackEnd.Mediator.Commands.Invoices.SaleInvoices
                 await outputCacheStore.EvictByTagAsync("receivables-get", cancellationToken);
                 await outputCacheStore.EvictByTagAsync("spotPayments-get", cancellationToken);
                 await outputCacheStore.EvictByTagAsync("pettyCashMovements-get", cancellationToken);
+                Dto.Id = saleInvoice.Id;
 
                 return Dto;
             }

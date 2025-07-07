@@ -1,5 +1,6 @@
 ﻿using BackEnd.DTOs.Products.Products;
 using BackEnd.Helpers;
+using BackEnd.Repositories;
 using FluentValidation;
 
 namespace BackEnd.Validations

@@ -29,6 +29,7 @@ namespace BackEnd.Repositories
         public IContactRepository ContactRepository { get; }
         public ICurrencyRepository CurrencyRepository { get; }
         public ITaxRepository TaxRepository { get; }
+        public IExpenseRepository ExpenseRepository { get; }
         public ISaleInvoiceRepository SaleInvoiceRepository { get; }
         public IPurchaseInvoiceRepository PurchaseInvoiceRepository { get; }
         public IQuotationRepository QuotationRepository { get; }
@@ -66,6 +67,7 @@ namespace BackEnd.Repositories
             ContactRepository = new ContactRepository(context, httpContextAccessor);
             CurrencyRepository = new CurrencyRepository(context, httpContextAccessor);
             TaxRepository = new TaxRepository(context, httpContextAccessor);
+            ExpenseRepository = new ExpenseRepository(context, httpContextAccessor);
             SaleInvoiceRepository = new SaleInvoiceRepository(context, httpContextAccessor);
             PurchaseInvoiceRepository = new PurchaseInvoiceRepository(context, httpContextAccessor);
             QuotationRepository = new QuotationRepository(context, httpContextAccessor);

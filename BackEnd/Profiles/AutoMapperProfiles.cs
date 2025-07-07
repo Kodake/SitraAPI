@@ -22,6 +22,7 @@ namespace BackEnd.Profiles
             AddProfile<ContactsProfile>();
             AddProfile<CurrenciesProfile>();
             AddProfile<TaxesProfile>();
+            AddProfile<ExpensesProfile>();
             AddProfile<InvoicesProfiles>();
             AddProfile<PaymentsProfile>();
             AddProfile<BrandsProfile>();

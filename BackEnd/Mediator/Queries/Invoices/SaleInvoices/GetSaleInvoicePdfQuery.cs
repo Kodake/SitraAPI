@@ -22,7 +22,7 @@ namespace BackEnd.Mediator.Queries.Invoices.SaleInvoices
                 return null;
             }
 
-            var invoiceDocument = new InvoiceReceiptDocumentDTO(purchaseInvoice);
+            var invoiceDocument = new InvoiceDocumentDTO(purchaseInvoice);
             var filePath = Path.Combine(Path.GetTempPath(), $"Sale-Invoice_{Id}.pdf");
             invoiceDocument.GeneratePdf(filePath);
 

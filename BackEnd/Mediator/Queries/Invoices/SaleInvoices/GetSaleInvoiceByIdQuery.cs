@@ -4,10 +4,8 @@ using BackEnd.Repositories;
 
 namespace BackEnd.Mediator.Queries.Invoices.SaleInvoices
 {
-    public class GetSaleInvoiceByIdQuery : GetByIdQuery<SaleInvoiceDTO>
+    public class GetSaleInvoiceByIdQuery(long id) : GetByIdQuery<SaleInvoiceDTO>(id)
     {
-        public GetSaleInvoiceByIdQuery(long id) : base(id) { }
-
         public override async Task<SaleInvoiceDTO> GetData(
             IUnitOfWork unitOfWork,
             IMapper mapper,

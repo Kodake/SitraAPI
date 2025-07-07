@@ -43,6 +43,7 @@ namespace BackEnd.Context
             modelBuilder.ApplyConfiguration(new CurrencyConfiguration());
             modelBuilder.ApplyConfiguration(new ItemTaxesConfiguration());
             modelBuilder.ApplyConfiguration(new TaxConfiguration());
+            modelBuilder.ApplyConfiguration(new ExpenseConfiguration());
 
             modelBuilder.ApplyConfiguration(new InvoiceConfiguration());
             modelBuilder.ApplyConfiguration(new InvoiceItemConfiguration());
@@ -82,6 +83,7 @@ namespace BackEnd.Context
         public DbSet<Warehouse> Warehouses { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<Tax> Taxes { get; set; }
+        public DbSet<Expense> Expenses { get; set; }
         public DbSet<Pricing> Pricings { get; set; }
         public DbSet<ItemTaxes> ItemTaxes { get; set; }
         public DbSet<PricingItem> PricingItems { get; set; }

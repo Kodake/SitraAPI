@@ -85,6 +85,33 @@
         }
       }
     },
+    "/api/v1/identity/validate-opened-petty-cash": {
+      "get": {
+        "tags": [
+          "AuthsEndpoints"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": [ ]
+          }
+        ]
+      }
+    },
     "/api/v1/brands": {
       "get": {
         "tags": [
@@ -1311,6 +1338,208 @@
       "delete": {
         "tags": [
           "DeadlinesEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found"
+          },
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/expenses": {
+      "get": {
+        "tags": [
+          "ExpensesEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "recordsPerPage",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExpenseListDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "ExpensesEndpoints"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateExpenseDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/expenses/{id}": {
+      "get": {
+        "tags": [
+          "ExpensesEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpenseDTO"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "ExpensesEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateExpenseDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/expenses/{id}/activate": {
+      "patch": {
+        "tags": [
+          "ExpensesEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found"
+          },
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/expenses/{id}/deactivate": {
+      "delete": {
+        "tags": [
+          "ExpensesEndpoints"
         ],
         "parameters": [
           {
@@ -3713,7 +3942,14 @@
         },
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateSaleInvoiceDTO"
+                }
+              }
+            }
           },
           "404": {
             "description": "Not Found"
@@ -3860,6 +4096,29 @@
       }
     },
     "/api/v1/saleInvoices/{invoiceId}/generate-pdf": {
+      "get": {
+        "tags": [
+          "SaleInvoicesEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "invoiceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/api/v1/saleInvoices/{invoiceId}/generate-receipt-pdf": {
       "get": {
         "tags": [
           "SaleInvoicesEndpoints"
@@ -5993,6 +6252,10 @@
             "type": "string",
             "nullable": true
           },
+          "symbol": {
+            "type": "string",
+            "nullable": true
+          },
           "rate": {
             "type": "number",
             "format": "double"
@@ -6010,6 +6273,24 @@
           "days": {
             "type": "integer",
             "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateExpenseDTO": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
           }
         },
         "additionalProperties": false
@@ -6189,23 +6470,28 @@
             "type": "array",
             "items": {
               "type": "integer",
-              "format": "int32"
+              "format": "int64"
             },
             "nullable": true
           },
           "brandId": {
             "type": "integer",
-            "format": "int32",
+            "format": "int64",
             "nullable": true
           },
           "categoryId": {
             "type": "integer",
-            "format": "int32",
+            "format": "int64",
             "nullable": true
           },
           "unitId": {
             "type": "integer",
-            "format": "int32",
+            "format": "int64",
+            "nullable": true
+          },
+          "warehouseId": {
+            "type": "integer",
+            "format": "int64",
             "nullable": true
           }
         },
@@ -6338,6 +6624,10 @@
       "CreateSaleInvoiceDTO": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
           "pricingId": {
             "type": "integer",
             "format": "int64"
@@ -6642,6 +6932,10 @@
             "type": "string",
             "nullable": true
           },
+          "symbol": {
+            "type": "string",
+            "nullable": true
+          },
           "rate": {
             "type": "number",
             "format": "double"
@@ -6661,6 +6955,10 @@
             "nullable": true
           },
           "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "symbol": {
             "type": "string",
             "nullable": true
           },
@@ -6753,6 +7051,53 @@
         ],
         "type": "integer",
         "format": "int32"
+      },
+      "ExpenseDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ExpenseListDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
       },
       "FiscalSupport": {
         "type": "object",

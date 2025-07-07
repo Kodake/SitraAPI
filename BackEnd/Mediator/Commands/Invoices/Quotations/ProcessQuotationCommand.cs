@@ -34,15 +34,20 @@ namespace BackEnd.Mediator.Commands.Invoices.Quotations
             var fiscalSupportDB = await unitOfWork.FiscalSupportRepository.GetByIdAsync(Dto.FiscalSupportId);
             var currencyDB = await unitOfWork.CurrencyRepository.GetByIdAsync(Dto.CurrencyId);
 
-            if (fiscalSupportDB == null || currencyDB == null)
-            {
-                throw new Exception("Fiscal support or currency not found.");
-            }
+            if (currencyDB == null)
+                throw new Exception("Currency not found.");
+
+            if (Dto.FiscalSupportId.HasValue && fiscalSupportDB == null)
+                throw new Exception("Fiscal support not found.");
 
             var saleInvoice = mapper.Map<Invoice>(Dto);
             saleInvoice.InvoiceType = InvoiceType.Sale;
-            saleInvoice.FiscalSupportNumber = GenerateFiscalSupportNumber(fiscalSupportDB);
-            unitOfWork.FiscalSupportRepository.Update(fiscalSupportDB);
+
+            if (fiscalSupportDB != null)
+            {
+                saleInvoice.FiscalSupportNumber = GenerateFiscalSupportNumber(fiscalSupportDB);
+                unitOfWork.FiscalSupportRepository.Update(fiscalSupportDB);
+            }
 
             double currencyRate = currencyDB.Rate;
             await CalculateInvoiceTotals(Dto.InvoiceItems, saleInvoice, unitOfWork, currencyRate);

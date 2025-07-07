@@ -27,6 +27,7 @@ namespace BackEnd.Mediator
             services.AddPricingItemServices();
             services.AddCurrencyServices();
             services.AddTaxServices();
+            services.AddExpenseServices();
             services.AddContactServices();
             services.AddDeadlineServices();
             services.AddFiscalSupportServices();

@@ -7,8 +7,7 @@ namespace BackEnd.Validations
 {
     public class CreatePurchaseInvoiceDTOValidator : AbstractValidator<CreatePurchaseInvoiceDTO>
     {
-        private IUnitOfWork unitOfWork;
-
+        private readonly IUnitOfWork unitOfWork;
         public CreatePurchaseInvoiceDTOValidator(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;

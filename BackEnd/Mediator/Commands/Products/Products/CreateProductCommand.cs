@@ -1,6 +1,7 @@
 using AutoMapper;
 using BackEnd.DTOs.Products.Products;
 using BackEnd.Entities.Products;
+using BackEnd.Entities.Warehouses;
 using BackEnd.Enums;
 using BackEnd.Repositories;
 using Microsoft.AspNetCore.OutputCaching;
@@ -39,7 +40,28 @@ namespace BackEnd.Mediator.Commands.Products.Products
             };
 
             await unitOfWork.PricingItemRepository.CreateAsync(pricingItem);
+
+            if (Dto.WarehouseId is not null)
+            {
+                var warehouse = await unitOfWork.WarehouseRepository.GetByIdAsync(Dto.WarehouseId.Value);
+
+                if (warehouse == null)
+                    throw new ArgumentException($"Warehouse with ID {Dto.WarehouseId.Value} not found.");
+
+                var stock = new Stock
+                {
+                    Item = productSaved,
+                    Qty = 0,
+                    MinQty = 0,
+                    MaxQty = 0,
+                    Warehouse = warehouse
+                };
+
+                await unitOfWork.StockRepository.CreateAsync(stock);
+            }
+
             await unitOfWork.SaveChangesAsync();
+
             await outputCacheStore.EvictByTagAsync("pricing-items-get", default);
             await outputCacheStore.EvictByTagAsync("pricings-get", default);
             await outputCacheStore.EvictByTagAsync("products-get", default);

@@ -4,6 +4,7 @@ namespace BackEnd.DTOs.Invoices.SaleInvoices
 {
     public class CreateSaleInvoiceDTO
     {
+        public long Id { get; set; }
         public long PricingId { get; set; }
         public long CurrencyId { get; set; }
         public long WarehouseId { get; set; }

@@ -24,6 +24,9 @@ namespace BackEnd.Endpoints
             group.MapPost("/login", Login).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateLoginUserDTO>>()
                 .WithOpenApi();
+            group.MapGet("/validate-opened-petty-cash", ValidateOpenedPettyCashEndpoint)
+                .WithOpenApi().RequireAuthorization();
+
             return group;
         }
 
@@ -82,6 +85,38 @@ namespace BackEnd.Endpoints
                 return TypedResults.BadRequest();
             }
         }
+
+        private static async Task<Results<Ok, BadRequest<string>>> ValidateOpenedPettyCash(
+            HttpContext httpContext,
+            [FromServices] IUnitOfWork unitOfWork)
+        {
+            var userEmail = httpContext.User?.FindFirst("email")?.Value;
+
+            if (string.IsNullOrWhiteSpace(userEmail))
+            {
+                return TypedResults.BadRequest("No se pudo obtener el usuario desde el token.");
+            }
+
+            var openPettyCash = await unitOfWork.PettyCashRepository.GetOpenPettyCashAsync();
+
+            if (openPettyCash != null &&
+                openPettyCash.User != null &&
+                !string.Equals(openPettyCash.User.Email?.Trim(), userEmail.Trim(), StringComparison.OrdinalIgnoreCase))
+            {
+                return TypedResults.BadRequest(
+                    $"El usuario {openPettyCash.User.Email} debe cerrar la caja chica previamente abierta.");
+            }
+
+            return TypedResults.Ok();
+        }
+
+        private static async Task<Results<Ok, BadRequest<string>>> ValidateOpenedPettyCashEndpoint(
+            HttpContext httpContext,
+            [FromServices] IUnitOfWork unitOfWork)
+        {
+            return await ValidateOpenedPettyCash(httpContext, unitOfWork);
+        }
+
 
         private async static Task<TokenResponseDTO> BuildToken(CreateLoginUserDTO dto,
             IConfiguration configuration, UserManager<User> userManager)

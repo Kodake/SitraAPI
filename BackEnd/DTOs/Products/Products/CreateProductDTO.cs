@@ -8,9 +8,10 @@
         public string? Description { get; set; }
         public double InitialCost { get; set; }
         public double BasePrice { get; set; }
-        public List<int> TaxIds { get; set; } = null!;
-        public int? BrandId { get; set; }
-        public int? CategoryId { get; set; }
-        public int? UnitId { get; set; }
+        public List<long> TaxIds { get; set; } = null!;
+        public long? BrandId { get; set; }
+        public long? CategoryId { get; set; }
+        public long? UnitId { get; set; }
+        public long? WarehouseId { get; set; }
     }
 }

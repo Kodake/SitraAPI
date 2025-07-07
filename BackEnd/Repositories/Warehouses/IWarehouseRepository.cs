@@ -1,4 +1,5 @@
-﻿using BackEnd.Entities.Warehouses;
+﻿using BackEnd.DTOs.Products.Products;
+using BackEnd.Entities.Warehouses;
 using BackEnd.Enums;
 using BackEnd.Repositories.Generics;
 

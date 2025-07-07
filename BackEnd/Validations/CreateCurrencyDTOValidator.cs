@@ -34,6 +34,12 @@ namespace BackEnd.Validations
             .MinimumLength(2).WithMessage(Utilities.MinimunLengthMessage)
             .MaximumLength(50).WithMessage(Utilities.MaximunLengthMessage)
             .Must(Utilities.FirstCharUppercase).WithMessage(Utilities.FirstCharUpperMessage);
+
+            RuleFor(x => x.Symbol)
+            .NotEmpty().WithMessage(Utilities.RequiredFieldMessage)
+            .MinimumLength(1).WithMessage(Utilities.MinimunLengthMessage)
+            .MaximumLength(3).WithMessage(Utilities.MaximunLengthMessage)
+            .Must(Utilities.FirstCharUppercase).WithMessage(Utilities.FirstCharUpperMessage);
         }
     }
 }

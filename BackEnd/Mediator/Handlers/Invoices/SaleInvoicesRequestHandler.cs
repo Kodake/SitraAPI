@@ -14,6 +14,7 @@ namespace BackEnd.Mediator.Handlers.Invoices
             services.AddTransient<IRequestHandler<GetAllSaleInvoicesByDateRangeAndBillerQuery, List<SaleInvoiceListDTO>>, QueryHandler<GetAllSaleInvoicesByDateRangeAndBillerQuery, List<SaleInvoiceListDTO>>>();
             services.AddTransient<IRequestHandler<CreateSaleInvoiceCommand, CreateSaleInvoiceDTO>, CreateCommandHandler<Entities.Invoices.Invoice, CreateSaleInvoiceDTO>>();
             services.AddTransient<IRequestHandler<GetSaleInvoicePdfQuery, (byte[] FileBytes, string FileName)?>, QueryHandler<GetSaleInvoicePdfQuery, (byte[] FileBytes, string FileName)?>>();
+            services.AddTransient<IRequestHandler<GetSaleInvoiceReceiptPdfQuery, (byte[] FileBytes, string FileName)?>, QueryHandler<GetSaleInvoiceReceiptPdfQuery, (byte[] FileBytes, string FileName)?>>();
             services.AddTransient<IRequestHandler<GetSaleInvoiceReportPdfQuery, (byte[] FileBytes, string FileName)?>, QueryHandler<GetSaleInvoiceReportPdfQuery, (byte[] FileBytes, string FileName)?>>();
 
             return services;
