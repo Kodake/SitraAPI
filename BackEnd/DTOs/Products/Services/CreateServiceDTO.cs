@@ -9,6 +9,7 @@ namespace BackEnd.DTOs.Products.Services
         public double BasePrice { get; set; }
         public List<int> TaxIds { get; set; } = [];
         public int? CategoryId { get; set; }
+        public int? SubCategoryId { get; set; }
         public int? UnitId { get; set; }
     }
 }

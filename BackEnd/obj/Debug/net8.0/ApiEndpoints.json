@@ -3898,7 +3898,7 @@
   {
     "ContainingType": "BackEnd.Endpoints.SubCategoriesEndpoints",
     "Method": "GetByCategoryId",
-    "RelativePath": "api/v1/subCategories/category/{brandId:long}/",
+    "RelativePath": "api/v1/subCategories/category/{categoryId:long}/",
     "HttpMethod": "GET",
     "IsController": false,
     "Order": 0,

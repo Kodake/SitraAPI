@@ -10,7 +10,9 @@
         public double BasePrice { get; set; }
         public List<long> TaxIds { get; set; } = null!;
         public long? BrandId { get; set; }
+        public int? ModelId { get; set; }
         public long? CategoryId { get; set; }
+        public int? SubCategoryId { get; set; }
         public long? UnitId { get; set; }
         public long? WarehouseId { get; set; }
     }

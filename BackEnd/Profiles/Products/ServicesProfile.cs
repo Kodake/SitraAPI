@@ -3,6 +3,7 @@ using BackEnd.DTOs.Finances.Taxes;
 using BackEnd.DTOs.Products.Categories;
 using BackEnd.DTOs.Products.PricingItems;
 using BackEnd.DTOs.Products.Services;
+using BackEnd.DTOs.Products.SubCategories;
 using BackEnd.DTOs.Products.Units;
 using BackEnd.Entities.Products;
 
@@ -15,6 +16,7 @@ namespace BackEnd.Profiles.Products
             CreateMap<CreateServiceDTO, Item>()
                 .ForMember(des => des.ItemTaxes, opt => opt.MapFrom(src => src.TaxIds.Select(id => new ItemTaxes { TaxId = id }).ToList()))
                 .ForMember(des => des.Category, opt => opt.Ignore())
+                .ForMember(des => des.SubCategory, opt => opt.Ignore())
                 .ForMember(des => des.Unit, opt => opt.Ignore());
 
             CreateMap<CreateServiceCsvDTO, Item>();
@@ -42,6 +44,12 @@ namespace BackEnd.Profiles.Products
                     Id = src.Category.Id,
                     Name = src.Category.Name,
                     Description = src.Category.Description
+                } : null))
+                .ForMember(des => des.SubCategory, opt => opt.MapFrom(src => src.SubCategory != null ? new SubCategoryDTO
+                {
+                    Id = src.SubCategory.Id,
+                    Name = src.SubCategory.Name,
+                    Description = src.SubCategory.Description
                 } : null))
                 .ForMember(des => des.Unit, opt => opt.MapFrom(src => src.Unit != null ? new UnitDTO
                 {

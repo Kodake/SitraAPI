@@ -62,6 +62,7 @@ namespace BackEnd.Repositories.Products
                 .Where(x => x.ItemType == ItemType.Service)
                 .Include(p => p.Unit)
                 .Include(p => p.Category)
+                .Include(p => p.SubCategory)
                 .Include(p => p.PricingItems)
                     .ThenInclude(p => p.Pricing)
                 .Include(p => p.ItemTaxes)

@@ -13,8 +13,12 @@ namespace BackEnd.Entities.Products
         public string? Description { get; set; }
         public long? BrandId { get; set; } = null!;
         public Brand? Brand { get; set; }
+        public long? ModelId { get; set; } = null!;
+        public Model? Model { get; set; }
         public long? CategoryId { get; set; } = null!;
         public Category? Category { get; set; }
+        public long? SubCategoryId { get; set; } = null!;
+        public SubCategory? SubCategory { get; set; }
         public long? UnitId { get; set; } = null!;
         public Unit? Unit { get; set; }
         public bool IsActive { get; set; } = true;

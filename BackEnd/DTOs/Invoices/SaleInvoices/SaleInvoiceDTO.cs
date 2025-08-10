@@ -12,7 +12,10 @@
         public DateTime? DueDate { get; set; }
         public double? Shipping { get; set; } = null!;
         public double? Discount { get; set; } = null!;
+        public double TotalAmount { get; set; }
         public double TotalPrice { get; set; }
+        public double TotalTaxes { get; set; }
         public string FiscalSupportNumber { get; set; } = string.Empty;
+        public DateTime CreatedAt { get; set; }
     }
 }

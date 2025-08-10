@@ -74,7 +74,9 @@ namespace BackEnd.Repositories.Products
             return await context.Items
                 .Include(p => p.Unit)
                 .Include(p => p.Brand)
+                .Include(p => p.Model)
                 .Include(p => p.Category)
+                .Include(p => p.SubCategory)
                 .Include(p => p.PricingItems)
                     .ThenInclude(p => p.Pricing)
                 .Include(p => p.ItemTaxes)

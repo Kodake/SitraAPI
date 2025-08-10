@@ -937,6 +937,9 @@ namespace BackEnd.Migrations
                     b.Property<int>("ItemType")
                         .HasColumnType("int");
 
+                    b.Property<long?>("ModelId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -945,6 +948,9 @@ namespace BackEnd.Migrations
                     b.Property<string>("Reference")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<long?>("SubCategoryId")
+                        .HasColumnType("bigint");
 
                     b.Property<long?>("UnitId")
                         .HasColumnType("bigint");
@@ -957,6 +963,10 @@ namespace BackEnd.Migrations
                     b.HasIndex("BrandId");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("ModelId");
+
+                    b.HasIndex("SubCategoryId");
 
                     b.HasIndex("UnitId");
 
@@ -1658,6 +1668,14 @@ namespace BackEnd.Migrations
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("BackEnd.Entities.Products.Model", "Model")
+                        .WithMany()
+                        .HasForeignKey("ModelId");
+
+                    b.HasOne("BackEnd.Entities.Products.SubCategory", "SubCategory")
+                        .WithMany()
+                        .HasForeignKey("SubCategoryId");
+
                     b.HasOne("BackEnd.Entities.Products.Unit", "Unit")
                         .WithMany("Items")
                         .HasForeignKey("UnitId")
@@ -1666,6 +1684,10 @@ namespace BackEnd.Migrations
                     b.Navigation("Brand");
 
                     b.Navigation("Category");
+
+                    b.Navigation("Model");
+
+                    b.Navigation("SubCategory");
 
                     b.Navigation("Unit");
                 });

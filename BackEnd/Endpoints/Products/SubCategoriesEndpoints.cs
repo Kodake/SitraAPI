@@ -16,7 +16,7 @@ namespace BackEnd.Endpoints
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("subCategories-get"))
                 .AddPaginationParamsOpenAPI();
-            group.MapGet("/category/{brandId:long}/", GetByCategoryId);
+            group.MapGet("/category/{categoryId:long}/", GetByCategoryId);
             group.MapGet("/{id:long}", GetById);
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateSubCategoryDTO>>()

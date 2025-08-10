@@ -4780,7 +4780,7 @@
         }
       }
     },
-    "/api/v1/subCategories/category/{brandId}": {
+    "/api/v1/subCategories/category/{categoryId}": {
       "get": {
         "tags": [
           "SubCategoriesEndpoints"
@@ -4788,7 +4788,7 @@
         "parameters": [
           {
             "name": "categoryId",
-            "in": "query",
+            "in": "path",
             "required": true,
             "schema": {
               "type": "integer",
@@ -6479,9 +6479,19 @@
             "format": "int64",
             "nullable": true
           },
+          "modelId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
           "categoryId": {
             "type": "integer",
             "format": "int64",
+            "nullable": true
+          },
+          "subCategoryId": {
+            "type": "integer",
+            "format": "int32",
             "nullable": true
           },
           "unitId": {
@@ -6733,6 +6743,11 @@
             "nullable": true
           },
           "categoryId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "subCategoryId": {
             "type": "integer",
             "format": "int32",
             "nullable": true
@@ -7337,6 +7352,14 @@
           "brand": {
             "$ref": "#/components/schemas/Brand"
           },
+          "modelId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "model": {
+            "$ref": "#/components/schemas/Model"
+          },
           "categoryId": {
             "type": "integer",
             "format": "int64",
@@ -7344,6 +7367,14 @@
           },
           "category": {
             "$ref": "#/components/schemas/Category"
+          },
+          "subCategoryId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "subCategory": {
+            "$ref": "#/components/schemas/SubCategory"
           },
           "unitId": {
             "type": "integer",
@@ -8115,6 +8146,14 @@
           "brand": {
             "$ref": "#/components/schemas/BrandDTO"
           },
+          "modelId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "model": {
+            "$ref": "#/components/schemas/ModelDTO"
+          },
           "categoryId": {
             "type": "integer",
             "format": "int32",
@@ -8122,6 +8161,14 @@
           },
           "category": {
             "$ref": "#/components/schemas/CategoryDTO"
+          },
+          "subCategoryId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "subCategory": {
+            "$ref": "#/components/schemas/SubCategoryDTO"
           },
           "unitId": {
             "type": "integer",
@@ -8557,13 +8604,25 @@
             "format": "double",
             "nullable": true
           },
+          "totalAmount": {
+            "type": "number",
+            "format": "double"
+          },
           "totalPrice": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalTaxes": {
             "type": "number",
             "format": "double"
           },
           "fiscalSupportNumber": {
             "type": "string",
             "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
           }
         },
         "additionalProperties": false
@@ -8687,6 +8746,14 @@
           },
           "category": {
             "$ref": "#/components/schemas/CategoryDTO"
+          },
+          "subCategoryId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "subCategory": {
+            "$ref": "#/components/schemas/SubCategoryDTO"
           },
           "unitId": {
             "type": "integer",
