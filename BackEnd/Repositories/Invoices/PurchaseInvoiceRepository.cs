@@ -80,6 +80,7 @@ namespace BackEnd.Repositories.Invoices
             to = to.Date.AddDays(1).AddTicks(-1);
 
             var queryable = context.Invoices
+                .Include(x => x.Buyer)
                 .Where(x =>
                     x.InvoiceType == InvoiceType.Purchase &&
                     x.CreatedAt >= from &&

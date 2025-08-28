@@ -906,6 +906,21 @@ namespace BackEnd.Migrations
                     b.ToTable("Categories", "identity");
                 });
 
+            modelBuilder.Entity("BackEnd.Entities.Products.ComboItem", b =>
+                {
+                    b.Property<long>("ParentItemId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ChildItemId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("ParentItemId", "ChildItemId");
+
+                    b.HasIndex("ChildItemId");
+
+                    b.ToTable("ComboItems", "identity");
+                });
+
             modelBuilder.Entity("BackEnd.Entities.Products.Item", b =>
                 {
                     b.Property<long>("Id")
@@ -1656,6 +1671,25 @@ namespace BackEnd.Migrations
                     b.Navigation("Invoice");
                 });
 
+            modelBuilder.Entity("BackEnd.Entities.Products.ComboItem", b =>
+                {
+                    b.HasOne("BackEnd.Entities.Products.Item", "ChildItem")
+                        .WithMany()
+                        .HasForeignKey("ChildItemId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("BackEnd.Entities.Products.Item", "ParentItem")
+                        .WithMany("ComboItems")
+                        .HasForeignKey("ParentItemId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("ChildItem");
+
+                    b.Navigation("ParentItem");
+                });
+
             modelBuilder.Entity("BackEnd.Entities.Products.Item", b =>
                 {
                     b.HasOne("BackEnd.Entities.Products.Brand", "Brand")
@@ -1925,6 +1959,8 @@ namespace BackEnd.Migrations
 
             modelBuilder.Entity("BackEnd.Entities.Products.Item", b =>
                 {
+                    b.Navigation("ComboItems");
+
                     b.Navigation("ItemTaxes");
 
                     b.Navigation("PricingItems");

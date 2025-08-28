@@ -79,7 +79,7 @@ namespace BackEnd.Endpoints.Invoices
                 : TypedResults.File(result.Value.FileBytes, "application/pdf", result.Value.FileName);
         }
 
-        static async Task<Ok<List<SaleInvoiceListDTO>>> GetAllByDateRange(
+        static async Task<Ok<List<PurchaseInvoiceListDTO>>> GetAllByDateRange(
             [FromServices] IMediator mediator,
             DateTime from,
             DateTime to,

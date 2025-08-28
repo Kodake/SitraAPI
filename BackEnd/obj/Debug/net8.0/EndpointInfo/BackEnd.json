@@ -3384,7 +3384,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/SaleInvoiceListDTO"
+                    "$ref": "#/components/schemas/PurchaseInvoiceListDTO"
                   }
                 }
               }
@@ -6081,6 +6081,26 @@
         },
         "additionalProperties": false
       },
+      "ComboItem": {
+        "type": "object",
+        "properties": {
+          "parentItemId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "parentItem": {
+            "$ref": "#/components/schemas/Item"
+          },
+          "childItemId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "childItem": {
+            "$ref": "#/components/schemas/Item"
+          }
+        },
+        "additionalProperties": false
+      },
       "ContactDTO": {
         "type": "object",
         "properties": {
@@ -7423,6 +7443,13 @@
               "$ref": "#/components/schemas/Transfer"
             },
             "nullable": true
+          },
+          "comboItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ComboItem"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -8349,6 +8376,14 @@
             "type": "string",
             "nullable": true
           },
+          "supplierId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "supplier": {
+            "$ref": "#/components/schemas/ContactDTO"
+          },
           "discount": {
             "type": "number",
             "format": "double",
@@ -8665,6 +8700,14 @@
           "fiscalSupportNumber": {
             "type": "string",
             "nullable": true
+          },
+          "contactId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "buyer": {
+            "$ref": "#/components/schemas/ContactDTO"
           },
           "shipping": {
             "type": "number",

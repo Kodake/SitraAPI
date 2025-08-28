@@ -4,5 +4,6 @@
     {
         Product = 1,
         Service = 2,
+        Combo = 3,
     }
 }

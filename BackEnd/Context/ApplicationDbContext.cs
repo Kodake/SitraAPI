@@ -57,6 +57,7 @@ namespace BackEnd.Context
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
             modelBuilder.ApplyConfiguration(new SubCategoryConfiguration());
             modelBuilder.ApplyConfiguration(new ItemConfiguration());
+            modelBuilder.ApplyConfiguration(new ComboItemConfiguration());
             modelBuilder.ApplyConfiguration(new PricingConfiguration());
             modelBuilder.ApplyConfiguration(new PricingItemConfiguration());
             modelBuilder.ApplyConfiguration(new UnitConfiguration());

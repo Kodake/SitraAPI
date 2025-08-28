@@ -39,6 +39,7 @@ namespace BackEnd.Repositories
         public IItemRepository ItemRepository { get; }
         public IProductRepository ProductRepository { get; }
         public IServiceRepository ServiceRepository { get; }
+        public IComboRepository ComboRepository { get; }
         public ICategoryRepository CategoryRepository { get; }
         public ISubCategoryRepository SubCategoryRepository { get; }
         public IBrandRepository BrandRepository { get; }
@@ -77,6 +78,7 @@ namespace BackEnd.Repositories
             ItemRepository = new ItemRepository(context, httpContextAccessor);
             ProductRepository = new ProductRepository(context, httpContextAccessor);
             ServiceRepository = new ServiceRepository(context, httpContextAccessor);
+            ComboRepository = new ComboRepository(context, httpContextAccessor);
             CategoryRepository = new CategoryRepository(context, httpContextAccessor);
             SubCategoryRepository = new SubCategoryRepository(context, httpContextAccessor);
             BrandRepository = new BrandRepository(context, httpContextAccessor);

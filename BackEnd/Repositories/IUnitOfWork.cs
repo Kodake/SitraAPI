@@ -32,6 +32,7 @@ namespace BackEnd.Repositories
         IItemRepository ItemRepository { get; }
         IProductRepository ProductRepository { get; }
         IServiceRepository ServiceRepository { get; }
+        IComboRepository ComboRepository { get; }
         ICategoryRepository CategoryRepository { get; }
         ISubCategoryRepository SubCategoryRepository { get; }
         IBrandRepository BrandRepository { get; }

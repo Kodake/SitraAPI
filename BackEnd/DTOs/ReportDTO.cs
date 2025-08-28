@@ -2,6 +2,7 @@
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+using System.Globalization;
 using System.Reflection;
 
 namespace BackEnd.DTOs
@@ -26,7 +27,8 @@ namespace BackEnd.DTOs
             container.Page(
                 page =>
                 {
-                    page.Margin(50);
+                    page.Margin(30); // Márgenes reducidos para más espacio
+                    page.DefaultTextStyle(x => x.FontSize(8)); // Fuente pequeña para todo el documento
                     page.Header().Element(BuildHeader);
                     page.Content().Element(BuildContent);
                     page.Footer().Element(BuildFooter);
@@ -39,7 +41,7 @@ namespace BackEnd.DTOs
             {
                 row.RelativeItem().Border(1).Column(column =>
                 {
-                    var padding = 5;
+                    var padding = 3; // Padding reducido
                     var assembly = Assembly.GetExecutingAssembly();
                     var resourcePath = "BackEnd.Resources.logo-black.png";
 
@@ -47,7 +49,7 @@ namespace BackEnd.DTOs
 
                     if (stream != null)
                     {
-                        column.Item().Height(2, Unit.Centimetre).Image(stream);
+                        column.Item().Height(1.5f, Unit.Centimetre).Image(stream); // Logo un poco más pequeño
                     }
                     column.Item().BorderBottom(1).Padding(padding).Row(row =>
                     {
@@ -62,7 +64,7 @@ namespace BackEnd.DTOs
 
         private void BuildContent(IContainer container)
         {
-            container.PaddingVertical(40).Column(column =>
+            container.PaddingVertical(15).Column(column => // Padding vertical reducido
             {
                 column.Spacing(5);
                 column.Item().Element(BuildTable);
@@ -82,20 +84,22 @@ namespace BackEnd.DTOs
             {
                 table.ColumnsDefinition(column =>
                 {
-                    column.RelativeColumn();
-                    column.RelativeColumn(2);
-                    column.RelativeColumn();
-                    column.RelativeColumn();
-                    column.RelativeColumn();
+                    column.RelativeColumn(1); // NO.
+                    column.RelativeColumn(2); // FECHA
+                    column.RelativeColumn(4); // COMPROBANTE FISCAL
+                    column.RelativeColumn(4); // MONTO
+                    column.RelativeColumn(4); // IMPUESTO
+                    column.RelativeColumn(4); // TOTAL
                 });
 
                 table.Header(header =>
                 {
                     header.Cell().Element(CellStyle).Text("NO.");
+                    header.Cell().Element(CellStyle).Text("FECHA");
                     header.Cell().Element(CellStyle).Text("COMPROBANTE FISCAL");
-                    header.Cell().Element(CellStyle).AlignRight().Text("VALOR");
-                    header.Cell().Element(CellStyle).AlignRight().Text("IMPUESTOS");
-                    header.Cell().Element(CellStyle).AlignRight().Text("PRECIO");
+                    header.Cell().Element(CellStyle).AlignRight().Text("MONTO");
+                    header.Cell().Element(CellStyle).AlignRight().Text("IMPUESTO");
+                    header.Cell().Element(CellStyle).AlignRight().Text("TOTAL");
 
                     static IContainer CellStyle(IContainer container)
                     {
@@ -106,7 +110,8 @@ namespace BackEnd.DTOs
                 foreach (var item in Invoices)
                 {
                     table.Cell().Element(CellStyle).Text(item.Id.ToString());
-                    table.Cell().Element(CellStyle).Text(item.FiscalSupportNumber);
+                    table.Cell().Element(CellStyle).Text(item.CreatedAt.ToString("dd/MM/yyyy", CultureInfo.GetCultureInfo("es-DO")));
+                    table.Cell().Element(CellStyle).Text(string.IsNullOrEmpty(item.FiscalSupportNumber) ? "N/A" : item.FiscalSupportNumber);
                     table.Cell().Element(CellStyle).AlignRight().Text($"{item.TotalAmount:N}");
                     table.Cell().Element(CellStyle).AlignRight().Text($"{item.TotalTaxes:N}");
                     table.Cell().Element(CellStyle).AlignRight().Text($"{item.TotalPrice:N}");
@@ -134,6 +139,5 @@ namespace BackEnd.DTOs
             Document.Create(container => Compose(container))
                     .GeneratePdf(filePath);
         }
-
     }
 }

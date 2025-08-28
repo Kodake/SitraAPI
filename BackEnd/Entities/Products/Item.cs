@@ -28,5 +28,6 @@ namespace BackEnd.Entities.Products
         public ICollection<Stock> Stocks { get; set; } = new List<Stock>();
         public ICollection<PricingItem> PricingItems { get; set; } = new List<PricingItem>();
         public ICollection<Transfer> Transfers { get; set; } = new List<Transfer>();
+        public ICollection<ComboItem> ComboItems { get; set; } = new List<ComboItem>();
     }
 }

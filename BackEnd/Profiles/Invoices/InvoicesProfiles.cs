@@ -30,7 +30,10 @@ namespace BackEnd.Profiles.Invoices
 
             CreateMap<Invoice, SaleInvoiceDTO>();
             CreateMap<SaleInvoiceItemDTO, InvoiceItem>();
-            CreateMap<Invoice, SaleInvoiceListDTO>();
+            CreateMap<Invoice, SaleInvoiceListDTO>()
+                .ForMember(des => des.ContactId, opt => opt.MapFrom(src => src.CustomerId))
+                .ForMember(des => des.Buyer, opt => opt.MapFrom(src => src.Buyer));
+
 
             CreateMap<SaleInvoiceItemDTO, InvoiceItem>()
                 .ForMember(des => des.Item, opt => opt.Ignore());
@@ -53,7 +56,9 @@ namespace BackEnd.Profiles.Invoices
             CreateMap<Invoice, PurchaseInvoiceDTO>()
                 .ForMember(des => des.SupplierId, opt => opt.MapFrom(src => src.CustomerId));
             CreateMap<PurchaseInvoiceItemDTO, InvoiceItem>();
-            CreateMap<Invoice, PurchaseInvoiceListDTO>();
+            CreateMap<Invoice, PurchaseInvoiceListDTO>()
+                .ForMember(des => des.SupplierId, opt => opt.MapFrom(src => src.CustomerId))
+                .ForMember(des => des.Supplier, opt => opt.MapFrom(src => src.Buyer));
 
             CreateMap<PurchaseInvoiceItemDTO, InvoiceItem>()
                 .ForMember(des => des.Item, opt => opt.Ignore());

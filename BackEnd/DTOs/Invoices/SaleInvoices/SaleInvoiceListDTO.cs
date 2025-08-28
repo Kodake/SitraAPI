@@ -1,4 +1,5 @@
-﻿using BackEnd.Enums;
+﻿using BackEnd.DTOs.Contacts.Contacts;
+using BackEnd.Enums;
 
 namespace BackEnd.DTOs.Invoices.SaleInvoices
 {
@@ -7,6 +8,8 @@ namespace BackEnd.DTOs.Invoices.SaleInvoices
         public long Id { get; set; }
         public DateTime Date { get; set; }
         public string FiscalSupportNumber { get; set; } = string.Empty;
+        public long? ContactId { get; set; }
+        public virtual ContactDTO? Buyer { get; set; } = null!;
         public double? Shipping { get; set; } = null!;
         public double? Discount { get; set; } = null!;
         public double TotalQtyItems { get; set; }

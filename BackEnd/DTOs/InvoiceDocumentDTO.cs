@@ -17,14 +17,14 @@ namespace BackEnd.DTOs
 
         public void Compose(IDocumentContainer container)
         {
-            container.Page(
-                page =>
-                {
-                    page.Margin(50);
-                    page.Header().Element(BuildHeader);
-                    page.Content().Element(BuildContent);
-                    page.Footer().Element(BuildFooter);
-                });
+            container.Page(page =>
+            {
+                page.Margin(30);
+                page.DefaultTextStyle(x => x.FontSize(8));
+                page.Header().Element(BuildHeader);
+                page.Content().Element(BuildContent);
+                page.Footer().Element(BuildFooter);
+            });
         }
 
         private void BuildHeader(IContainer container)
@@ -34,18 +34,20 @@ namespace BackEnd.DTOs
                 row.RelativeItem().Column(column =>
                 {
                     var fontWeight = 0.8f;
+
                     if (!string.IsNullOrEmpty(Invoice.Buyer?.Identification))
                     {
                         column.Item().Scale(fontWeight).Text($"IDENTIFICACIÓN: {Invoice.Buyer.Identification}" ?? "N/A");
                     }
+
                     column.Item().Scale(fontWeight).Text($"FECHA: {Invoice.Date.ToString("dd-MM-yyyy")}");
-                    column.Item()
-                          .Scale(fontWeight)
-                          .Text($"NOMBRE / RAZÓN SOCIAL: {Invoice.Buyer?.Name ?? "N/A"}");
+                    column.Item().Scale(fontWeight).Text($"NOMBRE / RAZÓN SOCIAL: {Invoice.Buyer?.Name ?? "N/A"}");
+
                     if (Invoice.Biller is not null)
                     {
                         column.Item().Scale(fontWeight).Text($"VENDEDOR: {Invoice.Biller.Name}");
                     }
+
                     if (Invoice.Buyer is not null)
                     {
                         column.Item().Scale(fontWeight).Text($"SUPLIDOR: {Invoice.Buyer.Name}");
@@ -54,23 +56,21 @@ namespace BackEnd.DTOs
 
                 row.RelativeItem().Border(1).Column(column =>
                 {
-                    var padding = 5;
+                    var padding = 3;
                     var assembly = Assembly.GetExecutingAssembly();
                     var resourcePath = "BackEnd.Resources.logo-black.png";
-
                     var stream = assembly.GetManifestResourceStream(resourcePath);
 
                     if (stream != null)
                     {
-                        column.Item().Height(2, Unit.Centimetre).Image(stream);
+                        column.Item().Height(1.5f, Unit.Centimetre).Image(stream);
                     }
+
                     column.Item().BorderBottom(1).Padding(padding).Text("FACTURA DE CONSUMO FISCAL").SemiBold();
-
                     column.Item().Padding(padding).Text($"NÚMERO # {Invoice.Id}").SemiBold();
-
                     column.Item().Padding(padding).Text($"COMPROBANTE FISCAL").SemiBold();
                     column.Item().Text("");
-                    column.Item().Padding(padding).Text(Invoice.FiscalSupportNumber).SemiBold();
+                    column.Item().Padding(padding).Text(string.IsNullOrEmpty(Invoice.FiscalSupportNumber) ? "N/A" : Invoice.FiscalSupportNumber).SemiBold();
 
                     if (Invoice.DueDate.HasValue)
                     {
@@ -82,13 +82,11 @@ namespace BackEnd.DTOs
 
         private void BuildContent(IContainer container)
         {
-            container.PaddingVertical(40).Column(column =>
+            container.PaddingVertical(15).Column(column =>
             {
                 column.Spacing(5);
-
                 column.Item().Element(BuildTable);
-                column.Item().Text("");
-                column.Item().Text("");
+
                 column.Item().AlignRight().Text($"SUBTOTAL: {Invoice.TotalAmount:N}");
 
                 var taxSummary = new Dictionary<string, (double Amount, double Percentage)>();
@@ -117,9 +115,10 @@ namespace BackEnd.DTOs
                     column.Item().AlignRight().Text($"{tax.Key} {tax.Value.Percentage:N}%: {tax.Value.Amount:N}");
                 }
 
-                column.Item().AlignRight().Text($"IMPUESTOS: {Invoice.TotalTaxes:N}");
+                column.Item().AlignRight().Text($"IMPUESTO: {Invoice.TotalTaxes:N}");
                 var subTaxes = Invoice.TotalAmount + Invoice.TotalTaxes;
-                column.Item().AlignRight().Text($"SUB + IMPUESTOS: {subTaxes:N}");
+                column.Item().AlignRight().Text($"SUB + IMPUESTO: {subTaxes:N}");
+
                 if (Invoice.Shipping.HasValue)
                 {
                     column.Item().AlignRight().Text($"ENVÍO: {Invoice.Shipping:N}");
@@ -152,9 +151,9 @@ namespace BackEnd.DTOs
                 {
                     header.Cell().Element(CellStyle).Text("DESCRIPCIÓN");
                     header.Cell().Element(CellStyle).AlignRight().Text("CANTIDAD");
-                    header.Cell().Element(CellStyle).AlignRight().Text("VALOR");
-                    header.Cell().Element(CellStyle).AlignRight().Text("IMPUESTOS");
-                    header.Cell().Element(CellStyle).AlignRight().Text("PRECIO");
+                    header.Cell().Element(CellStyle).AlignRight().Text("MONTO");
+                    header.Cell().Element(CellStyle).AlignRight().Text("IMPUESTO");
+                    header.Cell().Element(CellStyle).AlignRight().Text("TOTAL");
 
                     static IContainer CellStyle(IContainer container)
                     {
@@ -165,7 +164,7 @@ namespace BackEnd.DTOs
                 foreach (var item in Invoice.InvoiceItems)
                 {
                     table.Cell().Element(CellStyle).Text(item.Item.Name);
-                    table.Cell().Element(CellStyle).AlignRight().Text($"{item.Qty} x {item.BasePrice}");
+                    table.Cell().Element(CellStyle).AlignRight().Text($"{item.Qty} x {item.BasePrice:N}");
                     table.Cell().Element(CellStyle).AlignRight().Text($"{item.TotalAmount:N}");
                     table.Cell().Element(CellStyle).AlignRight().Text($"{item.TotalTaxes:N}");
                     table.Cell().Element(CellStyle).AlignRight().Text($"{item.TotalPrice:N}");
@@ -193,6 +192,5 @@ namespace BackEnd.DTOs
             Document.Create(container => Compose(container))
                     .GeneratePdf(filePath);
         }
-
     }
 }
