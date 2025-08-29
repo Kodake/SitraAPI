@@ -15,6 +15,5 @@
         public long? CategoryId { get; set; }
         public int? SubCategoryId { get; set; }
         public long? UnitId { get; set; }
-        public long? WarehouseId { get; set; }
     }
 }

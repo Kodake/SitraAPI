@@ -82,6 +82,7 @@ namespace BackEnd.Repositories.Products
                 .Include(p => p.ItemTaxes)
                     .ThenInclude(pt => pt.Tax)
                 .Include(p => p.ComboItems)
+                    .ThenInclude(ci => ci.ChildItem)
                 .FirstOrDefaultAsync(p => p.Id == id && p.ItemType == ItemType.Combo);
         }
 

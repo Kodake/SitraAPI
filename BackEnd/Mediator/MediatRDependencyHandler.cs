@@ -1,6 +1,7 @@
 ﻿using BackEnd.Mediator.Handlers.Accounts;
 using BackEnd.Mediator.Handlers.AdministrativeTools;
 using BackEnd.Mediator.Handlers.CashBoxes;
+using BackEnd.Mediator.Handlers.Combos;
 using BackEnd.Mediator.Handlers.Contacts;
 using BackEnd.Mediator.Handlers.Dashboards;
 using BackEnd.Mediator.Handlers.Finances;
@@ -31,8 +32,9 @@ namespace BackEnd.Mediator
             services.AddContactServices();
             services.AddDeadlineServices();
             services.AddFiscalSupportServices();
-            services.AddProductServices();
             services.AddServiceServices();
+            services.AddProductServices();
+            services.AddComboServices();
             services.AddStockServices();
             services.AddTransferServices();
             services.AddWarehouseServices();

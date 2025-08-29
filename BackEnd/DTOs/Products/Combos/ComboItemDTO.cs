@@ -2,9 +2,7 @@
 {
     public class ComboItemDTO
     {
-        public long ParentItemId { get; set; }
-        public ProductDTO ParentItem { get; set; } = null!;
-        public long ChildItemId { get; set; }
-        public ProductDTO ChildItem { get; set; } = null!;
+        public long Id { get; set; }
+        public string Name { get; set; } = string.Empty;
     }
 }
