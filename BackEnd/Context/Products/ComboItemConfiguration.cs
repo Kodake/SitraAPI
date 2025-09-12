@@ -10,6 +10,8 @@ namespace BackEnd.Context.Products
         {
             builder.ToTable("ComboItems");
 
+            builder.Property(p => p.Qty).HasColumnType("decimal(18,2)").IsRequired();
+
             builder.HasKey(ic => new { ic.ParentItemId, ic.ChildItemId });
 
             builder.HasOne(ic => ic.ParentItem)

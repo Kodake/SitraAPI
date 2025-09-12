@@ -6305,11 +6305,10 @@
             "type": "integer",
             "format": "int64"
           },
-          "itemIds": {
+          "items": {
             "type": "array",
             "items": {
-              "type": "integer",
-              "format": "int32"
+              "$ref": "#/components/schemas/ItemQtyDTO"
             },
             "nullable": true
           },
@@ -6429,6 +6428,10 @@
           },
           "childItem": {
             "$ref": "#/components/schemas/Item"
+          },
+          "qty": {
+            "type": "number",
+            "format": "double"
           }
         },
         "additionalProperties": false
@@ -6627,11 +6630,10 @@
       "CreateComboDTO": {
         "type": "object",
         "properties": {
-          "itemIds": {
+          "items": {
             "type": "array",
             "items": {
-              "type": "integer",
-              "format": "int64"
+              "$ref": "#/components/schemas/ItemQtyDTO"
             },
             "nullable": true
           },
@@ -7986,6 +7988,20 @@
               "$ref": "#/components/schemas/TaxDTO"
             },
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ItemQtyDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "qty": {
+            "type": "number",
+            "format": "double"
           }
         },
         "additionalProperties": false

@@ -433,3 +433,7 @@ C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Debug\net8.0\BackEnd.staticwebassets.
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Debug\net8.0\staticwebassets.build.json.cache
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Debug\net8.0\staticwebassets.build.endpoints.json
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Debug\net8.0\rpswa.dswa.cache.json
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Debug\net8.0\rjimswa.dswa.cache.json
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json

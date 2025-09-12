@@ -8,14 +8,12 @@ namespace BackEnd.Validations
     {
         public CreateComboDTOValidator()
         {
-            RuleFor(x => x.ItemIds)
+            RuleFor(x => x.Items)
                 .NotEmpty().WithMessage(Utilities.RequiredFieldMessage)
-                .Must(ids => ids.Count >= 2)
-                    .WithMessage(Utilities.MinItemsRequired) // Actualizado
-                .Must(ids => ids.Count <= 50)
-                    .WithMessage(Utilities.MaximunLengthMessage)
-                .Must(ids => ids.All(id => id > 0))
-                    .WithMessage(Utilities.EachItemMustBeGreatherThanZero); // Actualizado
+                .Must(items => items.Count >= 2)
+                    .WithMessage(Utilities.MinItemsRequired)
+                .Must(items => items.Count <= 50)
+                    .WithMessage(Utilities.MaximunLengthMessage);
 
             RuleFor(x => x.Name)
                 .NotEmpty().WithMessage(Utilities.RequiredFieldMessage)

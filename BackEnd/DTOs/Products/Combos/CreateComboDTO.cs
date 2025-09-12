@@ -2,7 +2,7 @@
 {
     public class CreateComboDTO
     {
-        public List<long> ItemIds { get; set; } = null!;
+        public List<ItemQtyDTO> Items { get; set; } = null!;
         public string Name { get; set; } = string.Empty;
         public string? Reference { get; set; }
         public string? Barcode { get; set; }

@@ -18,7 +18,12 @@ namespace BackEnd.Profiles.Products
                 .ForMember(des => des.Brand, opt => opt.Ignore())
                 .ForMember(des => des.Category, opt => opt.Ignore())
                 .ForMember(des => des.Unit, opt => opt.Ignore())
-                .ForMember(des => des.ComboItems, opt => opt.MapFrom(src => src.ItemIds.Select(id => new ComboItem { ChildItemId = id }).ToList()));
+                .ForMember(des => des.ComboItems, opt => opt.MapFrom(src =>
+                    src.Items.Select(i => new ComboItem
+                    {
+                        ChildItemId = i.Id,
+                        Qty = i.Qty
+                    }).ToList()));
 
             CreateMap<ComboDTO, Item>();
             CreateMap<Item, ComboListDTO>()
@@ -89,7 +94,12 @@ namespace BackEnd.Profiles.Products
                 .ForMember(des => des.Percentage, opt => opt.MapFrom(src =>
                     src.PricingItems.FirstOrDefault(p => p.IsPrincipal)!.Pricing!.Percentage))
                 .ForMember(des => des.TaxIds, opt => opt.MapFrom(src => src.ItemTaxes.Select(pt => pt.Tax.Id).ToList()))
-                .ForMember(des => des.ItemIds, opt => opt.MapFrom(src => src.ComboItems.Select(ci => (int)ci.ChildItemId).ToList()));
+                .ForMember(des => des.Items, opt => opt.MapFrom(src =>
+                    src.ComboItems.Select(ci => new ItemQtyDTO
+                    {
+                        Id = (int)ci.ChildItemId,
+                        Qty = ci.Qty
+                    }).ToList()));
 
             CreateMap<ComboItem, ComboItemDTO>()
                 .ForMember(des => des.Id, opt => opt.MapFrom(src => src.ChildItem.Id))

@@ -914,6 +914,9 @@ namespace BackEnd.Migrations
                     b.Property<long>("ChildItemId")
                         .HasColumnType("bigint");
 
+                    b.Property<decimal>("Qty")
+                        .HasColumnType("decimal(18,2)");
+
                     b.HasKey("ParentItemId", "ChildItemId");
 
                     b.HasIndex("ChildItemId");

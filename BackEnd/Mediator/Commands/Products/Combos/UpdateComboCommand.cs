@@ -26,9 +26,10 @@ namespace BackEnd.Mediator.Commands.Products.Combos
                 ItemId = comboDB.Id
             }).ToList();
 
-            comboDB.ComboItems = Dto.ItemIds.Select(itemId => new ComboItem
+            comboDB.ComboItems = Dto.Items.Select(i => new ComboItem
             {
-                ChildItemId = itemId,
+                ChildItemId = i.Id,
+                Qty = i.Qty,
                 ParentItemId = comboDB.Id
             }).ToList();
 

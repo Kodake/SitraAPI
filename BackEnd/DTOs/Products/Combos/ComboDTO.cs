@@ -12,7 +12,7 @@ using BackEnd.DTOs.Products.Units;
 public class ComboDTO
 {
     public long Id { get; set; }
-    public List<int>? ItemIds { get; set; }
+    public List<ItemQtyDTO> Items { get; set; } = [];
     public List<ComboItemDTO>? ComboItems { get; set; } = [];
     public string Name { get; set; } = string.Empty;
     public string? Reference { get; set; }
