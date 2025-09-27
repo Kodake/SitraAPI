@@ -164,6 +164,19 @@ namespace BackEnd.Mediator.Commands.Invoices.SaleInvoices
                         totalTaxes += (serviceBasePrice * serviceTaxAmount / 100) * itemDTO.Qty;
                         break;
 
+                    case ItemType.Combo:
+                        var combo = await unitOfWork.ComboRepository.GetByIdAsync(itemDTO.ItemId)
+                            ?? throw new Exception($"Combo with id {itemDTO.ItemId} not found.");
+
+                        var comboBasePrice = combo.PricingItems.First(x => x.ItemId == itemDTO.ItemId).BasePrice / currencyRate;
+                        var comboTaxAmount = combo.ItemTaxes.Sum(x => x?.Tax?.Amount) ?? 0;
+
+                        totalQtyItems += itemDTO.Qty;
+                        totalItems += 1;
+                        totalAmount += comboBasePrice * itemDTO.Qty;
+                        totalTaxes += (comboBasePrice * comboTaxAmount / 100) * itemDTO.Qty;
+                        break;
+
                     default:
                         throw new InvalidOperationException($"Unknown ItemType {itemDTO.ItemType} for ItemId {itemDTO.ItemId}");
                 }
@@ -219,6 +232,22 @@ namespace BackEnd.Mediator.Commands.Invoices.SaleInvoices
                     var stock = await unitOfWork.StockRepository.GetByItemIdAndWarehouseId(item.ItemId, dto.WarehouseId) ?? throw new InvalidOperationException($"Stock not found for ItemId {item.ItemId} in the specified warehouse.");
                     stock.Qty -= item.Qty;
                     unitOfWork.StockRepository.Update(stock);
+                }
+
+                if (item.ItemType == ItemType.Combo)
+                {
+                    var combo = await unitOfWork.ComboRepository.GetByIdAsync(item.ItemId)
+                        ?? throw new InvalidOperationException($"Combo with id {item.ItemId} not found.");
+
+                    foreach (var comboItem in combo.ComboItems)
+                    {
+                        var stock = await unitOfWork.StockRepository
+                            .GetByItemIdAndWarehouseId(comboItem.ChildItemId, dto.WarehouseId)
+                            ?? throw new InvalidOperationException($"Stock with id {comboItem.ChildItemId} not found.");
+
+                        stock.Qty -= (comboItem.Qty * item.Qty);
+                        unitOfWork.StockRepository.Update(stock);
+                    }
                 }
             }
         }

@@ -20,11 +20,24 @@ namespace BackEnd.Repositories.Products
                     .ThenInclude(it => it.Tax)
                 .Include(x => x.PricingItems)
                     .ThenInclude(pi => pi.Pricing)
+                .Include(x => x.ComboItems)
+                    .ThenInclude(ci => ci.ChildItem)
+                        .ThenInclude(child => child.Stocks)
+                .Include(x => x.ComboItems)
+                    .ThenInclude(ci => ci.ChildItem)
+                        .ThenInclude(child => child.PricingItems)
                 .Where(x =>
                     x.PricingItems.Any(pi => pi.PricingId == pricingId) &&
                     (
                         x.ItemType == ItemType.Service ||
                         x.Stocks.Any(s => s.WarehouseId == warehouseId)
+                    )
+                    || (
+                        x.ItemType == ItemType.Combo &&
+                        x.ComboItems.Any(ci =>
+                            ci.ChildItem.PricingItems.Any(pi => pi.PricingId == pricingId) &&
+                            ci.ChildItem.Stocks.Any(s => s.WarehouseId == warehouseId)
+                        )
                     )
                 )
                 .ToListAsync();
