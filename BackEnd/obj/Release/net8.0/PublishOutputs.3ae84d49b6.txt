@@ -52,11 +52,14 @@ C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Microsoft.E
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Microsoft.EntityFrameworkCore.Abstractions.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Microsoft.EntityFrameworkCore.Relational.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Microsoft.EntityFrameworkCore.SqlServer.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Microsoft.Extensions.Caching.Memory.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Microsoft.Extensions.DependencyInjection.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Microsoft.Extensions.DependencyModel.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Microsoft.Extensions.Identity.Core.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Microsoft.Extensions.Identity.Stores.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Microsoft.Extensions.Logging.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Microsoft.Extensions.Logging.Abstractions.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Microsoft.Extensions.Options.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Microsoft.Identity.Client.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Microsoft.Identity.Client.Extensions.Msal.dll

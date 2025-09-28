@@ -293,3 +293,6 @@ C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\rpswa.dswa.cache.json
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\rjimswa.dswa.cache.json
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\rjsmrazor.dswa.cache.json
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\rjsmcshtml.dswa.cache.json
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Release\net8.0\Microsoft.Extensions.Caching.Memory.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Release\net8.0\Microsoft.Extensions.Logging.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Release\net8.0\Microsoft.Extensions.Logging.Abstractions.dll

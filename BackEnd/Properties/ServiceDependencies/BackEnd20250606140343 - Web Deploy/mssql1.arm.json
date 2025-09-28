@@ -36,7 +36,7 @@
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "name": "[concat(parameters('resourceGroupName'), 'Deployment', uniqueString(concat('BackEnd_db', subscription().subscriptionId)))]",
+      "name": "[concat(parameters('resourceGroupName'), 'Deployment', uniqueString(concat('BackEnd_db_2025-09-28T00-29Z', subscription().subscriptionId)))]",
       "resourceGroup": "[parameters('resourceGroupName')]",
       "apiVersion": "2019-10-01",
       "dependsOn": [
@@ -57,13 +57,13 @@
             },
             {
               "sku": {
-                "name": "Standard",
-                "tier": "Standard",
-                "capacity": 10
+                "name": "Basic",
+                "tier": "Basic",
+                "capacity": 5
               },
               "kind": "v12.0,user",
               "location": "[parameters('resourceLocation')]",
-              "name": "backendposapidbserver/BackEnd_db",
+              "name": "backendposapidbserver/BackEnd_db_2025-09-28T00-29Z",
               "type": "Microsoft.Sql/servers/databases",
               "apiVersion": "2017-10-01-preview",
               "dependsOn": [

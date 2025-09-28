@@ -6,7 +6,12 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 <Project>
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <History>True|2025-09-20T00:55:00.8644524Z||;True|2025-08-29T11:49:52.4930607-04:00||;True|2025-08-13T23:13:24.3426311-04:00||;True|2025-08-09T12:16:20.2612248-04:00||;True|2025-07-07T12:22:02.7654036-04:00||;True|2025-07-07T12:19:56.3201036-04:00||;True|2025-07-06T23:54:42.9169371-04:00||;True|2025-06-25T09:13:00.0405796-04:00||;True|2025-06-25T01:18:19.2736569-04:00||;True|2025-06-09T02:33:06.5823736-04:00||;True|2025-06-08T00:36:07.8261816-04:00||;True|2025-06-07T18:40:25.4124337-04:00||;True|2025-06-06T15:12:19.9472121-04:00||;True|2025-06-06T14:40:24.2999345-04:00||;</History>
+    <History>True|2025-09-28T03:39:39.1881489Z||;True|2025-09-27T23:35:00.5051815-04:00||;</History>
     <LastFailureDetails />
   </PropertyGroup>
+  <ItemGroup>
+    <AzureDBConnectionStrings Include="Data Source=backendposapidbserver.database.windows.net,1433;Initial Catalog=BackEnd_db;Authentication=ActiveDirectoryManagedIdentity" />
+    <AzureDBConnectionStrings Include="REDACTED" />
+    <AzureDBConnectionStrings Include="Server=tcp:backendposapidbserver.database.windows.net;Authentication=Active Directory Default;Database=BackEnd_db" />
+  </ItemGroup>
 </Project>
