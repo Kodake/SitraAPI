@@ -225,19 +225,26 @@ namespace BackEnd.Mediator.Commands.Invoices.SaleInvoices
 
         private static async Task ReduceStock(CreateSaleInvoiceDTO dto, IUnitOfWork unitOfWork)
         {
+            // Diccionario para acumular restas de stock
+            var stockAdjustments = new Dictionary<long, double>(); // StockId -> cantidad a restar
+
             foreach (var item in dto.InvoiceItems)
             {
                 if (item.ItemType == ItemType.Product)
                 {
-                    var stock = await unitOfWork.StockRepository.GetByItemIdAndWarehouseId(item.ItemId, dto.WarehouseId) ?? throw new InvalidOperationException($"Stock not found for ItemId {item.ItemId} in the specified warehouse.");
-                    stock.Qty -= item.Qty;
-                    unitOfWork.StockRepository.Update(stock);
+                    var stock = await unitOfWork.StockRepository.GetByItemIdAndWarehouseId(item.ItemId, dto.WarehouseId)
+                                ?? throw new InvalidOperationException($"Stock not found for ItemId {item.ItemId} in the specified warehouse.");
+
+                    if (!stockAdjustments.ContainsKey(stock.Id))
+                        stockAdjustments[stock.Id] = 0;
+
+                    stockAdjustments[stock.Id] -= item.Qty;
                 }
 
                 if (item.ItemType == ItemType.Combo)
                 {
                     var combo = await unitOfWork.ComboRepository.GetByIdAsync(item.ItemId)
-                        ?? throw new InvalidOperationException($"Combo with id {item.ItemId} not found.");
+                                ?? throw new InvalidOperationException($"Combo with id {item.ItemId} not found.");
 
                     foreach (var comboItem in combo.ComboItems)
                     {
@@ -245,10 +252,22 @@ namespace BackEnd.Mediator.Commands.Invoices.SaleInvoices
                             .GetByItemIdAndWarehouseId(comboItem.ChildItemId, dto.WarehouseId)
                             ?? throw new InvalidOperationException($"Stock with id {comboItem.ChildItemId} not found.");
 
-                        stock.Qty -= (comboItem.Qty * item.Qty);
-                        unitOfWork.StockRepository.Update(stock);
+                        if (!stockAdjustments.ContainsKey(stock.Id))
+                            stockAdjustments[stock.Id] = 0;
+
+                        stockAdjustments[stock.Id] -= comboItem.Qty * item.Qty;
                     }
                 }
+            }
+
+            // 🔑 aplicar todos los cambios a los stocks en una sola pasada
+            foreach (var adjustment in stockAdjustments)
+            {
+                var stock = await unitOfWork.StockRepository.GetByIdAsync(adjustment.Key)
+                            ?? throw new InvalidOperationException($"Stock with id {adjustment.Key} not found on update.");
+
+                stock.Qty += adjustment.Value; // Value es negativo → resta
+                unitOfWork.StockRepository.Update(stock);
             }
         }
 

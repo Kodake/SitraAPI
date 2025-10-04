@@ -75,9 +75,15 @@ builder.Services.AddCors(opciones =>
 {
     opciones.AddDefaultPolicy(configuracion =>
     {
-        configuracion.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().WithExposedHeaders("totalCountRecords");
+        configuracion
+            .WithOrigins(
+                "https://rpos-app-git-pre-prod-kodakes-projects.vercel.app",
+                "http://localhost:3000"
+            )
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .WithExposedHeaders("totalCountRecords");
     });
-
 });
 
 builder.Services.AddControllers().AddJsonOptions(options =>
@@ -146,14 +152,15 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
+app.UseCors();
+
 app.UseSwagger();
+
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
 app.MapApiRoutes();
-
-app.UseCors();
 
 app.UseOutputCache();
 
