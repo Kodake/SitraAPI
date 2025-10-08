@@ -439,4 +439,3 @@ C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Debug\net8.0\ref\BackEnd.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Debug\net8.0\Microsoft.Extensions.Caching.Memory.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Debug\net8.0\Microsoft.Extensions.Logging.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
-C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

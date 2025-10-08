@@ -78,6 +78,7 @@ builder.Services.AddCors(opciones =>
         configuracion
             .WithOrigins(
                 "https://rpos-app-git-pre-prod-kodakes-projects.vercel.app",
+                "https://2a0405c99c38.ngrok-free.app/",
                 "http://localhost:3000"
             )
             .AllowAnyHeader()
@@ -146,9 +147,24 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
     if (dbContext.Database.IsRelational())
     {
-        dbContext.Database.Migrate();
+        try
+        {
+            // Apply pending migrations
+            dbContext.Database.Migrate();
+        }
+        catch (Microsoft.Data.SqlClient.SqlException ex) when (ex.Number == 2714)
+        {
+            // Log and continue instead of crashing
+            Console.WriteLine("⚠️ Identity tables already exist. Skipping duplicate creation.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Migration failed: {ex.Message}");
+            throw; // rethrow for other errors
+        }
     }
 }
 
