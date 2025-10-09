@@ -8,45 +8,34 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Serilog;
-using Serilog.Sinks.MSSqlServer;
 
 var builder = WebApplication.CreateBuilder(args);
-Log.Logger = new LoggerConfiguration()
-    .Enrich.FromLogContext()
-    .Enrich.WithEnvironmentName()
-    .Enrich.WithMachineName()
-    .WriteTo.Console()
-    .WriteTo.MSSqlServer(
-        connectionString: builder.Configuration.GetConnectionString("DefaultConnection"),
-        sinkOptions: new MSSqlServerSinkOptions
-        {
-            TableName = "Logs",
-            AutoCreateSqlTable = true
-        },
-        restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Debug,
-        columnOptions: new ColumnOptions()
-    )
-    .CreateLogger();
 
-builder.Host.UseSerilog();
+//
+// ✅ Configure built-in logging
+//
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.AddDebug();
+builder.Logging.AddEventSourceLogger();
+builder.Logging.AddApplicationInsights();
 
+//
+// ✅ Database
+//
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-    //.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
-    .EnableSensitiveDataLogging();
+           .EnableSensitiveDataLogging();
 });
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+//
+// ✅ Services
+//
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddAuthorization();
-
-builder.Services.AddIdentityCore<User>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddIdentityCore<User>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -68,7 +57,6 @@ builder.Services.AddAuthentication().AddJwtBearer(opciones =>
         IssuerSigningKeys = Keys.GetAllKeys(builder.Configuration),
         ClockSkew = TimeSpan.Zero
     };
-
 });
 
 builder.Services.AddCors(opciones =>
@@ -78,7 +66,7 @@ builder.Services.AddCors(opciones =>
         configuracion
             .WithOrigins(
                 "https://rpos-app-git-pre-prod-kodakes-projects.vercel.app",
-                "https://2a0405c99c38.ngrok-free.app/",
+                "https://2a0405c99c38.ngrok-free.app",
                 "http://localhost:3000"
             )
             .AllowAnyHeader()
@@ -89,14 +77,13 @@ builder.Services.AddCors(opciones =>
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
-    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    options.JsonSerializerOptions.ReferenceHandler =
+        System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
 });
 
+builder.Services.AddApplicationInsightsTelemetry();
 builder.Services.AddOutputCache();
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
@@ -129,57 +116,80 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.RegisterRequestHandlers();
-
 builder.Services.RegisterRepositories();
-
 builder.Services.AddHttpContextAccessor();
-
 builder.Services.AddAutoMapper(typeof(Program));
-
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
-
 builder.Services.AddProblemDetails();
 
-builder.Services.AddAuthorization();
+builder.Services.AddApplicationInsightsTelemetry(
+    new Microsoft.ApplicationInsights.AspNetCore.Extensions.ApplicationInsightsServiceOptions
+    {
+        ConnectionString = builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"]
+    }
+);
 
 var app = builder.Build();
 
+//
+// ✅ Global exception handler
+//
+app.UseExceptionHandler(errorApp =>
+{
+    errorApp.Run(async context =>
+    {
+        var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
+        var exceptionHandlerPathFeature =
+            context.Features.Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerPathFeature>();
+
+        if (exceptionHandlerPathFeature?.Error != null)
+        {
+            logger.LogError(exceptionHandlerPathFeature.Error,
+                "Unhandled exception on path {Path}",
+                exceptionHandlerPathFeature.Path);
+        }
+
+        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        await context.Response.WriteAsJsonAsync(new { error = "An unexpected error occurred." });
+    });
+});
+
+//
+// ✅ Database migration + logging
+//
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
 
     if (dbContext.Database.IsRelational())
     {
         try
         {
-            // Apply pending migrations
             dbContext.Database.Migrate();
+            logger.LogInformation("✅ Database migrated successfully.");
         }
         catch (Microsoft.Data.SqlClient.SqlException ex) when (ex.Number == 2714)
         {
-            // Log and continue instead of crashing
-            Console.WriteLine("⚠️ Identity tables already exist. Skipping duplicate creation.");
+            logger.LogWarning("⚠️ Identity tables already exist. Skipping duplicate creation.");
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"❌ Migration failed: {ex.Message}");
-            throw; // rethrow for other errors
+            logger.LogError(ex, "❌ Migration failed.");
+            throw;
         }
     }
 }
 
+//
+// Middleware pipeline
+//
 app.UseCors();
-
 app.UseSwagger();
-
 app.UseSwaggerUI();
-
 app.UseHttpsRedirection();
-
 app.MapApiRoutes();
-
 app.UseOutputCache();
-
 app.UseAuthorization();
 
 app.Run();
