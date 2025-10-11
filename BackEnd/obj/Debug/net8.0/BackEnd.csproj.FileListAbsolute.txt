@@ -450,3 +450,4 @@ C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Debug\net8.0\Microsoft.Extensions.Log
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Debug\net8.0\System.Diagnostics.PerformanceCounter.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Diagnostics.PerformanceCounter.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Debug\net8.0\Resources\logo-black.png

@@ -2,7 +2,6 @@
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
-using System.Reflection;
 
 namespace BackEnd.DTOs
 {
@@ -36,46 +35,73 @@ namespace BackEnd.DTOs
                     var fontWeight = 0.8f;
 
                     if (!string.IsNullOrEmpty(Invoice.Buyer?.Identification))
-                    {
-                        column.Item().Scale(fontWeight).Text($"IDENTIFICACIÓN: {Invoice.Buyer.Identification}" ?? "N/A");
-                    }
+                        column.Item().Scale(fontWeight).Text($"IDENTIFICACIÓN: {Invoice.Buyer.Identification}");
 
-                    column.Item().Scale(fontWeight).Text($"FECHA: {Invoice.Date.ToString("dd-MM-yyyy")}");
+                    column.Item().Scale(fontWeight).Text($"FECHA: {Invoice.Date:dd-MM-yyyy}");
                     column.Item().Scale(fontWeight).Text($"NOMBRE / RAZÓN SOCIAL: {Invoice.Buyer?.Name ?? "N/A"}");
 
                     if (Invoice.Biller is not null)
-                    {
                         column.Item().Scale(fontWeight).Text($"VENDEDOR: {Invoice.Biller.Name}");
-                    }
 
                     if (Invoice.Buyer is not null)
-                    {
                         column.Item().Scale(fontWeight).Text($"SUPLIDOR: {Invoice.Buyer.Name}");
-                    }
                 });
 
+                // Right section: logo + invoice metadata
                 row.RelativeItem().Border(1).Column(column =>
                 {
                     var padding = 3;
-                    var assembly = Assembly.GetExecutingAssembly();
-                    var resourcePath = "BackEnd.Resources.logo-black.png";
-                    var stream = assembly.GetManifestResourceStream(resourcePath);
+                    var logoPath = Path.Combine(AppContext.BaseDirectory, "Resources", "logo-black.png");
 
-                    if (stream != null)
+                    try
                     {
-                        column.Item().Height(1.5f, Unit.Centimetre).Image(stream);
+                        if (File.Exists(logoPath))
+                        {
+                            // ✅ Safe, size-limited, and layout-friendly
+                            column.Item()
+                                  .AlignCenter()
+                                  .MaxHeight(1.8f, Unit.Centimetre)   // Slightly smaller to fit header neatly
+                                  .Width(100)                         // ~1.3 inch width
+                                  .Image(logoPath)
+                                  .FitWidth();
+
+                            column.Item().Text(" ");
+                        }
+                        else
+                        {
+                            // Fallback if file not found
+                            column.Item()
+                                  .AlignCenter()
+                                  .Text("LOGO NO DISPONIBLE")
+                                  .FontSize(8)
+                                  .Italic();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Prevent QuestPDF from throwing (fixes 500 error)
+                        column.Item()
+                              .AlignCenter()
+                              .Text("ERROR AL CARGAR LOGO")
+                              .FontSize(8)
+                              .Italic();
+
+                        // Optional for local debugging
+                        Console.WriteLine($"[InvoiceDocumentDTO] Error loading logo: {ex.Message}");
                     }
 
                     column.Item().BorderBottom(1).Padding(padding).Text("FACTURA DE CONSUMO FISCAL").SemiBold();
                     column.Item().Padding(padding).Text($"NÚMERO # {Invoice.Id}").SemiBold();
-                    column.Item().Padding(padding).Text($"COMPROBANTE FISCAL").SemiBold();
+                    column.Item().Padding(padding).Text("COMPROBANTE FISCAL").SemiBold();
                     column.Item().Text("");
-                    column.Item().Padding(padding).Text(string.IsNullOrEmpty(Invoice.FiscalSupportNumber) ? "N/A" : Invoice.FiscalSupportNumber).SemiBold();
+                    column.Item().Padding(padding)
+                          .Text(string.IsNullOrEmpty(Invoice.FiscalSupportNumber)
+                              ? "N/A"
+                              : Invoice.FiscalSupportNumber)
+                          .SemiBold();
 
                     if (Invoice.DueDate.HasValue)
-                    {
-                        column.Item().Padding(padding).Text($"VENCIMIENTO: {Invoice.DueDate.Value.ToString("dd-MM-yyyy")}");
-                    }
+                        column.Item().Padding(padding).Text($"VENCIMIENTO: {Invoice.DueDate:dd-MM-yyyy}");
                 });
             });
         }
@@ -89,6 +115,7 @@ namespace BackEnd.DTOs
 
                 column.Item().AlignRight().Text($"SUBTOTAL: {Invoice.TotalAmount:N}");
 
+                // ✅ Tax summary
                 var taxSummary = new Dictionary<string, (double Amount, double Percentage)>();
                 foreach (var item in Invoice.InvoiceItems)
                 {
@@ -111,18 +138,14 @@ namespace BackEnd.DTOs
                 }
 
                 foreach (var tax in taxSummary)
-                {
                     column.Item().AlignRight().Text($"{tax.Key} {tax.Value.Percentage:N}%: {tax.Value.Amount:N}");
-                }
 
                 column.Item().AlignRight().Text($"IMPUESTO: {Invoice.TotalTaxes:N}");
                 var subTaxes = Invoice.TotalAmount + Invoice.TotalTaxes;
                 column.Item().AlignRight().Text($"SUB + IMPUESTO: {subTaxes:N}");
 
                 if (Invoice.Shipping.HasValue)
-                {
                     column.Item().AlignRight().Text($"ENVÍO: {Invoice.Shipping:N}");
-                }
 
                 if (Invoice.Discount.HasValue)
                 {
@@ -130,7 +153,7 @@ namespace BackEnd.DTOs
                     column.Item().AlignRight().Text($"DESCUENTO ({Invoice.Discount:N}%): {discountAmount:N}");
                 }
 
-                column.Item().AlignRight().Text($"TOTAL: {(Invoice.TotalPrice):N}");
+                column.Item().AlignRight().Text($"TOTAL: {Invoice.TotalPrice:N}");
             });
         }
 
@@ -156,9 +179,10 @@ namespace BackEnd.DTOs
                     header.Cell().Element(CellStyle).AlignRight().Text("TOTAL");
 
                     static IContainer CellStyle(IContainer container)
-                    {
-                        return container.DefaultTextStyle(x => x.SemiBold()).PaddingVertical(1).BorderBottom(1).BorderColor(Colors.Black);
-                    }
+                        => container.DefaultTextStyle(x => x.SemiBold())
+                                    .PaddingVertical(1)
+                                    .BorderBottom(1)
+                                    .BorderColor(Colors.Black);
                 });
 
                 foreach (var item in Invoice.InvoiceItems)
@@ -170,9 +194,9 @@ namespace BackEnd.DTOs
                     table.Cell().Element(CellStyle).AlignRight().Text($"{item.TotalPrice:N}");
 
                     static IContainer CellStyle(IContainer container)
-                    {
-                        return container.BorderBottom(1).BorderColor(Colors.Grey.Lighten2).PaddingVertical(1);
-                    }
+                        => container.BorderBottom(1)
+                                    .BorderColor(Colors.Grey.Lighten2)
+                                    .PaddingVertical(1);
                 }
             });
         }

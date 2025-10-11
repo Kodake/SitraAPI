@@ -3,7 +3,7 @@ using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using System.Globalization;
-using System.Reflection;
+using System.IO;
 
 namespace BackEnd.DTOs
 {
@@ -24,57 +24,80 @@ namespace BackEnd.DTOs
 
         public void Compose(IDocumentContainer container)
         {
-            container.Page(
-                page =>
-                {
-                    page.Margin(30); // Márgenes reducidos para más espacio
-                    page.DefaultTextStyle(x => x.FontSize(8)); // Fuente pequeña para todo el documento
-                    page.Header().Element(BuildHeader);
-                    page.Content().Element(BuildContent);
-                    page.Footer().Element(BuildFooter);
-                });
+            container.Page(page =>
+            {
+                page.Margin(30);
+                page.DefaultTextStyle(x => x.FontSize(8));
+                page.Header().Element(BuildHeader);
+                page.Content().Element(BuildContent);
+                page.Footer().Element(BuildFooter);
+            });
         }
 
         private void BuildHeader(IContainer container)
         {
-            container.Row(row =>
+            container.Column(column =>
             {
-                row.RelativeItem().Border(1).Column(column =>
+                var logoPath = Path.Combine(AppContext.BaseDirectory, "Resources", "logo-black.png");
+
+                try
                 {
-                    var padding = 3; // Padding reducido
-                    var assembly = Assembly.GetExecutingAssembly();
-                    var resourcePath = "BackEnd.Resources.logo-black.png";
-
-                    var stream = assembly.GetManifestResourceStream(resourcePath);
-
-                    if (stream != null)
+                    if (File.Exists(logoPath))
                     {
-                        column.Item().Height(1.5f, Unit.Centimetre).Image(stream); // Logo un poco más pequeño
+                        // ✅ Full-width logo (spans the top of the page)
+                        column.Item()
+                              .AlignCenter()
+                              .Image(logoPath)
+                              .FitWidth();
                     }
-                    column.Item().BorderBottom(1).Padding(padding).Row(row =>
+                    else
                     {
-                        row.RelativeItem().Text(ReportName).SemiBold();
-                        row.ConstantItem(100).AlignRight().Text($"{DateTime.Today:dd-MM-yyyy}");
-                    });
-                    column.Item().Padding(padding).Text($"DESDE: {From:dd-MM-yyyy}");
-                    column.Item().Padding(padding).Text($"HASTA: {To:dd-MM-yyyy}");
+                        // Fallback text when image not found
+                        column.Item()
+                              .AlignCenter()
+                              .Text("LOGO NO DISPONIBLE")
+                              .FontSize(8)
+                              .Italic();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Prevent any image decoding crash
+                    column.Item()
+                          .AlignCenter()
+                          .Text("ERROR AL CARGAR LOGO")
+                          .FontSize(8)
+                          .Italic();
+
+                    Console.WriteLine($"[ReportDTO] Error loading logo: {ex.Message}");
+                }
+
+                column.Item().PaddingTop(5).BorderBottom(1).PaddingBottom(5).Column(info =>
+                {
+                    info.Item().AlignCenter().Text(ReportName).FontSize(10).SemiBold();
+                    info.Item().AlignCenter().Text($"{DateTime.Today:dd-MM-yyyy}");
+                    info.Item().AlignCenter().Text($"DESDE: {From:dd-MM-yyyy}");
+                    info.Item().AlignCenter().Text($"HASTA: {To:dd-MM-yyyy}");
                 });
             });
         }
 
         private void BuildContent(IContainer container)
         {
-            container.PaddingVertical(15).Column(column => // Padding vertical reducido
+            container.PaddingVertical(15).Column(column =>
             {
                 column.Spacing(5);
                 column.Item().Element(BuildTable);
+
+                // Summary section
                 column.Item().Text("");
                 column.Item().Text("");
                 column.Item().AlignRight().Text($"SUBTOTAL: {Invoices.Sum(x => x.TotalAmount):N}");
                 column.Item().AlignRight().Text($"IMPUESTOS TOTALES: {Invoices.Sum(x => x.TotalTaxes):N}");
+
                 var subTaxes = Invoices.Sum(x => x.TotalAmount) + Invoices.Sum(x => x.TotalTaxes);
                 column.Item().AlignRight().Text($"SUB + IMPUESTOS: {subTaxes:N}");
-                column.Item().AlignRight().Text($"TOTAL: {(Invoices.Sum(x => x.TotalPrice)):N}");
+                column.Item().AlignRight().Text($"TOTAL: {Invoices.Sum(x => x.TotalPrice):N}");
             });
         }
 
@@ -102,24 +125,28 @@ namespace BackEnd.DTOs
                     header.Cell().Element(CellStyle).AlignRight().Text("TOTAL");
 
                     static IContainer CellStyle(IContainer container)
-                    {
-                        return container.DefaultTextStyle(x => x.SemiBold()).PaddingVertical(1).BorderBottom(1).BorderColor(Colors.Black);
-                    }
+                        => container.DefaultTextStyle(x => x.SemiBold())
+                                    .PaddingVertical(1)
+                                    .BorderBottom(1)
+                                    .BorderColor(Colors.Black);
                 });
 
+                // Data rows
                 foreach (var item in Invoices)
                 {
                     table.Cell().Element(CellStyle).Text(item.Id.ToString());
-                    table.Cell().Element(CellStyle).Text(item.CreatedAt.ToString("dd/MM/yyyy", CultureInfo.GetCultureInfo("es-DO")));
-                    table.Cell().Element(CellStyle).Text(string.IsNullOrEmpty(item.FiscalSupportNumber) ? "N/A" : item.FiscalSupportNumber);
+                    table.Cell().Element(CellStyle)
+                        .Text(item.CreatedAt.ToString("dd/MM/yyyy", CultureInfo.GetCultureInfo("es-DO")));
+                    table.Cell().Element(CellStyle)
+                        .Text(string.IsNullOrEmpty(item.FiscalSupportNumber) ? "N/A" : item.FiscalSupportNumber);
                     table.Cell().Element(CellStyle).AlignRight().Text($"{item.TotalAmount:N}");
                     table.Cell().Element(CellStyle).AlignRight().Text($"{item.TotalTaxes:N}");
                     table.Cell().Element(CellStyle).AlignRight().Text($"{item.TotalPrice:N}");
 
                     static IContainer CellStyle(IContainer container)
-                    {
-                        return container.BorderBottom(1).BorderColor(Colors.Grey.Lighten2).PaddingVertical(1);
-                    }
+                        => container.BorderBottom(1)
+                                    .BorderColor(Colors.Grey.Lighten2)
+                                    .PaddingVertical(1);
                 }
             });
         }
@@ -136,8 +163,7 @@ namespace BackEnd.DTOs
 
         public void GeneratePdf(string filePath)
         {
-            Document.Create(container => Compose(container))
-                    .GeneratePdf(filePath);
+            Document.Create(container => Compose(container)).GeneratePdf(filePath);
         }
     }
 }

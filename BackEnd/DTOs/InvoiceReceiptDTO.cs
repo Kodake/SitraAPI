@@ -2,28 +2,15 @@
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
-using System.Reflection;
+using System.IO;
 
 namespace BackEnd.DTOs
 {
     public class InvoiceReceiptDocumentDTO : IDocument
     {
-        private readonly byte[]? LogoImage;
-
         public InvoiceReceiptDocumentDTO(Invoice invoice)
         {
             Invoice = invoice;
-
-            var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = "BackEnd.Resources.logo-black.png"; // Adjust namespace + folder + file name
-
-            using var stream = assembly.GetManifestResourceStream(resourceName);
-            if (stream != null)
-            {
-                using var ms = new MemoryStream();
-                stream.CopyTo(ms);
-                LogoImage = ms.ToArray();
-            }
         }
 
         public Invoice Invoice { get; }
@@ -32,7 +19,8 @@ namespace BackEnd.DTOs
         {
             container.Page(page =>
             {
-                page.Size(new PageSize(226.77f, 10_000));
+                // ✅ Fixed width (~80mm roll) with dynamic height
+                page.ContinuousSize(226.77f);
                 page.Margin(10);
                 page.DefaultTextStyle(x => x.FontSize(9).FontFamily("Arial"));
                 page.Content().Element(BuildContent);
@@ -45,56 +33,88 @@ namespace BackEnd.DTOs
             {
                 column.Spacing(2);
 
-                if (LogoImage is not null)
+                var logoPath = Path.Combine(AppContext.BaseDirectory, "Resources", "logo-black.png");
+
+                try
                 {
-                    column.Item().AlignCenter().Height(2, Unit.Centimetre).Image(LogoImage, ImageScaling.FitWidth);
-                    column.Item().Text(" ");
+                    if (File.Exists(logoPath))
+                    {
+                        // ✅ Safe and compact logo for receipt width
+                        column.Item()
+                              .AlignCenter()
+                              .MaxHeight(1.5f, Unit.Centimetre)
+                              .Width(100)
+                              .Image(logoPath)
+                              .FitWidth();
+
+                        column.Item().Text(" ");
+                    }
+                    else
+                    {
+                        // Show fallback text when missing
+                        column.Item()
+                              .AlignCenter()
+                              .Text("LOGO NO DISPONIBLE")
+                              .FontSize(8)
+                              .Italic();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Prevent QuestPDF from breaking PDF generation
+                    column.Item()
+                          .AlignCenter()
+                          .Text("ERROR AL CARGAR LOGO")
+                          .FontSize(8)
+                          .Italic();
+
+                    // Optional debug log (won’t crash)
+                    Console.WriteLine($"[InvoiceReceiptDocumentDTO] Error loading logo: {ex.Message}");
                 }
 
+                // Header Info
                 column.Item().AlignCenter().Text("FACTURA DE CONSUMO").SemiBold();
                 column.Item().Text(" ");
                 column.Item().Text($"NÚMERO: {Invoice.Id}");
                 column.Item().Text($"FECHA: {Invoice.Date:dd-MM-yyyy}");
-
                 column.Item().Text($"CLIENTE: {Invoice.Buyer?.Name ?? "N/A"}");
 
                 if (!string.IsNullOrWhiteSpace(Invoice.Buyer?.Identification))
-                {
                     column.Item().Text($"ID: {Invoice.Buyer.Identification}");
-                }
 
                 column.Item().Text(" ");
 
-
+                // Items
                 foreach (var item in Invoice.InvoiceItems)
                 {
-                    column.Item().Text($"{item.Item.Name}");
+                    column.Item().Text(item.Item.Name);
 
-                    // Show qty x base price = total price
                     column.Item().Row(row =>
                     {
                         row.RelativeItem().Text($"{item.Qty} x {item.BasePrice:N2}");
                         row.ConstantItem(80).AlignRight().Text($"{item.TotalPrice:N2}");
                     });
 
-                    // Show tax lines for this item
+                    // Tax lines
                     foreach (var tax in item.Item.ItemTaxes)
                     {
                         var calculatedTaxAmount = item.Qty * item.BasePrice * tax.Tax.Amount / 100;
-
                         if (calculatedTaxAmount > 0)
                         {
                             column.Item().Row(row =>
                             {
-                                row.RelativeItem().Text(""); // empty left side
-                                row.ConstantItem(80).AlignRight().Text($"{tax.Tax.Name}: {calculatedTaxAmount:N2}")
-                                    .FontSize(8)
-                                    .FontColor(Colors.Grey.Darken2);
+                                row.RelativeItem().Text("");
+                                row.ConstantItem(80)
+                                   .AlignRight()
+                                   .Text($"{tax.Tax.Name}: {calculatedTaxAmount:N2}")
+                                   .FontSize(8)
+                                   .FontColor(Colors.Grey.Darken2);
                             });
                         }
                     }
                 }
 
+                // Totals
                 column.Item().Text(" ");
                 column.Item().Text($"SUBTOTAL: {Invoice.TotalAmount:N2}").AlignRight();
 
@@ -118,7 +138,9 @@ namespace BackEnd.DTOs
 
                 foreach (var tax in taxSummary)
                 {
-                    column.Item().Text($"{tax.Key} ({tax.Value.Percentage:N0}%): {tax.Value.Amount:N2}").AlignRight();
+                    column.Item()
+                          .Text($"{tax.Key} ({tax.Value.Percentage:N0}%): {tax.Value.Amount:N2}")
+                          .AlignRight();
                 }
 
                 column.Item().Text($"IMPUESTOS: {Invoice.TotalTaxes:N2}").AlignRight();
@@ -130,7 +152,9 @@ namespace BackEnd.DTOs
                 {
                     var subTotalWithTaxes = Invoice.TotalAmount + Invoice.TotalTaxes + (Invoice.Shipping ?? 0);
                     var discountAmount = subTotalWithTaxes * Invoice.Discount.Value / 100;
-                    column.Item().Text($"DESCUENTO ({Invoice.Discount.Value:N0}%): -{discountAmount:N2}").AlignRight();
+                    column.Item()
+                          .Text($"DESCUENTO ({Invoice.Discount.Value:N0}%): -{discountAmount:N2}")
+                          .AlignRight();
                 }
 
                 column.Item().Text($"TOTAL: {Invoice.TotalPrice:N2}").SemiBold().AlignRight();
