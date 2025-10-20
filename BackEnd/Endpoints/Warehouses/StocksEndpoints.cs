@@ -17,6 +17,9 @@ namespace BackEnd.Endpoints
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("stocks-get"))
                 .AddPaginationParamsOpenAPI();
+            group.MapPost("/stocks-range", GetAllByWarehousesIds).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("stocks-get"))
+                .AddPaginationParamsOpenAPI();
+            group.MapPost("/stocks-report", GenerateReportPdf).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("stocks-get"));
             group.MapGet("/{id:long}", GetById);
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateStockDTO>>()
@@ -63,6 +66,28 @@ namespace BackEnd.Endpoints
             var command = new UpdateStockCommand(id, dto);
             var success = await mediator.Send(command, default);
             return success ? TypedResults.Ok() : TypedResults.NotFound();
+        }
+
+        static async Task<Results<FileContentHttpResult, NotFound>> GenerateReportPdf(
+            [FromBody] List<long> warehouseIds,
+            [FromServices] IMediator mediator)
+        {
+            var query = new GetStockReportPdfQuery(warehouseIds);
+            var result = await mediator.Send(query);
+
+            return result == null
+                ? TypedResults.NotFound()
+                : TypedResults.File(result.Value.FileBytes, "application/pdf", result.Value.FileName);
+        }
+
+        static async Task<Ok<List<StockListDTO>>> GetAllByWarehousesIds(
+            [FromBody] List<long> warehouseIds,
+            [FromServices] IMediator mediator,
+            PaginationDTO pagination)
+        {
+            var query = new GetAllStocksByWarehouseIdsQuery(warehouseIds, pagination);
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
         }
     }
 }

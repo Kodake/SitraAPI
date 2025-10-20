@@ -1,3 +1,4 @@
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\win-x86\PubTmp\Out\Resources\logo-black.png
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\win-x86\PubTmp\Out\BackEnd.exe
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\win-x86\PubTmp\Out\testhost.x86.exe
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\win-x86\PubTmp\Out\testhost.x86.dll
@@ -355,6 +356,8 @@ C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\win-x86\PubTmp\Out\asp
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\win-x86\PubTmp\Out\AutoMapper.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\win-x86\PubTmp\Out\Azure.Core.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\win-x86\PubTmp\Out\Azure.Identity.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\win-x86\PubTmp\Out\Azure.Storage.Blobs.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\win-x86\PubTmp\Out\Azure.Storage.Common.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\win-x86\PubTmp\Out\Castle.Core.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\win-x86\PubTmp\Out\CsvHelper.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\win-x86\PubTmp\Out\FluentValidation.dll
@@ -426,6 +429,7 @@ C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\win-x86\PubTmp\Out\Sys
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\win-x86\PubTmp\Out\System.Diagnostics.PerformanceCounter.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\win-x86\PubTmp\Out\System.Drawing.Common.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\win-x86\PubTmp\Out\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\win-x86\PubTmp\Out\System.IO.Hashing.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\win-x86\PubTmp\Out\System.Memory.Data.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\win-x86\PubTmp\Out\System.Runtime.Caching.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\win-x86\PubTmp\Out\System.Security.Cryptography.ProtectedData.dll

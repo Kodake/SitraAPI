@@ -47,7 +47,6 @@ namespace BackEnd.DTOs
                         column.Item().Scale(fontWeight).Text($"SUPLIDOR: {Invoice.Buyer.Name}");
                 });
 
-                // Right section: logo + invoice metadata
                 row.RelativeItem().Border(1).Column(column =>
                 {
                     var padding = 3;
@@ -57,11 +56,10 @@ namespace BackEnd.DTOs
                     {
                         if (File.Exists(logoPath))
                         {
-                            // ✅ Safe, size-limited, and layout-friendly
                             column.Item()
                                   .AlignCenter()
-                                  .MaxHeight(1.8f, Unit.Centimetre)   // Slightly smaller to fit header neatly
-                                  .Width(100)                         // ~1.3 inch width
+                                  .MaxHeight(1.8f, Unit.Centimetre)
+                                  .Width(100)
                                   .Image(logoPath)
                                   .FitWidth();
 
@@ -69,7 +67,6 @@ namespace BackEnd.DTOs
                         }
                         else
                         {
-                            // Fallback if file not found
                             column.Item()
                                   .AlignCenter()
                                   .Text("LOGO NO DISPONIBLE")
@@ -79,14 +76,12 @@ namespace BackEnd.DTOs
                     }
                     catch (Exception ex)
                     {
-                        // Prevent QuestPDF from throwing (fixes 500 error)
                         column.Item()
                               .AlignCenter()
                               .Text("ERROR AL CARGAR LOGO")
                               .FontSize(8)
                               .Italic();
 
-                        // Optional for local debugging
                         Console.WriteLine($"[InvoiceDocumentDTO] Error loading logo: {ex.Message}");
                     }
 

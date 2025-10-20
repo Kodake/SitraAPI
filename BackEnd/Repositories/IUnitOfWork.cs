@@ -46,6 +46,7 @@ namespace BackEnd.Repositories
         IPettyCashRepository PettyCashRepository { get; }
         IPettyCashMovementRepository PettyCashMovementRepository { get; }
         IUserService UserService { get; }
+        IFileStorageService FileStorageService { get; }
         Task<int> SaveChangesAsync();
     }
 }

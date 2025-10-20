@@ -11,13 +11,13 @@ using BackEnd.Repositories.Products;
 using BackEnd.Repositories.Warehouses;
 using BackEnd.Services;
 using Microsoft.AspNetCore.Identity;
-
 namespace BackEnd.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IConfiguration _configuration;
         private readonly Dictionary<Type, object> _repositories = new();
 
         public IPayableRepository PayableRepository { get; }
@@ -53,11 +53,13 @@ namespace BackEnd.Repositories
         public IPettyCashRepository PettyCashRepository { get; }
         public IPettyCashMovementRepository PettyCashMovementRepository { get; }
         public IUserService UserService { get; }
+        public IFileStorageService FileStorageService { get; }
 
         public UnitOfWork(
             ApplicationDbContext context,
             IHttpContextAccessor httpContextAccessor,
-            UserManager<User> userManager)
+            UserManager<User> userManager,
+            IConfiguration configuration)
         {
             PayableRepository = new PayableRepository(context, httpContextAccessor);
             ReceivableRepository = new ReceivableRepository(context, httpContextAccessor);
@@ -92,8 +94,11 @@ namespace BackEnd.Repositories
             PettyCashRepository = new PettyCashRepository(context, httpContextAccessor);
             PettyCashMovementRepository = new PettyCashMovementRepository(context, httpContextAccessor);
             UserService = new UserService(context, httpContextAccessor, userManager);
+            FileStorageService = new AzureFileService(configuration);
+
             _context = context;
             _httpContextAccessor = httpContextAccessor;
+            _configuration = configuration;
         }
 
         public IRepositoryBase<T> Repository<T>() where T : class

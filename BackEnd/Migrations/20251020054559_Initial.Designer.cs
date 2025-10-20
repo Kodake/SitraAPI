@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackEnd.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251008042958_Initial")]
+    [Migration("20251020054559_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -951,6 +951,10 @@ namespace BackEnd.Migrations
                     b.Property<string>("Description")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("ImageUrl")
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");

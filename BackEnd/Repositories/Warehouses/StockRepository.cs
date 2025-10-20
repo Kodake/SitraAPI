@@ -2,6 +2,7 @@
 using BackEnd.DTOs;
 using BackEnd.Entities.Warehouses;
 using BackEnd.Helpers;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 
 namespace BackEnd.Repositories.Warehouses
@@ -27,6 +28,32 @@ namespace BackEnd.Repositories.Warehouses
             return await queryable
                 .OrderBy(x => x.Item.Name)
                 .Paginate(paginationDTO)
+                .ToListAsync();
+        }
+
+        public async Task<List<Stock>> GetAllByWarehouseIdsAsync(List<long> warehouseIds, PaginationDTO paginationDTO)
+        {
+            var queryable = context.Stocks
+                .AsQueryable()
+                .Where(s => warehouseIds.Contains(s.WarehouseId))
+                .Include(p => p.Item)
+                .Include(p => p.Warehouse);
+
+            await httpContext.AddPaginationParamsToHeaders(queryable);
+
+            return await queryable
+                .OrderBy(x => x.Item.Name)
+                .Paginate(paginationDTO)
+                .ToListAsync();
+        }
+
+        public async Task<List<Stock>> GetStockByWarehouseIdsAsync(List<long> warehouseIds)
+        {
+            return await context.Stocks
+                .Where(s => warehouseIds.Contains(s.WarehouseId))
+                .Include(p => p.Item)
+                .Include(p => p.Warehouse)
+                .AsNoTracking()
                 .ToListAsync();
         }
 

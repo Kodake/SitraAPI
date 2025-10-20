@@ -10,12 +10,18 @@ namespace BackEnd.Mediator.Commands.Products.Products
 {
     public class CreateProductCommand : CreateCommand<Item, CreateProductDTO>
     {
+        private static readonly string container = "products";
         public CreateProductCommand(CreateProductDTO dto) : base(dto) { }
 
         public override async Task<CreateProductDTO> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
         {
             var product = mapper.Map<Item>(Dto);
             product.ItemType = ItemType.Product;
+            if (Dto.ImageUrl is not null)
+            {
+                var url = await unitOfWork.FileStorageService.SaveAsync(container, Dto.ImageUrl);
+                product.ImageUrl = url;
+            }
 
             var productSaved = await unitOfWork.ProductRepository.CreateAsync(product);
 

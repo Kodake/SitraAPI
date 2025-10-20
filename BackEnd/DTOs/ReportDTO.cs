@@ -3,7 +3,6 @@ using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using System.Globalization;
-using System.IO;
 
 namespace BackEnd.DTOs
 {
@@ -44,7 +43,6 @@ namespace BackEnd.DTOs
                 {
                     if (File.Exists(logoPath))
                     {
-                        // ✅ Full-width logo (spans the top of the page)
                         column.Item()
                               .AlignCenter()
                               .Image(logoPath)
@@ -52,7 +50,6 @@ namespace BackEnd.DTOs
                     }
                     else
                     {
-                        // Fallback text when image not found
                         column.Item()
                               .AlignCenter()
                               .Text("LOGO NO DISPONIBLE")
@@ -62,7 +59,6 @@ namespace BackEnd.DTOs
                 }
                 catch (Exception ex)
                 {
-                    // Prevent any image decoding crash
                     column.Item()
                           .AlignCenter()
                           .Text("ERROR AL CARGAR LOGO")

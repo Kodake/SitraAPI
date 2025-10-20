@@ -5,6 +5,7 @@ namespace BackEnd.DTOs.Products.Services
         public string Name { get; set; } = string.Empty;
         public string? Reference { get; set; }
         public string? Description { get; set; }
+        public IFormFile? ImageUrl { get; set; }
         public double InitialCost { get; set; } = 0;
         public double BasePrice { get; set; }
         public List<int> TaxIds { get; set; } = [];

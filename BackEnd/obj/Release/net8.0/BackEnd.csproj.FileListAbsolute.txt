@@ -306,3 +306,7 @@ C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Release\net8.0\Microsoft.AI.ServerTel
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Release\net8.0\Microsoft.Extensions.Logging.ApplicationInsights.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Release\net8.0\System.Diagnostics.PerformanceCounter.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Release\net8.0\runtimes\win\lib\net6.0\System.Diagnostics.PerformanceCounter.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Release\net8.0\Resources\logo-black.png
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Release\net8.0\Azure.Storage.Blobs.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Release\net8.0\Azure.Storage.Common.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\bin\Release\net8.0\System.IO.Hashing.dll

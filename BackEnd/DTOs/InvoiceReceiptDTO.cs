@@ -2,7 +2,6 @@
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
-using System.IO;
 
 namespace BackEnd.DTOs
 {
@@ -19,7 +18,6 @@ namespace BackEnd.DTOs
         {
             container.Page(page =>
             {
-                // ✅ Fixed width (~80mm roll) with dynamic height
                 page.ContinuousSize(226.77f);
                 page.Margin(10);
                 page.DefaultTextStyle(x => x.FontSize(9).FontFamily("Arial"));
@@ -39,7 +37,6 @@ namespace BackEnd.DTOs
                 {
                     if (File.Exists(logoPath))
                     {
-                        // ✅ Safe and compact logo for receipt width
                         column.Item()
                               .AlignCenter()
                               .MaxHeight(1.5f, Unit.Centimetre)
@@ -51,7 +48,6 @@ namespace BackEnd.DTOs
                     }
                     else
                     {
-                        // Show fallback text when missing
                         column.Item()
                               .AlignCenter()
                               .Text("LOGO NO DISPONIBLE")
@@ -61,14 +57,12 @@ namespace BackEnd.DTOs
                 }
                 catch (Exception ex)
                 {
-                    // Prevent QuestPDF from breaking PDF generation
                     column.Item()
                           .AlignCenter()
                           .Text("ERROR AL CARGAR LOGO")
                           .FontSize(8)
                           .Italic();
 
-                    // Optional debug log (won’t crash)
                     Console.WriteLine($"[InvoiceReceiptDocumentDTO] Error loading logo: {ex.Message}");
                 }
 
@@ -106,7 +100,7 @@ namespace BackEnd.DTOs
                                 row.RelativeItem().Text("");
                                 row.ConstantItem(80)
                                    .AlignRight()
-                                   .Text($"{tax.Tax.Name}: {calculatedTaxAmount:N2}")
+                                   .Text($"{tax.Tax.Name} ({tax.Tax.Amount:N0}%): {calculatedTaxAmount:N2}")
                                    .FontSize(8)
                                    .FontColor(Colors.Grey.Darken2);
                             });
@@ -118,30 +112,30 @@ namespace BackEnd.DTOs
                 column.Item().Text(" ");
                 column.Item().Text($"SUBTOTAL: {Invoice.TotalAmount:N2}").AlignRight();
 
-                var taxSummary = new Dictionary<string, (double Amount, double Percentage)>();
-                foreach (var item in Invoice.InvoiceItems)
-                {
-                    foreach (var tax in item.Item.ItemTaxes)
-                    {
-                        var taxAmount = item.Qty * item.BasePrice * tax.Tax.Amount / 100;
-                        if (taxSummary.ContainsKey(tax.Tax.Name))
-                        {
-                            var current = taxSummary[tax.Tax.Name];
-                            taxSummary[tax.Tax.Name] = (current.Amount + taxAmount, tax.Tax.Amount);
-                        }
-                        else
-                        {
-                            taxSummary[tax.Tax.Name] = (taxAmount, tax.Tax.Amount);
-                        }
-                    }
-                }
+                //var taxSummary = new Dictionary<string, (double Amount, double Percentage)>();
+                //foreach (var item in Invoice.InvoiceItems)
+                //{
+                //    foreach (var tax in item.Item.ItemTaxes)
+                //    {
+                //        var taxAmount = item.Qty * item.BasePrice * tax.Tax.Amount / 100;
+                //        if (taxSummary.ContainsKey(tax.Tax.Name))
+                //        {
+                //            var current = taxSummary[tax.Tax.Name];
+                //            taxSummary[tax.Tax.Name] = (current.Amount + taxAmount, tax.Tax.Amount);
+                //        }
+                //        else
+                //        {
+                //            taxSummary[tax.Tax.Name] = (taxAmount, tax.Tax.Amount);
+                //        }
+                //    }
+                //}
 
-                foreach (var tax in taxSummary)
-                {
-                    column.Item()
-                          .Text($"{tax.Key} ({tax.Value.Percentage:N0}%): {tax.Value.Amount:N2}")
-                          .AlignRight();
-                }
+                //foreach (var tax in taxSummary)
+                //{
+                //    column.Item()
+                //          .Text($"{tax.Key} ({tax.Value.Percentage:N0}%): {tax.Value.Amount:N2}")
+                //          .AlignRight();
+                //}
 
                 column.Item().Text($"IMPUESTOS: {Invoice.TotalTaxes:N2}").AlignRight();
 

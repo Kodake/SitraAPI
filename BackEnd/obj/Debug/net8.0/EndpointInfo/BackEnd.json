@@ -4847,6 +4847,86 @@
         }
       }
     },
+    "/api/v1/stocks/stocks-range": {
+      "post": {
+        "tags": [
+          "StocksEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "recordsPerPage",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 10
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/StockListDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/stocks/stocks-report": {
+      "post": {
+        "tags": [
+          "StocksEndpoints"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
     "/api/v1/stocks/{id}": {
       "get": {
         "tags": [
@@ -6335,6 +6415,10 @@
             "type": "string",
             "nullable": true
           },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
+          },
           "initialCost": {
             "type": "number",
             "format": "double"
@@ -6653,6 +6737,11 @@
             "type": "string",
             "nullable": true
           },
+          "imageUrl": {
+            "type": "string",
+            "format": "binary",
+            "nullable": true
+          },
           "initialCost": {
             "type": "number",
             "format": "double"
@@ -6954,6 +7043,11 @@
             "type": "string",
             "nullable": true
           },
+          "imageUrl": {
+            "type": "string",
+            "format": "binary",
+            "nullable": true
+          },
           "initialCost": {
             "type": "number",
             "format": "double"
@@ -7220,6 +7314,11 @@
           },
           "description": {
             "type": "string",
+            "nullable": true
+          },
+          "imageUrl": {
+            "type": "string",
+            "format": "binary",
             "nullable": true
           },
           "initialCost": {
@@ -7837,6 +7936,10 @@
             "nullable": true
           },
           "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "imageUrl": {
             "type": "string",
             "nullable": true
           },
@@ -8644,6 +8747,10 @@
             "type": "string",
             "nullable": true
           },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
+          },
           "initialCost": {
             "type": "number",
             "format": "double"
@@ -9262,6 +9369,10 @@
             "nullable": true
           },
           "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "imageUrl": {
             "type": "string",
             "nullable": true
           },

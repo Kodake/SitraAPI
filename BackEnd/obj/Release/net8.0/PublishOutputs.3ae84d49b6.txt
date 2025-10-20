@@ -1,3 +1,4 @@
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Resources\logo-black.png
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\BackEnd.exe
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\testhost.exe
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\testhost.dll
@@ -34,12 +35,21 @@ C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\BackEnd.pdb
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\AutoMapper.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Azure.Core.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Azure.Identity.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Azure.Storage.Blobs.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Azure.Storage.Common.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Castle.Core.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\CsvHelper.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\FluentValidation.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\FluentValidation.DependencyInjectionExtensions.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\MediatR.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\MediatR.Contracts.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Microsoft.ApplicationInsights.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Microsoft.ApplicationInsights.AspNetCore.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Microsoft.AI.DependencyCollector.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Microsoft.AI.EventCounterCollector.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Microsoft.AI.WindowsServer.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Microsoft.AI.ServerTelemetryChannel.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Microsoft.AspNetCore.Cryptography.Internal.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
@@ -60,6 +70,7 @@ C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Microsoft.E
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Microsoft.Extensions.Identity.Stores.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Microsoft.Extensions.Logging.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Microsoft.Extensions.Logging.ApplicationInsights.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Microsoft.Extensions.Options.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Microsoft.Identity.Client.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Microsoft.Identity.Client.Extensions.Msal.dll
@@ -101,8 +112,10 @@ C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Swashbuckle
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\System.ClientModel.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\System.Configuration.ConfigurationManager.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\System.Diagnostics.PerformanceCounter.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\System.Drawing.Common.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\System.IO.Hashing.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\System.Memory.Data.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\System.Runtime.Caching.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\System.Security.Cryptography.ProtectedData.dll
@@ -200,6 +213,7 @@ C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\runtimes\wi
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\runtimes\win-x86\native\libstdc++-6.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\runtimes\win-x86\native\libwinpthread-1.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\runtimes\win-x86\native\qpdf.dll
+C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\runtimes\win\lib\net6.0\System.Diagnostics.PerformanceCounter.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\runtimes\win\lib\net6.0\System.Drawing.Common.dll
 C:\Users\Kodake\Desktop\PosAPI\BackEnd\obj\Release\net8.0\PubTmp\Out\runtimes\win\lib\net6.0\System.Runtime.Caching.dll

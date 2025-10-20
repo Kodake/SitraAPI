@@ -6,6 +6,7 @@
         public string? Reference { get; set; }
         public string? Barcode { get; set; }
         public string? Description { get; set; }
+        public IFormFile? ImageUrl { get; set; }
         public double InitialCost { get; set; }
         public double BasePrice { get; set; }
         public List<long> TaxIds { get; set; } = null!;

@@ -13,6 +13,7 @@ public class ProductDTO
     public string? Reference { get; set; }
     public string? Barcode { get; set; }
     public string? Description { get; set; }
+    public string? ImageUrl { get; set; }
     public double InitialCost { get; set; }
     public double BasePrice { get; set; }
     public double Percentage { get; set; }

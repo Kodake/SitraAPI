@@ -10,6 +10,7 @@ public class ServiceDTO
     public string Name { get; set; } = string.Empty;
     public string? Reference { get; set; }
     public string? Description { get; set; }
+    public string? ImageUrl { get; set; }
     public double BasePrice { get; set; }
     public double Percentage { get; set; }
     public int? CategoryId { get; set; }

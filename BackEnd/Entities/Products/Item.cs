@@ -11,6 +11,7 @@ namespace BackEnd.Entities.Products
         public string? Reference { get; set; } = string.Empty;
         public string? Barcode { get; set; } = string.Empty;
         public string? Description { get; set; }
+        public string? ImageUrl { get; set; }
         public long? BrandId { get; set; } = null!;
         public Brand? Brand { get; set; }
         public long? ModelId { get; set; } = null!;
