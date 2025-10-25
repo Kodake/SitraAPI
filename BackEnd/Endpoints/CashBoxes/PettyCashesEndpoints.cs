@@ -8,6 +8,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace BackEnd.Endpoints.CashBoxes
 {
@@ -68,15 +69,18 @@ namespace BackEnd.Endpoints.CashBoxes
             return pettyCashDTO == null ? TypedResults.NotFound() : TypedResults.Created();
         }
 
-        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(
+        static async Task<Results<FileContentHttpResult, NotFound, ValidationProblem>> Update(
             long id,
             [FromBody] CreateClosePettyCashDTO dto,
             [FromServices] IMediator mediator,
             IOutputCacheStore outputCacheStore)
         {
             var command = new UpdateClosePettyCashCommand(id, dto);
-            var success = await mediator.Send(command);
-            return success ? TypedResults.Ok() : TypedResults.NotFound();
+            var result = await mediator.Send(command);
+
+            return result == null
+                ? TypedResults.NotFound()
+                : TypedResults.File(result.Value.FileBytes, "application/pdf", result.Value.FileName);
         }
     }
 }

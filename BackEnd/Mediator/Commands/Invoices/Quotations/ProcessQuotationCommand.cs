@@ -1,7 +1,8 @@
-using AutoMapper;
+﻿using AutoMapper;
 using BackEnd.DTOs.Invoices.SaleInvoices;
 using BackEnd.Entities.Accounts;
 using BackEnd.Entities.AdministrativeTools;
+using BackEnd.Entities.CashBoxes;
 using BackEnd.Entities.Invoices;
 using BackEnd.Enums;
 using BackEnd.Repositories;
@@ -17,9 +18,25 @@ namespace BackEnd.Mediator.Commands.Invoices.Quotations
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
         {
+            var user = await unitOfWork.UserService.GetUserAsync() ?? throw new UnauthorizedAccessException("No user authenticated found.");
+            var pettyCash = await unitOfWork.PettyCashRepository.GetOpenPettyCashAsync();
+
+            if (pettyCash is not null)
+            {
+                if (pettyCash.UserId != user.Id)
+                {
+                    throw new Exception($"Cannot create invoice. The petty cash is currently opened by {pettyCash?.User.Email}. Please wait until it is closed.");
+                }
+            }
+
+            if (pettyCash == null)
+            {
+                throw new Exception("You need an opened petty cash to proceed.");
+            }
+
             // Validate DTO
             var validator = new CreateSaleInvoiceDTOValidator(unitOfWork);
-            var validationResult = await validator.ValidateAsync(Dto);
+            var validationResult = await validator.ValidateAsync(Dto, cancellationToken);
             if (!validationResult.IsValid)
             {
                 throw new ValidationException(validationResult.Errors);
@@ -31,7 +48,10 @@ namespace BackEnd.Mediator.Commands.Invoices.Quotations
                 return false;
             }
 
-            var fiscalSupportDB = await unitOfWork.FiscalSupportRepository.GetByIdAsync(Dto.FiscalSupportId);
+            var fiscalSupportDB = Dto.FiscalSupportId.HasValue
+                ? await unitOfWork.FiscalSupportRepository.GetByIdAsync(Dto.FiscalSupportId.Value)
+                : null;
+
             var currencyDB = await unitOfWork.CurrencyRepository.GetByIdAsync(Dto.CurrencyId);
 
             if (currencyDB == null)
@@ -62,7 +82,7 @@ namespace BackEnd.Mediator.Commands.Invoices.Quotations
                     var accountsReceivable = new Receivable
                     {
                         Invoice = saleInvoice,
-                        ContactId = saleInvoice.CustomerId != 0 ? saleInvoice.CustomerId : null,
+                        ContactId = saleInvoice.CustomerId,
                         TotalAmountDue = saleInvoice.TotalPrice,
                         TotalOutstanding = 0,
                         Status = AccountStatus.PendingReceivable,
@@ -75,7 +95,7 @@ namespace BackEnd.Mediator.Commands.Invoices.Quotations
                     var spotPayment = new SpotPayment
                     {
                         Invoice = saleInvoice,
-                        ContactId = saleInvoice.CustomerId != 0 ? saleInvoice.CustomerId : null,
+                        ContactId = saleInvoice.CustomerId == 0 ? null : saleInvoice.CustomerId,
                         AmountReturned = Dto.AmountReturned ?? 0,
                         PaymentDate = DateTime.UtcNow,
                         IsActive = true
@@ -93,38 +113,15 @@ namespace BackEnd.Mediator.Commands.Invoices.Quotations
 
             await AddInvoiceItems(Dto.InvoiceItems, saleInvoice, unitOfWork, mapper, currencyRate);
             await ReduceStock(Dto, unitOfWork);
+            await AddPettyCashMovement(unitOfWork, pettyCash, saleInvoice);
             await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("fiscal-supports-get", cancellationToken);
             await outputCacheStore.EvictByTagAsync("stocks-get", cancellationToken);
             await outputCacheStore.EvictByTagAsync("receivables-get", cancellationToken);
             await outputCacheStore.EvictByTagAsync("spotPayments-get", cancellationToken);
+            await outputCacheStore.EvictByTagAsync("pettyCashMovements-get", cancellationToken);
 
             return true;
-        }
-
-        private static string GenerateFiscalSupportNumber(FiscalSupport fiscalSupport)
-        {
-            string fiscalSupportName = Enum.GetName(typeof(FiscalSupportType), fiscalSupport.FiscalSupportType) ?? "Unknown";
-            char symbolChar = fiscalSupport.Symbol.Length > 0 ? fiscalSupport.Symbol[0] : '?';
-            int validSpaceNumber = (int)fiscalSupport.SpaceNumber;
-            string repeatedSymbols = new string(symbolChar, validSpaceNumber);
-            string sequence = ((int)fiscalSupport.InitialSequence).ToString().PadLeft(validSpaceNumber, symbolChar);
-            string finalSymbols = repeatedSymbols[..^validSpaceNumber] + sequence;
-
-            return $"{fiscalSupportName}{finalSymbols}";
-        }
-
-        private static async Task ReduceStock(CreateSaleInvoiceDTO dto, IUnitOfWork unitOfWork)
-        {
-            foreach (var item in dto.InvoiceItems)
-            {
-                if (item.ItemType == ItemType.Product)
-                {
-                    var stock = await unitOfWork.StockRepository.GetByItemIdAndWarehouseId(item.ItemId, dto.WarehouseId) ?? throw new InvalidOperationException($"Stock not found for ItemId {item.ItemId} in the specified warehouse.");
-                    stock.Qty -= item.Qty;
-                    unitOfWork.StockRepository.Update(stock);
-                }
-            }
         }
 
         private static async Task CalculateInvoiceTotals(
@@ -149,7 +146,7 @@ namespace BackEnd.Mediator.Commands.Invoices.Quotations
                         totalQtyItems += itemDTO.Qty;
                         totalItems += 1;
                         totalAmount += productBasePrice * itemDTO.Qty;
-                        totalTaxes += productBasePrice * productTaxAmount / 100 * itemDTO.Qty;
+                        totalTaxes += (productBasePrice * productTaxAmount / 100) * itemDTO.Qty;
                         break;
 
                     case ItemType.Service:
@@ -162,7 +159,20 @@ namespace BackEnd.Mediator.Commands.Invoices.Quotations
                         totalQtyItems += itemDTO.Qty;
                         totalItems += 1;
                         totalAmount += serviceBasePrice * itemDTO.Qty;
-                        totalTaxes += serviceBasePrice * serviceTaxAmount / 100 * itemDTO.Qty;
+                        totalTaxes += (serviceBasePrice * serviceTaxAmount / 100) * itemDTO.Qty;
+                        break;
+
+                    case ItemType.Combo:
+                        var combo = await unitOfWork.ComboRepository.GetByIdAsync(itemDTO.ItemId)
+                            ?? throw new Exception($"Combo with id {itemDTO.ItemId} not found.");
+
+                        var comboBasePrice = combo.PricingItems.First(x => x.ItemId == itemDTO.ItemId).BasePrice / currencyRate;
+                        var comboTaxAmount = combo.ItemTaxes.Sum(x => x?.Tax?.Amount) ?? 0;
+
+                        totalQtyItems += itemDTO.Qty;
+                        totalItems += 1;
+                        totalAmount += comboBasePrice * itemDTO.Qty;
+                        totalTaxes += (comboBasePrice * comboTaxAmount / 100) * itemDTO.Qty;
                         break;
 
                     default:
@@ -174,7 +184,7 @@ namespace BackEnd.Mediator.Commands.Invoices.Quotations
             saleInvoice.TotalQtyItems = totalQtyItems;
             saleInvoice.TotalItems = totalItems;
             saleInvoice.TotalPrice = saleInvoice.Discount.HasValue && saleInvoice.Discount > 0
-                ? (double)(totalPrice + (saleInvoice.Shipping ?? 0)
+                ? (double)((totalPrice + (saleInvoice.Shipping ?? 0))
                    - ((totalPrice + (saleInvoice.Shipping ?? 0)) * saleInvoice.Discount.Value / 100))
                 : totalPrice + (saleInvoice.Shipping ?? 0);
             saleInvoice.TotalAmount = totalAmount;
@@ -209,6 +219,90 @@ namespace BackEnd.Mediator.Commands.Invoices.Quotations
 
                 await unitOfWork.SaleInvoiceRepository.AddInvoiceItem(saleInvoiceItem);
             }
+        }
+
+        private static async Task ReduceStock(CreateSaleInvoiceDTO dto, IUnitOfWork unitOfWork)
+        {
+            // Diccionario para acumular restas de stock
+            var stockAdjustments = new Dictionary<long, double>(); // StockId -> cantidad a restar
+
+            foreach (var item in dto.InvoiceItems)
+            {
+                if (item.ItemType == ItemType.Product)
+                {
+                    var stock = await unitOfWork.StockRepository.GetByItemIdAndWarehouseId(item.ItemId, dto.WarehouseId)
+                                ?? throw new InvalidOperationException($"Stock not found for ItemId {item.ItemId} in the specified warehouse.");
+
+                    if (!stockAdjustments.ContainsKey(stock.Id))
+                        stockAdjustments[stock.Id] = 0;
+
+                    stockAdjustments[stock.Id] -= item.Qty;
+                }
+
+                if (item.ItemType == ItemType.Combo)
+                {
+                    var combo = await unitOfWork.ComboRepository.GetByIdAsync(item.ItemId)
+                                ?? throw new InvalidOperationException($"Combo with id {item.ItemId} not found.");
+
+                    foreach (var comboItem in combo.ComboItems)
+                    {
+                        var stock = await unitOfWork.StockRepository
+                            .GetByItemIdAndWarehouseId(comboItem.ChildItemId, dto.WarehouseId)
+                            ?? throw new InvalidOperationException($"Stock with id {comboItem.ChildItemId} not found.");
+
+                        if (!stockAdjustments.ContainsKey(stock.Id))
+                            stockAdjustments[stock.Id] = 0;
+
+                        stockAdjustments[stock.Id] -= comboItem.Qty * item.Qty;
+                    }
+                }
+            }
+
+            // 🔑 aplicar todos los cambios a los stocks en una sola pasada
+            foreach (var adjustment in stockAdjustments)
+            {
+                var stock = await unitOfWork.StockRepository.GetByIdAsync(adjustment.Key)
+                            ?? throw new InvalidOperationException($"Stock with id {adjustment.Key} not found on update.");
+
+                stock.Qty += adjustment.Value; // Value es negativo → resta
+                unitOfWork.StockRepository.Update(stock);
+            }
+        }
+
+        private async Task AddPettyCashMovement(IUnitOfWork unitOfWork, PettyCash pettyCash, Invoice invoice)
+        {
+            var movement = new PettyCashMovement
+            {
+                PettyCashId = pettyCash.Id,
+                PettyCash = pettyCash,
+                InvoiceId = invoice.Id,
+                Invoice = invoice,
+                Amount = invoice.TotalPrice,
+                Type = MovementType.Income,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            await unitOfWork.PettyCashMovementRepository.CreateAsync(movement);
+
+            var cashPaymentsTotal = Dto.Payments
+                .Where(x => x.PaymentId == PaymentMethod.Cash)
+                .Sum(x => x.Amount);
+
+            pettyCash.ClosingAmount += cashPaymentsTotal;
+
+            unitOfWork.PettyCashRepository.Update(pettyCash);
+        }
+
+        private static string GenerateFiscalSupportNumber(FiscalSupport fiscalSupport)
+        {
+            string fiscalSupportName = Enum.GetName(typeof(FiscalSupportType), fiscalSupport.FiscalSupportType) ?? "Unknown";
+            char symbolChar = fiscalSupport.Symbol.Length > 0 ? fiscalSupport.Symbol[0] : '?';
+            int validSpaceNumber = (int)fiscalSupport.SpaceNumber;
+            string repeatedSymbols = new(symbolChar, validSpaceNumber);
+            string sequence = ((int)fiscalSupport.InitialSequence).ToString().PadLeft(validSpaceNumber, symbolChar);
+            string finalSymbols = repeatedSymbols[..^validSpaceNumber] + sequence;
+
+            return $"{fiscalSupportName}{finalSymbols}";
         }
 
         private static async Task<(double basePrice, double taxAmount)> GetItemPricingAndTax(

@@ -11,7 +11,9 @@ namespace BackEnd.Mediator.Handlers.CashBoxes
         {
             services.AddTransient<IRequestHandler<GetPettyCashByUserIdQuery, PettyCashDTO?>, QueryHandler<GetPettyCashByUserIdQuery, PettyCashDTO?>>();
             services.AddTransient<IRequestHandler<CreateOpenPettyCashCommand, CreateOpenPettyCashDTO>, CreateCommandHandler<Entities.CashBoxes.PettyCash, CreateOpenPettyCashDTO>>();
-            services.AddTransient<IRequestHandler<UpdateClosePettyCashCommand, bool>, UpdateCommandHandler<Entities.CashBoxes.PettyCash, CreateClosePettyCashDTO>>();
+            services.AddTransient<
+                IRequestHandler<UpdateClosePettyCashCommand, (byte[] FileBytes, string FileName)?>,
+                UpdateFileCommandHandler<Entities.CashBoxes.PettyCash, CreateClosePettyCashDTO>>();
             services.AddTransient<IRequestHandler<GetAllPettyCashMovementsByIdQuery, List<PettyCashMovementListDTO>>, QueryHandler<GetAllPettyCashMovementsByIdQuery, List<PettyCashMovementListDTO>>>();
             services.AddTransient<IRequestHandler<GetAllPaymentMethodSummaryByIdQuery, List<PaymentMethodAmountListDTO>>, QueryHandler<GetAllPaymentMethodSummaryByIdQuery, List<PaymentMethodAmountListDTO>>>();
 
