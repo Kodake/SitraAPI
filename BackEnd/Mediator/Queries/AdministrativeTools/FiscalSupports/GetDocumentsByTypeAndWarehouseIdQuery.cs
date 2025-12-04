@@ -5,18 +5,18 @@ using BackEnd.Repositories;
 
 namespace BackEnd.Mediator.Queries.Products.Items
 {
-    public class GetDocumentsByTypeIdAndWarehouseIdQuery(FiscalSupportType supportType, long warehouseId) : IQuery<List<FiscalSupportDTO>>
+    public class GetDocumentsByTypeIdAndWarehouseIdQuery(FiscalSupportType supportType, long warehouseId) : IQuery<FiscalSupportDTO>
     {
         public FiscalSupportType SupportType { get; } = supportType;
         public long WarehouseId { get; } = warehouseId;
 
-        public async Task<List<FiscalSupportDTO>> GetData(
+        public async Task<FiscalSupportDTO?> GetData(
             IUnitOfWork unitOfWork,
             IMapper mapper,
             CancellationToken cancellationToken)
         {
-            var documents = await unitOfWork.FiscalSupportRepository.GetByDocumentTypeAndWarehouseId(SupportType, WarehouseId);
-            var documentsDTO = mapper.Map<List<FiscalSupportDTO>>(documents);
+            var documents = await unitOfWork.FiscalSupportRepository.GetByDocumentTypeAndWarehouseIdAsync(SupportType, WarehouseId);
+            var documentsDTO = mapper.Map<FiscalSupportDTO>(documents);
             return documentsDTO;
         }
     }

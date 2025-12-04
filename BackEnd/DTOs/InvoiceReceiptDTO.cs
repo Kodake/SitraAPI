@@ -70,6 +70,7 @@ namespace BackEnd.DTOs
                 column.Item().AlignCenter().Text("FACTURA DE CONSUMO").SemiBold();
                 column.Item().Text(" ");
                 column.Item().Text($"NÚMERO: {Invoice.Id}");
+                column.Item().Text($"COMPROBANTE FISCAL: {Invoice.FiscalSupportNumber?.Trim() ?? "N/A"}");
                 column.Item().Text($"FECHA: {Invoice.Date:dd-MM-yyyy}");
                 column.Item().Text($"CLIENTE: {Invoice.Buyer?.Name ?? "N/A"}");
 

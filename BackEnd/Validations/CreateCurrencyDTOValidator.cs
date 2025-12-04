@@ -27,7 +27,7 @@ namespace BackEnd.Validations
             {
                 var exists = await repository.Exists(id, code);
                 return !exists;
-            }).WithMessage(x => string.Format(Utilities.NameAlreadyExistsWith, x.Name));
+            }).WithMessage(x => string.Format(Utilities.CodeAlreadyExistsWith, x.Name));
 
             RuleFor(x => x.Code)
             .NotEmpty().WithMessage(Utilities.RequiredFieldMessage)

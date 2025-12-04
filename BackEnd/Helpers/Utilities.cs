@@ -1,4 +1,6 @@
-﻿namespace BackEnd.Helpers
+﻿using BackEnd.Enums;
+
+namespace BackEnd.Helpers
 {
     public class Utilities
     {
@@ -10,6 +12,7 @@
         public static string GreatherThanZero = "El campo {PropertyName} debe ser mayor a {0}";
         public static string GreaterThanOrEqualToZero = "El campo {PropertyName} debe ser mayor o igual a {0}";
         public static string NameAlreadyExistsWith = "Ya existe con el nombre {0}";
+        public static string CodeAlreadyExistsWith = "Ya existe con el código {0}";
         public static string NotExistsWith = "No existe {PropertyName} con el valor {0}";
         public static string InvalidEnumValueMessage = "El campo {PropertyName} tiene un valor inválido";
         public static string RequiredFieldForConditionMessage = "El campo {PropertyName} es obligatorio cuando {0} es {1}";
@@ -58,6 +61,11 @@
             {
                 return totalAmount + totalTaxes;
             }
+        }
+
+        public static string FiscalSupportAlreadyExistsMessage(FiscalSupportType supportType, long warehouseId)
+        {
+            return $"Ya existe un comprobante del tipo {supportType} para el almacén {warehouseId}";
         }
     }
 }

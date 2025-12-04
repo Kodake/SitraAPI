@@ -57,17 +57,26 @@ namespace BackEnd.Repositories.AdministrativeTools
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<List<FiscalSupport>> GetByDocumentTypeAndWarehouseId(FiscalSupportType supportType, long warehouseId)
+        public async Task<FiscalSupport?> GetByDocumentTypeAndWarehouseIdAsync(
+            FiscalSupportType supportType,
+            long warehouseId)
         {
             return await context.FiscalSupports
-                .Include(x => x.Warehouse)
-                .Where(x => x.FiscalSupportType == supportType && x.WarehouseId == warehouseId)
-                .ToListAsync();
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x =>
+                    x.FiscalSupportType == supportType &&
+                    x.WarehouseId == warehouseId);
         }
 
         public async Task<bool> Exists(long id, string name)
         {
             return await context.FiscalSupports.AnyAsync(x => x.Id != id && x.Name == name);
+        }
+
+        public async Task<FiscalSupport?> GetByTypeAndWarehouseAsync(FiscalSupportType fiscalSupportType, long warehouseId)
+        {
+            return await context.FiscalSupports
+                .FirstOrDefaultAsync(x => x.FiscalSupportType == fiscalSupportType && x.WarehouseId == warehouseId);
         }
     }
 }

@@ -60,7 +60,7 @@ namespace BackEnd.Endpoints
             return result is null ? TypedResults.NotFound() : TypedResults.Ok(result);
         }
 
-        static async Task<Ok<List<FiscalSupportDTO>>> GetByDocumentTypeAndWarehouseId(
+        static async Task<Ok<FiscalSupportDTO>> GetByDocumentTypeAndWarehouseId(
             [FromServices] IMediator mediator,
             [FromRoute] FiscalSupportType supportType, long warehouseId)
         {
