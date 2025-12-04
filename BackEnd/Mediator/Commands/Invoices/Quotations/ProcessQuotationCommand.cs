@@ -12,11 +12,9 @@ using Microsoft.AspNetCore.OutputCaching;
 
 namespace BackEnd.Mediator.Commands.Invoices.Quotations
 {
-    public class ProcessQuotationCommand : UpdateCommand<Quotation, CreateSaleInvoiceDTO>
+    public class ProcessQuotationCommand(long id, CreateSaleInvoiceDTO dto) : ProcessCommand<Quotation, CreateSaleInvoiceDTO>(id, dto)
     {
-        public ProcessQuotationCommand(long id, CreateSaleInvoiceDTO dto) : base(id, dto) { }
-
-        public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
+        public override async Task<CreateSaleInvoiceDTO> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
         {
             var user = await unitOfWork.UserService.GetUserAsync() ?? throw new UnauthorizedAccessException("No user authenticated found.");
             var pettyCash = await unitOfWork.PettyCashRepository.GetOpenPettyCashAsync();
@@ -42,11 +40,7 @@ namespace BackEnd.Mediator.Commands.Invoices.Quotations
                 throw new ValidationException(validationResult.Errors);
             }
 
-            var quotation = await unitOfWork.QuotationRepository.GetByIdAsync(Id);
-            if (quotation == null)
-            {
-                return false;
-            }
+            var quotation = await unitOfWork.QuotationRepository.GetByIdAsync(Id) ?? throw new ValidationException("Quotation not found.");
 
             var fiscalSupportDB = Dto.FiscalSupportId.HasValue
                 ? await unitOfWork.FiscalSupportRepository.GetByIdAsync(Dto.FiscalSupportId.Value)
@@ -120,8 +114,9 @@ namespace BackEnd.Mediator.Commands.Invoices.Quotations
             await outputCacheStore.EvictByTagAsync("receivables-get", cancellationToken);
             await outputCacheStore.EvictByTagAsync("spotPayments-get", cancellationToken);
             await outputCacheStore.EvictByTagAsync("pettyCashMovements-get", cancellationToken);
+            Dto.Id = saleInvoice.Id;
 
-            return true;
+            return Dto;
         }
 
         private static async Task CalculateInvoiceTotals(

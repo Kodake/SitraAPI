@@ -3079,9 +3079,11 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
+        "Type": "BackEnd.DTOs.Invoices.SaleInvoices.CreateSaleInvoiceDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 201
       },
       {
         "Type": "System.Void",

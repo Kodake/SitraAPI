@@ -3,6 +3,7 @@ using BackEnd.DTOs.Invoices.Quotations;
 using BackEnd.DTOs.Invoices.SaleInvoices;
 using BackEnd.Helpers;
 using BackEnd.Mediator.Commands.Invoices.Quotations;
+using BackEnd.Mediator.Commands.Invoices.SaleInvoices;
 using BackEnd.Mediator.Queries.Invoices.Quotations;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -64,15 +65,18 @@ namespace BackEnd.Endpoints.Invoices
             return success ? TypedResults.Ok() : TypedResults.NotFound();
         }
 
-        static async Task<Results<Ok, NotFound, ValidationProblem>> Process(
+        static async Task<Results<Created<CreateSaleInvoiceDTO>, NotFound, ValidationProblem>> Process(
             [FromRoute] long id,
             [FromBody] CreateSaleInvoiceDTO dto,
             [FromServices] IMediator mediator,
             IOutputCacheStore outputCacheStore)
         {
-            var command = new ProcessQuotationCommand(id, dto);
-            var success = await mediator.Send(command);
-            return success ? TypedResults.Ok() : TypedResults.NotFound();
+            var command = new CreateSaleInvoiceCommand(dto);
+            var saleDTO = await mediator.Send(command);
+
+            return saleDTO == null
+                ? TypedResults.NotFound()
+                : TypedResults.Created(string.Empty, saleDTO);
         }
 
         static async Task<Results<FileContentHttpResult, NotFound>> GeneratePdf(
