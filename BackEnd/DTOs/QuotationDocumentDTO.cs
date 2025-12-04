@@ -53,34 +53,57 @@ namespace BackEnd.DTOs
                         column.Item().Scale(fontWeight).Text("NOMBRE / RAZÓN SOCIAL: N/A");
                     }
 
-                    column.Item().Scale(fontWeight).Text($"FECHA: {Invoice.Date.ToString("dd-MM-yyyy")}");
+                    column.Item().Scale(fontWeight).Text($"FECHA: {Invoice.Date:dd-MM-yyyy}");
 
                     if (Invoice.Biller != null && !string.IsNullOrEmpty(Invoice.Biller.Name))
-                    {
                         column.Item().Scale(fontWeight).Text($"VENDEDOR: {Invoice.Biller.Name}");
-                    }
                     else
-                    {
                         column.Item().Scale(fontWeight).Text("VENDEDOR: N/A");
-                    }
                 });
 
                 row.RelativeItem().Border(1).Column(column =>
                 {
                     var padding = 5;
-                    var assembly = Assembly.GetExecutingAssembly();
-                    var resourcePath = "BackEnd.Resources.logo-black.png";
+                    var logoPath = Path.Combine(AppContext.BaseDirectory, "Resources", "logo-black.png");
 
-                    var stream = assembly.GetManifestResourceStream(resourcePath);
-
-                    if (stream != null)
+                    try
                     {
-                        column.Item().Height(2, Unit.Centimetre).Image(stream);
+                        if (File.Exists(logoPath))
+                        {
+                            column.Item()
+                                  .AlignCenter()
+                                  .MaxHeight(1.8f, Unit.Centimetre)
+                                  .Width(100)
+                                  .Image(logoPath)
+                                  .FitWidth();
+
+                            column.Item().Text(" ");
+                        }
+                        else
+                        {
+                            column.Item()
+                                  .AlignCenter()
+                                  .Text("LOGO NO DISPONIBLE")
+                                  .FontSize(8)
+                                  .Italic();
+                        }
                     }
+                    catch (Exception ex)
+                    {
+                        column.Item()
+                              .AlignCenter()
+                              .Text("ERROR AL CARGAR LOGO")
+                              .FontSize(8)
+                              .Italic();
+
+                        Console.WriteLine($"[QuotationDocumentDTO] Error loading logo: {ex.Message}");
+                    }
+
                     column.Item().BorderBottom(1).Padding(padding).Text("COTIZACIÓN").SemiBold();
 
                     column.Item().Padding(padding).Text("NÚMERO DE COTIZACIÓN").SemiBold();
-                    column.Item().Padding(padding).Text(Invoice?.Quotation?.QuotationNumber).SemiBold();
+                    column.Item().Padding(padding).Text(Invoice?.Quotation?.QuotationNumber ?? "N/A").SemiBold();
+
                     column.Item().Text("");
 
                     if (Invoice != null && Invoice.DueDate.HasValue)
