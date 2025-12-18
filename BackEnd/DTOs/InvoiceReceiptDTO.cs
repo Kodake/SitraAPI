@@ -155,6 +155,10 @@ namespace BackEnd.DTOs
                 column.Item().Text($"TOTAL: {Invoice.TotalPrice:N2}").SemiBold().AlignRight();
 
                 column.Item().Text(" ");
+                column.Item().Text(" ");
+                column.Item().AlignCenter().Text($"{Invoice.Description}").Italic();
+                column.Item().Text(" ");
+                column.Item().Text(" ");
                 column.Item().AlignCenter().Text("¡Gracias por su compra!").Italic();
             });
         }
