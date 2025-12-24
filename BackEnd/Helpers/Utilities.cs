@@ -20,8 +20,9 @@ namespace BackEnd.Helpers
         public static string IdNotExistMessage = "El Id {0} no existe. Favor, verifique y vuelva a intentarlo";
         public static string ReceiptAlreadyPaidMessage = "El recibo asociado ya ha sido pagado. No se pueden realizar más pagos";
         public static string WithdrawnAmountWontBeGreatherThanAvailableCash = "The withdrawn amount cannot be greater than the available cash";
-        public static string MinItemsRequired = "At least 2 itemIds are required"; // Nuevo
-        public static string EachItemMustBeGreatherThanZero = "Each itemId must be greater than 0"; // Nuevo
+        public static string MinItemsRequired = "At least 2 itemIds are required";
+        public static string EachItemMustBeGreatherThanZero = "Each itemId must be greater than 0";
+        public static string RucFieldMessage = "RUC must contain exactly 9 or 11 digits";
 
         public static string GreaterThanOrEqualToMensaje(DateTime minDate)
         {

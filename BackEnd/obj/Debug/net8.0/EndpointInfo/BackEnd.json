@@ -7203,6 +7203,14 @@
       "CreateRegistrationUserDTO": {
         "type": "object",
         "properties": {
+          "rucNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "companyName": {
+            "type": "string",
+            "nullable": true
+          },
           "firstName": {
             "type": "string",
             "nullable": true

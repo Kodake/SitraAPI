@@ -19,13 +19,20 @@ namespace BackEnd.Validations
 
             RuleFor(x => x.FirstName)
                 .MinimumLength(2).WithMessage(Utilities.MinimunLengthMessage)
-                .MaximumLength(50).WithMessage(Utilities.MaximunLengthMessage)
-                .When(x => !string.IsNullOrWhiteSpace(x.FirstName));
+                .MaximumLength(50).WithMessage(Utilities.MaximunLengthMessage);
 
             RuleFor(x => x.LastName)
                 .MinimumLength(2).WithMessage(Utilities.MinimunLengthMessage)
-                .MaximumLength(50).WithMessage(Utilities.MaximunLengthMessage)
-                .When(x => !string.IsNullOrWhiteSpace(x.LastName));
+                .MaximumLength(50).WithMessage(Utilities.MaximunLengthMessage);
+
+            RuleFor(x => x.CompanyName)
+                .NotEmpty().WithMessage(Utilities.RequiredFieldMessage)
+                .MaximumLength(100).WithMessage(Utilities.MaximunLengthMessage);
+
+            RuleFor(x => x.RucNumber)
+                .NotEmpty().WithMessage(Utilities.RequiredFieldMessage)
+                .Matches(@"^\d{9}(\d{2})?$")
+                .WithMessage(Utilities.RucFieldMessage);
         }
     }
 }

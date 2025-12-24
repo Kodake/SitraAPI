@@ -8,6 +8,8 @@ namespace BackEnd.Context.Auths
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
+            builder.Property(p => p.CompanyName).HasMaxLength(100);
+            builder.Property(p => p.RucNumber).HasMaxLength(11);
             builder.Property(p => p.FirstName).HasMaxLength(50);
             builder.Property(p => p.LastName).HasMaxLength(50);
             builder.Property(p => p.TenantId).HasMaxLength(50).IsRequired(false);
