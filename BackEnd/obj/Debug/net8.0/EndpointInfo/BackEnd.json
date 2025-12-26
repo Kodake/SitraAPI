@@ -7211,11 +7211,11 @@
             "type": "string",
             "nullable": true
           },
-          "firstName": {
+          "address": {
             "type": "string",
             "nullable": true
           },
-          "lastName": {
+          "phoneNumber": {
             "type": "string",
             "nullable": true
           },

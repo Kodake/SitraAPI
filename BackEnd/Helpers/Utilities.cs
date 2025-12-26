@@ -23,6 +23,7 @@ namespace BackEnd.Helpers
         public static string MinItemsRequired = "At least 2 itemIds are required";
         public static string EachItemMustBeGreatherThanZero = "Each itemId must be greater than 0";
         public static string RucFieldMessage = "RUC must contain exactly 9 or 11 digits";
+        public static string PhoneNumberFieldMessage = "Phone number must contain exactly 10 digits";
 
         public static string GreaterThanOrEqualToMensaje(DateTime minDate)
         {

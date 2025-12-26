@@ -17,13 +17,15 @@ namespace BackEnd.Validations
                 _ = int.TryParse(valorString, out id);
             }
 
-            RuleFor(x => x.FirstName)
+            RuleFor(x => x.Address)
                 .MinimumLength(2).WithMessage(Utilities.MinimunLengthMessage)
-                .MaximumLength(50).WithMessage(Utilities.MaximunLengthMessage);
+                .MaximumLength(100).WithMessage(Utilities.MaximunLengthMessage);
 
-            RuleFor(x => x.LastName)
-                .MinimumLength(2).WithMessage(Utilities.MinimunLengthMessage)
-                .MaximumLength(50).WithMessage(Utilities.MaximunLengthMessage);
+            RuleFor(x => x.PhoneNumber)
+                .NotEmpty()
+                    .WithMessage(Utilities.RequiredFieldMessage)
+                .Matches(@"^\d{10}$")
+                    .WithMessage(Utilities.PhoneNumberFieldMessage);
 
             RuleFor(x => x.CompanyName)
                 .NotEmpty().WithMessage(Utilities.RequiredFieldMessage)
