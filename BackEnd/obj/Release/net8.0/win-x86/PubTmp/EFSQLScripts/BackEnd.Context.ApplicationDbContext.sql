@@ -13,7 +13,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     IF SCHEMA_ID(N'identity') IS NULL EXEC(N'CREATE SCHEMA [identity];');
@@ -22,7 +22,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[AspNetRoles] (
@@ -37,13 +37,14 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[AspNetUsers] (
         [Id] nvarchar(450) NOT NULL,
-        [FirstName] nvarchar(50) NULL,
-        [LastName] nvarchar(50) NULL,
+        [CompanyName] nvarchar(100) NOT NULL,
+        [RucNumber] nvarchar(11) NOT NULL,
+        [Address] nvarchar(100) NOT NULL,
         [TenantId] nvarchar(50) NULL,
         [UserName] nvarchar(256) NULL,
         [NormalizedUserName] nvarchar(256) NULL,
@@ -53,7 +54,7 @@ BEGIN
         [PasswordHash] nvarchar(max) NULL,
         [SecurityStamp] nvarchar(max) NULL,
         [ConcurrencyStamp] nvarchar(max) NULL,
-        [PhoneNumber] nvarchar(max) NULL,
+        [PhoneNumber] nvarchar(10) NULL,
         [PhoneNumberConfirmed] bit NOT NULL,
         [TwoFactorEnabled] bit NOT NULL,
         [LockoutEnd] datetimeoffset NULL,
@@ -66,7 +67,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[Brands] (
@@ -83,7 +84,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[Categories] (
@@ -100,7 +101,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[Contacts] (
@@ -124,7 +125,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[Currencies] (
@@ -143,7 +144,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[Deadlines] (
@@ -160,7 +161,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[Expenses] (
@@ -178,7 +179,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[Pricings] (
@@ -195,7 +196,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[Taxes] (
@@ -212,7 +213,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[Units] (
@@ -229,7 +230,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[Warehouses] (
@@ -251,7 +252,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[AspNetRoleClaims] (
@@ -267,7 +268,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[AspNetUserClaims] (
@@ -283,7 +284,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[AspNetUserLogins] (
@@ -299,7 +300,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[AspNetUserRoles] (
@@ -314,7 +315,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[AspNetUserTokens] (
@@ -330,7 +331,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[PettyCashes] (
@@ -351,7 +352,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[Models] (
@@ -370,7 +371,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[SubCategories] (
@@ -389,7 +390,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[FiscalSupports] (
@@ -413,7 +414,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[Invoices] (
@@ -452,7 +453,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[Items] (
@@ -483,7 +484,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[Payables] (
@@ -504,7 +505,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[PettyCashMovements] (
@@ -523,7 +524,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[Quotations] (
@@ -542,7 +543,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[Receivables] (
@@ -563,7 +564,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[SpotPayables] (
@@ -584,7 +585,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[SpotPayments] (
@@ -605,7 +606,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[ComboItems] (
@@ -621,7 +622,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[ItemTaxes] (
@@ -638,7 +639,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[PricingItems] (
@@ -659,7 +660,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[Stocks] (
@@ -680,7 +681,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[PayableReceipts] (
@@ -700,7 +701,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[InvoiceItems] (
@@ -725,7 +726,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[PaymentReceipts] (
@@ -745,7 +746,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[Payments] (
@@ -763,7 +764,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE TABLE [identity].[Transfers] (
@@ -788,7 +789,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_AspNetRoleClaims_RoleId] ON [identity].[AspNetRoleClaims] ([RoleId]);
@@ -797,7 +798,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     EXEC(N'CREATE UNIQUE INDEX [RoleNameIndex] ON [identity].[AspNetRoles] ([NormalizedName]) WHERE [NormalizedName] IS NOT NULL');
@@ -806,7 +807,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_AspNetUserClaims_UserId] ON [identity].[AspNetUserClaims] ([UserId]);
@@ -815,7 +816,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_AspNetUserLogins_UserId] ON [identity].[AspNetUserLogins] ([UserId]);
@@ -824,7 +825,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_AspNetUserRoles_RoleId] ON [identity].[AspNetUserRoles] ([RoleId]);
@@ -833,7 +834,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [EmailIndex] ON [identity].[AspNetUsers] ([NormalizedEmail]);
@@ -842,7 +843,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     EXEC(N'CREATE UNIQUE INDEX [UserNameIndex] ON [identity].[AspNetUsers] ([NormalizedUserName]) WHERE [NormalizedUserName] IS NOT NULL');
@@ -851,7 +852,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_ComboItems_ChildItemId] ON [identity].[ComboItems] ([ChildItemId]);
@@ -860,7 +861,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_FiscalSupports_WarehouseId] ON [identity].[FiscalSupports] ([WarehouseId]);
@@ -869,7 +870,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_InvoiceItems_InvoiceId] ON [identity].[InvoiceItems] ([InvoiceId]);
@@ -878,7 +879,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_InvoiceItems_ItemId] ON [identity].[InvoiceItems] ([ItemId]);
@@ -887,7 +888,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_InvoiceItems_QuotationId] ON [identity].[InvoiceItems] ([QuotationId]);
@@ -896,7 +897,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_Invoices_BillerId] ON [identity].[Invoices] ([BillerId]);
@@ -905,7 +906,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_Invoices_CurrencyId] ON [identity].[Invoices] ([CurrencyId]);
@@ -914,7 +915,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_Invoices_CustomerId] ON [identity].[Invoices] ([CustomerId]);
@@ -923,7 +924,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_Invoices_PricingId] ON [identity].[Invoices] ([PricingId]);
@@ -932,7 +933,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_Invoices_WarehouseId] ON [identity].[Invoices] ([WarehouseId]);
@@ -941,7 +942,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_Items_BrandId] ON [identity].[Items] ([BrandId]);
@@ -950,7 +951,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_Items_CategoryId] ON [identity].[Items] ([CategoryId]);
@@ -959,7 +960,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_Items_ModelId] ON [identity].[Items] ([ModelId]);
@@ -968,7 +969,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_Items_SubCategoryId] ON [identity].[Items] ([SubCategoryId]);
@@ -977,7 +978,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_Items_UnitId] ON [identity].[Items] ([UnitId]);
@@ -986,7 +987,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_ItemTaxes_ItemId] ON [identity].[ItemTaxes] ([ItemId]);
@@ -995,7 +996,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_Models_BrandId] ON [identity].[Models] ([BrandId]);
@@ -1004,7 +1005,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_PayableReceipts_PayableId] ON [identity].[PayableReceipts] ([PayableId]);
@@ -1013,7 +1014,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_Payables_ContactId] ON [identity].[Payables] ([ContactId]);
@@ -1022,7 +1023,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE UNIQUE INDEX [IX_Payables_InvoiceId] ON [identity].[Payables] ([InvoiceId]);
@@ -1031,7 +1032,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_PaymentReceipts_ReceivableId] ON [identity].[PaymentReceipts] ([ReceivableId]);
@@ -1040,7 +1041,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_Payments_SpotPaymentId] ON [identity].[Payments] ([SpotPaymentId]);
@@ -1049,7 +1050,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_PettyCashes_UserId] ON [identity].[PettyCashes] ([UserId]);
@@ -1058,7 +1059,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_PettyCashMovements_InvoiceId] ON [identity].[PettyCashMovements] ([InvoiceId]);
@@ -1067,7 +1068,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_PettyCashMovements_PettyCashId] ON [identity].[PettyCashMovements] ([PettyCashId]);
@@ -1076,7 +1077,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_PricingItems_ItemId] ON [identity].[PricingItems] ([ItemId]);
@@ -1085,7 +1086,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_PricingItems_PricingId] ON [identity].[PricingItems] ([PricingId]);
@@ -1094,7 +1095,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_Quotations_ContactId] ON [identity].[Quotations] ([ContactId]);
@@ -1103,7 +1104,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     EXEC(N'CREATE UNIQUE INDEX [IX_Quotations_InvoiceId] ON [identity].[Quotations] ([InvoiceId]) WHERE [InvoiceId] IS NOT NULL');
@@ -1112,7 +1113,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_Receivables_ContactId] ON [identity].[Receivables] ([ContactId]);
@@ -1121,7 +1122,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     EXEC(N'CREATE UNIQUE INDEX [IX_Receivables_InvoiceId] ON [identity].[Receivables] ([InvoiceId]) WHERE [InvoiceId] IS NOT NULL');
@@ -1130,7 +1131,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_SpotPayables_ContactId] ON [identity].[SpotPayables] ([ContactId]);
@@ -1139,7 +1140,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     EXEC(N'CREATE UNIQUE INDEX [IX_SpotPayables_InvoiceId] ON [identity].[SpotPayables] ([InvoiceId]) WHERE [InvoiceId] IS NOT NULL');
@@ -1148,7 +1149,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_SpotPayments_ContactId] ON [identity].[SpotPayments] ([ContactId]);
@@ -1157,7 +1158,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE UNIQUE INDEX [IX_SpotPayments_InvoiceId] ON [identity].[SpotPayments] ([InvoiceId]);
@@ -1166,7 +1167,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_Stocks_ItemId] ON [identity].[Stocks] ([ItemId]);
@@ -1175,7 +1176,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_Stocks_WarehouseId] ON [identity].[Stocks] ([WarehouseId]);
@@ -1184,7 +1185,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_SubCategories_CategoryId] ON [identity].[SubCategories] ([CategoryId]);
@@ -1193,7 +1194,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_Transfers_DestinationWarehouseId] ON [identity].[Transfers] ([DestinationWarehouseId]);
@@ -1202,7 +1203,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_Transfers_OriginWarehouseId] ON [identity].[Transfers] ([OriginWarehouseId]);
@@ -1211,7 +1212,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_Transfers_ProductId] ON [identity].[Transfers] ([ProductId]);
@@ -1220,7 +1221,7 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     CREATE INDEX [IX_Transfers_StockId] ON [identity].[Transfers] ([StockId]);
@@ -1229,11 +1230,11 @@ GO
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20251020054559_Initial'
+    WHERE [MigrationId] = N'20251226185352_Initial'
 )
 BEGIN
     INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-    VALUES (N'20251020054559_Initial', N'8.0.14');
+    VALUES (N'20251226185352_Initial', N'8.0.14');
 END;
 GO
 
