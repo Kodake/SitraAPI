@@ -1,41 +1,32 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+namespace BackEnd.Helpers;
 
-namespace BackEnd.Helpers
+public static class Keys
 {
-    public static class Keys
+    public static IEnumerable<SecurityKey> GetAllKeys(IConfiguration configuration)
     {
-        public const string OwnIssuer = "dotnet-user-jwts";
-        public const string SectionKeys = "Authentication:Schemes:Bearer:SigningKeys";
-        public const string Issuer = "Issuer";
-        public const string SectionValue = "Value";
+        var section = configuration
+            .GetSection("Authentication:Schemes:Bearer:SigningKeys");
 
-        public static IEnumerable<SecurityKey> GetKey(IConfiguration configuration)
-            => GetKey(configuration, OwnIssuer);
+        var keys = new List<SecurityKey>();
 
-        public static IEnumerable<SecurityKey> GetKey(IConfiguration configuration, string issuer)
+        foreach (var child in section.GetChildren())
         {
-            var signingKey = configuration.GetSection(SectionKeys)
-                .GetChildren()
-                .SingleOrDefault(key => key[Issuer] == issuer);
+            var value = child["Value"];
+            var keyId = child["Id"];
 
-            if (signingKey is not null && signingKey[SectionValue] is string keyValue)
+            if (string.IsNullOrWhiteSpace(value))
+                continue;
+
+            // 🔥 CLAVE: DECODIFICAR BASE64
+            var keyBytes = Convert.FromBase64String(value);
+
+            keys.Add(new SymmetricSecurityKey(keyBytes)
             {
-                yield return new SymmetricSecurityKey(Convert.FromBase64String(keyValue));
-            }
+                KeyId = keyId
+            });
         }
 
-        public static IEnumerable<SecurityKey> GetAllKeys(IConfiguration configuration)
-        {
-            var signingKeys = configuration.GetSection(SectionKeys)
-                .GetChildren();
-
-            foreach (var signingKey in signingKeys)
-            {
-                if (signingKey[SectionValue] is string keyValue)
-                {
-                    yield return new SymmetricSecurityKey(Convert.FromBase64String(keyValue));
-                }
-            }
-        }
+        return keys;
     }
 }

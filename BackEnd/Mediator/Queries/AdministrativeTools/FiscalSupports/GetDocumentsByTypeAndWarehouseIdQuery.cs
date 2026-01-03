@@ -10,7 +10,7 @@ namespace BackEnd.Mediator.Queries.Products.Items
         public FiscalSupportType SupportType { get; } = supportType;
         public long WarehouseId { get; } = warehouseId;
 
-        public async Task<FiscalSupportDTO?> GetData(
+        public async Task<FiscalSupportDTO> GetData(
             IUnitOfWork unitOfWork,
             IMapper mapper,
             CancellationToken cancellationToken)

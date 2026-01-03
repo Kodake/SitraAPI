@@ -15,14 +15,14 @@ namespace BackEnd.Mediator.Queries.Invoices.SaleInvoices
             CancellationToken cancellationToken)
         {
             QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
-            var purchaseInvoice = await unitOfWork.PurchaseInvoiceRepository.GetByIdAsync(Id);
+            var saleInvoice = await unitOfWork.SaleInvoiceRepository.GetByIdAsync(Id);
 
-            if (purchaseInvoice == null)
+            if (saleInvoice == null)
             {
                 return null;
             }
 
-            var invoiceDocument = new InvoiceReceiptDocumentDTO(purchaseInvoice);
+            var invoiceDocument = new InvoiceReceiptDocumentDTO(saleInvoice);
             var filePath = Path.Combine(Path.GetTempPath(), $"Invoice-Receipt_{Id}.pdf");
             invoiceDocument.GeneratePdf(filePath);
 

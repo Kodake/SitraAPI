@@ -123,31 +123,54 @@ namespace BackEnd.Endpoints
         }
 
 
-        private async static Task<TokenResponseDTO> BuildToken(CreateLoginUserDTO dto,
-            IConfiguration configuration, UserManager<User> userManager)
+        private static async Task<TokenResponseDTO> BuildToken(
+            CreateLoginUserDTO dto,
+            IConfiguration configuration,
+            UserManager<User> userManager)
         {
+            var user = await userManager.FindByEmailAsync(dto.Email)
+                ?? throw new UnauthorizedAccessException("User not found");
+
             var claims = new List<Claim>
             {
-                new Claim("email", dto.Email)
+                new Claim("email", user.Email ?? string.Empty),
+                new Claim("userName", user.UserName ?? user.Email ?? "unknown")
             };
 
-            var user = await userManager.FindByNameAsync(dto.Email);
-            var claimsDB = await userManager.GetClaimsAsync(user!);
+            void AddIfNotNull(string type, string? value)
+            {
+                if (!string.IsNullOrWhiteSpace(value))
+                    claims.Add(new Claim(type, value));
+            }
 
-            claims.AddRange(claimsDB);
+            AddIfNotNull("companyName", user.CompanyName);
+            AddIfNotNull("rucNumber", user.RucNumber);
+            AddIfNotNull("address", user.Address);
+            AddIfNotNull("tenantId", user.TenantId);
 
-            var key = Keys.GetAllKeys(configuration);
-            var creds = new SigningCredentials(key.First(), SecurityAlgorithms.HmacSha256);
+            var claimsDb = await userManager.GetClaimsAsync(user);
+            claims.AddRange(claimsDb.Where(c => !string.IsNullOrWhiteSpace(c.Value)));
+
+            //var roles = await userManager.GetRolesAsync(user);
+            //claims.AddRange(
+            //    roles.Where(r => !string.IsNullOrWhiteSpace(r))
+            //         .Select(r => new Claim(ClaimTypes.Role, r))
+            //);
+
+            var signingKey = Keys.GetAllKeys(configuration).First();
+
+            var creds = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
             var expiration = DateTime.UtcNow.AddYears(1);
 
-            var securityToken = new JwtSecurityToken(issuer: null, audience: null, claims: claims,
-                expires: expiration, signingCredentials: creds);
-
-            var token = new JwtSecurityTokenHandler().WriteToken(securityToken);
+            var token = new JwtSecurityToken(
+                claims: claims,
+                expires: expiration,
+                signingCredentials: creds
+            );
 
             return new TokenResponseDTO
             {
-                Token = token,
+                Token = new JwtSecurityTokenHandler().WriteToken(token),
                 Expire = expiration,
                 IsAuthenticated = true
             };

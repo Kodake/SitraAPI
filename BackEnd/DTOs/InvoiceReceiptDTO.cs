@@ -1,4 +1,5 @@
 ﻿using BackEnd.Entities.Invoices;
+using BackEnd.Enums;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
@@ -18,7 +19,7 @@ namespace BackEnd.DTOs
         {
             container.Page(page =>
             {
-                page.ContinuousSize(226.77f);
+                page.ContinuousSize(226.77f); // 80mm
                 page.Margin(10);
                 page.DefaultTextStyle(x => x.FontSize(9).FontFamily("Arial"));
                 page.Content().Element(BuildContent);
@@ -31,7 +32,13 @@ namespace BackEnd.DTOs
             {
                 column.Spacing(2);
 
-                var logoPath = Path.Combine(AppContext.BaseDirectory, "Resources", "logo-black.png");
+                // --------------------------------------------------
+                // LOGO
+                // --------------------------------------------------
+                var logoPath = Path.Combine(
+                    AppContext.BaseDirectory,
+                    "Resources",
+                    "logo-black.png");
 
                 try
                 {
@@ -43,8 +50,6 @@ namespace BackEnd.DTOs
                               .Width(100)
                               .Image(logoPath)
                               .FitWidth();
-
-                        column.Item().Text(" ");
                     }
                     else
                     {
@@ -66,115 +71,192 @@ namespace BackEnd.DTOs
                     Console.WriteLine($"[InvoiceReceiptDocumentDTO] Error loading logo: {ex.Message}");
                 }
 
-                // Header Info
-                column.Item().AlignCenter().Text("FACTURA DE CONSUMO").SemiBold();
-                column.Item().Text(" ");
-                column.Item().Text($"NÚMERO: {Invoice.Id}");
-                column.Item().Text($"COMPROBANTE FISCAL: {Invoice.FiscalSupportNumber?.Trim() ?? "N/A"}");
-                column.Item().Text($"FECHA: {Invoice.Date:dd-MM-yyyy}");
-                column.Item().Text($"CLIENTE: {Invoice.Buyer?.Name ?? "N/A"}");
-
-                if (!string.IsNullOrWhiteSpace(Invoice.Buyer?.Identification))
-                    column.Item().Text($"ID: {Invoice.Buyer.Identification}");
-
                 column.Item().Text(" ");
 
-                // Items
+                // --------------------------------------------------
+                // HEADER
+                // --------------------------------------------------
+                column.Item().AlignCenter().Text("FACTURA CONSUMIDOR FINAL").SemiBold();
+                column.Item().LineHorizontal(0.8f);
+
+                // --------------------------------------------------
+                // TABLE HEADER
+                // --------------------------------------------------
+                column.Item().Row(row =>
+                {
+                    row.RelativeItem().Text("Artículos");
+                    row.ConstantItem(45).AlignRight().Text("Impuestos");
+                    row.ConstantItem(45).AlignRight().Text("Total");
+                });
+
+                column.Item().LineHorizontal(0.5f);
+
+                // --------------------------------------------------
+                // ITEMS
+                // --------------------------------------------------
                 foreach (var item in Invoice.InvoiceItems)
                 {
-                    column.Item().Text(item.Item.Name);
+                    var taxAmount = item.Item.ItemTaxes.Sum(t =>
+                        item.Qty * item.BasePrice * t.Tax.Amount / 100);
 
                     column.Item().Row(row =>
                     {
-                        row.RelativeItem().Text($"{item.Qty} x {item.BasePrice:N2}");
-                        row.ConstantItem(80).AlignRight().Text($"{item.TotalPrice:N2}");
+                        row.ConstantItem(20).Text(item.Qty.ToString());
+                        row.RelativeItem().Text(item.Item.Name);
+                        row.ConstantItem(45).AlignRight().Text($"{taxAmount:N2}");
+                        row.ConstantItem(45).AlignRight().Text($"{item.TotalPrice:N2}");
                     });
 
-                    // Tax lines
-                    foreach (var tax in item.Item.ItemTaxes)
+                    column.Item().PaddingLeft(20).Row(row =>
                     {
-                        var calculatedTaxAmount = item.Qty * item.BasePrice * tax.Tax.Amount / 100;
-                        if (calculatedTaxAmount > 0)
+                        row.RelativeItem().Text($"{item.BasePrice:N2}");
+                        row.ConstantItem(45);
+                        row.ConstantItem(45);
+                    });
+                }
+
+                column.Item().Text(" ");
+                column.Item().LineHorizontal(0.8f);
+
+                // --------------------------------------------------
+                // TOTALS
+                // --------------------------------------------------
+                column.Item().Row(row =>
+                {
+                    row.RelativeItem();
+                    row.ConstantItem(120).Column(col =>
+                    {
+                        col.Item().Row(r =>
                         {
-                            column.Item().Row(row =>
-                            {
-                                row.RelativeItem().Text("");
-                                row.ConstantItem(80)
-                                   .AlignRight()
-                                   .Text($"{tax.Tax.Name} ({tax.Tax.Amount:N0}%): {calculatedTaxAmount:N2}")
-                                   .FontSize(8)
-                                   .FontColor(Colors.Grey.Darken2);
-                            });
-                        }
+                            r.RelativeItem().Text("Sub Total:");
+                            r.ConstantItem(60).AlignRight().Text($"{Invoice.TotalAmount:N2}");
+                        });
+
+                        col.Item().Row(r =>
+                        {
+                            r.RelativeItem().Text("ITBIS:");
+                            r.ConstantItem(60).AlignRight().Text($"{Invoice.TotalTaxes:N2}");
+                        });
+
+                        col.Item().Row(r =>
+                        {
+                            r.RelativeItem().Text("Descuento:");
+                            r.ConstantItem(60).AlignRight().Text("0.00");
+                        });
+
+                        col.Item().PaddingTop(2).Row(r =>
+                        {
+                            r.RelativeItem().Text("Monto a pagar:").SemiBold();
+                            r.ConstantItem(60).AlignRight().Text($"{Invoice.TotalPrice:N2}").SemiBold();
+                        });
+                    });
+                });
+
+                column.Item().Text(" ");
+                column.Item().LineHorizontal(0.8f);
+
+                // --------------------------------------------------
+                // PAYMENT METHODS (ALWAYS SHOW ALL)
+                // --------------------------------------------------
+                var paymentOrder = new[]
+                {
+                    PaymentMethod.Cash,
+                    PaymentMethod.Transfer,
+                    PaymentMethod.Card,
+                };
+
+                var realPayments = Invoice.SpotPayment?.Payments?
+                    .GroupBy(p => p.PaymentMethod)
+                    .Select(g => new PaymentSummary(
+                        g.Key,
+                        g.Sum(x => x.Amount)
+                    ))
+                    .ToList()
+                    ?? new List<PaymentSummary>();
+
+                var allPayments = paymentOrder
+                    .Select(method =>
+                    {
+                        var existing = realPayments.FirstOrDefault(p => p.Method == method);
+                        return new PaymentSummary(
+                            method,
+                            existing?.Amount ?? 0
+                        );
+                    })
+                    .ToList();
+
+                column.Item().Column(col =>
+                {
+                    col.Spacing(1);
+
+                    foreach (var payment in allPayments)
+                    {
+                        col.Item().Row(r =>
+                        {
+                            r.RelativeItem().Text(GetPaymentMethodLabel(payment.Method));
+                            r.ConstantItem(60)
+                             .AlignRight()
+                             .Text($"{payment.Amount:N2}");
+                        });
                     }
-                }
+                });
 
-                // Totals
+                // --------------------------------------------------
+                // CHANGE
+                // --------------------------------------------------
+                var totalPaid = allPayments.Sum(p => p.Amount);
+                var change = totalPaid - Invoice.TotalPrice;
+
                 column.Item().Text(" ");
-                column.Item().Text($"SUBTOTAL: {Invoice.TotalAmount:N2}").AlignRight();
 
-                //var taxSummary = new Dictionary<string, (double Amount, double Percentage)>();
-                //foreach (var item in Invoice.InvoiceItems)
-                //{
-                //    foreach (var tax in item.Item.ItemTaxes)
-                //    {
-                //        var taxAmount = item.Qty * item.BasePrice * tax.Tax.Amount / 100;
-                //        if (taxSummary.ContainsKey(tax.Tax.Name))
-                //        {
-                //            var current = taxSummary[tax.Tax.Name];
-                //            taxSummary[tax.Tax.Name] = (current.Amount + taxAmount, tax.Tax.Amount);
-                //        }
-                //        else
-                //        {
-                //            taxSummary[tax.Tax.Name] = (taxAmount, tax.Tax.Amount);
-                //        }
-                //    }
-                //}
-
-                //foreach (var tax in taxSummary)
-                //{
-                //    column.Item()
-                //          .Text($"{tax.Key} ({tax.Value.Percentage:N0}%): {tax.Value.Amount:N2}")
-                //          .AlignRight();
-                //}
-
-                column.Item().Text($"IMPUESTOS: {Invoice.TotalTaxes:N2}").AlignRight();
-
-                if (Invoice.Shipping.HasValue)
-                    column.Item().Text($"ENVÍO: {Invoice.Shipping.Value:N2}").AlignRight();
-
-                if (Invoice.Discount.HasValue)
+                column.Item().Row(row =>
                 {
-                    var subTotalWithTaxes = Invoice.TotalAmount + Invoice.TotalTaxes + (Invoice.Shipping ?? 0);
-                    var discountAmount = subTotalWithTaxes * Invoice.Discount.Value / 100;
-                    column.Item()
-                          .Text($"DESCUENTO ({Invoice.Discount.Value:N0}%): -{discountAmount:N2}")
-                          .AlignRight();
-                }
+                    row.RelativeItem().Text("Cambio").SemiBold();
+                    row.ConstantItem(60)
+                       .AlignRight()
+                       .Text($"{Math.Max(change, 0):N2}")
+                       .SemiBold();
+                });
 
-                column.Item().Text($"TOTAL: {Invoice.TotalPrice:N2}").SemiBold().AlignRight();
+                column.Item().LineHorizontal(0.8f);
 
-                if (!string.IsNullOrWhiteSpace(Invoice.Description))
-                {
-                    column.Item().PaddingTop(5)
-                          .AlignCenter()
-                          .Text(Invoice.Description)
-                          .Italic();
-                }
-                column.Item().Text(" ");
-                column.Item().Text(" ");
-                column.Item().AlignCenter().Text("¡Gracias por su compra!").Italic();
+                // --------------------------------------------------
+                // FOOTER
+                // --------------------------------------------------
+                column.Item().PaddingTop(4)
+                      .AlignCenter()
+                      .Text("No hacemos devoluciones en efectivo,\nserán emitidas notas de crédito en caso de cambio")
+                      .FontSize(7)
+                      .Italic();
             });
+        }
+
+        // --------------------------------------------------
+        // HELPERS
+        // --------------------------------------------------
+        private record PaymentSummary(PaymentMethod Method, double Amount);
+
+        private static string GetPaymentMethodLabel(PaymentMethod method)
+        {
+            return method switch
+            {
+                PaymentMethod.Cash => "Efectivo",
+                PaymentMethod.Transfer => "Transferencia",
+                PaymentMethod.Card => "Tarjeta",
+                _ => "Desconocido"
+            };
         }
 
         public void GeneratePdf(string filePath)
         {
-            Document.Create(container => Compose(container)).GeneratePdf(filePath);
+            Document.Create(container => Compose(container))
+                    .GeneratePdf(filePath);
         }
 
         public byte[] GenerateToBytes()
         {
-            return Document.Create(container => Compose(container)).GeneratePdf();
+            return Document.Create(container => Compose(container))
+                           .GeneratePdf();
         }
     }
 }

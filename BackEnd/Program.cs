@@ -44,17 +44,22 @@ builder.Services.AddIdentityCore<User>()
 builder.Services.AddScoped<UserManager<User>>();
 builder.Services.AddScoped<SignInManager<User>>();
 
-builder.Services.AddAuthentication().AddJwtBearer(opciones =>
+// 🔐 AQUÍ VA EL BEARER
+builder.Services
+.AddAuthentication("Bearer")
+.AddJwtBearer("Bearer", options =>
 {
-    opciones.MapInboundClaims = false;
+    options.MapInboundClaims = false;
 
-    opciones.TokenValidationParameters = new TokenValidationParameters
+    options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = false,
         ValidateAudience = false,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
+
         IssuerSigningKeys = Keys.GetAllKeys(builder.Configuration),
+
         ClockSkew = TimeSpan.Zero
     };
 });

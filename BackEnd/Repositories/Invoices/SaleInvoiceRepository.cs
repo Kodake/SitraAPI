@@ -38,10 +38,17 @@ namespace BackEnd.Repositories.Invoices
                 .Include(i => i.Pricing)
                 .Include(i => i.Warehouse)
                 .Include(i => i.Quotation)
+
+                // SpotPayment + Payments
+                .Include(i => i.SpotPayment!)
+                    .ThenInclude(sp => sp.Payments)
+
+                // Invoice Items
                 .Include(i => i.InvoiceItems)
-                    .ThenInclude(x => x.Item)
-                    .ThenInclude(x => x.ItemTaxes)
-                    .ThenInclude(x => x.Tax)
+                    .ThenInclude(ii => ii.Item)
+                        .ThenInclude(it => it.ItemTaxes)
+                            .ThenInclude(itx => itx.Tax)
+
                 .FirstOrDefaultAsync(i => i.Id == id);
         }
 
