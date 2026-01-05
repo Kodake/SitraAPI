@@ -24,6 +24,9 @@ namespace BackEnd.Helpers
         public static string EachItemMustBeGreatherThanZero = "Each itemId must be greater than 0";
         public static string RucFieldMessage = "RUC must contain exactly 9 or 11 digits";
         public static string PhoneNumberFieldMessage = "Phone number must contain exactly 10 digits";
+        public static string AtLeastOneServiceToChose = "Debe seleccionar al menos un servicio";
+        public static string NotDuplicatesWith = "No se permiten {PropertyName} duplicados con el valor {0}";
+        public static string AppointmentAlreadyExist = "Ya existe una cita programada para esta fecha y hora";
 
         public static string GreaterThanOrEqualToMensaje(DateTime minDate)
         {

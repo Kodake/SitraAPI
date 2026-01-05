@@ -16,7 +16,6 @@ namespace BackEnd.Repositories.Finances
                 .ToListAsync();
         }
 
-
         public async Task<bool> Exists(long id, string code)
         {
             return await context.Currencies.AnyAsync(x => x.Id != id && x.Code == code);

@@ -1,5 +1,6 @@
 ﻿using BackEnd.Mediator.Handlers.Accounts;
 using BackEnd.Mediator.Handlers.AdministrativeTools;
+using BackEnd.Mediator.Handlers.Appointments;
 using BackEnd.Mediator.Handlers.CashBoxes;
 using BackEnd.Mediator.Handlers.Combos;
 using BackEnd.Mediator.Handlers.Contacts;
@@ -46,6 +47,7 @@ namespace BackEnd.Mediator
             services.AddSaleInvoicesServices();
             services.AddPurchaseInvoicesServices();
             services.AddCashBoxServices();
+            services.AddAppointmentServices();
 
             return services;
         }

@@ -1,4 +1,5 @@
-﻿using BackEnd.Entities.Warehouses;
+﻿using BackEnd.Entities.Appointments;
+using BackEnd.Entities.Warehouses;
 using BackEnd.Enums;
 
 namespace BackEnd.Entities.Products

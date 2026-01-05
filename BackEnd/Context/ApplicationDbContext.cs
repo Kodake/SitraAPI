@@ -1,5 +1,6 @@
 ﻿using BackEnd.Context.Accounts;
 using BackEnd.Context.AdministrativeTools;
+using BackEnd.Context.Appointments;
 using BackEnd.Context.Auths;
 using BackEnd.Context.CashBoxes;
 using BackEnd.Context.Contacts;
@@ -9,6 +10,7 @@ using BackEnd.Context.Products;
 using BackEnd.Context.Warehouses;
 using BackEnd.Entities.Accounts;
 using BackEnd.Entities.AdministrativeTools;
+using BackEnd.Entities.Appointments;
 using BackEnd.Entities.Auths;
 using BackEnd.Entities.CashBoxes;
 using BackEnd.Entities.Contacts;
@@ -69,6 +71,9 @@ namespace BackEnd.Context
             modelBuilder.ApplyConfiguration(new PettyCashConfiguration());
             modelBuilder.ApplyConfiguration(new PettyCashMovementConfiguration());
 
+            modelBuilder.ApplyConfiguration(new AppointmentConfiguration());
+            modelBuilder.ApplyConfiguration(new AppointmentItemConfiguration());
+
             modelBuilder.ApplyConfiguration(new AuthConfiguration()).HasDefaultSchema("identity");
         }
         #endregion
@@ -104,6 +109,8 @@ namespace BackEnd.Context
         public DbSet<PayableReceipt> PayableReceipts { get; set; }
         public DbSet<PettyCash> PettyCashes { get; set; }
         public DbSet<PettyCashMovement> PettyCashMovements { get; set; }
+        public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<AppointmentItem> AppointmentItems { get; set; }
         #endregion
     }
 }

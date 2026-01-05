@@ -9,6 +9,7 @@ namespace BackEnd.Repositories.Contacts
         Task<List<Contact>> GetCustomers();
         Task<List<Contact>> GetBillers();
         Task<bool> Exists(long id, string code);
+        Task<bool> Exists(long id);
         Task<int> TotalContactsAddedAsync();
     }
 }

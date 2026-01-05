@@ -17,17 +17,17 @@ public class ProductDTO
     public double InitialCost { get; set; }
     public double BasePrice { get; set; }
     public double Percentage { get; set; }
-    public int? BrandId { get; set; }
+    public long? BrandId { get; set; }
     public BrandDTO? Brand { get; set; }
-    public int? ModelId { get; set; }
+    public long? ModelId { get; set; }
     public ModelDTO? Model { get; set; }
-    public int? CategoryId { get; set; }
+    public long? CategoryId { get; set; }
     public CategoryDTO? Category { get; set; }
-    public int? SubCategoryId { get; set; }
+    public long? SubCategoryId { get; set; }
     public SubCategoryDTO? SubCategory { get; set; }
-    public int? UnitId { get; set; }
+    public long? UnitId { get; set; }
     public UnitDTO? Unit { get; set; }
-    public List<int>? TaxIds { get; set; }
+    public List<long>? TaxIds { get; set; }
     public List<TaxDTO>? Taxes { get; set; } = [];
     public List<PricingItemDTO>? PricingItems { get; set; } = [];
 }

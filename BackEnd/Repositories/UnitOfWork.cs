@@ -2,6 +2,7 @@
 using BackEnd.Entities.Auths;
 using BackEnd.Repositories.Accounts;
 using BackEnd.Repositories.AdministrativeTools;
+using BackEnd.Repositories.Appointments;
 using BackEnd.Repositories.CashBoxes;
 using BackEnd.Repositories.Contacts;
 using BackEnd.Repositories.Finances;
@@ -18,7 +19,7 @@ namespace BackEnd.Repositories
         private readonly ApplicationDbContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IConfiguration _configuration;
-        private readonly Dictionary<Type, object> _repositories = new();
+        private readonly Dictionary<Type, object> _repositories = [];
 
         public IPayableRepository PayableRepository { get; }
         public IReceivableRepository ReceivableRepository { get; }
@@ -52,6 +53,7 @@ namespace BackEnd.Repositories
         public IWarehouseRepository WarehouseRepository { get; }
         public IPettyCashRepository PettyCashRepository { get; }
         public IPettyCashMovementRepository PettyCashMovementRepository { get; }
+        public IAppointmentRepository AppointmentRepository { get; }
         public IUserService UserService { get; }
         public IFileStorageService FileStorageService { get; }
 
@@ -93,6 +95,7 @@ namespace BackEnd.Repositories
             WarehouseRepository = new WarehouseRepository(context, httpContextAccessor);
             PettyCashRepository = new PettyCashRepository(context, httpContextAccessor);
             PettyCashMovementRepository = new PettyCashMovementRepository(context, httpContextAccessor);
+            AppointmentRepository = new AppointmentRepository(context, httpContextAccessor);
             UserService = new UserService(context, httpContextAccessor, userManager);
             FileStorageService = new AzureFileService(configuration);
 

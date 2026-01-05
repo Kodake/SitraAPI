@@ -256,6 +256,62 @@ namespace BackEnd.Migrations
                     b.ToTable("FiscalSupports", "identity");
                 });
 
+            modelBuilder.Entity("BackEnd.Entities.Appointments.Appointment", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("ContactId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset>("ScheduledAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContactId");
+
+                    b.ToTable("Appointments", "identity");
+                });
+
+            modelBuilder.Entity("BackEnd.Entities.Appointments.AppointmentItem", b =>
+                {
+                    b.Property<long>("AppointmentId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ItemId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("AppointmentId", "ItemId");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("AppointmentServiceItems", "identity");
+                });
+
             modelBuilder.Entity("BackEnd.Entities.Auths.User", b =>
                 {
                     b.Property<string>("Id")
@@ -1533,6 +1589,36 @@ namespace BackEnd.Migrations
                     b.Navigation("Warehouse");
                 });
 
+            modelBuilder.Entity("BackEnd.Entities.Appointments.Appointment", b =>
+                {
+                    b.HasOne("BackEnd.Entities.Contacts.Contact", "Contact")
+                        .WithMany("Appointments")
+                        .HasForeignKey("ContactId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Contact");
+                });
+
+            modelBuilder.Entity("BackEnd.Entities.Appointments.AppointmentItem", b =>
+                {
+                    b.HasOne("BackEnd.Entities.Appointments.Appointment", "Appointment")
+                        .WithMany("AppointmentItems")
+                        .HasForeignKey("AppointmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BackEnd.Entities.Products.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Appointment");
+
+                    b.Navigation("Item");
+                });
+
             modelBuilder.Entity("BackEnd.Entities.CashBoxes.PettyCash", b =>
                 {
                     b.HasOne("BackEnd.Entities.Auths.User", "User")
@@ -1916,6 +2002,11 @@ namespace BackEnd.Migrations
                     b.Navigation("PaymentReceipts");
                 });
 
+            modelBuilder.Entity("BackEnd.Entities.Appointments.Appointment", b =>
+                {
+                    b.Navigation("AppointmentItems");
+                });
+
             modelBuilder.Entity("BackEnd.Entities.CashBoxes.PettyCash", b =>
                 {
                     b.Navigation("PettyCashMovements");
@@ -1923,6 +2014,8 @@ namespace BackEnd.Migrations
 
             modelBuilder.Entity("BackEnd.Entities.Contacts.Contact", b =>
                 {
+                    b.Navigation("Appointments");
+
                     b.Navigation("BillerInvoices");
 
                     b.Navigation("BuyerInvoices");

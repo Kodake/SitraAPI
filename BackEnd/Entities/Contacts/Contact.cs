@@ -1,4 +1,5 @@
-﻿using BackEnd.Entities.Invoices;
+﻿using BackEnd.Entities.Appointments;
+using BackEnd.Entities.Invoices;
 using BackEnd.Enums;
 
 namespace BackEnd.Entities.Contacts
@@ -20,5 +21,6 @@ namespace BackEnd.Entities.Contacts
         public DateTime? UpdatedAt { get; set; }
         public ICollection<Invoice> BillerInvoices { get; set; } = new HashSet<Invoice>();
         public ICollection<Invoice> BuyerInvoices { get; set; } = new HashSet<Invoice>();
+        public ICollection<Appointment> Appointments { get; set; } = new HashSet<Appointment>();
     }
 }

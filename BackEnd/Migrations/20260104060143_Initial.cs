@@ -452,6 +452,32 @@ namespace BackEnd.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Appointments",
+                schema: "identity",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    ContactId = table.Column<long>(type: "bigint", nullable: false),
+                    ScheduledAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Appointments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Appointments_Contacts_ContactId",
+                        column: x => x.ContactId,
+                        principalSchema: "identity",
+                        principalTable: "Contacts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "FiscalSupports",
                 schema: "identity",
                 columns: table => new
@@ -808,6 +834,35 @@ namespace BackEnd.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AppointmentServiceItems",
+                schema: "identity",
+                columns: table => new
+                {
+                    AppointmentId = table.Column<long>(type: "bigint", nullable: false),
+                    ItemId = table.Column<long>(type: "bigint", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppointmentServiceItems", x => new { x.AppointmentId, x.ItemId });
+                    table.ForeignKey(
+                        name: "FK_AppointmentServiceItems_Appointments_AppointmentId",
+                        column: x => x.AppointmentId,
+                        principalSchema: "identity",
+                        principalTable: "Appointments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AppointmentServiceItems_Items_ItemId",
+                        column: x => x.ItemId,
+                        principalSchema: "identity",
+                        principalTable: "Items",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ComboItems",
                 schema: "identity",
                 columns: table => new
@@ -1103,6 +1158,18 @@ namespace BackEnd.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Appointments_ContactId",
+                schema: "identity",
+                table: "Appointments",
+                column: "ContactId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppointmentServiceItems_ItemId",
+                schema: "identity",
+                table: "AppointmentServiceItems",
+                column: "ItemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -1415,6 +1482,10 @@ namespace BackEnd.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "AppointmentServiceItems",
+                schema: "identity");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims",
                 schema: "identity");
 
@@ -1484,6 +1555,10 @@ namespace BackEnd.Migrations
 
             migrationBuilder.DropTable(
                 name: "Transfers",
+                schema: "identity");
+
+            migrationBuilder.DropTable(
+                name: "Appointments",
                 schema: "identity");
 
             migrationBuilder.DropTable(

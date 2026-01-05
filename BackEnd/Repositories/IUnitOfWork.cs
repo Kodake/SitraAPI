@@ -1,5 +1,6 @@
 ﻿using BackEnd.Repositories.Accounts;
 using BackEnd.Repositories.AdministrativeTools;
+using BackEnd.Repositories.Appointments;
 using BackEnd.Repositories.CashBoxes;
 using BackEnd.Repositories.Contacts;
 using BackEnd.Repositories.Finances;
@@ -45,6 +46,7 @@ namespace BackEnd.Repositories
         IWarehouseRepository WarehouseRepository { get; }
         IPettyCashRepository PettyCashRepository { get; }
         IPettyCashMovementRepository PettyCashMovementRepository { get; }
+        IAppointmentRepository AppointmentRepository { get; }
         IUserService UserService { get; }
         IFileStorageService FileStorageService { get; }
         Task<int> SaveChangesAsync();

@@ -11,6 +11,12 @@ namespace BackEnd.Repositories.Products
             : base(context, httpContextAccessor)
         { }
 
+        public async Task<bool> Exists(long id, ItemType itemType)
+        {
+            return await context.Items
+                .AnyAsync(i => i.Id == id && i.ItemType == itemType);
+        }
+
         public async Task<List<Item>> GetByPricingIdAndWarehouseId(long pricingId, long warehouseId)
         {
             return await context.Items
