@@ -74,7 +74,7 @@ namespace BackEnd.Validations
                 .MustAsync(async (scheduledAt, _) =>
                 {
                     var exists = await unitOfWork.AppointmentRepository
-                        .ExistsAtDateTime(scheduledAt);
+                        .ExistsAtDateTime(scheduledAt, id == 0 ? null : id);
 
                     return !exists;
                 })

@@ -31,10 +31,12 @@ namespace BackEnd.Repositories.Appointments
             return items;
         }
 
-        public async Task<bool> ExistsAtDateTime(DateTimeOffset scheduledAt)
+        public async Task<bool> ExistsAtDateTime(DateTimeOffset scheduledAt, long? excludeId = null)
         {
-            return await context.Appointments
-                .AnyAsync(a => a.ScheduledAt == scheduledAt);
+            return await context.Appointments.AnyAsync(a =>
+                a.ScheduledAt == scheduledAt &&
+                (!excludeId.HasValue || a.Id != excludeId.Value)
+            );
         }
 
         public async new Task<Appointment?> GetByIdAsync(long id)
@@ -42,7 +44,7 @@ namespace BackEnd.Repositories.Appointments
             return await context.Appointments
                 .Include(a => a.Contact)
                 .Include(a => a.AppointmentItems)
-                    .ThenInclude(a => a.Item)
+                .ThenInclude(a => a.Item)
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
     }

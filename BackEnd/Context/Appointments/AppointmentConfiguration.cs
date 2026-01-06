@@ -24,8 +24,6 @@ namespace BackEnd.Context.Appointments
                    .WithMany(c => c.Appointments) // necesitas esta navegación en Contact
                    .HasForeignKey(a => a.ContactId)
                    .OnDelete(DeleteBehavior.Restrict);
-
-
         }
     }
 }

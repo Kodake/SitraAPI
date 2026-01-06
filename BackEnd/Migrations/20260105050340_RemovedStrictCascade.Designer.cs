@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BackEnd.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260105021649_AddedDateTimeOffsetForScheduledAt")]
-    partial class AddedDateTimeOffsetForScheduledAt
+    [Migration("20260105050340_RemovedStrictCascade")]
+    partial class RemovedStrictCascade
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1614,7 +1614,7 @@ namespace BackEnd.Migrations
                     b.HasOne("BackEnd.Entities.Products.Item", "Item")
                         .WithMany()
                         .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Appointment");

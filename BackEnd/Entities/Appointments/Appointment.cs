@@ -13,6 +13,6 @@ namespace BackEnd.Entities.Appointments
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
         public ICollection<AppointmentItem> AppointmentItems { get; set; }
-            = new HashSet<AppointmentItem>();
+            = new List<AppointmentItem>();
     }
 }

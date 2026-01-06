@@ -17,6 +17,9 @@ namespace BackEnd.Mediator.Commands.Appointments.Appointments
             if (appointmentDB == null) return false;
 
             mapper.Map(Dto, appointmentDB);
+
+            appointmentDB.AppointmentItems = Dto.AppointmentItemIds.Select(itemId => new AppointmentItem { ItemId = itemId }).ToList();
+
             unitOfWork.AppointmentRepository.Update(appointmentDB);
             await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("appointments-get", default);

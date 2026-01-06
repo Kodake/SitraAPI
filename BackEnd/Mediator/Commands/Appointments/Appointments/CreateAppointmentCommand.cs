@@ -18,12 +18,7 @@ namespace BackEnd.Mediator.Commands.Appointments.Appointments
         {
             var appointment = mapper.Map<Appointment>(Dto);
 
-            appointment.AppointmentItems = Dto.AppointmentItemIds
-                .Select(itemId => new AppointmentItem
-                {
-                    ItemId = itemId
-                })
-                .ToList();
+            appointment.AppointmentItems = Dto.AppointmentItemIds.Select(itemId => new AppointmentItem { ItemId = itemId }).ToList();
 
             await unitOfWork.AppointmentRepository.CreateAsync(appointment);
             await unitOfWork.SaveChangesAsync();

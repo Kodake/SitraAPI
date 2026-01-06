@@ -309,7 +309,7 @@ namespace BackEnd.Migrations
 
                     b.HasIndex("ItemId");
 
-                    b.ToTable("AppointmentServiceItems", "identity");
+                    b.ToTable("AppointmentItems", "identity");
                 });
 
             modelBuilder.Entity("BackEnd.Entities.Auths.User", b =>
@@ -1611,7 +1611,7 @@ namespace BackEnd.Migrations
                     b.HasOne("BackEnd.Entities.Products.Item", "Item")
                         .WithMany()
                         .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Appointment");
