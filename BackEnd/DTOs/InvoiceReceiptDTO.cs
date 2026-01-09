@@ -1,19 +1,21 @@
-﻿using BackEnd.Entities.Invoices;
+﻿using BackEnd.Entities.Auths;
+using BackEnd.Entities.Invoices;
 using BackEnd.Enums;
 using QuestPDF.Fluent;
-using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 
 namespace BackEnd.DTOs
 {
     public class InvoiceReceiptDocumentDTO : IDocument
     {
-        public InvoiceReceiptDocumentDTO(Invoice invoice)
+        public InvoiceReceiptDocumentDTO(Invoice invoice, User user)
         {
             Invoice = invoice;
+            User = user;
         }
 
         public Invoice Invoice { get; }
+        public User User { get; }
 
         public void Compose(IDocumentContainer container)
         {
@@ -30,48 +32,166 @@ namespace BackEnd.DTOs
         {
             container.Column(column =>
             {
-                column.Spacing(2);
+                //column.Spacing(2);
+
+                //// --------------------------------------------------
+                //// LOGO
+                //// --------------------------------------------------
+                //var logoPath = Path.Combine(
+                //    AppContext.BaseDirectory,
+                //    "Resources",
+                //    "logo-black.png");
+
+                //try
+                //{
+                //    if (File.Exists(logoPath))
+                //    {
+                //        column.Item()
+                //              .AlignCenter()
+                //              .MaxHeight(1.5f, Unit.Centimetre)
+                //              .Width(100)
+                //              .Image(logoPath)
+                //              .FitWidth();
+                //    }
+                //    else
+                //    {
+                //        column.Item()
+                //              .AlignCenter()
+                //              .Text("LOGO NO DISPONIBLE")
+                //              .FontSize(8)
+                //              .Italic();
+                //    }
+                //}
+                //catch (Exception ex)
+                //{
+                //    column.Item()
+                //          .AlignCenter()
+                //          .Text("ERROR AL CARGAR LOGO")
+                //          .FontSize(8)
+                //          .Italic();
+
+                //    Console.WriteLine($"[InvoiceReceiptDocumentDTO] Error loading logo: {ex.Message}");
+                //}
+
+                //column.Item().Text(" ");
 
                 // --------------------------------------------------
-                // LOGO
+                // COMPANY INFO
                 // --------------------------------------------------
-                var logoPath = Path.Combine(
-                    AppContext.BaseDirectory,
-                    "Resources",
-                    "logo-black.png");
-
-                try
+                column.Item().Column(col =>
                 {
-                    if (File.Exists(logoPath))
+                    col.Spacing(1);
+
+                    col.Item().Row(r =>
                     {
-                        column.Item()
-                              .AlignCenter()
-                              .MaxHeight(1.5f, Unit.Centimetre)
-                              .Width(100)
-                              .Image(logoPath)
-                              .FitWidth();
-                    }
-                    else
+                        r.ConstantItem(120).Text(User.CompanyName).FontSize(10).SemiBold();
+                    });
+
+                    col.Item().Row(r =>
                     {
-                        column.Item()
-                              .AlignCenter()
-                              .Text("LOGO NO DISPONIBLE")
-                              .FontSize(8)
-                              .Italic();
-                    }
-                }
-                catch (Exception ex)
+                        r.ConstantItem(120).Text(User.Email).FontSize(10).SemiBold();
+                    });
+
+                    col.Item().Row(r =>
+                    {
+                        r.RelativeItem().Text("TELÈFONO:").SemiBold();
+                        r.ConstantItem(120).AlignRight().Text(User.PhoneNumber).SemiBold();
+                    });
+
+                    col.Item().Row(r =>
+                    {
+                        r.RelativeItem().Text("RNC:").SemiBold();
+                        r.ConstantItem(120).AlignRight().Text(User.RucNumber).SemiBold();
+                    });
+
+                    col.Item().Row(r =>
+                    {
+                        r.ConstantItem(120).Text(User.Address).FontSize(10).SemiBold();
+                    });
+                });
+
+                column.Item().LineHorizontal(0.8f);
+
+                // --------------------------------------------------
+                // LOGIN INFO
+                // --------------------------------------------------
+
+                column.Item().Column(col =>
                 {
-                    column.Item()
-                          .AlignCenter()
-                          .Text("ERROR AL CARGAR LOGO")
-                          .FontSize(8)
-                          .Italic();
+                    col.Spacing(1);
 
-                    Console.WriteLine($"[InvoiceReceiptDocumentDTO] Error loading logo: {ex.Message}");
-                }
+                    col.Item().Row(r =>
+                    {
+                        r.RelativeItem().Text("Usuario:");
+                        r.ConstantItem(120).AlignRight().Text(User.UserName);
+                    });
 
-                column.Item().Text(" ");
+                    col.Item().Row(r =>
+                    {
+                        r.RelativeItem().Text("Condición:");
+                        r.ConstantItem(120)
+                         .AlignRight()
+                         .Text(Invoice.ConditionType == InvoiceCondition.Spot
+                               ? "AL CONTADO"
+                               : "CRÊDITO");
+                    });
+                });
+
+                column.Item().LineHorizontal(0.8f);
+
+                // --------------------------------------------------
+                // INVOICE INFO (HEADER DETAILS)
+                // --------------------------------------------------
+                column.Item().Column(col =>
+                {
+                    col.Spacing(1);
+
+                    col.Item().Row(r =>
+                    {
+                        r.RelativeItem().Text("Factura:");
+                        r.ConstantItem(120).AlignRight().Text(Invoice.Id.ToString());
+                    });
+
+                    col.Item().Row(r =>
+                    {
+                        r.RelativeItem().Text("Fecha:");
+                        r.ConstantItem(120).AlignRight().Text(Invoice.Date.ToString("dd/MM/yyyy"));
+                    });
+
+                    col.Item().Row(r =>
+                    {
+                        r.RelativeItem().Text("NCF:");
+                        r.ConstantItem(120)
+                         .AlignRight()
+                         .Text(Invoice.FiscalSupportNumber ?? "-");
+                    });
+
+                    col.Item().Row(r =>
+                    {
+                        r.RelativeItem().Text("Vence:");
+                        r.ConstantItem(120).AlignRight().Text(
+                            Invoice.DueDate?.ToString("dd/MM/yyyy") ?? "-"
+                        );
+                    });
+
+                    col.Item().Row(r =>
+                    {
+                        r.RelativeItem().Text("RNC / Cédula:");
+                        r.ConstantItem(120).AlignRight().Text(
+                            Invoice.Buyer?.Identification ?? "-"
+                        );
+                    });
+
+                    col.Item().Row(r =>
+                    {
+                        r.RelativeItem().Text("Cliente:");
+                        r.ConstantItem(120).AlignRight().Text(
+                            Invoice.Buyer?.Name ?? "-"
+                        );
+                    });
+                });
+
+                column.Item().LineHorizontal(0.8f);
 
                 // --------------------------------------------------
                 // HEADER
@@ -219,6 +339,19 @@ namespace BackEnd.DTOs
                 });
 
                 column.Item().LineHorizontal(0.8f);
+
+                // --------------------------------------------------
+                // OPTIONAL DESCRIPTION
+                // --------------------------------------------------
+                if (!string.IsNullOrWhiteSpace(Invoice.Description))
+                {
+                    column.Item()
+                          .PaddingTop(4)
+                          .AlignCenter()
+                          .Text(Invoice.Description)
+                          .FontSize(8)
+                          .Italic();
+                }
 
                 // --------------------------------------------------
                 // FOOTER

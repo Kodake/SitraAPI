@@ -20,7 +20,7 @@ namespace BackEnd.Entities.Invoices
         public Contact? Buyer { get; set; } = null!;
         public long? FiscalSupportId { get; set; }
         public FiscalSupport? FiscalSupport { get; set; } = null!;
-        public string? FiscalSupportNumber { get; set; } = string.Empty;
+        public string? FiscalSupportNumber { get; set; } = null!;
         public long CurrencyId { get; set; }
         public Currency Currency { get; set; } = null!;
         public long WarehouseId { get; set; }

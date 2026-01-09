@@ -1,5 +1,6 @@
 using AutoMapper;
 using BackEnd.DTOs;
+using BackEnd.Entities.Invoices;
 using BackEnd.Repositories;
 
 namespace BackEnd.Mediator.Queries.Invoices.SaleInvoices
@@ -22,7 +23,14 @@ namespace BackEnd.Mediator.Queries.Invoices.SaleInvoices
                 return null;
             }
 
-            var invoiceDocument = new InvoiceReceiptDocumentDTO(saleInvoice);
+            var user = await unitOfWork.UserService.GetUserAsync();
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            var invoiceDocument = new InvoiceReceiptDocumentDTO(saleInvoice, user);
             var filePath = Path.Combine(Path.GetTempPath(), $"Invoice-Receipt_{Id}.pdf");
             invoiceDocument.GeneratePdf(filePath);
 
