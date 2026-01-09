@@ -18,6 +18,7 @@ using BackEnd.Entities.Finances;
 using BackEnd.Entities.Invoices;
 using BackEnd.Entities.Products;
 using BackEnd.Entities.Warehouses;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -74,7 +75,16 @@ namespace BackEnd.Context
             modelBuilder.ApplyConfiguration(new AppointmentConfiguration());
             modelBuilder.ApplyConfiguration(new AppointmentItemConfiguration());
 
-            modelBuilder.ApplyConfiguration(new AuthConfiguration()).HasDefaultSchema("identity");
+            // ===============================
+            // Identity → schema identity
+            // ===============================
+            modelBuilder.Entity<User>().ToTable("AspNetUsers", "identity");
+            modelBuilder.Entity<IdentityRole>().ToTable("AspNetRoles", "identity");
+            modelBuilder.Entity<IdentityUserRole<string>>().ToTable("AspNetUserRoles", "identity");
+            modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("AspNetUserClaims", "identity");
+            modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("AspNetRoleClaims", "identity");
+            modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("AspNetUserLogins", "identity");
+            modelBuilder.Entity<IdentityUserToken<string>>().ToTable("AspNetUserTokens", "identity");
         }
         #endregion
 

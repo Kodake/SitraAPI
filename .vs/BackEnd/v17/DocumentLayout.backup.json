@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "C:\\Users\\Kodake\\Desktop\\PosAPI\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Migrations\\20260109054209_SolvedSchemaForTables.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BackEnd\\Migrations\\20260109054209_SolvedSchemaForTables.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\context\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\context\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\dtos\\invoicereceiptdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\dtos\\invoicereceiptdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -86,7 +94,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 318,
-          "SelectedChildIndex": 19,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -110,7 +118,33 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "20260109054209_SolvedSchemaForTables.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Migrations\\20260109054209_SolvedSchemaForTables.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Migrations\\20260109054209_SolvedSchemaForTables.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Migrations\\20260109054209_SolvedSchemaForTables.cs",
+              "RelativeToolTip": "BackEnd\\Migrations\\20260109054209_SolvedSchemaForTables.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-09T05:42:10.014Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Context\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "BackEnd\\Context\\ApplicationDbContext.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Context\\ApplicationDbContext.cs",
+              "RelativeToolTip": "BackEnd\\Context\\ApplicationDbContext.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAAAAwFYAAABlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-09T05:31:37.498Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "ReportDTO.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\ReportDTO.cs",
               "RelativeDocumentMoniker": "BackEnd\\DTOs\\ReportDTO.cs",
@@ -118,12 +152,11 @@
               "RelativeToolTip": "BackEnd\\DTOs\\ReportDTO.cs",
               "ViewState": "AgIAAHIAAAAAAAAAAAArwIgAAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-09T05:01:57.989Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-09T05:01:57.989Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "InvoiceDocumentDTO.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\InvoiceDocumentDTO.cs",
               "RelativeDocumentMoniker": "BackEnd\\DTOs\\InvoiceDocumentDTO.cs",
@@ -131,12 +164,11 @@
               "RelativeToolTip": "BackEnd\\DTOs\\InvoiceDocumentDTO.cs",
               "ViewState": "AgIAAFEAAAAAAAAAAAArwF4AAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-09T05:01:43.638Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-09T05:01:43.638Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "Invoice.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Invoices\\Invoice.cs",
               "RelativeDocumentMoniker": "BackEnd\\Entities\\Invoices\\Invoice.cs",
@@ -144,12 +176,11 @@
               "RelativeToolTip": "BackEnd\\Entities\\Invoices\\Invoice.cs",
               "ViewState": "AgIAAA8AAAAAAAAAAAAqwBYAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-09T05:01:28.597Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-09T05:01:28.597Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "UserService.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Services\\UserService.cs",
               "RelativeDocumentMoniker": "BackEnd\\Services\\UserService.cs",
@@ -157,12 +188,11 @@
               "RelativeToolTip": "BackEnd\\Services\\UserService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAABcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-09T04:38:26.04Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-09T04:38:26.04Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "UnitOfWork.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\UnitOfWork.cs",
               "RelativeDocumentMoniker": "BackEnd\\Repositories\\UnitOfWork.cs",
@@ -170,12 +200,11 @@
               "RelativeToolTip": "BackEnd\\Repositories\\UnitOfWork.cs",
               "ViewState": "AgIAADQAAAAAAAAAAAAwwDgAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-09T04:37:33.875Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-09T04:37:33.875Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "AuthsEndpoints.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Auths\\AuthsEndpoints.cs",
               "RelativeDocumentMoniker": "BackEnd\\Endpoints\\Auths\\AuthsEndpoints.cs",
@@ -183,12 +212,11 @@
               "RelativeToolTip": "BackEnd\\Endpoints\\Auths\\AuthsEndpoints.cs",
               "ViewState": "AgIAAJoAAAAAAAAAAAAUwLMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-09T04:34:24.677Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-09T04:34:24.677Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "GetSaleInvoiceReceiptPdfQuery.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Queries\\Invoices\\SaleInvoices\\GetSaleInvoiceReceiptPdfQuery.cs",
               "RelativeDocumentMoniker": "BackEnd\\Mediator\\Queries\\Invoices\\SaleInvoices\\GetSaleInvoiceReceiptPdfQuery.cs",
@@ -196,12 +224,11 @@
               "RelativeToolTip": "BackEnd\\Mediator\\Queries\\Invoices\\SaleInvoices\\GetSaleInvoiceReceiptPdfQuery.cs",
               "ViewState": "AgIAAAwAAAAAAAAAAAAywBkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-09T04:33:47.946Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-09T04:33:47.946Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "InvoiceCondition.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Enums\\InvoiceCondition.cs",
               "RelativeDocumentMoniker": "BackEnd\\Enums\\InvoiceCondition.cs",
@@ -209,12 +236,11 @@
               "RelativeToolTip": "BackEnd\\Enums\\InvoiceCondition.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-09T04:30:45.457Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-09T04:30:45.457Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "PaymentMethod.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Enums\\PaymentMethod.cs",
               "RelativeDocumentMoniker": "BackEnd\\Enums\\PaymentMethod.cs",
@@ -222,12 +248,11 @@
               "RelativeToolTip": "BackEnd\\Enums\\PaymentMethod.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-09T04:26:17.259Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-09T04:26:17.259Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 13,
               "Title": "MovementType.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Enums\\MovementType.cs",
               "RelativeDocumentMoniker": "BackEnd\\Enums\\MovementType.cs",
@@ -235,12 +260,11 @@
               "RelativeToolTip": "BackEnd\\Enums\\MovementType.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-09T04:26:16.295Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-09T04:26:16.295Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 11,
               "Title": "NotaDeCreditoDebito.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Enums\\NotaDeCreditoDebito.cs",
               "RelativeDocumentMoniker": "BackEnd\\Enums\\NotaDeCreditoDebito.cs",
@@ -248,12 +272,11 @@
               "RelativeToolTip": "BackEnd\\Enums\\NotaDeCreditoDebito.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-09T04:26:11.905Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-09T04:26:11.905Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 14,
               "Title": "DocumentType.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Enums\\DocumentType.cs",
               "RelativeDocumentMoniker": "BackEnd\\Enums\\DocumentType.cs",
@@ -261,12 +284,11 @@
               "RelativeToolTip": "BackEnd\\Enums\\DocumentType.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-09T04:26:02.95Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-09T04:26:02.95Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 15,
               "Title": "FiscalSupportType.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Enums\\FiscalSupportType.cs",
               "RelativeDocumentMoniker": "BackEnd\\Enums\\FiscalSupportType.cs",
@@ -274,12 +296,11 @@
               "RelativeToolTip": "BackEnd\\Enums\\FiscalSupportType.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-09T04:25:53.883Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-09T04:25:53.883Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 16,
               "Title": "IdentificationType.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Enums\\IdentificationType.cs",
               "RelativeDocumentMoniker": "BackEnd\\Enums\\IdentificationType.cs",
@@ -287,12 +308,11 @@
               "RelativeToolTip": "BackEnd\\Enums\\IdentificationType.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-09T04:25:52.514Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-09T04:25:52.514Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "InvoiceReceiptDTO.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\InvoiceReceiptDTO.cs",
               "RelativeDocumentMoniker": "BackEnd\\DTOs\\InvoiceReceiptDTO.cs",
@@ -305,7 +325,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 17,
               "Title": "CreateComboCommand.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Commands\\Products\\Combos\\CreateComboCommand.cs",
               "RelativeDocumentMoniker": "BackEnd\\Mediator\\Commands\\Products\\Combos\\CreateComboCommand.cs",
@@ -313,12 +333,11 @@
               "RelativeToolTip": "BackEnd\\Mediator\\Commands\\Products\\Combos\\CreateComboCommand.cs",
               "ViewState": "AgIAACAAAAAAAAAAAAAAABkAAABYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-05T18:53:09.236Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-05T18:53:09.236Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 18,
               "Title": "AppointmentsProfile.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Profiles\\Appointments\\AppointmentsProfile.cs",
               "RelativeDocumentMoniker": "BackEnd\\Profiles\\Appointments\\AppointmentsProfile.cs",
@@ -330,7 +349,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 19,
               "Title": "CreateAppointmentCommand.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Commands\\Appointments\\Appointments\\CreateAppointmentCommand.cs",
               "RelativeDocumentMoniker": "BackEnd\\Mediator\\Commands\\Appointments\\Appointments\\CreateAppointmentCommand.cs",
@@ -342,7 +361,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 20,
               "Title": "UpdateAppointmentCommand.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Commands\\Appointments\\Appointments\\UpdateAppointmentCommand.cs",
               "RelativeDocumentMoniker": "BackEnd\\Mediator\\Commands\\Appointments\\Appointments\\UpdateAppointmentCommand.cs",
