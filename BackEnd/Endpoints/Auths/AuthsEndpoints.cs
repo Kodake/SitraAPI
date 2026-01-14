@@ -36,17 +36,16 @@ namespace BackEnd.Endpoints
             IMapper mapper)
         {
             if (dto == null)
-            {
                 return TypedResults.BadRequest();
-            }
 
             var user = mapper.Map<User>(dto);
+
+            user.TenantId = Guid.NewGuid();
+
             var result = await userManager.CreateAsync(user, dto.Password);
 
             if (!result.Succeeded)
-            {
                 return TypedResults.BadRequest(result.Errors);
-            }
 
             return TypedResults.Created();
         }
@@ -146,7 +145,7 @@ namespace BackEnd.Endpoints
             AddIfNotNull("companyName", user.CompanyName);
             AddIfNotNull("rucNumber", user.RucNumber);
             AddIfNotNull("address", user.Address);
-            AddIfNotNull("tenantId", user.TenantId);
+            AddIfNotNull("tenantId", user.TenantId.ToString());
 
             var claimsDb = await userManager.GetClaimsAsync(user);
             claims.AddRange(claimsDb.Where(c => !string.IsNullOrWhiteSpace(c.Value)));

@@ -12,7 +12,7 @@ namespace BackEnd.Context.Auths
             builder.Property(p => p.RucNumber).HasMaxLength(11);
             builder.Property(p => p.Address).HasMaxLength(100);
             builder.Property(p => p.PhoneNumber).HasMaxLength(10);
-            builder.Property(p => p.TenantId).HasMaxLength(50).IsRequired(false);
+            builder.Property(p => p.TenantId).IsRequired();
         }
     }
 }
