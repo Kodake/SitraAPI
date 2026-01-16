@@ -138,7 +138,7 @@ namespace SITRA.Core.Validations
 
             RuleFor(x => x.CustomerId)
                 .MustAsync(async (id, _) =>
-                    id.HasValue && await unitOfWork.ContactRepository.ExistsAsync(id.Value))
+                    !id.HasValue || await unitOfWork.ContactRepository.ExistsAsync(id.Value))
                 .WithMessage(x => string.Format(Utilities.NotExistsWith, x.CustomerId));
 
             RuleFor(x => x.FiscalSupportId)
