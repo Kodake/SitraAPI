@@ -79,8 +79,8 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuer = true,
         ValidateAudience = true,
         ValidAudience = builder.Configuration["Jwt:Audience"],
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
+        ValidIssuer = builder.Configuration["Authentication:Schemes:Bearer:SigningKeys:0:Issuer"],
+        IssuerSigningKeys = Keys.GetAllKeys(builder.Configuration)
     };
 });
 
@@ -100,7 +100,8 @@ builder.Services.AddCors(options =>
     {
         builder.AllowAnyOrigin()
                .AllowAnyMethod()
-               .AllowAnyHeader();
+               .AllowAnyHeader()
+               .WithExposedHeaders("totalcountrecords");
     });
 });
 

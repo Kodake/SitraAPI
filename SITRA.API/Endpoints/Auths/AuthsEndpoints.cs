@@ -158,11 +158,15 @@ namespace SITRA.API.Endpoints
             //);
 
             var signingKey = Keys.GetAllKeys(configuration).First();
+            var issuer = configuration["Authentication:Schemes:Bearer:SigningKeys:0:Issuer"];
+            var audience = configuration["Jwt:Audience"];
 
             var creds = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
             var expiration = DateTime.UtcNow.AddYears(1);
 
             var token = new JwtSecurityToken(
+                issuer: issuer,
+                audience: audience,
                 claims: claims,
                 expires: expiration,
                 signingCredentials: creds
