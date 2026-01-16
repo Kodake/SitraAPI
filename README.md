@@ -1,6 +1,6 @@
-# BackEnd
+# SITRA
 
-BackEnd is a minimal API project built with .NET 8 that serves as the backend for PosAPI.
+SITRA is a minimal API project built with .NET 8 that serves as the backend project.
 
 ## Prerequisites
 
@@ -10,7 +10,7 @@ Before you begin, ensure you have met the following requirements:
 
 ## Getting Started
 
-To get started with BackEnd, follow these steps:
+To get started with SITRA, follow these steps:
 
 1. Clone this repository:
    ```bash
@@ -18,7 +18,7 @@ To get started with BackEnd, follow these steps:
 
 2. Navigate to the project directory:
    ```bash
-   cd BackEnd
+   cd SITRA
 
 3. Build and run the API:
    ```bash
