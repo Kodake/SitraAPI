@@ -79,7 +79,7 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuer = true,
         ValidateAudience = true,
         ValidAudience = builder.Configuration["Jwt:Audience"],
-        ValidIssuer = builder.Configuration["Authentication:Schemes:Bearer:SigningKeys:0:Issuer"],
+        ValidIssuer = builder.Configuration["Authentication:Schemes:Bearer:Issuer"],
         IssuerSigningKeys = Keys.GetAllKeys(builder.Configuration)
     };
 });

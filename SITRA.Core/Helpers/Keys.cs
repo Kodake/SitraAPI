@@ -1,5 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
 namespace SITRA.Core.Helpers;
 
 public static class Keys
@@ -11,6 +13,7 @@ public static class Keys
 
         var keys = new List<SecurityKey>();
 
+        // Try to load from SigningKeys section first
         foreach (var child in section.GetChildren())
         {
             var value = child["Value"];
@@ -26,6 +29,17 @@ public static class Keys
             {
                 KeyId = keyId
             });
+        }
+
+        // Fallback to Jwt:Key if no SigningKeys found
+        if (keys.Count == 0)
+        {
+            var jwtKey = configuration["Jwt:Key"];
+            if (!string.IsNullOrWhiteSpace(jwtKey))
+            {
+                var keyBytes = Encoding.UTF8.GetBytes(jwtKey);
+                keys.Add(new SymmetricSecurityKey(keyBytes));
+            }
         }
 
         return keys;

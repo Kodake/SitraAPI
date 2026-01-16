@@ -90,7 +90,8 @@ namespace SITRA.API.Endpoints
             HttpContext httpContext,
             [FromServices] IUnitOfWork unitOfWork)
         {
-            var userEmail = httpContext.User?.FindFirst("email")?.Value;
+            //var userEmail = httpContext.User?.FindFirst("email")?.Value;
+            var userEmail = httpContext.User?.Claims.First().Value;
 
             if (string.IsNullOrWhiteSpace(userEmail))
             {
@@ -158,7 +159,7 @@ namespace SITRA.API.Endpoints
             //);
 
             var signingKey = Keys.GetAllKeys(configuration).First();
-            var issuer = configuration["Authentication:Schemes:Bearer:SigningKeys:0:Issuer"];
+            var issuer = configuration["Authentication:Schemes:Bearer:Issuer"];
             var audience = configuration["Jwt:Audience"];
 
             var creds = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
