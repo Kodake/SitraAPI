@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using SITRA.Infrastructure.Persistence;
 using SITRA.Infrastructure.Repositories.Generics;
@@ -24,7 +25,7 @@ namespace SITRA.Infrastructure.Services
 
         public async Task<User?> GetUserAsync()
         {
-            var emailClaim = httpContext.User.Claims.FirstOrDefault(x => x.Type == "email");
+            var emailClaim = httpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email || x.Type == "email");
 
             if (emailClaim is null)
                 return null;

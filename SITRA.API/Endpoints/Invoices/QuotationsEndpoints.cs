@@ -1,6 +1,7 @@
 using SITRA.Core.DTOs;
 using SITRA.Core.DTOs.Invoices.Quotations;
 using SITRA.Core.DTOs.Invoices.SaleInvoices;
+using SITRA.API.Filters;
 using SITRA.API.Helpers;
 using SITRA.Core.Mediator.Commands.Invoices.Quotations;
 using SITRA.Core.Mediator.Commands.Invoices.SaleInvoices;
@@ -19,9 +20,9 @@ namespace SITRA.API.Endpoints.Invoices
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("quotations-get"))
                 .AddPaginationParamsOpenAPI().RequireAuthorization();
             group.MapGet("/{id:long}", GetById).RequireAuthorization();
-            group.MapPost("/", Create).DisableAntiforgery().WithOpenApi().RequireAuthorization();
-            group.MapPost("/{id:long}/process", Process).DisableAntiforgery().WithOpenApi().RequireAuthorization();
-            group.MapPut("/{id:long}", Update).DisableAntiforgery().WithOpenApi().RequireAuthorization();
+            group.MapPost("/", Create).DisableAntiforgery().AddEndpointFilter<ValidationFilter<CreateQuotationDTO>>().WithOpenApi().RequireAuthorization();
+            group.MapPost("/{id:long}/process", Process).DisableAntiforgery().AddEndpointFilter<ValidationFilter<CreateSaleInvoiceDTO>>().WithOpenApi().RequireAuthorization();
+            group.MapPut("/{id:long}", Update).DisableAntiforgery().AddEndpointFilter<ValidationFilter<CreateQuotationDTO>>().WithOpenApi().RequireAuthorization();
             group.MapGet("/{invoiceId}/generate-pdf", GeneratePdf).WithOpenApi().RequireAuthorization();
             return group;
         }
@@ -71,7 +72,7 @@ namespace SITRA.API.Endpoints.Invoices
             [FromServices] IMediator mediator,
             IOutputCacheStore outputCacheStore)
         {
-            var command = new CreateSaleInvoiceCommand(dto);
+            var command = new ProcessQuotationCommand(id, dto);
             var saleDTO = await mediator.Send(command);
 
             return saleDTO == null

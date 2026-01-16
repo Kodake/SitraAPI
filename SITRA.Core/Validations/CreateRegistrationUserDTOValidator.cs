@@ -8,15 +8,15 @@ namespace SITRA.Core.Validations
     public class CreateRegistrationUserDTOValidator
         : AbstractValidator<CreateRegistrationUserDTO>
     {
-        public CreateRegistrationUserDTOValidator(IHttpContextAccessor httpContextAccessor)
+        public CreateRegistrationUserDTOValidator()
         {
-            var routeId = httpContextAccessor.HttpContext?.Request.RouteValues["id"];
-            var id = 0;
+            RuleFor(x => x.Email)
+                .NotEmpty().WithMessage(Utilities.RequiredFieldMessage)
+                .EmailAddress().WithMessage(Utilities.EmailMessage);
 
-            if (routeId is string valorString)
-            {
-                _ = int.TryParse(valorString, out id);
-            }
+            RuleFor(x => x.Password)
+                .NotEmpty().WithMessage(Utilities.RequiredFieldMessage)
+                .MinimumLength(6).WithMessage("La contraseña debe tener al menos 6 caracteres.");
 
             RuleFor(x => x.Address)
                 .MinimumLength(2).WithMessage(Utilities.MinimunLengthMessage)

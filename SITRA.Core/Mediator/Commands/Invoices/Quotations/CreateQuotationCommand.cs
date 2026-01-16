@@ -15,24 +15,13 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
 
         public override async Task<CreateQuotationDTO> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
         {
-            // Validate DTO
-            var validator = new CreateQuotationDTOValidator(unitOfWork);
-            var validationResult = await validator.ValidateAsync(Dto);
-            if (!validationResult.IsValid)
-            {
-                throw new ValidationException(validationResult.Errors);
-            }
-
+            // All validations are handled by FluentValidation before this action is executed
             var currencyDB = await unitOfWork.CurrencyRepository.GetByIdAsync(Dto.CurrencyId);
-            if (currencyDB == null)
-            {
-                throw new Exception($"Currency with id {Dto.CurrencyId} not found.");
-            }
 
             var saleInvoice = mapper.Map<Invoice>(Dto);
             saleInvoice.InvoiceType = InvoiceType.Quotation;
 
-            double currencyRate = currencyDB.Rate;
+            double currencyRate = currencyDB!.Rate;
             await CalculateInvoiceTotals(Dto.InvoiceItems, saleInvoice, unitOfWork, currencyRate);
 
             await unitOfWork.SaleInvoiceRepository.CreateAsync(saleInvoice);
@@ -66,10 +55,9 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
                 switch (itemDTO.ItemType)
                 {
                     case ItemType.Product:
-                        var product = await unitOfWork.ProductRepository.GetByIdAsync(itemDTO.ItemId)
-                            ?? throw new Exception($"Product with id {itemDTO.ItemId} not found.");
+                        var product = await unitOfWork.ProductRepository.GetByIdAsync(itemDTO.ItemId);
 
-                        var productBasePrice = product.PricingItems.First(x => x.ItemId == itemDTO.ItemId).BasePrice / currencyRate;
+                        var productBasePrice = product!.PricingItems.First(x => x.ItemId == itemDTO.ItemId).BasePrice / currencyRate;
                         var productTaxAmount = product.ItemTaxes.Sum(x => x?.Tax?.Amount) ?? 0;
 
                         totalQtyItems += itemDTO.Qty;
@@ -79,10 +67,9 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
                         break;
 
                     case ItemType.Service:
-                        var service = await unitOfWork.ServiceRepository.GetByIdAsync(itemDTO.ItemId)
-                            ?? throw new Exception($"Service with id {itemDTO.ItemId} not found.");
+                        var service = await unitOfWork.ServiceRepository.GetByIdAsync(itemDTO.ItemId);
 
-                        var serviceBasePrice = service.PricingItems.First(x => x.ItemId == itemDTO.ItemId).BasePrice / currencyRate;
+                        var serviceBasePrice = service!.PricingItems.First(x => x.ItemId == itemDTO.ItemId).BasePrice / currencyRate;
                         var serviceTaxAmount = service.ItemTaxes.Sum(x => x?.Tax?.Amount) ?? 0;
 
                         totalQtyItems += itemDTO.Qty;
@@ -92,7 +79,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
                         break;
 
                     default:
-                        throw new InvalidOperationException($"Unknown ItemType {itemDTO.ItemType} for ItemId {itemDTO.ItemId}");
+                        break;
                 }
             }
 
@@ -142,10 +129,9 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
             IUnitOfWork unitOfWork,
             double currencyRate)
         {
-            var item = await unitOfWork.ItemRepository.GetByIdAsync(itemDTO.ItemId)
-                ?? throw new Exception($"Item with id {itemDTO.ItemId} not found.");
+            var item = await unitOfWork.ItemRepository.GetByIdAsync(itemDTO.ItemId);
 
-            var basePrice = item.PricingItems.First(x => x.ItemId == itemDTO.ItemId).BasePrice / currencyRate;
+            var basePrice = item!.PricingItems.First(x => x.ItemId == itemDTO.ItemId).BasePrice / currencyRate;
             var taxAmount = item.ItemTaxes.Sum(x => x?.Tax?.Amount) ?? 0;
 
             return (basePrice, taxAmount);

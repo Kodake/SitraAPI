@@ -17,43 +17,17 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
     {
         public override async Task<CreateSaleInvoiceDTO> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
         {
-            var user = await unitOfWork.UserService.GetUserAsync() ?? throw new UnauthorizedAccessException("No user authenticated found.");
+            // All validations are handled by FluentValidation before this action is executed
+            var user = await unitOfWork.UserService.GetUserAsync();
             var pettyCash = await unitOfWork.PettyCashRepository.GetOpenPettyCashAsync();
 
-            if (pettyCash is not null)
-            {
-                if (pettyCash.UserId != user.Id)
-                {
-                    throw new Exception($"Cannot create invoice. The petty cash is currently opened by {pettyCash?.User.Email}. Please wait until it is closed.");
-                }
-            }
-
-            if (pettyCash == null)
-            {
-                throw new Exception("You need an opened petty cash to proceed.");
-            }
-
-            // Validate DTO
-            var validator = new CreateSaleInvoiceDTOValidator(unitOfWork);
-            var validationResult = await validator.ValidateAsync(Dto, cancellationToken);
-            if (!validationResult.IsValid)
-            {
-                throw new ValidationException(validationResult.Errors);
-            }
-
-            var quotation = await unitOfWork.QuotationRepository.GetByIdAsync(Id) ?? throw new ValidationException("Quotation not found.");
+            var quotation = await unitOfWork.QuotationRepository.GetByIdAsync(Id);
 
             var fiscalSupportDB = Dto.FiscalSupportId.HasValue
                 ? await unitOfWork.FiscalSupportRepository.GetByIdAsync(Dto.FiscalSupportId.Value)
                 : null;
 
             var currencyDB = await unitOfWork.CurrencyRepository.GetByIdAsync(Dto.CurrencyId);
-
-            if (currencyDB == null)
-                throw new Exception("Currency not found.");
-
-            if (Dto.FiscalSupportId.HasValue && fiscalSupportDB == null)
-                throw new Exception("Fiscal support not found.");
 
             var saleInvoice = mapper.Map<Invoice>(Dto);
             saleInvoice.InvoiceType = InvoiceType.Sale;
@@ -64,7 +38,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
                 unitOfWork.FiscalSupportRepository.Update(fiscalSupportDB);
             }
 
-            double currencyRate = currencyDB.Rate;
+            double currencyRate = currencyDB!.Rate;
             await CalculateInvoiceTotals(Dto.InvoiceItems, saleInvoice, unitOfWork, currencyRate);
 
             await unitOfWork.SaleInvoiceRepository.CreateAsync(saleInvoice);
@@ -108,7 +82,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
 
             await AddInvoiceItems(Dto.InvoiceItems, saleInvoice, unitOfWork, mapper, currencyRate);
             await ReduceStock(Dto, unitOfWork);
-            await AddPettyCashMovement(unitOfWork, pettyCash, saleInvoice);
+            await AddPettyCashMovement(unitOfWork, pettyCash!, saleInvoice);
             await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("fiscal-supports-get", cancellationToken);
             await outputCacheStore.EvictByTagAsync("stocks-get", cancellationToken);
@@ -133,10 +107,9 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
                 switch (itemDTO.ItemType)
                 {
                     case ItemType.Product:
-                        var product = await unitOfWork.ProductRepository.GetByIdAsync(itemDTO.ItemId)
-                            ?? throw new Exception($"Product with id {itemDTO.ItemId} not found.");
+                        var product = await unitOfWork.ProductRepository.GetByIdAsync(itemDTO.ItemId);
 
-                        var productBasePrice = product.PricingItems.First(x => x.ItemId == itemDTO.ItemId).BasePrice / currencyRate;
+                        var productBasePrice = product!.PricingItems.First(x => x.ItemId == itemDTO.ItemId).BasePrice / currencyRate;
                         var productTaxAmount = product.ItemTaxes.Sum(x => x?.Tax?.Amount) ?? 0;
 
                         totalQtyItems += itemDTO.Qty;
@@ -146,10 +119,9 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
                         break;
 
                     case ItemType.Service:
-                        var service = await unitOfWork.ServiceRepository.GetByIdAsync(itemDTO.ItemId)
-                            ?? throw new Exception($"Service with id {itemDTO.ItemId} not found.");
+                        var service = await unitOfWork.ServiceRepository.GetByIdAsync(itemDTO.ItemId);
 
-                        var serviceBasePrice = service.PricingItems.First(x => x.ItemId == itemDTO.ItemId).BasePrice / currencyRate;
+                        var serviceBasePrice = service!.PricingItems.First(x => x.ItemId == itemDTO.ItemId).BasePrice / currencyRate;
                         var serviceTaxAmount = service.ItemTaxes.Sum(x => x?.Tax?.Amount) ?? 0;
 
                         totalQtyItems += itemDTO.Qty;
@@ -159,10 +131,9 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
                         break;
 
                     case ItemType.Combo:
-                        var combo = await unitOfWork.ComboRepository.GetByIdAsync(itemDTO.ItemId)
-                            ?? throw new Exception($"Combo with id {itemDTO.ItemId} not found.");
+                        var combo = await unitOfWork.ComboRepository.GetByIdAsync(itemDTO.ItemId);
 
-                        var comboBasePrice = combo.PricingItems.First(x => x.ItemId == itemDTO.ItemId).BasePrice / currencyRate;
+                        var comboBasePrice = combo!.PricingItems.First(x => x.ItemId == itemDTO.ItemId).BasePrice / currencyRate;
                         var comboTaxAmount = combo.ItemTaxes.Sum(x => x?.Tax?.Amount) ?? 0;
 
                         totalQtyItems += itemDTO.Qty;
@@ -172,7 +143,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
                         break;
 
                     default:
-                        throw new InvalidOperationException($"Unknown ItemType {itemDTO.ItemType} for ItemId {itemDTO.ItemId}");
+                        break;
                 }
             }
 
@@ -226,10 +197,9 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
             {
                 if (item.ItemType == ItemType.Product)
                 {
-                    var stock = await unitOfWork.StockRepository.GetByItemIdAndWarehouseId(item.ItemId, dto.WarehouseId)
-                                ?? throw new InvalidOperationException($"Stock not found for ItemId {item.ItemId} in the specified warehouse.");
+                    var stock = await unitOfWork.StockRepository.GetByItemIdAndWarehouseId(item.ItemId, dto.WarehouseId);
 
-                    if (!stockAdjustments.ContainsKey(stock.Id))
+                    if (!stockAdjustments.ContainsKey(stock!.Id))
                         stockAdjustments[stock.Id] = 0;
 
                     stockAdjustments[stock.Id] -= item.Qty;
@@ -237,16 +207,14 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
 
                 if (item.ItemType == ItemType.Combo)
                 {
-                    var combo = await unitOfWork.ComboRepository.GetByIdAsync(item.ItemId)
-                                ?? throw new InvalidOperationException($"Combo with id {item.ItemId} not found.");
+                    var combo = await unitOfWork.ComboRepository.GetByIdAsync(item.ItemId);
 
-                    foreach (var comboItem in combo.ComboItems)
+                    foreach (var comboItem in combo!.ComboItems)
                     {
                         var stock = await unitOfWork.StockRepository
-                            .GetByItemIdAndWarehouseId(comboItem.ChildItemId, dto.WarehouseId)
-                            ?? throw new InvalidOperationException($"Stock with id {comboItem.ChildItemId} not found.");
+                            .GetByItemIdAndWarehouseId(comboItem.ChildItemId, dto.WarehouseId);
 
-                        if (!stockAdjustments.ContainsKey(stock.Id))
+                        if (!stockAdjustments.ContainsKey(stock!.Id))
                             stockAdjustments[stock.Id] = 0;
 
                         stockAdjustments[stock.Id] -= comboItem.Qty * item.Qty;
@@ -257,10 +225,9 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
             // ?? aplicar todos los cambios a los stocks en una sola pasada
             foreach (var adjustment in stockAdjustments)
             {
-                var stock = await unitOfWork.StockRepository.GetByIdAsync(adjustment.Key)
-                            ?? throw new InvalidOperationException($"Stock with id {adjustment.Key} not found on update.");
+                var stock = await unitOfWork.StockRepository.GetByIdAsync(adjustment.Key);
 
-                stock.Qty += adjustment.Value; // Value es negativo ? resta
+                stock!.Qty += adjustment.Value; // Value es negativo ? resta
                 unitOfWork.StockRepository.Update(stock);
             }
         }
@@ -306,10 +273,9 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
             IUnitOfWork unitOfWork,
             double currencyRate)
         {
-            var item = await unitOfWork.ItemRepository.GetByIdAsync(itemDTO.ItemId)
-                ?? throw new Exception($"Item with id {itemDTO.ItemId} not found.");
+            var item = await unitOfWork.ItemRepository.GetByIdAsync(itemDTO.ItemId);
 
-            var basePrice = item.PricingItems.First(x => x.ItemId == itemDTO.ItemId).BasePrice / currencyRate;
+            var basePrice = item!.PricingItems.First(x => x.ItemId == itemDTO.ItemId).BasePrice / currencyRate;
             var taxAmount = item.ItemTaxes.Sum(x => x?.Tax?.Amount) ?? 0;
 
             return (basePrice, taxAmount);

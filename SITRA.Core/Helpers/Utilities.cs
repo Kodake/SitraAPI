@@ -5,20 +5,20 @@ namespace SITRA.Core.Helpers
     public class Utilities
     {
         public static string RequiredFieldMessage = "El campo {PropertyName} es requerido";
-        public static string MinimunLengthMessage = "El campo {PropertyName} debe tener m·s de {MinLength} caracteres";
+        public static string MinimunLengthMessage = "El campo {PropertyName} debe tener m√°s de {MinLength} caracteres";
         public static string MaximunLengthMessage = "El campo {PropertyName} debe tener menos de {MaxLength} caracteres";
-        public static string FirstCharUpperMessage = "El campo {PropertyName} debe comenzar con may˙sculas";
-        public static string EmailMessage = "El campo {PropertyName} debe ser un email v·lido";
+        public static string FirstCharUpperMessage = "El campo {PropertyName} debe comenzar con may√∫sculas";
+        public static string EmailMessage = "El campo {PropertyName} debe ser un email v√°lido";
         public static string GreatherThanZero = "El campo {PropertyName} debe ser mayor a {0}";
         public static string GreaterThanOrEqualToZero = "El campo {PropertyName} debe ser mayor o igual a {0}";
         public static string NameAlreadyExistsWith = "Ya existe con el nombre {0}";
-        public static string CodeAlreadyExistsWith = "Ya existe con el cÛdigo {0}";
+        public static string CodeAlreadyExistsWith = "Ya existe con el c√≥digo {0}";
         public static string NotExistsWith = "No existe {PropertyName} con el valor {0}";
-        public static string InvalidEnumValueMessage = "El campo {PropertyName} tiene un valor inv·lido";
+        public static string InvalidEnumValueMessage = "El campo {PropertyName} tiene un valor inv√°lido";
         public static string RequiredFieldForConditionMessage = "El campo {PropertyName} es obligatorio cuando {0} es {1}";
         public static string MaximumSupportsReachedMessage = "Maximum fiscal supports reached for this warehouse";
         public static string IdNotExistMessage = "El Id {0} no existe. Favor, verifique y vuelva a intentarlo";
-        public static string ReceiptAlreadyPaidMessage = "El recibo asociado ya ha sido pagado. No se pueden realizar m·s pagos";
+        public static string ReceiptAlreadyPaidMessage = "El recibo asociado ya ha sido pagado. No se pueden realizar m√°s pagos";
         public static string WithdrawnAmountWontBeGreatherThanAvailableCash = "The withdrawn amount cannot be greater than the available cash";
         public static string MinItemsRequired = "At least 2 itemIds are required";
         public static string EachItemMustBeGreatherThanZero = "Each itemId must be greater than 0";
@@ -70,7 +70,7 @@ namespace SITRA.Core.Helpers
 
         public static string FiscalSupportAlreadyExistsMessage(FiscalSupportType supportType, long warehouseId)
         {
-            return $"Ya existe un comprobante del tipo {supportType} para el almacÈn {warehouseId}";
+            return $"Ya existe un comprobante del tipo {supportType} para el almac√©n {warehouseId}";
         }
     }
 }

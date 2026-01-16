@@ -15,8 +15,9 @@ namespace SITRA.Core.Mediator.Queries.CashBoxes
             IMapper mapper,
             CancellationToken cancellationToken)
         {
-            var user = await unitOfWork.UserService.GetUserAsync()
-                ?? throw new UnauthorizedAccessException("No user authenticated found.");
+            var user = await unitOfWork.UserService.GetUserAsync();
+            if (user == null)
+                return null;
 
             var pettyCash = await unitOfWork.PettyCashRepository.GetAllByUserIdAsync(user.Id);
             if (pettyCash == null)

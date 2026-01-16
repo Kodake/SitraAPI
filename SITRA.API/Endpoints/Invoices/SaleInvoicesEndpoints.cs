@@ -1,6 +1,7 @@
 using SITRA.Core.DTOs;
 using SITRA.Core.DTOs.Invoices.SaleInvoices;
 using SITRA.API.Helpers;
+using SITRA.API.Filters;
 using SITRA.Core.Mediator.Commands.Invoices.SaleInvoices;
 using SITRA.Core.Mediator.Queries.Invoices.SaleInvoices;
 using MediatR;
@@ -20,7 +21,7 @@ namespace SITRA.API.Endpoints.Invoices
                 .AddPaginationParamsOpenAPI();
             group.MapGet("/sales-report", GenerateReportPdf).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("saleInvoices-get"));
             group.MapGet("/{id:long}", GetById);
-            group.MapPost("/", Create).DisableAntiforgery().WithOpenApi().RequireAuthorization();
+            group.MapPost("/", Create).DisableAntiforgery().AddEndpointFilter<ValidationFilter<CreateSaleInvoiceDTO>>().WithOpenApi().RequireAuthorization();
             group.MapGet("/{invoiceId}/generate-pdf", GeneratePdf).WithOpenApi();
             group.MapGet("/{invoiceId}/generate-receipt-pdf", GenerateReceiptPdf).WithOpenApi();
             return group;

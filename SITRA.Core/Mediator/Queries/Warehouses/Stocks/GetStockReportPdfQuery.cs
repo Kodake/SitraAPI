@@ -10,7 +10,7 @@ namespace SITRA.Core.Mediator.Queries.Warehouses.Stocks
 
         public GetStockReportPdfQuery(List<long> warehouseIds)
         {
-            WarehouseIds = warehouseIds ?? throw new ArgumentNullException(nameof(warehouseIds));
+            WarehouseIds = warehouseIds ?? new List<long>();
         }
 
         public async Task<(byte[] FileBytes, string FileName)?> GetData(
@@ -18,6 +18,9 @@ namespace SITRA.Core.Mediator.Queries.Warehouses.Stocks
             IMapper mapper,
             CancellationToken cancellationToken)
         {
+            if (WarehouseIds == null || !WarehouseIds.Any())
+                return null;
+
             QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
 
             var stocks = await unitOfWork.StockRepository.GetStockByWarehouseIdsAsync(WarehouseIds);

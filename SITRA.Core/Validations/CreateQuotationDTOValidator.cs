@@ -28,6 +28,28 @@ namespace SITRA.Core.Validations
             RuleFor(x => x.CurrencyId)
                 .MustAsync(async (id, _) => await unitOfWork.CurrencyRepository.ExistsAsync(id))
                 .WithMessage(x => string.Format(Utilities.NotExistsWith, x.CurrencyId));
+
+            // Quotation items validation - each item must exist
+            RuleForEach(x => x.InvoiceItems)
+                .ChildRules(item =>
+                {
+                    item.RuleFor(x => x)
+                        .MustAsync(async (itemDTO, cancellation) =>
+                        {
+                            switch (itemDTO.ItemType)
+                            {
+                                case SITRA.Core.Enums.ItemType.Product:
+                                    var product = await unitOfWork.ProductRepository.GetByIdAsync(itemDTO.ItemId);
+                                    return product != null;
+                                case SITRA.Core.Enums.ItemType.Service:
+                                    var service = await unitOfWork.ServiceRepository.GetByIdAsync(itemDTO.ItemId);
+                                    return service != null;
+                                default:
+                                    return false;
+                            }
+                        })
+                        .WithMessage(itemDTO => $"{itemDTO.ItemType} with id {itemDTO.ItemId} not found.");
+                });
         }
     }
 }

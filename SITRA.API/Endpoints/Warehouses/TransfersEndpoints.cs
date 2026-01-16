@@ -22,10 +22,10 @@ namespace SITRA.API.Endpoints
                .AddEndpointFilter<ValidationFilter<CreateTransferDTO>>()
                .WithOpenApi().RequireAuthorization();
             group.MapPut("/received/{id:long}", Received).DisableAntiforgery()
-               .AddEndpointFilter<ValidationFilter<CreateTransferDTO>>()
+               .AddEndpointFilter<ValidationFilter<CreateTransferStatusDTO>>()
                .WithOpenApi().RequireAuthorization();
             group.MapPut("/cancelled/{id:long}", Cancelled).DisableAntiforgery()
-               .AddEndpointFilter<ValidationFilter<CreateTransferDTO>>()
+               .AddEndpointFilter<ValidationFilter<CreateTransferStatusDTO>>()
                .WithOpenApi().RequireAuthorization();
             return group;
         }

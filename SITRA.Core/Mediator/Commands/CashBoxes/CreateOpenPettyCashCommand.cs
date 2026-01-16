@@ -16,24 +16,13 @@ namespace SITRA.Core.Mediator.Commands.CashBoxes
             IMapper mapper,
             CancellationToken cancellationToken)
         {
-            var user = await unitOfWork.UserService.GetUserAsync()
-                ?? throw new UnauthorizedAccessException("No user authenticated found.");
-
-            var otherOpenPettyCash = await unitOfWork.PettyCashRepository.GetOpenPettyCashAsync();
-            if (otherOpenPettyCash != null)
-            {
-                throw new Exception($"Petty cash is currently opened by {otherOpenPettyCash.User.Email}. Please wait until it is closed.");
-            }
-
-            var existingUserPettyCash = await unitOfWork.PettyCashRepository.GetOpenPettyCashByUserIdAsync(user.Id);
-            if (existingUserPettyCash != null)
-            {
-                throw new Exception("You already have an open petty cash. Please close it before opening a new one.");
-            }
+            // All validations are handled by FluentValidation
+            // These calls are now safe because validation ensures they exist
+            var user = await unitOfWork.UserService.GetUserAsync();
 
             var pettyCash = new PettyCash
             {
-                UserId = user.Id,
+                UserId = user!.Id,
                 OpeningAmount = Dto.OpeningAmount,
                 ClosingAmount = Dto.OpeningAmount,
                 OpeningDate = DateTime.UtcNow,

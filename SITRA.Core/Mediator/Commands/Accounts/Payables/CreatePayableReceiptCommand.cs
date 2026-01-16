@@ -15,13 +15,12 @@ namespace SITRA.Core.Mediator.Commands.Accounts.Payables
         {
             var payableReceipt = mapper.Map<PayableReceipt>(Dto);
 
-            var payable = await unitOfWork.PayableRepository.GetByIdAsync(Id)
-                ?? throw new InvalidOperationException("Payable not found.");
+            var payable = await unitOfWork.PayableRepository.GetByIdAsync(Id);
 
             payableReceipt.PayableId = Id;
             await unitOfWork.PayableReceiptRepository.CreateAsync(payableReceipt);
 
-            payable.TotalOutstanding += payableReceipt.Amount;
+            payable!.TotalOutstanding += payableReceipt.Amount;
 
             payable.Status = payable.TotalOutstanding switch
             {
@@ -30,7 +29,7 @@ namespace SITRA.Core.Mediator.Commands.Accounts.Payables
                 _ => payable.Status
             };
 
-            unitOfWork.PayableRepository.Update(payable);
+            unitOfWork.PayableRepository.Update(payable!);
             await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("payableReceipts-get", cancellationToken);
             await outputCacheStore.EvictByTagAsync("payables-get", cancellationToken);

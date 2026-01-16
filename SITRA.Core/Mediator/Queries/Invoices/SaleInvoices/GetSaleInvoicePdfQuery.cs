@@ -15,14 +15,14 @@ namespace SITRA.Core.Mediator.Queries.Invoices.SaleInvoices
             CancellationToken cancellationToken)
         {
             QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
-            var purchaseInvoice = await unitOfWork.PurchaseInvoiceRepository.GetByIdAsync(Id);
+            var saleInvoice = await unitOfWork.SaleInvoiceRepository.GetByIdAsync(Id);
 
-            if (purchaseInvoice == null)
+            if (saleInvoice == null)
             {
                 return null;
             }
 
-            var invoiceDocument = new InvoiceDocumentDTO(purchaseInvoice);
+            var invoiceDocument = new InvoiceDocumentDTO(saleInvoice);
             var filePath = Path.Combine(Path.GetTempPath(), $"Sale-Invoice_{Id}.pdf");
             invoiceDocument.GeneratePdf(filePath);
 

@@ -3,6 +3,18 @@
   "WorkspaceRootPath": "C:\\Users\\Kodake\\Desktop\\PosAPI\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A236490C-3D9D-4ED9-A2FF-8A31C3D2BCD6}|SITRA.Core\\SITRA.Core.csproj|c:\\users\\kodake\\desktop\\posapi\\sitra.core\\mediator\\commands\\cashboxes\\createopenpettycashcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A236490C-3D9D-4ED9-A2FF-8A31C3D2BCD6}|SITRA.Core\\SITRA.Core.csproj|solutionrelative:sitra.core\\mediator\\commands\\cashboxes\\createopenpettycashcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{80AD3C08-CD53-444A-BBC6-3A4FCD9600F9}|SITRA.API\\SITRA.API.csproj|c:\\users\\kodake\\desktop\\posapi\\sitra.api\\endpoints\\cashboxes\\pettycashesendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{80AD3C08-CD53-444A-BBC6-3A4FCD9600F9}|SITRA.API\\SITRA.API.csproj|solutionrelative:sitra.api\\endpoints\\cashboxes\\pettycashesendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A236490C-3D9D-4ED9-A2FF-8A31C3D2BCD6}|SITRA.Core\\SITRA.Core.csproj|c:\\users\\kodake\\desktop\\posapi\\sitra.core\\validations\\createopenpettycashdtovalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A236490C-3D9D-4ED9-A2FF-8A31C3D2BCD6}|SITRA.Core\\SITRA.Core.csproj|solutionrelative:sitra.core\\validations\\createopenpettycashdtovalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{80AD3C08-CD53-444A-BBC6-3A4FCD9600F9}|SITRA.API\\SITRA.API.csproj|c:\\users\\kodake\\desktop\\posapi\\sitra.api\\endpoints\\auths\\authsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{80AD3C08-CD53-444A-BBC6-3A4FCD9600F9}|SITRA.API\\SITRA.API.csproj|solutionrelative:sitra.api\\endpoints\\auths\\authsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
@@ -39,12 +51,51 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "CreateOpenPettyCashCommand.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Core\\Mediator\\Commands\\CashBoxes\\CreateOpenPettyCashCommand.cs",
+              "RelativeDocumentMoniker": "SITRA.Core\\Mediator\\Commands\\CashBoxes\\CreateOpenPettyCashCommand.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Core\\Mediator\\Commands\\CashBoxes\\CreateOpenPettyCashCommand.cs",
+              "RelativeToolTip": "SITRA.Core\\Mediator\\Commands\\CashBoxes\\CreateOpenPettyCashCommand.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAgwBsAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-16T21:32:19.707Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CreateOpenPettyCashDTOValidator.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Core\\Validations\\CreateOpenPettyCashDTOValidator.cs",
+              "RelativeDocumentMoniker": "SITRA.Core\\Validations\\CreateOpenPettyCashDTOValidator.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Core\\Validations\\CreateOpenPettyCashDTOValidator.cs",
+              "RelativeToolTip": "SITRA.Core\\Validations\\CreateOpenPettyCashDTOValidator.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAAABkAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-16T21:28:43.22Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PettyCashesEndpoints.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.API\\Endpoints\\CashBoxes\\PettyCashesEndpoints.cs",
+              "RelativeDocumentMoniker": "SITRA.API\\Endpoints\\CashBoxes\\PettyCashesEndpoints.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.API\\Endpoints\\CashBoxes\\PettyCashesEndpoints.cs",
+              "RelativeToolTip": "SITRA.API\\Endpoints\\CashBoxes\\PettyCashesEndpoints.cs",
+              "ViewState": "AgIAADsAAAAAAAAAAAAIwEIAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-16T21:24:08.339Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "AuthsEndpoints.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.API\\Endpoints\\Auths\\AuthsEndpoints.cs",
               "RelativeDocumentMoniker": "SITRA.API\\Endpoints\\Auths\\AuthsEndpoints.cs",
               "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.API\\Endpoints\\Auths\\AuthsEndpoints.cs",
               "RelativeToolTip": "SITRA.API\\Endpoints\\Auths\\AuthsEndpoints.cs",
-              "ViewState": "AgIAAFMAAAAAAAAAAAAwwGQAAABdAAAAAAAAAA==",
+              "ViewState": "AgIAADcAAAAAAAAAAAAwwEEAAABkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-16T19:01:25.679Z",
               "EditorCaption": ""

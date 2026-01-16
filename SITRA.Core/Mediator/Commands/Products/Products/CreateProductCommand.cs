@@ -49,10 +49,8 @@ namespace SITRA.Core.Mediator.Commands.Products.Products
 
             if (Dto.WarehouseId is not null)
             {
+                // Validation ensures warehouse exists
                 var warehouse = await unitOfWork.WarehouseRepository.GetByIdAsync(Dto.WarehouseId.Value);
-
-                if (warehouse == null)
-                    throw new ArgumentException($"Warehouse with ID {Dto.WarehouseId.Value} not found.");
 
                 var stock = new Stock
                 {
@@ -60,7 +58,7 @@ namespace SITRA.Core.Mediator.Commands.Products.Products
                     Qty = 0,
                     MinQty = 0,
                     MaxQty = 0,
-                    Warehouse = warehouse
+                    Warehouse = warehouse!
                 };
 
                 await unitOfWork.StockRepository.CreateAsync(stock);

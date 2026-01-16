@@ -12,16 +12,71 @@ namespace SITRA.Core.Validations
         {
             RuleFor(x => x.WithdrawalAmount)
                 .NotEmpty().WithMessage(Utilities.RequiredFieldMessage)
-                .GreaterThan(0).WithMessage(Utilities.GreatherThanZero)
+                .GreaterThan(0).WithMessage(Utilities.GreatherThanZero);
+
+            // Validate user is authenticated
+            RuleFor(x => x)
+                .MustAsync(async (dto, cancellation) =>
+                {
+                    var user = await unitOfWork.UserService.GetUserAsync();
+                    return user != null;
+                })
+                .WithMessage("No user authenticated found.")
+                .WithName("User");
+
+            // Validate no other user has petty cash open
+            RuleFor(x => x)
+                .MustAsync(async (dto, cancellation) =>
+                {
+                    var user = await unitOfWork.UserService.GetUserAsync();
+                    if (user == null) return true; // Skip if user validation already failed
+
+                    var otherOpenPettyCash = await unitOfWork.PettyCashRepository.GetOpenPettyCashAsync();
+                    return otherOpenPettyCash == null || otherOpenPettyCash.UserId == user.Id;
+                })
+                .MustAsync(async (dto, cancellation) =>
+                {
+                    // This is used to get the dynamic error message with the user's email
+                    var user = await unitOfWork.UserService.GetUserAsync();
+                    if (user == null) return true;
+
+                    var otherOpenPettyCash = await unitOfWork.PettyCashRepository.GetOpenPettyCashAsync();
+                    if (otherOpenPettyCash == null || otherOpenPettyCash.UserId == user.Id)
+                        return true;
+
+                    // Store the email in context for the error message
+                    return false;
+                })
+                .WithMessage((dto, context) =>
+                {
+                    // Get the email from the repository for the error message
+                    var otherOpenPettyCash = unitOfWork.PettyCashRepository.GetOpenPettyCashAsync().Result;
+                    return $"Petty cash is currently opened by {otherOpenPettyCash?.User?.Email}. Please wait until it is closed.";
+                })
+                .WithName("PettyCash");
+
+            // Validate current user has an open petty cash
+            RuleFor(x => x)
+                .MustAsync(async (dto, cancellation) =>
+                {
+                    var user = await unitOfWork.UserService.GetUserAsync();
+                    if (user == null) return true; // Skip if user validation already failed
+
+                    var pettyCash = await unitOfWork.PettyCashRepository.GetOpenPettyCashByUserIdAsync(user.Id);
+                    return pettyCash != null;
+                })
+                .WithMessage("You don't have an open petty cash. Please open one before making a withdrawal.")
+                .WithName("UserPettyCash");
+
+            // Validate withdrawal amount doesn't exceed available cash
+            RuleFor(x => x.WithdrawalAmount)
                 .MustAsync(async (dto, amount, cancellation) =>
                 {
                     var user = await unitOfWork.UserService.GetUserAsync();
-                    if (user == null)
-                        return false;
+                    if (user == null) return true; // Skip if user validation already failed
 
                     var pettyCash = await unitOfWork.PettyCashRepository.GetOpenPettyCashByUserIdAsync(user.Id);
-                    if (pettyCash == null)
-                        return false;
+                    if (pettyCash == null) return true; // Skip if petty cash validation already failed
 
                     return amount <= pettyCash.ClosingAmount;
                 })

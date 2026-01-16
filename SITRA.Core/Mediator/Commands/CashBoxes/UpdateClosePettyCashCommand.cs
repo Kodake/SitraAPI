@@ -21,14 +21,11 @@ namespace SITRA.Core.Mediator.Commands.CashBoxes
         {
             QuestPDF.Settings.License = LicenseType.Community;
 
-            // ?? Ensure user is authenticated
-            var user = await unitOfWork.UserService.GetUserAsync()
-                ?? throw new UnauthorizedAccessException("No authenticated user found.");
+            // All validations are handled by FluentValidation before this action is executed
+            var user = await unitOfWork.UserService.GetUserAsync();
 
             // ?? Get the current open petty cash
-            var pettyCashDB = await unitOfWork.PettyCashRepository.GetOpenPettyCashByUserIdAsync(user.Id);
-            if (pettyCashDB == null || pettyCashDB.UserId != user.Id)
-                return null;
+            var pettyCashDB = await unitOfWork.PettyCashRepository.GetOpenPettyCashByUserIdAsync(user!.Id);
 
             // ?? Update fields
             pettyCashDB.Comments = Dto.Comments;

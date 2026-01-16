@@ -19,13 +19,12 @@ namespace SITRA.Core.Mediator.Commands.Accounts.Receivables
         {
             var paymentReceipt = mapper.Map<PaymentReceipt>(Dto);
 
-            var receivable = await unitOfWork.ReceivableRepository.GetByIdAsync(Id)
-                ?? throw new InvalidOperationException("Receivable not found.");
+            var receivable = await unitOfWork.ReceivableRepository.GetByIdAsync(Id);
 
             paymentReceipt.ReceivableId = Id;
             await unitOfWork.PaymentReceiptRepository.CreateAsync(paymentReceipt);
 
-            receivable.TotalOutstanding += paymentReceipt.Amount;
+            receivable!.TotalOutstanding += paymentReceipt.Amount;
 
             receivable.Status = receivable.TotalOutstanding switch
             {
@@ -34,7 +33,7 @@ namespace SITRA.Core.Mediator.Commands.Accounts.Receivables
                 _ => receivable.Status
             };
 
-            unitOfWork.ReceivableRepository.Update(receivable);
+            unitOfWork.ReceivableRepository.Update(receivable!);
             await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("paymentReceipts-get", cancellationToken);
             await outputCacheStore.EvictByTagAsync("receivables-get", cancellationToken);

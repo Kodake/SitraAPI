@@ -14,11 +14,8 @@ namespace SITRA.Core.Mediator.Commands.Warehouses.Transfers
 
         public override async Task<CreateTransferDTO> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
         {
+            // Validation ensures stock exists and has sufficient quantity
             var stockOrigin = await unitOfWork.StockRepository.GetByItemIdAndWarehouseId(Dto.ProductId, Dto.OriginWarehouseId);
-            if (stockOrigin == null || stockOrigin.Qty < Dto.Qty)
-            {
-                throw new InvalidOperationException(stockOrigin == null ? "Origin stock not found." : "Insufficient stock quantity.");
-            }
 
             var stockDestination = await unitOfWork.StockRepository.GetByItemIdAndWarehouseId(Dto.ProductId, Dto.DestinationWarehouseId);
 
@@ -34,7 +31,7 @@ namespace SITRA.Core.Mediator.Commands.Warehouses.Transfers
             }
 
             var transfer = mapper.Map<Transfer>(Dto);
-            transfer.StockId = stockOrigin.Id;
+            transfer.StockId = stockOrigin!.Id;
             transfer.Status = TransferStatus.Transit;
             transfer.OriginWarehouseId = Dto.OriginWarehouseId;
 

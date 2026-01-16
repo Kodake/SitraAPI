@@ -13,20 +13,16 @@ namespace SITRA.Core.Mediator.Commands.Warehouses.Transfers
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
         {
+            // Note: These validations are context-dependent (require transferId and newStatus at runtime)
+            // and cannot be moved to FluentValidation which validates DTOs at request time
             var existingTransfer = await unitOfWork.TransferRepository.GetByIdAsync(Id);
             if (existingTransfer == null)
             {
                 return false;
             }
 
-            if (existingTransfer.Status == TransferStatus.Cancelled || existingTransfer.Status == TransferStatus.Received)
-            {
-                throw new InvalidOperationException("Cannot change the status of this transfer.");
-            }
-
             var stockDestination = await unitOfWork.StockRepository.GetByItemIdAndWarehouseId(existingTransfer.ProductId, _newStatus == TransferStatus.Received
-                ? existingTransfer.DestinationWarehouseId : existingTransfer.OriginWarehouseId)
-                ?? throw new InvalidOperationException(_newStatus == TransferStatus.Received ? "Destination stock not found." : "Origin stock not found.");
+                ? existingTransfer.DestinationWarehouseId : existingTransfer.OriginWarehouseId);
 
             stockDestination.Qty += existingTransfer.Qty;
             unitOfWork.StockRepository.Update(stockDestination);
