@@ -16,17 +16,17 @@ namespace SITRA.API.Endpoints
         public static RouteGroupBuilder MapTransfers(this RouteGroupBuilder group)
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("transfers-get"))
-                .AddPaginationParamsOpenAPI();
-            group.MapGet("/{id:long}", GetById);
+                .AddPaginationParamsOpenAPI().RequireAuthorization();
+            group.MapGet("/{id:long}", GetById).RequireAuthorization();
             group.MapPost("/", Create).DisableAntiforgery()
                .AddEndpointFilter<ValidationFilter<CreateTransferDTO>>()
-               .WithOpenApi();
+               .WithOpenApi().RequireAuthorization();
             group.MapPut("/received/{id:long}", Received).DisableAntiforgery()
                .AddEndpointFilter<ValidationFilter<CreateTransferDTO>>()
-               .WithOpenApi();
+               .WithOpenApi().RequireAuthorization();
             group.MapPut("/cancelled/{id:long}", Cancelled).DisableAntiforgery()
                .AddEndpointFilter<ValidationFilter<CreateTransferDTO>>()
-               .WithOpenApi();
+               .WithOpenApi().RequireAuthorization();
             return group;
         }
 

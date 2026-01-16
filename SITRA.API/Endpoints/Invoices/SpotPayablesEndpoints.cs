@@ -13,8 +13,8 @@ namespace SITRA.API.Endpoints
         public static RouteGroupBuilder MapSpotPayables(this RouteGroupBuilder group)
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("spotPayables-get"))
-                .AddPaginationParamsOpenAPI();
-            group.MapGet("/{id:long}", GetById).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("spotPayables-get"));
+                .AddPaginationParamsOpenAPI().RequireAuthorization();
+            group.MapGet("/{id:long}", GetById).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("spotPayables-get")).RequireAuthorization();
             return group;
         }
 

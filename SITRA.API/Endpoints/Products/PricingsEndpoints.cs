@@ -16,16 +16,16 @@ namespace SITRA.API.Endpoints
         public static RouteGroupBuilder MapPricings(this RouteGroupBuilder group)
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("pricings-get"))
-                .AddPaginationParamsOpenAPI();
-            group.MapGet("/unregistered-pricings/{id:long}", GetUnregisteredPricingsForItem).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("pricings-get"));
-            group.MapGet("/{id:long}", GetById);
-            group.MapGet("/selects", GetPricings);
+                .AddPaginationParamsOpenAPI().RequireAuthorization();
+            group.MapGet("/unregistered-pricings/{id:long}", GetUnregisteredPricingsForItem).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("pricings-get")).RequireAuthorization();
+            group.MapGet("/{id:long}", GetById).RequireAuthorization();
+            group.MapGet("/selects", GetPricings).RequireAuthorization();
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreatePricingDTO>>()
-                .WithOpenApi();
+                .WithOpenApi().RequireAuthorization();
             group.MapPut("/{id:long}", Update).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreatePricingDTO>>()
-                .WithOpenApi();
+                .WithOpenApi().RequireAuthorization();
             return group;
         }
 

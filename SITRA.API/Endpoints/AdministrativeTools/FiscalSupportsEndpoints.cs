@@ -18,18 +18,18 @@ namespace SITRA.API.Endpoints
         public static RouteGroupBuilder MapFiscalSupports(this RouteGroupBuilder group)
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("fiscalsupports-get"))
-                .AddPaginationParamsOpenAPI();
-            group.MapGet("/selects", GetSelects).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("fiscalsupports-get"));
-            group.MapGet("/{id:long}", GetById);
-            group.MapGet("/supportType/{supportType}/warehouse/{warehouseId:long}", GetByDocumentTypeAndWarehouseId);
+                .AddPaginationParamsOpenAPI().RequireAuthorization();
+            group.MapGet("/selects", GetSelects).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("fiscalsupports-get")).RequireAuthorization();
+            group.MapGet("/{id:long}", GetById).RequireAuthorization();
+            group.MapGet("/supportType/{supportType}/warehouse/{warehouseId:long}", GetByDocumentTypeAndWarehouseId).RequireAuthorization();
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateFiscalSupportDTO>>()
-                .WithOpenApi();
+                .WithOpenApi().RequireAuthorization();
             group.MapPut("/{id:long}", Update).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateFiscalSupportDTO>>()
-                .WithOpenApi();
-            group.MapPatch("/{id:long}/activate", Activate);
-            group.MapDelete("/{id:long}/deactivate", Deactivate);
+                .WithOpenApi().RequireAuthorization();
+            group.MapPatch("/{id:long}/activate", Activate).RequireAuthorization();
+            group.MapDelete("/{id:long}/deactivate", Deactivate).RequireAuthorization();
             return group;
         }
 

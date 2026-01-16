@@ -16,17 +16,17 @@ namespace SITRA.API.Endpoints
         public static RouteGroupBuilder MapStocks(this RouteGroupBuilder group)
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("stocks-get"))
-                .AddPaginationParamsOpenAPI();
+                .AddPaginationParamsOpenAPI().RequireAuthorization();
             group.MapPost("/stocks-range", GetAllByWarehousesIds).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("stocks-get"))
-                .AddPaginationParamsOpenAPI();
-            group.MapPost("/stocks-report", GenerateReportPdf).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("stocks-get"));
-            group.MapGet("/{id:long}", GetById);
+                .AddPaginationParamsOpenAPI().RequireAuthorization();
+            group.MapPost("/stocks-report", GenerateReportPdf).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("stocks-get")).RequireAuthorization();
+            group.MapGet("/{id:long}", GetById).RequireAuthorization();
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateStockDTO>>()
-                .WithOpenApi();
+                .WithOpenApi().RequireAuthorization();
             group.MapPut("/{id:long}", Update).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateStockDTO>>()
-                .WithOpenApi();
+                .WithOpenApi().RequireAuthorization();
             return group;
         }
 

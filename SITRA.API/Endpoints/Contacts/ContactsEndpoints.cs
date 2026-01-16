@@ -16,19 +16,19 @@ namespace SITRA.API.Endpoints
         public static RouteGroupBuilder MapContacts(this RouteGroupBuilder group)
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("contacts-get"))
-                .AddPaginationParamsOpenAPI();
-            group.MapGet("/suppliers", GetSuppliers);
-            group.MapGet("/customers", GetCustomers);
-            group.MapGet("/billers", GetBillers);
-            group.MapGet("/{id:long}", GetById);
+                .AddPaginationParamsOpenAPI().RequireAuthorization();
+            group.MapGet("/suppliers", GetSuppliers).RequireAuthorization();
+            group.MapGet("/customers", GetCustomers).RequireAuthorization();
+            group.MapGet("/billers", GetBillers).RequireAuthorization();
+            group.MapGet("/{id:long}", GetById).RequireAuthorization();
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateContactDTO>>()
-                .WithOpenApi();
+                .WithOpenApi().RequireAuthorization();
             group.MapPut("/{id:long}", Update).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateContactDTO>>()
-                .WithOpenApi();
-            group.MapPatch("/{id:long}/activate", Activate);
-            group.MapDelete("/{id:long}/deactivate", Deactivate);
+                .WithOpenApi().RequireAuthorization();
+            group.MapPatch("/{id:long}/activate", Activate).RequireAuthorization();
+            group.MapDelete("/{id:long}/deactivate", Deactivate).RequireAuthorization();
             return group;
         }
 

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SITRA.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1c9cd8424da026711c56cd052cf2d1cec1d7d0bf")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ba0c01f47af7daa962e8bc618013722a94853222")]
 [assembly: System.Reflection.AssemblyProductAttribute("SITRA.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SITRA.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

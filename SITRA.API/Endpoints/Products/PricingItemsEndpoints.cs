@@ -16,12 +16,12 @@ namespace SITRA.API.Endpoints
         public static RouteGroupBuilder MapPricingItems(this RouteGroupBuilder group)
         {
             group.MapGet("/item/{itemId:long}", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("pricing-items-get"))
-                .AddPaginationParamsOpenAPI();
+                .AddPaginationParamsOpenAPI().RequireAuthorization();
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreatePricingItemDTO>>()
-                .WithOpenApi();
-            group.MapPatch("/{id:long}/activate", Activate);
-            group.MapDelete("/{id:long}", Delete);
+                .WithOpenApi().RequireAuthorization();
+            group.MapPatch("/{id:long}/activate", Activate).RequireAuthorization();
+            group.MapDelete("/{id:long}", Delete).RequireAuthorization();
             return group;
         }
 

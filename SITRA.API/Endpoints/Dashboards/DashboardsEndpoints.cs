@@ -10,7 +10,7 @@ namespace SITRA.API.Endpoints
     {
         public static RouteGroupBuilder MapDashboards(this RouteGroupBuilder group)
         {
-            group.MapGet("/", GetAll);
+            group.MapGet("/", GetAll).RequireAuthorization();
             //.CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("dashboards-get"))
             //.AddPaginationParamsOpenAPI();
             return group;

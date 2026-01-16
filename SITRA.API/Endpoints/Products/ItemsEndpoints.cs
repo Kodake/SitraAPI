@@ -10,7 +10,7 @@ namespace SITRA.API.Endpoints
     {
         public static RouteGroupBuilder MapItems(this RouteGroupBuilder group)
         {
-            group.MapGet("/pricing/{pricingId:long}/warehouse/{warehouseId:long}/", GetByPricingIdAndWarehouseId);
+            group.MapGet("/pricing/{pricingId:long}/warehouse/{warehouseId:long}/", GetByPricingIdAndWarehouseId).RequireAuthorization();
             return group;
         }
 

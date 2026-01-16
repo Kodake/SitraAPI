@@ -17,12 +17,12 @@ namespace SITRA.API.Endpoints.Invoices
         public static RouteGroupBuilder MapQuotations(this RouteGroupBuilder group)
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("quotations-get"))
-                .AddPaginationParamsOpenAPI();
-            group.MapGet("/{id:long}", GetById);
-            group.MapPost("/", Create).DisableAntiforgery().WithOpenApi();
-            group.MapPost("/{id:long}/process", Process).DisableAntiforgery().WithOpenApi();
-            group.MapPut("/{id:long}", Update).DisableAntiforgery().WithOpenApi();
-            group.MapGet("/{invoiceId}/generate-pdf", GeneratePdf).WithOpenApi();
+                .AddPaginationParamsOpenAPI().RequireAuthorization();
+            group.MapGet("/{id:long}", GetById).RequireAuthorization();
+            group.MapPost("/", Create).DisableAntiforgery().WithOpenApi().RequireAuthorization();
+            group.MapPost("/{id:long}/process", Process).DisableAntiforgery().WithOpenApi().RequireAuthorization();
+            group.MapPut("/{id:long}", Update).DisableAntiforgery().WithOpenApi().RequireAuthorization();
+            group.MapGet("/{invoiceId}/generate-pdf", GeneratePdf).WithOpenApi().RequireAuthorization();
             return group;
         }
 

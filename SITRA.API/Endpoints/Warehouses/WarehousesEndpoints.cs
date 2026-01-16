@@ -17,19 +17,19 @@ namespace SITRA.API.Endpoints
         public static RouteGroupBuilder MapWarehouses(this RouteGroupBuilder group)
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("warehouses-get"))
-                .AddPaginationParamsOpenAPI();
-            group.MapGet("/stock-warehouses/{id:long}", GetWarehouseStockByProductId);
-            group.MapGet("/unregistered-warehouses/{id:long}", GetUnregisteredWarehouseById).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("warehouses-get"));
-            group.MapGet("/selects", GetSelects).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("warehouses-get"));
-            group.MapGet("/{id:long}", GetById);
+                .AddPaginationParamsOpenAPI().RequireAuthorization();
+            group.MapGet("/stock-warehouses/{id:long}", GetWarehouseStockByProductId).RequireAuthorization();
+            group.MapGet("/unregistered-warehouses/{id:long}", GetUnregisteredWarehouseById).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("warehouses-get")).RequireAuthorization();
+            group.MapGet("/selects", GetSelects).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("warehouses-get")).RequireAuthorization();
+            group.MapGet("/{id:long}", GetById).RequireAuthorization();
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateWarehouseDTO>>()
-                .WithOpenApi();
+                .WithOpenApi().RequireAuthorization();
             group.MapPut("/{id:long}", Update).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateWarehouseDTO>>()
-                .WithOpenApi();
-            group.MapPatch("/{id:long}/activate", Activate);
-            group.MapDelete("/{id:long}/deactivate", Deactivate);
+                .WithOpenApi().RequireAuthorization();
+            group.MapPatch("/{id:long}/activate", Activate).RequireAuthorization();
+            group.MapDelete("/{id:long}/deactivate", Deactivate).RequireAuthorization();
             return group;
         }
 

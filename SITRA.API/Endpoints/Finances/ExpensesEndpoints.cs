@@ -15,16 +15,16 @@ namespace SITRA.API.Endpoints
         public static RouteGroupBuilder MapExpenses(this RouteGroupBuilder group)
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("expenses-get"))
-                .AddPaginationParamsOpenAPI();
-            group.MapGet("/{id:long}", GetById);
+                .AddPaginationParamsOpenAPI().RequireAuthorization();
+            group.MapGet("/{id:long}", GetById).RequireAuthorization();
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateExpenseDTO>>()
-                .WithOpenApi();
+                .WithOpenApi().RequireAuthorization();
             group.MapPut("/{id:long}", Update).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateExpenseDTO>>()
-                .WithOpenApi();
-            group.MapPatch("/{id:long}/activate", Activate);
-            group.MapDelete("/{id:long}/deactivate", Deactivate);
+                .WithOpenApi().RequireAuthorization();
+            group.MapPatch("/{id:long}/activate", Activate).RequireAuthorization();
+            group.MapDelete("/{id:long}/deactivate", Deactivate).RequireAuthorization();
             return group;
         }
 

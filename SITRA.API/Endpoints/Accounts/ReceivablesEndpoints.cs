@@ -16,13 +16,13 @@ namespace SITRA.API.Endpoints
         public static RouteGroupBuilder MapReceivables(this RouteGroupBuilder group)
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("receivables-get"))
-                .AddPaginationParamsOpenAPI();
-            group.MapGet("/{id:long}", GetAllById).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("receivables-get"));
-            group.MapGet("/{id:long}/viewPays", GetPaysById).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("receivables-get"));
+                .AddPaginationParamsOpenAPI().RequireAuthorization();
+            group.MapGet("/{id:long}", GetAllById).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("receivables-get")).RequireAuthorization();
+            group.MapGet("/{id:long}/viewPays", GetPaysById).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("receivables-get")).RequireAuthorization();
             group.MapPost("/{id:long}/addPayment", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreatePaymentReceiptDTO>>()
-                .WithOpenApi();
-            group.MapDelete("/{id:long}/paymentReceipts/{paymentReceiptId}/deactivate", Deactivate);
+                .WithOpenApi().RequireAuthorization();
+            group.MapDelete("/{id:long}/paymentReceipts/{paymentReceiptId}/deactivate", Deactivate).RequireAuthorization();
             return group;
         }
 

@@ -16,13 +16,13 @@ namespace SITRA.API.Endpoints.Invoices
         public static RouteGroupBuilder MapPurchaseInvoices(this RouteGroupBuilder group)
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("purchaseInvoices-get"))
-                .AddPaginationParamsOpenAPI();
+                .AddPaginationParamsOpenAPI().RequireAuthorization();
             group.MapGet("/purchases-range", GetAllByDateRange).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("purchaseInvoices-get"))
-                .AddPaginationParamsOpenAPI();
-            group.MapGet("/purchases-report", GenerateReportPdf).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("purchaseInvoices-get"));
-            group.MapGet("/{id:long}", GetById);
-            group.MapPost("/", Create).DisableAntiforgery().WithOpenApi();
-            group.MapGet("/{invoiceId}/generate-pdf", GeneratePdf).WithOpenApi();
+                .AddPaginationParamsOpenAPI().RequireAuthorization();
+            group.MapGet("/purchases-report", GenerateReportPdf).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("purchaseInvoices-get")).RequireAuthorization();
+            group.MapGet("/{id:long}", GetById).RequireAuthorization();
+            group.MapPost("/", Create).DisableAntiforgery().WithOpenApi().RequireAuthorization();
+            group.MapGet("/{invoiceId}/generate-pdf", GeneratePdf).WithOpenApi().RequireAuthorization();
             return group;
         }
 

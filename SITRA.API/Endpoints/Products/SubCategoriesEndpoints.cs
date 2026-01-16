@@ -15,17 +15,17 @@ namespace SITRA.API.Endpoints
         public static RouteGroupBuilder MapSubCategories(this RouteGroupBuilder group)
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("subCategories-get"))
-                .AddPaginationParamsOpenAPI();
-            group.MapGet("/category/{categoryId:long}/", GetByCategoryId);
-            group.MapGet("/{id:long}", GetById);
+                .AddPaginationParamsOpenAPI().RequireAuthorization();
+            group.MapGet("/category/{categoryId:long}/", GetByCategoryId).RequireAuthorization();
+            group.MapGet("/{id:long}", GetById).RequireAuthorization();
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateSubCategoryDTO>>()
-                .WithOpenApi();
+                .WithOpenApi().RequireAuthorization();
             group.MapPut("/{id:long}", Update).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateSubCategoryDTO>>()
-                .WithOpenApi();
-            group.MapPatch("/{id:long}/activate", Activate);
-            group.MapDelete("/{id:long}/deactivate", Deactivate);
+                .WithOpenApi().RequireAuthorization();
+            group.MapPatch("/{id:long}/activate", Activate).RequireAuthorization();
+            group.MapDelete("/{id:long}/deactivate", Deactivate).RequireAuthorization();
             return group;
         }
 
