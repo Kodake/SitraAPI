@@ -1,0 +1,15 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+C:\Users\Kodake\Desktop\SITRA\SITRA.Core\Interfaces\IUnitOfWork.cs(11,7): error CS0246: The type or namespace name 'BackEnd' could not be found (are you missing a using directive or an assembly reference?) [C:\Users\Kodake\Desktop\SITRA\SITRA.Core\SITRA.Core.csproj]
+C:\Users\Kodake\Desktop\SITRA\SITRA.Core\Interfaces\IUnitOfWork.cs(50,9): error CS0246: The type or namespace name 'IUserService' could not be found (are you missing a using directive or an assembly reference?) [C:\Users\Kodake\Desktop\SITRA\SITRA.Core\SITRA.Core.csproj]
+C:\Users\Kodake\Desktop\SITRA\SITRA.Core\Interfaces\IUnitOfWork.cs(51,9): error CS0246: The type or namespace name 'IFileStorageService' could not be found (are you missing a using directive or an assembly reference?) [C:\Users\Kodake\Desktop\SITRA\SITRA.Core\SITRA.Core.csproj]
+
+Build FAILED.
+
+C:\Users\Kodake\Desktop\SITRA\SITRA.Core\Interfaces\IUnitOfWork.cs(11,7): error CS0246: The type or namespace name 'BackEnd' could not be found (are you missing a using directive or an assembly reference?) [C:\Users\Kodake\Desktop\SITRA\SITRA.Core\SITRA.Core.csproj]
+C:\Users\Kodake\Desktop\SITRA\SITRA.Core\Interfaces\IUnitOfWork.cs(50,9): error CS0246: The type or namespace name 'IUserService' could not be found (are you missing a using directive or an assembly reference?) [C:\Users\Kodake\Desktop\SITRA\SITRA.Core\SITRA.Core.csproj]
+C:\Users\Kodake\Desktop\SITRA\SITRA.Core\Interfaces\IUnitOfWork.cs(51,9): error CS0246: The type or namespace name 'IFileStorageService' could not be found (are you missing a using directive or an assembly reference?) [C:\Users\Kodake\Desktop\SITRA\SITRA.Core\SITRA.Core.csproj]
+    0 Warning(s)
+    3 Error(s)
+
+Time Elapsed 00:00:01.44

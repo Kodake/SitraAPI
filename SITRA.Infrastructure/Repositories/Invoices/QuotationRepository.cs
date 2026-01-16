@@ -1,0 +1,49 @@
+using Microsoft.AspNetCore.Http;
+using SITRA.Infrastructure.Persistence;
+using SITRA.Infrastructure.Repositories.Generics;
+using SITRA.Core.DTOs;
+using SITRA.Core.Entities.Invoices;
+using SITRA.Core.Enums;
+using SITRA.Core.Helpers;
+using SITRA.Core.Interfaces.Invoices;
+using Microsoft.EntityFrameworkCore;
+
+namespace SITRA.Infrastructure.Repositories.Invoices
+{
+    public class QuotationRepository : RepositoryBase<Quotation>, IQuotationRepository
+    {
+        private new readonly HttpContext httpContext;
+        public QuotationRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
+            : base(context, httpContextAccessor)
+        {
+            httpContext = httpContextAccessor.HttpContext!;
+        }
+
+        public async new Task<List<Quotation>> GetAllAsync(PaginationDTO paginationDTO)
+        {
+            var queryable = context.Quotations
+                .Include(x => x.Invoice)
+                .Include(x => x.Buyer);
+
+            await httpContext.AddPaginationParamsToHeaders(queryable);
+
+            return await queryable
+                .Where(x => x.Invoice.InvoiceType == InvoiceType.Quotation)
+                .OrderBy(x => x.Id)
+                .Paginate(paginationDTO)
+                .ToListAsync();
+        }
+
+        public async new Task<Quotation?> GetByIdAsync(long id)
+        {
+            return await context.Quotations
+                .Include(x => x.Invoice)
+                    .ThenInclude(x => x.InvoiceItems)
+                .Include(x => x.Buyer)
+                .FirstOrDefaultAsync(x => x.Id == id);
+        }
+    }
+}
+
+
+

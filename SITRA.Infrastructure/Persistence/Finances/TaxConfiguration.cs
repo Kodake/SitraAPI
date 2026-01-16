@@ -1,0 +1,14 @@
+using SITRA.Core.Entities.Finances;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace SITRA.Infrastructure.Persistence.Finances
+{
+    public class TaxConfiguration : IEntityTypeConfiguration<Tax>
+    {
+        public void Configure(EntityTypeBuilder<Tax> builder)
+        {
+            builder.Property(p => p.Amount).HasColumnType("decimal(18,2)").IsRequired();
+        }
+    }
+}

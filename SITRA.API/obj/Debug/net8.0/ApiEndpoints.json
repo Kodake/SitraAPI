@@ -1,0 +1,5114 @@
+[
+  {
+    "ContainingType": "SITRA.API.Endpoints.AppointmentsEndpoints",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/appointments/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Appointments.Appointments.AppointmentListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.AppointmentsEndpoints",
+    "Method": "Create",
+    "RelativePath": "api/v1/appointments/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Appointments.Appointments.CreateAppointmentDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.AppointmentsEndpoints",
+    "Method": "GetById",
+    "RelativePath": "api/v1/appointments/{id:long}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SITRA.Core.DTOs.Appointments.Appointments.AppointmentDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.AppointmentsEndpoints",
+    "Method": "Update",
+    "RelativePath": "api/v1/appointments/{id:long}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Appointments.Appointments.CreateAppointmentDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.AppointmentsEndpoints",
+    "Method": "Activate",
+    "RelativePath": "api/v1/appointments/{id:long}/activate",
+    "HttpMethod": "PATCH",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.AppointmentsEndpoints",
+    "Method": "Deactivate",
+    "RelativePath": "api/v1/appointments/{id:long}/deactivate",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.BrandsEndpoints",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/brands/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Products.Brands.BrandListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.BrandsEndpoints",
+    "Method": "Create",
+    "RelativePath": "api/v1/brands/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Products.Brands.CreateBrandDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.BrandsEndpoints",
+    "Method": "GetById",
+    "RelativePath": "api/v1/brands/{id:long}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SITRA.Core.DTOs.Products.Brands.BrandDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.BrandsEndpoints",
+    "Method": "Update",
+    "RelativePath": "api/v1/brands/{id:long}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Products.Brands.CreateBrandDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.BrandsEndpoints",
+    "Method": "Activate",
+    "RelativePath": "api/v1/brands/{id:long}/activate",
+    "HttpMethod": "PATCH",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.BrandsEndpoints",
+    "Method": "Deactivate",
+    "RelativePath": "api/v1/brands/{id:long}/deactivate",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.BrandsEndpoints",
+    "Method": "GetSelects",
+    "RelativePath": "api/v1/brands/selects",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "status",
+        "Type": "SITRA.Core.Enums.StatusType",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Products.Brands.BrandListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.CategoriesEndpoints",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/categories/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Products.Categories.CategoryListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.CategoriesEndpoints",
+    "Method": "Create",
+    "RelativePath": "api/v1/categories/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Products.Categories.CreateCategoryDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.CategoriesEndpoints",
+    "Method": "GetById",
+    "RelativePath": "api/v1/categories/{id:long}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SITRA.Core.DTOs.Products.Categories.CategoryDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.CategoriesEndpoints",
+    "Method": "Update",
+    "RelativePath": "api/v1/categories/{id:long}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Products.Categories.CreateCategoryDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.CategoriesEndpoints",
+    "Method": "Activate",
+    "RelativePath": "api/v1/categories/{id:long}/activate",
+    "HttpMethod": "PATCH",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.CategoriesEndpoints",
+    "Method": "Deactivate",
+    "RelativePath": "api/v1/categories/{id:long}/deactivate",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.CategoriesEndpoints",
+    "Method": "GetSelects",
+    "RelativePath": "api/v1/categories/selects",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "status",
+        "Type": "SITRA.Core.Enums.StatusType",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Products.Categories.CategoryListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.CombosEndpoints",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/combos/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Products.Combos.ComboListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.CombosEndpoints",
+    "Method": "Create",
+    "RelativePath": "api/v1/combos/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Products.Combos.CreateComboDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.CombosEndpoints",
+    "Method": "GetById",
+    "RelativePath": "api/v1/combos/{id:long}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ComboDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.CombosEndpoints",
+    "Method": "Update",
+    "RelativePath": "api/v1/combos/{id:long}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Products.Combos.CreateComboDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.CombosEndpoints",
+    "Method": "Activate",
+    "RelativePath": "api/v1/combos/{id:long}/activate",
+    "HttpMethod": "PATCH",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.CombosEndpoints",
+    "Method": "Deactivate",
+    "RelativePath": "api/v1/combos/{id:long}/deactivate",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ContactsEndpoints",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/contacts/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Contacts.Contacts.ContactListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ContactsEndpoints",
+    "Method": "Create",
+    "RelativePath": "api/v1/contacts/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Contacts.Contacts.CreateContactDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ContactsEndpoints",
+    "Method": "GetById",
+    "RelativePath": "api/v1/contacts/{id:long}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SITRA.Core.DTOs.Contacts.Contacts.ContactDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ContactsEndpoints",
+    "Method": "Update",
+    "RelativePath": "api/v1/contacts/{id:long}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Contacts.Contacts.CreateContactDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ContactsEndpoints",
+    "Method": "Activate",
+    "RelativePath": "api/v1/contacts/{id:long}/activate",
+    "HttpMethod": "PATCH",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ContactsEndpoints",
+    "Method": "Deactivate",
+    "RelativePath": "api/v1/contacts/{id:long}/deactivate",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ContactsEndpoints",
+    "Method": "GetBillers",
+    "RelativePath": "api/v1/contacts/billers",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Contacts.Contacts.ContactListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ContactsEndpoints",
+    "Method": "GetCustomers",
+    "RelativePath": "api/v1/contacts/customers",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Contacts.Contacts.ContactListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ContactsEndpoints",
+    "Method": "GetSuppliers",
+    "RelativePath": "api/v1/contacts/suppliers",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Contacts.Contacts.ContactListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.CurrenciesEndpoints",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/currencies/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Finances.Currencies.CurrencyListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.CurrenciesEndpoints",
+    "Method": "Create",
+    "RelativePath": "api/v1/currencies/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Finances.Currencies.CreateCurrencyDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.CurrenciesEndpoints",
+    "Method": "GetById",
+    "RelativePath": "api/v1/currencies/{id:long}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SITRA.Core.DTOs.Finances.Currencies.CurrencyDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.CurrenciesEndpoints",
+    "Method": "Update",
+    "RelativePath": "api/v1/currencies/{id:long}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Finances.Currencies.CreateCurrencyDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.CurrenciesEndpoints",
+    "Method": "Activate",
+    "RelativePath": "api/v1/currencies/{id:long}/activate",
+    "HttpMethod": "PATCH",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.CurrenciesEndpoints",
+    "Method": "Deactivate",
+    "RelativePath": "api/v1/currencies/{id:long}/deactivate",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.CurrenciesEndpoints",
+    "Method": "GetSelects",
+    "RelativePath": "api/v1/currencies/selects",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Finances.Currencies.CurrencyListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.DashboardsEndpoints",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/dashboards/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "SITRA.Core.DTOs.DashboardDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.DeadlinesEndpoints",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/deadlines/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.AdministrativeTools.Deadlines.DeadlineListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.DeadlinesEndpoints",
+    "Method": "Create",
+    "RelativePath": "api/v1/deadlines/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.AdministrativeTools.Deadlines.CreateDeadlineDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.DeadlinesEndpoints",
+    "Method": "GetById",
+    "RelativePath": "api/v1/deadlines/{id:long}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SITRA.Core.DTOs.AdministrativeTools.Deadlines.DeadlineDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.DeadlinesEndpoints",
+    "Method": "Update",
+    "RelativePath": "api/v1/deadlines/{id:long}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.AdministrativeTools.Deadlines.CreateDeadlineDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.DeadlinesEndpoints",
+    "Method": "Activate",
+    "RelativePath": "api/v1/deadlines/{id:long}/activate",
+    "HttpMethod": "PATCH",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.DeadlinesEndpoints",
+    "Method": "Deactivate",
+    "RelativePath": "api/v1/deadlines/{id:long}/deactivate",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.DeadlinesEndpoints",
+    "Method": "GetSelects",
+    "RelativePath": "api/v1/deadlines/selects",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "status",
+        "Type": "SITRA.Core.Enums.StatusType",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.AdministrativeTools.Deadlines.DeadlineListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ExpensesEndpoints",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/expenses/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Finances.Expenses.ExpenseListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ExpensesEndpoints",
+    "Method": "Create",
+    "RelativePath": "api/v1/expenses/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Finances.Expenses.CreateExpenseDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ExpensesEndpoints",
+    "Method": "GetById",
+    "RelativePath": "api/v1/expenses/{id:long}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SITRA.Core.DTOs.Finances.Expenses.ExpenseDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ExpensesEndpoints",
+    "Method": "Update",
+    "RelativePath": "api/v1/expenses/{id:long}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Finances.Expenses.CreateExpenseDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ExpensesEndpoints",
+    "Method": "Activate",
+    "RelativePath": "api/v1/expenses/{id:long}/activate",
+    "HttpMethod": "PATCH",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ExpensesEndpoints",
+    "Method": "Deactivate",
+    "RelativePath": "api/v1/expenses/{id:long}/deactivate",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.FiscalSupportsEndpoints",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/fiscalSupports/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.AdministrativeTools.FiscalSupports.FiscalSupportListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.FiscalSupportsEndpoints",
+    "Method": "Create",
+    "RelativePath": "api/v1/fiscalSupports/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.AdministrativeTools.FiscalSupports.CreateFiscalSupportDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.FiscalSupportsEndpoints",
+    "Method": "GetById",
+    "RelativePath": "api/v1/fiscalSupports/{id:long}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SITRA.Core.DTOs.AdministrativeTools.FiscalSupports.FiscalSupportDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.FiscalSupportsEndpoints",
+    "Method": "Update",
+    "RelativePath": "api/v1/fiscalSupports/{id:long}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.AdministrativeTools.FiscalSupports.CreateFiscalSupportDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.FiscalSupportsEndpoints",
+    "Method": "Activate",
+    "RelativePath": "api/v1/fiscalSupports/{id:long}/activate",
+    "HttpMethod": "PATCH",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.FiscalSupportsEndpoints",
+    "Method": "Deactivate",
+    "RelativePath": "api/v1/fiscalSupports/{id:long}/deactivate",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.FiscalSupportsEndpoints",
+    "Method": "GetSelects",
+    "RelativePath": "api/v1/fiscalSupports/selects",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "status",
+        "Type": "SITRA.Core.Enums.StatusType",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.AdministrativeTools.FiscalSupports.FiscalSupportListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.FiscalSupportsEndpoints",
+    "Method": "GetByDocumentTypeAndWarehouseId",
+    "RelativePath": "api/v1/fiscalSupports/supportType/{supportType}/warehouse/{warehouseId:long}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "supportType",
+        "Type": "SITRA.Core.Enums.FiscalSupportType",
+        "IsRequired": true
+      },
+      {
+        "Name": "warehouseId",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SITRA.Core.DTOs.AdministrativeTools.FiscalSupports.FiscalSupportDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.AuthsEndpoints",
+    "Method": "Login",
+    "RelativePath": "api/v1/identity/login",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Auths.CreateLoginUserDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SITRA.Core.DTOs.TokenResponseDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.AuthsEndpoints",
+    "Method": "Register",
+    "RelativePath": "api/v1/identity/register",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Auths.CreateRegistrationUserDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 201
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.AuthsEndpoints",
+    "Method": "ValidateOpenedPettyCashEndpoint",
+    "RelativePath": "api/v1/identity/validate-opened-petty-cash",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ItemsEndpoints",
+    "Method": "GetByPricingIdAndWarehouseId",
+    "RelativePath": "api/v1/items/pricing/{pricingId:long}/warehouse/{warehouseId:long}/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pricingId",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "warehouseId",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Products.Items.ItemListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ModelsEndpoints",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/models/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Products.Models.ModelListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ModelsEndpoints",
+    "Method": "Create",
+    "RelativePath": "api/v1/models/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Products.Models.CreateModelDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ModelsEndpoints",
+    "Method": "GetById",
+    "RelativePath": "api/v1/models/{id:long}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SITRA.Core.DTOs.Products.Models.ModelDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ModelsEndpoints",
+    "Method": "Update",
+    "RelativePath": "api/v1/models/{id:long}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Products.Models.CreateModelDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ModelsEndpoints",
+    "Method": "Activate",
+    "RelativePath": "api/v1/models/{id:long}/activate",
+    "HttpMethod": "PATCH",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ModelsEndpoints",
+    "Method": "Deactivate",
+    "RelativePath": "api/v1/models/{id:long}/deactivate",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ModelsEndpoints",
+    "Method": "GetByBrandId",
+    "RelativePath": "api/v1/models/brand/{brandId:long}/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "brandId",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Products.Models.ModelListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.PayablesEndpoints",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/payables/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Accounts.Payables.PayableListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.PayablesEndpoints",
+    "Method": "GetAllById",
+    "RelativePath": "api/v1/payables/{id:long}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SITRA.Core.DTOs.Accounts.Payables.PayableDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.PayablesEndpoints",
+    "Method": "Create",
+    "RelativePath": "api/v1/payables/{id:long}/addPayable",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Accounts.PayableReceipts.CreatePayableReceiptDTO",
+        "IsRequired": true
+      },
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.PayablesEndpoints",
+    "Method": "Deactivate",
+    "RelativePath": "api/v1/payables/{id:long}/payableReceipts/{payableReceiptId}/deactivate",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "payableReceiptId",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.PayablesEndpoints",
+    "Method": "GetPaysById",
+    "RelativePath": "api/v1/payables/{id:long}/viewPays",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SITRA.Core.DTOs.Accounts.Payables.PayableDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.CashBoxes.PettyCashesEndpoints",
+    "Method": "GetById",
+    "RelativePath": "api/v1/pettyCashes/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "SITRA.Core.DTOs.CashBoxes.PettyCashDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.CashBoxes.PettyCashesEndpoints",
+    "Method": "Create",
+    "RelativePath": "api/v1/pettyCashes/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.CashBoxes.CreateOpenPettyCashDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.CashBoxes.PettyCashesEndpoints",
+    "Method": "Update",
+    "RelativePath": "api/v1/pettyCashes/{id:long}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.CashBoxes.CreateClosePettyCashDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.CashBoxes.PettyCashesEndpoints",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/pettyCashes/{pettyCashId:long}/pettyCashMovements",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pettyCashId",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.CashBoxes.PettyCashMovementListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.CashBoxes.PettyCashesEndpoints",
+    "Method": "GetAllById",
+    "RelativePath": "api/v1/pettyCashes/{pettyCashId:long}/pettyCashPayments",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pettyCashId",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.CashBoxes.PaymentMethodAmountListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.CashBoxes.PettyCashMovementsEndpoints",
+    "Method": "Create",
+    "RelativePath": "api/v1/pettyCashMovements/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.CashBoxes.CreateWithdrawalPettyCashMovementDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.CashBoxes.PettyCashMovementsEndpoints",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/pettyCashMovements/{pettyCashId:long}/withdrawals",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pettyCashId",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.CashBoxes.WithdrawalPettyCashMovementListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.PricingItemsEndpoints",
+    "Method": "Create",
+    "RelativePath": "api/v1/pricingItems/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Products.PricingItems.CreatePricingItemDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.PricingItemsEndpoints",
+    "Method": "Delete",
+    "RelativePath": "api/v1/pricingItems/{id:long}",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.PricingItemsEndpoints",
+    "Method": "Activate",
+    "RelativePath": "api/v1/pricingItems/{id:long}/activate",
+    "HttpMethod": "PATCH",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.PricingItemsEndpoints",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/pricingItems/item/{itemId:long}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "itemId",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Products.PricingItems.PricingItemListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.PricingsEndpoints",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/pricings/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Products.Pricings.PricingListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.PricingsEndpoints",
+    "Method": "Create",
+    "RelativePath": "api/v1/pricings/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Products.Pricings.CreatePricingDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.PricingsEndpoints",
+    "Method": "GetById",
+    "RelativePath": "api/v1/pricings/{id:long}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SITRA.Core.DTOs.Products.Pricings.PricingDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.PricingsEndpoints",
+    "Method": "Update",
+    "RelativePath": "api/v1/pricings/{id:long}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Products.Pricings.CreatePricingDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.PricingsEndpoints",
+    "Method": "GetPricings",
+    "RelativePath": "api/v1/pricings/selects",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Products.Pricings.PricingListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.PricingsEndpoints",
+    "Method": "GetUnregisteredPricingsForItem",
+    "RelativePath": "api/v1/pricings/unregistered-pricings/{id:long}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[SITRA.Core.DTOs.Products.Pricings.PricingListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ProductsEndpoints",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/products/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Products.Products.ProductListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ProductsEndpoints",
+    "Method": "Create",
+    "RelativePath": "api/v1/products/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Products.Products.CreateProductDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ProductsEndpoints",
+    "Method": "GetById",
+    "RelativePath": "api/v1/products/{id:long}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ProductDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ProductsEndpoints",
+    "Method": "Update",
+    "RelativePath": "api/v1/products/{id:long}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Products.Products.CreateProductDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ProductsEndpoints",
+    "Method": "Activate",
+    "RelativePath": "api/v1/products/{id:long}/activate",
+    "HttpMethod": "PATCH",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ProductsEndpoints",
+    "Method": "Deactivate",
+    "RelativePath": "api/v1/products/{id:long}/deactivate",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ProductsEndpoints",
+    "Method": "GetSelects",
+    "RelativePath": "api/v1/products/selects",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "status",
+        "Type": "SITRA.Core.Enums.StatusType",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Products.Products.ProductListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ProductsEndpoints",
+    "Method": "GetStockProducts",
+    "RelativePath": "api/v1/products/stock-products",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Products.Products.ProductListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ProductsEndpoints",
+    "Method": "UploadCsv",
+    "RelativePath": "api/v1/products/upload-csv",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.CsvDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.Invoices.PurchaseInvoicesEndpoints",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/purchaseInvoices/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Invoices.PurchaseInvoices.PurchaseInvoiceListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.Invoices.PurchaseInvoicesEndpoints",
+    "Method": "Create",
+    "RelativePath": "api/v1/purchaseInvoices/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Invoices.PurchaseInvoices.CreatePurchaseInvoiceDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.Invoices.PurchaseInvoicesEndpoints",
+    "Method": "GetById",
+    "RelativePath": "api/v1/purchaseInvoices/{id:long}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SITRA.Core.DTOs.Invoices.PurchaseInvoices.PurchaseInvoiceDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.Invoices.PurchaseInvoicesEndpoints",
+    "Method": "GeneratePdf",
+    "RelativePath": "api/v1/purchaseInvoices/{invoiceId}/generate-pdf",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "invoiceId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.Invoices.PurchaseInvoicesEndpoints",
+    "Method": "GetAllByDateRange",
+    "RelativePath": "api/v1/purchaseInvoices/purchases-range",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "from",
+        "Type": "System.DateTime",
+        "IsRequired": true
+      },
+      {
+        "Name": "to",
+        "Type": "System.DateTime",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Invoices.PurchaseInvoices.PurchaseInvoiceListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.Invoices.PurchaseInvoicesEndpoints",
+    "Method": "GenerateReportPdf",
+    "RelativePath": "api/v1/purchaseInvoices/purchases-report",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "from",
+        "Type": "System.DateTime",
+        "IsRequired": true
+      },
+      {
+        "Name": "to",
+        "Type": "System.DateTime",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.Invoices.QuotationsEndpoints",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/quotations/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Invoices.Quotations.QuotationListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.Invoices.QuotationsEndpoints",
+    "Method": "Create",
+    "RelativePath": "api/v1/quotations/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Invoices.SaleInvoices.CreateQuotationDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.Invoices.QuotationsEndpoints",
+    "Method": "GetById",
+    "RelativePath": "api/v1/quotations/{id:long}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SITRA.Core.DTOs.Invoices.Quotations.QuotationDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.Invoices.QuotationsEndpoints",
+    "Method": "Update",
+    "RelativePath": "api/v1/quotations/{id:long}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Invoices.SaleInvoices.CreateQuotationDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.Invoices.QuotationsEndpoints",
+    "Method": "Process",
+    "RelativePath": "api/v1/quotations/{id:long}/process",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Invoices.SaleInvoices.CreateSaleInvoiceDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SITRA.Core.DTOs.Invoices.SaleInvoices.CreateSaleInvoiceDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.Invoices.QuotationsEndpoints",
+    "Method": "GeneratePdf",
+    "RelativePath": "api/v1/quotations/{invoiceId}/generate-pdf",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "invoiceId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ReceivablesEndpoints",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/receivables/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Accounts.Receivables.ReceivableListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ReceivablesEndpoints",
+    "Method": "GetAllById",
+    "RelativePath": "api/v1/receivables/{id:long}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SITRA.Core.DTOs.Accounts.Receivables.ReceivableDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ReceivablesEndpoints",
+    "Method": "Create",
+    "RelativePath": "api/v1/receivables/{id:long}/addPayment",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Accounts.PaymentReceipts.CreatePaymentReceiptDTO",
+        "IsRequired": true
+      },
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ReceivablesEndpoints",
+    "Method": "Deactivate",
+    "RelativePath": "api/v1/receivables/{id:long}/paymentReceipts/{paymentReceiptId}/deactivate",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "paymentReceiptId",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.ReceivablesEndpoints",
+    "Method": "GetPaysById",
+    "RelativePath": "api/v1/receivables/{id:long}/viewPays",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SITRA.Core.DTOs.Accounts.Receivables.ReceivableDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.Invoices.SaleInvoicesEndpoints",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/saleInvoices/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Invoices.SaleInvoices.SaleInvoiceListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.Invoices.SaleInvoicesEndpoints",
+    "Method": "Create",
+    "RelativePath": "api/v1/saleInvoices/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Invoices.SaleInvoices.CreateSaleInvoiceDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SITRA.Core.DTOs.Invoices.SaleInvoices.CreateSaleInvoiceDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.Invoices.SaleInvoicesEndpoints",
+    "Method": "GetById",
+    "RelativePath": "api/v1/saleInvoices/{id:long}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SITRA.Core.DTOs.Invoices.SaleInvoices.SaleInvoiceDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.Invoices.SaleInvoicesEndpoints",
+    "Method": "GeneratePdf",
+    "RelativePath": "api/v1/saleInvoices/{invoiceId}/generate-pdf",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "invoiceId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.Invoices.SaleInvoicesEndpoints",
+    "Method": "GenerateReceiptPdf",
+    "RelativePath": "api/v1/saleInvoices/{invoiceId}/generate-receipt-pdf",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "invoiceId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.Invoices.SaleInvoicesEndpoints",
+    "Method": "GetAllByDateRangeAndBiller",
+    "RelativePath": "api/v1/saleInvoices/sales-range",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "from",
+        "Type": "System.DateTime",
+        "IsRequired": true
+      },
+      {
+        "Name": "to",
+        "Type": "System.DateTime",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Invoices.SaleInvoices.SaleInvoiceListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.Invoices.SaleInvoicesEndpoints",
+    "Method": "GenerateReportPdf",
+    "RelativePath": "api/v1/saleInvoices/sales-report",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "from",
+        "Type": "System.DateTime",
+        "IsRequired": true
+      },
+      {
+        "Name": "to",
+        "Type": "System.DateTime",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.Products.ServicesEndpoints",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/services/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Products.Services.ServiceListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.Products.ServicesEndpoints",
+    "Method": "Create",
+    "RelativePath": "api/v1/services/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Products.Services.CreateServiceDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.Products.ServicesEndpoints",
+    "Method": "GetById",
+    "RelativePath": "api/v1/services/{id:long}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ServiceDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.Products.ServicesEndpoints",
+    "Method": "Update",
+    "RelativePath": "api/v1/services/{id:long}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Products.Services.CreateServiceDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.Products.ServicesEndpoints",
+    "Method": "Activate",
+    "RelativePath": "api/v1/services/{id:long}/activate",
+    "HttpMethod": "PATCH",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.Products.ServicesEndpoints",
+    "Method": "Deactivate",
+    "RelativePath": "api/v1/services/{id:long}/deactivate",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.Products.ServicesEndpoints",
+    "Method": "GetSelects",
+    "RelativePath": "api/v1/services/selects",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "status",
+        "Type": "SITRA.Core.Enums.StatusType",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Products.Services.ServiceListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.Products.ServicesEndpoints",
+    "Method": "UploadCsv",
+    "RelativePath": "api/v1/services/upload-csv",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.CsvDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.SpotPayablesEndpoints",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/spotPayables/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Invoices.SpotPayables.SpotPayableListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.SpotPayablesEndpoints",
+    "Method": "GetById",
+    "RelativePath": "api/v1/spotPayables/{id:long}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SITRA.Core.DTOs.Invoices.SpotPayables.SpotPayableDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.SpotPaymentsEndpoints",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/spotPayments/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Invoices.SpotPayments.SpotPaymentListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.SpotPaymentsEndpoints",
+    "Method": "GetById",
+    "RelativePath": "api/v1/spotPayments/{id:long}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SITRA.Core.DTOs.Invoices.SpotPayments.SpotPaymentDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.StocksEndpoints",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/stocks/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Warehouses.Stocks.StockListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.StocksEndpoints",
+    "Method": "Create",
+    "RelativePath": "api/v1/stocks/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Warehouses.Stocks.CreateStockDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.StocksEndpoints",
+    "Method": "GetById",
+    "RelativePath": "api/v1/stocks/{id:long}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SITRA.Core.DTOs.Warehouses.Stocks.StockDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.StocksEndpoints",
+    "Method": "Update",
+    "RelativePath": "api/v1/stocks/{id:long}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Warehouses.Stocks.CreateStockDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.StocksEndpoints",
+    "Method": "GetAllByWarehousesIds",
+    "RelativePath": "api/v1/stocks/stocks-range",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "warehouseIds",
+        "Type": "System.Collections.Generic.List\u00601[[System.Int64, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Warehouses.Stocks.StockListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.StocksEndpoints",
+    "Method": "GenerateReportPdf",
+    "RelativePath": "api/v1/stocks/stocks-report",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "warehouseIds",
+        "Type": "System.Collections.Generic.List\u00601[[System.Int64, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.SubCategoriesEndpoints",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/subCategories/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Products.SubCategories.SubCategoryListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.SubCategoriesEndpoints",
+    "Method": "Create",
+    "RelativePath": "api/v1/subCategories/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Products.SubCategories.CreateSubCategoryDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.SubCategoriesEndpoints",
+    "Method": "GetById",
+    "RelativePath": "api/v1/subCategories/{id:long}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SITRA.Core.DTOs.Products.SubCategories.SubCategoryDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.SubCategoriesEndpoints",
+    "Method": "Update",
+    "RelativePath": "api/v1/subCategories/{id:long}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Products.SubCategories.CreateSubCategoryDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.SubCategoriesEndpoints",
+    "Method": "Activate",
+    "RelativePath": "api/v1/subCategories/{id:long}/activate",
+    "HttpMethod": "PATCH",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.SubCategoriesEndpoints",
+    "Method": "Deactivate",
+    "RelativePath": "api/v1/subCategories/{id:long}/deactivate",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.SubCategoriesEndpoints",
+    "Method": "GetByCategoryId",
+    "RelativePath": "api/v1/subCategories/category/{categoryId:long}/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "categoryId",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Products.SubCategories.SubCategoryListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.TaxesEndpoints",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/taxes/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Finances.Taxes.TaxListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.TaxesEndpoints",
+    "Method": "Create",
+    "RelativePath": "api/v1/taxes/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Finances.Taxes.CreateTaxDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.TaxesEndpoints",
+    "Method": "GetById",
+    "RelativePath": "api/v1/taxes/{id:long}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SITRA.Core.DTOs.Finances.Taxes.TaxDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.TaxesEndpoints",
+    "Method": "Update",
+    "RelativePath": "api/v1/taxes/{id:long}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Finances.Taxes.CreateTaxDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.TaxesEndpoints",
+    "Method": "Activate",
+    "RelativePath": "api/v1/taxes/{id:long}/activate",
+    "HttpMethod": "PATCH",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.TaxesEndpoints",
+    "Method": "Deactivate",
+    "RelativePath": "api/v1/taxes/{id:long}/deactivate",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.TaxesEndpoints",
+    "Method": "GetSelects",
+    "RelativePath": "api/v1/taxes/selects",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "status",
+        "Type": "SITRA.Core.Enums.StatusType",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Finances.Taxes.TaxListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.TransfersEndpoints",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/transfers/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Warehouses.Transfers.TransferListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.TransfersEndpoints",
+    "Method": "Create",
+    "RelativePath": "api/v1/transfers/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Warehouses.Transfers.CreateTransferDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.TransfersEndpoints",
+    "Method": "GetById",
+    "RelativePath": "api/v1/transfers/{id:long}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SITRA.Core.DTOs.Warehouses.Transfers.TransferDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.TransfersEndpoints",
+    "Method": "Cancelled",
+    "RelativePath": "api/v1/transfers/cancelled/{id:long}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Warehouses.Transfers.CreateTransferStatusDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.TransfersEndpoints",
+    "Method": "Received",
+    "RelativePath": "api/v1/transfers/received/{id:long}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Warehouses.Transfers.CreateTransferStatusDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.UnitsEndpoints",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/units/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Products.Units.UnitListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.UnitsEndpoints",
+    "Method": "Create",
+    "RelativePath": "api/v1/units/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Products.Units.CreateUnitDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.UnitsEndpoints",
+    "Method": "GetById",
+    "RelativePath": "api/v1/units/{id:long}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SITRA.Core.DTOs.Products.Units.UnitDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.UnitsEndpoints",
+    "Method": "Update",
+    "RelativePath": "api/v1/units/{id:long}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Products.Units.CreateUnitDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.UnitsEndpoints",
+    "Method": "Activate",
+    "RelativePath": "api/v1/units/{id:long}/activate",
+    "HttpMethod": "PATCH",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.UnitsEndpoints",
+    "Method": "Deactivate",
+    "RelativePath": "api/v1/units/{id:long}/deactivate",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.UnitsEndpoints",
+    "Method": "GetSelects",
+    "RelativePath": "api/v1/units/selects",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "status",
+        "Type": "SITRA.Core.Enums.StatusType",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Products.Units.UnitListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.WarehousesEndpoints",
+    "Method": "GetAll",
+    "RelativePath": "api/v1/warehouses/",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Warehouses.Warehouses.WarehouseListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.WarehousesEndpoints",
+    "Method": "Create",
+    "RelativePath": "api/v1/warehouses/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Warehouses.Warehouses.CreateWarehouseDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 201
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.WarehousesEndpoints",
+    "Method": "GetById",
+    "RelativePath": "api/v1/warehouses/{id:long}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SITRA.Core.DTOs.Warehouses.Warehouses.WarehouseDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.WarehousesEndpoints",
+    "Method": "Update",
+    "RelativePath": "api/v1/warehouses/{id:long}",
+    "HttpMethod": "PUT",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Warehouses.Warehouses.CreateWarehouseDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.WarehousesEndpoints",
+    "Method": "Activate",
+    "RelativePath": "api/v1/warehouses/{id:long}/activate",
+    "HttpMethod": "PATCH",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.WarehousesEndpoints",
+    "Method": "Deactivate",
+    "RelativePath": "api/v1/warehouses/{id:long}/deactivate",
+    "HttpMethod": "DELETE",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.WarehousesEndpoints",
+    "Method": "GetSelects",
+    "RelativePath": "api/v1/warehouses/selects",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "status",
+        "Type": "SITRA.Core.Enums.StatusType",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Warehouses.Warehouses.WarehouseListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.WarehousesEndpoints",
+    "Method": "GetWarehouseStockByProductId",
+    "RelativePath": "api/v1/warehouses/stock-warehouses/{id:long}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Warehouses.Warehouses.WarehouseListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.WarehousesEndpoints",
+    "Method": "GetUnregisteredWarehouseById",
+    "RelativePath": "api/v1/warehouses/unregistered-warehouses/{id:long}",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int64",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.Warehouses.Warehouses.WarehouseListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  }
+]

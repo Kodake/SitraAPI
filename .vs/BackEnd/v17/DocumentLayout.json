@@ -3,16 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\Kodake\\Desktop\\PosAPI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\endpoints\\auths\\authsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\endpoints\\auths\\authsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\profiles\\appointments\\appointmentsprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\profiles\\appointments\\appointmentsprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\context\\auths\\authconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\context\\auths\\authconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Auths\\AuthsEndpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BackEnd\\Endpoints\\Auths\\AuthsEndpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Migrations\\20260114134822_Initial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -23,80 +15,88 @@
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BackEnd\\Migrations\\20260114134556_AddedTenantIdGuidForUsersTable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\entities\\auths\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\entities\\auths\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Context\\Auths\\AuthConfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BackEnd\\Context\\Auths\\AuthConfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\context\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\context\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Auths\\User.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BackEnd\\Entities\\Auths\\User.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\dtos\\invoicereceiptdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\dtos\\invoicereceiptdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Context\\ApplicationDbContext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BackEnd\\Context\\ApplicationDbContext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\dtos\\reportdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\dtos\\reportdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\ReportDTO.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BackEnd\\DTOs\\ReportDTO.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\entities\\invoices\\invoice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\entities\\invoices\\invoice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\InvoiceDocumentDTO.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BackEnd\\DTOs\\InvoiceDocumentDTO.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\dtos\\invoicedocumentdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\dtos\\invoicedocumentdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Invoices\\Invoice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BackEnd\\Entities\\Invoices\\Invoice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\mediator\\queries\\invoices\\saleinvoices\\getsaleinvoicereceiptpdfquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\mediator\\queries\\invoices\\saleinvoices\\getsaleinvoicereceiptpdfquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Services\\UserService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BackEnd\\Services\\UserService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\UnitOfWork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BackEnd\\Repositories\\UnitOfWork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\repositories\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\repositories\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Queries\\Invoices\\SaleInvoices\\GetSaleInvoiceReceiptPdfQuery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BackEnd\\Mediator\\Queries\\Invoices\\SaleInvoices\\GetSaleInvoiceReceiptPdfQuery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\enums\\invoicecondition.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\enums\\invoicecondition.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Enums\\InvoiceCondition.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BackEnd\\Enums\\InvoiceCondition.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\enums\\notadecreditodebito.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\enums\\notadecreditodebito.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Enums\\PaymentMethod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BackEnd\\Enums\\PaymentMethod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\enums\\paymentmethod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\enums\\paymentmethod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Enums\\MovementType.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BackEnd\\Enums\\MovementType.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\enums\\movementtype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\enums\\movementtype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Enums\\NotaDeCreditoDebito.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BackEnd\\Enums\\NotaDeCreditoDebito.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\enums\\documenttype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\enums\\documenttype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Enums\\DocumentType.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BackEnd\\Enums\\DocumentType.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\enums\\fiscalsupporttype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\enums\\fiscalsupporttype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Enums\\FiscalSupportType.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BackEnd\\Enums\\FiscalSupportType.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\enums\\identificationtype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\enums\\identificationtype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Enums\\IdentificationType.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BackEnd\\Enums\\IdentificationType.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\mediator\\commands\\products\\combos\\createcombocommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\mediator\\commands\\products\\combos\\createcombocommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\InvoiceReceiptDTO.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BackEnd\\DTOs\\InvoiceReceiptDTO.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\mediator\\commands\\appointments\\appointments\\createappointmentcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\mediator\\commands\\appointments\\appointments\\createappointmentcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Commands\\Products\\Combos\\CreateComboCommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BackEnd\\Mediator\\Commands\\Products\\Combos\\CreateComboCommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|c:\\users\\kodake\\desktop\\posapi\\backend\\mediator\\commands\\appointments\\appointments\\updateappointmentcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FB41B763-4F6E-4B58-9DA5-99B9DD8DAADC}|BackEnd\\BackEnd.csproj|solutionrelative:backend\\mediator\\commands\\appointments\\appointments\\updateappointmentcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Profiles\\Appointments\\AppointmentsProfile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BackEnd\\Profiles\\Appointments\\AppointmentsProfile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Commands\\Appointments\\Appointments\\CreateAppointmentCommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BackEnd\\Mediator\\Commands\\Appointments\\Appointments\\CreateAppointmentCommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Commands\\Appointments\\Appointments\\UpdateAppointmentCommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:BackEnd\\Mediator\\Commands\\Appointments\\Appointments\\UpdateAppointmentCommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -130,7 +130,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "20260114134822_Initial.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Migrations\\20260114134822_Initial.cs",
               "RelativeDocumentMoniker": "BackEnd\\Migrations\\20260114134822_Initial.cs",
@@ -138,12 +138,11 @@
               "RelativeToolTip": "BackEnd\\Migrations\\20260114134822_Initial.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-14T13:48:23.015Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-14T13:48:23.015Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "20260114134556_AddedTenantIdGuidForUsersTable.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Migrations\\20260114134556_AddedTenantIdGuidForUsersTable.cs",
               "RelativeDocumentMoniker": "BackEnd\\Migrations\\20260114134556_AddedTenantIdGuidForUsersTable.cs",
@@ -151,12 +150,11 @@
               "RelativeToolTip": "BackEnd\\Migrations\\20260114134556_AddedTenantIdGuidForUsersTable.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-14T13:45:56.258Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-14T13:45:56.258Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "AuthConfiguration.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Context\\Auths\\AuthConfiguration.cs",
               "RelativeDocumentMoniker": "BackEnd\\Context\\Auths\\AuthConfiguration.cs",
@@ -164,12 +162,11 @@
               "RelativeToolTip": "BackEnd\\Context\\Auths\\AuthConfiguration.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-14T13:18:12.05Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-14T13:18:12.05Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 4,
               "Title": "User.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Auths\\User.cs",
               "RelativeDocumentMoniker": "BackEnd\\Entities\\Auths\\User.cs",
@@ -177,12 +174,11 @@
               "RelativeToolTip": "BackEnd\\Entities\\Auths\\User.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAqwAkAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-14T13:18:03.907Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-14T13:18:03.907Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 5,
               "Title": "ApplicationDbContext.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Context\\ApplicationDbContext.cs",
               "RelativeDocumentMoniker": "BackEnd\\Context\\ApplicationDbContext.cs",
@@ -194,7 +190,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 6,
               "Title": "ReportDTO.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\ReportDTO.cs",
               "RelativeDocumentMoniker": "BackEnd\\DTOs\\ReportDTO.cs",
@@ -206,7 +202,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 7,
               "Title": "InvoiceDocumentDTO.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\InvoiceDocumentDTO.cs",
               "RelativeDocumentMoniker": "BackEnd\\DTOs\\InvoiceDocumentDTO.cs",
@@ -218,7 +214,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 8,
               "Title": "Invoice.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Entities\\Invoices\\Invoice.cs",
               "RelativeDocumentMoniker": "BackEnd\\Entities\\Invoices\\Invoice.cs",
@@ -230,7 +226,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 9,
               "Title": "UserService.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Services\\UserService.cs",
               "RelativeDocumentMoniker": "BackEnd\\Services\\UserService.cs",
@@ -242,7 +238,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 10,
               "Title": "UnitOfWork.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Repositories\\UnitOfWork.cs",
               "RelativeDocumentMoniker": "BackEnd\\Repositories\\UnitOfWork.cs",
@@ -260,7 +256,7 @@
               "RelativeDocumentMoniker": "BackEnd\\Endpoints\\Auths\\AuthsEndpoints.cs",
               "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Endpoints\\Auths\\AuthsEndpoints.cs",
               "RelativeToolTip": "BackEnd\\Endpoints\\Auths\\AuthsEndpoints.cs",
-              "ViewState": "AgIAABwAAAAAAAAAAAAMwCUAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAABwAAAAAAAAAAAAMwCUAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-09T04:34:24.677Z",
               "EditorCaption": ""
@@ -279,7 +275,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 12,
               "Title": "InvoiceCondition.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Enums\\InvoiceCondition.cs",
               "RelativeDocumentMoniker": "BackEnd\\Enums\\InvoiceCondition.cs",
@@ -291,7 +287,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 13,
               "Title": "PaymentMethod.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Enums\\PaymentMethod.cs",
               "RelativeDocumentMoniker": "BackEnd\\Enums\\PaymentMethod.cs",
@@ -303,7 +299,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 14,
               "Title": "MovementType.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Enums\\MovementType.cs",
               "RelativeDocumentMoniker": "BackEnd\\Enums\\MovementType.cs",
@@ -327,7 +323,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 16,
               "Title": "DocumentType.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Enums\\DocumentType.cs",
               "RelativeDocumentMoniker": "BackEnd\\Enums\\DocumentType.cs",
@@ -339,7 +335,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 17,
               "Title": "FiscalSupportType.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Enums\\FiscalSupportType.cs",
               "RelativeDocumentMoniker": "BackEnd\\Enums\\FiscalSupportType.cs",
@@ -351,7 +347,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 18,
               "Title": "IdentificationType.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Enums\\IdentificationType.cs",
               "RelativeDocumentMoniker": "BackEnd\\Enums\\IdentificationType.cs",
@@ -363,7 +359,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 19,
               "Title": "InvoiceReceiptDTO.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\DTOs\\InvoiceReceiptDTO.cs",
               "RelativeDocumentMoniker": "BackEnd\\DTOs\\InvoiceReceiptDTO.cs",
@@ -375,7 +371,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 20,
               "Title": "CreateComboCommand.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Mediator\\Commands\\Products\\Combos\\CreateComboCommand.cs",
               "RelativeDocumentMoniker": "BackEnd\\Mediator\\Commands\\Products\\Combos\\CreateComboCommand.cs",
@@ -387,7 +383,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 21,
               "Title": "AppointmentsProfile.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\BackEnd\\Profiles\\Appointments\\AppointmentsProfile.cs",
               "RelativeDocumentMoniker": "BackEnd\\Profiles\\Appointments\\AppointmentsProfile.cs",
@@ -395,8 +391,7 @@
               "RelativeToolTip": "BackEnd\\Profiles\\Appointments\\AppointmentsProfile.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAAkwBQAAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-05T17:40:02.786Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-05T17:40:02.786Z"
             },
             {
               "$type": "Document",

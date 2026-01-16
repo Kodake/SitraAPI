@@ -1,0 +1,78 @@
+Using launch settings from BackEnd\Properties\launchSettings.json...
+Building...
+[11:14:49 INF] User profile is available. Using 'C:\Users\Kodake\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+[11:14:50 INF] Now listening on: http://localhost:5001
+[11:14:50 INF] Now listening on: http://localhost:5000
+[11:14:50 INF] Application started. Press Ctrl+C to shut down.
+[11:14:50 INF] Hosting environment: Development
+[11:14:50 INF] Content root path: C:\Users\Kodake\Desktop\SITRA\BackEnd
+[11:16:07 INF] Request starting HTTP/1.1 GET http://localhost:5001/swagger - null null
+[11:16:08 INF] Request finished HTTP/1.1 GET http://localhost:5001/swagger - 301 0 null 350.1478ms
+[11:16:08 INF] Request starting HTTP/1.1 GET http://localhost:5001/swagger/index.html - null null
+[11:16:08 INF] Request finished HTTP/1.1 GET http://localhost:5001/swagger/index.html - 200 null text/html;charset=utf-8 30.7364ms
+[11:16:08 INF] Request starting HTTP/1.1 GET http://localhost:5001/swagger/swagger-ui.css - null null
+[11:16:08 INF] Request starting HTTP/1.1 GET http://localhost:5001/swagger/index.css - null null
+[11:16:08 INF] Request starting HTTP/1.1 GET http://localhost:5001/swagger/swagger-ui-bundle.js - null null
+[11:16:08 INF] Request starting HTTP/1.1 GET http://localhost:5001/swagger/swagger-ui-standalone-preset.js - null null
+[11:16:08 INF] Request starting HTTP/1.1 GET http://localhost:5001/swagger/index.js - null null
+[11:16:08 INF] Request finished HTTP/1.1 GET http://localhost:5001/swagger/index.js - 200 null application/javascript;charset=utf-8 0.3804ms
+[11:16:08 INF] Sending file. Request path: '/index.css'. Physical path: 'N/A'
+[11:16:08 INF] Request finished HTTP/1.1 GET http://localhost:5001/swagger/index.css - 200 202 text/css 5.9767ms
+[11:16:08 INF] Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+[11:16:08 INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+[11:16:08 INF] Request finished HTTP/1.1 GET http://localhost:5001/swagger/swagger-ui.css - 200 152034 text/css 12.7449ms
+[11:16:08 INF] Request finished HTTP/1.1 GET http://localhost:5001/swagger/swagger-ui-standalone-preset.js - 200 230293 text/javascript 10.7987ms
+[11:16:08 INF] Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+[11:16:08 INF] Request finished HTTP/1.1 GET http://localhost:5001/swagger/swagger-ui-bundle.js - 200 1452753 text/javascript 24.8142ms
+[11:16:08 INF] Request starting HTTP/1.1 GET http://localhost:5001/swagger/v1/swagger.json - null null
+[11:16:08 INF] No action descriptors found. This may indicate an incorrectly configured application or missing application parts. To learn more, visit https://aka.ms/aspnet/mvc/app-parts
+[11:16:08 INF] Request starting HTTP/1.1 GET http://localhost:5001/swagger/favicon-32x32.png - null null
+[11:16:08 INF] Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+[11:16:08 INF] Request finished HTTP/1.1 GET http://localhost:5001/swagger/favicon-32x32.png - 200 628 image/png 1.4997ms
+[11:16:08 INF] Request finished HTTP/1.1 GET http://localhost:5001/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 198.7032ms
+[11:16:40 INF] Request starting HTTP/1.1 GET http://localhost:5001/api/v1/contacts?page=1&recordsPerPage=10 - null null
+[11:16:40 WRN] Failed to determine the https port for redirect.
+[11:16:40 INF] No cached response available for this request.
+[11:16:40 INF] Executing endpoint 'HTTP: GET /api/v1/contacts/ => GetAll'
+[11:16:41 INF] Executed DbCommand (24ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT COUNT(*)
+FROM [Contacts] AS [c]
+[11:16:41 INF] Executed DbCommand (10ms) [Parameters=[@__p_0='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [c].[Id], [c].[Address], [c].[ContactType], [c].[CreatedAt], [c].[Email], [c].[Identification], [c].[IdentificationType], [c].[IsActive], [c].[Name], [c].[Phone], [c].[Phone2], [c].[Province], [c].[UpdatedAt]
+FROM [Contacts] AS [c]
+ORDER BY [c].[Id]
+OFFSET @__p_0 ROWS FETCH NEXT @__p_1 ROWS ONLY
+[11:16:41 INF] Setting HTTP status code 200.
+[11:16:41 INF] Writing value of type 'List`1' as Json.
+[11:16:41 INF] Executed endpoint 'HTTP: GET /api/v1/contacts/ => GetAll'
+[11:16:41 INF] The response has been cached.
+[11:16:41 INF] Request finished HTTP/1.1 GET http://localhost:5001/api/v1/contacts?page=1&recordsPerPage=10 - 200 null application/json; charset=utf-8 1503.8445ms
+[11:23:21 INF] Request starting HTTP/1.1 GET http://localhost:5001/swagger - null null
+[11:23:21 INF] Request finished HTTP/1.1 GET http://localhost:5001/swagger - 301 0 null 0.8693ms
+[11:23:21 INF] Request starting HTTP/1.1 GET http://localhost:5001/swagger/index.html - null null
+[11:23:21 INF] Request finished HTTP/1.1 GET http://localhost:5001/swagger/index.html - 200 null text/html;charset=utf-8 5.1079ms
+[11:23:21 INF] Request starting HTTP/1.1 GET http://localhost:5001/swagger/swagger-ui.css - null null
+[11:23:21 INF] Request starting HTTP/1.1 GET http://localhost:5001/swagger/index.css - null null
+[11:23:21 INF] Sending file. Request path: '/index.css'. Physical path: 'N/A'
+[11:23:21 INF] Request finished HTTP/1.1 GET http://localhost:5001/swagger/index.css - 200 202 text/css 0.4701ms
+[11:23:21 INF] Request starting HTTP/1.1 GET http://localhost:5001/swagger/swagger-ui-bundle.js - null null
+[11:23:21 INF] Request starting HTTP/1.1 GET http://localhost:5001/swagger/swagger-ui-standalone-preset.js - null null
+[11:23:21 INF] Request starting HTTP/1.1 GET http://localhost:5001/swagger/index.js - null null
+[11:23:21 INF] Request finished HTTP/1.1 GET http://localhost:5001/swagger/index.js - 200 null application/javascript;charset=utf-8 1.5802ms
+[11:23:21 INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+[11:23:21 INF] Request finished HTTP/1.1 GET http://localhost:5001/swagger/swagger-ui.css - 200 152034 text/css 7.1021ms
+[11:23:21 INF] Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+[11:23:21 INF] Request finished HTTP/1.1 GET http://localhost:5001/swagger/swagger-ui-standalone-preset.js - 200 230293 text/javascript 5.0272ms
+[11:23:21 INF] Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+[11:23:21 INF] Request finished HTTP/1.1 GET http://localhost:5001/swagger/swagger-ui-bundle.js - 200 1452753 text/javascript 22.8306ms
+[11:23:22 INF] Request starting HTTP/1.1 GET http://localhost:5001/swagger/v1/swagger.json - null null
+[11:23:22 INF] Request starting HTTP/1.1 GET http://localhost:5001/swagger/favicon-32x32.png - null null
+[11:23:22 INF] Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+[11:23:22 INF] Request finished HTTP/1.1 GET http://localhost:5001/swagger/favicon-32x32.png - 200 628 image/png 0.5268ms
+[11:23:22 INF] Request finished HTTP/1.1 GET http://localhost:5001/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 93.3304ms
+[11:23:36 INF] Request starting HTTP/1.1 GET http://localhost:5001/swagger/index.html - null null
+[11:23:36 INF] Request finished HTTP/1.1 GET http://localhost:5001/swagger/index.html - 200 null text/html;charset=utf-8 0.5334ms
+[11:23:36 INF] Request starting HTTP/1.1 GET http://localhost:5001/swagger/index.js - null null
+[11:23:36 INF] Request finished HTTP/1.1 GET http://localhost:5001/swagger/index.js - 200 null application/javascript;charset=utf-8 1.1625ms
+[11:23:37 INF] Request starting HTTP/1.1 GET http://localhost:5001/swagger/v1/swagger.json - null null
+[11:23:37 INF] Request finished HTTP/1.1 GET http://localhost:5001/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 65.3589ms

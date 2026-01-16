@@ -1,0 +1,18 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  SITRA.Core -> C:\Users\Kodake\Desktop\SITRA\SITRA.Core\bin\Debug\net8.0\SITRA.Core.dll
+  SITRA.Infrastructure -> C:\Users\Kodake\Desktop\SITRA\SITRA.Infrastructure\bin\Debug\net8.0\SITRA.Infrastructure.dll
+C:\Users\Kodake\Desktop\SITRA\BackEnd\Profiles\Accounts\ReceivablesProfile.cs(18,75): warning CS8602: Dereference of a possibly null reference. [C:\Users\Kodake\Desktop\SITRA\BackEnd\SITRA.API.csproj]
+C:\Users\Kodake\Desktop\SITRA\BackEnd\Profiles\Accounts\ReceivablesProfile.cs(19,73): warning CS8602: Dereference of a possibly null reference. [C:\Users\Kodake\Desktop\SITRA\BackEnd\SITRA.API.csproj]
+C:\Users\Kodake\Desktop\SITRA\BackEnd\Profiles\Invoices\QuotationsProfiles.cs(17,79): warning CS8602: Dereference of a possibly null reference. [C:\Users\Kodake\Desktop\SITRA\BackEnd\SITRA.API.csproj]
+  SITRA.API -> C:\Users\Kodake\Desktop\SITRA\BackEnd\bin\Debug\net8.0\SITRA.API.dll
+
+Build succeeded.
+
+C:\Users\Kodake\Desktop\SITRA\BackEnd\Profiles\Accounts\ReceivablesProfile.cs(18,75): warning CS8602: Dereference of a possibly null reference. [C:\Users\Kodake\Desktop\SITRA\BackEnd\SITRA.API.csproj]
+C:\Users\Kodake\Desktop\SITRA\BackEnd\Profiles\Accounts\ReceivablesProfile.cs(19,73): warning CS8602: Dereference of a possibly null reference. [C:\Users\Kodake\Desktop\SITRA\BackEnd\SITRA.API.csproj]
+C:\Users\Kodake\Desktop\SITRA\BackEnd\Profiles\Invoices\QuotationsProfiles.cs(17,79): warning CS8602: Dereference of a possibly null reference. [C:\Users\Kodake\Desktop\SITRA\BackEnd\SITRA.API.csproj]
+    3 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:02.18

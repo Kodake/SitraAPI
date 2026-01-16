@@ -1,0 +1,19 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  SITRA.Core -> C:\Users\Kodake\Desktop\SITRA\SITRA.Core\bin\Debug\net8.0\SITRA.Core.dll
+  SITRA.Infrastructure -> C:\Users\Kodake\Desktop\SITRA\SITRA.Infrastructure\bin\Debug\net8.0\SITRA.Infrastructure.dll
+C:\Users\Kodake\Desktop\SITRA\BackEnd\Profiles\Accounts\ReceivablesProfile.cs(18,75): warning CS8602: Dereference of a possibly null reference. [C:\Users\Kodake\Desktop\SITRA\BackEnd\SITRA.API.csproj]
+C:\Users\Kodake\Desktop\SITRA\BackEnd\Profiles\Accounts\ReceivablesProfile.cs(19,73): warning CS8602: Dereference of a possibly null reference. [C:\Users\Kodake\Desktop\SITRA\BackEnd\SITRA.API.csproj]
+C:\Users\Kodake\Desktop\SITRA\BackEnd\Endpoints\Auths\AuthsEndpoints.cs(159,30): error CS0103: The name 'Keys' does not exist in the current context [C:\Users\Kodake\Desktop\SITRA\BackEnd\SITRA.API.csproj]
+C:\Users\Kodake\Desktop\SITRA\BackEnd\Profiles\Invoices\QuotationsProfiles.cs(17,79): warning CS8602: Dereference of a possibly null reference. [C:\Users\Kodake\Desktop\SITRA\BackEnd\SITRA.API.csproj]
+
+Build FAILED.
+
+C:\Users\Kodake\Desktop\SITRA\BackEnd\Profiles\Accounts\ReceivablesProfile.cs(18,75): warning CS8602: Dereference of a possibly null reference. [C:\Users\Kodake\Desktop\SITRA\BackEnd\SITRA.API.csproj]
+C:\Users\Kodake\Desktop\SITRA\BackEnd\Profiles\Accounts\ReceivablesProfile.cs(19,73): warning CS8602: Dereference of a possibly null reference. [C:\Users\Kodake\Desktop\SITRA\BackEnd\SITRA.API.csproj]
+C:\Users\Kodake\Desktop\SITRA\BackEnd\Profiles\Invoices\QuotationsProfiles.cs(17,79): warning CS8602: Dereference of a possibly null reference. [C:\Users\Kodake\Desktop\SITRA\BackEnd\SITRA.API.csproj]
+C:\Users\Kodake\Desktop\SITRA\BackEnd\Endpoints\Auths\AuthsEndpoints.cs(159,30): error CS0103: The name 'Keys' does not exist in the current context [C:\Users\Kodake\Desktop\SITRA\BackEnd\SITRA.API.csproj]
+    3 Warning(s)
+    1 Error(s)
+
+Time Elapsed 00:00:01.83

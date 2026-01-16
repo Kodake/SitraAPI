@@ -1,6 +1,6 @@
 # BackEnd
 
-BackEnd is a minimal API project built with .NET 8 that serves as the backend for PosAPI.
+BackEnd is a minimal API project built with .NET 8 that serves as the backend for SITRA.
 
 ## Prerequisites
 
@@ -14,7 +14,7 @@ To get started with BackEnd, follow these steps:
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/Kodake/PosAPI.git
+   git clone https://github.com/Kodake/SITRA.git
 
 2. Navigate to the project directory:
    ```bash
