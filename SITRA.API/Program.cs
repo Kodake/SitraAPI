@@ -10,6 +10,8 @@ using SITRA.Core.Mediator;
 using SITRA.Core.Helpers;
 using SITRA.Infrastructure.Persistence;
 using SITRA.Infrastructure.Repositories;
+using SITRA.Core.Interfaces;
+using SITRA.Infrastructure.Services;
 using Serilog;
 using System.Text;
 
@@ -92,6 +94,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddValidatorsFromAssemblyContaining<CreateProductDTOValidator>();
 builder.Services.AddOutputCache();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ICurrentTenantService, CurrentTenantService>();
 
 // CORS
 builder.Services.AddCors(options =>

@@ -21,18 +21,50 @@ using SITRA.Core.Entities.Warehouses;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using SITRA.Core.Interfaces;
+using System.Reflection;
 
 namespace SITRA.Infrastructure.Persistence
 {
     public class ApplicationDbContext : IdentityDbContext<User>
     {
-        public ApplicationDbContext(DbContextOptions options) : base(options)
-        { }
+        private readonly ICurrentTenantService _currentTenantService;
+
+        public ApplicationDbContext(DbContextOptions options, ICurrentTenantService currentTenantService) : base(options)
+        {
+            _currentTenantService = currentTenantService;
+        }
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            foreach (var entry in ChangeTracker.Entries<ITenant>())
+            {
+                if (entry.State == EntityState.Added && _currentTenantService.TenantId.HasValue)
+                {
+                    entry.Entity.TenantId = _currentTenantService.TenantId.Value;
+                }
+            }
+
+            return await base.SaveChangesAsync(cancellationToken);
+        }
 
         #region OnModelCreating
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            // Global Query Filter for Multi-Tenancy
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                if (typeof(ITenant).IsAssignableFrom(entityType.ClrType))
+                {
+                    var method = typeof(ApplicationDbContext)
+                        .GetMethod(nameof(SetGlobalQuery), BindingFlags.NonPublic | BindingFlags.Instance)
+                        ?.MakeGenericMethod(entityType.ClrType);
+
+                    method?.Invoke(this, new object[] { modelBuilder });
+                }
+            }
             modelBuilder.ApplyConfiguration(new PayableConfiguration());
             modelBuilder.ApplyConfiguration(new PayableReceiptConfiguration());
             modelBuilder.ApplyConfiguration(new PaymentReceiptConfiguration());
@@ -121,6 +153,10 @@ namespace SITRA.Infrastructure.Persistence
         public DbSet<PettyCashMovement> PettyCashMovements { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<AppointmentItem> AppointmentItems { get; set; }
+        private void SetGlobalQuery<T>(ModelBuilder builder) where T : class, ITenant
+        {
+            builder.Entity<T>().HasQueryFilter(e => e.TenantId == _currentTenantService.TenantId);
+        }
         #endregion
     }
 }

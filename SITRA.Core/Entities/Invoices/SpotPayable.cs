@@ -1,9 +1,10 @@
+using SITRA.Core.Interfaces;
 using SITRA.Core.Entities.Contacts;
 using SITRA.Core.Enums;
 
 namespace SITRA.Core.Entities.Invoices
 {
-    public class SpotPayable
+    public class SpotPayable : ITenant
     {
         public long Id { get; set; }
         public long? InvoiceId { get; set; }
@@ -15,5 +16,6 @@ namespace SITRA.Core.Entities.Invoices
         public bool IsActive { get; set; } = true;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
+        public Guid TenantId { get; set; }
     }
 }

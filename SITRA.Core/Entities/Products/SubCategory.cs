@@ -1,6 +1,8 @@
+using SITRA.Core.Interfaces;
+
 namespace SITRA.Core.Entities.Products
 {
-    public class SubCategory
+    public class SubCategory : ITenant
     {
         public long Id { get; set; }
         public string Name { get; set; } = string.Empty;
@@ -10,5 +12,6 @@ namespace SITRA.Core.Entities.Products
         public DateTime? UpdatedAt { get; set; }
         public long CategoryId { get; set; }
         public Category Category { get; set; } = default!;
+        public Guid TenantId { get; set; }
     }
 }

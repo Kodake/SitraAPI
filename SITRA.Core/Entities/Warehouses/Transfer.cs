@@ -1,9 +1,10 @@
+using SITRA.Core.Interfaces;
 using SITRA.Core.Entities.Products;
 using SITRA.Core.Enums;
 
 namespace SITRA.Core.Entities.Warehouses
 {
-    public class Transfer
+    public class Transfer : ITenant
     {
         public long Id { get; set; }
         public long ProductId { get; set; }
@@ -19,5 +20,6 @@ namespace SITRA.Core.Entities.Warehouses
         public TransferStatus Status { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
+        public Guid TenantId { get; set; }
     }
 }

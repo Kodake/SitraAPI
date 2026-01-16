@@ -1,6 +1,8 @@
+using SITRA.Core.Interfaces;
+
 namespace SITRA.Core.Entities.Finances
 {
-    public class Expense
+    public sealed class Expense : ITenant
     {
         public long Id { get; set; }
         public DateTime Date { get; set; }
@@ -9,5 +11,6 @@ namespace SITRA.Core.Entities.Finances
         public bool IsActive { get; set; } = true;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
+        public Guid TenantId { get; set; }
     }
 }

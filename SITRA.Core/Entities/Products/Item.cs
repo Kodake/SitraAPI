@@ -1,10 +1,11 @@
+using SITRA.Core.Interfaces;
 using SITRA.Core.Entities.Appointments;
 using SITRA.Core.Entities.Warehouses;
 using SITRA.Core.Enums;
 
 namespace SITRA.Core.Entities.Products
 {
-    public sealed class Item
+    public sealed class Item : ITenant
     {
         public long Id { get; set; }
         public ItemType ItemType { get; set; }
@@ -26,6 +27,7 @@ namespace SITRA.Core.Entities.Products
         public bool IsActive { get; set; } = true;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
+        public Guid TenantId { get; set; }
         public ICollection<ItemTaxes> ItemTaxes { get; set; } = new List<ItemTaxes>();
         public ICollection<Stock> Stocks { get; set; } = new List<Stock>();
         public ICollection<PricingItem> PricingItems { get; set; } = new List<PricingItem>();

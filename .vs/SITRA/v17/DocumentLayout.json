@@ -58,8 +58,7 @@
               "RelativeToolTip": "SITRA.Core\\Mediator\\Commands\\CashBoxes\\CreateOpenPettyCashCommand.cs",
               "ViewState": "AgIAABAAAAAAAAAAAAAgwCEAAABZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-16T21:32:19.707Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-16T21:32:19.707Z"
             },
             {
               "$type": "Document",
@@ -69,7 +68,7 @@
               "RelativeDocumentMoniker": "SITRA.Core\\Validations\\CreateOpenPettyCashDTOValidator.cs",
               "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Core\\Validations\\CreateOpenPettyCashDTOValidator.cs",
               "RelativeToolTip": "SITRA.Core\\Validations\\CreateOpenPettyCashDTOValidator.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAAABIAAAAUAAAAAAAAAA==",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAAABIAAABLAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-16T21:28:43.22Z",
               "EditorCaption": ""
@@ -84,8 +83,7 @@
               "RelativeToolTip": "SITRA.API\\Endpoints\\CashBoxes\\PettyCashesEndpoints.cs",
               "ViewState": "AgIAADsAAAAAAAAAAAAIwEIAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-16T21:24:08.339Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-16T21:24:08.339Z"
             },
             {
               "$type": "Document",

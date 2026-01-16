@@ -6410,6 +6410,10 @@
               "$ref": "#/components/schemas/Model"
             },
             "nullable": true
+          },
+          "tenantId": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false
@@ -6475,6 +6479,10 @@
             "type": "string",
             "format": "date-time",
             "nullable": true
+          },
+          "tenantId": {
+            "type": "string",
+            "format": "uuid"
           },
           "items": {
             "type": "array",
@@ -6670,6 +6678,10 @@
           "qty": {
             "type": "number",
             "format": "double"
+          },
+          "tenantId": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false
@@ -7948,6 +7960,10 @@
             "type": "string",
             "format": "date-time",
             "nullable": true
+          },
+          "tenantId": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false
@@ -8183,6 +8199,10 @@
             "format": "date-time",
             "nullable": true
           },
+          "tenantId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "itemTaxes": {
             "type": "array",
             "items": {
@@ -8322,6 +8342,10 @@
             "type": "string",
             "format": "date-time",
             "nullable": true
+          },
+          "tenantId": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false
@@ -8368,6 +8392,10 @@
           },
           "brand": {
             "$ref": "#/components/schemas/Brand"
+          },
+          "tenantId": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false
@@ -8741,6 +8769,10 @@
             "format": "date-time",
             "nullable": true
           },
+          "tenantId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "pricingItems": {
             "type": "array",
             "items": {
@@ -8813,6 +8845,10 @@
             "type": "string",
             "format": "date-time",
             "nullable": true
+          },
+          "tenantId": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false
@@ -9872,6 +9908,10 @@
             "type": "string",
             "format": "date-time",
             "nullable": true
+          },
+          "tenantId": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false
@@ -9985,6 +10025,10 @@
           },
           "category": {
             "$ref": "#/components/schemas/Category"
+          },
+          "tenantId": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false
@@ -10076,6 +10120,10 @@
               "$ref": "#/components/schemas/ItemTaxes"
             },
             "nullable": true
+          },
+          "tenantId": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false
@@ -10190,6 +10238,10 @@
             "type": "string",
             "format": "date-time",
             "nullable": true
+          },
+          "tenantId": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false
@@ -10352,6 +10404,10 @@
             "type": "string",
             "format": "date-time",
             "nullable": true
+          },
+          "tenantId": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false
@@ -10455,6 +10511,10 @@
             "type": "string",
             "format": "date-time",
             "nullable": true
+          },
+          "tenantId": {
+            "type": "string",
+            "format": "uuid"
           },
           "stocks": {
             "type": "array",

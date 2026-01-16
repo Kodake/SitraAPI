@@ -1,9 +1,10 @@
+using SITRA.Core.Interfaces;
 using SITRA.Core.Entities.Auths;
 using SITRA.Core.Enums;
 
 namespace SITRA.Core.Entities.CashBoxes
 {
-    public class PettyCash
+    public sealed class PettyCash : ITenant
     {
         public long Id { get; set; }
         public string UserId { get; set; } = null!;
@@ -16,5 +17,6 @@ namespace SITRA.Core.Entities.CashBoxes
         public PettyCashStatus Status { get; set; }
         public string? Comments { get; set; }
         public ICollection<PettyCashMovement> PettyCashMovements { get; set; } = [];
+        public Guid TenantId { get; set; }
     }
 }

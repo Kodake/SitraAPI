@@ -1,8 +1,9 @@
+using SITRA.Core.Interfaces;
 using SITRA.Core.Enums;
 
 namespace SITRA.Core.Entities.Invoices
 {
-    public class Payment
+    public class Payment : ITenant
     {
         public long Id { get; set; }
         public long SpotPaymentId { get; set; }
@@ -11,5 +12,6 @@ namespace SITRA.Core.Entities.Invoices
         public double Amount { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
+        public Guid TenantId { get; set; }
     }
 }

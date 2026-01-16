@@ -1,6 +1,8 @@
+using SITRA.Core.Interfaces;
+
 namespace SITRA.Core.Entities.Products
 {
-    public class PricingItem
+    public class PricingItem : ITenant
     {
         public long Id { get; set; }
         public long ItemId { get; set; }
@@ -12,5 +14,6 @@ namespace SITRA.Core.Entities.Products
         public bool IsPrincipal { get; set; } = false;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
+        public Guid TenantId { get; set; }
     }
 }

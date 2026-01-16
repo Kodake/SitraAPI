@@ -1,8 +1,9 @@
+using SITRA.Core.Interfaces;
 using SITRA.Core.Entities.Products;
 
 namespace SITRA.Core.Entities.Invoices
 {
-    public class InvoiceItem
+    public class InvoiceItem : ITenant
     {
         public long Id { get; set; }
         public long InvoiceId { get; set; }
@@ -16,5 +17,6 @@ namespace SITRA.Core.Entities.Invoices
         public double TotalTaxes { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
+        public Guid TenantId { get; set; }
     }
 }

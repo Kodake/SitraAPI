@@ -1,8 +1,9 @@
+using SITRA.Core.Interfaces;
 using SITRA.Core.Enums;
 
 namespace SITRA.Core.Entities.Accounts
 {
-    public sealed class PayableReceipt
+    public sealed class PayableReceipt : ITenant
     {
         public long Id { get; set; }
         public long PayableId { get; set; }
@@ -13,5 +14,6 @@ namespace SITRA.Core.Entities.Accounts
         public bool IsActive { get; set; } = true;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
+        public Guid TenantId { get; set; }
     }
 }

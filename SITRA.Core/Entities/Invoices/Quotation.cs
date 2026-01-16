@@ -1,8 +1,9 @@
+using SITRA.Core.Interfaces;
 using SITRA.Core.Entities.Contacts;
 
 namespace SITRA.Core.Entities.Invoices
 {
-    public class Quotation
+    public class Quotation : ITenant
     {
         public long Id { get; set; }
         public long? InvoiceId { get; set; }
@@ -13,5 +14,6 @@ namespace SITRA.Core.Entities.Invoices
         public virtual List<InvoiceItem> InvoiceItems { get; set; } = new List<InvoiceItem>();
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
+        public Guid TenantId { get; set; }
     }
 }

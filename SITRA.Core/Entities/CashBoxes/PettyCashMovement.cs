@@ -1,9 +1,10 @@
+using SITRA.Core.Interfaces;
 using SITRA.Core.Entities.Invoices;
 using SITRA.Core.Enums;
 
 namespace SITRA.Core.Entities.CashBoxes
 {
-    public class PettyCashMovement
+    public sealed class PettyCashMovement : ITenant
     {
         public long Id { get; set; }
         public long PettyCashId { get; set; }
@@ -13,5 +14,6 @@ namespace SITRA.Core.Entities.CashBoxes
         public double Amount { get; set; }
         public MovementType Type { get; set; }
         public DateTime CreatedAt { get; set; }
+        public Guid TenantId { get; set; }
     }
 }

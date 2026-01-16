@@ -1,8 +1,9 @@
+using SITRA.Core.Interfaces;
 using SITRA.Core.Entities.Products;
 
 namespace SITRA.Core.Entities.Warehouses
 {
-    public sealed class Stock
+    public sealed class Stock : ITenant
     {
         public long Id { get; set; }
         public long ItemId { get; set; }
@@ -14,5 +15,6 @@ namespace SITRA.Core.Entities.Warehouses
         public double? MaxQty { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
+        public Guid TenantId { get; set; }
     }
 }
