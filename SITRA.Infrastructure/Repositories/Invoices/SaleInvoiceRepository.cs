@@ -82,14 +82,14 @@ namespace SITRA.Infrastructure.Repositories.Invoices
         public async Task<int> Last24HoursSaleInvoicesAsync()
         {
             return await context.Invoices
-                .Where(x => x.InvoiceType == InvoiceType.Sale && x.CreatedAt >= DateTime.UtcNow.AddDays((double)TimeElapsed.Last24Hours))
+                .Where(x => x.InvoiceType == InvoiceType.Sale && x.CreatedAt >= DateTimeOffset.UtcNow.AddDays((double)TimeElapsed.Last24Hours))
                 .CountAsync();
         }
 
         public async Task<double> Last30DaysSalesAsync()
         {
             return await context.Invoices
-                .Where(x => x.InvoiceType == InvoiceType.Sale && x.CreatedAt >= DateTime.UtcNow.AddDays((double)TimeElapsed.Last30Days))
+                .Where(x => x.InvoiceType == InvoiceType.Sale && x.CreatedAt >= DateTimeOffset.UtcNow.AddDays((double)TimeElapsed.Last30Days))
                 .SumAsync(x => x.TotalPrice);
         }
 

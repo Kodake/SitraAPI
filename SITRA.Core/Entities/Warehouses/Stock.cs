@@ -3,7 +3,7 @@ using SITRA.Core.Entities.Products;
 
 namespace SITRA.Core.Entities.Warehouses
 {
-    public sealed class Stock : ITenant
+    public sealed class Stock : ITenant, IAuditableEntity
     {
         public long Id { get; set; }
         public long ItemId { get; set; }
@@ -13,8 +13,8 @@ namespace SITRA.Core.Entities.Warehouses
         public double Qty { get; set; }
         public double? MinQty { get; set; }
         public double? MaxQty { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? UpdatedAt { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
         public Guid TenantId { get; set; }
     }
 }

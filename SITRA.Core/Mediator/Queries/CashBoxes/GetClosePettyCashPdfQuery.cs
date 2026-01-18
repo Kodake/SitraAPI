@@ -26,7 +26,7 @@ namespace SITRA.Core.Mediator.Queries.CashBoxes
             // 2?? Generate PDF using ClosePettyCashDTO
             var closePettyCashDoc = new ClosePettyCashDTO(pettyCashDto);
 
-            var fileName = $"ClosePettyCash_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
+            var fileName = $"ClosePettyCash_{DateTimeOffset.UtcNow:yyyyMMdd_HHmmss}.pdf";
             var filePath = Path.Combine(Path.GetTempPath(), fileName);
 
             closePettyCashDoc.GeneratePdf(filePath);

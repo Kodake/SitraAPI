@@ -4,7 +4,7 @@ using SITRA.Core.Enums;
 
 namespace SITRA.Core.Entities.AdministrativeTools
 {
-    public sealed class FiscalSupport : ITenant
+    public sealed class FiscalSupport : ITenant, IAuditableEntity
     {
         public long Id { get; set; }
         public DocumentType DocumentType { get; set; }
@@ -17,8 +17,8 @@ namespace SITRA.Core.Entities.AdministrativeTools
         public long WarehouseId { get; set; }
         public Warehouse Warehouse { get; set; } = null!;
         public bool IsActive { get; set; } = true;
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? UpdatedAt { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
         public Guid TenantId { get; set; }
     }
 }

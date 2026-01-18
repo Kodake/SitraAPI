@@ -28,7 +28,7 @@ namespace SITRA.Core.Mediator.Commands.Warehouses.Transfers
             unitOfWork.StockRepository.Update(stockDestination);
 
             existingTransfer.Status = _newStatus;
-            existingTransfer.UpdatedAt = DateTime.UtcNow;
+            existingTransfer.UpdatedAt = DateTimeOffset.UtcNow;
             unitOfWork.TransferRepository.Update(existingTransfer);
 
             await unitOfWork.SaveChangesAsync();

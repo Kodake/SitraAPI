@@ -11,5 +11,7 @@ namespace SITRA.Core.DTOs.Appointments.Appointments
         public string? ContactPhone { get; set; } = null!;
         public DateTimeOffset ScheduledAt { get; set; }
         public bool IsActive { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
     }
 }

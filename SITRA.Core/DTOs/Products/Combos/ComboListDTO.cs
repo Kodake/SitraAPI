@@ -20,4 +20,6 @@ public class ComboListDTO
     public List<PricingItemDTO>? PricingItems { get; set; } = [];
     public List<StockDTO>? Stocks { get; set; } = [];
     public List<ComboDTO> ComboItems { get; set; } = [];
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset? UpdatedAt { get; set; }
 }

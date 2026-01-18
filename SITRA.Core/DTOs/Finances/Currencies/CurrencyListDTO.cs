@@ -7,4 +7,6 @@ public class CurrencyListDTO
     public string Symbol { get; set; } = string.Empty;
     public decimal Rate { get; set; }
     public bool IsActive { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset? UpdatedAt { get; set; }
 }

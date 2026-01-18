@@ -9,5 +9,7 @@ namespace SITRA.Core.DTOs.Products.SubCategories
         public string? Description { get; set; }
         public long CategoryId { get; set; }
         public CategoryDTO Category { get; set; } = default!;
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
     }
 }

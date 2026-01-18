@@ -71,7 +71,7 @@ namespace SITRA.Core.DTOs
                 column.Item().PaddingTop(5).BorderBottom(1).PaddingBottom(5).Column(info =>
                 {
                     info.Item().AlignCenter().Text(ReportName).FontSize(10).SemiBold();
-                    info.Item().AlignCenter().Text($"{DateTime.Today:dd-MM-yyyy}");
+                    info.Item().AlignCenter().Text($"{DateTimeOffset.UtcNow:dd-MM-yyyy}");
                     info.Item().AlignCenter().Text($"DESDE: {From:dd-MM-yyyy}");
                     info.Item().AlignCenter().Text($"HASTA: {To:dd-MM-yyyy}");
                 });

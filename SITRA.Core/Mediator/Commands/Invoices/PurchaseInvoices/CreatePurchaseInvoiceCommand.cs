@@ -21,6 +21,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.PurchaseInvoices
 
             var purchaseInvoice = mapper.Map<Invoice>(Dto);
             purchaseInvoice.InvoiceType = InvoiceType.Purchase;
+            purchaseInvoice.Date = DateTimeOffset.UtcNow;
 
             double currencyRate = currencyDB!.Rate;
             await CalculateInvoiceTotals(Dto.InvoiceItems, purchaseInvoice, unitOfWork, currencyRate);
@@ -48,7 +49,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.PurchaseInvoices
                         Invoice = purchaseInvoice,
                         ContactId = purchaseInvoice.CustomerId != 0 ? purchaseInvoice.CustomerId : null,
                         PaymentMethod = Dto.PaymentMethod,
-                        PaymentDate = DateTime.UtcNow,
+                        PaymentDate = DateTimeOffset.UtcNow,
                         IsActive = true
                     };
 

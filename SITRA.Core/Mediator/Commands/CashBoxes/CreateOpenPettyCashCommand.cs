@@ -25,7 +25,7 @@ namespace SITRA.Core.Mediator.Commands.CashBoxes
                 UserId = user!.Id,
                 OpeningAmount = Dto.OpeningAmount,
                 ClosingAmount = Dto.OpeningAmount,
-                OpeningDate = DateTime.UtcNow,
+                OpeningDate = DateTimeOffset.UtcNow,
                 Status = PettyCashStatus.Open,
             };
 

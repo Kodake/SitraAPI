@@ -11,8 +11,10 @@ namespace SITRA.Core.DTOs.Invoices.SpotPayables
         public virtual PurchaseInvoiceDTO Invoice { get; set; } = null!;
         public long ContactId { get; set; }
         public virtual ContactDTO Supplier { get; set; } = null!;
-        public DateTime PaymentDate { get; set; } = DateTime.UtcNow;
+        public DateTimeOffset PaymentDate { get; set; } = DateTimeOffset.UtcNow;
         public PaymentMethod PaymentMethod { get; set; }
         public bool IsActive { get; set; } = true;
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
     }
 }

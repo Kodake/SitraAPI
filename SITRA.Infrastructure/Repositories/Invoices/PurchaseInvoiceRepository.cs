@@ -74,7 +74,7 @@ namespace SITRA.Infrastructure.Repositories.Invoices
         public async Task<double> Last30DaysPurchasesAsync()
         {
             return await context.Invoices
-                .Where(i => i.InvoiceType == InvoiceType.Purchase && i.CreatedAt >= DateTime.UtcNow.AddDays((double)TimeElapsed.Last30Days))
+                .Where(i => i.InvoiceType == InvoiceType.Purchase && i.CreatedAt >= DateTimeOffset.UtcNow.AddDays((double)TimeElapsed.Last30Days))
                 .SumAsync(i => i.TotalPrice);
         }
 

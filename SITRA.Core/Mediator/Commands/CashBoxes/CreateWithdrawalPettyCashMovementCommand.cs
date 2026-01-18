@@ -27,7 +27,6 @@ namespace SITRA.Core.Mediator.Commands.CashBoxes
                 PettyCashId = pettyCashDB!.Id,
                 Amount = Dto.WithdrawalAmount,
                 Type = MovementType.CashWithdrawals,
-                CreatedAt = DateTime.UtcNow,
                 InvoiceId = null,
                 Invoice = null,
             };

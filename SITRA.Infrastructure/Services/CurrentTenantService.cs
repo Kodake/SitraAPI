@@ -17,8 +17,29 @@ namespace SITRA.Infrastructure.Services
         {
             get
             {
-                var tenantIdClaim = _httpContextAccessor.HttpContext?.User?.FindFirst("tenantId")?.Value;
-                return Guid.TryParse(tenantIdClaim, out var tenantId) ? tenantId : null;
+                var user = _httpContextAccessor.HttpContext?.User;
+                if (user == null)
+                {
+                    Console.WriteLine("[CurrentTenantService] HttpContext.User is null");
+                    return null;
+                }
+
+                Console.WriteLine("[CurrentTenantService] Claims available:");
+                foreach (var claim in user.Claims)
+                {
+                    Console.WriteLine($" - {claim.Type}: {claim.Value}");
+                }
+
+                var tenantIdClaim = user.FindFirst("tenantId")?.Value;
+                Console.WriteLine($"[CurrentTenantService] Found tenantId claim: {tenantIdClaim}");
+
+                if (Guid.TryParse(tenantIdClaim, out var tenantId))
+                {
+                    return tenantId;
+                }
+                
+                Console.WriteLine("[CurrentTenantService] Failed to parse tenant ID or not found.");
+                return null;
             }
         }
     }

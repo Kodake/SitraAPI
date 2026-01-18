@@ -35,4 +35,6 @@ public class ComboDTO
     public List<int>? TaxIds { get; set; }
     public List<TaxDTO>? Taxes { get; set; } = [];
     public List<PricingItemDTO>? PricingItems { get; set; } = [];
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset? UpdatedAt { get; set; }
 }

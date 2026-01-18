@@ -12,5 +12,7 @@ namespace SITRA.Core.DTOs.Invoices.Quotations
         public virtual ContactDTO Buyer { get; set; } = null!;
         public string QuotationNumber { get; set; } = string.Empty;
         public List<SaleInvoiceItemDTO> InvoiceItems { get; set; } = new List<SaleInvoiceItemDTO>();
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
     }
 }

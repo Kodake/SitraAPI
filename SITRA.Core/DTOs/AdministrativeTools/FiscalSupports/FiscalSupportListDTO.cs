@@ -12,5 +12,7 @@ namespace SITRA.Core.DTOs.AdministrativeTools.FiscalSupports
         public long WarehouseId { get; set; }
         public WarehouseDTO Warehouse { get; set; } = null!;
         public bool IsActive { get; set; } = true;
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
     }
 }

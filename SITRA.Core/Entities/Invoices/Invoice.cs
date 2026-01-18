@@ -9,10 +9,10 @@ using SITRA.Core.Enums;
 
 namespace SITRA.Core.Entities.Invoices
 {
-    public class Invoice : ITenant
+    public class Invoice : ITenant, IAuditableEntity
     {
         public long Id { get; set; }
-        public DateTime Date { get; set; } = DateTime.Now;
+        public DateTimeOffset Date { get; set; }
         public long PricingId { get; set; }
         public Pricing Pricing { get; set; } = null!;
         public long? BillerId { get; set; }
@@ -37,9 +37,9 @@ namespace SITRA.Core.Entities.Invoices
         public double? Discount { get; set; } = null!;
         public string? Description { get; set; } = null!;
         public string? Note { get; set; } = null!;
-        public DateTime? DueDate { get; set; } = null!;
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? UpdatedAt { get; set; }
+        public DateTimeOffset? DueDate { get; set; } = null!;
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
         public Guid TenantId { get; set; }
         public Receivable? Receivable { get; set; } = null!;
         public Payable? Payable { get; set; } = null!;

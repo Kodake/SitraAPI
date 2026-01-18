@@ -16,4 +16,6 @@ public class ServiceListDTO
     public List<TaxDTO> Taxes { get; set; } = [];
     [JsonIgnore]
     public List<PricingItemDTO>? PricingItems { get; set; } = [];
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset? UpdatedAt { get; set; }
 }

@@ -5,7 +5,7 @@ using SITRA.Core.Enums;
 
 namespace SITRA.Core.Entities.Contacts
 {
-    public sealed class Contact : ITenant
+    public sealed class Contact : ITenant, IAuditableEntity
     {
         public long Id { get; set; }
         public ContactType? ContactType { get; set; }
@@ -18,8 +18,8 @@ namespace SITRA.Core.Entities.Contacts
         public string? Phone2 { get; set; }
         public string? Email { get; set; }
         public bool IsActive { get; set; } = true;
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? UpdatedAt { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
         public Guid TenantId { get; set; }
         public ICollection<Invoice> BillerInvoices { get; set; } = new HashSet<Invoice>();
         public ICollection<Invoice> BuyerInvoices { get; set; } = new HashSet<Invoice>();

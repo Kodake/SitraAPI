@@ -10,8 +10,8 @@ namespace SITRA.Core.DTOs.Appointments.Appointments
         public ContactDTO Contact { get; set; } = null!;
         public DateTimeOffset ScheduledAt { get; set; }
         public bool IsActive { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? UpdatedAt { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
         public List<long> AppointmentItemIds { get; set; } = [];
         public List<ServiceDTO> AppointmentItems { get; set; } = [];
     }

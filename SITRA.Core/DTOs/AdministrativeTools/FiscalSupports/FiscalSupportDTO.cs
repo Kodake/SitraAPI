@@ -28,5 +28,7 @@ namespace SITRA.Core.DTOs.AdministrativeTools.FiscalSupports
             return $"{fiscalSupportName}{finalSymbols}";
         }
         public WarehouseDTO Warehouse { get; set; } = null!;
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
     }
 }

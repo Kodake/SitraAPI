@@ -3,7 +3,7 @@ using SITRA.Core.Entities.Products;
 
 namespace SITRA.Core.Entities.Invoices
 {
-    public class InvoiceItem : ITenant
+    public class InvoiceItem : ITenant, IAuditableEntity
     {
         public long Id { get; set; }
         public long InvoiceId { get; set; }
@@ -15,8 +15,8 @@ namespace SITRA.Core.Entities.Invoices
         public double TotalAmount { get; set; }
         public double TotalPrice { get; set; }
         public double TotalTaxes { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? UpdatedAt { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
         public Guid TenantId { get; set; }
     }
 }

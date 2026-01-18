@@ -3,7 +3,7 @@ using SITRA.Core.Entities.AdministrativeTools;
 
 namespace SITRA.Core.Entities.Warehouses
 {
-    public sealed class Warehouse : ITenant
+    public sealed class Warehouse : ITenant, IAuditableEntity
     {
         public long Id { get; set; }
         public string Name { get; set; } = string.Empty;
@@ -14,8 +14,8 @@ namespace SITRA.Core.Entities.Warehouses
         public string? Country { get; set; }
         public string? ZipCode { get; set; }
         public bool IsActive { get; set; } = true;
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? UpdatedAt { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
         public Guid TenantId { get; set; }
         public List<Stock> Stocks { get; set; } = [];
         public List<FiscalSupport> FiscalSupports { get; set; } = [];

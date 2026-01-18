@@ -2,7 +2,7 @@ using SITRA.Core.Interfaces;
 
 namespace SITRA.Core.Entities.Products
 {
-    public class PricingItem : ITenant
+    public class PricingItem : ITenant, IAuditableEntity
     {
         public long Id { get; set; }
         public long ItemId { get; set; }
@@ -12,8 +12,8 @@ namespace SITRA.Core.Entities.Products
         public double InitialCost { get; set; }
         public double BasePrice { get; set; }
         public bool IsPrincipal { get; set; } = false;
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? UpdatedAt { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
         public Guid TenantId { get; set; }
     }
 }

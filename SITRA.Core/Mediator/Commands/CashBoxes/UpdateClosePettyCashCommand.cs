@@ -29,7 +29,7 @@ namespace SITRA.Core.Mediator.Commands.CashBoxes
 
             // ?? Update fields
             pettyCashDB.Comments = Dto.Comments;
-            pettyCashDB.ClosingDate = DateTime.UtcNow;
+            pettyCashDB.ClosingDate = DateTimeOffset.UtcNow;
             pettyCashDB.Status = PettyCashStatus.Closed;
 
             // ?? Compute movement totals
@@ -68,7 +68,7 @@ namespace SITRA.Core.Mediator.Commands.CashBoxes
 
             // ?? Generate PDF and return it
             var pdfDoc = new ClosePettyCashDTO(pettyCashDto);
-            var fileName = $"ClosePettyCash_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
+            var fileName = $"ClosePettyCash_{DateTimeOffset.UtcNow:yyyyMMdd_HHmmss}.pdf";
             var filePath = Path.Combine(Path.GetTempPath(), fileName);
 
             pdfDoc.GeneratePdf(filePath);

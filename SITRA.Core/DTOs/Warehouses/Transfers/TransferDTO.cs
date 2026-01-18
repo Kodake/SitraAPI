@@ -14,8 +14,8 @@ namespace SITRA.Core.DTOs.Warehouses.Transfers
         public long DestinationWarehouseId { get; set; }
         public WarehouseDTO? DestinationWarehouse { get; set; }
         public double Qty { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
         public long StockId { get; set; }
         public StockDTO? Stock { get; set; }
         public TransferStatus Status { get; set; }

@@ -9,5 +9,7 @@ namespace SITRA.Core.DTOs.Products.Models
         public string? Description { get; set; }
         public long BrandId { get; set; }
         public BrandDTO Brand { get; set; } = default!;
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
     }
 }

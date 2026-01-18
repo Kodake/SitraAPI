@@ -29,6 +29,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
 
             var saleInvoice = mapper.Map<Invoice>(Dto);
             saleInvoice.InvoiceType = InvoiceType.Sale;
+            saleInvoice.Date = DateTimeOffset.UtcNow;
 
             if (fiscalSupportDB != null)
             {
@@ -64,7 +65,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
                         Invoice = saleInvoice,
                         ContactId = saleInvoice.CustomerId == 0 ? null : saleInvoice.CustomerId,
                         AmountReturned = Dto.AmountReturned ?? 0,
-                        PaymentDate = DateTime.UtcNow,
+                        PaymentDate = DateTimeOffset.UtcNow,
                         IsActive = true
                     };
 
@@ -240,7 +241,6 @@ namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
                 Invoice = invoice,
                 Amount = invoice.TotalPrice,
                 Type = MovementType.Income,
-                CreatedAt = DateTime.UtcNow
             };
 
             await unitOfWork.PettyCashMovementRepository.CreateAsync(movement);

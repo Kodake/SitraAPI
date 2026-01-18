@@ -66,7 +66,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
                         Invoice = saleInvoice,
                         ContactId = saleInvoice.CustomerId == 0 ? null : saleInvoice.CustomerId,
                         AmountReturned = Dto.AmountReturned ?? 0,
-                        PaymentDate = DateTime.UtcNow,
+                        PaymentDate = DateTimeOffset.UtcNow,
                         IsActive = true
                     };
 
@@ -242,7 +242,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
                 Invoice = invoice,
                 Amount = invoice.TotalPrice,
                 Type = MovementType.Income,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTimeOffset.UtcNow
             };
 
             await unitOfWork.PettyCashMovementRepository.CreateAsync(movement);

@@ -6,7 +6,7 @@ namespace SITRA.Core.DTOs.Invoices.SaleInvoices
     public class SaleInvoiceListDTO
     {
         public long Id { get; set; }
-        public DateTime Date { get; set; }
+        public DateTimeOffset Date { get; set; }
         public string FiscalSupportNumber { get; set; } = string.Empty;
         public long? ContactId { get; set; }
         public virtual ContactDTO? Buyer { get; set; } = null!;
@@ -20,5 +20,7 @@ namespace SITRA.Core.DTOs.Invoices.SaleInvoices
         public InvoiceCondition ConditionType { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
         public List<SaleInvoiceItemDTO> InvoiceItems { get; set; } = [];
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
     }
 }

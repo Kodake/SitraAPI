@@ -14,8 +14,10 @@ namespace SITRA.Core.DTOs.Invoices.SpotPayments
         public virtual ICollection<PaymentDTO> Payments { get; set; } = [];
         public double AmountReceived { get; set; }
         public double AmountReturned { get; set; }
-        public DateTime PaymentDate { get; set; } = DateTime.UtcNow;
+        public DateTimeOffset PaymentDate { get; set; } = DateTimeOffset.UtcNow;
         public PaymentMethod PaymentMethod { get; set; }
         public bool IsActive { get; set; } = true;
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
     }
 }

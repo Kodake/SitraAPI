@@ -12,5 +12,7 @@ namespace SITRA.Core.DTOs.Warehouses.Stocks
         public double Qty { get; set; }
         public double? MinQty { get; set; }
         public double? MaxQty { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
     }
 }

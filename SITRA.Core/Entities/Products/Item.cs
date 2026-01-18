@@ -5,7 +5,7 @@ using SITRA.Core.Enums;
 
 namespace SITRA.Core.Entities.Products
 {
-    public sealed class Item : ITenant
+    public sealed class Item : ITenant, IAuditableEntity
     {
         public long Id { get; set; }
         public ItemType ItemType { get; set; }
@@ -25,8 +25,8 @@ namespace SITRA.Core.Entities.Products
         public long? UnitId { get; set; } = null!;
         public Unit? Unit { get; set; }
         public bool IsActive { get; set; } = true;
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? UpdatedAt { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
         public Guid TenantId { get; set; }
         public ICollection<ItemTaxes> ItemTaxes { get; set; } = new List<ItemTaxes>();
         public ICollection<Stock> Stocks { get; set; } = new List<Stock>();

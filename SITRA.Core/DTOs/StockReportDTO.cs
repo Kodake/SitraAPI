@@ -67,7 +67,7 @@ namespace SITRA.Core.DTOs
                 column.Item().PaddingTop(5).BorderBottom(1).PaddingBottom(5).Column(info =>
                 {
                     info.Item().AlignCenter().Text(ReportName).FontSize(10).SemiBold();
-                    info.Item().AlignCenter().Text($"{DateTime.Today:dd-MM-yyyy}");
+                    info.Item().AlignCenter().Text($"{DateTimeOffset.UtcNow:dd-MM-yyyy}");
                 });
             });
         }
@@ -93,7 +93,7 @@ namespace SITRA.Core.DTOs
                 {
                     column.RelativeColumn(1); // NO.
                     column.RelativeColumn(5); // PRODUCTO
-                    column.RelativeColumn(5); // ALMACÉN
+                    column.RelativeColumn(5); // ALMACï¿½N
                     column.RelativeColumn(3); // CANTIDAD
                 });
 
@@ -101,7 +101,7 @@ namespace SITRA.Core.DTOs
                 {
                     header.Cell().Element(CellStyleHeader).Text("NO.");
                     header.Cell().Element(CellStyleHeader).Text("PRODUCTO");
-                    header.Cell().Element(CellStyleHeader).Text("ALMACÉN");
+                    header.Cell().Element(CellStyleHeader).Text("ALMACï¿½N");
                     header.Cell().Element(CellStyleHeader).AlignRight().Text("CANTIDAD");
 
                     static IContainer CellStyleHeader(IContainer container)

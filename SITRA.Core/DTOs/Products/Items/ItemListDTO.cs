@@ -26,4 +26,6 @@ public class ItemListDTO
     public List<PricingItemDTO> PricingItems { get; set; } = [];
     [JsonIgnore]
     public List<StockDTO>? Stocks { get; set; } = [];
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset? UpdatedAt { get; set; }
 }

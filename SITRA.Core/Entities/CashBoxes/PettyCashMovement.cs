@@ -4,7 +4,7 @@ using SITRA.Core.Enums;
 
 namespace SITRA.Core.Entities.CashBoxes
 {
-    public sealed class PettyCashMovement : ITenant
+    public sealed class PettyCashMovement : ITenant, IAuditableEntity
     {
         public long Id { get; set; }
         public long PettyCashId { get; set; }
@@ -13,7 +13,8 @@ namespace SITRA.Core.Entities.CashBoxes
         public Invoice? Invoice { get; set; } = null!;
         public double Amount { get; set; }
         public MovementType Type { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
         public Guid TenantId { get; set; }
     }
 }

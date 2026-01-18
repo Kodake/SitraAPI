@@ -18,5 +18,7 @@ namespace SITRA.Core.DTOs.Accounts.Receivables
         public double TotalOutstanding { get; set; }
         public AccountStatus Status { get; set; }
         public ICollection<PaymentReceiptListDTO> PaymentReceipts { get; set; } = [];
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
     }
 }

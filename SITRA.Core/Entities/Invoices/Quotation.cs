@@ -3,7 +3,7 @@ using SITRA.Core.Entities.Contacts;
 
 namespace SITRA.Core.Entities.Invoices
 {
-    public class Quotation : ITenant
+    public class Quotation : ITenant, IAuditableEntity
     {
         public long Id { get; set; }
         public long? InvoiceId { get; set; }
@@ -12,8 +12,8 @@ namespace SITRA.Core.Entities.Invoices
         public virtual Contact? Buyer { get; set; } = null!;
         public string QuotationNumber { get; set; } = string.Empty;
         public virtual List<InvoiceItem> InvoiceItems { get; set; } = new List<InvoiceItem>();
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? UpdatedAt { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
         public Guid TenantId { get; set; }
     }
 }

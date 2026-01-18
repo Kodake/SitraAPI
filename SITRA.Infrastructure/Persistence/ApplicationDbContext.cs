@@ -45,6 +45,18 @@ namespace SITRA.Infrastructure.Persistence
                 }
             }
 
+            foreach (var entry in ChangeTracker.Entries<IAuditableEntity>())
+            {
+                if (entry.State == EntityState.Added)
+                {
+                    entry.Entity.CreatedAt = DateTimeOffset.UtcNow;
+                }
+                else if (entry.State == EntityState.Modified)
+                {
+                    entry.Entity.UpdatedAt = DateTimeOffset.UtcNow;
+                }
+            }
+
             return await base.SaveChangesAsync(cancellationToken);
         }
 

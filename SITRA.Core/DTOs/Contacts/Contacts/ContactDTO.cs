@@ -14,5 +14,7 @@ namespace SITRA.Core.DTOs.Contacts.Contacts
         public string? Phone { get; set; }
         public string? Phone2 { get; set; }
         public string? Email { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
     }
 }
