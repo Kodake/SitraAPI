@@ -2,6 +2,8 @@ using SITRA.Core.Interfaces;
 using SITRA.Core.Mediator.Queries.Auths;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace SITRA.Core.Mediator.Handlers.Auths
 {
@@ -18,7 +20,12 @@ namespace SITRA.Core.Mediator.Handlers.Auths
 
         public async Task<(bool Success, string? ErrorMessage)> Handle(ValidateOpenedPettyCashQuery request, CancellationToken cancellationToken)
         {
-            var userEmail = _httpContextAccessor.HttpContext?.User?.Claims.FirstOrDefault()?.Value;
+            var user = _httpContextAccessor.HttpContext?.User;
+            
+            // Retrieve email safely checking standard claim types
+            var userEmail = user?.FindFirst(JwtRegisteredClaimNames.Email)?.Value 
+                         ?? user?.FindFirst(ClaimTypes.Email)?.Value
+                         ?? user?.FindFirst("email")?.Value;
 
             if (string.IsNullOrWhiteSpace(userEmail))
             {
@@ -32,10 +39,16 @@ namespace SITRA.Core.Mediator.Handlers.Auths
                 return (false, "Debe abrir la caja chica antes de continuar.");
             }
 
-            if (openPettyCash.User != null &&
-                !string.Equals(openPettyCash.User.Email?.Trim(), userEmail.Trim(), StringComparison.OrdinalIgnoreCase))
+            // Check if the open petty cash belongs to another user
+            if (openPettyCash.User != null)
             {
-                return (false, $"El usuario {openPettyCash.User.Email} debe cerrar la caja chica previamente abierta.");
+                var openPettyCashUserEmail = openPettyCash.User.Email?.Trim();
+
+                if (!string.IsNullOrWhiteSpace(openPettyCashUserEmail) &&
+                    !string.Equals(openPettyCashUserEmail, userEmail.Trim(), StringComparison.OrdinalIgnoreCase))
+                {
+                    return (false, $"El usuario {openPettyCashUserEmail} debe cerrar la caja chica previamente abierta.");
+                }
             }
 
             return (true, null);

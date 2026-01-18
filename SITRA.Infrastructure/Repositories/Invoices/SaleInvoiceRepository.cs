@@ -124,6 +124,33 @@ namespace SITRA.Infrastructure.Repositories.Invoices
                     x.CreatedAt <= to
                 ).ToListAsync();
         }
+
+        public async Task<BalanceSummaryDTO> GetBalanceAsync(DateTimeOffset from, DateTimeOffset to)
+        {
+            var expenses = await context.Expenses
+                .Where(x => x.Date >= from && x.Date <= to && x.IsActive)
+                .SumAsync(x => x.Amount);
+
+            var spotSales = await context.SpotPayments
+                .Include(sp => sp.Invoice)
+                .Where(sp => sp.Invoice.CreatedAt >= from && sp.Invoice.CreatedAt <= to && sp.IsActive)
+                .SumAsync(sp => sp.Invoice.TotalPrice);
+
+            var receivablePayments = await context.PaymentReceipts
+                .Where(pr => pr.CreatedAt >= from && pr.CreatedAt <= to && pr.IsActive)
+                .SumAsync(pr => pr.Amount);
+
+            var totalIncome = spotSales + receivablePayments;
+
+            return new BalanceSummaryDTO
+            {
+                Expenses = expenses,
+                SpotSales = spotSales,
+                ReceivablesPayments = receivablePayments,
+                TotalIncome = totalIncome,
+                Balance = totalIncome - expenses
+            };
+        }
     }
 }
 

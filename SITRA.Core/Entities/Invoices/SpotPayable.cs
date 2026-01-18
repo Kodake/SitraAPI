@@ -11,7 +11,7 @@ namespace SITRA.Core.Entities.Invoices
         public virtual Invoice? Invoice { get; set; } = null!;
         public long? ContactId { get; set; }
         public virtual Contact? Supplier { get; set; } = null!;
-        public DateTimeOffset PaymentDate { get; set; } = DateTimeOffset.UtcNow;
+        public DateTimeOffset PaymentDate { get; set; }
         public PaymentMethod? PaymentMethod { get; set; }
         public bool IsActive { get; set; } = true;
         public DateTimeOffset CreatedAt { get; set; }

@@ -15,5 +15,6 @@ namespace SITRA.Core.Interfaces.Invoices
         Task<double> Last30DaysSalesAsync();
         Task<List<Invoice>> GetSalesByDateRangeAsync(DateTime from, DateTime to, PaginationDTO paginationDTO);
         Task<List<Invoice>> GetSalesReportByDateRangeAsync(DateTime from, DateTime to);
+        Task<BalanceSummaryDTO> GetBalanceAsync(DateTimeOffset from, DateTimeOffset to);
     }
 }

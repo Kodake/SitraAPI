@@ -9,7 +9,7 @@ namespace SITRA.Core.Entities.Accounts
         public long PayableId { get; set; }
         public Payable Payable { get; set; } = null!;
         public double Amount { get; set; }
-        public DateTimeOffset PaymentDate { get; set; } = DateTimeOffset.UtcNow;
+        public DateTimeOffset PaymentDate { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
         public bool IsActive { get; set; } = true;
         public DateTimeOffset CreatedAt { get; set; }

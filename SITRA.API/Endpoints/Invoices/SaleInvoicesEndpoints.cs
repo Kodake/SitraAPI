@@ -16,15 +16,26 @@ namespace SITRA.API.Endpoints.Invoices
         public static RouteGroupBuilder MapSaleInvoices(this RouteGroupBuilder group)
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("saleInvoices-get"))
-                .AddPaginationParamsOpenAPI();
+                .AddPaginationParamsOpenAPI().RequireAuthorization();
             group.MapGet("/sales-range", GetAllByDateRangeAndBiller).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("saleInvoices-get"))
-                .AddPaginationParamsOpenAPI();
-            group.MapGet("/sales-report", GenerateReportPdf).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("saleInvoices-get"));
-            group.MapGet("/{id:long}", GetById);
+                .AddPaginationParamsOpenAPI().RequireAuthorization();
+            group.MapGet("/sales-report", GenerateReportPdf).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("saleInvoices-get")).RequireAuthorization();
+            group.MapGet("/{id:long}", GetById).RequireAuthorization();
+            group.MapGet("/summary", GetBalance).WithOpenApi().RequireAuthorization();
             group.MapPost("/", Create).DisableAntiforgery().AddEndpointFilter<ValidationFilter<CreateSaleInvoiceDTO>>().WithOpenApi().RequireAuthorization();
-            group.MapGet("/{invoiceId}/generate-pdf", GeneratePdf).WithOpenApi();
-            group.MapGet("/{invoiceId}/generate-receipt-pdf", GenerateReceiptPdf).WithOpenApi();
+            group.MapGet("/{invoiceId}/generate-pdf", GeneratePdf).WithOpenApi().RequireAuthorization();
+            group.MapGet("/{invoiceId}/generate-receipt-pdf", GenerateReceiptPdf).WithOpenApi().RequireAuthorization();
             return group;
+        }
+
+        static async Task<Ok<BalanceSummaryDTO>> GetBalance(
+            [FromServices] IMediator mediator,
+            DateTimeOffset from,
+            DateTimeOffset to)
+        {
+            var query = new GetSaleInvoicesBalanceQuery(from, to);
+            var result = await mediator.Send(query);
+            return TypedResults.Ok(result);
         }
 
         static async Task<Ok<List<SaleInvoiceListDTO>>> GetAll(

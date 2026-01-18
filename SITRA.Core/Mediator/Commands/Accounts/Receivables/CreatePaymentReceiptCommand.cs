@@ -18,6 +18,7 @@ namespace SITRA.Core.Mediator.Commands.Accounts.Receivables
         public override async Task<CreatePaymentReceiptDTO> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
         {
             var paymentReceipt = mapper.Map<PaymentReceipt>(Dto);
+            paymentReceipt.PaymentDate = DateTimeOffset.UtcNow;
 
             var receivable = await unitOfWork.ReceivableRepository.GetByIdAsync(Id);
 

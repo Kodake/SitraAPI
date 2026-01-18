@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using SITRA.Core.DTOs;
 using SITRA.Core.DTOs.Invoices.SaleInvoices;
 using SITRA.Core.Mediator.Commands.Invoices.SaleInvoices;
 using SITRA.Core.Mediator.Queries.Invoices.SaleInvoices;
@@ -17,6 +18,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
             services.AddTransient<IRequestHandler<GetSaleInvoicePdfQuery, (byte[] FileBytes, string FileName)?>, QueryHandler<GetSaleInvoicePdfQuery, (byte[] FileBytes, string FileName)?>>();
             services.AddTransient<IRequestHandler<GetSaleInvoiceReceiptPdfQuery, (byte[] FileBytes, string FileName)?>, QueryHandler<GetSaleInvoiceReceiptPdfQuery, (byte[] FileBytes, string FileName)?>>();
             services.AddTransient<IRequestHandler<GetSaleInvoiceReportPdfQuery, (byte[] FileBytes, string FileName)?>, QueryHandler<GetSaleInvoiceReportPdfQuery, (byte[] FileBytes, string FileName)?>>();
+            services.AddTransient<IRequestHandler<GetSaleInvoicesBalanceQuery, BalanceSummaryDTO>, GetSaleInvoicesBalanceQueryHandler>();
 
             return services;
         }
