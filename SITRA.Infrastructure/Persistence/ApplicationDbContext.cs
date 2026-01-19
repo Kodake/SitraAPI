@@ -93,6 +93,10 @@ namespace SITRA.Infrastructure.Persistence
             modelBuilder.ApplyConfiguration(new ExpenseConfiguration());
 
             modelBuilder.ApplyConfiguration(new InvoiceConfiguration());
+
+            modelBuilder.ApplyConfiguration(new InvoiceBillerConfiguration());
+            modelBuilder.ApplyConfiguration(new InvoiceBuyerConfiguration());
+            modelBuilder.ApplyConfiguration(new InvoiceFiscalSupportConfiguration());
             modelBuilder.ApplyConfiguration(new InvoiceItemConfiguration());
             modelBuilder.ApplyConfiguration(new QuotationConfiguration());
             modelBuilder.ApplyConfiguration(new PaymentConfiguration());
@@ -107,7 +111,13 @@ namespace SITRA.Infrastructure.Persistence
             modelBuilder.ApplyConfiguration(new ComboItemConfiguration());
             modelBuilder.ApplyConfiguration(new PricingConfiguration());
             modelBuilder.ApplyConfiguration(new PricingItemConfiguration());
+
             modelBuilder.ApplyConfiguration(new UnitConfiguration());
+            modelBuilder.ApplyConfiguration(new ItemBrandConfiguration());
+            modelBuilder.ApplyConfiguration(new ItemModelConfiguration());
+            modelBuilder.ApplyConfiguration(new ItemCategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new ItemSubCategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new ItemUnitConfiguration());
 
             modelBuilder.ApplyConfiguration(new StockConfiguration());
             modelBuilder.ApplyConfiguration(new TransferConfiguration());
@@ -142,6 +152,11 @@ namespace SITRA.Infrastructure.Persistence
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Warehouse> Warehouses { get; set; }
         public DbSet<Item> Items { get; set; }
+        public DbSet<ItemBrand> ItemBrands { get; set; }
+        public DbSet<ItemModel> ItemModels { get; set; }
+        public DbSet<ItemCategory> ItemCategories { get; set; }
+        public DbSet<ItemSubCategory> ItemSubCategories { get; set; }
+        public DbSet<ItemUnit> ItemUnits { get; set; }
         public DbSet<Tax> Taxes { get; set; }
         public DbSet<Expense> Expenses { get; set; }
         public DbSet<Pricing> Pricings { get; set; }
@@ -152,6 +167,9 @@ namespace SITRA.Infrastructure.Persistence
         public DbSet<Deadline> Deadlines { get; set; }
         public DbSet<Transfer> Transfers { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<InvoiceBiller> InvoiceBillers { get; set; }
+        public DbSet<InvoiceBuyer> InvoiceBuyers { get; set; }
+        public DbSet<InvoiceFiscalSupport> InvoiceFiscalSupports { get; set; }
         public DbSet<InvoiceItem> InvoiceItems { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<SpotPayment> SpotPayments { get; set; }

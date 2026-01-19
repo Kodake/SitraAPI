@@ -6471,10 +6471,10 @@
             "format": "date-time",
             "nullable": true
           },
-          "items": {
+          "itemBrands": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Item"
+              "$ref": "#/components/schemas/ItemBrand"
             },
             "nullable": true
           },
@@ -6567,10 +6567,10 @@
             "type": "string",
             "format": "uuid"
           },
-          "items": {
+          "itemCategories": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Item"
+              "$ref": "#/components/schemas/ItemCategory"
             },
             "nullable": true
           },
@@ -8356,45 +8356,20 @@
             "type": "string",
             "nullable": true
           },
-          "brandId": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
+          "itemBrand": {
+            "$ref": "#/components/schemas/ItemBrand"
           },
-          "brand": {
-            "$ref": "#/components/schemas/Brand"
+          "itemModel": {
+            "$ref": "#/components/schemas/ItemModel"
           },
-          "modelId": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
+          "itemCategory": {
+            "$ref": "#/components/schemas/ItemCategory"
           },
-          "model": {
-            "$ref": "#/components/schemas/Model"
+          "itemSubCategory": {
+            "$ref": "#/components/schemas/ItemSubCategory"
           },
-          "categoryId": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
-          },
-          "category": {
-            "$ref": "#/components/schemas/Category"
-          },
-          "subCategoryId": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
-          },
-          "subCategory": {
-            "$ref": "#/components/schemas/SubCategory"
-          },
-          "unitId": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
-          },
-          "unit": {
-            "$ref": "#/components/schemas/Unit"
+          "itemUnit": {
+            "$ref": "#/components/schemas/ItemUnit"
           },
           "isActive": {
             "type": "boolean"
@@ -8446,6 +8421,72 @@
               "$ref": "#/components/schemas/ComboItem"
             },
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ItemBrand": {
+        "type": "object",
+        "properties": {
+          "itemId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "item": {
+            "$ref": "#/components/schemas/Item"
+          },
+          "brandId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "brand": {
+            "$ref": "#/components/schemas/Brand"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "tenantId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ItemCategory": {
+        "type": "object",
+        "properties": {
+          "itemId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "item": {
+            "$ref": "#/components/schemas/Item"
+          },
+          "categoryId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "category": {
+            "$ref": "#/components/schemas/Category"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "tenantId": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false
@@ -8521,6 +8562,39 @@
         },
         "additionalProperties": false
       },
+      "ItemModel": {
+        "type": "object",
+        "properties": {
+          "itemId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "item": {
+            "$ref": "#/components/schemas/Item"
+          },
+          "modelId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "model": {
+            "$ref": "#/components/schemas/Model"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "tenantId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
       "ItemQtyDTO": {
         "type": "object",
         "properties": {
@@ -8531,6 +8605,39 @@
           "qty": {
             "type": "number",
             "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ItemSubCategory": {
+        "type": "object",
+        "properties": {
+          "itemId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "item": {
+            "$ref": "#/components/schemas/Item"
+          },
+          "subCategoryId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "subCategory": {
+            "$ref": "#/components/schemas/SubCategory"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "tenantId": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false
@@ -8577,6 +8684,39 @@
         "type": "integer",
         "format": "int32"
       },
+      "ItemUnit": {
+        "type": "object",
+        "properties": {
+          "itemId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "item": {
+            "$ref": "#/components/schemas/Item"
+          },
+          "unitId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "unit": {
+            "$ref": "#/components/schemas/Unit"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "tenantId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
       "Model": {
         "type": "object",
         "properties": {
@@ -8586,6 +8726,13 @@
           },
           "name": {
             "type": "string",
+            "nullable": true
+          },
+          "itemModels": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ItemModel"
+            },
             "nullable": true
           },
           "description": {
@@ -9458,6 +9605,9 @@
             "type": "string",
             "nullable": true
           },
+          "supplier": {
+            "$ref": "#/components/schemas/ContactDTO"
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -9832,6 +9982,15 @@
           "fiscalSupportNumber": {
             "type": "string",
             "nullable": true
+          },
+          "buyer": {
+            "$ref": "#/components/schemas/ContactDTO"
+          },
+          "biller": {
+            "$ref": "#/components/schemas/ContactDTO"
+          },
+          "fiscalSupport": {
+            "$ref": "#/components/schemas/FiscalSupportDTO"
           },
           "createdAt": {
             "type": "string",
@@ -10455,6 +10614,13 @@
             "type": "string",
             "nullable": true
           },
+          "itemSubCategories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ItemSubCategory"
+            },
+            "nullable": true
+          },
           "description": {
             "type": "string",
             "nullable": true
@@ -10877,10 +11043,10 @@
           "isActive": {
             "type": "boolean"
           },
-          "items": {
+          "itemUnits": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Item"
+              "$ref": "#/components/schemas/ItemUnit"
             },
             "nullable": true
           },

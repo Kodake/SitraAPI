@@ -813,9 +813,6 @@ namespace SITRA.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long?>("BillerId")
-                        .HasColumnType("bigint");
-
                     b.Property<int?>("ConditionType")
                         .HasColumnType("int");
 
@@ -823,9 +820,6 @@ namespace SITRA.Infrastructure.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<long>("CurrencyId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("CustomerId")
                         .HasColumnType("bigint");
 
                     b.Property<DateTimeOffset>("Date")
@@ -839,9 +833,6 @@ namespace SITRA.Infrastructure.Migrations
 
                     b.Property<DateTimeOffset?>("DueDate")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<long?>("FiscalSupportId")
-                        .HasColumnType("bigint");
 
                     b.Property<string>("FiscalSupportNumber")
                         .HasColumnType("nvarchar(max)");
@@ -884,17 +875,85 @@ namespace SITRA.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BillerId");
-
                     b.HasIndex("CurrencyId");
-
-                    b.HasIndex("CustomerId");
 
                     b.HasIndex("PricingId");
 
                     b.HasIndex("WarehouseId");
 
                     b.ToTable("Invoices");
+                });
+
+            modelBuilder.Entity("SITRA.Core.Entities.Invoices.InvoiceBiller", b =>
+                {
+                    b.Property<long>("InvoiceId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ContactId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("InvoiceId");
+
+                    b.HasIndex("ContactId");
+
+                    b.ToTable("InvoiceBillers");
+                });
+
+            modelBuilder.Entity("SITRA.Core.Entities.Invoices.InvoiceBuyer", b =>
+                {
+                    b.Property<long>("InvoiceId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ContactId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("InvoiceId");
+
+                    b.HasIndex("ContactId");
+
+                    b.ToTable("InvoiceBuyers");
+                });
+
+            modelBuilder.Entity("SITRA.Core.Entities.Invoices.InvoiceFiscalSupport", b =>
+                {
+                    b.Property<long>("InvoiceId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<long>("FiscalSupportId")
+                        .HasColumnType("bigint");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("InvoiceId");
+
+                    b.HasIndex("FiscalSupportId");
+
+                    b.ToTable("InvoiceFiscalSupports");
                 });
 
             modelBuilder.Entity("SITRA.Core.Entities.Invoices.InvoiceItem", b =>
@@ -1211,12 +1270,6 @@ namespace SITRA.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<long?>("BrandId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("CategoryId")
-                        .HasColumnType("bigint");
-
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
 
@@ -1234,9 +1287,6 @@ namespace SITRA.Infrastructure.Migrations
                     b.Property<int>("ItemType")
                         .HasColumnType("int");
 
-                    b.Property<long?>("ModelId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -1246,31 +1296,111 @@ namespace SITRA.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<long?>("SubCategoryId")
-                        .HasColumnType("bigint");
-
                     b.Property<Guid>("TenantId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<long?>("UnitId")
-                        .HasColumnType("bigint");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
 
                     b.HasKey("Id");
 
+                    b.ToTable("Items");
+                });
+
+            modelBuilder.Entity("SITRA.Core.Entities.Products.ItemBrand", b =>
+                {
+                    b.Property<long>("ItemId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("BrandId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("ItemId");
+
                     b.HasIndex("BrandId");
+
+                    b.ToTable("ItemBrands");
+                });
+
+            modelBuilder.Entity("SITRA.Core.Entities.Products.ItemCategory", b =>
+                {
+                    b.Property<long>("ItemId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("CategoryId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("ItemId");
 
                     b.HasIndex("CategoryId");
 
+                    b.ToTable("ItemCategories");
+                });
+
+            modelBuilder.Entity("SITRA.Core.Entities.Products.ItemModel", b =>
+                {
+                    b.Property<long>("ItemId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<long>("ModelId")
+                        .HasColumnType("bigint");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("ItemId");
+
                     b.HasIndex("ModelId");
+
+                    b.ToTable("ItemModels");
+                });
+
+            modelBuilder.Entity("SITRA.Core.Entities.Products.ItemSubCategory", b =>
+                {
+                    b.Property<long>("ItemId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<long>("SubCategoryId")
+                        .HasColumnType("bigint");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("ItemId");
 
                     b.HasIndex("SubCategoryId");
 
-                    b.HasIndex("UnitId");
-
-                    b.ToTable("Items");
+                    b.ToTable("ItemSubCategories");
                 });
 
             modelBuilder.Entity("SITRA.Core.Entities.Products.ItemTaxes", b =>
@@ -1295,6 +1425,30 @@ namespace SITRA.Infrastructure.Migrations
                     b.HasIndex("ItemId");
 
                     b.ToTable("ItemTaxes");
+                });
+
+            modelBuilder.Entity("SITRA.Core.Entities.Products.ItemUnit", b =>
+                {
+                    b.Property<long>("ItemId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<long>("UnitId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("ItemId");
+
+                    b.HasIndex("UnitId");
+
+                    b.ToTable("ItemUnits");
                 });
 
             modelBuilder.Entity("SITRA.Core.Entities.Products.Model", b =>
@@ -1809,21 +1963,11 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Invoices.Invoice", b =>
                 {
-                    b.HasOne("SITRA.Core.Entities.Contacts.Contact", "Biller")
-                        .WithMany("BillerInvoices")
-                        .HasForeignKey("BillerId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("SITRA.Core.Entities.Finances.Currency", "Currency")
                         .WithMany()
                         .HasForeignKey("CurrencyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("SITRA.Core.Entities.Contacts.Contact", "Buyer")
-                        .WithMany("BuyerInvoices")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("SITRA.Core.Entities.Products.Pricing", "Pricing")
                         .WithMany()
@@ -1837,15 +1981,68 @@ namespace SITRA.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Biller");
-
-                    b.Navigation("Buyer");
-
                     b.Navigation("Currency");
 
                     b.Navigation("Pricing");
 
                     b.Navigation("Warehouse");
+                });
+
+            modelBuilder.Entity("SITRA.Core.Entities.Invoices.InvoiceBiller", b =>
+                {
+                    b.HasOne("SITRA.Core.Entities.Contacts.Contact", "Biller")
+                        .WithMany("InvoiceBillers")
+                        .HasForeignKey("ContactId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SITRA.Core.Entities.Invoices.Invoice", "Invoice")
+                        .WithOne("InvoiceBiller")
+                        .HasForeignKey("SITRA.Core.Entities.Invoices.InvoiceBiller", "InvoiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Biller");
+
+                    b.Navigation("Invoice");
+                });
+
+            modelBuilder.Entity("SITRA.Core.Entities.Invoices.InvoiceBuyer", b =>
+                {
+                    b.HasOne("SITRA.Core.Entities.Contacts.Contact", "Buyer")
+                        .WithMany("InvoiceBuyers")
+                        .HasForeignKey("ContactId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SITRA.Core.Entities.Invoices.Invoice", "Invoice")
+                        .WithOne("InvoiceBuyer")
+                        .HasForeignKey("SITRA.Core.Entities.Invoices.InvoiceBuyer", "InvoiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Buyer");
+
+                    b.Navigation("Invoice");
+                });
+
+            modelBuilder.Entity("SITRA.Core.Entities.Invoices.InvoiceFiscalSupport", b =>
+                {
+                    b.HasOne("SITRA.Core.Entities.AdministrativeTools.FiscalSupport", "FiscalSupport")
+                        .WithMany()
+                        .HasForeignKey("FiscalSupportId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SITRA.Core.Entities.Invoices.Invoice", "Invoice")
+                        .WithOne("InvoiceFiscalSupport")
+                        .HasForeignKey("SITRA.Core.Entities.Invoices.InvoiceFiscalSupport", "InvoiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("FiscalSupport");
+
+                    b.Navigation("Invoice");
                 });
 
             modelBuilder.Entity("SITRA.Core.Entities.Invoices.InvoiceItem", b =>
@@ -1950,40 +2147,80 @@ namespace SITRA.Infrastructure.Migrations
                     b.Navigation("ParentItem");
                 });
 
-            modelBuilder.Entity("SITRA.Core.Entities.Products.Item", b =>
+            modelBuilder.Entity("SITRA.Core.Entities.Products.ItemBrand", b =>
                 {
                     b.HasOne("SITRA.Core.Entities.Products.Brand", "Brand")
-                        .WithMany("Items")
+                        .WithMany("ItemBrands")
                         .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.HasOne("SITRA.Core.Entities.Products.Category", "Category")
-                        .WithMany("Items")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("SITRA.Core.Entities.Products.Model", "Model")
-                        .WithMany()
-                        .HasForeignKey("ModelId");
-
-                    b.HasOne("SITRA.Core.Entities.Products.SubCategory", "SubCategory")
-                        .WithMany()
-                        .HasForeignKey("SubCategoryId");
-
-                    b.HasOne("SITRA.Core.Entities.Products.Unit", "Unit")
-                        .WithMany("Items")
-                        .HasForeignKey("UnitId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                    b.HasOne("SITRA.Core.Entities.Products.Item", "Item")
+                        .WithOne("ItemBrand")
+                        .HasForeignKey("SITRA.Core.Entities.Products.ItemBrand", "ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Brand");
 
+                    b.Navigation("Item");
+                });
+
+            modelBuilder.Entity("SITRA.Core.Entities.Products.ItemCategory", b =>
+                {
+                    b.HasOne("SITRA.Core.Entities.Products.Category", "Category")
+                        .WithMany("ItemCategories")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SITRA.Core.Entities.Products.Item", "Item")
+                        .WithOne("ItemCategory")
+                        .HasForeignKey("SITRA.Core.Entities.Products.ItemCategory", "ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Category");
 
+                    b.Navigation("Item");
+                });
+
+            modelBuilder.Entity("SITRA.Core.Entities.Products.ItemModel", b =>
+                {
+                    b.HasOne("SITRA.Core.Entities.Products.Item", "Item")
+                        .WithOne("ItemModel")
+                        .HasForeignKey("SITRA.Core.Entities.Products.ItemModel", "ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SITRA.Core.Entities.Products.Model", "Model")
+                        .WithMany("ItemModels")
+                        .HasForeignKey("ModelId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Item");
+
                     b.Navigation("Model");
+                });
+
+            modelBuilder.Entity("SITRA.Core.Entities.Products.ItemSubCategory", b =>
+                {
+                    b.HasOne("SITRA.Core.Entities.Products.Item", "Item")
+                        .WithOne("ItemSubCategory")
+                        .HasForeignKey("SITRA.Core.Entities.Products.ItemSubCategory", "ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SITRA.Core.Entities.Products.SubCategory", "SubCategory")
+                        .WithMany("ItemSubCategories")
+                        .HasForeignKey("SubCategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Item");
 
                     b.Navigation("SubCategory");
-
-                    b.Navigation("Unit");
                 });
 
             modelBuilder.Entity("SITRA.Core.Entities.Products.ItemTaxes", b =>
@@ -2003,6 +2240,25 @@ namespace SITRA.Infrastructure.Migrations
                     b.Navigation("Item");
 
                     b.Navigation("Tax");
+                });
+
+            modelBuilder.Entity("SITRA.Core.Entities.Products.ItemUnit", b =>
+                {
+                    b.HasOne("SITRA.Core.Entities.Products.Item", "Item")
+                        .WithOne("ItemUnit")
+                        .HasForeignKey("SITRA.Core.Entities.Products.ItemUnit", "ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SITRA.Core.Entities.Products.Unit", "Unit")
+                        .WithMany("ItemUnits")
+                        .HasForeignKey("UnitId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Item");
+
+                    b.Navigation("Unit");
                 });
 
             modelBuilder.Entity("SITRA.Core.Entities.Products.Model", b =>
@@ -2124,9 +2380,9 @@ namespace SITRA.Infrastructure.Migrations
                 {
                     b.Navigation("Appointments");
 
-                    b.Navigation("BillerInvoices");
+                    b.Navigation("InvoiceBillers");
 
-                    b.Navigation("BuyerInvoices");
+                    b.Navigation("InvoiceBuyers");
                 });
 
             modelBuilder.Entity("SITRA.Core.Entities.Finances.Tax", b =>
@@ -2136,6 +2392,12 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Invoices.Invoice", b =>
                 {
+                    b.Navigation("InvoiceBiller");
+
+                    b.Navigation("InvoiceBuyer");
+
+                    b.Navigation("InvoiceFiscalSupport");
+
                     b.Navigation("InvoiceItems");
 
                     b.Navigation("Payable");
@@ -2161,14 +2423,14 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Products.Brand", b =>
                 {
-                    b.Navigation("Items");
+                    b.Navigation("ItemBrands");
 
                     b.Navigation("Models");
                 });
 
             modelBuilder.Entity("SITRA.Core.Entities.Products.Category", b =>
                 {
-                    b.Navigation("Items");
+                    b.Navigation("ItemCategories");
 
                     b.Navigation("SubCategories");
                 });
@@ -2177,7 +2439,17 @@ namespace SITRA.Infrastructure.Migrations
                 {
                     b.Navigation("ComboItems");
 
+                    b.Navigation("ItemBrand");
+
+                    b.Navigation("ItemCategory");
+
+                    b.Navigation("ItemModel");
+
+                    b.Navigation("ItemSubCategory");
+
                     b.Navigation("ItemTaxes");
+
+                    b.Navigation("ItemUnit");
 
                     b.Navigation("PricingItems");
 
@@ -2186,14 +2458,24 @@ namespace SITRA.Infrastructure.Migrations
                     b.Navigation("Transfers");
                 });
 
+            modelBuilder.Entity("SITRA.Core.Entities.Products.Model", b =>
+                {
+                    b.Navigation("ItemModels");
+                });
+
             modelBuilder.Entity("SITRA.Core.Entities.Products.Pricing", b =>
                 {
                     b.Navigation("PricingItems");
                 });
 
+            modelBuilder.Entity("SITRA.Core.Entities.Products.SubCategory", b =>
+                {
+                    b.Navigation("ItemSubCategories");
+                });
+
             modelBuilder.Entity("SITRA.Core.Entities.Products.Unit", b =>
                 {
-                    b.Navigation("Items");
+                    b.Navigation("ItemUnits");
                 });
 
             modelBuilder.Entity("SITRA.Core.Entities.Warehouses.Warehouse", b =>

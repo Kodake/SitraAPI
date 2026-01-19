@@ -30,10 +30,16 @@ namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
             var saleInvoice = mapper.Map<Invoice>(Dto);
             saleInvoice.InvoiceType = InvoiceType.Sale;
             saleInvoice.Date = DateTimeOffset.UtcNow;
+            
+            if (Dto.CustomerId > 0)
+            {
+                saleInvoice.InvoiceBuyer = new InvoiceBuyer { ContactId = Dto.CustomerId.Value };
+            }
 
             if (fiscalSupportDB != null)
             {
                 saleInvoice.FiscalSupportNumber = GenerateFiscalSupportNumber(fiscalSupportDB);
+                saleInvoice.InvoiceFiscalSupport = new InvoiceFiscalSupport { FiscalSupportId = fiscalSupportDB.Id };
                 unitOfWork.FiscalSupportRepository.Update(fiscalSupportDB);
             }
 
@@ -50,7 +56,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
                     var accountsReceivable = new Receivable
                     {
                         Invoice = saleInvoice,
-                        ContactId = saleInvoice.CustomerId,
+                        ContactId = Dto.CustomerId,
                         TotalAmountDue = saleInvoice.TotalPrice,
                         TotalOutstanding = 0,
                         Status = AccountStatus.PendingReceivable,
@@ -63,7 +69,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
                     var spotPayment = new SpotPayment
                     {
                         Invoice = saleInvoice,
-                        ContactId = saleInvoice.CustomerId == 0 ? null : saleInvoice.CustomerId,
+                        ContactId = Dto.CustomerId == 0 ? null : Dto.CustomerId,
                         AmountReturned = Dto.AmountReturned ?? 0,
                         PaymentDate = DateTimeOffset.UtcNow,
                         IsActive = true

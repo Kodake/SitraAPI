@@ -1,4 +1,4 @@
-using SITRA.Core.Entities.Auths;
+Ôªøusing SITRA.Core.Entities.Auths;
 using SITRA.Core.Entities.Invoices;
 using SITRA.Core.Enums;
 using QuestPDF.Fluent;
@@ -94,7 +94,7 @@ namespace SITRA.Core.DTOs
 
                     col.Item().Row(r =>
                     {
-                        r.RelativeItem().Text("TEL»FONO:").SemiBold();
+                        r.RelativeItem().Text("TEL√àFONO:").SemiBold();
                         r.ConstantItem(120).AlignRight().Text(User.PhoneNumber).SemiBold();
                     });
 
@@ -128,12 +128,12 @@ namespace SITRA.Core.DTOs
 
                     col.Item().Row(r =>
                     {
-                        r.RelativeItem().Text("CondiciÛn:");
+                        r.RelativeItem().Text("Condici√≥n:");
                         r.ConstantItem(120)
                          .AlignRight()
                          .Text(Invoice.ConditionType == InvoiceCondition.Spot
                                ? "AL CONTADO"
-                               : "CR DITO");
+                               : "CR√äDITO");
                     });
                 });
 
@@ -176,9 +176,9 @@ namespace SITRA.Core.DTOs
 
                     col.Item().Row(r =>
                     {
-                        r.RelativeItem().Text("RNC / CÈdula:");
+                        r.RelativeItem().Text("RNC / C√©dula:");
                         r.ConstantItem(120).AlignRight().Text(
-                            Invoice.Buyer?.Identification ?? "-"
+                            Invoice.InvoiceBuyer?.Buyer?.Identification ?? "-"
                         );
                     });
 
@@ -186,7 +186,7 @@ namespace SITRA.Core.DTOs
                     {
                         r.RelativeItem().Text("Cliente:");
                         r.ConstantItem(120).AlignRight().Text(
-                            Invoice.Buyer?.Name ?? "-"
+                            Invoice.InvoiceBuyer?.Buyer?.Name ?? "-"
                         );
                     });
                 });
@@ -204,7 +204,7 @@ namespace SITRA.Core.DTOs
                 // --------------------------------------------------
                 column.Item().Row(row =>
                 {
-                    row.RelativeItem().Text("ArtÌculos");
+                    row.RelativeItem().Text("Art√≠culos");
                     row.ConstantItem(45).AlignRight().Text("Impuestos");
                     row.ConstantItem(45).AlignRight().Text("Total");
                 });
@@ -358,7 +358,7 @@ namespace SITRA.Core.DTOs
                 // --------------------------------------------------
                 column.Item().PaddingTop(4)
                       .AlignCenter()
-                      .Text("No hacemos devoluciones en efectivo,\nser·n emitidas notas de crÈdito en caso de cambio")
+                      .Text("No hacemos devoluciones en efectivo,\nser√°n emitidas notas de cr√©dito en caso de cambio")
                       .FontSize(7)
                       .Italic();
             });

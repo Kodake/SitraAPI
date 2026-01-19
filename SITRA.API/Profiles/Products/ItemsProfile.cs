@@ -27,11 +27,11 @@ namespace SITRA.API.Profiles.Products
                     Name = pt.Tax.Name,
                     Amount = pt.Tax.Amount
                 }).ToList()))
-                .ForMember(des => des.Unit, opt => opt.MapFrom(src => src.Unit != null ? new UnitDTO
+                .ForMember(des => des.Unit, opt => opt.MapFrom(src => src.ItemUnit != null ? new UnitDTO
                 {
-                    Id = src.Unit.Id,
-                    Name = src.Unit.Name,
-                    ShortName = src.Unit.ShortName
+                    Id = src.ItemUnit.Unit.Id,
+                    Name = src.ItemUnit.Unit.Name,
+                    ShortName = src.ItemUnit.Unit.ShortName
                 } : null))
                 .ForMember(des => des.InitialCost, opt => opt.MapFrom(src =>
                     src.PricingItems.FirstOrDefault(p => p.PricingId == p.PricingId)!.InitialCost))

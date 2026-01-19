@@ -10,7 +10,7 @@ namespace SITRA.Core.Entities.Products
         public bool IsActive { get; set; } = true;
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }
-        public ICollection<Item> Items { get; set; } = [];
+        public ICollection<ItemBrand> ItemBrands { get; set; } = [];
         public ICollection<Model> Models { get; set; } = [];
         public Guid TenantId { get; set; }
     }

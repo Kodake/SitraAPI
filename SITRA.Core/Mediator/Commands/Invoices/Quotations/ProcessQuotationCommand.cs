@@ -31,6 +31,10 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
 
             var saleInvoice = mapper.Map<Invoice>(Dto);
             saleInvoice.InvoiceType = InvoiceType.Sale;
+            if (Dto.CustomerId > 0)
+            {
+                saleInvoice.InvoiceBuyer = new InvoiceBuyer { ContactId = Dto.CustomerId.Value };
+            }
 
             if (fiscalSupportDB != null)
             {
@@ -51,7 +55,8 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
                     var accountsReceivable = new Receivable
                     {
                         Invoice = saleInvoice,
-                        ContactId = saleInvoice.CustomerId,
+
+                        ContactId = Dto.CustomerId,
                         TotalAmountDue = saleInvoice.TotalPrice,
                         TotalOutstanding = 0,
                         Status = AccountStatus.PendingReceivable,
@@ -64,7 +69,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
                     var spotPayment = new SpotPayment
                     {
                         Invoice = saleInvoice,
-                        ContactId = saleInvoice.CustomerId == 0 ? null : saleInvoice.CustomerId,
+                        ContactId = Dto.CustomerId == 0 ? null : Dto.CustomerId,
                         AmountReturned = Dto.AmountReturned ?? 0,
                         PaymentDate = DateTimeOffset.UtcNow,
                         IsActive = true

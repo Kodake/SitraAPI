@@ -6,6 +6,7 @@ namespace SITRA.Core.Entities.Products
     {
         public long Id { get; set; }
         public string Name { get; set; } = string.Empty;
+        public ICollection<ItemModel> ItemModels { get; set; } = [];
         public string? Description { get; set; }
         public bool IsActive { get; set; } = true;
         public DateTimeOffset CreatedAt { get; set; }

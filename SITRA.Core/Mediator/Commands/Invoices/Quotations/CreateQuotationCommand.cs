@@ -20,6 +20,10 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
 
             var saleInvoice = mapper.Map<Invoice>(Dto);
             saleInvoice.InvoiceType = InvoiceType.Quotation;
+            if (Dto.CustomerId > 0)
+            {
+                saleInvoice.InvoiceBuyer = new InvoiceBuyer { ContactId = Dto.CustomerId };
+            }
 
             double currencyRate = currencyDB!.Rate;
             await CalculateInvoiceTotals(Dto.InvoiceItems, saleInvoice, unitOfWork, currencyRate);
@@ -29,7 +33,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
             var quotation = new Quotation
             {
                 Invoice = saleInvoice,
-                ContactId = saleInvoice.CustomerId != 0 ? saleInvoice.CustomerId : null,
+                ContactId = Dto.CustomerId != 0 ? Dto.CustomerId : null,
                 QuotationNumber = Dto.QuotationNumber,
             };
 

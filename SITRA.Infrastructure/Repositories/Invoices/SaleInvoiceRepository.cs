@@ -22,7 +22,8 @@ namespace SITRA.Infrastructure.Repositories.Invoices
         public async new Task<List<Invoice>> GetAllAsync(PaginationDTO paginationDTO)
         {
             var queryable = context.Invoices
-                .Include(x => x.Buyer);
+                .Include(x => x.InvoiceBuyer)
+                    .ThenInclude(ib => ib.Buyer);
 
             await httpContext.AddPaginationParamsToHeaders(queryable);
 
@@ -36,8 +37,10 @@ namespace SITRA.Infrastructure.Repositories.Invoices
         public async new Task<Invoice?> GetByIdAsync(long id)
         {
             return await context.Invoices
-                .Include(i => i.Buyer)
-                .Include(i => i.Biller)
+                .Include(i => i.InvoiceBuyer)
+                    .ThenInclude(ib => ib.Buyer)
+                .Include(i => i.InvoiceBiller)
+                    .ThenInclude(ib => ib.Biller)
                 .Include(i => i.Pricing)
                 .Include(i => i.Warehouse)
                 .Include(i => i.Quotation)
@@ -98,7 +101,8 @@ namespace SITRA.Infrastructure.Repositories.Invoices
             to = to.Date.AddDays(1).AddTicks(-1);
 
             var queryable = context.Invoices
-                .Include(x => x.Buyer)
+                .Include(x => x.InvoiceBuyer)
+                    .ThenInclude(ib => ib.Buyer)
                 .Where(x =>
                     x.InvoiceType == InvoiceType.Sale &&
                     x.CreatedAt >= from &&

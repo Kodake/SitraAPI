@@ -22,6 +22,10 @@ namespace SITRA.Core.Mediator.Commands.Invoices.PurchaseInvoices
             var purchaseInvoice = mapper.Map<Invoice>(Dto);
             purchaseInvoice.InvoiceType = InvoiceType.Purchase;
             purchaseInvoice.Date = DateTimeOffset.UtcNow;
+            if (Dto.SupplierId > 0)
+            {
+                purchaseInvoice.InvoiceBuyer = new InvoiceBuyer { ContactId = Dto.SupplierId };
+            }
 
             double currencyRate = currencyDB!.Rate;
             await CalculateInvoiceTotals(Dto.InvoiceItems, purchaseInvoice, unitOfWork, currencyRate);
@@ -34,7 +38,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.PurchaseInvoices
                     var accountsPayable = new Payable
                     {
                         Invoice = purchaseInvoice,
-                        ContactId = purchaseInvoice.CustomerId != 0 ? purchaseInvoice.CustomerId : null,
+                        ContactId = Dto.SupplierId != 0 ? Dto.SupplierId : null,
                         TotalAmountDue = purchaseInvoice.TotalPrice,
                         TotalOutstanding = 0,
                         Status = AccountStatus.PendingPayable,
@@ -47,7 +51,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.PurchaseInvoices
                     var spotPayable = new SpotPayable
                     {
                         Invoice = purchaseInvoice,
-                        ContactId = purchaseInvoice.CustomerId != 0 ? purchaseInvoice.CustomerId : null,
+                        ContactId = Dto.SupplierId != 0 ? Dto.SupplierId : null,
                         PaymentMethod = Dto.PaymentMethod,
                         PaymentDate = DateTimeOffset.UtcNow,
                         IsActive = true

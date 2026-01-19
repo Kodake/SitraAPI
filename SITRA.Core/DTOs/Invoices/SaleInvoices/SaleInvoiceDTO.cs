@@ -1,5 +1,7 @@
 namespace SITRA.Core.DTOs.Invoices.SaleInvoices
 {
+    using SITRA.Core.DTOs.Contacts.Contacts;
+    using SITRA.Core.DTOs.AdministrativeTools.FiscalSupports;
     public class SaleInvoiceDTO
     {
         public long Id { get; set; }
@@ -16,6 +18,9 @@ namespace SITRA.Core.DTOs.Invoices.SaleInvoices
         public double TotalPrice { get; set; }
         public double TotalTaxes { get; set; }
         public string FiscalSupportNumber { get; set; } = string.Empty;
+        public ContactDTO? Buyer { get; set; }
+        public ContactDTO? Biller { get; set; }
+        public FiscalSupportDTO? FiscalSupport { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
     }
 }

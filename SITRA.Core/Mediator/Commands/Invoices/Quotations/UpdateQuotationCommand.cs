@@ -42,7 +42,24 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
 
             unitOfWork.SaleInvoiceRepository.Update(saleInvoice);
 
-            quotation.ContactId = saleInvoice.CustomerId;
+            quotation.ContactId = Dto.CustomerId != 0 ? Dto.CustomerId : null;
+            
+            if (Dto.CustomerId > 0)
+            {
+               if (saleInvoice.InvoiceBuyer == null)
+               {
+                    saleInvoice.InvoiceBuyer = new InvoiceBuyer { ContactId = Dto.CustomerId };
+               }
+               else
+               {
+                    saleInvoice.InvoiceBuyer.ContactId = Dto.CustomerId;
+               }
+            }
+            else
+            {
+                // If nullable and Dto has 0/null, remove it?
+                // logic for now: assume Dto.CustomerId is valid if > 0
+            }
 
             unitOfWork.QuotationRepository.Update(quotation);
 

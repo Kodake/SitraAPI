@@ -1,3 +1,4 @@
+C:\Users\Kodake\Desktop\PosAPI\SITRA.Infrastructure\bin\Debug\net8.0\SITRA.Core.staticwebassets.endpoints.json
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Infrastructure\bin\Debug\net8.0\LatoFont\Lato-Black.ttf
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Infrastructure\bin\Debug\net8.0\LatoFont\Lato-BlackItalic.ttf
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Infrastructure\bin\Debug\net8.0\LatoFont\Lato-Bold.ttf
@@ -35,4 +36,3 @@ C:\Users\Kodake\Desktop\PosAPI\SITRA.Infrastructure\obj\Debug\net8.0\refint\SITR
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Infrastructure\obj\Debug\net8.0\SITRA.Infrastructure.pdb
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Infrastructure\obj\Debug\net8.0\SITRA.Infrastructure.genruntimeconfig.cache
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Infrastructure\obj\Debug\net8.0\ref\SITRA.Infrastructure.dll
-C:\Users\Kodake\Desktop\PosAPI\SITRA.Infrastructure\bin\Debug\net8.0\SITRA.Core.staticwebassets.endpoints.json

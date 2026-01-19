@@ -1,4 +1,4 @@
-using SITRA.Core.Entities.Invoices;
+ï»¿using SITRA.Core.Entities.Invoices;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
@@ -35,28 +35,28 @@ namespace SITRA.Core.DTOs
                 {
                     var fontWeight = 0.8f;
 
-                    if (Invoice.Buyer != null)
+                    if (Invoice.InvoiceBuyer?.Buyer != null)
                     {
-                        var identification = !string.IsNullOrEmpty(Invoice.Buyer.Identification)
-                                             ? Invoice.Buyer.Identification
-                                             : "N/A";
-                        column.Item().Scale(fontWeight).Text($"IDENTIFICACIÓN: {identification}");
+                        var identification = !string.IsNullOrEmpty(Invoice.InvoiceBuyer?.Buyer.Identification)
+                                             ? Invoice.InvoiceBuyer?.Buyer.Identification
+                                             : " - ";
 
-                        var buyerName = !string.IsNullOrEmpty(Invoice.Buyer.Name)
-                                        ? Invoice.Buyer.Name
-                                        : "N/A";
-                        column.Item().Scale(fontWeight).Text($"NOMBRE / RAZÓN SOCIAL: {buyerName}");
+                        column.Item().Scale(fontWeight).Text($"IDENTIFICACIÃ“N: {identification}");
+                        var buyerName = !string.IsNullOrEmpty(Invoice.InvoiceBuyer?.Buyer.Name)
+                                        ? Invoice.InvoiceBuyer?.Buyer.Name
+                                        : " - ";
+                        column.Item().Scale(fontWeight).Text($"NOMBRE / RAZÃ“N SOCIAL: {buyerName}");
                     }
                     else
                     {
-                        column.Item().Scale(fontWeight).Text("IDENTIFICACIÓN: N/A");
-                        column.Item().Scale(fontWeight).Text("NOMBRE / RAZÓN SOCIAL: N/A");
+                        column.Item().Scale(fontWeight).Text("IDENTIFICACIÃ“N: N/A");
+                        column.Item().Scale(fontWeight).Text("NOMBRE / RAZÃ“N SOCIAL: N/A");
                     }
 
                     column.Item().Scale(fontWeight).Text($"FECHA: {Invoice.Date:dd-MM-yyyy}");
 
-                    if (Invoice.Biller != null && !string.IsNullOrEmpty(Invoice.Biller.Name))
-                        column.Item().Scale(fontWeight).Text($"VENDEDOR: {Invoice.Biller.Name}");
+                    if (Invoice.InvoiceBiller?.Biller != null && !string.IsNullOrEmpty(Invoice.InvoiceBiller?.Biller.Name))
+                        column.Item().Scale(fontWeight).Text($"VENDEDOR: {Invoice.InvoiceBiller?.Biller.Name}");
                     else
                         column.Item().Scale(fontWeight).Text("VENDEDOR: N/A");
                 });
@@ -99,9 +99,9 @@ namespace SITRA.Core.DTOs
                         Console.WriteLine($"[QuotationDocumentDTO] Error loading logo: {ex.Message}");
                     }
 
-                    column.Item().BorderBottom(1).Padding(padding).Text("COTIZACIÓN").SemiBold();
+                    column.Item().BorderBottom(1).Padding(padding).Text("COTIZACIÃ“N").SemiBold();
 
-                    column.Item().Padding(padding).Text("NÚMERO DE COTIZACIÓN").SemiBold();
+                    column.Item().Padding(padding).Text("NÃšMERO DE COTIZACIÃ“N").SemiBold();
                     column.Item().Padding(padding).Text(Invoice?.Quotation?.QuotationNumber ?? "N/A").SemiBold();
 
                     column.Item().Text("");
@@ -160,7 +160,7 @@ namespace SITRA.Core.DTOs
                 column.Item().AlignRight().Text($"SUB + IMPUESTOS: {subTaxes:N}");
                 if (Invoice.Shipping.HasValue)
                 {
-                    column.Item().AlignRight().Text($"ENVÍO: {Invoice.Shipping:N}");
+                    column.Item().AlignRight().Text($"ENVÃO: {Invoice.Shipping:N}");
                 }
 
                 if (Invoice.Discount.HasValue)
@@ -188,7 +188,7 @@ namespace SITRA.Core.DTOs
 
                 table.Header(header =>
                 {
-                    header.Cell().Element(CellStyle).Text("DESCRIPCIÓN");
+                    header.Cell().Element(CellStyle).Text("DESCRIPCIÃ“N");
                     header.Cell().Element(CellStyle).AlignRight().Text("CANTIDAD");
                     header.Cell().Element(CellStyle).AlignRight().Text("VALOR");
                     header.Cell().Element(CellStyle).AlignRight().Text("IMPUESTOS");

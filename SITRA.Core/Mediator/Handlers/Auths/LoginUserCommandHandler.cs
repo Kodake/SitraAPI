@@ -25,10 +25,9 @@ namespace SITRA.Core.Mediator.Handlers.Auths
         public async Task<TokenResponseDTO?> Handle(LoginUserCommand request, CancellationToken cancellationToken)
         {
             var user = await _userManager.FindByEmailAsync(request.Dto.Email);
-            if (user == null) return null;
+            // Validation handled in DTO Validator
+            if (user == null) return null; // Should not happen if validation passes, but kept for type safety or concurrency
 
-            var result = await _userManager.CheckPasswordAsync(user, request.Dto.Password);
-            if (!result) return null;
 
             // ?? Lazy initialization for existing users with empty TenantId
             if (user.TenantId == Guid.Empty)

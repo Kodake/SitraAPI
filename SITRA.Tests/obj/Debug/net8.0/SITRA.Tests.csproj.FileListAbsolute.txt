@@ -1,9 +1,14 @@
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Tests\bin\Debug\net8.0\.msCoverageSourceRootsMapping_SITRA.Tests
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Tests\bin\Debug\net8.0\CoverletSourceRootsMapping_SITRA.Tests
+C:\Users\Kodake\Desktop\PosAPI\SITRA.Tests\bin\Debug\net8.0\testhost.dll
+C:\Users\Kodake\Desktop\PosAPI\SITRA.Tests\bin\Debug\net8.0\SITRA.API.deps.json
+C:\Users\Kodake\Desktop\PosAPI\SITRA.Tests\bin\Debug\net8.0\SITRA.API.runtimeconfig.json
+C:\Users\Kodake\Desktop\PosAPI\SITRA.Tests\bin\Debug\net8.0\SITRA.Core.staticwebassets.endpoints.json
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Tests\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Tests\bin\Debug\net8.0\appsettings.json
+C:\Users\Kodake\Desktop\PosAPI\SITRA.Tests\bin\Debug\net8.0\SITRA.API.staticwebassets.endpoints.json
+C:\Users\Kodake\Desktop\PosAPI\SITRA.Tests\bin\Debug\net8.0\SITRA.API.exe
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Tests\bin\Debug\net8.0\testhost.exe
-C:\Users\Kodake\Desktop\PosAPI\SITRA.Tests\bin\Debug\net8.0\testhost.dll
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Tests\bin\Debug\net8.0\xunit.runner.visualstudio.testadapter.dll
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Tests\bin\Debug\net8.0\xunit.runner.reporters.netcoreapp10.dll
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Tests\bin\Debug\net8.0\xunit.runner.utility.netcoreapp10.dll
@@ -26,10 +31,6 @@ C:\Users\Kodake\Desktop\PosAPI\SITRA.Tests\bin\Debug\net8.0\LatoFont\Lato-SemiBo
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Tests\bin\Debug\net8.0\LatoFont\Lato-Thin.ttf
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Tests\bin\Debug\net8.0\LatoFont\Lato-ThinItalic.ttf
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Tests\bin\Debug\net8.0\LatoFont\OFL.txt
-C:\Users\Kodake\Desktop\PosAPI\SITRA.Tests\bin\Debug\net8.0\SITRA.API.deps.json
-C:\Users\Kodake\Desktop\PosAPI\SITRA.Tests\bin\Debug\net8.0\SITRA.API.runtimeconfig.json
-C:\Users\Kodake\Desktop\PosAPI\SITRA.Tests\bin\Debug\net8.0\SITRA.API.staticwebassets.endpoints.json
-C:\Users\Kodake\Desktop\PosAPI\SITRA.Tests\bin\Debug\net8.0\SITRA.API.exe
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Tests\bin\Debug\net8.0\Resources\logo-black.png
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Tests\bin\Debug\net8.0\SITRA.Tests.deps.json
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Tests\bin\Debug\net8.0\SITRA.Tests.runtimeconfig.json
@@ -242,4 +243,3 @@ C:\Users\Kodake\Desktop\PosAPI\SITRA.Tests\obj\Debug\net8.0\refint\SITRA.Tests.d
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Tests\obj\Debug\net8.0\SITRA.Tests.pdb
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Tests\obj\Debug\net8.0\SITRA.Tests.genruntimeconfig.cache
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Tests\obj\Debug\net8.0\ref\SITRA.Tests.dll
-C:\Users\Kodake\Desktop\PosAPI\SITRA.Tests\bin\Debug\net8.0\SITRA.Core.staticwebassets.endpoints.json

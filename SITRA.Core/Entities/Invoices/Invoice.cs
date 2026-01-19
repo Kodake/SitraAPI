@@ -15,12 +15,9 @@ namespace SITRA.Core.Entities.Invoices
         public DateTimeOffset Date { get; set; }
         public long PricingId { get; set; }
         public Pricing Pricing { get; set; } = null!;
-        public long? BillerId { get; set; }
-        public Contact? Biller { get; set; } = null!;
-        public long? CustomerId { get; set; }
-        public Contact? Buyer { get; set; } = null!;
-        public long? FiscalSupportId { get; set; }
-        public FiscalSupport? FiscalSupport { get; set; } = null!;
+        public virtual InvoiceBiller? InvoiceBiller { get; set; }
+        public virtual InvoiceBuyer? InvoiceBuyer { get; set; }
+        public virtual InvoiceFiscalSupport? InvoiceFiscalSupport { get; set; }
         public string? FiscalSupportNumber { get; set; } = null!;
         public long CurrencyId { get; set; }
         public Currency Currency { get; set; } = null!;

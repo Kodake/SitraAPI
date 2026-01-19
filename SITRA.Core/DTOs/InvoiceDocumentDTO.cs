@@ -1,4 +1,4 @@
-using SITRA.Core.Entities.Invoices;
+ï»¿using SITRA.Core.Entities.Invoices;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
@@ -34,17 +34,17 @@ namespace SITRA.Core.DTOs
                 {
                     var fontWeight = 0.8f;
 
-                    if (!string.IsNullOrEmpty(Invoice.Buyer?.Identification))
-                        column.Item().Scale(fontWeight).Text($"IDENTIFICACIÓN: {Invoice.Buyer.Identification}");
+                    if (!string.IsNullOrEmpty(Invoice.InvoiceBuyer?.Buyer?.Identification))
+                        column.Item().Scale(fontWeight).Text($"IDENTIFICACIÃ“N: {Invoice.InvoiceBuyer?.Buyer.Identification}");
 
                     column.Item().Scale(fontWeight).Text($"FECHA: {Invoice.Date:dd-MM-yyyy}");
-                    column.Item().Scale(fontWeight).Text($"NOMBRE / RAZÓN SOCIAL: {Invoice.Buyer?.Name ?? "N/A"}");
+                    column.Item().Scale(fontWeight).Text($"NOMBRE / RAZÃ“N SOCIAL: {Invoice.InvoiceBuyer?.Buyer?.Name ?? "N/A"}");
 
-                    if (Invoice.Biller is not null)
-                        column.Item().Scale(fontWeight).Text($"VENDEDOR: {Invoice.Biller.Name}");
+                    if (Invoice.InvoiceBiller?.Biller is not null)
+                        column.Item().Scale(fontWeight).Text($"VENDEDOR: {Invoice.InvoiceBiller?.Biller.Name}");
 
-                    if (Invoice.Buyer is not null)
-                        column.Item().Scale(fontWeight).Text($"SUPLIDOR: {Invoice.Buyer.Name}");
+                    if (Invoice.InvoiceBuyer?.Buyer is not null)
+                        column.Item().Scale(fontWeight).Text($"SUPLIDOR: {Invoice.InvoiceBuyer?.Buyer.Name}");
                 });
 
                 row.RelativeItem().Border(1).Column(column =>
@@ -86,7 +86,7 @@ namespace SITRA.Core.DTOs
                     }
 
                     column.Item().BorderBottom(1).Padding(padding).Text("FACTURA DE CONSUMO FISCAL").SemiBold();
-                    column.Item().Padding(padding).Text($"NÚMERO # {Invoice.Id}").SemiBold();
+                    column.Item().Padding(padding).Text($"NÃšMERO # {Invoice.Id}").SemiBold();
                     column.Item().Padding(padding).Text("COMPROBANTE FISCAL").SemiBold();
                     column.Item().Text("");
                     column.Item().Padding(padding)
@@ -140,7 +140,7 @@ namespace SITRA.Core.DTOs
                 column.Item().AlignRight().Text($"SUB + IMPUESTO: {subTaxes:N}");
 
                 if (Invoice.Shipping.HasValue)
-                    column.Item().AlignRight().Text($"ENVÍO: {Invoice.Shipping:N}");
+                    column.Item().AlignRight().Text($"ENVÃO: {Invoice.Shipping:N}");
 
                 if (Invoice.Discount.HasValue)
                 {
@@ -167,7 +167,7 @@ namespace SITRA.Core.DTOs
 
                 table.Header(header =>
                 {
-                    header.Cell().Element(CellStyle).Text("DESCRIPCIÓN");
+                    header.Cell().Element(CellStyle).Text("DESCRIPCIÃ“N");
                     header.Cell().Element(CellStyle).AlignRight().Text("CANTIDAD");
                     header.Cell().Element(CellStyle).AlignRight().Text("MONTO");
                     header.Cell().Element(CellStyle).AlignRight().Text("IMPUESTO");

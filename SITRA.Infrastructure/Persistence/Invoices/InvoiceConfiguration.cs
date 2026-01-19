@@ -16,17 +16,7 @@ namespace SITRA.Infrastructure.Persistence.Invoices
             builder.Property(p => p.TotalAmount).HasColumnType("decimal(18,2)").IsRequired();
             builder.Property(p => p.TotalPrice).HasColumnType("decimal(18,2)").IsRequired();
             builder.Property(p => p.TotalTaxes).HasColumnType("decimal(18,2)").IsRequired();
-            builder.Ignore(p => p.FiscalSupport);
-            builder
-                .HasOne(invoice => invoice.Biller)
-                .WithMany(contact => contact.BillerInvoices)
-                .HasForeignKey(invoice => invoice.BillerId)
-                .OnDelete(DeleteBehavior.Restrict);
-            builder
-                .HasOne(invoice => invoice.Buyer)
-                .WithMany(contact => contact.BuyerInvoices)
-                .HasForeignKey(invoice => invoice.CustomerId)
-                .OnDelete(DeleteBehavior.Restrict);
+
             builder
                 .HasOne(s => s.Receivable)
                 .WithOne(r => r.Invoice)

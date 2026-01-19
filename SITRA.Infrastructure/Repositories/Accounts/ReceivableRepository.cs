@@ -34,7 +34,8 @@ namespace SITRA.Infrastructure.Repositories.Accounts
             return await context.Receivables
                 .Include(x => x.Invoice)
                 .Include(x => x.Buyer)
-                .Include(x => x.Invoice.Biller)
+                .Include(x => x.Invoice.InvoiceBiller)
+                    .ThenInclude(ib => ib.Biller)
                 .Include(x => x.PaymentReceipts.OrderByDescending(p => p.Id))
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
