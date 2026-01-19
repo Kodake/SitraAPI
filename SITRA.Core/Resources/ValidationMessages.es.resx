@@ -58,122 +58,131 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="RequiredFieldMessage" xml:space="preserve">
-    <value>El campo {PropertyName} es requerido</value>
-  </data>
-  <data name="MinimunLengthMessage" xml:space="preserve">
-    <value>El campo {PropertyName} debe tener más de {MinLength} caracteres</value>
-  </data>
-  <data name="MaximunLengthMessage" xml:space="preserve">
-    <value>El campo {PropertyName} debe tener menos de {MaxLength} caracteres</value>
-  </data>
-  <data name="FirstCharUpperMessage" xml:space="preserve">
-    <value>El campo {PropertyName} debe comenzar con mayúsculas</value>
-  </data>
-  <data name="EmailMessage" xml:space="preserve">
-    <value>El campo {PropertyName} debe ser un email válido</value>
-  </data>
-  <data name="GreatherThanZero" xml:space="preserve">
-    <value>El campo {PropertyName} debe ser mayor a {0}</value>
-  </data>
-  <data name="GreaterThanOrEqualToZero" xml:space="preserve">
-    <value>El campo {PropertyName} debe ser mayor o igual a {0}</value>
-  </data>
-  <data name="NameAlreadyExistsWith" xml:space="preserve">
-    <value>Ya existe con el nombre {0}</value>
-  </data>
-  <data name="CodeAlreadyExistsWith" xml:space="preserve">
-    <value>Ya existe con el código {0}</value>
-  </data>
-  <data name="NotExistsWith" xml:space="preserve">
-    <value>No existe {PropertyName} con el valor {0}</value>
-  </data>
-  <data name="InvalidEnumValueMessage" xml:space="preserve">
-    <value>El campo {PropertyName} tiene un valor inválido</value>
-  </data>
-  <data name="RequiredFieldForConditionMessage" xml:space="preserve">
-    <value>El campo {PropertyName} es obligatorio cuando {0} es {1}</value>
-  </data>
-  <data name="MaximumSupportsReachedMessage" xml:space="preserve">
-    <value>Se ha alcanzado el máximo de comprobantes fiscales para este almacén</value>
-  </data>
-  <data name="IdNotExistMessage" xml:space="preserve">
-    <value>El Id {0} no existe. Favor, verifique y vuelva a intentarlo</value>
-  </data>
-  <data name="ReceiptAlreadyPaidMessage" xml:space="preserve">
-    <value>El recibo asociado ya ha sido pagado. No se pueden realizar más pagos</value>
-  </data>
-  <data name="WithdrawnAmountWontBeGreatherThanAvailableCash" xml:space="preserve">
-    <value>El monto retirado no puede ser mayor que el efectivo disponible</value>
-  </data>
-  <data name="MinItemsRequired" xml:space="preserve">
-    <value>Se requieren al menos 2 itemIds</value>
-  </data>
-  <data name="EachItemMustBeGreatherThanZero" xml:space="preserve">
-    <value>Cada itemId debe ser mayor que 0</value>
-  </data>
-  <data name="RucFieldMessage" xml:space="preserve">
-    <value>El RUC debe contener exactamente 9 u 11 dígitos</value>
-  </data>
-  <data name="PhoneNumberFieldMessage" xml:space="preserve">
-    <value>El número de teléfono debe contener exactamente 10 dígitos</value>
-  </data>
-  <data name="AtLeastOneServiceToChose" xml:space="preserve">
-    <value>Debe seleccionar al menos un servicio</value>
-  </data>
-  <data name="NotDuplicatesWith" xml:space="preserve">
-    <value>No se permiten {PropertyName} duplicados con el valor {0}</value>
+  <data name="AlreadyOpenPettyCashMessage" xml:space="preserve">
+    <value>Ya tienes una caja chica abierta. Por favor ciérrala antes de abrir una nueva</value>
   </data>
   <data name="AppointmentAlreadyExist" xml:space="preserve">
     <value>Ya existe una cita programada para esta fecha y hora</value>
   </data>
-  <data name="InvalidCredentialsMessage" xml:space="preserve">
-    <value>Correo o contraseña inválidos</value>
+  <data name="AtLeastOneServiceToChose" xml:space="preserve">
+    <value>Debe seleccionar al menos un servicio</value>
   </data>
-  <data name="PasswordMinLengthMessage" xml:space="preserve">
-    <value>La contraseña debe tener al menos 6 caracteres</value>
+  <data name="CodeAlreadyExistsWith" xml:space="preserve">
+    <value>Ya existe con el código {0}</value>
   </data>
-  <data name="UserNotAuthMessage" xml:space="preserve">
-    <value>No se encontró ningún usuario autenticado</value>
+  <data name="CommentTooLongMessage" xml:space="preserve">
+    <value>El comentario no puede exceder los 500 caracteres</value>
   </data>
-  <data name="PettyCashRequiredMessage" xml:space="preserve">
-    <value>Necesitas una caja chica abierta para continuar</value>
-  </data>
-  <data name="PettyCashOwnedByMessage" xml:space="preserve">
-    <value>No se puede crear la factura. La caja chica está actualmente abierta por {0}. Por favor espere hasta que se cierre</value>
+  <data name="ContactNotFoundOrInvalidMessage" xml:space="preserve">
+    <value>El contacto seleccionado no existe o no es válido</value>
   </data>
   <data name="CurrencyNotFoundMessage" xml:space="preserve">
     <value>No se encontró la moneda con id {0}</value>
   </data>
+  <data name="DuplicateServicesMessage" xml:space="preserve">
+    <value>No se permiten servicios duplicados</value>
+  </data>
+  <data name="EachItemMustBeGreatherThanZero" xml:space="preserve">
+    <value>Cada itemId debe ser mayor que 0</value>
+  </data>
+  <data name="EmailMessage" xml:space="preserve">
+    <value>El campo {PropertyName} debe ser un email válido</value>
+  </data>
+  <data name="FiscalSupportAlreadyExistsMessage" xml:space="preserve">
+    <value>Ya existe un comprobante del tipo {0} para el almacén {1}</value>
+  </data>
   <data name="FiscalSupportNotFoundMessage" xml:space="preserve">
     <value>Comprobante fiscal no encontrado</value>
+  </data>
+  <data name="FirstCharUpperMessage" xml:space="preserve">
+    <value>El campo {PropertyName} debe comenzar con mayúsculas</value>
+  </data>
+  <data name="GreatherThanZero" xml:space="preserve">
+    <value>El campo {PropertyName} debe ser mayor a {0}</value>
+  </data>
+  <data name="GreaterThanOrEqualToMensaje" xml:space="preserve">
+    <value>El campo {PropertyName} debe ser posterior a {0}</value>
+  </data>
+  <data name="GreaterThanOrEqualToZero" xml:space="preserve">
+    <value>El campo {PropertyName} debe ser mayor o igual a {0}</value>
+  </data>
+  <data name="IdNotExistMessage" xml:space="preserve">
+    <value>El Id {0} no existe. Favor, verifique y vuelva a intentarlo</value>
+  </data>
+  <data name="InsufficientStockQuantityMessage" xml:space="preserve">
+    <value>Cantidad de stock insuficiente</value>
+  </data>
+  <data name="InvalidCredentialsMessage" xml:space="preserve">
+    <value>Correo o contraseña inválidos</value>
+  </data>
+  <data name="InvalidEnumValueMessage" xml:space="preserve">
+    <value>El campo {PropertyName} tiene un valor inválido</value>
   </data>
   <data name="ItemNotFoundMessage" xml:space="preserve">
     <value>{0} con id {1} no encontrado</value>
   </data>
-  <data name="StockNotConfiguredMessage" xml:space="preserve">
-    <value>Uno o más artículos no tienen stock configurado en el almacén especificado</value>
+  <data name="MaximumSupportsReachedMessage" xml:space="preserve">
+    <value>Se ha alcanzado el máximo de comprobantes fiscales para este almacén</value>
   </data>
-  <data name="QuotationNotFoundMessage" xml:space="preserve">
-    <value>Cotización no encontrada</value>
+  <data name="MaximunLengthMessage" xml:space="preserve">
+    <value>El campo {PropertyName} debe tener menos de {MaxLength} caracteres</value>
+  </data>
+  <data name="MinItemsRequired" xml:space="preserve">
+    <value>Se requieren al menos 2 itemIds</value>
+  </data>
+  <data name="MinimunLengthMessage" xml:space="preserve">
+    <value>El campo {PropertyName} debe tener más de {MinLength} caracteres</value>
+  </data>
+  <data name="NameAlreadyExistsWith" xml:space="preserve">
+    <value>Ya existe con el nombre {0}</value>
   </data>
   <data name="NoOpenPettyCashMessage" xml:space="preserve">
     <value>No tienes una caja chica abierta. Por favor, abre una antes de realizar un retiro</value>
   </data>
-  <data name="AlreadyOpenPettyCashMessage" xml:space="preserve">
-    <value>Ya tienes una caja chica abierta. Por favor ciérrala antes de abrir una nueva</value>
+  <data name="NotDuplicatesWith" xml:space="preserve">
+    <value>No se permiten {PropertyName} duplicados con el valor {0}</value>
   </data>
-  <data name="DuplicateServicesMessage" xml:space="preserve">
-    <value>No se permiten servicios duplicados</value>
+  <data name="NotExistsWith" xml:space="preserve">
+    <value>No existe {PropertyName} con el valor {0}</value>
   </data>
-  <data name="WarehouseNotFoundMessage" xml:space="preserve">
-    <value>Almacén con ID {0} no encontrado</value>
+  <data name="OneOrMoreServicesInvalidMessage" xml:space="preserve">
+    <value>Uno o más servicios seleccionados no existen o no son válidos</value>
   </data>
   <data name="OriginStockNotFoundMessage" xml:space="preserve">
     <value>Stock de origen no encontrado</value>
   </data>
-  <data name="InsufficientStockQuantityMessage" xml:space="preserve">
-    <value>Cantidad de stock insuficiente</value>
+  <data name="PasswordMinLengthMessage" xml:space="preserve">
+    <value>La contraseña debe tener al menos 6 caracteres</value>
+  </data>
+  <data name="PettyCashOwnedByMessage" xml:space="preserve">
+    <value>No se puede crear la factura. La caja chica está actualmente abierta por {0}. Por favor espere hasta que se cierre</value>
+  </data>
+  <data name="PettyCashRequiredMessage" xml:space="preserve">
+    <value>Necesitas una caja chica abierta para continuar</value>
+  </data>
+  <data name="PhoneNumberFieldMessage" xml:space="preserve">
+    <value>El número de teléfono debe contener exactamente 10 dígitos</value>
+  </data>
+  <data name="QuotationNotFoundMessage" xml:space="preserve">
+    <value>Cotización no encontrada</value>
+  </data>
+  <data name="ReceiptAlreadyPaidMessage" xml:space="preserve">
+    <value>El recibo asociado ya ha sido pagado. No se pueden realizar más pagos</value>
+  </data>
+  <data name="RequiredFieldForConditionMessage" xml:space="preserve">
+    <value>El campo {PropertyName} es obligatorio cuando {0} es {1}</value>
+  </data>
+  <data name="RequiredFieldMessage" xml:space="preserve">
+    <value>El campo {PropertyName} es requerido</value>
+  </data>
+  <data name="RucFieldMessage" xml:space="preserve">
+    <value>El RUC debe contener exactamente 9 u 11 dígitos</value>
+  </data>
+  <data name="StockNotConfiguredMessage" xml:space="preserve">
+    <value>Uno o más artículos no tienen stock configurado en el almacén especificado</value>
+  </data>
+  <data name="TransferIdInvalidMessage" xml:space="preserve">
+    <value>El ID de transferencia debe ser mayor que 0</value>
   </data>
   <data name="TransferStatusChangeErrorMessage" xml:space="preserve">
     <value>No se puede cambiar el estado de esta transferencia</value>
@@ -181,22 +190,13 @@
   <data name="TransferStockNotFoundMessage" xml:space="preserve">
     <value>Stock de {0} no encontrado</value>
   </data>
-  <data name="TransferIdInvalidMessage" xml:space="preserve">
-    <value>El ID de transferencia debe ser mayor que 0</value>
+  <data name="UserNotAuthMessage" xml:space="preserve">
+    <value>No se encontró ningún usuario autenticado</value>
   </data>
-  <data name="CommentTooLongMessage" xml:space="preserve">
-    <value>El comentario no puede exceder los 500 caracteres</value>
+  <data name="WarehouseNotFoundMessage" xml:space="preserve">
+    <value>Almacén con ID {0} no encontrado</value>
   </data>
-  <data name="OneOrMoreServicesInvalidMessage" xml:space="preserve">
-    <value>Uno o más servicios seleccionados no existen o no son válidos</value>
-  </data>
-  <data name="ContactNotFoundOrInvalidMessage" xml:space="preserve">
-    <value>El contacto seleccionado no existe o no es válido</value>
-  </data>
-  <data name="GreaterThanOrEqualToMensaje" xml:space="preserve">
-    <value>El campo {PropertyName} debe ser posterior a {0}</value>
-  </data>
-  <data name="FiscalSupportAlreadyExistsMessage" xml:space="preserve">
-    <value>Ya existe un comprobante del tipo {0} para el almacén {1}</value>
+  <data name="WithdrawnAmountWontBeGreatherThanAvailableCash" xml:space="preserve">
+    <value>El monto retirado no puede ser mayor que el efectivo disponible</value>
   </data>
 </root>
