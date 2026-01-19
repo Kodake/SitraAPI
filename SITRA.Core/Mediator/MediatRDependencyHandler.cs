@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using MediatR;
 using SITRA.Core.Mediator.Handlers.Accounts;
 using SITRA.Core.Mediator.Handlers.AdministrativeTools;
 using SITRA.Core.Mediator.Handlers.Appointments;
@@ -18,6 +19,7 @@ namespace SITRA.Core.Mediator
         public static IServiceCollection RegisterRequestHandlers(this IServiceCollection services)
         {
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(MediatRDependencyHandler).Assembly));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(Behaviors.InputSanitizationBehavior<,>));
 
             services.AddDashboardServices();
             services.AddBrandServices();
