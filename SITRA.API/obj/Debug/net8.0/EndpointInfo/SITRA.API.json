@@ -300,6 +300,31 @@
         }
       }
     },
+    "/api/v1/identity/change-language": {
+      "patch": {
+        "tags": [
+          "AuthsEndpoints"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeLanguageDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
     "/api/v1/brands": {
       "get": {
         "tags": [
@@ -6632,6 +6657,15 @@
         },
         "additionalProperties": false
       },
+      "ChangeLanguageDTO": {
+        "type": "object",
+        "properties": {
+          "language": {
+            "$ref": "#/components/schemas/Language"
+          }
+        },
+        "additionalProperties": false
+      },
       "ComboDTO": {
         "type": "object",
         "properties": {
@@ -8716,6 +8750,14 @@
           }
         },
         "additionalProperties": false
+      },
+      "Language": {
+        "enum": [
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32"
       },
       "Model": {
         "type": "object",

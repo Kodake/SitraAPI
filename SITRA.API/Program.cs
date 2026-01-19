@@ -97,6 +97,10 @@ builder.Services.AddMemoryCache();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICurrentTenantService, CurrentTenantService>();
 
+// Global Exception Handler
+builder.Services.AddExceptionHandler<SITRA.API.ExceptionHandlers.GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
+
 // CORS
 builder.Services.AddCors(options =>
 {
@@ -134,6 +138,8 @@ if (app.Environment.IsProduction())
 }
 
 // Configure the HTTP request pipeline.
+app.UseExceptionHandler(); // Add this line to use the exception handler
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

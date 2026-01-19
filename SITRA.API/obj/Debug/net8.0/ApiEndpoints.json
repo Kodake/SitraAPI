@@ -1787,6 +1787,33 @@
   },
   {
     "ContainingType": "SITRA.API.Endpoints.AuthsEndpoints",
+    "Method": "ChangeLanguage",
+    "RelativePath": "api/v1/identity/change-language",
+    "HttpMethod": "PATCH",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Auths.ChangeLanguageDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.AuthsEndpoints",
     "Method": "Login",
     "RelativePath": "api/v1/identity/login",
     "HttpMethod": "POST",

@@ -22,6 +22,9 @@ namespace SITRA.API.Endpoints
                 .WithOpenApi();
             group.MapGet("/validate-opened-petty-cash", ValidateOpenedPettyCashEndpoint)
                 .WithOpenApi().RequireAuthorization();
+            group.MapPatch("/change-language", ChangeLanguage)
+                .AddEndpointFilter<ValidationFilter<ChangeLanguageDTO>>()
+                .WithOpenApi().RequireAuthorization();
 
             return group;
         }
@@ -66,6 +69,16 @@ namespace SITRA.API.Endpoints
             }
 
             return TypedResults.Ok();
+        }
+
+        static async Task<Results<Ok, BadRequest>> ChangeLanguage(
+            [FromBody] ChangeLanguageDTO dto,
+            [FromServices] IMediator mediator)
+        {
+            var command = new ChangeLanguageCommand(dto);
+            var success = await mediator.Send(command);
+
+            return success ? TypedResults.Ok() : TypedResults.BadRequest();
         }
     }
 }

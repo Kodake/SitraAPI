@@ -2,7 +2,7 @@ namespace SITRA.Core.Enums
 {
     public enum Language
     {
-        ES,
-        EN
+        ES = 1,
+        EN = 2
     }
 }
