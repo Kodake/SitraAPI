@@ -16,7 +16,7 @@ namespace SITRA.API.Endpoints.CashBoxes
         public static RouteGroupBuilder MapPettyCashMovements(this RouteGroupBuilder group)
         {
             group.MapGet("/{pettyCashId:long}/withdrawals", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("pettyCashMovements-get"))
-                .AddPaginationParamsOpenAPI();
+                .AddPaginationParamsOpenAPI().RequireAuthorization();
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateWithdrawalPettyCashMovementDTO>>()
                 .RequireAuthorization()

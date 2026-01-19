@@ -93,6 +93,7 @@ builder.Services.RegisterRepositories();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddValidatorsFromAssemblyContaining<CreateProductDTOValidator>();
 builder.Services.AddOutputCache();
+builder.Services.AddMemoryCache();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICurrentTenantService, CurrentTenantService>();
 
@@ -143,6 +144,8 @@ app.UseHttpsRedirection();
 
 app.UseCors("AllowAll");
 app.UseOutputCache();
+
+app.UseMiddleware<SITRA.API.Middlewares.IpBlockingMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();

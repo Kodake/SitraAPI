@@ -15,14 +15,11 @@ namespace SITRA.API.Endpoints
         public static RouteGroupBuilder MapCombos(this RouteGroupBuilder group)
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("combos-get"))
-                .AddPaginationParamsOpenAPI();
-            //.RequireAuthorization();
-            group.MapGet("/{id:long}", GetById);
-            //.RequireAuthorization();
+                .AddPaginationParamsOpenAPI().RequireAuthorization();
+            group.MapGet("/{id:long}", GetById).RequireAuthorization();
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateComboDTO>>()
-                .WithOpenApi();
-                //.RequireAuthorization();
+                .WithOpenApi().RequireAuthorization();
             group.MapPut("/{id:long}", Update).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateComboDTO>>()
                 .WithOpenApi()

@@ -17,10 +17,10 @@ namespace SITRA.API.Endpoints.CashBoxes
         public static RouteGroupBuilder MapPettyCashes(this RouteGroupBuilder group)
         {
             group.MapGet("/{pettyCashId:long}/pettyCashMovements", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("pettyCashMovements-get"))
-                .AddPaginationParamsOpenAPI();
+                .AddPaginationParamsOpenAPI().RequireAuthorization();
             group.MapGet("/", GetById).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("pettyCashes-get"))
                 .RequireAuthorization();
-            group.MapGet("/{pettyCashId:long}/pettyCashPayments", GetAllById).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("pettyCashes-get"));
+            group.MapGet("/{pettyCashId:long}/pettyCashPayments", GetAllById).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("pettyCashes-get")).RequireAuthorization();
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateOpenPettyCashDTO>>()
                 .RequireAuthorization()

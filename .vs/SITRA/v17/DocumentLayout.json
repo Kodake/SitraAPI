@@ -156,7 +156,7 @@
               "RelativeDocumentMoniker": "SITRA.Core\\Enums\\Language.cs",
               "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Core\\Enums\\Language.cs",
               "RelativeToolTip": "SITRA.Core\\Enums\\Language.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-19T06:42:45.945Z",
               "EditorCaption": ""
@@ -170,8 +170,7 @@
               "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Core\\Resources\\ValidationMessages.resx",
               "RelativeToolTip": "SITRA.Core\\Resources\\ValidationMessages.resx",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001005|",
-              "WhenOpened": "2026-01-19T06:38:51.904Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-19T06:38:51.904Z"
             },
             {
               "$type": "Document",
@@ -315,8 +314,7 @@
               "RelativeToolTip": "SITRA.Core\\Mediator\\Queries\\Invoices\\SaleInvoices\\GetAllSaleInvoicesByDateRangeAndBillerQuery.cs",
               "ViewState": "AgIAAAkAAAAAAAAAAAAYwBIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-18T05:45:41.958Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-18T05:45:41.958Z"
             },
             {
               "$type": "Document",
@@ -412,8 +410,7 @@
               "RelativeToolTip": "SITRA.Core\\Mediator\\Handlers\\Auths\\LoginUserCommandHandler.cs",
               "ViewState": "AgIAABAAAAAAAAAAAAAgwBoAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-18T05:07:52.793Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-18T05:07:52.793Z"
             },
             {
               "$type": "Document",
