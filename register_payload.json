@@ -1,8 +1,9 @@
 {
-  "rucNumber": "11122233366",
-  "companyName": "LangTest3",
-  "address": "LangAddr3",
-  "phoneNumber": "9876543210",
-  "email": "lang3@test.com",
-  "password": "Password123!"
+  "email": "refactor_test@example.com",
+  "password": "Password123!",
+  "confirmPassword": "Password123!",
+  "firstName": "Refactor",
+  "lastName": "Test",
+  "secondName": "Unit",
+  "secondLastName": "Spec"
 }

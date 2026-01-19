@@ -12,16 +12,13 @@ namespace SITRA.Core.Mediator.Handlers.Auths
     {
         private readonly UserManager<User> _userManager;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly ILogger<ChangeLanguageCommandHandler> _logger;
 
         public ChangeLanguageCommandHandler(
             UserManager<User> userManager,
-            IHttpContextAccessor httpContextAccessor,
-            ILogger<ChangeLanguageCommandHandler> logger)
+            IHttpContextAccessor httpContextAccessor)
         {
             _userManager = userManager;
             _httpContextAccessor = httpContextAccessor;
-            _logger = logger;
         }
 
         public async Task<bool> Handle(ChangeLanguageCommand request, CancellationToken cancellationToken)
@@ -30,27 +27,19 @@ namespace SITRA.Core.Mediator.Handlers.Auths
 
             if (string.IsNullOrEmpty(userId))
             {
-                _logger.LogWarning("ChangeLanguage attempt without valid UserId in context.");
                 return false;
             }
 
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                _logger.LogWarning("User with ID {UserId} not found.", userId);
                 return false;
             }
 
             user.Language = request.Dto.Language;
             var result = await _userManager.UpdateAsync(user);
 
-            if (!result.Succeeded)
-            {
-                _logger.LogError("Failed to update language for user {UserId}: {Errors}", userId, string.Join(", ", result.Errors.Select(e => e.Description)));
-                return false;
-            }
-
-            return true;
+            return result.Succeeded;
         }
     }
 }
