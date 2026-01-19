@@ -19,7 +19,7 @@ namespace SITRA.Core.Validations
                     var user = await unitOfWork.UserService.GetUserAsync();
                     return user != null;
                 })
-                .WithMessage("No user authenticated found.")
+                .WithMessage(Utilities.UserNotAuthMessage)
                 .WithName("User");
 
             // Validate no other user has petty cash open
@@ -37,7 +37,7 @@ namespace SITRA.Core.Validations
                 .WithMessage((dto, context) =>
                 {
                     var otherOpenPettyCash = unitOfWork.PettyCashRepository.GetOpenPettyCashAsync().Result;
-                    return $"Petty cash is currently opened by {otherOpenPettyCash?.User?.Email}. Please wait until it is closed.";
+                    return string.Format(Utilities.PettyCashOwnedByMessage, otherOpenPettyCash?.User?.Email);
                 })
                 .WithName("PettyCash");
 
@@ -51,7 +51,7 @@ namespace SITRA.Core.Validations
                     var existingUserPettyCash = await unitOfWork.PettyCashRepository.GetOpenPettyCashByUserIdAsync(user.Id);
                     return existingUserPettyCash == null;
                 })
-                .WithMessage("You already have an open petty cash. Please close it before opening a new one.")
+                .WithMessage(Utilities.AlreadyOpenPettyCashMessage)
                 .WithName("UserPettyCash");
         }
     }

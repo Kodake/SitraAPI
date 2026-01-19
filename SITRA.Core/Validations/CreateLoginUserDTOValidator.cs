@@ -30,7 +30,7 @@ namespace SITRA.Core.Validations
                     var result = await _userManager.CheckPasswordAsync(user, dto.Password);
                     return result;
                 })
-                .WithMessage("Correo o contraseña inválidos.");
+                .WithMessage(Utilities.InvalidCredentialsMessage);
         }
     }
 }

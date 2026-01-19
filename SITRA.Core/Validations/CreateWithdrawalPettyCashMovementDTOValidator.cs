@@ -21,7 +21,7 @@ namespace SITRA.Core.Validations
                     var user = await unitOfWork.UserService.GetUserAsync();
                     return user != null;
                 })
-                .WithMessage("No user authenticated found.")
+                .WithMessage(Utilities.UserNotAuthMessage)
                 .WithName("User");
 
             // Validate no other user has petty cash open
@@ -51,7 +51,7 @@ namespace SITRA.Core.Validations
                 {
                     // Get the email from the repository for the error message
                     var otherOpenPettyCash = unitOfWork.PettyCashRepository.GetOpenPettyCashAsync().Result;
-                    return $"Petty cash is currently opened by {otherOpenPettyCash?.User?.Email}. Please wait until it is closed.";
+                    return string.Format(Utilities.PettyCashOwnedByMessage, otherOpenPettyCash?.User?.Email);
                 })
                 .WithName("PettyCash");
 
@@ -65,7 +65,7 @@ namespace SITRA.Core.Validations
                     var pettyCash = await unitOfWork.PettyCashRepository.GetOpenPettyCashByUserIdAsync(user.Id);
                     return pettyCash != null;
                 })
-                .WithMessage("You don't have an open petty cash. Please open one before making a withdrawal.")
+                .WithMessage(Utilities.NoOpenPettyCashMessage)
                 .WithName("UserPettyCash");
 
             // Validate withdrawal amount doesn't exceed available cash

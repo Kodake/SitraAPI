@@ -16,7 +16,7 @@ namespace SITRA.Core.Validations
 
             RuleFor(x => x.Password)
                 .NotEmpty().WithMessage(Utilities.RequiredFieldMessage)
-                .MinimumLength(6).WithMessage("La contraseña debe tener al menos 6 caracteres.");
+                .MinimumLength(6).WithMessage(Utilities.PasswordMinLengthMessage);
 
             RuleFor(x => x.Address)
                 .MinimumLength(2).WithMessage(Utilities.MinimunLengthMessage)

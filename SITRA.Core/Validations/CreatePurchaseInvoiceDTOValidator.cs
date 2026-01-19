@@ -34,7 +34,7 @@ namespace SITRA.Core.Validations
                             var product = await unitOfWork.ProductRepository.GetByIdAsync(itemId);
                             return product != null;
                         })
-                        .WithMessage("Product with id {PropertyValue} not found.");
+                        .WithMessage((dto, itemId) => string.Format(Utilities.ItemNotFoundMessage, "Product", itemId));
                 });
 
             // Stock existence validation for each product in the specified warehouse
@@ -51,7 +51,7 @@ namespace SITRA.Core.Validations
                     }
                     return true;
                 })
-                .WithMessage("One or more items do not have stock configured in the specified warehouse.")
+                .WithMessage(Utilities.StockNotConfiguredMessage)
                 .WithName("Stock");
         }
     }

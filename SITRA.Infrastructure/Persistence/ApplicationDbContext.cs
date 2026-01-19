@@ -139,6 +139,10 @@ namespace SITRA.Infrastructure.Persistence
             modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("AspNetRoleClaims", "identity");
             modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("AspNetUserLogins", "identity");
             modelBuilder.Entity<IdentityUserToken<string>>().ToTable("AspNetUserTokens", "identity");
+
+            modelBuilder.Entity<User>()
+                .Property(u => u.Language)
+                .HasConversion<string>();
         }
         #endregion
 

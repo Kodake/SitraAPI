@@ -3,6 +3,7 @@ using SITRA.Core.Interfaces;
 using SITRA.Core.Enums;
 using Microsoft.AspNetCore.Http;
 using FluentValidation;
+using SITRA.Core.Helpers;
 
 namespace SITRA.Core.Validations
 {
@@ -21,7 +22,7 @@ namespace SITRA.Core.Validations
                         if (transfer == null) return true;
                         return transfer.Status != TransferStatus.Cancelled && transfer.Status != TransferStatus.Received;
                     })
-                    .WithMessage("Cannot change the status of this transfer.")
+                    .WithMessage(Utilities.TransferStatusChangeErrorMessage)
                     .WithName("Status");
 
                 RuleFor(x => x)
@@ -42,16 +43,16 @@ namespace SITRA.Core.Validations
                     .WithMessage((dto) => {
                         var newStatus = httpContextAccessor.HttpContext.Request.Path.Value.Contains("received") 
                             ? "Destination" : "Origin";
-                        return $"{newStatus} stock not found.";
+                        return string.Format(Utilities.TransferStockNotFoundMessage, newStatus);
                     })
                     .WithName("Stock");
             }
 
             RuleFor(x => x.Id)
-                .GreaterThan(0).WithMessage("Transfer ID must be greater than 0.");
+                .GreaterThan(0).WithMessage(Utilities.TransferIdInvalidMessage);
 
             RuleFor(x => x.Comment)
-                .MaximumLength(500).WithMessage("Comment cannot exceed 500 characters.");
+                .MaximumLength(500).WithMessage(Utilities.CommentTooLongMessage);
         }
     }
 }

@@ -48,7 +48,7 @@ namespace SITRA.Core.Validations
                                     return false;
                             }
                         })
-                        .WithMessage(itemDTO => $"{itemDTO.ItemType} with id {itemDTO.ItemId} not found.");
+                        .WithMessage(itemDTO => string.Format(Utilities.ItemNotFoundMessage, itemDTO.ItemType, itemDTO.ItemId));
                 });
         }
     }

@@ -28,7 +28,7 @@ namespace SITRA.Core.Validations
                     var stockOrigin = await unitOfWork.StockRepository.GetByItemIdAndWarehouseId(dto.ProductId, dto.OriginWarehouseId);
                     return stockOrigin != null;
                 })
-                .WithMessage("Origin stock not found.")
+                .WithMessage(Utilities.OriginStockNotFoundMessage)
                 .WithName("OriginStock");
 
             // Validate sufficient stock quantity
@@ -40,7 +40,7 @@ namespace SITRA.Core.Validations
 
                     return stockOrigin.Qty >= dto.Qty;
                 })
-                .WithMessage("Insufficient stock quantity.")
+                .WithMessage(Utilities.InsufficientStockQuantityMessage)
                 .WithName("StockQuantity");
         }
     }

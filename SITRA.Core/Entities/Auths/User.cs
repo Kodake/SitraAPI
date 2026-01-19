@@ -1,4 +1,5 @@
 using SITRA.Core.Entities.Auths;
+using SITRA.Core.Enums;
 using Microsoft.AspNetCore.Identity;
 
 namespace SITRA.Core.Entities.Auths
@@ -9,6 +10,7 @@ namespace SITRA.Core.Entities.Auths
         public string RucNumber { get; set; } = null!;
         public string Address { get; set; } = null!;
         public Guid TenantId { get; set; }
+        public Language Language { get; set; } = Language.ES;
     }
 }
 

@@ -147,6 +147,19 @@ app.UseOutputCache();
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Localization Middleware
+app.Use(async (context, next) =>
+{
+    var languageClaim = context.User.FindFirst("language")?.Value;
+    if (!string.IsNullOrEmpty(languageClaim))
+    {
+        var culture = new System.Globalization.CultureInfo(languageClaim);
+        System.Globalization.CultureInfo.CurrentCulture = culture;
+        System.Globalization.CultureInfo.CurrentUICulture = culture;
+    }
+    await next();
+});
+
 app.MapApiRoutes();
 
 app.Run();

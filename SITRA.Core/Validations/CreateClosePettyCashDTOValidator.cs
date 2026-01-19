@@ -14,7 +14,7 @@ namespace SITRA.Core.Validations
                     var user = await unitOfWork.UserService.GetUserAsync();
                     return user != null;
                 })
-                .WithMessage("No authenticated user found.")
+                .WithMessage(Utilities.UserNotAuthMessage)
                 .WithName("User");
 
             RuleFor(x => x)
@@ -26,7 +26,7 @@ namespace SITRA.Core.Validations
                     var pettyCash = await unitOfWork.PettyCashRepository.GetOpenPettyCashByUserIdAsync(user.Id);
                     return pettyCash != null;
                 })
-                .WithMessage("You don't have an open petty cash.")
+                .WithMessage(Utilities.NoOpenPettyCashMessage)
                 .WithName("PettyCash");
 
             RuleFor(x => x.Comments)

@@ -1,36 +1,64 @@
 using SITRA.Core.Enums;
+using System.Globalization;
+using System.Resources;
+using System.Reflection;
 
 namespace SITRA.Core.Helpers
 {
     public class Utilities
     {
-        public static string RequiredFieldMessage = "El campo {PropertyName} es requerido";
-        public static string MinimunLengthMessage = "El campo {PropertyName} debe tener más de {MinLength} caracteres";
-        public static string MaximunLengthMessage = "El campo {PropertyName} debe tener menos de {MaxLength} caracteres";
-        public static string FirstCharUpperMessage = "El campo {PropertyName} debe comenzar con mayúsculas";
-        public static string EmailMessage = "El campo {PropertyName} debe ser un email válido";
-        public static string GreatherThanZero = "El campo {PropertyName} debe ser mayor a {0}";
-        public static string GreaterThanOrEqualToZero = "El campo {PropertyName} debe ser mayor o igual a {0}";
-        public static string NameAlreadyExistsWith = "Ya existe con el nombre {0}";
-        public static string CodeAlreadyExistsWith = "Ya existe con el código {0}";
-        public static string NotExistsWith = "No existe {PropertyName} con el valor {0}";
-        public static string InvalidEnumValueMessage = "El campo {PropertyName} tiene un valor inválido";
-        public static string RequiredFieldForConditionMessage = "El campo {PropertyName} es obligatorio cuando {0} es {1}";
-        public static string MaximumSupportsReachedMessage = "Maximum fiscal supports reached for this warehouse";
-        public static string IdNotExistMessage = "El Id {0} no existe. Favor, verifique y vuelva a intentarlo";
-        public static string ReceiptAlreadyPaidMessage = "El recibo asociado ya ha sido pagado. No se pueden realizar más pagos";
-        public static string WithdrawnAmountWontBeGreatherThanAvailableCash = "The withdrawn amount cannot be greater than the available cash";
-        public static string MinItemsRequired = "At least 2 itemIds are required";
-        public static string EachItemMustBeGreatherThanZero = "Each itemId must be greater than 0";
-        public static string RucFieldMessage = "RUC must contain exactly 9 or 11 digits";
-        public static string PhoneNumberFieldMessage = "Phone number must contain exactly 10 digits";
-        public static string AtLeastOneServiceToChose = "Debe seleccionar al menos un servicio";
-        public static string NotDuplicatesWith = "No se permiten {PropertyName} duplicados con el valor {0}";
-        public static string AppointmentAlreadyExist = "Ya existe una cita programada para esta fecha y hora";
+        private static readonly ResourceManager _resourceManager = new ResourceManager("SITRA.Core.Resources.ValidationMessages", Assembly.GetExecutingAssembly());
+
+        public static string RequiredFieldMessage => _resourceManager.GetString("RequiredFieldMessage")!;
+        public static string MinimunLengthMessage => _resourceManager.GetString("MinimunLengthMessage")!;
+        public static string MaximunLengthMessage => _resourceManager.GetString("MaximunLengthMessage")!;
+        public static string FirstCharUpperMessage => _resourceManager.GetString("FirstCharUpperMessage")!;
+        public static string EmailMessage => _resourceManager.GetString("EmailMessage")!;
+        public static string GreatherThanZero => _resourceManager.GetString("GreatherThanZero")!;
+        public static string GreaterThanOrEqualToZero => _resourceManager.GetString("GreaterThanOrEqualToZero")!;
+        public static string NameAlreadyExistsWith => _resourceManager.GetString("NameAlreadyExistsWith")!;
+        public static string CodeAlreadyExistsWith => _resourceManager.GetString("CodeAlreadyExistsWith")!;
+        public static string NotExistsWith => _resourceManager.GetString("NotExistsWith")!;
+        public static string InvalidEnumValueMessage => _resourceManager.GetString("InvalidEnumValueMessage")!;
+        public static string RequiredFieldForConditionMessage => _resourceManager.GetString("RequiredFieldForConditionMessage")!;
+        public static string MaximumSupportsReachedMessage => _resourceManager.GetString("MaximumSupportsReachedMessage")!;
+        public static string IdNotExistMessage => _resourceManager.GetString("IdNotExistMessage")!;
+        public static string ReceiptAlreadyPaidMessage => _resourceManager.GetString("ReceiptAlreadyPaidMessage")!;
+        public static string WithdrawnAmountWontBeGreatherThanAvailableCash => _resourceManager.GetString("WithdrawnAmountWontBeGreatherThanAvailableCash")!;
+        public static string MinItemsRequired => _resourceManager.GetString("MinItemsRequired")!;
+        public static string EachItemMustBeGreatherThanZero => _resourceManager.GetString("EachItemMustBeGreatherThanZero")!;
+        public static string RucFieldMessage => _resourceManager.GetString("RucFieldMessage")!;
+        public static string PhoneNumberFieldMessage => _resourceManager.GetString("PhoneNumberFieldMessage")!;
+        public static string AtLeastOneServiceToChose => _resourceManager.GetString("AtLeastOneServiceToChose")!;
+        public static string NotDuplicatesWith => _resourceManager.GetString("NotDuplicatesWith")!;
+        public static string AppointmentAlreadyExist => _resourceManager.GetString("AppointmentAlreadyExist")!;
+        public static string InvalidCredentialsMessage => _resourceManager.GetString("InvalidCredentialsMessage")!;
+        public static string PasswordMinLengthMessage => _resourceManager.GetString("PasswordMinLengthMessage")!;
+        public static string UserNotAuthMessage => _resourceManager.GetString("UserNotAuthMessage")!;
+        public static string PettyCashRequiredMessage => _resourceManager.GetString("PettyCashRequiredMessage")!;
+        public static string PettyCashOwnedByMessage => _resourceManager.GetString("PettyCashOwnedByMessage")!;
+        public static string CurrencyNotFoundMessage => _resourceManager.GetString("CurrencyNotFoundMessage")!;
+        public static string FiscalSupportNotFoundMessage => _resourceManager.GetString("FiscalSupportNotFoundMessage")!;
+        public static string ItemNotFoundMessage => _resourceManager.GetString("ItemNotFoundMessage")!;
+        public static string StockNotConfiguredMessage => _resourceManager.GetString("StockNotConfiguredMessage")!;
+        public static string QuotationNotFoundMessage => _resourceManager.GetString("QuotationNotFoundMessage")!;
+        public static string NoOpenPettyCashMessage => _resourceManager.GetString("NoOpenPettyCashMessage")!;
+        public static string AlreadyOpenPettyCashMessage => _resourceManager.GetString("AlreadyOpenPettyCashMessage")!;
+        public static string DuplicateServicesMessage => _resourceManager.GetString("DuplicateServicesMessage")!;
+        public static string WarehouseNotFoundMessage => _resourceManager.GetString("WarehouseNotFoundMessage")!;
+        public static string OriginStockNotFoundMessage => _resourceManager.GetString("OriginStockNotFoundMessage")!;
+        public static string InsufficientStockQuantityMessage => _resourceManager.GetString("InsufficientStockQuantityMessage")!;
+        public static string TransferStatusChangeErrorMessage => _resourceManager.GetString("TransferStatusChangeErrorMessage")!;
+        public static string TransferStockNotFoundMessage => _resourceManager.GetString("TransferStockNotFoundMessage")!;
+        public static string TransferIdInvalidMessage => _resourceManager.GetString("TransferIdInvalidMessage")!;
+        public static string CommentTooLongMessage => _resourceManager.GetString("CommentTooLongMessage")!;
+        public static string OneOrMoreServicesInvalidMessage => _resourceManager.GetString("OneOrMoreServicesInvalidMessage")!;
+        public static string ContactNotFoundOrInvalidMessage => _resourceManager.GetString("ContactNotFoundOrInvalidMessage")!;
 
         public static string GreaterThanOrEqualToMensaje(DateTime minDate)
         {
-            return "El campo {PropertyName} debe ser posterior a " + minDate.ToString("yyyy-MM-dd");
+            var message = _resourceManager.GetString("GreaterThanOrEqualToMensaje");
+            return string.Format(message!, minDate.ToString("yyyy-MM-dd"));
         }
 
         public static bool FirstCharUppercase(string valor)
@@ -47,7 +75,8 @@ namespace SITRA.Core.Helpers
 
         public static string MaxLengthMessage(int maxLength)
         {
-            return $"El campo {{PropertyName}} debe tener menos de {maxLength} caracteres";
+            var message = _resourceManager.GetString("MaximunLengthMessage");
+            return message!.Replace("{MaxLength}", maxLength.ToString());
         }
 
         public class InvoiceItemCalculator
@@ -70,7 +99,8 @@ namespace SITRA.Core.Helpers
 
         public static string FiscalSupportAlreadyExistsMessage(FiscalSupportType supportType, long warehouseId)
         {
-            return $"Ya existe un comprobante del tipo {supportType} para el almacén {warehouseId}";
+            var message = _resourceManager.GetString("FiscalSupportAlreadyExistsMessage");
+            return string.Format(message!, supportType, warehouseId);
         }
     }
 }

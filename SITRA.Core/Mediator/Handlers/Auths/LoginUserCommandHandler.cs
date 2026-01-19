@@ -65,7 +65,8 @@ namespace SITRA.Core.Mediator.Handlers.Auths
                 new Claim(JwtRegisteredClaimNames.Email, user.Email!),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim("userName", user.UserName!),
-                new Claim("tenantId", user.TenantId.ToString()) // Useful for multi-tenancy
+                new Claim("tenantId", user.TenantId.ToString()), // Useful for multi-tenancy
+                new Claim("language", user.Language.ToString())
             };
 
             var roles = await _userManager.GetRolesAsync(user);

@@ -19,7 +19,7 @@ namespace SITRA.Core.Validations
                     var user = await unitOfWork.UserService.GetUserAsync();
                     return user != null;
                 })
-                .WithMessage("No user authenticated found.")
+                .WithMessage(Utilities.UserNotAuthMessage)
                 .WithName("User");
 
             // Petty cash existence validation
@@ -29,7 +29,7 @@ namespace SITRA.Core.Validations
                     var pettyCash = await unitOfWork.PettyCashRepository.GetOpenPettyCashAsync();
                     return pettyCash != null;
                 })
-                .WithMessage("You need an opened petty cash to proceed.")
+                .WithMessage(Utilities.PettyCashRequiredMessage)
                 .WithName("PettyCash");
 
             // Petty cash ownership validation
@@ -47,7 +47,7 @@ namespace SITRA.Core.Validations
                 .WithMessage((dto, context) =>
                 {
                     var pettyCash = unitOfWork.PettyCashRepository.GetOpenPettyCashAsync().Result;
-                    return $"Cannot create invoice. The petty cash is currently opened by {pettyCash?.User?.Email}. Please wait until it is closed.";
+                    return string.Format(Utilities.PettyCashOwnedByMessage, pettyCash?.User?.Email);
                 })
                 .WithName("PettyCashOwnership");
 
@@ -58,7 +58,7 @@ namespace SITRA.Core.Validations
                     var currency = await unitOfWork.CurrencyRepository.GetByIdAsync(id);
                     return currency != null;
                 })
-                .WithMessage((dto, id) => $"Currency with id {id} not found.");
+                .WithMessage((dto, id) => string.Format(Utilities.CurrencyNotFoundMessage, id));
 
             // Fiscal support existence validation
             RuleFor(x => x.FiscalSupportId)
@@ -69,7 +69,7 @@ namespace SITRA.Core.Validations
                     var fiscalSupport = await unitOfWork.FiscalSupportRepository.GetByIdAsync(id.Value);
                     return fiscalSupport != null;
                 })
-                .WithMessage("Fiscal support not found.")
+                .WithMessage(Utilities.FiscalSupportNotFoundMessage)
                 .When(x => x.FiscalSupportId.HasValue);
 
             // Invoice items validation - each item must exist
@@ -94,7 +94,7 @@ namespace SITRA.Core.Validations
                                     return false;
                             }
                         })
-                        .WithMessage(itemDTO => $"{itemDTO.ItemType} with id {itemDTO.ItemId} not found.");
+                        .WithMessage(itemDTO => string.Format(Utilities.ItemNotFoundMessage, itemDTO.ItemType, itemDTO.ItemId));
                 });
 
             // Stock existence validation for each item in the specified warehouse
@@ -123,7 +123,7 @@ namespace SITRA.Core.Validations
                     }
                     return true;
                 })
-                .WithMessage("One or more items do not have stock configured in the specified warehouse.")
+                .WithMessage(Utilities.StockNotConfiguredMessage)
                 .WithName("Stock");
 
             // Existing validations
@@ -166,7 +166,7 @@ namespace SITRA.Core.Validations
                     }
                     return true;
                 })
-                .WithMessage("Quotation not found.")
+                .WithMessage(Utilities.QuotationNotFoundMessage)
                 .WithName("QuotationId");
         }
 

@@ -34,7 +34,7 @@ namespace SITRA.Core.Validations
                     var warehouse = await unitOfWork.WarehouseRepository.GetByIdAsync(warehouseId.Value);
                     return warehouse != null;
                 })
-                .WithMessage("Warehouse with ID {PropertyValue} not found.")
+                .WithMessage((dto, warehouseId) => string.Format(Utilities.WarehouseNotFoundMessage, warehouseId))
                 .When(x => x.WarehouseId.HasValue);
         }
     }
