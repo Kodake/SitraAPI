@@ -3654,6 +3654,35 @@
   },
   {
     "ContainingType": "SITRA.API.Endpoints.Invoices.SaleInvoicesEndpoints",
+    "Method": "GetAllWithBalance",
+    "RelativePath": "api/v1/saleInvoices/sales-with-balance",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "from",
+        "Type": "System.DateTime",
+        "IsRequired": true
+      },
+      {
+        "Name": "to",
+        "Type": "System.DateTime",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SITRA.Core.DTOs.Invoices.SaleInvoices.SaleInvoiceWithBalanceDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.Invoices.SaleInvoicesEndpoints",
     "Method": "GetBalance",
     "RelativePath": "api/v1/saleInvoices/summary",
     "HttpMethod": "GET",

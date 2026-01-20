@@ -4449,6 +4449,61 @@
         }
       }
     },
+    "/api/v1/saleInvoices/sales-with-balance": {
+      "get": {
+        "tags": [
+          "SaleInvoicesEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "recordsPerPage",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SaleInvoiceWithBalanceDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/saleInvoices/sales-report": {
       "get": {
         "tags": [
@@ -10288,6 +10343,22 @@
             "type": "string",
             "format": "date-time",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SaleInvoiceWithBalanceDTO": {
+        "type": "object",
+        "properties": {
+          "invoices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SaleInvoiceListDTO"
+            },
+            "nullable": true
+          },
+          "balance": {
+            "$ref": "#/components/schemas/BalanceSummaryDTO"
           }
         },
         "additionalProperties": false
