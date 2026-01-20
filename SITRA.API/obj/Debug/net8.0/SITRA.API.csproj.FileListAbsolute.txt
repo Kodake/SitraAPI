@@ -229,3 +229,4 @@ C:\Users\Kodake\Desktop\PosAPI\SITRA.API\obj\Debug\net8.0\SITRA.API.pdb
 C:\Users\Kodake\Desktop\PosAPI\SITRA.API\obj\Debug\net8.0\SITRA.API.genruntimeconfig.cache
 C:\Users\Kodake\Desktop\PosAPI\SITRA.API\obj\Debug\net8.0\ref\SITRA.API.dll
 C:\Users\Kodake\Desktop\PosAPI\SITRA.API\bin\Debug\net8.0\es\SITRA.Core.resources.dll
+C:\Users\Kodake\Desktop\PosAPI\SITRA.API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

@@ -10,7 +10,7 @@ namespace SITRA.Core.Mediator.Queries.Invoices.SaleInvoices
         public DateTimeOffset From { get; }
         public DateTimeOffset To { get; }
 
-        public GetSaleInvoicesBalanceQuery(DateTimeOffset from, DateTimeOffset to)
+        public GetSaleInvoicesBalanceQuery(DateTime from, DateTime to)
         {
             From = from;
             To = to;

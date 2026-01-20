@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SITRA.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f0ca56e6a9133127b815163bd5ad6fa7002ee0af")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f6fdb7d4744120906000c392c2aed6981a01f4ba")]
 [assembly: System.Reflection.AssemblyProductAttribute("SITRA.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SITRA.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

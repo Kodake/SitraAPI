@@ -3662,12 +3662,12 @@
     "Parameters": [
       {
         "Name": "from",
-        "Type": "System.DateTimeOffset",
+        "Type": "System.DateTime",
         "IsRequired": true
       },
       {
         "Name": "to",
-        "Type": "System.DateTimeOffset",
+        "Type": "System.DateTime",
         "IsRequired": true
       }
     ],

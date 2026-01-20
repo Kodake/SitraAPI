@@ -131,6 +131,8 @@ namespace SITRA.Infrastructure.Repositories.Invoices
 
         public async Task<BalanceSummaryDTO> GetBalanceAsync(DateTimeOffset from, DateTimeOffset to)
         {
+            to = to.Date.AddDays(1).AddTicks(-1);
+
             var expenses = await context.Expenses
                 .Where(x => x.Date >= from && x.Date <= to && x.IsActive)
                 .SumAsync(x => x.Amount);

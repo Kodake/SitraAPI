@@ -31,8 +31,8 @@ namespace SITRA.API.Endpoints.Invoices
 
         static async Task<Ok<BalanceSummaryDTO>> GetBalance(
             [FromServices] IMediator mediator,
-            DateTimeOffset from,
-            DateTimeOffset to)
+            DateTime from,
+            DateTime to)
         {
             var query = new GetSaleInvoicesBalanceQuery(from, to);
             var result = await mediator.Send(query);
