@@ -12,8 +12,11 @@ using SITRA.Infrastructure.Persistence;
 using SITRA.Infrastructure.Repositories;
 using SITRA.Core.Interfaces;
 using SITRA.Infrastructure.Services;
+using Microsoft.AspNetCore.RateLimiting;
 using Serilog;
 using System.Text;
+using System.Threading.RateLimiting;
+using SITRA.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -101,6 +104,9 @@ builder.Services.AddScoped<ICurrentTenantService, CurrentTenantService>();
 builder.Services.AddExceptionHandler<SITRA.API.ExceptionHandlers.GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 
+// Rate Limiter
+builder.Services.AddRateLimiterConfig(builder.Configuration);
+
 // CORS
 builder.Services.AddCors(options =>
 {
@@ -152,6 +158,7 @@ app.UseCors("AllowAll");
 app.UseOutputCache();
 
 app.UseMiddleware<SITRA.API.Middlewares.IpBlockingMiddleware>();
+app.UseRateLimiter();
 
 app.UseAuthentication();
 app.UseAuthorization();

@@ -7,7 +7,7 @@ public static class ApiRouteExtensions
 {
     public static IEndpointRouteBuilder MapApiRoutes(this IEndpointRouteBuilder endpoints)
     {
-        var apiGroup = endpoints.MapGroup("/api/v1");
+        var apiGroup = endpoints.MapGroup("/api/v1").RequireRateLimiting("fixed");
 
         apiGroup.MapGroup("/identity").MapAuths();
         apiGroup.MapGroup("/dashboards").MapDashboards();

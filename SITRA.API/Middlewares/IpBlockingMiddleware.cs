@@ -16,8 +16,8 @@ namespace SITRA.API.Middlewares
             _next = next;
             _cache = cache;
             _logger = logger;
-            _maxFailedAttempts = configuration.GetValue<int>("IpBlocking:MaxFailedAttempts", 10);
-            _blockDurationMinutes = configuration.GetValue<int>("IpBlocking:BlockDurationMinutes", 20);
+            _maxFailedAttempts = configuration.GetValue<int>("IpBlocking:MaxFailedAttempts", 5);
+            _blockDurationMinutes = configuration.GetValue<int>("IpBlocking:BlockDurationMinutes", 1);
         }
 
         public async Task InvokeAsync(HttpContext context)
@@ -46,7 +46,7 @@ namespace SITRA.API.Middlewares
                 var attemptsKey = $"ATTEMPTS_{ipAddress}";
                 var attempts = _cache.GetOrCreate(attemptsKey, entry =>
                 {
-                    entry.SlidingExpiration = TimeSpan.FromMinutes(10); // Reset count if no activity for 10 mins
+                    entry.SlidingExpiration = TimeSpan.FromMinutes(1); // Reset count if no activity for 10 mins
                     return 0;
                 });
 
