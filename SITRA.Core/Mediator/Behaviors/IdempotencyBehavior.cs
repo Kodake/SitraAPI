@@ -40,19 +40,8 @@ namespace SITRA.Core.Mediator.Behaviors
             }
 
             // Check if key exists
-            var existingRequest = await _unitOfWork.Repository<IdempotentRequest>().GetByIdAsync(key.GetHashCode()); 
-            // NOTE: GetByIdAsync usually expects 'long', but our IdempotentRequest might use Guid. 
-            // Logic needs to adapt if RepositoryBase expects 'long'. 
-            // Assuming I might need to query specifically by Guid if Generic Repo is inflexible.
-            
-            // Let's assume for a moment we can use a custom check since Generic might be tied to long.
-            // But wait, the RepositoryBase.GetByIdAsync takes 'long'. The Idempotency Key is Guid (standard).
-            // This is a mismatch. I should query directly using the DBContext or add a method to Repo.
-            // Since I only have IUnitOfWork and generic Repo, I might need to rely on 'GetAllAsync' with filter or inject DbContext?
-            // Wait, I can use GetAllAsync(expression).
-
             var existingRequests = await _unitOfWork.Repository<IdempotentRequest>().GetAllAsync(r => r.Id == key);
-            existingRequest = existingRequests.FirstOrDefault();
+            var existingRequest = existingRequests.FirstOrDefault();
 
             if (existingRequest != null)
             {

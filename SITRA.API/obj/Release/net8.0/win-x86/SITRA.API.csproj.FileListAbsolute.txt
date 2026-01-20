@@ -515,3 +515,4 @@ C:\Users\Kodake\Desktop\PosAPI\SITRA.API\obj\Release\net8.0\win-x86\SITRA.API.pd
 C:\Users\Kodake\Desktop\PosAPI\SITRA.API\obj\Release\net8.0\win-x86\SITRA.API.genruntimeconfig.cache
 C:\Users\Kodake\Desktop\PosAPI\SITRA.API\obj\Release\net8.0\win-x86\ref\SITRA.API.dll
 C:\Users\Kodake\Desktop\PosAPI\SITRA.API\bin\Release\net8.0\win-x86\SITRA.Core.staticwebassets.endpoints.json
+C:\Users\Kodake\Desktop\PosAPI\SITRA.API\bin\Release\net8.0\win-x86\es\SITRA.Core.resources.dll

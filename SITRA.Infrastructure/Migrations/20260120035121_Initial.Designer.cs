@@ -12,8 +12,8 @@ using SITRA.Infrastructure.Persistence;
 namespace SITRA.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260120015855_AddTenantPlan")]
-    partial class AddTenantPlan
+    [Migration("20260120035121_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -407,6 +407,30 @@ namespace SITRA.Infrastructure.Migrations
                     b.HasIndex("WarehouseId");
 
                     b.ToTable("FiscalSupports");
+                });
+
+            modelBuilder.Entity("SITRA.Core.Entities.AdministrativeTools.IdempotentRequest", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ResponseBody")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ResponseStatusCode")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("IdempotentRequests");
                 });
 
             modelBuilder.Entity("SITRA.Core.Entities.Appointments.Appointment", b =>

@@ -7,6 +7,7 @@ using SITRA.Core.DTOs;
 using SITRA.Core.DTOs.Auths;
 using SITRA.Core.Mediator.Commands.Auths;
 using SITRA.Core.Mediator.Queries.Auths;
+using SITRA.API.Attributes;
 
 namespace SITRA.API.Endpoints
 {
@@ -29,6 +30,7 @@ namespace SITRA.API.Endpoints
             return group;
         }
 
+        [Idempotent]
         static async Task<Results<Created, BadRequest<IEnumerable<IdentityError>>, ValidationProblem>> Register(
             [FromBody] CreateRegistrationUserDTO dto,
             [FromServices] IMediator mediator)

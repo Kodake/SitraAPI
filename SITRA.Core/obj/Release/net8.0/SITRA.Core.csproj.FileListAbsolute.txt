@@ -41,3 +41,8 @@ C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Release\net8.0\staticwebassets.bui
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Release\net8.0\staticwebassets.development.json
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Release\net8.0\staticwebassets.build.endpoints.json
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Release\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\bin\Release\net8.0\es\SITRA.Core.resources.dll
+C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Release\net8.0\SITRA.Core.Resources.ValidationMessages.resources
+C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Release\net8.0\SITRA.Core.Resources.ValidationMessages.es.resources
+C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Release\net8.0\SITRA.Core.csproj.GenerateResource.cache
+C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Release\net8.0\es\SITRA.Core.resources.dll

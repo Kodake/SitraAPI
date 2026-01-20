@@ -20,6 +20,11 @@
         },
         "runtime": {
           "SITRA.Core.dll": {}
+        },
+        "resources": {
+          "es/SITRA.Core.resources.dll": {
+            "locale": "es"
+          }
         }
       },
       "AutoMapper/13.0.1": {

@@ -45,4 +45,4 @@ C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Debug\net8.0\SITRA.Core.Resources.
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Debug\net8.0\SITRA.Core.Resources.ValidationMessages.es.resources
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Debug\net8.0\SITRA.Core.csproj.GenerateResource.cache
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Debug\net8.0\es\SITRA.Core.resources.dll
-C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Debug\net8.0\es\SITRA.Core.resources.cs
+C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

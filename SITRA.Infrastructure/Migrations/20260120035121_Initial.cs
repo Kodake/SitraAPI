@@ -39,6 +39,7 @@ namespace SITRA.Infrastructure.Migrations
                     RucNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Language = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -178,6 +179,21 @@ namespace SITRA.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "IdempotentRequests",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ResponseStatusCode = table.Column<int>(type: "int", nullable: false),
+                    ResponseBody = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_IdempotentRequests", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Items",
                 columns: table => new
                 {
@@ -233,6 +249,19 @@ namespace SITRA.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Taxes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tenants",
+                columns: table => new
+                {
+                    TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Plan = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tenants", x => x.TenantId);
                 });
 
             migrationBuilder.CreateTable(
@@ -1602,6 +1631,9 @@ namespace SITRA.Infrastructure.Migrations
                 name: "Expenses");
 
             migrationBuilder.DropTable(
+                name: "IdempotentRequests");
+
+            migrationBuilder.DropTable(
                 name: "InvoiceBillers");
 
             migrationBuilder.DropTable(
@@ -1648,6 +1680,9 @@ namespace SITRA.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "SpotPayables");
+
+            migrationBuilder.DropTable(
+                name: "Tenants");
 
             migrationBuilder.DropTable(
                 name: "Transfers");

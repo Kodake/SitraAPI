@@ -1136,6 +1136,11 @@
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
           }
+        },
+        "resources": {
+          "es/SITRA.Core.resources.dll": {
+            "locale": "es"
+          }
         }
       }
     }

@@ -3,16 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\Kodake\\Desktop\\PosAPI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Infrastructure\\Migrations\\20260120023100_AddedTenants.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:SITRA.Infrastructure\\Migrations\\20260120023100_AddedTenants.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{80AD3C08-CD53-444A-BBC6-3A4FCD9600F9}|SITRA.API\\SITRA.API.csproj|c:\\users\\kodake\\desktop\\posapi\\sitra.api\\endpoints\\auths\\authsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{80AD3C08-CD53-444A-BBC6-3A4FCD9600F9}|SITRA.API\\SITRA.API.csproj|solutionrelative:sitra.api\\endpoints\\auths\\authsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{80AD3C08-CD53-444A-BBC6-3A4FCD9600F9}|SITRA.API\\SITRA.API.csproj|c:\\users\\kodake\\desktop\\posapi\\sitra.api\\filters\\validationfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{80AD3C08-CD53-444A-BBC6-3A4FCD9600F9}|SITRA.API\\SITRA.API.csproj|solutionrelative:sitra.api\\filters\\validationfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{80AD3C08-CD53-444A-BBC6-3A4FCD9600F9}|SITRA.API\\SITRA.API.csproj|c:\\users\\kodake\\desktop\\posapi\\sitra.api\\filters\\idempotencyoperationfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{80AD3C08-CD53-444A-BBC6-3A4FCD9600F9}|SITRA.API\\SITRA.API.csproj|solutionrelative:sitra.api\\filters\\idempotencyoperationfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CDDBE765-C437-40CB-88E5-D34CD88A1353}|SITRA.Infrastructure\\SITRA.Infrastructure.csproj|c:\\users\\kodake\\desktop\\posapi\\sitra.infrastructure\\migrations\\20260120035121_initial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CDDBE765-C437-40CB-88E5-D34CD88A1353}|SITRA.Infrastructure\\SITRA.Infrastructure.csproj|solutionrelative:sitra.infrastructure\\migrations\\20260120035121_initial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A236490C-3D9D-4ED9-A2FF-8A31C3D2BCD6}|SITRA.Core\\SITRA.Core.csproj|c:\\users\\kodake\\desktop\\posapi\\sitra.core\\dtos\\auths\\createregistrationuserdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A236490C-3D9D-4ED9-A2FF-8A31C3D2BCD6}|SITRA.Core\\SITRA.Core.csproj|solutionrelative:sitra.core\\dtos\\auths\\createregistrationuserdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{80AD3C08-CD53-444A-BBC6-3A4FCD9600F9}|SITRA.API\\SITRA.API.csproj|c:\\users\\kodake\\desktop\\posapi\\sitra.api\\endpoints\\auths\\authsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{80AD3C08-CD53-444A-BBC6-3A4FCD9600F9}|SITRA.API\\SITRA.API.csproj|solutionrelative:sitra.api\\endpoints\\auths\\authsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{80AD3C08-CD53-444A-BBC6-3A4FCD9600F9}|SITRA.API\\SITRA.API.csproj|c:\\users\\kodake\\desktop\\posapi\\sitra.api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
@@ -38,7 +46,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 297,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Bookmark",
@@ -62,20 +70,43 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "20260120023100_AddedTenants.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Infrastructure\\Migrations\\20260120023100_AddedTenants.cs",
-              "RelativeDocumentMoniker": "SITRA.Infrastructure\\Migrations\\20260120023100_AddedTenants.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Infrastructure\\Migrations\\20260120023100_AddedTenants.cs",
-              "RelativeToolTip": "SITRA.Infrastructure\\Migrations\\20260120023100_AddedTenants.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAABHAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "IdempotencyOperationFilter.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.API\\Filters\\IdempotencyOperationFilter.cs",
+              "RelativeDocumentMoniker": "SITRA.API\\Filters\\IdempotencyOperationFilter.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.API\\Filters\\IdempotencyOperationFilter.cs",
+              "RelativeToolTip": "SITRA.API\\Filters\\IdempotencyOperationFilter.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABoAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-20T02:31:00.478Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-20T04:04:28.671Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "ValidationFilter.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.API\\Filters\\ValidationFilter.cs",
+              "RelativeDocumentMoniker": "SITRA.API\\Filters\\ValidationFilter.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.API\\Filters\\ValidationFilter.cs",
+              "RelativeToolTip": "SITRA.API\\Filters\\ValidationFilter.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAmwBwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-20T04:04:26.91Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "20260120035121_Initial.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Infrastructure\\Migrations\\20260120035121_Initial.cs",
+              "RelativeDocumentMoniker": "SITRA.Infrastructure\\Migrations\\20260120035121_Initial.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Infrastructure\\Migrations\\20260120035121_Initial.cs",
+              "RelativeToolTip": "SITRA.Infrastructure\\Migrations\\20260120035121_Initial.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAABiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-20T03:51:21.307Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "CreateRegistrationUserDTO.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Core\\DTOs\\Auths\\CreateRegistrationUserDTO.cs",
               "RelativeDocumentMoniker": "SITRA.Core\\DTOs\\Auths\\CreateRegistrationUserDTO.cs",
@@ -83,25 +114,24 @@
               "RelativeToolTip": "SITRA.Core\\DTOs\\Auths\\CreateRegistrationUserDTO.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-20T02:21:51.393Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-20T02:21:51.393Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "AuthsEndpoints.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.API\\Endpoints\\Auths\\AuthsEndpoints.cs",
               "RelativeDocumentMoniker": "SITRA.API\\Endpoints\\Auths\\AuthsEndpoints.cs",
               "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.API\\Endpoints\\Auths\\AuthsEndpoints.cs",
               "RelativeToolTip": "SITRA.API\\Endpoints\\Auths\\AuthsEndpoints.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAQwCMAAAAuAAAAAAAAAA==",
+              "ViewState": "AgIAABwAAAAAAAAAAAAgwCUAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-20T02:21:44.958Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "appsettings.Development.json",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.API\\appsettings.Development.json",
               "RelativeDocumentMoniker": "SITRA.API\\appsettings.Development.json",
@@ -109,12 +139,11 @@
               "RelativeToolTip": "SITRA.API\\appsettings.Development.json",
               "ViewState": "AgIAABgAAAAAAAAAAAAAACUAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-01-20T01:48:26.342Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-20T01:48:26.342Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.API\\appsettings.json",
               "RelativeDocumentMoniker": "SITRA.API\\appsettings.json",
@@ -126,7 +155,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.API\\Program.cs",
               "RelativeDocumentMoniker": "SITRA.API\\Program.cs",
@@ -138,7 +167,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "RateLimiterExtensions.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.API\\Extensions\\RateLimiterExtensions.cs",
               "RelativeDocumentMoniker": "SITRA.API\\Extensions\\RateLimiterExtensions.cs",

@@ -212,6 +212,18 @@
         "tags": [
           "AuthsEndpoints"
         ],
+        "parameters": [
+          {
+            "name": "X-Idempotency-Key",
+            "in": "header",
+            "description": "Unique key to ensure idempotency of the operation.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -2610,6 +2622,16 @@
               "type": "integer",
               "format": "int64"
             }
+          },
+          {
+            "name": "X-Idempotency-Key",
+            "in": "header",
+            "description": "Unique key to ensure idempotency of the operation.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
           }
         ],
         "requestBody": {
@@ -2664,6 +2686,16 @@
             "schema": {
               "type": "integer",
               "format": "int64"
+            }
+          },
+          {
+            "name": "X-Idempotency-Key",
+            "in": "header",
+            "description": "Unique key to ensure idempotency of the operation.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -3614,6 +3646,18 @@
         "tags": [
           "PurchaseInvoicesEndpoints"
         ],
+        "parameters": [
+          {
+            "name": "X-Idempotency-Key",
+            "in": "header",
+            "description": "Unique key to ensure idempotency of the operation.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -3833,6 +3877,18 @@
         "tags": [
           "QuotationsEndpoints"
         ],
+        "parameters": [
+          {
+            "name": "X-Idempotency-Key",
+            "in": "header",
+            "description": "Unique key to ensure idempotency of the operation.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -3908,6 +3964,16 @@
               "type": "integer",
               "format": "int64"
             }
+          },
+          {
+            "name": "X-Idempotency-Key",
+            "in": "header",
+            "description": "Unique key to ensure idempotency of the operation.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
           }
         ],
         "requestBody": {
@@ -3953,6 +4019,16 @@
             "schema": {
               "type": "integer",
               "format": "int64"
+            }
+          },
+          {
+            "name": "X-Idempotency-Key",
+            "in": "header",
+            "description": "Unique key to ensure idempotency of the operation.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -4136,6 +4212,16 @@
               "type": "integer",
               "format": "int64"
             }
+          },
+          {
+            "name": "X-Idempotency-Key",
+            "in": "header",
+            "description": "Unique key to ensure idempotency of the operation.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
           }
         ],
         "requestBody": {
@@ -4191,6 +4277,16 @@
               "type": "integer",
               "format": "int64"
             }
+          },
+          {
+            "name": "X-Idempotency-Key",
+            "in": "header",
+            "description": "Unique key to ensure idempotency of the operation.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
           }
         ],
         "responses": {
@@ -4245,6 +4341,18 @@
       "post": {
         "tags": [
           "SaleInvoicesEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "X-Idempotency-Key",
+            "in": "header",
+            "description": "Unique key to ensure idempotency of the operation.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
         ],
         "requestBody": {
           "content": {
@@ -5725,6 +5833,16 @@
               "type": "integer",
               "format": "int64"
             }
+          },
+          {
+            "name": "X-Idempotency-Key",
+            "in": "header",
+            "description": "Unique key to ensure idempotency of the operation.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
           }
         ],
         "requestBody": {
@@ -5770,6 +5888,16 @@
             "schema": {
               "type": "integer",
               "format": "int64"
+            }
+          },
+          {
+            "name": "X-Idempotency-Key",
+            "in": "header",
+            "description": "Unique key to ensure idempotency of the operation.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
