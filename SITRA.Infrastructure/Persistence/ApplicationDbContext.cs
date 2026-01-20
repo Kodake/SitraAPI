@@ -17,6 +17,7 @@ using SITRA.Core.Entities.Contacts;
 using SITRA.Core.Entities.Finances;
 using SITRA.Core.Entities.Invoices;
 using SITRA.Core.Entities.Products;
+using SITRA.Core.Entities.Tenants;
 using SITRA.Core.Entities.Warehouses;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -148,6 +149,7 @@ namespace SITRA.Infrastructure.Persistence
 
         #region DbSets
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Tenant> Tenants { get; set; }
         public DbSet<SubCategory> SubCategories { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Model> Models { get; set; }

@@ -36,6 +36,9 @@ namespace SITRA.Core.Validations
                 .NotEmpty().WithMessage(Utilities.RequiredFieldMessage)
                 .Matches(@"^\d{9}(\d{2})?$")
                 .WithMessage(Utilities.RucFieldMessage);
+
+            RuleFor(x => x.Plan)
+                .IsInEnum().WithMessage("Invalid Plan Type.");
         }
     }
 }

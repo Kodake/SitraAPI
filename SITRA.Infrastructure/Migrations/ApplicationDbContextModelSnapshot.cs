@@ -1641,6 +1641,24 @@ namespace SITRA.Infrastructure.Migrations
                     b.ToTable("Units");
                 });
 
+            modelBuilder.Entity("SITRA.Core.Entities.Tenants.Tenant", b =>
+                {
+                    b.Property<Guid>("TenantId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Plan")
+                        .HasColumnType("int");
+
+                    b.HasKey("TenantId");
+
+                    b.ToTable("Tenants");
+                });
+
             modelBuilder.Entity("SITRA.Core.Entities.Warehouses.Stock", b =>
                 {
                     b.Property<long>("Id")

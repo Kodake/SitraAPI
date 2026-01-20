@@ -158,10 +158,10 @@ app.UseCors("AllowAll");
 app.UseOutputCache();
 
 app.UseMiddleware<SITRA.API.Middlewares.IpBlockingMiddleware>();
-app.UseRateLimiter();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseRateLimiter();
 
 // Localization Middleware
 app.Use(async (context, next) =>

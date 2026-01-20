@@ -7588,6 +7588,9 @@
           "password": {
             "type": "string",
             "nullable": true
+          },
+          "plan": {
+            "$ref": "#/components/schemas/PlanType"
           }
         },
         "additionalProperties": false
@@ -9189,6 +9192,15 @@
         "enum": [
           1,
           2
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "PlanType": {
+        "enum": [
+          1,
+          2,
+          3
         ],
         "type": "integer",
         "format": "int32"
