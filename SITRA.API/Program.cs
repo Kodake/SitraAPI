@@ -57,6 +57,7 @@ builder.Services.AddSwaggerGen(c =>
             new string[] {}
         }
     });
+    c.OperationFilter<SITRA.API.Filters.IdempotencyOperationFilter>();
 });
 
 // DbContext

@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.OutputCaching;
 
 namespace SITRA.Core.Mediator.Commands.Invoices.PurchaseInvoices
 {
-    public class CreatePurchaseInvoiceCommand : CreateCommand<Invoice, CreatePurchaseInvoiceDTO>
+    public class CreatePurchaseInvoiceCommand : CreateCommand<Invoice, CreatePurchaseInvoiceDTO>, IIdempotentCommand
     {
         public CreatePurchaseInvoiceCommand(CreatePurchaseInvoiceDTO dto) : base(dto) { }
 

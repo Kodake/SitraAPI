@@ -8,6 +8,7 @@ using SITRA.Core.Mediator.Queries.Warehouses.Transfers;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using SITRA.API.Attributes;
 
 namespace SITRA.API.Endpoints
 {
@@ -57,6 +58,9 @@ namespace SITRA.API.Endpoints
             return transferDTO == null ? TypedResults.NotFound() : TypedResults.Created();
         }
 
+
+
+        [Idempotent]
         static async Task<Results<Ok, NotFound, ValidationProblem>> Received(
             long id,
             [FromBody] CreateTransferStatusDTO dto,
@@ -67,6 +71,7 @@ namespace SITRA.API.Endpoints
             return success ? TypedResults.Ok() : TypedResults.NotFound();
         }
 
+        [Idempotent]
         static async Task<Results<Ok, NotFound, ValidationProblem>> Cancelled(
             long id,
             [FromBody] CreateTransferStatusDTO dto,

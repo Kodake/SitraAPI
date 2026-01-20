@@ -20,6 +20,7 @@ namespace SITRA.Core.Mediator
         {
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(MediatRDependencyHandler).Assembly));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(Behaviors.InputSanitizationBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(Behaviors.IdempotencyBehavior<,>));
 
             services.AddDashboardServices();
             services.AddBrandServices();

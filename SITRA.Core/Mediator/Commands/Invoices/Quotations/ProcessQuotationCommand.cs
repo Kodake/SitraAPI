@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.OutputCaching;
 
 namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
 {
-    public class ProcessQuotationCommand(long id, CreateSaleInvoiceDTO dto) : ProcessCommand<Quotation, CreateSaleInvoiceDTO>(id, dto)
+    public class ProcessQuotationCommand(long id, CreateSaleInvoiceDTO dto) : ProcessCommand<Quotation, CreateSaleInvoiceDTO>(id, dto), IIdempotentCommand
     {
         public override async Task<CreateSaleInvoiceDTO> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
         {

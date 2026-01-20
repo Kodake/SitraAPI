@@ -1,6 +1,7 @@
 using SITRA.Core.DTOs;
 using SITRA.Core.DTOs.Invoices.Quotations;
 using SITRA.Core.DTOs.Invoices.SaleInvoices;
+using SITRA.API.Attributes;
 using SITRA.API.Filters;
 using SITRA.API.Helpers;
 using SITRA.Core.Mediator.Commands.Invoices.Quotations;
@@ -10,6 +11,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
+using SITRA.API.Attributes;
 
 namespace SITRA.API.Endpoints.Invoices
 {
@@ -45,6 +47,7 @@ namespace SITRA.API.Endpoints.Invoices
             return dto == null ? TypedResults.NotFound() : TypedResults.Ok(dto);
         }
 
+        [Idempotent]
         static async Task<Results<Created, NotFound, ValidationProblem>> Create(
             [FromBody] CreateQuotationDTO dto,
             [FromServices] IMediator mediator,
@@ -55,6 +58,7 @@ namespace SITRA.API.Endpoints.Invoices
             return quotationDTO == null ? TypedResults.NotFound() : TypedResults.Created();
         }
 
+        [Idempotent]
         static async Task<Results<Ok, NotFound, ValidationProblem>> Update(
             long id,
             [FromBody] CreateQuotationDTO dto,
@@ -66,6 +70,7 @@ namespace SITRA.API.Endpoints.Invoices
             return success ? TypedResults.Ok() : TypedResults.NotFound();
         }
 
+        [Idempotent]
         static async Task<Results<Created<CreateSaleInvoiceDTO>, NotFound, ValidationProblem>> Process(
             [FromRoute] long id,
             [FromBody] CreateSaleInvoiceDTO dto,

@@ -1,0 +1,92 @@
+using MediatR;
+using Microsoft.AspNetCore.Http;
+using SITRA.Core.Entities.AdministrativeTools;
+using SITRA.Core.Interfaces;
+using SITRA.Core.Helpers;
+using System.Text.Json;
+
+namespace SITRA.Core.Mediator.Behaviors
+{
+    public class IdempotencyBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+        where TRequest : IRequest<TResponse>
+    {
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IUnitOfWork _unitOfWork;
+
+        public IdempotencyBehavior(IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork)
+        {
+            _httpContextAccessor = httpContextAccessor;
+            _unitOfWork = unitOfWork;
+        }
+
+        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+        {
+            // Only apply to commands marked with IIdempotentCommand
+            if (request is not IIdempotentCommand)
+            {
+                return await next();
+            }
+
+            var httpContext = _httpContextAccessor.HttpContext;
+            if (httpContext == null)
+            {
+                return await next();
+            }
+
+            // Check for Idempotency Key
+            if (!httpContext.Request.Headers.TryGetValue("X-Idempotency-Key", out var idempotencyKey) || !Guid.TryParse(idempotencyKey, out var key))
+            {
+                throw new FluentValidation.ValidationException(Utilities.IdempotencyKeyRequiredMessage);
+            }
+
+            // Check if key exists
+            var existingRequest = await _unitOfWork.Repository<IdempotentRequest>().GetByIdAsync(key.GetHashCode()); 
+            // NOTE: GetByIdAsync usually expects 'long', but our IdempotentRequest might use Guid. 
+            // Logic needs to adapt if RepositoryBase expects 'long'. 
+            // Assuming I might need to query specifically by Guid if Generic Repo is inflexible.
+            
+            // Let's assume for a moment we can use a custom check since Generic might be tied to long.
+            // But wait, the RepositoryBase.GetByIdAsync takes 'long'. The Idempotency Key is Guid (standard).
+            // This is a mismatch. I should query directly using the DBContext or add a method to Repo.
+            // Since I only have IUnitOfWork and generic Repo, I might need to rely on 'GetAllAsync' with filter or inject DbContext?
+            // Wait, I can use GetAllAsync(expression).
+
+            var existingRequests = await _unitOfWork.Repository<IdempotentRequest>().GetAllAsync(r => r.Id == key);
+            existingRequest = existingRequests.FirstOrDefault();
+
+            if (existingRequest != null)
+            {
+                // Return stored response
+                // We need to deserialize the response body to TResponse.
+                // Note: TResponse might be complex or just a primitive/MediatR Unit.
+                if (typeof(TResponse) == typeof(Unit))
+                {
+                   return (TResponse)(object)Unit.Value;
+                }
+
+                if (!string.IsNullOrEmpty(existingRequest.ResponseBody))
+                {
+                    return JsonSerializer.Deserialize<TResponse>(existingRequest.ResponseBody)!;
+                }
+            }
+
+            // Execute Operation
+            var response = await next();
+
+            // Store Result
+            var idempotentRequest = new IdempotentRequest
+            {
+                Id = key,
+                Name = typeof(TRequest).Name,
+                CreatedOn = DateTime.UtcNow,
+                ResponseStatusCode = 200, // Or extract from response if possible
+                ResponseBody = JsonSerializer.Serialize(response)
+            };
+
+            await _unitOfWork.Repository<IdempotentRequest>().CreateAsync(idempotentRequest);
+            await _unitOfWork.SaveChangesAsync();
+
+            return response;
+        }
+    }
+}

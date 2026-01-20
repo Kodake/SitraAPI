@@ -148,6 +148,7 @@ namespace SITRA.Infrastructure.Persistence
         #endregion
 
         #region DbSets
+        public DbSet<SITRA.Core.Entities.AdministrativeTools.IdempotentRequest> IdempotentRequests { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Tenant> Tenants { get; set; }
         public DbSet<SubCategory> SubCategories { get; set; }

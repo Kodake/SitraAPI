@@ -109,6 +109,9 @@
   <data name="IdNotExistMessage" xml:space="preserve">
     <value>El Id {0} no existe. Favor, verifique y vuelva a intentarlo</value>
   </data>
+  <data name="IdempotencyKeyRequiredMessage" xml:space="preserve">
+    <value>El encabezado X-Idempotency-Key es obligatorio y debe ser un GUID válido</value>
+  </data>
   <data name="InsufficientStockQuantityMessage" xml:space="preserve">
     <value>Cantidad de stock insuficiente</value>
   </data>

@@ -8,6 +8,7 @@ using SITRA.Core.Mediator.Queries.Accounts.Payables;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using SITRA.API.Attributes;
 
 namespace SITRA.API.Endpoints
 {
@@ -53,6 +54,9 @@ namespace SITRA.API.Endpoints
             return dto == null ? TypedResults.NotFound() : TypedResults.Ok(dto);
         }
 
+
+
+        [Idempotent]
         static async Task<Results<Created, NotFound, ValidationProblem>> Create(
             [FromBody] CreatePayableReceiptDTO dto,
             [FromRoute] long id,
@@ -63,6 +67,7 @@ namespace SITRA.API.Endpoints
             return DTO == null ? TypedResults.NotFound() : TypedResults.Created();
         }
 
+        [Idempotent]
         static async Task<Results<NotFound, Ok>> Deactivate(
             [FromRoute] long id,
             [FromRoute] long payableReceiptId,

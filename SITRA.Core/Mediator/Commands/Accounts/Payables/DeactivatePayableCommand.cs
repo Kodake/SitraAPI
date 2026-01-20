@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.OutputCaching;
 
 namespace SITRA.Core.Mediator.Commands.Accounts.Payables
 {
-    public class DeactivatePayableCommand(long id, long payableReceiptId) : ToggleCommand(id)
+    public class DeactivatePayableCommand(long id, long payableReceiptId) : ToggleCommand(id), IIdempotentCommand
     {
         public long PayableReceiptId { get; set; } = payableReceiptId;
 

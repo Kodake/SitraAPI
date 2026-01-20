@@ -23,6 +23,7 @@ namespace SITRA.Core.Helpers
         public static string RequiredFieldForConditionMessage => _resourceManager.GetString("RequiredFieldForConditionMessage")!;
         public static string MaximumSupportsReachedMessage => _resourceManager.GetString("MaximumSupportsReachedMessage")!;
         public static string IdNotExistMessage => _resourceManager.GetString("IdNotExistMessage")!;
+        public static string IdempotencyKeyRequiredMessage => _resourceManager.GetString("IdempotencyKeyRequiredMessage")!;
         public static string ReceiptAlreadyPaidMessage => _resourceManager.GetString("ReceiptAlreadyPaidMessage")!;
         public static string WithdrawnAmountWontBeGreatherThanAvailableCash => _resourceManager.GetString("WithdrawnAmountWontBeGreatherThanAvailableCash")!;
         public static string MinItemsRequired => _resourceManager.GetString("MinItemsRequired")!;

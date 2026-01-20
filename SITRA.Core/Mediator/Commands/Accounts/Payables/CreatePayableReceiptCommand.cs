@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.OutputCaching;
 
 namespace SITRA.Core.Mediator.Commands.Accounts.Payables
 {
-    public class CreatePayableReceiptCommand(long id, CreatePayableReceiptDTO dto) : CreateCommand<PayableReceipt, CreatePayableReceiptDTO>(dto)
+    public class CreatePayableReceiptCommand(long id, CreatePayableReceiptDTO dto) : CreateCommand<PayableReceipt, CreatePayableReceiptDTO>(dto), IIdempotentCommand
     {
         public long Id { get; set; } = id;
 

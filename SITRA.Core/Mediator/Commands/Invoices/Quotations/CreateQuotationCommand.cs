@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.OutputCaching;
 
 namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
 {
-    public class CreateQuotationCommand : CreateCommand<Quotation, CreateQuotationDTO>
+    public class CreateQuotationCommand : CreateCommand<Quotation, CreateQuotationDTO>, IIdempotentCommand
     {
         public CreateQuotationCommand(CreateQuotationDTO dto) : base(dto) { }
 

@@ -8,6 +8,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
+using SITRA.API.Attributes;
 
 namespace SITRA.API.Endpoints.Invoices
 {
@@ -56,6 +57,7 @@ namespace SITRA.API.Endpoints.Invoices
             return dto == null ? TypedResults.NotFound() : TypedResults.Ok(dto);
         }
 
+        [Idempotent]
         static async Task<Results<Created<CreateSaleInvoiceDTO>, NotFound, ValidationProblem>> Create(
             [FromBody] CreateSaleInvoiceDTO dto,
             [FromServices] IMediator mediator,

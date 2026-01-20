@@ -406,6 +406,30 @@ namespace SITRA.Infrastructure.Migrations
                     b.ToTable("FiscalSupports");
                 });
 
+            modelBuilder.Entity("SITRA.Core.Entities.AdministrativeTools.IdempotentRequest", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ResponseBody")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ResponseStatusCode")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("IdempotentRequests");
+                });
+
             modelBuilder.Entity("SITRA.Core.Entities.Appointments.Appointment", b =>
                 {
                     b.Property<long>("Id")
