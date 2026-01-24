@@ -25,6 +25,11 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
                 saleInvoice.InvoiceBuyer = new InvoiceBuyer { ContactId = Dto.CustomerId };
             }
 
+            if (Dto.BillerId > 0)
+            {
+                saleInvoice.InvoiceBiller = new InvoiceBiller { ContactId = Dto.BillerId };
+            }
+
             double currencyRate = currencyDB!.Rate;
             await CalculateInvoiceTotals(Dto.InvoiceItems, saleInvoice, unitOfWork, currencyRate);
 

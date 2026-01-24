@@ -23,7 +23,9 @@ namespace SITRA.Infrastructure.Repositories.Invoices
         {
             var queryable = context.Invoices
                 .Include(x => x.InvoiceBuyer)
-                    .ThenInclude(ib => ib.Buyer);
+                    .ThenInclude(ib => ib.Buyer)
+                .Include(x => x.InvoiceBiller)
+                    .ThenInclude(ib => ib.Biller);
 
             await httpContext.AddPaginationParamsToHeaders(queryable);
 
@@ -103,6 +105,8 @@ namespace SITRA.Infrastructure.Repositories.Invoices
             var queryable = context.Invoices
                 .Include(x => x.InvoiceBuyer)
                     .ThenInclude(ib => ib.Buyer)
+                .Include(x => x.InvoiceBiller)
+                    .ThenInclude(ib => ib.Biller)
                 .Where(x =>
                     x.InvoiceType == InvoiceType.Sale &&
                     x.CreatedAt >= from &&
