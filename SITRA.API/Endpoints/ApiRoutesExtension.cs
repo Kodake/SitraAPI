@@ -26,6 +26,7 @@ public static class ApiRouteExtensions
         apiGroup.MapGroup("/products").MapProducts();
         apiGroup.MapGroup("/services").MapServices();
         apiGroup.MapGroup("/combos").MapCombos();
+        apiGroup.MapGroup("/wizards").MapWizards();
         apiGroup.MapGroup("/items").MapItems();
         apiGroup.MapGroup("/stocks").MapStocks();
         apiGroup.MapGroup("/pricings").MapPricings();

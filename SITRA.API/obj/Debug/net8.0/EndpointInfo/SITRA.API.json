@@ -6517,6 +6517,45 @@
           }
         }
       }
+    },
+    "/api/v1/wizards": {
+      "post": {
+        "tags": [
+          "WizardEndpoints"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WizardDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WizardDTO"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpValidationProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -11593,6 +11632,63 @@
           "createdAt": {
             "type": "string",
             "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "WizardDTO": {
+        "type": "object",
+        "properties": {
+          "currency": {
+            "$ref": "#/components/schemas/CreateCurrencyDTO"
+          },
+          "tax": {
+            "$ref": "#/components/schemas/CreateTaxDTO"
+          },
+          "product": {
+            "$ref": "#/components/schemas/WizardProductDTO"
+          },
+          "warehouse": {
+            "$ref": "#/components/schemas/CreateWarehouseDTO"
+          },
+          "stock": {
+            "$ref": "#/components/schemas/WizardStockDTO"
+          }
+        },
+        "additionalProperties": false
+      },
+      "WizardProductDTO": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "initialCost": {
+            "type": "number",
+            "format": "double"
+          },
+          "basePrice": {
+            "type": "number",
+            "format": "double"
+          },
+          "taxIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "WizardStockDTO": {
+        "type": "object",
+        "properties": {
+          "qty": {
+            "type": "number",
+            "format": "double"
           }
         },
         "additionalProperties": false

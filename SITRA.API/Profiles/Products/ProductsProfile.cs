@@ -7,6 +7,7 @@ using SITRA.Core.DTOs.Products.PricingItems;
 using SITRA.Core.DTOs.Products.Products;
 using SITRA.Core.DTOs.Products.SubCategories;
 using SITRA.Core.DTOs.Products.Units;
+using SITRA.Core.DTOs.Wizard;
 using SITRA.Core.Entities.Products;
 
 namespace SITRA.API.Profiles.Products
@@ -22,6 +23,9 @@ namespace SITRA.API.Profiles.Products
                 .ForMember(des => des.ItemCategory, opt => opt.MapFrom(src => src.CategoryId.HasValue ? new ItemCategory { CategoryId = src.CategoryId.Value } : null))
                 .ForMember(des => des.ItemSubCategory, opt => opt.MapFrom(src => src.SubCategoryId.HasValue ? new ItemSubCategory { SubCategoryId = src.SubCategoryId.Value } : null))
                 .ForMember(des => des.ItemUnit, opt => opt.MapFrom(src => src.UnitId.HasValue ? new ItemUnit { UnitId = src.UnitId.Value } : null));
+
+            CreateMap<WizardProductDTO, Item>()
+                .ForMember(des => des.ItemTaxes, opt => opt.MapFrom(src => src.TaxIds.Select(id => new ItemTaxes { TaxId = id }).ToList()));
 
             CreateMap<CreateProductCsvDTO, Item>();
 

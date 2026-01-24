@@ -5195,5 +5195,36 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.WizardEndpoints",
+    "Method": "Create",
+    "RelativePath": "api/v1/wizards/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Wizard.WizardDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SITRA.Core.DTOs.Wizard.WizardDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
   }
 ]
