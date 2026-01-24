@@ -12,11 +12,14 @@ namespace SITRA.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
-                name: "identity");
+                name: "auths");
+
+            migrationBuilder.EnsureSchema(
+                name: "audits");
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
-                schema: "identity",
+                schema: "auths",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -31,7 +34,7 @@ namespace SITRA.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUsers",
-                schema: "identity",
+                schema: "auths",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -180,6 +183,7 @@ namespace SITRA.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "IdempotentRequests",
+                schema: "audits",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -307,7 +311,7 @@ namespace SITRA.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
-                schema: "identity",
+                schema: "auths",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -322,7 +326,7 @@ namespace SITRA.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
-                        principalSchema: "identity",
+                        principalSchema: "auths",
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -330,7 +334,7 @@ namespace SITRA.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
-                schema: "identity",
+                schema: "auths",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -345,7 +349,7 @@ namespace SITRA.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserClaims_AspNetUsers_UserId",
                         column: x => x.UserId,
-                        principalSchema: "identity",
+                        principalSchema: "auths",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -353,7 +357,7 @@ namespace SITRA.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserLogins",
-                schema: "identity",
+                schema: "auths",
                 columns: table => new
                 {
                     LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -367,7 +371,7 @@ namespace SITRA.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserLogins_AspNetUsers_UserId",
                         column: x => x.UserId,
-                        principalSchema: "identity",
+                        principalSchema: "auths",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -375,7 +379,7 @@ namespace SITRA.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserRoles",
-                schema: "identity",
+                schema: "auths",
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -387,14 +391,14 @@ namespace SITRA.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
                         column: x => x.RoleId,
-                        principalSchema: "identity",
+                        principalSchema: "auths",
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetUsers_UserId",
                         column: x => x.UserId,
-                        principalSchema: "identity",
+                        principalSchema: "auths",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -402,7 +406,7 @@ namespace SITRA.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetUserTokens",
-                schema: "identity",
+                schema: "auths",
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -416,7 +420,7 @@ namespace SITRA.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserTokens_AspNetUsers_UserId",
                         column: x => x.UserId,
-                        principalSchema: "identity",
+                        principalSchema: "auths",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -446,7 +450,7 @@ namespace SITRA.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_PettyCashes_AspNetUsers_UserId",
                         column: x => x.UserId,
-                        principalSchema: "identity",
+                        principalSchema: "auths",
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -1327,13 +1331,13 @@ namespace SITRA.Infrastructure.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
-                schema: "identity",
+                schema: "auths",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
-                schema: "identity",
+                schema: "auths",
                 table: "AspNetRoles",
                 column: "NormalizedName",
                 unique: true,
@@ -1341,31 +1345,31 @@ namespace SITRA.Infrastructure.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
-                schema: "identity",
+                schema: "auths",
                 table: "AspNetUserClaims",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserLogins_UserId",
-                schema: "identity",
+                schema: "auths",
                 table: "AspNetUserLogins",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserRoles_RoleId",
-                schema: "identity",
+                schema: "auths",
                 table: "AspNetUserRoles",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
-                schema: "identity",
+                schema: "auths",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
-                schema: "identity",
+                schema: "auths",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true,
@@ -1603,23 +1607,23 @@ namespace SITRA.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims",
-                schema: "identity");
+                schema: "auths");
 
             migrationBuilder.DropTable(
                 name: "AspNetUserClaims",
-                schema: "identity");
+                schema: "auths");
 
             migrationBuilder.DropTable(
                 name: "AspNetUserLogins",
-                schema: "identity");
+                schema: "auths");
 
             migrationBuilder.DropTable(
                 name: "AspNetUserRoles",
-                schema: "identity");
+                schema: "auths");
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens",
-                schema: "identity");
+                schema: "auths");
 
             migrationBuilder.DropTable(
                 name: "ComboItems");
@@ -1631,7 +1635,8 @@ namespace SITRA.Infrastructure.Migrations
                 name: "Expenses");
 
             migrationBuilder.DropTable(
-                name: "IdempotentRequests");
+                name: "IdempotentRequests",
+                schema: "audits");
 
             migrationBuilder.DropTable(
                 name: "InvoiceBillers");
@@ -1692,7 +1697,7 @@ namespace SITRA.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles",
-                schema: "identity");
+                schema: "auths");
 
             migrationBuilder.DropTable(
                 name: "FiscalSupports");
@@ -1741,7 +1746,7 @@ namespace SITRA.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers",
-                schema: "identity");
+                schema: "auths");
 
             migrationBuilder.DropTable(
                 name: "Items");

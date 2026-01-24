@@ -45,6 +45,12 @@ namespace SITRA.Core.Mediator.Commands.Products.Products
                 ItemId = productDB.Id
             }).ToList();
 
+            productDB.ItemBrand = Dto.BrandId.HasValue ? new ItemBrand { BrandId = Dto.BrandId.Value, ItemId = productDB.Id } : null;
+            productDB.ItemModel = Dto.ModelId.HasValue ? new ItemModel { ModelId = Dto.ModelId.Value, ItemId = productDB.Id } : null;
+            productDB.ItemCategory = Dto.CategoryId.HasValue ? new ItemCategory { CategoryId = Dto.CategoryId.Value, ItemId = productDB.Id } : null;
+            productDB.ItemSubCategory = Dto.SubCategoryId.HasValue ? new ItemSubCategory { SubCategoryId = Dto.SubCategoryId.Value, ItemId = productDB.Id } : null;
+            productDB.ItemUnit = Dto.UnitId.HasValue ? new ItemUnit { UnitId = Dto.UnitId.Value, ItemId = productDB.Id } : null;
+
             var principalPricingItem = productDB.PricingItems.FirstOrDefault(x => x.IsPrincipal);
             if (principalPricingItem != null)
             {

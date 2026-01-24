@@ -131,15 +131,20 @@ namespace SITRA.Infrastructure.Persistence
             modelBuilder.ApplyConfiguration(new AppointmentItemConfiguration());
 
             // ===============================
-            // Identity ? schema identity
+            // Identity ? schema auths
             // ===============================
-            modelBuilder.Entity<User>().ToTable("AspNetUsers", "identity");
-            modelBuilder.Entity<IdentityRole>().ToTable("AspNetRoles", "identity");
-            modelBuilder.Entity<IdentityUserRole<string>>().ToTable("AspNetUserRoles", "identity");
-            modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("AspNetUserClaims", "identity");
-            modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("AspNetRoleClaims", "identity");
-            modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("AspNetUserLogins", "identity");
-            modelBuilder.Entity<IdentityUserToken<string>>().ToTable("AspNetUserTokens", "identity");
+            modelBuilder.Entity<User>().ToTable("AspNetUsers", "auths");
+            modelBuilder.Entity<IdentityRole>().ToTable("AspNetRoles", "auths");
+            modelBuilder.Entity<IdentityUserRole<string>>().ToTable("AspNetUserRoles", "auths");
+            modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("AspNetUserClaims", "auths");
+            modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("AspNetRoleClaims", "auths");
+            modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("AspNetUserLogins", "auths");
+            modelBuilder.Entity<IdentityUserToken<string>>().ToTable("AspNetUserTokens", "auths");
+
+            // ===============================
+            // Audits ? schema audits
+            // ===============================
+            modelBuilder.Entity<IdempotentRequest>().ToTable("IdempotentRequests", "audits");
 
             modelBuilder.Entity<User>()
                 .Property(u => u.Language)
@@ -148,7 +153,7 @@ namespace SITRA.Infrastructure.Persistence
         #endregion
 
         #region DbSets
-        public DbSet<SITRA.Core.Entities.AdministrativeTools.IdempotentRequest> IdempotentRequests { get; set; }
+        public DbSet<IdempotentRequest> IdempotentRequests { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Tenant> Tenants { get; set; }
         public DbSet<SubCategory> SubCategories { get; set; }
