@@ -1,4 +1,3 @@
-using SITRA.Core.Entities.Auths;
 using AutoMapper;
 using SITRA.Core.DTOs.Invoices.SaleInvoices;
 using SITRA.Core.Entities.Accounts;
@@ -7,7 +6,6 @@ using SITRA.Core.Entities.CashBoxes;
 using SITRA.Core.Entities.Invoices;
 using SITRA.Core.Enums;
 using SITRA.Core.Interfaces;
-using SITRA.Core.Validations;
 using FluentValidation;
 using Microsoft.AspNetCore.OutputCaching;
 

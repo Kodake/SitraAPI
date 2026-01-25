@@ -1,7 +1,8 @@
+using FluentValidation;
 using SITRA.Core.DTOs.Invoices.SaleInvoices;
+using SITRA.Core.Enums;
 using SITRA.Core.Helpers;
 using SITRA.Core.Interfaces;
-using FluentValidation;
 
 namespace SITRA.Core.Validations
 {
@@ -38,12 +39,15 @@ namespace SITRA.Core.Validations
                         {
                             switch (itemDTO.ItemType)
                             {
-                                case SITRA.Core.Enums.ItemType.Product:
+                                case ItemType.Product:
                                     var product = await unitOfWork.ProductRepository.GetByIdAsync(itemDTO.ItemId);
                                     return product != null;
-                                case SITRA.Core.Enums.ItemType.Service:
+                                case ItemType.Service:
                                     var service = await unitOfWork.ServiceRepository.GetByIdAsync(itemDTO.ItemId);
                                     return service != null;
+                                case ItemType.Combo:
+                                    var combo = await unitOfWork.ComboRepository.GetByIdAsync(itemDTO.ItemId);
+                                    return combo != null;
                                 default:
                                     return false;
                             }

@@ -36,9 +36,15 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
                 saleInvoice.InvoiceBuyer = new InvoiceBuyer { ContactId = Dto.CustomerId.Value };
             }
 
+            if (Dto.BillerId > 0)
+            {
+                saleInvoice.InvoiceBiller = new InvoiceBiller { ContactId = Dto.BillerId.Value };
+            }
+
             if (fiscalSupportDB != null)
             {
                 saleInvoice.FiscalSupportNumber = GenerateFiscalSupportNumber(fiscalSupportDB);
+                saleInvoice.InvoiceFiscalSupport = new InvoiceFiscalSupport { FiscalSupportId = fiscalSupportDB.Id };
                 unitOfWork.FiscalSupportRepository.Update(fiscalSupportDB);
             }
 

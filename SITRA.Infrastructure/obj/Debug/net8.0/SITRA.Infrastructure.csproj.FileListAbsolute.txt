@@ -24,6 +24,7 @@ C:\Users\Kodake\Desktop\PosAPI\SITRA.Infrastructure\bin\Debug\net8.0\SITRA.Infra
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Infrastructure\bin\Debug\net8.0\SITRA.Infrastructure.pdb
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Infrastructure\bin\Debug\net8.0\SITRA.Core.dll
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Infrastructure\bin\Debug\net8.0\SITRA.Core.pdb
+C:\Users\Kodake\Desktop\PosAPI\SITRA.Infrastructure\bin\Debug\net8.0\es\SITRA.Core.resources.dll
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Infrastructure\obj\Debug\net8.0\SITRA.Infrastructure.csproj.AssemblyReference.cache
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Infrastructure\obj\Debug\net8.0\SITRA.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Infrastructure\obj\Debug\net8.0\SITRA.Infrastructure.AssemblyInfoInputs.cache
@@ -36,4 +37,3 @@ C:\Users\Kodake\Desktop\PosAPI\SITRA.Infrastructure\obj\Debug\net8.0\refint\SITR
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Infrastructure\obj\Debug\net8.0\SITRA.Infrastructure.pdb
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Infrastructure\obj\Debug\net8.0\SITRA.Infrastructure.genruntimeconfig.cache
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Infrastructure\obj\Debug\net8.0\ref\SITRA.Infrastructure.dll
-C:\Users\Kodake\Desktop\PosAPI\SITRA.Infrastructure\bin\Debug\net8.0\es\SITRA.Core.resources.dll

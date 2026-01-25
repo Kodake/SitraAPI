@@ -37,7 +37,12 @@ namespace SITRA.Infrastructure.Repositories.Appointments
         public async Task<bool> ExistsAtDateTime(DateTimeOffset scheduledAt, long? excludeId = null)
         {
             return await context.Appointments.AnyAsync(a =>
-                a.ScheduledAt == scheduledAt &&
+                a.IsActive &&
+                a.ScheduledAt.Year == scheduledAt.Year &&
+                a.ScheduledAt.Month == scheduledAt.Month &&
+                a.ScheduledAt.Day == scheduledAt.Day &&
+                a.ScheduledAt.Hour == scheduledAt.Hour &&
+                a.ScheduledAt.Minute == scheduledAt.Minute &&
                 (!excludeId.HasValue || a.Id != excludeId.Value)
             );
         }

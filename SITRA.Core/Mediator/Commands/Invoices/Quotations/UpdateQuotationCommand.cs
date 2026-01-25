@@ -3,8 +3,6 @@ using SITRA.Core.DTOs.Invoices.SaleInvoices;
 using SITRA.Core.Entities.Invoices;
 using SITRA.Core.Enums;
 using SITRA.Core.Interfaces;
-using SITRA.Core.Validations;
-using FluentValidation;
 using Microsoft.AspNetCore.OutputCaching;
 
 namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
@@ -55,10 +53,17 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
                     saleInvoice.InvoiceBuyer.ContactId = Dto.CustomerId;
                }
             }
-            else
+
+            if (Dto.BillerId > 0)
             {
-                // If nullable and Dto has 0/null, remove it?
-                // logic for now: assume Dto.CustomerId is valid if > 0
+                if (saleInvoice.InvoiceBiller == null)
+                {
+                    saleInvoice.InvoiceBiller = new InvoiceBiller { ContactId = Dto.BillerId };
+                }
+                else
+                {
+                    saleInvoice.InvoiceBiller.ContactId = Dto.BillerId;
+                }
             }
 
             unitOfWork.QuotationRepository.Update(quotation);
@@ -107,6 +112,18 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
                         totalItems += 1;
                         totalAmount += serviceBasePrice * itemDTO.Qty;
                         totalTaxes += serviceBasePrice * serviceTaxAmount / 100 * itemDTO.Qty;
+                        break;
+
+                    case ItemType.Combo:
+                        var combo = await unitOfWork.ComboRepository.GetByIdAsync(itemDTO.ItemId);
+
+                        var comboBasePrice = combo!.PricingItems.First(x => x.ItemId == itemDTO.ItemId).BasePrice / currencyRate;
+                        var comboTaxAmount = combo.ItemTaxes.Sum(x => x?.Tax?.Amount) ?? 0;
+
+                        totalQtyItems += itemDTO.Qty;
+                        totalItems += 1;
+                        totalAmount += comboBasePrice * itemDTO.Qty;
+                        totalTaxes += (comboBasePrice * comboTaxAmount / 100) * itemDTO.Qty;
                         break;
 
                     default:
