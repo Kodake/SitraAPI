@@ -6556,6 +6556,25 @@
           }
         }
       }
+    },
+    "/api/v1/wizards/is-required": {
+      "get": {
+        "tags": [
+          "WizardEndpoints"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {

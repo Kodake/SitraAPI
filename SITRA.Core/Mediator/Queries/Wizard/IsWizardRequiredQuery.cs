@@ -12,26 +12,22 @@ namespace SITRA.Core.Mediator.Queries.Wizard
         {
             // 1. Currency
             var currencies = await unitOfWork.CurrencyRepository.GetCurrencies();
-            if (!currencies.Any()) return true;
 
             // 2. Tax
             var taxes = await unitOfWork.TaxRepository.GetAll(StatusType.Activated);
-            if (!taxes.Any()) return true;
 
             // 3. Warehouse
             var warehouses = await unitOfWork.WarehouseRepository.GetAll(StatusType.Activated);
-            if (!warehouses.Any()) return true;
 
             // 4. Product (Item)
             var products = await unitOfWork.ProductRepository.GetAllAsync(new PaginationDTO { RecordsPerPage = 1 });
-            if (!products.Any()) return true;
 
             // 5. Pricing
             var pricingName = Enum.GetName(typeof(PricingName), PricingName.Principal)?.ToUpper() ?? "PRINCIPAL";
             var pricing = await unitOfWork.PricingRepository.GetPricingByName(pricingName);
-            if (pricing == null) return true;
 
-            return false;
+            // Returns true only if EVERYTHING is missing
+            return !currencies.Any() && !taxes.Any() && !warehouses.Any() && !products.Any() && pricing == null;
         }
     }
 }

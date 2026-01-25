@@ -5226,5 +5226,23 @@
         "StatusCode": 400
       }
     ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.WizardEndpoints",
+    "Method": "IsRequired",
+    "RelativePath": "api/v1/wizards/is-required",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Boolean",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   }
 ]

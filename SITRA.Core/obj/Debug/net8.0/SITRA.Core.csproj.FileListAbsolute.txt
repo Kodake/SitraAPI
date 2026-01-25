@@ -32,7 +32,6 @@ C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Debug\net8.0\SITRA.Core.AssemblyIn
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Debug\net8.0\SITRA.Core.AssemblyInfo.cs
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Debug\net8.0\SITRA.Core.csproj.CoreCompileInputs.cache
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Debug\net8.0\SITRA.Core.sourcelink.json
-C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Debug\net8.0\es\SITRA.Core.resources.cs
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Debug\net8.0\es\SITRA.Core.resources.dll
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Debug\net8.0\rjimswa.dswa.cache.json
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
@@ -46,3 +45,4 @@ C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Debug\net8.0\SITRA.Core.dll
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Debug\net8.0\refint\SITRA.Core.dll
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Debug\net8.0\SITRA.Core.pdb
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Debug\net8.0\ref\SITRA.Core.dll
+C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
