@@ -32,15 +32,15 @@ namespace SITRA.Core.Mediator.Handlers.Auths
             // ?? Lazy initialization for existing users with empty TenantId
             if (user.TenantId == Guid.Empty)
             {
-                Console.WriteLine($"[Login] User {user.Email} has empty TenantId. Generating new one.");
+                Console.WriteLine(Utilities.UserEmptyTenantIdMessage(user.Email!));
                 user.TenantId = Guid.NewGuid();
                 var updateResult = await _userManager.UpdateAsync(user);
                 if (!updateResult.Succeeded)
                 {
-                    Console.WriteLine($"[Login] Failed to update user TenantId: {string.Join(", ", updateResult.Errors.Select(e => e.Description))}");
+                    Console.WriteLine(Utilities.FailedToUpdateUserTenantIdMessage(string.Join(", ", updateResult.Errors.Select(e => e.Description))));
                 }
             }
-            Console.WriteLine($"[Login] Using TenantId: {user.TenantId}");
+            Console.WriteLine(Utilities.LoginUsingTenantIdMessage(user.TenantId));
 
             // Get Key using the helper to ensure consistency
             var keys = Keys.GetAllKeys(_configuration).ToList();
@@ -49,7 +49,7 @@ namespace SITRA.Core.Mediator.Handlers.Auths
             if (signingKey == null)
             {
                 // Fallback or error if no keys found
-                throw new InvalidOperationException("No signing keys configuration found.");
+                throw new InvalidOperationException(Utilities.NoSigningKeysFoundMessage);
             }
 
             // Ensure the key is suitable for signing (SymmetricSecurityKey usually is)

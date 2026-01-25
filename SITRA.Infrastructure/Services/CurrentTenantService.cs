@@ -1,6 +1,7 @@
 using SITRA.Core.Interfaces;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
+using SITRA.Core.Helpers;
 
 namespace SITRA.Infrastructure.Services
 {
@@ -20,25 +21,25 @@ namespace SITRA.Infrastructure.Services
                 var user = _httpContextAccessor.HttpContext?.User;
                 if (user == null)
                 {
-                    Console.WriteLine("[CurrentTenantService] HttpContext.User is null");
+                    Console.WriteLine(Utilities.TenantServiceUserNull);
                     return null;
                 }
 
-                Console.WriteLine("[CurrentTenantService] Claims available:");
+                Console.WriteLine(Utilities.TenantServiceClaimsAvailable);
                 foreach (var claim in user.Claims)
                 {
-                    Console.WriteLine($" - {claim.Type}: {claim.Value}");
+                    Console.WriteLine(Utilities.TenantServiceClaimInfo(claim.Type, claim.Value));
                 }
 
                 var tenantIdClaim = user.FindFirst("tenantId")?.Value;
-                Console.WriteLine($"[CurrentTenantService] Found tenantId claim: {tenantIdClaim}");
+                Console.WriteLine(Utilities.TenantServiceFoundClaim(tenantIdClaim));
 
                 if (Guid.TryParse(tenantIdClaim, out var tenantId))
                 {
                     return tenantId;
                 }
                 
-                Console.WriteLine("[CurrentTenantService] Failed to parse tenant ID or not found.");
+                Console.WriteLine(Utilities.TenantServiceFailedToParse);
                 return null;
             }
         }

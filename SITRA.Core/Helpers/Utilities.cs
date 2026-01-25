@@ -55,6 +55,59 @@ namespace SITRA.Core.Helpers
         public static string CommentTooLongMessage => _resourceManager.GetString("CommentTooLongMessage")!;
         public static string OneOrMoreServicesInvalidMessage => _resourceManager.GetString("OneOrMoreServicesInvalidMessage")!;
         public static string ContactNotFoundOrInvalidMessage => _resourceManager.GetString("ContactNotFoundOrInvalidMessage")!;
+        public static string NoSigningKeysFoundMessage => _resourceManager.GetString("NoSigningKeysFoundMessage")!;
+
+        public static string UserEmptyTenantIdMessage(string email)
+        {
+            var message = _resourceManager.GetString("UserEmptyTenantIdMessage");
+            return string.Format(message!, email);
+        }
+
+        public static string FailedToUpdateUserTenantIdMessage(string errors)
+        {
+            var message = _resourceManager.GetString("FailedToUpdateUserTenantIdMessage");
+            return string.Format(message!, errors);
+        }
+
+        public static string LoginUsingTenantIdMessage(Guid tenantId)
+        {
+            var message = _resourceManager.GetString("LoginUsingTenantIdMessage");
+            return string.Format(message!, tenantId);
+        }
+
+        public static string TenantServiceUserNull => _resourceManager.GetString("TenantServiceUserNull")!;
+        public static string TenantServiceClaimsAvailable => _resourceManager.GetString("TenantServiceClaimsAvailable")!;
+        public static string TenantServiceClaimInfo(string type, string value)
+        {
+            var message = _resourceManager.GetString("TenantServiceClaimInfo");
+            return string.Format(message!, type, value);
+        }
+        public static string TenantServiceFoundClaim(string? claimValue)
+        {
+            var message = _resourceManager.GetString("TenantServiceFoundClaim");
+            return string.Format(message!, claimValue);
+        }
+        public static string TenantServiceFailedToParse => _resourceManager.GetString("TenantServiceFailedToParse")!;
+        public static string StockReportErrorLoadingLogo(string message)
+        {
+            var res = _resourceManager.GetString("StockReportErrorLoadingLogo");
+            return string.Format(res!, message);
+        }
+        public static string ReportErrorLoadingLogo(string message)
+        {
+            var res = _resourceManager.GetString("ReportErrorLoadingLogo");
+            return string.Format(res!, message);
+        }
+        public static string QuotationDocumentErrorLoadingLogo(string message)
+        {
+            var res = _resourceManager.GetString("QuotationDocumentErrorLoadingLogo");
+            return string.Format(res!, message);
+        }
+        public static string InvoiceDocumentErrorLoadingLogo(string message)
+        {
+            var res = _resourceManager.GetString("InvoiceDocumentErrorLoadingLogo");
+            return string.Format(res!, message);
+        }
 
         public static string GreaterThanOrEqualToMensaje(DateTime minDate)
         {

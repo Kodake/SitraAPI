@@ -3,6 +3,7 @@ using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using System.Globalization;
+using SITRA.Core.Helpers;
 
 namespace SITRA.Core.DTOs
 {
@@ -65,7 +66,7 @@ namespace SITRA.Core.DTOs
                           .FontSize(8)
                           .Italic();
 
-                    Console.WriteLine($"[ReportDTO] Error loading logo: {ex.Message}");
+                    Console.WriteLine(Utilities.ReportErrorLoadingLogo(ex.Message));
                 }
 
                 column.Item().PaddingTop(5).BorderBottom(1).PaddingBottom(5).Column(info =>

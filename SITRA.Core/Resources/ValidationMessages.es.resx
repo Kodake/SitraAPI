@@ -202,4 +202,43 @@
   <data name="WithdrawnAmountWontBeGreatherThanAvailableCash" xml:space="preserve">
     <value>El monto retirado no puede ser mayor que el efectivo disponible</value>
   </data>
+  <data name="NoSigningKeysFoundMessage" xml:space="preserve">
+    <value>No se encontró la configuración de las llaves de firma.</value>
+  </data>
+  <data name="UserEmptyTenantIdMessage" xml:space="preserve">
+    <value>[Login] El usuario {0} tiene un TenantId vacío. Generando uno nuevo.</value>
+  </data>
+  <data name="FailedToUpdateUserTenantIdMessage" xml:space="preserve">
+    <value>[Login] Error al actualizar el TenantId del usuario: {0}</value>
+  </data>
+  <data name="LoginUsingTenantIdMessage" xml:space="preserve">
+    <value>[Login] Usando TenantId: {0}</value>
+  </data>
+  <data name="TenantServiceUserNull" xml:space="preserve">
+    <value>[CurrentTenantService] HttpContext.User es nulo</value>
+  </data>
+  <data name="TenantServiceClaimsAvailable" xml:space="preserve">
+    <value>[CurrentTenantService] Claims disponibles:</value>
+  </data>
+  <data name="TenantServiceClaimInfo" xml:space="preserve">
+    <value> - {0}: {1}</value>
+  </data>
+  <data name="TenantServiceFoundClaim" xml:space="preserve">
+    <value>[CurrentTenantService] Se encontró el claim tenantId: {0}</value>
+  </data>
+  <data name="TenantServiceFailedToParse" xml:space="preserve">
+    <value>[CurrentTenantService] Falló al parsear el tenant ID o no se encontró.</value>
+  </data>
+  <data name="StockReportErrorLoadingLogo" xml:space="preserve">
+    <value>[StockReportDTO] Error al cargar el logo: {0}</value>
+  </data>
+  <data name="ReportErrorLoadingLogo" xml:space="preserve">
+    <value>[ReportDTO] Error al cargar el logo: {0}</value>
+  </data>
+  <data name="QuotationDocumentErrorLoadingLogo" xml:space="preserve">
+    <value>[QuotationDocumentDTO] Error al cargar el logo: {0}</value>
+  </data>
+  <data name="InvoiceDocumentErrorLoadingLogo" xml:space="preserve">
+    <value>[InvoiceDocumentDTO] Error al cargar el logo: {0}</value>
+  </data>
 </root>

@@ -2,6 +2,7 @@ using SITRA.Core.Entities.Warehouses;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+using SITRA.Core.Helpers;
 namespace SITRA.Core.DTOs
 {
     public class StockReportDTO : IDocument
@@ -61,7 +62,7 @@ namespace SITRA.Core.DTOs
                           .FontSize(8)
                           .Italic();
 
-                    Console.WriteLine($"[StockReportDTO] Error loading logo: {ex.Message}");
+                    Console.WriteLine(Utilities.StockReportErrorLoadingLogo(ex.Message));
                 }
 
                 column.Item().PaddingTop(5).BorderBottom(1).PaddingBottom(5).Column(info =>

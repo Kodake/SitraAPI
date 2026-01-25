@@ -202,4 +202,43 @@
   <data name="WithdrawnAmountWontBeGreatherThanAvailableCash" xml:space="preserve">
     <value>The withdrawn amount cannot be greater than the available cash</value>
   </data>
+  <data name="NoSigningKeysFoundMessage" xml:space="preserve">
+    <value>No signing keys configuration found.</value>
+  </data>
+  <data name="UserEmptyTenantIdMessage" xml:space="preserve">
+    <value>[Login] User {0} has empty TenantId. Generating new one.</value>
+  </data>
+  <data name="FailedToUpdateUserTenantIdMessage" xml:space="preserve">
+    <value>[Login] Failed to update user TenantId: {0}</value>
+  </data>
+  <data name="LoginUsingTenantIdMessage" xml:space="preserve">
+    <value>[Login] Using TenantId: {0}</value>
+  </data>
+  <data name="TenantServiceUserNull" xml:space="preserve">
+    <value>[CurrentTenantService] HttpContext.User is null</value>
+  </data>
+  <data name="TenantServiceClaimsAvailable" xml:space="preserve">
+    <value>[CurrentTenantService] Claims available:</value>
+  </data>
+  <data name="TenantServiceClaimInfo" xml:space="preserve">
+    <value> - {0}: {1}</value>
+  </data>
+  <data name="TenantServiceFoundClaim" xml:space="preserve">
+    <value>[CurrentTenantService] Found tenantId claim: {0}</value>
+  </data>
+  <data name="TenantServiceFailedToParse" xml:space="preserve">
+    <value>[CurrentTenantService] Failed to parse tenant ID or not found.</value>
+  </data>
+  <data name="StockReportErrorLoadingLogo" xml:space="preserve">
+    <value>[StockReportDTO] Error loading logo: {0}</value>
+  </data>
+  <data name="ReportErrorLoadingLogo" xml:space="preserve">
+    <value>[ReportDTO] Error loading logo: {0}</value>
+  </data>
+  <data name="QuotationDocumentErrorLoadingLogo" xml:space="preserve">
+    <value>[QuotationDocumentDTO] Error loading logo: {0}</value>
+  </data>
+  <data name="InvoiceDocumentErrorLoadingLogo" xml:space="preserve">
+    <value>[InvoiceDocumentDTO] Error loading logo: {0}</value>
+  </data>
 </root>

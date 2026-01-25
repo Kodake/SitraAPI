@@ -3,6 +3,7 @@ using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using System.Reflection;
+using SITRA.Core.Helpers;
 
 namespace SITRA.Core.DTOs
 {
@@ -96,7 +97,7 @@ namespace SITRA.Core.DTOs
                               .FontSize(8)
                               .Italic();
 
-                        Console.WriteLine($"[QuotationDocumentDTO] Error loading logo: {ex.Message}");
+                        Console.WriteLine(Utilities.QuotationDocumentErrorLoadingLogo(ex.Message));
                     }
 
                     column.Item().BorderBottom(1).Padding(padding).Text("COTIZACIÓN").SemiBold();

@@ -2,6 +2,7 @@
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+using SITRA.Core.Helpers;
 
 namespace SITRA.Core.DTOs
 {
@@ -82,7 +83,7 @@ namespace SITRA.Core.DTOs
                               .FontSize(8)
                               .Italic();
 
-                        Console.WriteLine($"[InvoiceDocumentDTO] Error loading logo: {ex.Message}");
+                        Console.WriteLine(Utilities.InvoiceDocumentErrorLoadingLogo(ex.Message));
                     }
 
                     column.Item().BorderBottom(1).Padding(padding).Text("FACTURA DE CONSUMO FISCAL").SemiBold();
