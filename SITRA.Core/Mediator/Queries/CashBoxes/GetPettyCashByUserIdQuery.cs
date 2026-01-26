@@ -35,7 +35,7 @@ namespace SITRA.Core.Mediator.Queries.CashBoxes
                 .Where(kvp => kvp.Key is PaymentMethod)
                 .Select(kvp => new PaymentMethodAmountListDTO
                 {
-                    Method = (PaymentMethod)kvp.Key,
+                    MethodType = (PaymentMethod)kvp.Key,
                     Amount = kvp.Value
                 })
                 .ToList();

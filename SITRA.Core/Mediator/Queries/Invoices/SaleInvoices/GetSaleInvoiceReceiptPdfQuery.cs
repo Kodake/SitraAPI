@@ -3,6 +3,7 @@ using AutoMapper;
 using SITRA.Core.DTOs;
 using SITRA.Core.Entities.Invoices;
 using SITRA.Core.Interfaces;
+using SITRA.Core.Documents;
 
 namespace SITRA.Core.Mediator.Queries.Invoices.SaleInvoices
 {
@@ -31,7 +32,7 @@ namespace SITRA.Core.Mediator.Queries.Invoices.SaleInvoices
                 return null;
             }
 
-            var invoiceDocument = new InvoiceReceiptDocumentDTO(saleInvoice, user);
+            var invoiceDocument = new InvoiceReceiptDocument(saleInvoice, user);
             var filePath = Path.Combine(Path.GetTempPath(), $"Invoice-Receipt_{Id}.pdf");
             invoiceDocument.GeneratePdf(filePath);
 

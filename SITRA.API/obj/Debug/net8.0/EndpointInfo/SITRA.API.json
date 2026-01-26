@@ -9297,7 +9297,7 @@
       "PaymentMethodAmountListDTO": {
         "type": "object",
         "properties": {
-          "method": {
+          "methodType": {
             "$ref": "#/components/schemas/PaymentMethod"
           },
           "amount": {

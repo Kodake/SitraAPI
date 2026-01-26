@@ -57,6 +57,64 @@ namespace SITRA.Core.Helpers
         public static string ContactNotFoundOrInvalidMessage => _resourceManager.GetString("ContactNotFoundOrInvalidMessage")!;
         public static string NoSigningKeysFoundMessage => _resourceManager.GetString("NoSigningKeysFoundMessage")!;
 
+        // Report Titles
+        public static string StockReportTitle => _resourceManager.GetString("StockReportTitle")!;
+        public static string SalesReportTitle => _resourceManager.GetString("SalesReportTitle")!;
+        public static string PurchasesReportTitle => _resourceManager.GetString("PurchasesReportTitle")!;
+        public static string QuotationsTitle => _resourceManager.GetString("QuotationsTitle")!;
+        public static string ClosePettyCashTitle => _resourceManager.GetString("ClosePettyCashTitle")!;
+        public static string InvoiceReceiptTitle => _resourceManager.GetString("InvoiceReceiptTitle")!;
+        public static string InvoiceTitle => _resourceManager.GetString("InvoiceTitle")!;
+
+        // Document Labels
+        public static string IdentificationLabel => _resourceManager.GetString("IdentificationLabel")!;
+        public static string DateLabel => _resourceManager.GetString("DateLabel")!;
+        public static string NameLabel => _resourceManager.GetString("NameLabel")!;
+        public static string NumberLabel => _resourceManager.GetString("NumberLabel")!;
+        public static string FiscalSupportLabel => _resourceManager.GetString("FiscalSupportLabel")!;
+        public static string DueDateLabel => _resourceManager.GetString("DueDateLabel")!;
+        public static string DescriptionLabel => _resourceManager.GetString("DescriptionLabel")!;
+        public static string QuantityLabel => _resourceManager.GetString("QuantityLabel")!;
+        public static string TotalLabel => _resourceManager.GetString("TotalLabel")!;
+        public static string SubtotalLabel => _resourceManager.GetString("SubtotalLabel")!;
+        public static string TaxesLabel => _resourceManager.GetString("TaxesLabel")!;
+        public static string UserLabel => _resourceManager.GetString("UserLabel")!;
+        public static string ConditionLabel => _resourceManager.GetString("ConditionLabel")!;
+        public static string SpotConditionLabel => _resourceManager.GetString("SpotConditionLabel")!;
+        public static string CreditConditionLabel => _resourceManager.GetString("CreditConditionLabel")!;
+        public static string InvoiceLabel => _resourceManager.GetString("InvoiceLabel")!;
+        public static string FiscalSupportNumberLabel => _resourceManager.GetString("FiscalSupportNumberLabel")!;
+        public static string RncCedulaLabel => _resourceManager.GetString("RncCedulaLabel")!;
+        public static string CustomerLabel => _resourceManager.GetString("CustomerLabel")!;
+        public static string ItemsLabel => _resourceManager.GetString("ItemsLabel")!;
+        public static string TaxLabelShort => _resourceManager.GetString("TaxLabelShort")!;
+        public static string TotalLabelShort => _resourceManager.GetString("TotalLabelShort")!;
+        public static string ItbisLabel => _resourceManager.GetString("ItbisLabel")!;
+        public static string AmountToPayLabel => _resourceManager.GetString("AmountToPayLabel")!;
+        public static string PaymentMethodsLabel => _resourceManager.GetString("PaymentMethodsLabel")!;
+        public static string ReceiptFooterMessage => _resourceManager.GetString("ReceiptFooterMessage")!;
+        public static string AmountReturnedLabel => _resourceManager.GetString("AmountReturnedLabel")!;
+        public static string SellerLabel => _resourceManager.GetString("SellerLabel")!;
+        public static string QuotationNumberLabel => _resourceManager.GetString("QuotationNumberLabel")!;
+        public static string ProductLabel => _resourceManager.GetString("ProductLabel")!;
+        public static string FromLabel => _resourceManager.GetString("FromLabel")!;
+        public static string ToLabel => _resourceManager.GetString("ToLabel")!;
+        public static string CashierLabel => _resourceManager.GetString("CashierLabel")!;
+        public static string OpeningDateLabel => _resourceManager.GetString("OpeningDateLabel")!;
+        public static string ClosingDateLabel => _resourceManager.GetString("ClosingDateLabel")!;
+        public static string OpeningAmountLabel => _resourceManager.GetString("OpeningAmountLabel")!;
+        public static string BilledAmountLabel => _resourceManager.GetString("BilledAmountLabel")!;
+        public static string WithdrawalsLabel => _resourceManager.GetString("WithdrawalsLabel")!;
+        public static string SummaryByMethodLabel => _resourceManager.GetString("SummaryByMethodLabel")!;
+        public static string ExpectedCashLabel => _resourceManager.GetString("ExpectedCashLabel")!;
+        public static string ClosingAmountLabel => _resourceManager.GetString("ClosingAmountLabel")!;
+        public static string DifferenceLabel => _resourceManager.GetString("DifferenceLabel")!;
+        public static string CashierSignatureLabel => _resourceManager.GetString("CashierSignatureLabel")!;
+        public static string LogoNotAvailableLabel => _resourceManager.GetString("LogoNotAvailableLabel")!;
+        public static string ErrorLoadingLogoLabel => _resourceManager.GetString("ErrorLoadingLogoLabel")!;
+        public static string PhoneLabel => _resourceManager.GetString("PhoneLabel")!;
+        public static string RncLabel => _resourceManager.GetString("RncLabel")!;
+
         public static string UserEmptyTenantIdMessage(string email)
         {
             var message = _resourceManager.GetString("UserEmptyTenantIdMessage");
@@ -155,6 +213,17 @@ namespace SITRA.Core.Helpers
         {
             var message = _resourceManager.GetString("FiscalSupportAlreadyExistsMessage");
             return string.Format(message!, supportType, warehouseId);
+        }
+
+        public static string GetPaymentMethodLabel(PaymentMethod method)
+        {
+            return method switch
+            {
+                PaymentMethod.Cash => _resourceManager.GetString("PaymentMethodCash")!,
+                PaymentMethod.Transfer => _resourceManager.GetString("PaymentMethodTransfer")!,
+                PaymentMethod.Card => _resourceManager.GetString("PaymentMethodCard")!,
+                _ => method.ToString()
+            };
         }
     }
 }

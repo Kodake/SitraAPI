@@ -7,6 +7,7 @@ using SITRA.Core.Enums;
 using SITRA.Core.Interfaces;
 using Microsoft.AspNetCore.OutputCaching;
 using QuestPDF.Infrastructure;
+using SITRA.Core.Documents;
 
 namespace SITRA.Core.Mediator.Commands.CashBoxes
 {
@@ -45,7 +46,7 @@ namespace SITRA.Core.Mediator.Commands.CashBoxes
                 .Where(kvp => kvp.Key is PaymentMethod)
                 .Select(kvp => new PaymentMethodAmountListDTO
                 {
-                    Method = (PaymentMethod)kvp.Key,
+                    MethodType = (PaymentMethod)kvp.Key,
                     Amount = kvp.Value
                 })
                 .ToList();
@@ -67,7 +68,7 @@ namespace SITRA.Core.Mediator.Commands.CashBoxes
             await outputCacheStore.EvictByTagAsync("pettyCashes-get", cancellationToken);
 
             // ?? Generate PDF and return it
-            var pdfDoc = new ClosePettyCashDTO(pettyCashDto);
+            var pdfDoc = new ClosePettyCashDocument(pettyCashDto);
             var fileName = $"ClosePettyCash_{DateTimeOffset.UtcNow:yyyyMMdd_HHmmss}.pdf";
             var filePath = Path.Combine(Path.GetTempPath(), fileName);
 

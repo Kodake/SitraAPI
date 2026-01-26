@@ -1,11 +1,14 @@
 using AutoMapper;
 using SITRA.Core.DTOs;
 using SITRA.Core.Interfaces;
+using SITRA.Core.Documents;
+using SITRA.Core.Mediator.Queries;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SITRA.Core.Mediator.Queries.Invoices.SaleInvoices
 {
     public class GetSaleInvoicePdfQuery : GetByIdQuery<(byte[] FileBytes, string FileName)?>
-
     {
         public GetSaleInvoicePdfQuery(int invoiceId) : base(invoiceId) { }
 
@@ -22,7 +25,7 @@ namespace SITRA.Core.Mediator.Queries.Invoices.SaleInvoices
                 return null;
             }
 
-            var invoiceDocument = new InvoiceDocumentDTO(saleInvoice);
+            var invoiceDocument = new InvoiceDocument(saleInvoice);
             var filePath = Path.Combine(Path.GetTempPath(), $"Sale-Invoice_{Id}.pdf");
             invoiceDocument.GeneratePdf(filePath);
 

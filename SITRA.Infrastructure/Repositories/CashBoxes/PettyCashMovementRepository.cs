@@ -110,7 +110,7 @@ namespace SITRA.Infrastructure.Repositories.CashBoxes
 
             var result = allMethods.Select(method => new PaymentMethodAmountListDTO
             {
-                Method = method,
+                MethodType = method,
                 Amount = payments.FirstOrDefault(p => p.PaymentMethod == method)?.TotalAmount ?? 0
             }).ToList();
 

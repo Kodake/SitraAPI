@@ -1,5 +1,5 @@
 using AutoMapper;
-using SITRA.Core.DTOs;
+using SITRA.Core.DTOs.Dashboards;
 using SITRA.Core.Interfaces;
 
 namespace SITRA.Core.Mediator.Queries.Dashboards

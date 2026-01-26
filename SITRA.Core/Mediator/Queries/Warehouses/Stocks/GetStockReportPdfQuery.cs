@@ -1,6 +1,7 @@
 using AutoMapper;
 using SITRA.Core.DTOs;
 using SITRA.Core.Interfaces;
+using SITRA.Core.Documents;
 
 namespace SITRA.Core.Mediator.Queries.Warehouses.Stocks
 {
@@ -28,8 +29,7 @@ namespace SITRA.Core.Mediator.Queries.Warehouses.Stocks
             if (stocks == null || !stocks.Any())
                 return null;
 
-            string reportName = "REPORTE DE INVENTARIO";
-            var reportDocument = new StockReportDTO(stocks, WarehouseIds, reportName);
+            var reportDocument = new StockReportDocument(stocks, WarehouseIds);
 
             var filePath = Path.Combine(Path.GetTempPath(), $"Stocks-Report_{Guid.NewGuid()}.pdf");
             reportDocument.GeneratePdf(filePath);

@@ -1,4 +1,5 @@
 using SITRA.Core.DTOs;
+using SITRA.Core.DTOs.Invoices.SaleInvoices;
 using SITRA.Core.Entities.Invoices;
 using SITRA.Core.Interfaces.Generics;
 

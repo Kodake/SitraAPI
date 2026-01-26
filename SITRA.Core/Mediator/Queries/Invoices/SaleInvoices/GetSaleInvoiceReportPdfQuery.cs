@@ -1,6 +1,7 @@
 using AutoMapper;
 using SITRA.Core.DTOs;
 using SITRA.Core.Interfaces;
+using SITRA.Core.Documents;
 
 namespace SITRA.Core.Mediator.Queries.Invoices.SaleInvoices
 {
@@ -28,8 +29,7 @@ namespace SITRA.Core.Mediator.Queries.Invoices.SaleInvoices
                 return null;
             }
 
-            string reportName = "REPORTE DE VENTAS";
-            var invoiceDocument = new ReportDTO(saleInvoices, From, To, reportName);
+            var invoiceDocument = new SaleInvoiceReportDocument(saleInvoices, From, To);
             var filePath = Path.Combine(Path.GetTempPath(), $"Sales-Report_{Guid.NewGuid()}.pdf");
             invoiceDocument.GeneratePdf(filePath);
 

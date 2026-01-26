@@ -241,4 +241,175 @@
   <data name="InvoiceDocumentErrorLoadingLogo" xml:space="preserve">
     <value>[InvoiceDocumentDTO] Error al cargar el logo: {0}</value>
   </data>
+  <data name="StockReportTitle" xml:space="preserve">
+    <value>REPORTE DE INVENTARIO</value>
+  </data>
+  <data name="SalesReportTitle" xml:space="preserve">
+    <value>REPORTE DE VENTAS</value>
+  </data>
+  <data name="PurchasesReportTitle" xml:space="preserve">
+    <value>REPORTE DE COMPRAS</value>
+  </data>
+  <data name="QuotationsTitle" xml:space="preserve">
+    <value>COTIZACIÓN</value>
+  </data>
+  <data name="ClosePettyCashTitle" xml:space="preserve">
+    <value>CIERRE DE CAJA</value>
+  </data>
+  <data name="InvoiceReceiptTitle" xml:space="preserve">
+    <value>FACTURA CONSUMIDOR FINAL</value>
+  </data>
+  <data name="InvoiceTitle" xml:space="preserve">
+    <value>FACTURA DE CONSUMO FISCAL</value>
+  </data>
+  <data name="IdentificationLabel" xml:space="preserve">
+    <value>IDENTIFICACIÓN</value>
+  </data>
+  <data name="DateLabel" xml:space="preserve">
+    <value>FECHA</value>
+  </data>
+  <data name="NameLabel" xml:space="preserve">
+    <value>NOMBRE / RAZÓN SOCIAL</value>
+  </data>
+  <data name="NumberLabel" xml:space="preserve">
+    <value>NÚMERO #</value>
+  </data>
+  <data name="FiscalSupportLabel" xml:space="preserve">
+    <value>COMPROBANTE FISCAL</value>
+  </data>
+  <data name="DueDateLabel" xml:space="preserve">
+    <value>VENCIMIENTO</value>
+  </data>
+  <data name="DescriptionLabel" xml:space="preserve">
+    <value>DESCRIPCIÓN</value>
+  </data>
+  <data name="QuantityLabel" xml:space="preserve">
+    <value>CANT.</value>
+  </data>
+  <data name="TotalLabel" xml:space="preserve">
+    <value>TOTAL</value>
+  </data>
+  <data name="SubtotalLabel" xml:space="preserve">
+    <value>SUBTOTAL</value>
+  </data>
+  <data name="TaxesLabel" xml:space="preserve">
+    <value>IMPUESTOS</value>
+  </data>
+  <data name="UserLabel" xml:space="preserve">
+    <value>Usuario:</value>
+  </data>
+  <data name="ConditionLabel" xml:space="preserve">
+    <value>Condición:</value>
+  </data>
+  <data name="SpotConditionLabel" xml:space="preserve">
+    <value>AL CONTADO</value>
+  </data>
+  <data name="CreditConditionLabel" xml:space="preserve">
+    <value>CRÉDITO</value>
+  </data>
+  <data name="InvoiceLabel" xml:space="preserve">
+    <value>Factura:</value>
+  </data>
+  <data name="FiscalSupportNumberLabel" xml:space="preserve">
+    <value>NCF:</value>
+  </data>
+  <data name="RncCedulaLabel" xml:space="preserve">
+    <value>RNC / Cédula:</value>
+  </data>
+  <data name="CustomerLabel" xml:space="preserve">
+    <value>Cliente:</value>
+  </data>
+  <data name="ItemsLabel" xml:space="preserve">
+    <value>Artículos</value>
+  </data>
+  <data name="TaxLabelShort" xml:space="preserve">
+    <value>Imp.</value>
+  </data>
+  <data name="TotalLabelShort" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="ItbisLabel" xml:space="preserve">
+    <value>ITBIS:</value>
+  </data>
+  <data name="AmountToPayLabel" xml:space="preserve">
+    <value>Monto a pagar:</value>
+  </data>
+  <data name="PaymentMethodsLabel" xml:space="preserve">
+    <value>MÉTODOS DE PAGO:</value>
+  </data>
+  <data name="PaymentMethodCash" xml:space="preserve">
+    <value>EFECTIVO</value>
+  </data>
+  <data name="PaymentMethodTransfer" xml:space="preserve">
+    <value>TRANSFERENCIA</value>
+  </data>
+  <data name="PaymentMethodCard" xml:space="preserve">
+    <value>TARJETA</value>
+  </data>
+  <data name="ReceiptFooterMessage" xml:space="preserve">
+    <value>No hacemos devoluciones en efectivo, serán emitidas notas de crédito en caso de cambio</value>
+  </data>
+  <data name="AmountReturnedLabel" xml:space="preserve">
+    <value>DEVUELTA:</value>
+  </data>
+  <data name="SellerLabel" xml:space="preserve">
+    <value>VENDEDOR:</value>
+  </data>
+  <data name="QuotationNumberLabel" xml:space="preserve">
+    <value>NÚMERO DE COTIZACIÓN</value>
+  </data>
+  <data name="ProductLabel" xml:space="preserve">
+    <value>PRODUCTO</value>
+  </data>
+  <data name="FromLabel" xml:space="preserve">
+    <value>DESDE:</value>
+  </data>
+  <data name="ToLabel" xml:space="preserve">
+    <value>HASTA:</value>
+  </data>
+  <data name="CashierLabel" xml:space="preserve">
+    <value>Cajero:</value>
+  </data>
+  <data name="OpeningDateLabel" xml:space="preserve">
+    <value>Fecha Apertura:</value>
+  </data>
+  <data name="ClosingDateLabel" xml:space="preserve">
+    <value>Fecha Cierre:</value>
+  </data>
+  <data name="OpeningAmountLabel" xml:space="preserve">
+    <value>Monto Inicial:</value>
+  </data>
+  <data name="BilledAmountLabel" xml:space="preserve">
+    <value>Total Facturado:</value>
+  </data>
+  <data name="WithdrawalsLabel" xml:space="preserve">
+    <value>Retiros / Egresos:</value>
+  </data>
+  <data name="SummaryByMethodLabel" xml:space="preserve">
+    <value>RESUMEN POR MÉTODO:</value>
+  </data>
+  <data name="ExpectedCashLabel" xml:space="preserve">
+    <value>EFECTIVO ESPERADO:</value>
+  </data>
+  <data name="ClosingAmountLabel" xml:space="preserve">
+    <value>MONTO DE CIERRE:</value>
+  </data>
+  <data name="DifferenceLabel" xml:space="preserve">
+    <value>DIFERENCIA:</value>
+  </data>
+  <data name="CashierSignatureLabel" xml:space="preserve">
+    <value>Firma del Cajero</value>
+  </data>
+  <data name="LogoNotAvailableLabel" xml:space="preserve">
+    <value>LOGO NO DISPONIBLE</value>
+  </data>
+  <data name="ErrorLoadingLogoLabel" xml:space="preserve">
+    <value>ERROR AL CARGAR LOGO</value>
+  </data>
+  <data name="PhoneLabel" xml:space="preserve">
+    <value>TELÉFONO:</value>
+  </data>
+  <data name="RncLabel" xml:space="preserve">
+    <value>RNC:</value>
+  </data>
 </root>

@@ -1,8 +1,8 @@
-using SITRA.Core.DTOs;
 using SITRA.Core.Mediator.Queries.Dashboards;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using SITRA.Core.DTOs.Dashboards;
 
 namespace SITRA.API.Endpoints
 {

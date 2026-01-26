@@ -1,5 +1,3 @@
-using SITRA.Core.DTOs;
-
 namespace SITRA.Core.DTOs.Invoices.SaleInvoices
 {
     public class SaleInvoiceWithBalanceDTO

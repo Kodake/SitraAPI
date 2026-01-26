@@ -23,8 +23,8 @@ namespace SITRA.Core.Mediator.Queries.CashBoxes
             if (pettyCashDto == null)
                 return null;
 
-            // 2?? Generate PDF using ClosePettyCashDTO
-            var closePettyCashDoc = new ClosePettyCashDTO(pettyCashDto);
+            // 2?? Generate PDF using ClosePettyCashDocument
+            var closePettyCashDoc = new SITRA.Core.Documents.ClosePettyCashDocument(pettyCashDto);
 
             var fileName = $"ClosePettyCash_{DateTimeOffset.UtcNow:yyyyMMdd_HHmmss}.pdf";
             var filePath = Path.Combine(Path.GetTempPath(), fileName);

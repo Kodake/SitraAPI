@@ -1,7 +1,7 @@
-using SITRA.Core.DTOs;
 using SITRA.Core.Interfaces;
 using AutoMapper;
 using MediatR;
+using SITRA.Core.DTOs.Invoices.SaleInvoices;
 
 namespace SITRA.Core.Mediator.Queries.Invoices.SaleInvoices
 {

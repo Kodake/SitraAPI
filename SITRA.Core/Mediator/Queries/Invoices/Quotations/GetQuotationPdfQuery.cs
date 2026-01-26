@@ -1,6 +1,7 @@
 using AutoMapper;
 using SITRA.Core.DTOs;
 using SITRA.Core.Interfaces;
+using SITRA.Core.Documents;
 
 namespace SITRA.Core.Mediator.Queries.Invoices.Quotations
 {
@@ -22,7 +23,7 @@ namespace SITRA.Core.Mediator.Queries.Invoices.Quotations
                 return null;
             }
 
-            var invoiceDocument = new QuotationDocumentDTO(quotation);
+            var invoiceDocument = new QuotationDocument(quotation);
             var filePath = Path.Combine(Path.GetTempPath(), $"Quotation_{Id}.pdf");
             invoiceDocument.GeneratePdf(filePath);
 

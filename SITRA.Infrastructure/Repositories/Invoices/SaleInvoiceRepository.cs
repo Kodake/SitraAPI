@@ -7,6 +7,7 @@ using SITRA.Core.Enums;
 using SITRA.Core.Helpers;
 using SITRA.Core.Interfaces.Invoices;
 using Microsoft.EntityFrameworkCore;
+using SITRA.Core.DTOs.Invoices.SaleInvoices;
 
 namespace SITRA.Infrastructure.Repositories.Invoices
 {

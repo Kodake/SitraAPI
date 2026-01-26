@@ -1173,7 +1173,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "SITRA.Core.DTOs.DashboardDTO",
+        "Type": "SITRA.Core.DTOs.Dashboards.DashboardDTO",
         "MediaTypes": [
           "application/json"
         ],
@@ -3702,7 +3702,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "SITRA.Core.DTOs.BalanceSummaryDTO",
+        "Type": "SITRA.Core.DTOs.Invoices.SaleInvoices.BalanceSummaryDTO",
         "MediaTypes": [
           "application/json"
         ],

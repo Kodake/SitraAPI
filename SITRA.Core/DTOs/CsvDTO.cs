@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Http;
 namespace SITRA.Core.DTOs
 {
     public class CsvDTO
