@@ -6,7 +6,7 @@ namespace SITRA.Core.Mediator.Queries.Invoices.PurchaseInvoices
 {
     public class GetPurchaseInvoiceByIdQuery : GetByIdQuery<PurchaseInvoiceDTO>
     {
-        public GetPurchaseInvoiceByIdQuery(long id) : base(id) { }
+        public GetPurchaseInvoiceByIdQuery(Guid id) : base(id) { }
 
         public override async Task<PurchaseInvoiceDTO> GetData(
             IUnitOfWork unitOfWork,

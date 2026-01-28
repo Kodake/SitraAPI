@@ -4,9 +4,9 @@ namespace SITRA.Core.Entities.Products
 {
     public class ComboItem : ITenant, IAuditableEntity
     {
-        public long ParentItemId { get; set; }
+        public Guid ParentItemId { get; set; }
         public Item ParentItem { get; set; } = null!;
-        public long ChildItemId { get; set; }
+        public Guid ChildItemId { get; set; }
         public Item ChildItem { get; set; } = null!;
         public double Qty { get; set; }
         public DateTimeOffset CreatedAt { get; set; }

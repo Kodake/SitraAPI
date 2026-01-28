@@ -9,10 +9,10 @@ namespace SITRA.Core.Mediator.Commands
         : IRequest<(byte[] FileBytes, string FileName)?>
         where TEntity : class
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         public TDto Dto { get; set; }
 
-        protected UpdateFileCommand(long id, TDto dto)
+        protected UpdateFileCommand(Guid id, TDto dto)
         {
             Id = id;
             Dto = dto;

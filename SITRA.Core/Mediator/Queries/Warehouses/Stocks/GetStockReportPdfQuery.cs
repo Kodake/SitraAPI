@@ -1,5 +1,4 @@
 using AutoMapper;
-using SITRA.Core.DTOs;
 using SITRA.Core.Interfaces;
 using SITRA.Core.Documents;
 
@@ -7,11 +6,11 @@ namespace SITRA.Core.Mediator.Queries.Warehouses.Stocks
 {
     public class GetStockReportPdfQuery : IQuery<(byte[] FileBytes, string FileName)?>
     {
-        public List<long> WarehouseIds { get; }
+        public List<Guid> WarehouseIds { get; }
 
-        public GetStockReportPdfQuery(List<long> warehouseIds)
+        public GetStockReportPdfQuery(List<Guid> warehouseIds)
         {
-            WarehouseIds = warehouseIds ?? new List<long>();
+            WarehouseIds = warehouseIds ?? new List<Guid>();
         }
 
         public async Task<(byte[] FileBytes, string FileName)?> GetData(

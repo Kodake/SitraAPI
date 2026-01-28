@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.OutputCaching;
 
 namespace SITRA.Core.Mediator.Commands.Warehouses.Transfers
 {
-    public class UpdateTransferStatusCommand(long id, CreateTransferStatusDTO dto, TransferStatus newStatus) : UpdateCommand<Transfer, CreateTransferStatusDTO>(id, dto)
+    public class UpdateTransferStatusCommand(Guid id, CreateTransferStatusDTO dto, TransferStatus newStatus) : UpdateCommand<Transfer, CreateTransferStatusDTO>(id, dto)
     {
         private readonly TransferStatus _newStatus = newStatus;
 

@@ -6,10 +6,10 @@ namespace SITRA.Core.Interfaces.Products
 {
     public interface IPricingItemRepository : IRepositoryBase<PricingItem>
     {
-        Task<List<PricingItem>> GetAllAsync(PaginationDTO paginationDTO, long itemId);
-        Task<PricingItem?> GetPricingItemByItemIdAndPricingId(long itemId, long pricingId);
-        new Task<bool> ActivateAsync(long id);
-        Task<bool> ExistsAsync(long pricingId, long itemId);
-        Task Delete(long id);
+        Task<List<PricingItem>> GetAllAsync(PaginationDTO paginationDTO, Guid itemId);
+        Task<PricingItem?> GetPricingItemByItemIdAndPricingId(Guid itemId, Guid pricingId);
+        new Task<bool> ActivateAsync(Guid id);
+        Task<bool> ExistsAsync(Guid pricingId, Guid itemId);
+        Task Delete(Guid id);
     }
 }

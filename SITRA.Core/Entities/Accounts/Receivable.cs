@@ -7,10 +7,10 @@ namespace SITRA.Core.Entities.Accounts
 {
     public class Receivable : ITenant, IAuditableEntity
     {
-        public long Id { get; set; }
-        public long? InvoiceId { get; set; }
+        public Guid Id { get; set; }
+        public Guid? InvoiceId { get; set; }
         public virtual Invoice? Invoice { get; set; } = null!;
-        public long? ContactId { get; set; }
+        public Guid? ContactId { get; set; }
         public virtual Contact? Buyer { get; set; } = null!;
         public double TotalAmountDue { get; set; }
         public double TotalOutstanding { get; set; }

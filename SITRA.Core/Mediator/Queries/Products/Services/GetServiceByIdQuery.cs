@@ -5,7 +5,7 @@ namespace SITRA.Core.Mediator.Queries.Products.Services
 {
     public class GetServiceByIdQuery : GetByIdQuery<ServiceDTO>
     {
-        public GetServiceByIdQuery(long id) : base(id) { }
+        public GetServiceByIdQuery(Guid id) : base(id) { }
 
         public override async Task<ServiceDTO> GetData(
             IUnitOfWork unitOfWork,

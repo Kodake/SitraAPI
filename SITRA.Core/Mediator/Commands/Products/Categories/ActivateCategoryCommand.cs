@@ -5,7 +5,7 @@ namespace SITRA.Core.Mediator.Commands.Products.Categories
 {
     public class ActivateCategoryCommand : ToggleCommand
     {
-        public ActivateCategoryCommand(long id) : base(id)
+        public ActivateCategoryCommand(Guid id) : base(id)
         { }
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, CancellationToken cancellationToken)

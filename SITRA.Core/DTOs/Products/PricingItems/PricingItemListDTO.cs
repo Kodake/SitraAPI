@@ -4,7 +4,7 @@ namespace SITRA.Core.DTOs.Products.PricingItems
 {
     public class PricingItemListDTO
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         public PricingDTO? Pricing { get; set; }
         public double InitialCost { get; set; }
         public double BasePrice { get; set; }

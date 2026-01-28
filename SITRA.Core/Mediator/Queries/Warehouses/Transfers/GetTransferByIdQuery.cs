@@ -6,7 +6,7 @@ namespace SITRA.Core.Mediator.Queries.Warehouses.Transfers
 {
     public class GetTransferByIdQuery : GetByIdQuery<TransferDTO>
     {
-        public GetTransferByIdQuery(long id) : base(id) { }
+        public GetTransferByIdQuery(Guid id) : base(id) { }
 
         public override async Task<TransferDTO> GetData(
             IUnitOfWork unitOfWork,

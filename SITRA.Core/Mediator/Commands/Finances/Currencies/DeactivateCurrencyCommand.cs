@@ -5,7 +5,7 @@ namespace SITRA.Core.Mediator.Commands.Finances.Currencies
 {
     public class DeactivateCurrencyCommand : ToggleCommand
     {
-        public DeactivateCurrencyCommand(long id) : base(id)
+        public DeactivateCurrencyCommand(Guid id) : base(id)
         { }
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, CancellationToken cancellationToken)

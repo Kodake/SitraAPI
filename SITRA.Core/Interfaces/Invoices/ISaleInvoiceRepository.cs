@@ -8,10 +8,10 @@ namespace SITRA.Core.Interfaces.Invoices
     public interface ISaleInvoiceRepository : IRepositoryBase<Invoice>
     {
         new Task<List<Invoice>> GetAllAsync(PaginationDTO paginationDTO);
-        new Task<Invoice?> GetByIdAsync(long id);
+        new Task<Invoice?> GetByIdAsync(Guid id);
         Task AddInvoiceItem(InvoiceItem item);
-        Task<List<InvoiceItem>> GetItemsByInvoiceId(long invoiceId);
-        Task DeleteInvoiceItemsByInvoiceId(long? invoiceId);
+        Task<List<InvoiceItem>> GetItemsByInvoiceId(Guid invoiceId);
+        Task DeleteInvoiceItemsByInvoiceId(Guid? invoiceId);
         Task<int> Last24HoursSaleInvoicesAsync();
         Task<double> Last30DaysSalesAsync();
         Task<List<Invoice>> GetSalesByDateRangeAsync(DateTime from, DateTime to, PaginationDTO paginationDTO);

@@ -8,7 +8,7 @@ namespace SITRA.Core.Mediator.Queries.Invoices.Quotations
     public class GetQuotationPdfQuery : GetByIdQuery<(byte[] FileBytes, string FileName)?>
 
     {
-        public GetQuotationPdfQuery(int invoiceId) : base(invoiceId) { }
+        public GetQuotationPdfQuery(Guid invoiceId) : base(invoiceId) { }
 
         public override async Task<(byte[] FileBytes, string FileName)?> GetData(
             IUnitOfWork unitOfWork,

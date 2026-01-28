@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using SITRA.Core.DTOs.Appointments.Appointments;
 using SITRA.Core.Helpers;
 using SITRA.Core.Interfaces;
@@ -12,7 +12,11 @@ namespace SITRA.Core.Validations
         public CreateAppointmentDTOValidator(IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
         {
             var routeId = httpContextAccessor.HttpContext?.Request.RouteValues["id"];
-            long.TryParse(routeId?.ToString(), out long id);
+            Guid id = Guid.Empty;
+            if (routeId != null)
+            {
+                Guid.TryParse(routeId.ToString(), out id);
+            }
 
             RuleFor(x => x.Description)
                 .NotEmpty().WithMessage(Utilities.RequiredFieldMessage)
@@ -26,7 +30,7 @@ namespace SITRA.Core.Validations
                 .NotNull().WithMessage(Utilities.RequiredFieldMessage)
                 .MustAsync(async (dto, date, cancellation) =>
                     !await unitOfWork.AppointmentRepository
-                        .ExistsAtDateTime(date, id > 0 ? id : null))
+                        .ExistsAtDateTime(date, id != Guid.Empty ? id : null))
                 .WithMessage(Utilities.AppointmentAlreadyExist);
 
             RuleFor(x => x.AppointmentItemIds)

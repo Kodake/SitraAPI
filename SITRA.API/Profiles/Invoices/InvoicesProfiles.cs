@@ -24,13 +24,13 @@ namespace SITRA.API.Profiles.Invoices
 
             CreateMap<Invoice, SaleInvoiceDTO>()
                 .ForMember(des => des.Buyer, opt => opt.MapFrom(src => src.InvoiceBuyer != null ? src.InvoiceBuyer.Buyer : null))
-                .ForMember(des => des.CustomerId, opt => opt.MapFrom(src => src.InvoiceBuyer != null ? src.InvoiceBuyer.ContactId : 0))
+                .ForMember(des => des.CustomerId, opt => opt.MapFrom(src => src.InvoiceBuyer != null ? src.InvoiceBuyer.ContactId : Guid.Empty))
                 .ForMember(des => des.Biller, opt => opt.MapFrom(src => src.InvoiceBiller != null ? src.InvoiceBiller.Biller : null))
-                .ForMember(des => des.BillerId, opt => opt.MapFrom(src => src.InvoiceBiller != null ? src.InvoiceBiller.ContactId : 0))
+                .ForMember(des => des.BillerId, opt => opt.MapFrom(src => src.InvoiceBiller != null ? src.InvoiceBiller.ContactId : Guid.Empty))
                 .ForMember(des => des.FiscalSupport, opt => opt.MapFrom(src => src.InvoiceFiscalSupport != null ? src.InvoiceFiscalSupport.FiscalSupport : null));
             CreateMap<SaleInvoiceItemDTO, InvoiceItem>();
             CreateMap<Invoice, SaleInvoiceListDTO>()
-                .ForMember(des => des.ContactId, opt => opt.MapFrom(src => src.InvoiceBuyer != null ? src.InvoiceBuyer.ContactId : (long?)null))
+                .ForMember(des => des.ContactId, opt => opt.MapFrom(src => src.InvoiceBuyer != null ? src.InvoiceBuyer.ContactId : (Guid?)null))
                 .ForMember(des => des.Buyer, opt => opt.MapFrom(src => src.InvoiceBuyer != null ? src.InvoiceBuyer.Buyer : null));
 
 
@@ -51,10 +51,10 @@ namespace SITRA.API.Profiles.Invoices
 
             CreateMap<Invoice, PurchaseInvoiceDTO>()
                 .ForMember(des => des.Supplier, opt => opt.MapFrom(src => src.InvoiceBuyer != null ? src.InvoiceBuyer.Buyer : null))
-                .ForMember(des => des.SupplierId, opt => opt.MapFrom(src => src.InvoiceBuyer != null ? src.InvoiceBuyer.ContactId : 0));
+                .ForMember(des => des.SupplierId, opt => opt.MapFrom(src => src.InvoiceBuyer != null ? src.InvoiceBuyer.ContactId : Guid.Empty));
             CreateMap<PurchaseInvoiceItemDTO, InvoiceItem>();
             CreateMap<Invoice, PurchaseInvoiceListDTO>()
-                .ForMember(des => des.SupplierId, opt => opt.MapFrom(src => src.InvoiceBuyer != null ? src.InvoiceBuyer.ContactId : (long?)null))
+                .ForMember(des => des.SupplierId, opt => opt.MapFrom(src => src.InvoiceBuyer != null ? src.InvoiceBuyer.ContactId : (Guid?)null))
                 .ForMember(des => des.Supplier, opt => opt.MapFrom(src => src.InvoiceBuyer != null ? src.InvoiceBuyer.Buyer : null));
 
             CreateMap<PurchaseInvoiceItemDTO, InvoiceItem>()

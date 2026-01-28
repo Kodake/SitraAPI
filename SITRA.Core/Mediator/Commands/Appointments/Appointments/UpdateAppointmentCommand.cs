@@ -8,7 +8,7 @@ namespace SITRA.Core.Mediator.Commands.Appointments.Appointments
 {
     public class UpdateAppointmentCommand : UpdateCommand<Appointment, CreateAppointmentDTO>
     {
-        public UpdateAppointmentCommand(long id, CreateAppointmentDTO dto) : base(id, dto) { }
+        public UpdateAppointmentCommand(Guid id, CreateAppointmentDTO dto) : base(id, dto) { }
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
         {

@@ -14,13 +14,13 @@ namespace SITRA.Infrastructure.Repositories.Products
             : base(context, httpContextAccessor)
         { }
 
-        public async Task<bool> Exists(long id, ItemType itemType)
+        public async Task<bool> Exists(Guid id, ItemType itemType)
         {
             return await context.Items
                 .AnyAsync(i => i.Id == id && i.ItemType == itemType);
         }
 
-        public async Task<List<Item>> GetByPricingIdAndWarehouseId(long pricingId, long warehouseId)
+        public async Task<List<Item>> GetByPricingIdAndWarehouseId(Guid pricingId, Guid warehouseId)
         {
             return await context.Items
                 .Include(x => x.Stocks)

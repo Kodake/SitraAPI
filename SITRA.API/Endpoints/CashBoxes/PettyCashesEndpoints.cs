@@ -16,16 +16,16 @@ namespace SITRA.API.Endpoints.CashBoxes
     {
         public static RouteGroupBuilder MapPettyCashes(this RouteGroupBuilder group)
         {
-            group.MapGet("/{pettyCashId:long}/pettyCashMovements", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("pettyCashMovements-get"))
+            group.MapGet("/{pettyCashId:guid}/pettyCashMovements", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("pettyCashMovements-get"))
                 .AddPaginationParamsOpenAPI().RequireAuthorization();
             group.MapGet("/", GetById).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("pettyCashes-get"))
                 .RequireAuthorization();
-            group.MapGet("/{pettyCashId:long}/pettyCashPayments", GetAllById).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("pettyCashes-get")).RequireAuthorization();
+            group.MapGet("/{pettyCashId:guid}/pettyCashPayments", GetAllById).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("pettyCashes-get")).RequireAuthorization();
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateOpenPettyCashDTO>>()
                 .RequireAuthorization()
                 .WithOpenApi();
-            group.MapPut("/{id:long}", Update).DisableAntiforgery()
+            group.MapPut("/{id:guid}", Update).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateClosePettyCashDTO>>()
                 .RequireAuthorization()
                 .WithOpenApi();
@@ -34,7 +34,7 @@ namespace SITRA.API.Endpoints.CashBoxes
 
         static async Task<Ok<List<PettyCashMovementListDTO>>> GetAll(
             [FromServices] IMediator mediator,
-            [FromRoute] long pettyCashId,
+            [FromRoute] Guid pettyCashId,
             PaginationDTO pagination)
         {
             var query = new GetAllPettyCashMovementsByIdQuery(pagination, pettyCashId);
@@ -52,7 +52,7 @@ namespace SITRA.API.Endpoints.CashBoxes
 
         static async Task<Ok<List<PaymentMethodAmountListDTO>>> GetAllById(
             [FromServices] IMediator mediator,
-            [FromRoute] long pettyCashId)
+            [FromRoute] Guid pettyCashId)
         {
             var query = new GetAllPaymentMethodSummaryByIdQuery(pettyCashId);
             var dto = await mediator.Send(query);
@@ -70,7 +70,7 @@ namespace SITRA.API.Endpoints.CashBoxes
         }
 
         static async Task<Results<FileContentHttpResult, NotFound, ValidationProblem>> Update(
-            long id,
+            Guid id,
             [FromBody] CreateClosePettyCashDTO dto,
             [FromServices] IMediator mediator,
             IOutputCacheStore outputCacheStore)

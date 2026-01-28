@@ -6,7 +6,7 @@ namespace SITRA.Core.Mediator.Queries.Invoices.Quotations
 {
     public class GetQuotationByIdQuery : GetByIdQuery<QuotationDTO>
     {
-        public GetQuotationByIdQuery(long id) : base(id) { }
+        public GetQuotationByIdQuery(Guid id) : base(id) { }
 
         public override async Task<QuotationDTO> GetData(
             IUnitOfWork unitOfWork,

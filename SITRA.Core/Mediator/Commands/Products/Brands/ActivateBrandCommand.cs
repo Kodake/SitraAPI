@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.OutputCaching;
 
 namespace SITRA.Core.Mediator.Commands.Products.Brands
 {
-    public class ActivateBrandCommand(long id) : ToggleCommand(id)
+    public class ActivateBrandCommand(Guid id) : ToggleCommand(id)
     {
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, CancellationToken cancellationToken)
         {

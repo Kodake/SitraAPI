@@ -6,15 +6,15 @@ namespace SITRA.Core.Entities.Warehouses
 {
     public class Transfer : ITenant, IAuditableEntity
     {
-        public long Id { get; set; }
-        public long ProductId { get; set; }
+        public Guid Id { get; set; }
+        public Guid ProductId { get; set; }
         public Item? Product { get; set; } = null!;
-        public long OriginWarehouseId { get; set; }
+        public Guid OriginWarehouseId { get; set; }
         public Warehouse OriginWarehouse { get; set; } = null!;
-        public long DestinationWarehouseId { get; set; }
+        public Guid DestinationWarehouseId { get; set; }
         public Warehouse DestinationWarehouse { get; set; } = null!;
         public double Qty { get; set; }
-        public long StockId { get; set; }
+        public Guid StockId { get; set; }
         public Stock? Stock { get; set; }
         public string Comment { get; set; } = string.Empty;
         public TransferStatus Status { get; set; }

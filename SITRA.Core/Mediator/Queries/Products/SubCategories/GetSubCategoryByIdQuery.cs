@@ -6,7 +6,7 @@ namespace SITRA.Core.Mediator.Queries.Products.SubCategories
 {
     public class GetSubCategoryByIdQuery : GetByIdQuery<SubCategoryDTO>
     {
-        public GetSubCategoryByIdQuery(long id) : base(id) { }
+        public GetSubCategoryByIdQuery(Guid id) : base(id) { }
 
         public override async Task<SubCategoryDTO> GetData(
             IUnitOfWork unitOfWork,

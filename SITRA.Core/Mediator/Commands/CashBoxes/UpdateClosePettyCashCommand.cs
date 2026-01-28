@@ -11,7 +11,7 @@ using SITRA.Core.Documents;
 
 namespace SITRA.Core.Mediator.Commands.CashBoxes
 {
-    public class UpdateClosePettyCashCommand(long id, CreateClosePettyCashDTO dto)
+    public class UpdateClosePettyCashCommand(Guid id, CreateClosePettyCashDTO dto)
         : UpdateFileCommand<PettyCash, CreateClosePettyCashDTO>(id, dto)
     {
         public override async Task<(byte[] FileBytes, string FileName)?> ExecuteAction(

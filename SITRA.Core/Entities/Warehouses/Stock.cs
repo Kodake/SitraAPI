@@ -5,10 +5,10 @@ namespace SITRA.Core.Entities.Warehouses
 {
     public sealed class Stock : ITenant, IAuditableEntity
     {
-        public long Id { get; set; }
-        public long ItemId { get; set; }
+        public Guid Id { get; set; }
+        public Guid ItemId { get; set; }
         public Item Item { get; set; } = null!;
-        public long WarehouseId { get; set; }
+        public Guid WarehouseId { get; set; }
         public Warehouse Warehouse { get; set; } = null!;
         public double Qty { get; set; }
         public double? MinQty { get; set; }

@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.OutputCaching;
 
 namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
 {
-    public class ProcessQuotationCommand(long id, CreateSaleInvoiceDTO dto) : ProcessCommand<Quotation, CreateSaleInvoiceDTO>(id, dto), IIdempotentCommand
+    public class ProcessQuotationCommand(Guid id, CreateSaleInvoiceDTO dto) : ProcessCommand<Quotation, CreateSaleInvoiceDTO>(id, dto), IIdempotentCommand
     {
         public override async Task<CreateSaleInvoiceDTO> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
         {
@@ -31,12 +31,12 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
 
             var saleInvoice = mapper.Map<Invoice>(Dto);
             saleInvoice.InvoiceType = InvoiceType.Sale;
-            if (Dto.CustomerId > 0)
+            if (Dto.CustomerId != Guid.Empty)
             {
                 saleInvoice.InvoiceBuyer = new InvoiceBuyer { ContactId = Dto.CustomerId.Value };
             }
 
-            if (Dto.BillerId > 0)
+            if (Dto.BillerId != Guid.Empty)
             {
                 saleInvoice.InvoiceBiller = new InvoiceBiller { ContactId = Dto.BillerId.Value };
             }
@@ -75,7 +75,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
                     var spotPayment = new SpotPayment
                     {
                         Invoice = saleInvoice,
-                        ContactId = Dto.CustomerId == 0 ? null : Dto.CustomerId,
+                        ContactId = Dto.CustomerId == Guid.Empty ? null : Dto.CustomerId,
                         AmountReturned = Dto.AmountReturned ?? 0,
                         PaymentDate = DateTimeOffset.UtcNow,
                         IsActive = true
@@ -202,7 +202,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
         private static async Task ReduceStock(CreateSaleInvoiceDTO dto, IUnitOfWork unitOfWork)
         {
             // Diccionario para acumular restas de stock
-            var stockAdjustments = new Dictionary<long, double>(); // StockId -> cantidad a restar
+            var stockAdjustments = new Dictionary<Guid, double>(); // StockId -> cantidad a restar
 
             foreach (var item in dto.InvoiceItems)
             {

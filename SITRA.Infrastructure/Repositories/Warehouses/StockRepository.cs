@@ -34,7 +34,7 @@ namespace SITRA.Infrastructure.Repositories.Warehouses
                 .ToListAsync();
         }
 
-        public async Task<List<Stock>> GetAllByWarehouseIdsAsync(List<long> warehouseIds, PaginationDTO paginationDTO)
+        public async Task<List<Stock>> GetAllByWarehouseIdsAsync(List<Guid> warehouseIds, PaginationDTO paginationDTO)
         {
             var queryable = context.Stocks
                 .AsQueryable()
@@ -50,7 +50,7 @@ namespace SITRA.Infrastructure.Repositories.Warehouses
                 .ToListAsync();
         }
 
-        public async Task<List<Stock>> GetStockByWarehouseIdsAsync(List<long> warehouseIds)
+        public async Task<List<Stock>> GetStockByWarehouseIdsAsync(List<Guid> warehouseIds)
         {
             return await context.Stocks
                 .Where(s => warehouseIds.Contains(s.WarehouseId))
@@ -60,7 +60,7 @@ namespace SITRA.Infrastructure.Repositories.Warehouses
                 .ToListAsync();
         }
 
-        public async Task<Stock?> GetByItemIdAndWarehouseId(long itemId, long warehouseId)
+        public async Task<Stock?> GetByItemIdAndWarehouseId(Guid itemId, Guid warehouseId)
         {
             return await context.Stocks
                 .Where(s => s.ItemId == itemId && s.WarehouseId == warehouseId)

@@ -209,7 +209,7 @@ namespace SITRA.Core.Helpers
             }
         }
 
-        public static string FiscalSupportAlreadyExistsMessage(FiscalSupportType supportType, long warehouseId)
+        public static string FiscalSupportAlreadyExistsMessage(FiscalSupportType supportType, Guid warehouseId)
         {
             var message = _resourceManager.GetString("FiscalSupportAlreadyExistsMessage");
             return string.Format(message!, supportType, warehouseId);

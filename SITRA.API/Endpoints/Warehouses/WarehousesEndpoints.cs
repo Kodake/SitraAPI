@@ -18,18 +18,18 @@ namespace SITRA.API.Endpoints
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("warehouses-get"))
                 .AddPaginationParamsOpenAPI().RequireAuthorization();
-            group.MapGet("/stock-warehouses/{id:long}", GetWarehouseStockByProductId).RequireAuthorization();
-            group.MapGet("/unregistered-warehouses/{id:long}", GetUnregisteredWarehouseById).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("warehouses-get")).RequireAuthorization();
+            group.MapGet("/stock-warehouses/{id:guid}", GetWarehouseStockByProductId).RequireAuthorization();
+            group.MapGet("/unregistered-warehouses/{id:guid}", GetUnregisteredWarehouseById).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("warehouses-get")).RequireAuthorization();
             group.MapGet("/selects", GetSelects).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("warehouses-get")).RequireAuthorization();
-            group.MapGet("/{id:long}", GetById).RequireAuthorization();
+            group.MapGet("/{id:guid}", GetById).RequireAuthorization();
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateWarehouseDTO>>()
                 .WithOpenApi().RequireAuthorization();
-            group.MapPut("/{id:long}", Update).DisableAntiforgery()
+            group.MapPut("/{id:guid}", Update).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateWarehouseDTO>>()
                 .WithOpenApi().RequireAuthorization();
-            group.MapPatch("/{id:long}/activate", Activate).RequireAuthorization();
-            group.MapDelete("/{id:long}/deactivate", Deactivate).RequireAuthorization();
+            group.MapPatch("/{id:guid}/activate", Activate).RequireAuthorization();
+            group.MapDelete("/{id:guid}/deactivate", Deactivate).RequireAuthorization();
             return group;
         }
 
@@ -44,7 +44,7 @@ namespace SITRA.API.Endpoints
 
         static async Task<Ok<List<WarehouseListDTO>>> GetUnregisteredWarehouseById(
             [FromServices] IMediator mediator,
-            long id)
+            Guid id)
         {
             var query = new GetUnregisteredWarehouseByIdQuery(id);
             var dto = await mediator.Send(query);
@@ -53,7 +53,7 @@ namespace SITRA.API.Endpoints
 
         static async Task<Ok<List<WarehouseListDTO>>> GetWarehouseStockByProductId(
             [FromServices] IMediator mediator,
-            long id)
+            Guid id)
         {
             var query = new GetWarehouseStockByProductIdQuery(id);
             var dto = await mediator.Send(query);
@@ -71,7 +71,7 @@ namespace SITRA.API.Endpoints
 
         static async Task<Results<Ok<WarehouseDTO>, NotFound>> GetById(
             [FromServices] IMediator mediator,
-            long id)
+            Guid id)
         {
             var query = new GetWarehousesByIdQuery(id);
             var dto = await mediator.Send(query);
@@ -89,7 +89,7 @@ namespace SITRA.API.Endpoints
         }
 
         static async Task<Results<Ok, NotFound, ValidationProblem>> Update(
-            long id,
+            Guid id,
             [FromBody] CreateWarehouseDTO dto,
             [FromServices] IMediator mediator,
             IOutputCacheStore outputCacheStore)
@@ -100,7 +100,7 @@ namespace SITRA.API.Endpoints
         }
 
         static async Task<Results<NotFound, Ok>> Activate(
-            [FromRoute] long id,
+            [FromRoute] Guid id,
             [FromServices] IMediator mediator,
             IOutputCacheStore outputCacheStore)
         {
@@ -110,7 +110,7 @@ namespace SITRA.API.Endpoints
         }
 
         static async Task<Results<NotFound, Ok>> Deactivate(
-            [FromRoute] long id,
+            [FromRoute] Guid id,
             [FromServices] IMediator mediator,
             IOutputCacheStore outputCacheStore)
         {

@@ -5,8 +5,8 @@ namespace SITRA.Core.Entities.Invoices
 {
     public class Payment : ITenant, IAuditableEntity
     {
-        public long Id { get; set; }
-        public long SpotPaymentId { get; set; }
+        public Guid Id { get; set; }
+        public Guid SpotPaymentId { get; set; }
         public SpotPayment SpotPayment { get; set; } = null!;
         public PaymentMethod PaymentMethod { get; set; }
         public double Amount { get; set; }

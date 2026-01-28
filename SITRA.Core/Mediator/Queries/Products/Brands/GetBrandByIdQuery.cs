@@ -6,7 +6,7 @@ namespace SITRA.Core.Mediator.Queries.Products.Brands
 {
     public class GetBrandByIdQuery : GetByIdQuery<BrandDTO>
     {
-        public GetBrandByIdQuery(long id) : base(id) { }
+        public GetBrandByIdQuery(Guid id) : base(id) { }
 
         public override async Task<BrandDTO> GetData(
             IUnitOfWork unitOfWork,

@@ -6,7 +6,7 @@ namespace SITRA.Core.Entities.AdministrativeTools
 {
     public sealed class FiscalSupport : ITenant, IAuditableEntity
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         public DocumentType DocumentType { get; set; }
         public FiscalSupportType FiscalSupportType { get; set; }
         public string Name { get; set; } = string.Empty;
@@ -14,7 +14,7 @@ namespace SITRA.Core.Entities.AdministrativeTools
         public long InitialSequence { get; set; }
         public long FinalSequence { get; set; }
         public long SpaceNumber { get; set; }
-        public long WarehouseId { get; set; }
+        public Guid WarehouseId { get; set; }
         public Warehouse Warehouse { get; set; } = null!;
         public bool IsActive { get; set; } = true;
         public DateTimeOffset CreatedAt { get; set; }

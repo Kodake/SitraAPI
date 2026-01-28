@@ -4,7 +4,7 @@ using SITRA.Core.Interfaces;
 
 namespace SITRA.Core.Mediator.Queries.Invoices.SaleInvoices
 {
-    public class GetSaleInvoiceByIdQuery(long id) : GetByIdQuery<SaleInvoiceDTO>(id)
+    public class GetSaleInvoiceByIdQuery(Guid id) : GetByIdQuery<SaleInvoiceDTO>(id)
     {
         public override async Task<SaleInvoiceDTO> GetData(
             IUnitOfWork unitOfWork,

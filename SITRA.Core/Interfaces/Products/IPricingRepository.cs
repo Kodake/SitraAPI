@@ -7,7 +7,7 @@ namespace SITRA.Core.Interfaces.Products
     {
         Task<List<Pricing>> GetAll();
         Task<Pricing?> GetPricingByName(string? name);
-        Task<IEnumerable<Pricing>> GetUnregisteredPricingsForItem(long itemId);
-        Task<bool> Exists(long id, string name);
+        Task<IEnumerable<Pricing>> GetUnregisteredPricingsForItem(Guid itemId);
+        Task<bool> Exists(Guid id, string name);
     }
 }

@@ -10,10 +10,10 @@ namespace SITRA.Core.DTOs.Products.Products
         public IFormFile? ImageUrl { get; set; }
         public double InitialCost { get; set; }
         public double BasePrice { get; set; }
-        public List<long> TaxIds { get; set; } = null!;
-        public long? BrandId { get; set; }
-        public long? CategoryId { get; set; }
-        public long? UnitId { get; set; }
+        public List<Guid> TaxIds { get; set; } = null!;
+        public Guid? BrandId { get; set; }
+        public Guid? CategoryId { get; set; }
+        public Guid? UnitId { get; set; }
     }
 }
 

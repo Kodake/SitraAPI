@@ -5,7 +5,7 @@ namespace SITRA.Core.Mediator.Queries.Products.Combos
 {
     public class GetComboByIdQuery : GetByIdQuery<ComboDTO>
     {
-        public GetComboByIdQuery(long id) : base(id) { }
+        public GetComboByIdQuery(Guid id) : base(id) { }
 
         public override async Task<ComboDTO> GetData(
             IUnitOfWork unitOfWork,

@@ -6,8 +6,8 @@ namespace SITRA.Core.Mediator.Commands.Accounts.Receivables
 {
     public class DeactivateReceivableCommand : ToggleCommand, IIdempotentCommand
     {
-        public long PaymentReceiptId { get; set; }
-        public DeactivateReceivableCommand(long id, long paymentReceiptId) : base(id)
+        public Guid PaymentReceiptId { get; set; }
+        public DeactivateReceivableCommand(Guid id, Guid paymentReceiptId) : base(id)
         {
             PaymentReceiptId = paymentReceiptId;
         }

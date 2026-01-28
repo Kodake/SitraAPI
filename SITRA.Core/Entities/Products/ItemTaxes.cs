@@ -5,8 +5,8 @@ namespace SITRA.Core.Entities.Products
 {
     public sealed class ItemTaxes : ITenant, IAuditableEntity
     {
-        public long ItemId { get; set; }
-        public long TaxId { get; set; }
+        public Guid ItemId { get; set; }
+        public Guid TaxId { get; set; }
         public Item Item { get; set; } = null!;
         public Tax Tax { get; set; } = null!;
         public DateTimeOffset CreatedAt { get; set; }

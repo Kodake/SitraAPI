@@ -38,7 +38,7 @@ namespace SITRA.Infrastructure.Repositories.Invoices
                 .ToListAsync();
         }
 
-        public async new Task<Quotation?> GetByIdAsync(long id)
+        public async new Task<Quotation?> GetByIdAsync(Guid id)
         {
             return await context.Quotations
                 .Include(x => x.Invoice)

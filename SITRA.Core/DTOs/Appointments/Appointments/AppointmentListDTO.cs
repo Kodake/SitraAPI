@@ -4,7 +4,7 @@ namespace SITRA.Core.DTOs.Appointments.Appointments
 {
     public class AppointmentListDTO
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         public string Description { get; set; } = null!;
         public string ContactName { get; set; } = null!;
         public string? ContactEmail { get; set; } = null!;

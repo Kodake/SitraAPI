@@ -18,7 +18,7 @@ namespace SITRA.Infrastructure.Repositories.Products
             httpContext = httpContextAccessor.HttpContext!;
         }
 
-        public async Task<List<PricingItem>> GetAllAsync(PaginationDTO paginationDTO, long itemId)
+        public async Task<List<PricingItem>> GetAllAsync(PaginationDTO paginationDTO, Guid itemId)
         {
             var queryable = context.PricingItems
                 .Where(x => x.ItemId == itemId)
@@ -34,12 +34,12 @@ namespace SITRA.Infrastructure.Repositories.Products
             return items;
         }
 
-        public async Task<PricingItem?> GetPricingItemByItemIdAndPricingId(long itemId, long pricingId)
+        public async Task<PricingItem?> GetPricingItemByItemIdAndPricingId(Guid itemId, Guid pricingId)
         {
             return await context.PricingItems.FirstOrDefaultAsync(pi => pi.ItemId == itemId && pi.PricingId == pricingId);
         }
 
-        public async new Task<bool> ActivateAsync(long id)
+        public async new Task<bool> ActivateAsync(Guid id)
         {
             var pricingItemToSetPrincipal = await context.PricingItems
                 .Include(pi => pi.Item)
@@ -64,12 +64,12 @@ namespace SITRA.Infrastructure.Repositories.Products
             return true;
         }
 
-        public async Task<bool> ExistsAsync(long pricingId, long itemId)
+        public async Task<bool> ExistsAsync(Guid pricingId, Guid itemId)
         {
             return await context.PricingItems.AnyAsync(pi => pi.PricingId == pricingId && pi.ItemId == itemId);
         }
 
-        public async Task Delete(long id)
+        public async Task Delete(Guid id)
         {
             var pricingItem = await context.PricingItems.FirstOrDefaultAsync(x => x.Id == id);
             if (pricingItem != null)

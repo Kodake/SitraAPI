@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.OutputCaching;
 
 namespace SITRA.Core.Mediator.Commands.Finances.Expenses
 {
-    public class UpdateExpenseCommand(long id, CreateExpenseDTO dto) : UpdateCommand<Expense, CreateExpenseDTO>(id, dto)
+    public class UpdateExpenseCommand(Guid id, CreateExpenseDTO dto) : UpdateCommand<Expense, CreateExpenseDTO>(id, dto)
     {
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
         {

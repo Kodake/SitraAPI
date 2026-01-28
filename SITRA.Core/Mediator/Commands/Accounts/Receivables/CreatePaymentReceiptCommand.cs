@@ -9,8 +9,8 @@ namespace SITRA.Core.Mediator.Commands.Accounts.Receivables
 {
     public class CreatePaymentReceiptCommand : CreateCommand<PaymentReceipt, CreatePaymentReceiptDTO>, IIdempotentCommand
     {
-        public long Id { get; set; }
-        public CreatePaymentReceiptCommand(long id, CreatePaymentReceiptDTO dto) : base(dto)
+        public Guid Id { get; set; }
+        public CreatePaymentReceiptCommand(Guid id, CreatePaymentReceiptDTO dto) : base(dto)
         {
             Id = id;
         }

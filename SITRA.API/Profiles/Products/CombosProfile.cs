@@ -79,35 +79,35 @@ namespace SITRA.API.Profiles.Products
                     Id = src.ItemBrand.Brand.Id,
                     Name = src.ItemBrand.Brand.Name
                 } : null))
-                .ForMember(des => des.BrandId, opt => opt.MapFrom(src => src.ItemBrand != null ? (int)src.ItemBrand.Brand.Id : (int?)null))
+                .ForMember(des => des.BrandId, opt => opt.MapFrom(src => src.ItemBrand != null ? (Guid)src.ItemBrand.Brand.Id : (Guid?)null))
                 .ForMember(des => des.Model, opt => opt.MapFrom(src => src.ItemModel != null ? new ModelDTO
                 {
                     Id = src.ItemModel.Model.Id,
                     Name = src.ItemModel.Model.Name,
                     Description = src.ItemModel.Model.Description
                 } : null))
-                .ForMember(des => des.ModelId, opt => opt.MapFrom(src => src.ItemModel != null ? (int)src.ItemModel.Model.Id : (int?)null))
+                .ForMember(des => des.ModelId, opt => opt.MapFrom(src => src.ItemModel != null ? (Guid)src.ItemModel.Model.Id : (Guid?)null))
                 .ForMember(des => des.Category, opt => opt.MapFrom(src => src.ItemCategory != null ? new CategoryDTO
                 {
                     Id = src.ItemCategory.Category.Id,
                     Name = src.ItemCategory.Category.Name,
                     Description = src.ItemCategory.Category.Description
                 } : null))
-                .ForMember(des => des.CategoryId, opt => opt.MapFrom(src => src.ItemCategory != null ? (int)src.ItemCategory.Category.Id : (int?)null))
+                .ForMember(des => des.CategoryId, opt => opt.MapFrom(src => src.ItemCategory != null ? (Guid)src.ItemCategory.Category.Id : (Guid?)null))
                 .ForMember(des => des.SubCategory, opt => opt.MapFrom(src => src.ItemSubCategory != null ? new SubCategoryDTO
                 {
                     Id = src.ItemSubCategory.SubCategory.Id,
                     Name = src.ItemSubCategory.SubCategory.Name,
                     Description = src.ItemSubCategory.SubCategory.Description
                 } : null))
-                .ForMember(des => des.SubCategoryId, opt => opt.MapFrom(src => src.ItemSubCategory != null ? (int)src.ItemSubCategory.SubCategory.Id : (int?)null))
+                .ForMember(des => des.SubCategoryId, opt => opt.MapFrom(src => src.ItemSubCategory != null ? (Guid)src.ItemSubCategory.SubCategory.Id : (Guid?)null))
                 .ForMember(des => des.Unit, opt => opt.MapFrom(src => src.ItemUnit != null ? new UnitDTO
                 {
                     Id = src.ItemUnit.Unit.Id,
                     Name = src.ItemUnit.Unit.Name,
                     ShortName = src.ItemUnit.Unit.ShortName
                 } : null))
-                .ForMember(des => des.UnitId, opt => opt.MapFrom(src => src.ItemUnit != null ? (int)src.ItemUnit.Unit.Id : (int?)null))
+                .ForMember(des => des.UnitId, opt => opt.MapFrom(src => src.ItemUnit != null ? (Guid)src.ItemUnit.Unit.Id : (Guid?)null))
                 .ForMember(des => des.InitialCost, opt => opt.MapFrom(src =>
                     src.PricingItems.FirstOrDefault(p => p.IsPrincipal)!.InitialCost))
                 .ForMember(des => des.BasePrice, opt => opt.MapFrom(src =>
@@ -118,7 +118,7 @@ namespace SITRA.API.Profiles.Products
                 .ForMember(des => des.Items, opt => opt.MapFrom(src =>
                     src.ComboItems.Select(ci => new ItemQtyDTO
                     {
-                        Id = (int)ci.ChildItemId,
+                        Id = (Guid)ci.ChildItemId,
                         Qty = ci.Qty
                     }).ToList()));
 

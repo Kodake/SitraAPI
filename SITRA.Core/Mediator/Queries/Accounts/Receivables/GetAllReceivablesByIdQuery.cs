@@ -6,7 +6,7 @@ namespace SITRA.Core.Mediator.Queries.Receivables
 {
     public class GetAllReceivablesByIdQuery : GetByIdQuery<ReceivableDTO>
     {
-        public GetAllReceivablesByIdQuery(long id) : base(id) { }
+        public GetAllReceivablesByIdQuery(Guid id) : base(id) { }
 
         public override async Task<ReceivableDTO> GetData(
             IUnitOfWork unitOfWork,

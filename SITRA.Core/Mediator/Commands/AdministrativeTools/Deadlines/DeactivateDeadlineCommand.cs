@@ -5,7 +5,7 @@ namespace SITRA.Core.Mediator.Commands.AdministrativeTools.Deadlines
 {
     public class DeactivateDeadlineCommand : ToggleCommand
     {
-        public DeactivateDeadlineCommand(long id) : base(id) { }
+        public DeactivateDeadlineCommand(Guid id) : base(id) { }
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, CancellationToken cancellationToken)
         {

@@ -4,7 +4,7 @@ namespace SITRA.Core.Entities.Finances
 {
     public sealed class Expense : ITenant, IAuditableEntity
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         public DateTimeOffset Date { get; set; }
         public string Description { get; set; } = string.Empty;
         public double Amount { get; set; }

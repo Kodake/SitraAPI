@@ -4,7 +4,7 @@ using SITRA.Core.Interfaces;
 
 namespace SITRA.Core.Mediator.Queries.Accounts.Payables
 {
-    public class GetAllPayablesByIdQuery(long id) : GetByIdQuery<PayableDTO>(id)
+    public class GetAllPayablesByIdQuery(Guid id) : GetByIdQuery<PayableDTO>(id)
     {
         public override async Task<PayableDTO> GetData(
             IUnitOfWork unitOfWork,

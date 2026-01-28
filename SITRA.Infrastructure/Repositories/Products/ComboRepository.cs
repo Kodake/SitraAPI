@@ -72,7 +72,7 @@ namespace SITRA.Infrastructure.Repositories.Products
                 }).ToListAsync();
         }
 
-        public async new Task<Item?> GetByIdAsync(long id)
+        public async new Task<Item?> GetByIdAsync(Guid id)
         {
             return await context.Items
                 .Include(p => p.ItemUnit)
@@ -94,7 +94,7 @@ namespace SITRA.Infrastructure.Repositories.Products
                 .FirstOrDefaultAsync(p => p.Id == id && p.ItemType == ItemType.Combo);
         }
 
-        public async new Task ActivateAsync(long id)
+        public async new Task ActivateAsync(Guid id)
         {
             var combo = await context.Items.FirstOrDefaultAsync(x => x.Id == id && x.ItemType == ItemType.Combo);
             if (combo != null)
@@ -104,7 +104,7 @@ namespace SITRA.Infrastructure.Repositories.Products
             }
         }
 
-        public async new Task DeactivateAsync(long id)
+        public async new Task DeactivateAsync(Guid id)
         {
             var combo = await context.Items.FirstOrDefaultAsync(x => x.Id == id && x.ItemType == ItemType.Combo);
             if (combo != null)
@@ -113,12 +113,12 @@ namespace SITRA.Infrastructure.Repositories.Products
             }
         }
 
-        public async new Task<bool> ExistsAsync(long id)
+        public async new Task<bool> ExistsAsync(Guid id)
         {
             return await context.Items.AnyAsync(x => x.Id == id && x.ItemType == ItemType.Combo);
         }
 
-        public async Task<bool> Exists(long id, string name)
+        public async Task<bool> Exists(Guid id, string name)
         {
             return await context.Items.AnyAsync(x => x.Id != id && x.Name == name && x.ItemType == ItemType.Combo);
         }

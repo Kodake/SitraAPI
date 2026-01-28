@@ -45,21 +45,21 @@ namespace SITRA.API.Profiles.Products
                     Name = src.ItemCategory.Category.Name,
                     Description = src.ItemCategory.Category.Description
                 } : null))
-                .ForMember(des => des.CategoryId, opt => opt.MapFrom(src => src.ItemCategory != null ? (int)src.ItemCategory.Category.Id : (int?)null))
+                .ForMember(des => des.CategoryId, opt => opt.MapFrom(src => src.ItemCategory != null ? src.ItemCategory.Category.Id : (Guid?)null))
                 .ForMember(des => des.SubCategory, opt => opt.MapFrom(src => src.ItemSubCategory != null ? new SubCategoryDTO
                 {
                     Id = src.ItemSubCategory.SubCategory.Id,
                     Name = src.ItemSubCategory.SubCategory.Name,
                     Description = src.ItemSubCategory.SubCategory.Description
                 } : null))
-                .ForMember(des => des.SubCategoryId, opt => opt.MapFrom(src => src.ItemSubCategory != null ? (int)src.ItemSubCategory.SubCategory.Id : (int?)null))
+                .ForMember(des => des.SubCategoryId, opt => opt.MapFrom(src => src.ItemSubCategory != null ? src.ItemSubCategory.SubCategory.Id : (Guid?)null))
                 .ForMember(des => des.Unit, opt => opt.MapFrom(src => src.ItemUnit != null ? new UnitDTO
                 {
                     Id = src.ItemUnit.Unit.Id,
                     Name = src.ItemUnit.Unit.Name,
                     ShortName = src.ItemUnit.Unit.ShortName
                 } : null))
-                .ForMember(des => des.UnitId, opt => opt.MapFrom(src => src.ItemUnit != null ? (int)src.ItemUnit.Unit.Id : (int?)null))
+                .ForMember(des => des.UnitId, opt => opt.MapFrom(src => src.ItemUnit != null ? src.ItemUnit.Unit.Id : (Guid?)null))
                 .ForMember(des => des.BasePrice, opt => opt.MapFrom(src =>
                     src.PricingItems.FirstOrDefault(p => p.IsPrincipal)!.BasePrice))
                 .ForMember(des => des.Percentage, opt => opt.MapFrom(src =>

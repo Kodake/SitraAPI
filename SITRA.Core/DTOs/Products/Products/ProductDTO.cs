@@ -8,7 +8,7 @@ using SITRA.Core.DTOs.Products.Units;
 
 public class ProductDTO
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public string? Reference { get; set; }
     public string? Barcode { get; set; }
@@ -17,17 +17,17 @@ public class ProductDTO
     public double InitialCost { get; set; }
     public double BasePrice { get; set; }
     public double Percentage { get; set; }
-    public long? BrandId { get; set; }
+    public Guid? BrandId { get; set; }
     public BrandDTO? Brand { get; set; }
-    public long? ModelId { get; set; }
+    public Guid? ModelId { get; set; }
     public ModelDTO? Model { get; set; }
-    public long? CategoryId { get; set; }
+    public Guid? CategoryId { get; set; }
     public CategoryDTO? Category { get; set; }
-    public long? SubCategoryId { get; set; }
+    public Guid? SubCategoryId { get; set; }
     public SubCategoryDTO? SubCategory { get; set; }
-    public long? UnitId { get; set; }
+    public Guid? UnitId { get; set; }
     public UnitDTO? Unit { get; set; }
-    public List<long>? TaxIds { get; set; }
+    public List<Guid>? TaxIds { get; set; }
     public List<TaxDTO>? Taxes { get; set; } = [];
     public List<PricingItemDTO>? PricingItems { get; set; } = [];
     public DateTimeOffset CreatedAt { get; set; }

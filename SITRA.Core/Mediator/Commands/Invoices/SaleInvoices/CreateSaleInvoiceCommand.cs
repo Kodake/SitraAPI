@@ -29,12 +29,12 @@ namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
             saleInvoice.InvoiceType = InvoiceType.Sale;
             saleInvoice.Date = DateTimeOffset.UtcNow;
             
-            if (Dto.CustomerId > 0)
+            if (Dto.CustomerId != Guid.Empty)
             {
                 saleInvoice.InvoiceBuyer = new InvoiceBuyer { ContactId = Dto.CustomerId.Value };
             }
 
-            if (Dto.BillerId > 0)
+            if (Dto.BillerId != Guid.Empty)
             {
                 saleInvoice.InvoiceBiller = new InvoiceBiller { ContactId = Dto.BillerId.Value };
             }
@@ -72,7 +72,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
                     var spotPayment = new SpotPayment
                     {
                         Invoice = saleInvoice,
-                        ContactId = Dto.CustomerId == 0 ? null : Dto.CustomerId,
+                        ContactId = Dto.CustomerId == Guid.Empty ? null : Dto.CustomerId,
                         AmountReturned = Dto.AmountReturned ?? 0,
                         PaymentDate = DateTimeOffset.UtcNow,
                         IsActive = true
@@ -199,7 +199,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
         private static async Task ReduceStock(CreateSaleInvoiceDTO dto, IUnitOfWork unitOfWork)
         {
             // Diccionario para acumular restas de stock
-            var stockAdjustments = new Dictionary<long, double>(); // StockId -> cantidad a restar
+            var stockAdjustments = new Dictionary<Guid, double>(); // StockId -> cantidad a restar
 
             foreach (var item in dto.InvoiceItems)
             {

@@ -5,10 +5,10 @@ namespace SITRA.Core.DTOs.Invoices.SaleInvoices
 {
     public class SaleInvoiceListDTO
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         public DateTimeOffset Date { get; set; }
         public string FiscalSupportNumber { get; set; } = string.Empty;
-        public long? ContactId { get; set; }
+        public Guid? ContactId { get; set; }
         public virtual ContactDTO? Buyer { get; set; } = null!;
         public double? Shipping { get; set; } = null!;
         public double? Discount { get; set; } = null!;

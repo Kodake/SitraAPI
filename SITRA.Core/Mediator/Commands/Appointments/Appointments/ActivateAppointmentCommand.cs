@@ -5,7 +5,7 @@ namespace SITRA.Core.Mediator.Commands.Appointments.Appointments
 {
     public class ActivateAppointmentCommand : ToggleCommand
     {
-        public ActivateAppointmentCommand(long id) : base(id)
+        public ActivateAppointmentCommand(Guid id) : base(id)
         { }
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, CancellationToken cancellationToken)

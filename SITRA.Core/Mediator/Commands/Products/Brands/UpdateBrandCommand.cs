@@ -8,7 +8,7 @@ namespace SITRA.Core.Mediator.Commands.Products.Brands
 {
     public class UpdateBrandCommand : UpdateCommand<Brand, CreateBrandDTO>
     {
-        public UpdateBrandCommand(long id, CreateBrandDTO dto) : base(id, dto) { }
+        public UpdateBrandCommand(Guid id, CreateBrandDTO dto) : base(id, dto) { }
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
         {

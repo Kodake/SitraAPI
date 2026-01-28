@@ -5,7 +5,7 @@ namespace SITRA.Core.Mediator.Commands.Contacts
 {
     public class ActivateContactCommand : ToggleCommand
     {
-        public ActivateContactCommand(long id) : base(id) { }
+        public ActivateContactCommand(Guid id) : base(id) { }
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, CancellationToken cancellationToken)
         {

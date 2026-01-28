@@ -5,9 +5,9 @@ namespace SITRA.Core.Entities.Invoices
 {
     public class InvoiceBiller : ITenant, IAuditableEntity
     {
-        public long InvoiceId { get; set; }
+        public Guid InvoiceId { get; set; }
         public virtual Invoice Invoice { get; set; } = null!;
-        public long ContactId { get; set; }
+        public Guid ContactId { get; set; }
         public virtual Contact Biller { get; set; } = null!;
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }

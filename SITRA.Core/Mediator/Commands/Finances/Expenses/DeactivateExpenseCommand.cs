@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.OutputCaching;
 
 namespace SITRA.Core.Mediator.Commands.Finances.Expenses
 {
-    public class DeactivateExpenseCommand(long id) : ToggleCommand(id)
+    public class DeactivateExpenseCommand(Guid id) : ToggleCommand(id)
     {
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, CancellationToken cancellationToken)
         {

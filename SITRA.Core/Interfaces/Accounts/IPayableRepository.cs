@@ -7,7 +7,7 @@ namespace SITRA.Core.Interfaces.Accounts
     public interface IPayableRepository : IRepositoryBase<Payable>
     {
         new Task<List<Payable>> GetAllAsync(PaginationDTO paginationDTO);
-        Task<Payable?> GetAllByIdAsync(long id);
-        Task<Payable?> GetPaysByIdAsync(long id);
+        Task<Payable?> GetAllByIdAsync(Guid id);
+        Task<Payable?> GetPaysByIdAsync(Guid id);
     }
 }

@@ -6,7 +6,7 @@ namespace SITRA.Core.Mediator.Queries.Finances.Currencies
 {
     public class GetCurrencyByIdQuery : GetByIdQuery<CurrencyDTO>
     {
-        public GetCurrencyByIdQuery(long id) : base(id) { }
+        public GetCurrencyByIdQuery(Guid id) : base(id) { }
 
         public override async Task<CurrencyDTO> GetData(
             IUnitOfWork unitOfWork,

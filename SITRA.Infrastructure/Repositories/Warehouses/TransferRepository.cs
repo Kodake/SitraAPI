@@ -19,7 +19,7 @@ namespace SITRA.Infrastructure.Repositories.Warehouses
             httpContext = httpContextAccessor.HttpContext!;
         }
 
-        public async new Task<Transfer?> GetByIdAsync(long id)
+        public async new Task<Transfer?> GetByIdAsync(Guid id)
         {
             return await context.Transfers
                 .Include(t => t.Product)

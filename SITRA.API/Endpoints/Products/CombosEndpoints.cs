@@ -16,16 +16,16 @@ namespace SITRA.API.Endpoints
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("combos-get"))
                 .AddPaginationParamsOpenAPI().RequireAuthorization();
-            group.MapGet("/{id:long}", GetById).RequireAuthorization();
+            group.MapGet("/{id:guid}", GetById).RequireAuthorization();
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateComboDTO>>()
                 .WithOpenApi().RequireAuthorization();
-            group.MapPut("/{id:long}", Update).DisableAntiforgery()
+            group.MapPut("/{id:guid}", Update).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateComboDTO>>()
                 .WithOpenApi()
                 .RequireAuthorization();
-            group.MapPatch("/{id:long}/activate", Activate).RequireAuthorization();
-            group.MapDelete("/{id:long}/deactivate", Deactivate).RequireAuthorization();
+            group.MapPatch("/{id:guid}/activate", Activate).RequireAuthorization();
+            group.MapDelete("/{id:guid}/deactivate", Deactivate).RequireAuthorization();
             return group;
         }
 
@@ -40,7 +40,7 @@ namespace SITRA.API.Endpoints
 
         static async Task<Results<Ok<ComboDTO>, NotFound>> GetById(
             [FromServices] IMediator mediator,
-            long id)
+            Guid id)
         {
             var query = new GetComboByIdQuery(id);
             var dto = await mediator.Send(query);
@@ -57,7 +57,7 @@ namespace SITRA.API.Endpoints
         }
 
         static async Task<Results<Ok, NotFound, ValidationProblem>> Update(
-            long id,
+            Guid id,
             [FromBody] CreateComboDTO dto,
             [FromServices] IMediator mediator)
         {
@@ -67,7 +67,7 @@ namespace SITRA.API.Endpoints
         }
 
         static async Task<Results<NotFound, Ok>> Activate(
-            [FromRoute] long id,
+            [FromRoute] Guid id,
             [FromServices] IMediator mediator)
         {
             var command = new ActivateComboCommand(id);
@@ -76,7 +76,7 @@ namespace SITRA.API.Endpoints
         }
 
         static async Task<Results<NotFound, Ok>> Deactivate(
-            [FromRoute] long id,
+            [FromRoute] Guid id,
             [FromServices] IMediator mediator)
         {
             var command = new DeactivateComboCommand(id);

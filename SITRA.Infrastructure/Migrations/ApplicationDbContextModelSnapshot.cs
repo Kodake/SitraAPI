@@ -157,20 +157,18 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Accounts.Payable", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<long?>("ContactId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid?>("ContactId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<long>("InvoiceId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("InvoiceId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -199,11 +197,9 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Accounts.PayableReceipt", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
@@ -214,8 +210,8 @@ namespace SITRA.Infrastructure.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<long>("PayableId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("PayableId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("PaymentDate")
                         .HasColumnType("datetimeoffset");
@@ -238,11 +234,9 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Accounts.PaymentReceipt", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
@@ -259,8 +253,8 @@ namespace SITRA.Infrastructure.Migrations
                     b.Property<int>("PaymentMethod")
                         .HasColumnType("int");
 
-                    b.Property<long>("ReceivableId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("ReceivableId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("TenantId")
                         .HasColumnType("uniqueidentifier");
@@ -277,20 +271,18 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Accounts.Receivable", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<long?>("ContactId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid?>("ContactId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<long?>("InvoiceId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid?>("InvoiceId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -320,11 +312,9 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.AdministrativeTools.Deadline", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
@@ -353,11 +343,9 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.AdministrativeTools.FiscalSupport", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
@@ -396,8 +384,8 @@ namespace SITRA.Infrastructure.Migrations
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<long>("WarehouseId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("WarehouseId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -432,14 +420,12 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Appointments.Appointment", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<long>("ContactId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("ContactId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
@@ -470,11 +456,11 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Appointments.AppointmentItem", b =>
                 {
-                    b.Property<long>("AppointmentId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("AppointmentId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<long>("ItemId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
@@ -578,11 +564,9 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.CashBoxes.PettyCash", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal?>("ClosingAmount")
                         .HasColumnType("decimal(18,2)");
@@ -628,11 +612,9 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.CashBoxes.PettyCashMovement", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<double>("Amount")
                         .HasColumnType("float");
@@ -640,11 +622,11 @@ namespace SITRA.Infrastructure.Migrations
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<long?>("InvoiceId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid?>("InvoiceId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<long>("PettyCashId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("PettyCashId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("TenantId")
                         .HasColumnType("uniqueidentifier");
@@ -666,11 +648,9 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Contacts.Contact", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -724,11 +704,9 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Finances.Currency", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
                         .IsRequired()
@@ -767,11 +745,9 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Finances.Expense", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
@@ -803,11 +779,9 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Finances.Tax", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
@@ -835,11 +809,9 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Invoices.Invoice", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int?>("ConditionType")
                         .HasColumnType("int");
@@ -847,8 +819,8 @@ namespace SITRA.Infrastructure.Migrations
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<long>("CurrencyId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("CurrencyId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("Date")
                         .HasColumnType("datetimeoffset");
@@ -871,8 +843,8 @@ namespace SITRA.Infrastructure.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("PricingId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("PricingId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal?>("Shipping")
                         .HasColumnType("decimal(18,2)");
@@ -898,8 +870,8 @@ namespace SITRA.Infrastructure.Migrations
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<long>("WarehouseId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("WarehouseId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -914,11 +886,11 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Invoices.InvoiceBiller", b =>
                 {
-                    b.Property<long>("InvoiceId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("InvoiceId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<long>("ContactId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("ContactId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
@@ -938,11 +910,11 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Invoices.InvoiceBuyer", b =>
                 {
-                    b.Property<long>("InvoiceId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("InvoiceId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<long>("ContactId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("ContactId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
@@ -962,14 +934,14 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Invoices.InvoiceFiscalSupport", b =>
                 {
-                    b.Property<long>("InvoiceId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("InvoiceId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<long>("FiscalSupportId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("FiscalSupportId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("TenantId")
                         .HasColumnType("uniqueidentifier");
@@ -986,11 +958,9 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Invoices.InvoiceItem", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("BasePrice")
                         .HasColumnType("decimal(18,2)");
@@ -998,17 +968,17 @@ namespace SITRA.Infrastructure.Migrations
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<long>("InvoiceId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("InvoiceId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<long>("ItemId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Qty")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<long?>("QuotationId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid?>("QuotationId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("TenantId")
                         .HasColumnType("uniqueidentifier");
@@ -1038,11 +1008,9 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Invoices.Payment", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
@@ -1053,8 +1021,8 @@ namespace SITRA.Infrastructure.Migrations
                     b.Property<int>("PaymentMethod")
                         .HasColumnType("int");
 
-                    b.Property<long>("SpotPaymentId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("SpotPaymentId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("TenantId")
                         .HasColumnType("uniqueidentifier");
@@ -1071,20 +1039,18 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Invoices.Quotation", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<long?>("ContactId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid?>("ContactId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<long?>("InvoiceId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid?>("InvoiceId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("QuotationNumber")
                         .IsRequired()
@@ -1109,20 +1075,18 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Invoices.SpotPayable", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<long?>("ContactId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid?>("ContactId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<long?>("InvoiceId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid?>("InvoiceId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -1152,23 +1116,21 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Invoices.SpotPayment", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("AmountReturned")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<long?>("ContactId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid?>("ContactId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<long>("InvoiceId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("InvoiceId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -1194,11 +1156,9 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Products.Brand", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
@@ -1227,11 +1187,9 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Products.Category", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
@@ -1261,11 +1219,11 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Products.ComboItem", b =>
                 {
-                    b.Property<long>("ParentItemId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("ParentItemId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<long>("ChildItemId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("ChildItemId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
@@ -1288,11 +1246,9 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Products.Item", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Barcode")
                         .HasMaxLength(50)
@@ -1337,11 +1293,11 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Products.ItemBrand", b =>
                 {
-                    b.Property<long>("ItemId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<long>("BrandId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("BrandId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
@@ -1361,11 +1317,11 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Products.ItemCategory", b =>
                 {
-                    b.Property<long>("ItemId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<long>("CategoryId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
@@ -1385,14 +1341,14 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Products.ItemModel", b =>
                 {
-                    b.Property<long>("ItemId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<long>("ModelId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("ModelId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("TenantId")
                         .HasColumnType("uniqueidentifier");
@@ -1409,14 +1365,14 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Products.ItemSubCategory", b =>
                 {
-                    b.Property<long>("ItemId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<long>("SubCategoryId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("SubCategoryId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("TenantId")
                         .HasColumnType("uniqueidentifier");
@@ -1433,11 +1389,11 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Products.ItemTaxes", b =>
                 {
-                    b.Property<long>("TaxId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("TaxId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<long>("ItemId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
@@ -1457,8 +1413,8 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Products.ItemUnit", b =>
                 {
-                    b.Property<long>("ItemId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
@@ -1466,8 +1422,8 @@ namespace SITRA.Infrastructure.Migrations
                     b.Property<Guid>("TenantId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<long>("UnitId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("UnitId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
@@ -1481,14 +1437,12 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Products.Model", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<long>("BrandId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("BrandId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
@@ -1520,11 +1474,9 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Products.Pricing", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
@@ -1552,11 +1504,9 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Products.PricingItem", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("BasePrice")
                         .HasColumnType("decimal(18,2)");
@@ -1570,11 +1520,11 @@ namespace SITRA.Infrastructure.Migrations
                     b.Property<bool>("IsPrincipal")
                         .HasColumnType("bit");
 
-                    b.Property<long>("ItemId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<long>("PricingId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("PricingId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("TenantId")
                         .HasColumnType("uniqueidentifier");
@@ -1593,14 +1543,12 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Products.SubCategory", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<long>("CategoryId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
@@ -1632,11 +1580,9 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Products.Unit", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
@@ -1685,17 +1631,15 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Warehouses.Stock", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<long>("ItemId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal?>("MaxQty")
                         .HasColumnType("decimal(18,2)");
@@ -1712,8 +1656,8 @@ namespace SITRA.Infrastructure.Migrations
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<long>("WarehouseId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("WarehouseId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -1726,11 +1670,9 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Warehouses.Transfer", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Comment")
                         .IsRequired()
@@ -1739,14 +1681,14 @@ namespace SITRA.Infrastructure.Migrations
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<long>("DestinationWarehouseId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("DestinationWarehouseId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<long>("OriginWarehouseId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("OriginWarehouseId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<long>("ProductId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Qty")
                         .HasColumnType("decimal(18,2)");
@@ -1754,8 +1696,8 @@ namespace SITRA.Infrastructure.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<long>("StockId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("StockId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("TenantId")
                         .HasColumnType("uniqueidentifier");
@@ -1778,11 +1720,9 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Warehouses.Warehouse", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Address")
                         .IsRequired()

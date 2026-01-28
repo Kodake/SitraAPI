@@ -4,9 +4,9 @@ using SITRA.Core.Interfaces;
 
 namespace SITRA.Core.Mediator.Queries.Warehouses.Warehouses
 {
-    public class GetUnregisteredWarehouseByIdQuery(long id) : IQuery<List<WarehouseListDTO>>
+    public class GetUnregisteredWarehouseByIdQuery(Guid id) : IQuery<List<WarehouseListDTO>>
     {
-        public long Id { get; } = id;
+        public Guid Id { get; } = id;
 
         public async Task<List<WarehouseListDTO>> GetData(
             IUnitOfWork unitOfWork,

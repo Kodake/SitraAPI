@@ -5,7 +5,6 @@ using SITRA.Core.Mediator.Queries.Wizard;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
 
 namespace SITRA.API.Endpoints
 {

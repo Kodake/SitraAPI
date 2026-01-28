@@ -5,7 +5,7 @@ namespace SITRA.Core.Mediator.Commands.Products.PricingItems
 {
     public class DeletePricingItemCommand : DeleteCommand
     {
-        public DeletePricingItemCommand(long id) : base(id)
+        public DeletePricingItemCommand(Guid id) : base(id)
         {
         }
 

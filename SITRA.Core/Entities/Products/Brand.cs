@@ -4,7 +4,7 @@ namespace SITRA.Core.Entities.Products
 {
     public sealed class Brand : ITenant, IAuditableEntity
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string ImageURL { get; set; } = string.Empty;
         public bool IsActive { get; set; } = true;

@@ -6,6 +6,6 @@ namespace SITRA.Core.Interfaces.Finances
     public interface ICurrencyRepository : IRepositoryBase<Currency>
     {
         Task<List<Currency>> GetCurrencies();
-        Task<bool> Exists(long id, string code);
+        Task<bool> Exists(Guid id, string code);
     }
 }

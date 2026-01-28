@@ -5,7 +5,7 @@ namespace SITRA.Core.Mediator.Commands.Finances.Taxes
 {
     public class ActivateTaxCommand : ToggleCommand
     {
-        public ActivateTaxCommand(long id) : base(id)
+        public ActivateTaxCommand(Guid id) : base(id)
         { }
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, CancellationToken cancellationToken)

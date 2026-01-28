@@ -13,11 +13,11 @@ namespace SITRA.Core.Validations
             IUnitOfWork unitOfWork)
         {
             var routeId = httpContextAccessor.HttpContext?.Request.RouteValues["id"];
-            long id = 0;
+            Guid id = Guid.Empty;
 
             if (routeId is string idString)
             {
-                long.TryParse(idString, out id);
+                Guid.TryParse(idString, out id);
             }
 
             RuleFor(x => x)
@@ -28,7 +28,7 @@ namespace SITRA.Core.Validations
 
                     if (existing == null) return true;
 
-                    if (id > 0 && existing.Id == id) return true;
+                    if (id != Guid.Empty && existing.Id == id) return true;
 
                     return false;
                 })

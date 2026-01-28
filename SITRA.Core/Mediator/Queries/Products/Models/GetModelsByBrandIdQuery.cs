@@ -4,9 +4,9 @@ using SITRA.Core.Interfaces;
 
 namespace SITRA.Core.Mediator.Queries.Products.Models
 {
-    public class GetModelsByBrandIdQuery(long brandId) : IQuery<List<ModelListDTO>>
+    public class GetModelsByBrandIdQuery(Guid brandId) : IQuery<List<ModelListDTO>>
     {
-        public long BrandId { get; } = brandId;
+        public Guid BrandId { get; } = brandId;
 
         public async Task<List<ModelListDTO>> GetData(
             IUnitOfWork unitOfWork,

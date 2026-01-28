@@ -7,6 +7,6 @@ namespace SITRA.Core.Interfaces.Invoices
     public interface ISpotPayableRepository : IRepositoryBase<SpotPayable>
     {
         new Task<List<SpotPayable>> GetAllAsync(PaginationDTO paginationDTO);
-        new Task<SpotPayable?> GetByIdAsync(long id);
+        new Task<SpotPayable?> GetByIdAsync(Guid id);
     }
 }

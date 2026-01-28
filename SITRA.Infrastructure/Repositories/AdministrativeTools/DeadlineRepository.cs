@@ -33,7 +33,7 @@ namespace SITRA.Infrastructure.Repositories.AdministrativeTools
             return await query.OrderBy(u => u.Id).ToListAsync();
         }
 
-        public async Task<bool> Exists(long id, long days)
+        public async Task<bool> Exists(Guid id, long days)
         {
             return await context.Deadlines.AnyAsync(x => x.Id != id && x.Days == days);
         }

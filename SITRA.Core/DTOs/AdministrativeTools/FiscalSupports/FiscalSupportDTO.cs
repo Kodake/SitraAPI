@@ -5,7 +5,7 @@ namespace SITRA.Core.DTOs.AdministrativeTools.FiscalSupports
 {
     public class FiscalSupportDTO
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         public DocumentType DocumentType { get; set; }
         public FiscalSupportType FiscalSupportType { get; set; }
         public string Name { get; set; } = string.Empty;
@@ -13,7 +13,7 @@ namespace SITRA.Core.DTOs.AdministrativeTools.FiscalSupports
         public long InitialSequence { get; set; }
         public long FinalSequence { get; set; }
         public long SpaceNumber { get; set; }
-        public long WarehouseId { get; set; }
+        public Guid WarehouseId { get; set; }
         public string FiscalSupportNumber => GenerateFiscalSupportNumber();
         private string GenerateFiscalSupportNumber()
         {

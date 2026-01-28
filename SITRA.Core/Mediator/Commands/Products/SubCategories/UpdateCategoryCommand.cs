@@ -8,7 +8,7 @@ namespace SITRA.Core.Mediator.Commands.Products.SubCategories
 {
     public class UpdateSubCategoryCommand : UpdateCommand<SubCategory, CreateSubCategoryDTO>
     {
-        public UpdateSubCategoryCommand(long id, CreateSubCategoryDTO dto) : base(id, dto) { }
+        public UpdateSubCategoryCommand(Guid id, CreateSubCategoryDTO dto) : base(id, dto) { }
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
         {

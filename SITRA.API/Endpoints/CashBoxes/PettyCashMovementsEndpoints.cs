@@ -15,7 +15,7 @@ namespace SITRA.API.Endpoints.CashBoxes
     {
         public static RouteGroupBuilder MapPettyCashMovements(this RouteGroupBuilder group)
         {
-            group.MapGet("/{pettyCashId:long}/withdrawals", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("pettyCashMovements-get"))
+            group.MapGet("/{pettyCashId:guid}/withdrawals", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("pettyCashMovements-get"))
                 .AddPaginationParamsOpenAPI().RequireAuthorization();
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateWithdrawalPettyCashMovementDTO>>()
@@ -26,7 +26,7 @@ namespace SITRA.API.Endpoints.CashBoxes
 
         static async Task<Ok<List<WithdrawalPettyCashMovementListDTO>>> GetAll(
             [FromServices] IMediator mediator,
-            [FromRoute] long pettyCashId,
+            [FromRoute] Guid pettyCashId,
             PaginationDTO pagination)
         {
             var query = new GetAllWithdrawalPettyCashMovementsByIdQuery(pagination, pettyCashId);

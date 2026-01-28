@@ -33,7 +33,7 @@ namespace SITRA.Infrastructure.Repositories.Warehouses
             return await query.OrderBy(u => u.Id).ToListAsync();
         }
 
-        public async Task<IEnumerable<Warehouse>> GetStockWarehouseByProductId(long productId)
+        public async Task<IEnumerable<Warehouse>> GetStockWarehouseByProductId(Guid productId)
         {
             return await context.Warehouses
                 .Where(p => p.Stocks.Any(pi => pi.ItemId == productId))
@@ -45,7 +45,7 @@ namespace SITRA.Infrastructure.Repositories.Warehouses
                 }).ToListAsync();
         }
 
-        public async Task<IEnumerable<Warehouse>> GetUnregisteredWarehouseById(long id)
+        public async Task<IEnumerable<Warehouse>> GetUnregisteredWarehouseById(Guid id)
         {
             return await context.Warehouses
                 .Where(pi => pi.Id != id)
@@ -57,7 +57,7 @@ namespace SITRA.Infrastructure.Repositories.Warehouses
                 }).ToListAsync();
         }
 
-        public async Task<bool> Exists(long id, string name)
+        public async Task<bool> Exists(Guid id, string name)
         {
             return await context.Warehouses.AnyAsync(x => x.Id != id && x.Name == name);
         }

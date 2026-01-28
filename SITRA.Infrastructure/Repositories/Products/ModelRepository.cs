@@ -34,19 +34,19 @@ namespace SITRA.Infrastructure.Repositories.Products
             return subCategories;
         }
 
-        public async new Task<Model?> GetByIdAsync(long id)
+        public async new Task<Model?> GetByIdAsync(Guid id)
         {
             return await context.Models
                 .Include(p => p.Brand)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public async Task<bool> Exists(long id, string name)
+        public async Task<bool> Exists(Guid id, string name)
         {
             return await context.Models.AnyAsync(x => x.Id != id && x.Name == name);
         }
 
-        public Task<List<Model>> GetByBrandId(long brandId) =>
+        public Task<List<Model>> GetByBrandId(Guid brandId) =>
             context.Models
                 .Where(x => x.BrandId == brandId)
                 .ToListAsync();

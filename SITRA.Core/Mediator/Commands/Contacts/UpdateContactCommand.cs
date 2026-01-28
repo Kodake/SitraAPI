@@ -8,7 +8,7 @@ namespace SITRA.Core.Mediator.Commands.Contacts
 {
     public class UpdateContactCommand : UpdateCommand<Contact, CreateContactDTO>
     {
-        public UpdateContactCommand(long id, CreateContactDTO dto) : base(id, dto) { }
+        public UpdateContactCommand(Guid id, CreateContactDTO dto) : base(id, dto) { }
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
         {

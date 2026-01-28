@@ -9,11 +9,11 @@ namespace SITRA.Core.Interfaces.AdministrativeTools
     {
         new Task<List<FiscalSupport>> GetAllAsync(PaginationDTO paginationDTO);
         Task<List<FiscalSupport>> GetAll(StatusType status);
-        Task<FiscalSupport?> GetByIdAsync(long? id);
+        Task<FiscalSupport?> GetByIdAsync(Guid? id);
         Task<FiscalSupport?> GetByDocumentTypeAndWarehouseIdAsync(
             FiscalSupportType supportType,
-            long warehouseId);
-        Task<bool> Exists(long id, string code);
-        Task<FiscalSupport?> GetByTypeAndWarehouseAsync(FiscalSupportType fiscalSupportType, long warehouseId);
+            Guid warehouseId);
+        Task<bool> Exists(Guid id, string code);
+        Task<FiscalSupport?> GetByTypeAndWarehouseAsync(FiscalSupportType fiscalSupportType, Guid warehouseId);
     }
 }

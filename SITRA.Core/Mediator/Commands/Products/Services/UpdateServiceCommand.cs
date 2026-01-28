@@ -8,7 +8,9 @@ namespace SITRA.Core.Mediator.Commands.Products.Services
 {
     public class UpdateServiceCommand : UpdateCommand<Item, CreateServiceDTO>
     {
-        public UpdateServiceCommand(long id, CreateServiceDTO dto) : base(id, dto) { }
+        private static readonly string container = "services";
+
+        public UpdateServiceCommand(Guid id, CreateServiceDTO dto) : base(id, dto) { }
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
         {
@@ -18,7 +20,22 @@ namespace SITRA.Core.Mediator.Commands.Products.Services
                 return false;
             }
 
+            var currentImageUrl = serviceDB.ImageUrl;
+
             mapper.Map(Dto, serviceDB);
+
+            serviceDB.ImageUrl = currentImageUrl;
+
+            if (Dto.ImageUrl is not null)
+            {
+                var newUrl = await unitOfWork.FileStorageService.UpdateAsync(
+                    currentImageUrl,
+                    container,
+                    Dto.ImageUrl
+                );
+
+                serviceDB.ImageUrl = newUrl;
+            }
 
             serviceDB.ItemTaxes = Dto.TaxIds.Select(taxId => new ItemTaxes
             {

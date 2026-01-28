@@ -33,19 +33,19 @@ namespace SITRA.Infrastructure.Repositories.Products
             return subCategories;
         }
 
-        public async new Task<SubCategory?> GetByIdAsync(long id)
+        public async new Task<SubCategory?> GetByIdAsync(Guid id)
         {
             return await context.SubCategories
                 .Include(p => p.Category)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public Task<List<SubCategory>> GetByCategoryId(long categoryId) =>
+        public Task<List<SubCategory>> GetByCategoryId(Guid categoryId) =>
             context.SubCategories
                 .Where(x => x.CategoryId == categoryId)
                 .ToListAsync();
 
-        public async Task<bool> Exists(long id, string name)
+        public async Task<bool> Exists(Guid id, string name)
         {
             return await context.SubCategories.AnyAsync(x => x.Id != id && x.Name == name);
         }

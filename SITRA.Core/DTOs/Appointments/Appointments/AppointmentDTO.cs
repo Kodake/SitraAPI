@@ -4,15 +4,15 @@ namespace SITRA.Core.DTOs.Appointments.Appointments
 {
     public class AppointmentDTO
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         public string Description { get; set; } = null!;
-        public long ContactId { get; set; }
+        public Guid ContactId { get; set; }
         public ContactDTO Contact { get; set; } = null!;
         public DateTimeOffset ScheduledAt { get; set; }
         public bool IsActive { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }
-        public List<long> AppointmentItemIds { get; set; } = [];
+        public List<Guid> AppointmentItemIds { get; set; } = [];
         public List<ServiceDTO> AppointmentItems { get; set; } = [];
     }
 }

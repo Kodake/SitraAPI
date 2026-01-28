@@ -10,11 +10,11 @@ namespace SITRA.Core.Validations
         public CreateExpenseDTOValidator(IHttpContextAccessor httpContextAccessor)
         {
             var routeId = httpContextAccessor.HttpContext?.Request.RouteValues["id"];
-            var id = 0;
+            var id = Guid.Empty;
 
             if (routeId is string valorString)
             {
-                int.TryParse(valorString, out id);
+                Guid.TryParse(valorString, out id);
             }
 
             RuleFor(x => x.Description)

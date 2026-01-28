@@ -5,8 +5,8 @@ namespace SITRA.Core.Entities.Accounts
 {
     public sealed class PayableReceipt : ITenant, IAuditableEntity
     {
-        public long Id { get; set; }
-        public long PayableId { get; set; }
+        public Guid Id { get; set; }
+        public Guid PayableId { get; set; }
         public Payable Payable { get; set; } = null!;
         public double Amount { get; set; }
         public DateTimeOffset PaymentDate { get; set; }

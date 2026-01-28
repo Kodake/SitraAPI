@@ -8,12 +8,12 @@ using System.Text.Json.Serialization;
 namespace SITRA.Core.DTOs.Products.Items;
 public class ItemListDTO
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public string? Reference { get; set; } = string.Empty;
     public string? Barcode { get; set; } = string.Empty;
     public ItemType ItemType { get; set; }
-    public long PricingId { get; set; }
+    public Guid PricingId { get; set; }
     public double InitialCost { get; set; }
     public double BasePrice { get; set; }
     public double Percentage { get; set; }

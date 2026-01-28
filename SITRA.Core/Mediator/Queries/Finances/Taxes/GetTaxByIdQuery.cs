@@ -6,7 +6,7 @@ namespace SITRA.Core.Mediator.Queries.Finances.Taxes
 {
     public class GetTaxByIdQuery : GetByIdQuery<TaxDTO>
     {
-        public GetTaxByIdQuery(long id) : base(id) { }
+        public GetTaxByIdQuery(Guid id) : base(id) { }
 
         public override async Task<TaxDTO> GetData(
             IUnitOfWork unitOfWork,

@@ -7,12 +7,12 @@ namespace SITRA.Core.DTOs.Accounts.Payables
 {
     public class PayableDTO
     {
-        public long Id { get; set; }
-        public long InvoiceId { get; set; }
+        public Guid Id { get; set; }
+        public Guid InvoiceId { get; set; }
         public PurchaseInvoiceDTO Invoice { get; set; } = null!;
-        public long ContactId { get; set; }
+        public Guid ContactId { get; set; }
         public ContactDTO Supplier { get; set; } = null!;
-        public long BillerId { get; set; }
+        public Guid BillerId { get; set; }
         public ContactDTO Biller { get; set; } = null!;
         public double TotalAmountDue { get; set; }
         public double TotalOutstanding { get; set; }

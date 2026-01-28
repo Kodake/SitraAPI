@@ -8,7 +8,7 @@ namespace SITRA.Core.Mediator.Commands.Products.Combos
 {
     public class UpdateComboCommand : UpdateCommand<Item, CreateComboDTO>
     {
-        public UpdateComboCommand(long id, CreateComboDTO dto) : base(id, dto) { }
+        public UpdateComboCommand(Guid id, CreateComboDTO dto) : base(id, dto) { }
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
         {

@@ -10,7 +10,7 @@ namespace SITRA.Core.Mediator.Commands.Products.Products
     {
         private static readonly string container = "products";
 
-        public UpdateProductCommand(long id, CreateProductDTO dto) : base(id, dto) { }
+        public UpdateProductCommand(Guid id, CreateProductDTO dto) : base(id, dto) { }
 
         public override async Task<bool> ExecuteAction(
             IUnitOfWork unitOfWork,

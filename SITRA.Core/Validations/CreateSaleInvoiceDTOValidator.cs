@@ -159,7 +159,7 @@ namespace SITRA.Core.Validations
                 .MustAsync(async (dto, cancellation) =>
                 {
                     var routeId = httpContextAccessor.HttpContext?.Request.RouteValues["id"];
-                    if (routeId != null && int.TryParse(routeId.ToString(), out int id) && (httpContextAccessor.HttpContext.Request.Path.Value?.Contains("process") == true))
+                    if (routeId != null && Guid.TryParse(routeId.ToString(), out Guid id) && (httpContextAccessor.HttpContext.Request.Path.Value?.Contains("process") == true))
                     {
                         var quotation = await unitOfWork.QuotationRepository.GetByIdAsync(id);
                         return quotation != null;

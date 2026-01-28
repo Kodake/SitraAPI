@@ -6,7 +6,7 @@ namespace SITRA.Core.Entities.CashBoxes
 {
     public sealed class PettyCash : ITenant, IAuditableEntity
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         public string UserId { get; set; } = null!;
         public User User { get; set; } = null!;
         public double OpeningAmount { get; set; }

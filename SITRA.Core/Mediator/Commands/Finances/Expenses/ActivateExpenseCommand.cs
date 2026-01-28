@@ -5,7 +5,7 @@ namespace SITRA.Core.Mediator.Commands.Finances.Expenses
 {
     public class ActivateExpenseCommand : ToggleCommand
     {
-        public ActivateExpenseCommand(long id) : base(id)
+        public ActivateExpenseCommand(Guid id) : base(id)
         { }
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, CancellationToken cancellationToken)

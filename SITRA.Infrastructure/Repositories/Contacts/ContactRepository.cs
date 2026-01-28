@@ -34,12 +34,12 @@ namespace SITRA.Infrastructure.Repositories.Contacts
                 .ToListAsync();
         }
 
-        public async Task<bool> Exists(long id, string name)
+        public async Task<bool> Exists(Guid id, string name)
         {
             return await context.Contacts.AnyAsync(x => x.Id != id && x.Name == name);
         }
 
-        public async Task<bool> Exists(long id)
+        public async Task<bool> Exists(Guid id)
         {
             return await context.Contacts.AnyAsync(x => x.Id == id);
         }

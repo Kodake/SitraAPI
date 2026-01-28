@@ -30,7 +30,7 @@ public class RepositoryBase<T> : IRepositoryBase<T> where T : class
         }
 
         return await queryable
-            .OrderBy(x => EF.Property<long>(x, "Id"))
+            .OrderBy(x => EF.Property<Guid>(x, "Id"))
             .Paginate(paginationDTO)
             .ToListAsync();
     }
@@ -40,7 +40,7 @@ public class RepositoryBase<T> : IRepositoryBase<T> where T : class
         return await context.Set<T>().Where(filter).ToListAsync();
     }
 
-    public async Task<T?> GetByIdAsync(long id)
+    public async Task<T?> GetByIdAsync(Guid id)
     {
         return await context.Set<T>().FindAsync(id);
     }
@@ -57,7 +57,7 @@ public class RepositoryBase<T> : IRepositoryBase<T> where T : class
         return updated.Entity;
     }
 
-    public async Task ActivateAsync(long id)
+    public async Task ActivateAsync(Guid id)
     {
         var entity = await context.Set<T>().FindAsync(id);
         if (entity != null)
@@ -67,7 +67,7 @@ public class RepositoryBase<T> : IRepositoryBase<T> where T : class
         }
     }
 
-    public async Task DeactivateAsync(long id)
+    public async Task DeactivateAsync(Guid id)
     {
         var entity = await context.Set<T>().FindAsync(id);
         if (entity != null)
@@ -77,9 +77,9 @@ public class RepositoryBase<T> : IRepositoryBase<T> where T : class
         }
     }
 
-    public async Task<bool> ExistsAsync(long id)
+    public async Task<bool> ExistsAsync(Guid id)
     {
-        return await context.Set<T>().AnyAsync(e => EF.Property<long>(e, "Id") == id);
+        return await context.Set<T>().AnyAsync(e => EF.Property<Guid>(e, "Id") == id);
     }
 }
 

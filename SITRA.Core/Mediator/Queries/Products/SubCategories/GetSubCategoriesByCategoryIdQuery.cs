@@ -4,9 +4,9 @@ using SITRA.Core.Interfaces;
 
 namespace SITRA.Core.Mediator.Queries.Products.SubCategories
 {
-    public class GetSubCategoriesByCategoryIdQuery(long categoryId) : IQuery<List<SubCategoryListDTO>>
+    public class GetSubCategoriesByCategoryIdQuery(Guid categoryId) : IQuery<List<SubCategoryListDTO>>
     {
-        public long CategoryId { get; } = categoryId;
+        public Guid CategoryId { get; } = categoryId;
 
         public async Task<List<SubCategoryListDTO>> GetData(
             IUnitOfWork unitOfWork,

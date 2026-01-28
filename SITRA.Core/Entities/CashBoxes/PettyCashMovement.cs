@@ -6,10 +6,10 @@ namespace SITRA.Core.Entities.CashBoxes
 {
     public sealed class PettyCashMovement : ITenant, IAuditableEntity
     {
-        public long Id { get; set; }
-        public long PettyCashId { get; set; }
+        public Guid Id { get; set; }
+        public Guid PettyCashId { get; set; }
         public PettyCash PettyCash { get; set; } = null!;
-        public long? InvoiceId { get; set; }
+        public Guid? InvoiceId { get; set; }
         public Invoice? Invoice { get; set; } = null!;
         public double Amount { get; set; }
         public MovementType Type { get; set; }

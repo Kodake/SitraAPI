@@ -8,8 +8,8 @@ namespace SITRA.Core.Interfaces.Contacts
         Task<List<Contact>> GetSuppliers();
         Task<List<Contact>> GetCustomers();
         Task<List<Contact>> GetBillers();
-        Task<bool> Exists(long id, string code);
-        Task<bool> Exists(long id);
+        Task<bool> Exists(Guid id, string code);
+        Task<bool> Exists(Guid id);
         Task<int> TotalContactsAddedAsync();
     }
 }

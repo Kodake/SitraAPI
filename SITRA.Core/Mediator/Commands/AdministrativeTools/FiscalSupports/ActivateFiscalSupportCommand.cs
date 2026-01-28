@@ -5,7 +5,7 @@ namespace SITRA.Core.Mediator.Commands.AdministrativeTools.FiscalSupports
 {
     public class ActivateFiscalSupportCommand : ToggleCommand
     {
-        public ActivateFiscalSupportCommand(long id) : base(id) { }
+        public ActivateFiscalSupportCommand(Guid id) : base(id) { }
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, CancellationToken cancellationToken)
         {

@@ -6,7 +6,7 @@ namespace SITRA.Core.Mediator.Queries.Appointments.Appointments
 {
     public class GetAppointmentByIdQuery : GetByIdQuery<AppointmentDTO>
     {
-        public GetAppointmentByIdQuery(long id) : base(id) { }
+        public GetAppointmentByIdQuery(Guid id) : base(id) { }
 
         public override async Task<AppointmentDTO> GetData(
             IUnitOfWork unitOfWork,

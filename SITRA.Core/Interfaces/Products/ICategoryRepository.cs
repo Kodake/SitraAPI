@@ -7,6 +7,6 @@ namespace SITRA.Core.Interfaces.Products
     public interface ICategoryRepository : IRepositoryBase<Category>
     {
         Task<List<Category>> GetAll(StatusType status);
-        Task<bool> Exists(long id, string code);
+        Task<bool> Exists(Guid id, string code);
     }
 }

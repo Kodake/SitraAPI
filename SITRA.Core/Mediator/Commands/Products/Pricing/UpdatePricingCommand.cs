@@ -8,7 +8,7 @@ namespace SITRA.Core.Mediator.Commands.Products.Pricings
 {
     public class UpdatePricingCommand : UpdateCommand<Pricing, CreatePricingDTO>
     {
-        public UpdatePricingCommand(long id, CreatePricingDTO dto) : base(id, dto) { }
+        public UpdatePricingCommand(Guid id, CreatePricingDTO dto) : base(id, dto) { }
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
         {

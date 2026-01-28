@@ -4,9 +4,9 @@ using SITRA.Core.Interfaces;
 
 namespace SITRA.Core.Mediator.Queries.CashBoxes
 {
-    public class GetAllPaymentMethodSummaryByIdQuery(long pettyCashId) : IQuery<List<PaymentMethodAmountListDTO>>
+    public class GetAllPaymentMethodSummaryByIdQuery(Guid pettyCashId) : IQuery<List<PaymentMethodAmountListDTO>>
     {
-        public long PettyCashId { get; } = pettyCashId;
+        public Guid PettyCashId { get; } = pettyCashId;
 
         public async Task<List<PaymentMethodAmountListDTO>> GetData(
             IUnitOfWork unitOfWork,

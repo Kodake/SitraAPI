@@ -21,10 +21,10 @@ namespace SITRA.API.Endpoints.Invoices
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("quotations-get"))
                 .AddPaginationParamsOpenAPI().RequireAuthorization();
-            group.MapGet("/{id:long}", GetById).RequireAuthorization();
+            group.MapGet("/{id:guid}", GetById).RequireAuthorization();
             group.MapPost("/", Create).DisableAntiforgery().AddEndpointFilter<ValidationFilter<CreateQuotationDTO>>().WithOpenApi().RequireAuthorization();
-            group.MapPost("/{id:long}/process", Process).DisableAntiforgery().AddEndpointFilter<ValidationFilter<CreateSaleInvoiceDTO>>().WithOpenApi().RequireAuthorization();
-            group.MapPut("/{id:long}", Update).DisableAntiforgery().AddEndpointFilter<ValidationFilter<CreateQuotationDTO>>().WithOpenApi().RequireAuthorization();
+            group.MapPost("/{id:guid}/process", Process).DisableAntiforgery().AddEndpointFilter<ValidationFilter<CreateSaleInvoiceDTO>>().WithOpenApi().RequireAuthorization();
+            group.MapPut("/{id:guid}", Update).DisableAntiforgery().AddEndpointFilter<ValidationFilter<CreateQuotationDTO>>().WithOpenApi().RequireAuthorization();
             group.MapGet("/{invoiceId}/generate-pdf", GeneratePdf).WithOpenApi().RequireAuthorization();
             return group;
         }
@@ -40,7 +40,7 @@ namespace SITRA.API.Endpoints.Invoices
 
         static async Task<Results<Ok<QuotationDTO>, NotFound>> GetById(
             [FromServices] IMediator mediator,
-            long id)
+            Guid id)
         {
             var query = new GetQuotationByIdQuery(id);
             var dto = await mediator.Send(query);
@@ -60,7 +60,7 @@ namespace SITRA.API.Endpoints.Invoices
 
         [Idempotent]
         static async Task<Results<Ok, NotFound, ValidationProblem>> Update(
-            long id,
+            Guid id,
             [FromBody] CreateQuotationDTO dto,
             [FromServices] IMediator mediator,
             IOutputCacheStore outputCacheStore)
@@ -72,7 +72,7 @@ namespace SITRA.API.Endpoints.Invoices
 
         [Idempotent]
         static async Task<Results<Created<CreateSaleInvoiceDTO>, NotFound, ValidationProblem>> Process(
-            [FromRoute] long id,
+            [FromRoute] Guid id,
             [FromBody] CreateSaleInvoiceDTO dto,
             [FromServices] IMediator mediator,
             IOutputCacheStore outputCacheStore)
@@ -86,7 +86,7 @@ namespace SITRA.API.Endpoints.Invoices
         }
 
         static async Task<Results<FileContentHttpResult, NotFound>> GeneratePdf(
-            [FromRoute] int invoiceId,
+            [FromRoute] Guid invoiceId,
             [FromServices] IMediator mediator)
         {
             var query = new GetQuotationPdfQuery(invoiceId);

@@ -2,11 +2,11 @@ namespace SITRA.Core.DTOs.Invoices.SaleInvoices
 {
     public class CreateQuotationDTO
     {
-        public long PricingId { get; set; }
-        public long CurrencyId { get; set; }
-        public long WarehouseId { get; set; }
-        public long CustomerId { get; set; }
-        public long BillerId { get; set; }
+        public Guid PricingId { get; set; }
+        public Guid CurrencyId { get; set; }
+        public Guid WarehouseId { get; set; }
+        public Guid CustomerId { get; set; }
+        public Guid BillerId { get; set; }
         public DateTime? DueDate { get; set; } = null!;
         public string QuotationNumber { get; set; } = string.Empty;
         public double? Shipping { get; set; }

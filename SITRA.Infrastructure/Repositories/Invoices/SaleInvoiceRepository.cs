@@ -37,7 +37,7 @@ namespace SITRA.Infrastructure.Repositories.Invoices
                 .ToListAsync();
         }
 
-        public async new Task<Invoice?> GetByIdAsync(long id)
+        public async new Task<Invoice?> GetByIdAsync(Guid id)
         {
             return await context.Invoices
                 .Include(i => i.InvoiceBuyer)
@@ -66,14 +66,14 @@ namespace SITRA.Infrastructure.Repositories.Invoices
             await context.InvoiceItems.AddAsync(item);
         }
 
-        public async Task<List<InvoiceItem>> GetItemsByInvoiceId(long invoiceId)
+        public async Task<List<InvoiceItem>> GetItemsByInvoiceId(Guid invoiceId)
         {
             return await context.InvoiceItems
                 .Where(i => i.InvoiceId == invoiceId)
                 .ToListAsync();
         }
 
-        public async Task DeleteInvoiceItemsByInvoiceId(long? invoiceId)
+        public async Task DeleteInvoiceItemsByInvoiceId(Guid? invoiceId)
         {
             var items = await context.InvoiceItems
                 .Where(i => i.InvoiceId == invoiceId)

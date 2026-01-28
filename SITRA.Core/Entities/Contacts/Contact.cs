@@ -7,7 +7,7 @@ namespace SITRA.Core.Entities.Contacts
 {
     public sealed class Contact : ITenant, IAuditableEntity
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         public ContactType? ContactType { get; set; }
         public IdentificationType? IdentificationType { get; set; }
         public string? Identification { get; set; }

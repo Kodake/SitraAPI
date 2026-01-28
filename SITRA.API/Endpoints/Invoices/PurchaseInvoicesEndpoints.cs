@@ -22,7 +22,7 @@ namespace SITRA.API.Endpoints.Invoices
             group.MapGet("/purchases-range", GetAllByDateRange).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("purchaseInvoices-get"))
                 .AddPaginationParamsOpenAPI().RequireAuthorization();
             group.MapGet("/purchases-report", GenerateReportPdf).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("purchaseInvoices-get")).RequireAuthorization();
-            group.MapGet("/{id:long}", GetById).RequireAuthorization();
+            group.MapGet("/{id:guid}", GetById).RequireAuthorization();
             group.MapPost("/", Create).DisableAntiforgery().AddEndpointFilter<ValidationFilter<CreatePurchaseInvoiceDTO>>().WithOpenApi().RequireAuthorization();
             group.MapGet("/{invoiceId}/generate-pdf", GeneratePdf).WithOpenApi().RequireAuthorization();
             return group;
@@ -39,7 +39,7 @@ namespace SITRA.API.Endpoints.Invoices
 
         static async Task<Results<Ok<PurchaseInvoiceDTO>, NotFound>> GetById(
             [FromServices] IMediator mediator,
-            long id)
+            Guid id)
         {
             var query = new GetPurchaseInvoiceByIdQuery(id);
             var dto = await mediator.Send(query);
@@ -58,7 +58,7 @@ namespace SITRA.API.Endpoints.Invoices
         }
 
         static async Task<Results<FileContentHttpResult, NotFound>> GeneratePdf(
-            [FromRoute] int invoiceId,
+            [FromRoute] Guid invoiceId,
             [FromServices] IMediator mediator)
         {
             var query = new GetPurchaseInvoicePdfQuery(invoiceId);

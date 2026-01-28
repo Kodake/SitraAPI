@@ -6,7 +6,7 @@ namespace SITRA.Core.DTOs.CashBoxes
 {
     public class PettyCashDTO
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         public string UserId { get; set; } = null!;
         public UserDTO User { get; set; } = null!;
         public double OpeningAmount { get; set; }

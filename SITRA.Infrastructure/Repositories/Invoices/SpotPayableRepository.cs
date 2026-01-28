@@ -32,7 +32,7 @@ namespace SITRA.Infrastructure.Repositories.Invoices
                 .ToListAsync();
         }
 
-        public async new Task<SpotPayable?> GetByIdAsync(long id)
+        public async new Task<SpotPayable?> GetByIdAsync(Guid id)
         {
             return await context.SpotPayables
                 .Include(x => x.Invoice)

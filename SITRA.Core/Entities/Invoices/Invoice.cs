@@ -11,17 +11,17 @@ namespace SITRA.Core.Entities.Invoices
 {
     public class Invoice : ITenant, IAuditableEntity
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         public DateTimeOffset Date { get; set; }
-        public long PricingId { get; set; }
+        public Guid PricingId { get; set; }
         public Pricing Pricing { get; set; } = null!;
         public virtual InvoiceBiller? InvoiceBiller { get; set; }
         public virtual InvoiceBuyer? InvoiceBuyer { get; set; }
         public virtual InvoiceFiscalSupport? InvoiceFiscalSupport { get; set; }
         public string? FiscalSupportNumber { get; set; } = null!;
-        public long CurrencyId { get; set; }
+        public Guid CurrencyId { get; set; }
         public Currency Currency { get; set; } = null!;
-        public long WarehouseId { get; set; }
+        public Guid WarehouseId { get; set; }
         public Warehouse Warehouse { get; set; } = null!;
         public InvoiceCondition? ConditionType { get; set; }
         public InvoiceType InvoiceType { get; set; }

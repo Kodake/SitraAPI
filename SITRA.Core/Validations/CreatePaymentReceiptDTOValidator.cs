@@ -13,11 +13,11 @@ namespace SITRA.Core.Validations
                                                 IHttpContextAccessor httpContextAccessor)
         {
             var routeId = httpContextAccessor.HttpContext?.Request.RouteValues["id"];
-            var id = 0;
+            var id = Guid.Empty;
 
             if (routeId is string valorString)
             {
-                _ = int.TryParse(valorString, out id);
+                _ = Guid.TryParse(valorString, out id);
             }
 
             RuleFor(dto => id)

@@ -5,10 +5,10 @@ using SITRA.Core.Interfaces;
 
 namespace SITRA.Core.Mediator.Queries.Products.Items
 {
-    public class GetDocumentsByTypeIdAndWarehouseIdQuery(FiscalSupportType supportType, long warehouseId) : IQuery<FiscalSupportDTO>
+    public class GetDocumentsByTypeIdAndWarehouseIdQuery(FiscalSupportType supportType, Guid warehouseId) : IQuery<FiscalSupportDTO>
     {
         public FiscalSupportType SupportType { get; } = supportType;
-        public long WarehouseId { get; } = warehouseId;
+        public Guid WarehouseId { get; } = warehouseId;
 
         public async Task<FiscalSupportDTO> GetData(
             IUnitOfWork unitOfWork,

@@ -7,6 +7,6 @@ namespace SITRA.Core.Interfaces.Products
     public interface IBrandRepository : IRepositoryBase<Brand>
     {
         Task<List<Brand>> GetAll(StatusType status);
-        Task<bool> Exists(long id, string code);
+        Task<bool> Exists(Guid id, string code);
     }
 }

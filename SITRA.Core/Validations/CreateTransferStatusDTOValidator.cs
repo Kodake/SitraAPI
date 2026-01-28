@@ -12,8 +12,8 @@ namespace SITRA.Core.Validations
         public CreateTransferStatusDTOValidator(IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
         {
             var routeId = httpContextAccessor.HttpContext?.Request.RouteValues["id"];
-            var id = 0;
-            if (routeId != null && int.TryParse(routeId.ToString(), out id))
+            var id = Guid.Empty;
+            if (routeId != null && Guid.TryParse(routeId.ToString(), out id))
             {
                 RuleFor(x => x)
                     .MustAsync(async (dto, cancellation) =>
@@ -49,7 +49,7 @@ namespace SITRA.Core.Validations
             }
 
             RuleFor(x => x.Id)
-                .GreaterThan(0).WithMessage(Utilities.TransferIdInvalidMessage);
+                .NotEmpty().WithMessage(Utilities.TransferIdInvalidMessage);
 
             RuleFor(x => x.Comment)
                 .MaximumLength(500).WithMessage(Utilities.CommentTooLongMessage);

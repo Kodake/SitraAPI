@@ -8,7 +8,7 @@ namespace SITRA.Core.Mediator.Commands.AdministrativeTools.FiscalSupports
 {
     public class UpdateFiscalSupportCommand : UpdateCommand<FiscalSupport, CreateFiscalSupportDTO>
     {
-        public UpdateFiscalSupportCommand(long id, CreateFiscalSupportDTO dto) : base(id, dto) { }
+        public UpdateFiscalSupportCommand(Guid id, CreateFiscalSupportDTO dto) : base(id, dto) { }
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
         {

@@ -6,9 +6,9 @@ namespace SITRA.Core.Mediator.Commands
 {
     public abstract class DeleteCommand : IRequest<bool>
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
 
-        protected DeleteCommand(long id)
+        protected DeleteCommand(Guid id)
         {
             Id = id;
         }

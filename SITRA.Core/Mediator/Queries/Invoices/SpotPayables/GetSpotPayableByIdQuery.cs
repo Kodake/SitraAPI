@@ -6,7 +6,7 @@ namespace SITRA.Core.Mediator.Queries.Invoices.SpotPayables
 {
     public class GetSpotPayableByIdQuery : GetByIdQuery<SpotPayableDTO>
     {
-        public GetSpotPayableByIdQuery(long id) : base(id) { }
+        public GetSpotPayableByIdQuery(Guid id) : base(id) { }
 
         public override async Task<SpotPayableDTO> GetData(
             IUnitOfWork unitOfWork,

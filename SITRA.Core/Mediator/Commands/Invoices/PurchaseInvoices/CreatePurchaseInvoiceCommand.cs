@@ -22,7 +22,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.PurchaseInvoices
             var purchaseInvoice = mapper.Map<Invoice>(Dto);
             purchaseInvoice.InvoiceType = InvoiceType.Purchase;
             purchaseInvoice.Date = DateTimeOffset.UtcNow;
-            if (Dto.SupplierId > 0)
+            if (Dto.SupplierId != Guid.Empty)
             {
                 purchaseInvoice.InvoiceBuyer = new InvoiceBuyer { ContactId = Dto.SupplierId };
             }
@@ -38,7 +38,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.PurchaseInvoices
                     var accountsPayable = new Payable
                     {
                         Invoice = purchaseInvoice,
-                        ContactId = Dto.SupplierId != 0 ? Dto.SupplierId : null,
+                        ContactId = Dto.SupplierId != Guid.Empty ? Dto.SupplierId : null,
                         TotalAmountDue = purchaseInvoice.TotalPrice,
                         TotalOutstanding = 0,
                         Status = AccountStatus.PendingPayable,
@@ -51,7 +51,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.PurchaseInvoices
                     var spotPayable = new SpotPayable
                     {
                         Invoice = purchaseInvoice,
-                        ContactId = Dto.SupplierId != 0 ? Dto.SupplierId : null,
+                        ContactId = Dto.SupplierId != Guid.Empty ? Dto.SupplierId : null,
                         PaymentMethod = Dto.PaymentMethod,
                         PaymentDate = DateTimeOffset.UtcNow,
                         IsActive = true

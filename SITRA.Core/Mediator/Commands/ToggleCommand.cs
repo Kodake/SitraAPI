@@ -6,9 +6,9 @@ namespace SITRA.Core.Mediator.Commands
 {
     public abstract class ToggleCommand : IRequest<bool>
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
 
-        protected ToggleCommand(long id)
+        protected ToggleCommand(Guid id)
         {
             Id = id;
         }

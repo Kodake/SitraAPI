@@ -17,13 +17,13 @@ namespace SITRA.API.Endpoints
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("pricings-get"))
                 .AddPaginationParamsOpenAPI().RequireAuthorization();
-            group.MapGet("/unregistered-pricings/{id:long}", GetUnregisteredPricingsForItem).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("pricings-get")).RequireAuthorization();
-            group.MapGet("/{id:long}", GetById).RequireAuthorization();
+            group.MapGet("/unregistered-pricings/{id:guid}", GetUnregisteredPricingsForItem).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("pricings-get")).RequireAuthorization();
+            group.MapGet("/{id:guid}", GetById).RequireAuthorization();
             group.MapGet("/selects", GetPricings).RequireAuthorization();
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreatePricingDTO>>()
                 .WithOpenApi().RequireAuthorization();
-            group.MapPut("/{id:long}", Update).DisableAntiforgery()
+            group.MapPut("/{id:guid}", Update).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreatePricingDTO>>()
                 .WithOpenApi().RequireAuthorization();
             return group;
@@ -40,7 +40,7 @@ namespace SITRA.API.Endpoints
 
         static async Task<Ok<IEnumerable<PricingListDTO>>> GetUnregisteredPricingsForItem(
             [FromServices] IMediator mediator,
-            long id)
+            Guid id)
         {
             var query = new GetUnregisteredPricingsForItemQuery(id);
             var dto = await mediator.Send(query);
@@ -49,7 +49,7 @@ namespace SITRA.API.Endpoints
 
         static async Task<Results<Ok<PricingDTO>, NotFound>> GetById(
             [FromServices] IMediator mediator,
-            long id)
+            Guid id)
         {
             var query = new GetPricingByIdQuery(id);
             var dto = await mediator.Send(query);
@@ -75,7 +75,7 @@ namespace SITRA.API.Endpoints
         }
 
         static async Task<Results<Ok, NotFound, ValidationProblem>> Update(
-            long id,
+            Guid id,
             [FromBody] CreatePricingDTO dto,
             [FromServices] IMediator mediator,
             IOutputCacheStore outputCacheStore)

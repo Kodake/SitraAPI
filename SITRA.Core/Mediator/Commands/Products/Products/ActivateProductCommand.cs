@@ -5,7 +5,7 @@ namespace SITRA.Core.Mediator.Commands.Products.Products
 {
     public class ActivateProductCommand : ToggleCommand
     {
-        public ActivateProductCommand(long id) : base(id) { }
+        public ActivateProductCommand(Guid id) : base(id) { }
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, CancellationToken cancellationToken)
         {

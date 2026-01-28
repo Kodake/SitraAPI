@@ -7,8 +7,8 @@ namespace SITRA.Core.Interfaces.Products
     public interface IModelRepository : IRepositoryBase<Model>
     {
         new Task<List<Model>> GetAllAsync(PaginationDTO paginationDTO);
-        Task<bool> Exists(long id, string name);
-        new Task<Model?> GetByIdAsync(long id);
-        Task<List<Model>> GetByBrandId(long brandId);
+        Task<bool> Exists(Guid id, string name);
+        new Task<Model?> GetByIdAsync(Guid id);
+        Task<List<Model>> GetByBrandId(Guid brandId);
     }
 }

@@ -8,10 +8,10 @@ namespace SITRA.Core.Mediator.Commands
     public abstract class UpdateCommand<TEntity, TDto> : IRequest<bool>
         where TEntity : class
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         public TDto Dto { get; set; }
 
-        protected UpdateCommand(long id, TDto dto)
+        protected UpdateCommand(Guid id, TDto dto)
         {
             Id = id;
             Dto = dto;

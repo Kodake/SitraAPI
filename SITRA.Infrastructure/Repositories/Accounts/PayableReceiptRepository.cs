@@ -9,7 +9,7 @@ namespace SITRA.Infrastructure.Repositories.Accounts
 {
     public class PayableReceiptRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor) : RepositoryBase<PayableReceipt>(context, httpContextAccessor), IPayableReceiptRepository
     {
-        public async new Task<PayableReceipt?> GetByIdAsync(long id)
+        public async new Task<PayableReceipt?> GetByIdAsync(Guid id)
         {
             return await context.PayableReceipts
                 .Include(p => p.Payable)

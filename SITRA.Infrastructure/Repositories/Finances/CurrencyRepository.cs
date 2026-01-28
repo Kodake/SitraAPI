@@ -19,7 +19,7 @@ namespace SITRA.Infrastructure.Repositories.Finances
                 .ToListAsync();
         }
 
-        public async Task<bool> Exists(long id, string code)
+        public async Task<bool> Exists(Guid id, string code)
         {
             return await context.Currencies.AnyAsync(x => x.Id != id && x.Code == code);
         }

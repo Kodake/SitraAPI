@@ -8,10 +8,10 @@ namespace SITRA.Core.Mediator.Commands
     public abstract class ProcessCommand<TEntity, TDto> : IRequest<TDto>
         where TEntity : class
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         public TDto Dto { get; set; }
 
-        protected ProcessCommand(long id, TDto dto)
+        protected ProcessCommand(Guid id, TDto dto)
         {
             Id = id;
             Dto = dto;

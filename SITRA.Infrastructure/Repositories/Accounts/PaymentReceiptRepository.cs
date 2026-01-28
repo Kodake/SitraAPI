@@ -13,7 +13,7 @@ namespace SITRA.Infrastructure.Repositories.Accounts
             : base(context, httpContextAccessor)
         { }
 
-        public async new Task<PaymentReceipt?> GetByIdAsync(long id)
+        public async new Task<PaymentReceipt?> GetByIdAsync(Guid id)
         {
             return await context.PaymentReceipts
                 .Include(p => p.Receivable)

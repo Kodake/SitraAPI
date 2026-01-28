@@ -14,7 +14,7 @@ namespace SITRA.API.Endpoints
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("spotPayments-get"))
                 .AddPaginationParamsOpenAPI().RequireAuthorization();
-            group.MapGet("/{id:long}", GetById).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("spotPayments-get")).RequireAuthorization();
+            group.MapGet("/{id:guid}", GetById).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("spotPayments-get")).RequireAuthorization();
             return group;
         }
 
@@ -29,7 +29,7 @@ namespace SITRA.API.Endpoints
 
         static async Task<Results<Ok<SpotPaymentDTO>, NotFound>> GetById(
             [FromServices] IMediator mediator,
-            long id)
+            Guid id)
         {
             var query = new GetSpotPaymentByIdQuery(id);
             var dto = await mediator.Send(query);

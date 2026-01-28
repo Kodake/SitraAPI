@@ -53,7 +53,7 @@ namespace SITRA.Infrastructure.Repositories.AdministrativeTools
             return await query.OrderBy(u => u.Id).ToListAsync();
         }
 
-        public async Task<FiscalSupport?> GetByIdAsync(long? id)
+        public async Task<FiscalSupport?> GetByIdAsync(Guid? id)
         {
             return await context.FiscalSupports
                 .Include(x => x.Warehouse)
@@ -62,7 +62,7 @@ namespace SITRA.Infrastructure.Repositories.AdministrativeTools
 
         public async Task<FiscalSupport?> GetByDocumentTypeAndWarehouseIdAsync(
             FiscalSupportType supportType,
-            long warehouseId)
+            Guid warehouseId)
         {
             return await context.FiscalSupports
                 .AsNoTracking()
@@ -71,12 +71,12 @@ namespace SITRA.Infrastructure.Repositories.AdministrativeTools
                     x.WarehouseId == warehouseId);
         }
 
-        public async Task<bool> Exists(long id, string name)
+        public async Task<bool> Exists(Guid id, string name)
         {
             return await context.FiscalSupports.AnyAsync(x => x.Id != id && x.Name == name);
         }
 
-        public async Task<FiscalSupport?> GetByTypeAndWarehouseAsync(FiscalSupportType fiscalSupportType, long warehouseId)
+        public async Task<FiscalSupport?> GetByTypeAndWarehouseAsync(FiscalSupportType fiscalSupportType, Guid warehouseId)
         {
             return await context.FiscalSupports
                 .FirstOrDefaultAsync(x => x.FiscalSupportType == fiscalSupportType && x.WarehouseId == warehouseId);

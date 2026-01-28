@@ -6,7 +6,7 @@ namespace SITRA.Core.Mediator.Queries.Products.Pricings
 {
     public class GetPricingByIdQuery : GetByIdQuery<PricingDTO>
     {
-        public GetPricingByIdQuery(long id) : base(id) { }
+        public GetPricingByIdQuery(Guid id) : base(id) { }
 
         public override async Task<PricingDTO> GetData(
             IUnitOfWork unitOfWork,

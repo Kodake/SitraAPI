@@ -20,16 +20,16 @@ namespace SITRA.API.Endpoints
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("fiscalsupports-get"))
                 .AddPaginationParamsOpenAPI().RequireAuthorization();
             group.MapGet("/selects", GetSelects).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("fiscalsupports-get")).RequireAuthorization();
-            group.MapGet("/{id:long}", GetById).RequireAuthorization();
-            group.MapGet("/supportType/{supportType}/warehouse/{warehouseId:long}", GetByDocumentTypeAndWarehouseId).RequireAuthorization();
+            group.MapGet("/{id:guid}", GetById).RequireAuthorization();
+            group.MapGet("/supportType/{supportType}/warehouse/{warehouseId:guid}", GetByDocumentTypeAndWarehouseId).RequireAuthorization();
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateFiscalSupportDTO>>()
                 .WithOpenApi().RequireAuthorization();
-            group.MapPut("/{id:long}", Update).DisableAntiforgery()
+            group.MapPut("/{id:guid}", Update).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateFiscalSupportDTO>>()
                 .WithOpenApi().RequireAuthorization();
-            group.MapPatch("/{id:long}/activate", Activate).RequireAuthorization();
-            group.MapDelete("/{id:long}/deactivate", Deactivate).RequireAuthorization();
+            group.MapPatch("/{id:guid}/activate", Activate).RequireAuthorization();
+            group.MapDelete("/{id:guid}/deactivate", Deactivate).RequireAuthorization();
             return group;
         }
 
@@ -53,7 +53,7 @@ namespace SITRA.API.Endpoints
 
         static async Task<Results<Ok<FiscalSupportDTO>, NotFound>> GetById(
             [FromServices] IMediator mediator,
-            long id)
+            Guid id)
         {
             var query = new GetFiscalSupportByIdQuery(id);
             var result = await mediator.Send(query);
@@ -62,7 +62,7 @@ namespace SITRA.API.Endpoints
 
         static async Task<Ok<FiscalSupportDTO>> GetByDocumentTypeAndWarehouseId(
             [FromServices] IMediator mediator,
-            [FromRoute] FiscalSupportType supportType, long warehouseId)
+            [FromRoute] FiscalSupportType supportType, Guid warehouseId)
         {
             var query = new GetDocumentsByTypeIdAndWarehouseIdQuery(supportType, warehouseId);
             var result = await mediator.Send(query);
@@ -80,7 +80,7 @@ namespace SITRA.API.Endpoints
         }
 
         static async Task<Results<Ok, NotFound, ValidationProblem>> Update(
-            long id, [FromBody] CreateFiscalSupportDTO dto,
+            Guid id, [FromBody] CreateFiscalSupportDTO dto,
             [FromServices] IMediator mediator,
             IOutputCacheStore outputCacheStore)
         {
@@ -90,7 +90,7 @@ namespace SITRA.API.Endpoints
         }
 
         static async Task<Results<NotFound, Ok>> Activate(
-            [FromRoute] long id,
+            [FromRoute] Guid id,
             [FromServices] IMediator mediator,
             IOutputCacheStore outputCacheStore)
         {
@@ -100,7 +100,7 @@ namespace SITRA.API.Endpoints
         }
 
         static async Task<Results<NotFound, Ok>> Deactivate(
-            [FromRoute] long id,
+            [FromRoute] Guid id,
             [FromServices] IMediator mediator,
             IOutputCacheStore outputCacheStore)
         {

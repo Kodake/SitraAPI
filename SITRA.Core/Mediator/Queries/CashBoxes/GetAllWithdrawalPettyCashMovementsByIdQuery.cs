@@ -5,9 +5,9 @@ using SITRA.Core.Interfaces;
 
 namespace SITRA.Core.Mediator.Queries.CashBoxes
 {
-    public class GetAllWithdrawalPettyCashMovementsByIdQuery(PaginationDTO pagination, long pettyCashId) : GetAllQuery<WithdrawalPettyCashMovementListDTO>(pagination)
+    public class GetAllWithdrawalPettyCashMovementsByIdQuery(PaginationDTO pagination, Guid pettyCashId) : GetAllQuery<WithdrawalPettyCashMovementListDTO>(pagination)
     {
-        public long PettyCashId { get; } = pettyCashId;
+        public Guid PettyCashId { get; } = pettyCashId;
 
         public override async Task<List<WithdrawalPettyCashMovementListDTO>> GetData(
             IUnitOfWork unitOfWork,

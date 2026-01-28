@@ -4,7 +4,7 @@ using SITRA.Core.Interfaces;
 
 namespace SITRA.Core.Mediator.Queries.Finances.Expenses
 {
-    public class GetExpenseByIdQuery(long id) : GetByIdQuery<ExpenseDTO>(id)
+    public class GetExpenseByIdQuery(Guid id) : GetByIdQuery<ExpenseDTO>(id)
     {
         public override async Task<ExpenseDTO> GetData(
             IUnitOfWork unitOfWork,

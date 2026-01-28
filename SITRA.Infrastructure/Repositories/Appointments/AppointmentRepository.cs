@@ -34,7 +34,7 @@ namespace SITRA.Infrastructure.Repositories.Appointments
             return items;
         }
 
-        public async Task<bool> ExistsAtDateTime(DateTimeOffset scheduledAt, long? excludeId = null)
+        public async Task<bool> ExistsAtDateTime(DateTimeOffset scheduledAt, Guid? excludeId = null)
         {
             return await context.Appointments.AnyAsync(a =>
                 a.IsActive &&
@@ -47,7 +47,7 @@ namespace SITRA.Infrastructure.Repositories.Appointments
             );
         }
 
-        public async new Task<Appointment?> GetByIdAsync(long id)
+        public async new Task<Appointment?> GetByIdAsync(Guid id)
         {
             return await context.Appointments
                 .Include(a => a.Contact)

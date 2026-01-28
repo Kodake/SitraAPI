@@ -18,14 +18,14 @@ namespace SITRA.API.Endpoints
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("transfers-get"))
                 .AddPaginationParamsOpenAPI().RequireAuthorization();
-            group.MapGet("/{id:long}", GetById).RequireAuthorization();
+            group.MapGet("/{id:guid}", GetById).RequireAuthorization();
             group.MapPost("/", Create).DisableAntiforgery()
                .AddEndpointFilter<ValidationFilter<CreateTransferDTO>>()
                .WithOpenApi().RequireAuthorization();
-            group.MapPut("/received/{id:long}", Received).DisableAntiforgery()
+            group.MapPut("/received/{id:guid}", Received).DisableAntiforgery()
                .AddEndpointFilter<ValidationFilter<CreateTransferStatusDTO>>()
                .WithOpenApi().RequireAuthorization();
-            group.MapPut("/cancelled/{id:long}", Cancelled).DisableAntiforgery()
+            group.MapPut("/cancelled/{id:guid}", Cancelled).DisableAntiforgery()
                .AddEndpointFilter<ValidationFilter<CreateTransferStatusDTO>>()
                .WithOpenApi().RequireAuthorization();
             return group;
@@ -42,7 +42,7 @@ namespace SITRA.API.Endpoints
 
         static async Task<Results<Ok<TransferDTO>, NotFound>> GetById(
             [FromServices] IMediator mediator,
-            long id)
+            Guid id)
         {
             var query = new GetTransferByIdQuery(id);
             var dto = await mediator.Send(query);
@@ -62,7 +62,7 @@ namespace SITRA.API.Endpoints
 
         [Idempotent]
         static async Task<Results<Ok, NotFound, ValidationProblem>> Received(
-            long id,
+            Guid id,
             [FromBody] CreateTransferStatusDTO dto,
             [FromServices] IMediator mediator)
         {
@@ -73,7 +73,7 @@ namespace SITRA.API.Endpoints
 
         [Idempotent]
         static async Task<Results<Ok, NotFound, ValidationProblem>> Cancelled(
-            long id,
+            Guid id,
             [FromBody] CreateTransferStatusDTO dto,
             [FromServices] IMediator mediator)
         {

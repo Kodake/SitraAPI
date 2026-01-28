@@ -34,12 +34,12 @@ namespace SITRA.Core.Mediator.Commands.Wizard
             product.ItemType = ItemType.Product;
 
             // Handle the special -1 tax id
-            if (dto.Product.TaxIds != null)
+            if (dto.Product.TaxIds != null && dto.Product.TaxIds.Count > 0)
             {
-                var existingTaxIds = dto.Product.TaxIds.Where(id => id != -1).ToList();
+                var existingTaxIds = dto.Product.TaxIds.Where(id => id != Guid.Empty).ToList();
                 product.ItemTaxes = existingTaxIds.Select(id => new ItemTaxes { TaxId = id }).ToList();
 
-                if (dto.Product.TaxIds.Contains(-1))
+                if (dto.Product.TaxIds.Contains(Guid.Empty))
                 {
                     product.ItemTaxes.Add(new ItemTaxes { Tax = taxSaved });
                 }

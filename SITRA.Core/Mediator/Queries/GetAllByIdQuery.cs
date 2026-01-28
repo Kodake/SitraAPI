@@ -5,9 +5,9 @@ namespace SITRA.Core.Mediator.Queries
 {
     public abstract class GetAllByIdQuery<TDto> : IQuery<IEnumerable<TDto>>
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
 
-        protected GetAllByIdQuery(long id)
+        protected GetAllByIdQuery(Guid id)
         {
             Id = id;
         }

@@ -6,10 +6,10 @@ namespace SITRA.Core.DTOs.Invoices.SpotPayments
 {
     public class SpotPaymentDTO
     {
-        public long Id { get; set; }
-        public long InvoiceId { get; set; }
+        public Guid Id { get; set; }
+        public Guid InvoiceId { get; set; }
         public virtual SaleInvoiceDTO Invoice { get; set; } = null!;
-        public long ContactId { get; set; }
+        public Guid ContactId { get; set; }
         public virtual ContactDTO Buyer { get; set; } = null!;
         public virtual ICollection<PaymentDTO> Payments { get; set; } = [];
         public double AmountReceived { get; set; }

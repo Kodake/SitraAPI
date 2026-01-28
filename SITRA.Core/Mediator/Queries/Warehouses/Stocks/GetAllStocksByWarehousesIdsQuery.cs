@@ -7,9 +7,9 @@ namespace SITRA.Core.Mediator.Queries.Warehouses.Stocks
 {
     public class GetAllStocksByWarehouseIdsQuery : GetAllQuery<StockListDTO>
     {
-        public List<long> WarehouseIds { get; }
+        public List<Guid> WarehouseIds { get; }
         public PaginationDTO PaginationDTO { get; }
-        public GetAllStocksByWarehouseIdsQuery(List<long> warehouseIds, PaginationDTO pagination) : base(pagination) 
+        public GetAllStocksByWarehouseIdsQuery(List<Guid> warehouseIds, PaginationDTO pagination) : base(pagination) 
         {
             WarehouseIds = warehouseIds;
             PaginationDTO = pagination;

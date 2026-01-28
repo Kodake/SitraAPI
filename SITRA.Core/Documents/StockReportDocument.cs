@@ -8,9 +8,9 @@ namespace SITRA.Core.Documents
     public class StockReportDocument : ThermalDocumentBase
     {
         public List<Stock> Stocks { get; }
-        public List<long> WarehouseIds { get; }
+        public List<Guid> WarehouseIds { get; }
 
-        public StockReportDocument(List<Stock> stocks, List<long> warehouseIds)
+        public StockReportDocument(List<Stock> stocks, List<Guid> warehouseIds)
         {
             Stocks = stocks;
             WarehouseIds = warehouseIds;

@@ -6,7 +6,7 @@ namespace SITRA.Core.Mediator.Queries.Contacts
 {
     public class GetContactByIdQuery : GetByIdQuery<ContactDTO>
     {
-        public GetContactByIdQuery(long id) : base(id) { }
+        public GetContactByIdQuery(Guid id) : base(id) { }
 
         public override async Task<ContactDTO> GetData(
             IUnitOfWork unitOfWork,

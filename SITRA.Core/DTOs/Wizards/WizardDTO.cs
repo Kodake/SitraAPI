@@ -18,7 +18,7 @@ namespace SITRA.Core.DTOs.Wizard
         public string Name { get; set; } = string.Empty;
         public double InitialCost { get; set; }
         public double BasePrice { get; set; }
-        public List<long> TaxIds { get; set; } = null!;
+        public List<Guid> TaxIds { get; set; } = null!;
     }
 
     public class WizardStockDTO

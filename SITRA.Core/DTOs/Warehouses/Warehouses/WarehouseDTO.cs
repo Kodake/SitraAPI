@@ -2,7 +2,7 @@ namespace SITRA.Core.DTOs.Warehouses.Warehouses
 {
     public class WarehouseDTO
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Address { get; set; } = string.Empty;
         public string? Phone { get; set; }

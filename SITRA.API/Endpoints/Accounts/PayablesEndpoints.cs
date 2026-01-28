@@ -18,12 +18,12 @@ namespace SITRA.API.Endpoints
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("payables-get"))
                 .AddPaginationParamsOpenAPI().RequireAuthorization();
-            group.MapGet("/{id:long}", GetAllById).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("payables-get")).RequireAuthorization();
-            group.MapGet("/{id:long}/viewPays", GetPaysById).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("payables-get")).RequireAuthorization();
-            group.MapPost("/{id:long}/addPayable", Create).DisableAntiforgery()
+            group.MapGet("/{id:guid}", GetAllById).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("payables-get")).RequireAuthorization();
+            group.MapGet("/{id:guid}/viewPays", GetPaysById).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("payables-get")).RequireAuthorization();
+            group.MapPost("/{id:guid}/addPayable", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreatePayableReceiptDTO>>()
                 .WithOpenApi().RequireAuthorization();
-            group.MapDelete("/{id:long}/payableReceipts/{payableReceiptId}/deactivate", Deactivate).RequireAuthorization();
+            group.MapDelete("/{id:guid}/payableReceipts/{payableReceiptId}/deactivate", Deactivate).RequireAuthorization();
             return group;
         }
 
@@ -38,7 +38,7 @@ namespace SITRA.API.Endpoints
 
         static async Task<Results<Ok<PayableDTO>, NotFound>> GetAllById(
             [FromServices] IMediator mediator,
-            long id)
+            Guid id)
         {
             var query = new GetAllPayablesByIdQuery(id);
             var dto = await mediator.Send(query);
@@ -47,7 +47,7 @@ namespace SITRA.API.Endpoints
 
         static async Task<Results<Ok<PayableDTO>, NotFound>> GetPaysById(
             [FromServices] IMediator mediator,
-            long id)
+            Guid id)
         {
             var query = new GetPaysByIdQuery(id);
             var dto = await mediator.Send(query);
@@ -59,7 +59,7 @@ namespace SITRA.API.Endpoints
         [Idempotent]
         static async Task<Results<Created, NotFound, ValidationProblem>> Create(
             [FromBody] CreatePayableReceiptDTO dto,
-            [FromRoute] long id,
+            [FromRoute] Guid id,
             [FromServices] IMediator mediator)
         {
             var command = new CreatePayableReceiptCommand(id, dto);
@@ -69,8 +69,8 @@ namespace SITRA.API.Endpoints
 
         [Idempotent]
         static async Task<Results<NotFound, Ok>> Deactivate(
-            [FromRoute] long id,
-            [FromRoute] long payableReceiptId,
+            [FromRoute] Guid id,
+            [FromRoute] Guid payableReceiptId,
             [FromServices] IMediator mediator)
         {
             var command = new DeactivatePayableCommand(id, payableReceiptId);

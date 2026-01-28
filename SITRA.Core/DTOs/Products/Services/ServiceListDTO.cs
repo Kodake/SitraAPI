@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 namespace SITRA.Core.DTOs.Products.Services;
 public class ServiceListDTO
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public ItemType ItemType { get; set; }
     public double BasePrice { get; set; }

@@ -11,7 +11,7 @@ using SITRA.Core.DTOs.Products.Units;
 
 public class ComboDTO
 {
-    public long Id { get; set; }
+    public Guid Id { get; set; }
     public List<ItemQtyDTO> Items { get; set; } = [];
     public List<ComboItemDTO>? ComboItems { get; set; } = [];
     public string Name { get; set; } = string.Empty;
@@ -24,11 +24,11 @@ public class ComboDTO
     public double Percentage { get; set; }
     public int? BrandId { get; set; }
     public BrandDTO? Brand { get; set; }
-    public int? ModelId { get; set; }
+    public Guid? ModelId { get; set; }
     public ModelDTO? Model { get; set; }
     public int? CategoryId { get; set; }
     public CategoryDTO? Category { get; set; }
-    public int? SubCategoryId { get; set; }
+    public Guid? SubCategoryId { get; set; }
     public SubCategoryDTO? SubCategory { get; set; }
     public int? UnitId { get; set; }
     public UnitDTO? Unit { get; set; }

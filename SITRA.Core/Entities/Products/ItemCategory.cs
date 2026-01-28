@@ -4,9 +4,9 @@ namespace SITRA.Core.Entities.Products
 {
     public class ItemCategory : ITenant, IAuditableEntity
     {
-        public long ItemId { get; set; }
+        public Guid ItemId { get; set; }
         public virtual Item Item { get; set; } = null!;
-        public long CategoryId { get; set; }
+        public Guid CategoryId { get; set; }
         public virtual Category Category { get; set; } = null!;
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }

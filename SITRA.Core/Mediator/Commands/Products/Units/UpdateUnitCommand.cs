@@ -8,7 +8,7 @@ namespace SITRA.Core.Mediator.Commands.Products.Units
 {
     public class UpdateUnitCommand : UpdateCommand<Unit, CreateUnitDTO>
     {
-        public UpdateUnitCommand(long id, CreateUnitDTO dto) : base(id, dto) { }
+        public UpdateUnitCommand(Guid id, CreateUnitDTO dto) : base(id, dto) { }
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
         {

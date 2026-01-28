@@ -10,7 +10,7 @@ namespace SITRA.Core.Mediator.Queries.Invoices.SaleInvoices
 {
     public class GetSaleInvoicePdfQuery : GetByIdQuery<(byte[] FileBytes, string FileName)?>
     {
-        public GetSaleInvoicePdfQuery(int invoiceId) : base(invoiceId) { }
+        public GetSaleInvoicePdfQuery(Guid invoiceId) : base(invoiceId) { }
 
         public override async Task<(byte[] FileBytes, string FileName)?> GetData(
             IUnitOfWork unitOfWork,

@@ -7,11 +7,11 @@ namespace SITRA.Core.Interfaces.Generics
     {
         Task<List<T>> GetAllAsync(PaginationDTO paginationDTO);
         Task<List<T>> GetAllAsync(Expression<Func<T, bool>> filter);
-        Task<T?> GetByIdAsync(long id);
+        Task<T?> GetByIdAsync(Guid id);
         Task<T> CreateAsync(T entity);
         T Update(T entity);
-        Task ActivateAsync(long id);
-        Task DeactivateAsync(long id);
-        Task<bool> ExistsAsync(long id);
+        Task ActivateAsync(Guid id);
+        Task DeactivateAsync(Guid id);
+        Task<bool> ExistsAsync(Guid id);
     }
 }

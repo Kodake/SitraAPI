@@ -23,7 +23,7 @@ namespace SITRA.Infrastructure.Repositories.Products
             return await context.Pricings.FirstOrDefaultAsync(p => p.Name == name);
         }
 
-        public async Task<IEnumerable<Pricing>> GetUnregisteredPricingsForItem(long itemId)
+        public async Task<IEnumerable<Pricing>> GetUnregisteredPricingsForItem(Guid itemId)
         {
             return await context.Pricings
                 .Where(p => !p.PricingItems.Any(pi => pi.ItemId == itemId))
@@ -36,7 +36,7 @@ namespace SITRA.Infrastructure.Repositories.Products
                 }).ToListAsync();
         }
 
-        public async Task<bool> Exists(long id, string name)
+        public async Task<bool> Exists(Guid id, string name)
         {
             return await context.Pricings.AnyAsync(x => x.Id != id && x.Name == name);
         }

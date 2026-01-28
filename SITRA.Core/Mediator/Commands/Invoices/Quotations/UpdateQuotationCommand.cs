@@ -9,7 +9,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
 {
     public class UpdateQuotationCommand : UpdateCommand<Quotation, CreateQuotationDTO>, IIdempotentCommand
     {
-        public UpdateQuotationCommand(long id, CreateQuotationDTO dto) : base(id, dto) { }
+        public UpdateQuotationCommand(Guid id, CreateQuotationDTO dto) : base(id, dto) { }
 
         public override async Task<bool> ExecuteAction(
             IUnitOfWork unitOfWork,
@@ -40,9 +40,9 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
 
             unitOfWork.SaleInvoiceRepository.Update(saleInvoice);
 
-            quotation.ContactId = Dto.CustomerId != 0 ? Dto.CustomerId : null;
+            quotation.ContactId = Dto.CustomerId != Guid.Empty ? Dto.CustomerId : null;
             
-            if (Dto.CustomerId > 0)
+            if (Dto.CustomerId != Guid.Empty)
             {
                if (saleInvoice.InvoiceBuyer == null)
                {
@@ -54,7 +54,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
                }
             }
 
-            if (Dto.BillerId > 0)
+            if (Dto.BillerId != Guid.Empty)
             {
                 if (saleInvoice.InvoiceBiller == null)
                 {

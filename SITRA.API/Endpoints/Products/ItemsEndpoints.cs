@@ -10,13 +10,13 @@ namespace SITRA.API.Endpoints
     {
         public static RouteGroupBuilder MapItems(this RouteGroupBuilder group)
         {
-            group.MapGet("/pricing/{pricingId:long}/warehouse/{warehouseId:long}/", GetByPricingIdAndWarehouseId).RequireAuthorization();
+            group.MapGet("/pricing/{pricingId:guid}/warehouse/{warehouseId:guid}/", GetByPricingIdAndWarehouseId).RequireAuthorization();
             return group;
         }
 
         static async Task<Ok<List<ItemListDTO>>> GetByPricingIdAndWarehouseId(
             [FromServices] IMediator mediator,
-            long pricingId, long warehouseId)
+            Guid pricingId, Guid warehouseId)
         {
             var query = new GetItemsByPricingIdAndWarehouseIdQuery(pricingId, warehouseId);
             var dto = await mediator.Send(query);

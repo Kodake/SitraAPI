@@ -6,7 +6,7 @@ namespace SITRA.Core.Mediator.Queries.Accounts.Payables
 {
     public class GetPaysByIdQuery : GetByIdQuery<PayableDTO>
     {
-        public GetPaysByIdQuery(long id) : base(id) { }
+        public GetPaysByIdQuery(Guid id) : base(id) { }
 
         public override async Task<PayableDTO> GetData(
             IUnitOfWork unitOfWork,

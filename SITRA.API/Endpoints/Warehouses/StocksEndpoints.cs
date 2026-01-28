@@ -20,11 +20,11 @@ namespace SITRA.API.Endpoints
             group.MapPost("/stocks-range", GetAllByWarehousesIds).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("stocks-get"))
                 .AddPaginationParamsOpenAPI().RequireAuthorization();
             group.MapPost("/stocks-report", GenerateReportPdf).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("stocks-get")).RequireAuthorization();
-            group.MapGet("/{id:long}", GetById).RequireAuthorization();
+            group.MapGet("/{id:guid}", GetById).RequireAuthorization();
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateStockDTO>>()
                 .WithOpenApi().RequireAuthorization();
-            group.MapPut("/{id:long}", Update).DisableAntiforgery()
+            group.MapPut("/{id:guid}", Update).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateStockDTO>>()
                 .WithOpenApi().RequireAuthorization();
             return group;
@@ -41,7 +41,7 @@ namespace SITRA.API.Endpoints
 
         static async Task<Results<Ok<StockDTO>, NotFound>> GetById(
             [FromServices] IMediator mediator,
-            long id)
+            Guid id)
         {
             var query = new GetStockByIdQuery(id);
             var dto = await mediator.Send(query);
@@ -59,7 +59,7 @@ namespace SITRA.API.Endpoints
         }
 
         static async Task<Results<Ok, NotFound, ValidationProblem>> Update(
-            long id,
+            Guid id,
             [FromBody] CreateStockDTO dto,
             [FromServices] IMediator mediator)
         {
@@ -69,7 +69,7 @@ namespace SITRA.API.Endpoints
         }
 
         static async Task<Results<FileContentHttpResult, NotFound>> GenerateReportPdf(
-            [FromBody] List<long> warehouseIds,
+            [FromBody] List<Guid> warehouseIds,
             [FromServices] IMediator mediator)
         {
             var query = new GetStockReportPdfQuery(warehouseIds);
@@ -81,7 +81,7 @@ namespace SITRA.API.Endpoints
         }
 
         static async Task<Ok<List<StockListDTO>>> GetAllByWarehousesIds(
-            [FromBody] List<long> warehouseIds,
+            [FromBody] List<Guid> warehouseIds,
             [FromServices] IMediator mediator,
             PaginationDTO pagination)
         {

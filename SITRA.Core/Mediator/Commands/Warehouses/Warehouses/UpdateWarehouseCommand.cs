@@ -8,7 +8,7 @@ namespace SITRA.Core.Mediator.Commands.Warehouses.Warehouses
 {
     public class UpdateWarehouseCommand : UpdateCommand<Warehouse, CreateWarehouseDTO>
     {
-        public UpdateWarehouseCommand(long id, CreateWarehouseDTO dto) : base(id, dto) { }
+        public UpdateWarehouseCommand(Guid id, CreateWarehouseDTO dto) : base(id, dto) { }
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
         {

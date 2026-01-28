@@ -15,7 +15,7 @@ namespace SITRA.Infrastructure.Repositories.CashBoxes
     {
         private new readonly HttpContext httpContext = httpContextAccessor.HttpContext!;
 
-        public async Task<List<PettyCashMovement>> GetAllAsync(PaginationDTO paginationDTO, long pettyCashId)
+        public async Task<List<PettyCashMovement>> GetAllAsync(PaginationDTO paginationDTO, Guid pettyCashId)
         {
             var queryable = context.PettyCashMovements
                 .Include(x => x.Invoice)
@@ -30,7 +30,7 @@ namespace SITRA.Infrastructure.Repositories.CashBoxes
                 .ToListAsync();
         }
 
-        public async Task<List<PettyCashMovement>> GetAllWithdrawalsAsync(PaginationDTO paginationDTO, long pettyCashId)
+        public async Task<List<PettyCashMovement>> GetAllWithdrawalsAsync(PaginationDTO paginationDTO, Guid pettyCashId)
         {
             var queryable = context.PettyCashMovements
                 .Include(x => x.PettyCash)
@@ -44,14 +44,14 @@ namespace SITRA.Infrastructure.Repositories.CashBoxes
                 .ToListAsync();
         }
 
-        public async Task<double> GetTotalWithdrawalsAsync(long pettyCashId)
+        public async Task<double> GetTotalWithdrawalsAsync(Guid pettyCashId)
         {
             return await context.PettyCashMovements
                 .Where(x => x.PettyCashId == pettyCashId && x.Type == MovementType.CashWithdrawals)
                 .SumAsync(x => x.Amount);
         }
 
-        public async Task<double> GetTotalAmountPaidAsync(long pettyCashId)
+        public async Task<double> GetTotalAmountPaidAsync(Guid pettyCashId)
         {
             return await context.PettyCashMovements
                 .Include(x => x.Invoice)
@@ -62,7 +62,7 @@ namespace SITRA.Infrastructure.Repositories.CashBoxes
                 .SumAsync(x => x.Amount);
         }
 
-        public async Task<Dictionary<object, double>> GetPaymentMethodSumsAsync(long pettyCashId)
+        public async Task<Dictionary<object, double>> GetPaymentMethodSumsAsync(Guid pettyCashId)
         {
             var payments = await context.PettyCashMovements
                 .Include(x => x.Invoice)
@@ -90,7 +90,7 @@ namespace SITRA.Infrastructure.Repositories.CashBoxes
             return result;
         }
 
-        public async Task<List<PaymentMethodAmountListDTO>> GetPaymentMethodAmountListAsync(long pettyCashId)
+        public async Task<List<PaymentMethodAmountListDTO>> GetPaymentMethodAmountListAsync(Guid pettyCashId)
         {
             var payments = await context.PettyCashMovements
                 .Include(x => x.Invoice)

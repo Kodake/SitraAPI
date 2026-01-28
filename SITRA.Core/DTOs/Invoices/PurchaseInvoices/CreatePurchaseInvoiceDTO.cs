@@ -4,10 +4,10 @@ namespace SITRA.Core.DTOs.Invoices.PurchaseInvoices
 {
     public class CreatePurchaseInvoiceDTO
     {
-        public long PricingId { get; set; }
-        public long CurrencyId { get; set; }
-        public long WarehouseId { get; set; }
-        public long SupplierId { get; set; }
+        public Guid PricingId { get; set; }
+        public Guid CurrencyId { get; set; }
+        public Guid WarehouseId { get; set; }
+        public Guid SupplierId { get; set; }
         public DocumentType DocumentType { get; set; }
         public string? FiscalSupportNumber { get; set; } = string.Empty;
         public InvoiceCondition ConditionType { get; set; }

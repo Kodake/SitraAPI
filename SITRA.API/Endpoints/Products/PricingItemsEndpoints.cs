@@ -15,19 +15,19 @@ namespace SITRA.API.Endpoints
     {
         public static RouteGroupBuilder MapPricingItems(this RouteGroupBuilder group)
         {
-            group.MapGet("/item/{itemId:long}", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("pricing-items-get"))
+            group.MapGet("/item/{itemId:guid}", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("pricing-items-get"))
                 .AddPaginationParamsOpenAPI().RequireAuthorization();
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreatePricingItemDTO>>()
                 .WithOpenApi().RequireAuthorization();
-            group.MapPatch("/{id:long}/activate", Activate).RequireAuthorization();
-            group.MapDelete("/{id:long}", Delete).RequireAuthorization();
+            group.MapPatch("/{id:guid}/activate", Activate).RequireAuthorization();
+            group.MapDelete("/{id:guid}", Delete).RequireAuthorization();
             return group;
         }
 
         static async Task<Ok<List<PricingItemListDTO>>> GetAll(
             [FromServices] IMediator mediator,
-            [FromRoute] long itemId,
+            [FromRoute] Guid itemId,
             PaginationDTO pagination)
         {
             var query = new GetAllPricingItemsByIdQuery(pagination, itemId);
@@ -46,7 +46,7 @@ namespace SITRA.API.Endpoints
         }
 
         static async Task<Results<NotFound, Ok>> Activate(
-            [FromRoute] long id,
+            [FromRoute] Guid id,
             [FromServices] IMediator mediator,
             IOutputCacheStore outputCacheStore)
         {
@@ -56,7 +56,7 @@ namespace SITRA.API.Endpoints
         }
 
         static async Task<Results<NotFound, Ok>> Delete(
-            [FromRoute] long id,
+            [FromRoute] Guid id,
             [FromServices] IMediator mediator,
             IOutputCacheStore outputCacheStore)
         {

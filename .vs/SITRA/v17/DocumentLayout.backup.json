@@ -3,32 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\Kodake\\Desktop\\PosAPI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A236490C-3D9D-4ED9-A2FF-8A31C3D2BCD6}|SITRA.Core\\SITRA.Core.csproj|c:\\users\\kodake\\desktop\\posapi\\sitra.core\\documents\\invoicereceiptdocument.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A236490C-3D9D-4ED9-A2FF-8A31C3D2BCD6}|SITRA.Core\\SITRA.Core.csproj|solutionrelative:sitra.core\\documents\\invoicereceiptdocument.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{80AD3C08-CD53-444A-BBC6-3A4FCD9600F9}|SITRA.API\\SITRA.API.csproj|c:\\users\\kodake\\desktop\\posapi\\sitra.api\\profiles\\invoices\\quotationsprofiles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{80AD3C08-CD53-444A-BBC6-3A4FCD9600F9}|SITRA.API\\SITRA.API.csproj|solutionrelative:sitra.api\\profiles\\invoices\\quotationsprofiles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A236490C-3D9D-4ED9-A2FF-8A31C3D2BCD6}|SITRA.Core\\SITRA.Core.csproj|c:\\users\\kodake\\desktop\\posapi\\sitra.core\\documents\\invoicedocument.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A236490C-3D9D-4ED9-A2FF-8A31C3D2BCD6}|SITRA.Core\\SITRA.Core.csproj|solutionrelative:sitra.core\\documents\\invoicedocument.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A236490C-3D9D-4ED9-A2FF-8A31C3D2BCD6}|SITRA.Core\\SITRA.Core.csproj|c:\\users\\kodake\\desktop\\posapi\\sitra.core\\mediator\\commands\\invoices\\quotations\\createquotationcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A236490C-3D9D-4ED9-A2FF-8A31C3D2BCD6}|SITRA.Core\\SITRA.Core.csproj|solutionrelative:sitra.core\\mediator\\commands\\invoices\\quotations\\createquotationcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A236490C-3D9D-4ED9-A2FF-8A31C3D2BCD6}|SITRA.Core\\SITRA.Core.csproj|c:\\users\\kodake\\desktop\\posapi\\sitra.core\\documents\\purchaseinvoicereportdocument.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A236490C-3D9D-4ED9-A2FF-8A31C3D2BCD6}|SITRA.Core\\SITRA.Core.csproj|solutionrelative:sitra.core\\documents\\purchaseinvoicereportdocument.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{80AD3C08-CD53-444A-BBC6-3A4FCD9600F9}|SITRA.API\\SITRA.API.csproj|c:\\users\\kodake\\desktop\\posapi\\sitra.api\\endpoints\\wizardendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{80AD3C08-CD53-444A-BBC6-3A4FCD9600F9}|SITRA.API\\SITRA.API.csproj|solutionrelative:sitra.api\\endpoints\\wizardendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A236490C-3D9D-4ED9-A2FF-8A31C3D2BCD6}|SITRA.Core\\SITRA.Core.csproj|c:\\users\\kodake\\desktop\\posapi\\sitra.core\\documents\\quotationdocument.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A236490C-3D9D-4ED9-A2FF-8A31C3D2BCD6}|SITRA.Core\\SITRA.Core.csproj|solutionrelative:sitra.core\\documents\\quotationdocument.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A236490C-3D9D-4ED9-A2FF-8A31C3D2BCD6}|SITRA.Core\\SITRA.Core.csproj|c:\\users\\kodake\\desktop\\posapi\\sitra.core\\documents\\saleinvoicereportdocument.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A236490C-3D9D-4ED9-A2FF-8A31C3D2BCD6}|SITRA.Core\\SITRA.Core.csproj|solutionrelative:sitra.core\\documents\\saleinvoicereportdocument.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A236490C-3D9D-4ED9-A2FF-8A31C3D2BCD6}|SITRA.Core\\SITRA.Core.csproj|c:\\users\\kodake\\desktop\\posapi\\sitra.core\\dtos\\reporting\\invoicedocumentdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A236490C-3D9D-4ED9-A2FF-8A31C3D2BCD6}|SITRA.Core\\SITRA.Core.csproj|solutionrelative:sitra.core\\dtos\\reporting\\invoicedocumentdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A236490C-3D9D-4ED9-A2FF-8A31C3D2BCD6}|SITRA.Core\\SITRA.Core.csproj|c:\\users\\kodake\\desktop\\posapi\\sitra.core\\dtos\\reporting\\invoicereceiptdocumentdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A236490C-3D9D-4ED9-A2FF-8A31C3D2BCD6}|SITRA.Core\\SITRA.Core.csproj|solutionrelative:sitra.core\\dtos\\reporting\\invoicereceiptdocumentdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Infrastructure\\Migrations\\20260128000143_Initial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:SITRA.Infrastructure\\Migrations\\20260128000143_Initial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -63,92 +51,53 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "InvoiceReceiptDocument.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Core\\Documents\\InvoiceReceiptDocument.cs",
-              "RelativeDocumentMoniker": "SITRA.Core\\Documents\\InvoiceReceiptDocument.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Core\\Documents\\InvoiceReceiptDocument.cs",
-              "RelativeToolTip": "SITRA.Core\\Documents\\InvoiceReceiptDocument.cs",
-              "ViewState": "AgIAAHcAAAAAAAAAAAAAAIAAAAARAAAAAAAAAA==",
+              "Title": "QuotationsProfiles.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.API\\Profiles\\Invoices\\QuotationsProfiles.cs",
+              "RelativeDocumentMoniker": "SITRA.API\\Profiles\\Invoices\\QuotationsProfiles.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.API\\Profiles\\Invoices\\QuotationsProfiles.cs",
+              "RelativeToolTip": "SITRA.API\\Profiles\\Invoices\\QuotationsProfiles.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAABZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-26T02:59:52.915Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "PurchaseInvoiceReportDocument.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Core\\Documents\\PurchaseInvoiceReportDocument.cs",
-              "RelativeDocumentMoniker": "SITRA.Core\\Documents\\PurchaseInvoiceReportDocument.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Core\\Documents\\PurchaseInvoiceReportDocument.cs",
-              "RelativeToolTip": "SITRA.Core\\Documents\\PurchaseInvoiceReportDocument.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAABgAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-26T02:59:50.806Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "QuotationDocument.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Core\\Documents\\QuotationDocument.cs",
-              "RelativeDocumentMoniker": "SITRA.Core\\Documents\\QuotationDocument.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Core\\Documents\\QuotationDocument.cs",
-              "RelativeToolTip": "SITRA.Core\\Documents\\QuotationDocument.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAxAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-26T02:59:48.407Z",
+              "WhenOpened": "2026-01-28T04:01:47.558Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "InvoiceDocument.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Core\\Documents\\InvoiceDocument.cs",
-              "RelativeDocumentMoniker": "SITRA.Core\\Documents\\InvoiceDocument.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Core\\Documents\\InvoiceDocument.cs",
-              "RelativeToolTip": "SITRA.Core\\Documents\\InvoiceDocument.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAvAAAAAAAAAA==",
+              "Title": "CreateQuotationCommand.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Core\\Mediator\\Commands\\Invoices\\Quotations\\CreateQuotationCommand.cs",
+              "RelativeDocumentMoniker": "SITRA.Core\\Mediator\\Commands\\Invoices\\Quotations\\CreateQuotationCommand.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Core\\Mediator\\Commands\\Invoices\\Quotations\\CreateQuotationCommand.cs",
+              "RelativeToolTip": "SITRA.Core\\Mediator\\Commands\\Invoices\\Quotations\\CreateQuotationCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAABRAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-26T02:59:28.562Z",
+              "WhenOpened": "2026-01-28T00:42:39.684Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "InvoiceDocumentDTO.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Core\\DTOs\\Reporting\\InvoiceDocumentDTO.cs",
-              "RelativeDocumentMoniker": "SITRA.Core\\DTOs\\Reporting\\InvoiceDocumentDTO.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Core\\DTOs\\Reporting\\InvoiceDocumentDTO.cs",
-              "RelativeToolTip": "SITRA.Core\\DTOs\\Reporting\\InvoiceDocumentDTO.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "WizardEndpoints.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.API\\Endpoints\\WizardEndpoints.cs",
+              "RelativeDocumentMoniker": "SITRA.API\\Endpoints\\WizardEndpoints.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.API\\Endpoints\\WizardEndpoints.cs",
+              "RelativeToolTip": "SITRA.API\\Endpoints\\WizardEndpoints.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAQwBkAAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-26T02:59:26.738Z",
+              "WhenOpened": "2026-01-28T00:47:13.682Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "SaleInvoiceReportDocument.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Core\\Documents\\SaleInvoiceReportDocument.cs",
-              "RelativeDocumentMoniker": "SITRA.Core\\Documents\\SaleInvoiceReportDocument.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Core\\Documents\\SaleInvoiceReportDocument.cs",
-              "RelativeToolTip": "SITRA.Core\\Documents\\SaleInvoiceReportDocument.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAXAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "20260128000143_Initial.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Infrastructure\\Migrations\\20260128000143_Initial.cs",
+              "RelativeDocumentMoniker": "SITRA.Infrastructure\\Migrations\\20260128000143_Initial.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Infrastructure\\Migrations\\20260128000143_Initial.cs",
+              "RelativeToolTip": "SITRA.Infrastructure\\Migrations\\20260128000143_Initial.cs",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAiwBoAAABxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-26T02:57:41.067Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "InvoiceReceiptDocumentDTO.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Core\\DTOs\\Reporting\\InvoiceReceiptDocumentDTO.cs",
-              "RelativeDocumentMoniker": "SITRA.Core\\DTOs\\Reporting\\InvoiceReceiptDocumentDTO.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Core\\DTOs\\Reporting\\InvoiceReceiptDocumentDTO.cs",
-              "RelativeToolTip": "SITRA.Core\\DTOs\\Reporting\\InvoiceReceiptDocumentDTO.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAABEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-26T02:56:05.037Z",
+              "WhenOpened": "2026-01-28T00:01:44.16Z",
               "EditorCaption": ""
             }
           ]

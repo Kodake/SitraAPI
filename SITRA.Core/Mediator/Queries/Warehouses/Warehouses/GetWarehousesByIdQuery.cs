@@ -6,7 +6,7 @@ namespace SITRA.Core.Mediator.Queries.Warehouses.Warehouses
 {
     public class GetWarehousesByIdQuery : GetByIdQuery<WarehouseDTO>
     {
-        public GetWarehousesByIdQuery(long id) : base(id) { }
+        public GetWarehousesByIdQuery(Guid id) : base(id) { }
 
         public override async Task<WarehouseDTO> GetData(
             IUnitOfWork unitOfWork,

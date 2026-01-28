@@ -5,7 +5,7 @@ namespace SITRA.Core.Mediator.Commands.Finances.Currencies
 {
     public class ActivateCurrencyCommand : ToggleCommand
     {
-        public ActivateCurrencyCommand(long id) : base(id)
+        public ActivateCurrencyCommand(Guid id) : base(id)
         { }
 
         public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, CancellationToken cancellationToken)

@@ -4,10 +4,10 @@ using SITRA.Core.Interfaces;
 
 namespace SITRA.Core.Mediator.Queries.Products.Items
 {
-    public class GetItemsByPricingIdAndWarehouseIdQuery(long pricingId, long warehouseId) : IQuery<List<ItemListDTO>>
+    public class GetItemsByPricingIdAndWarehouseIdQuery(Guid pricingId, Guid warehouseId) : IQuery<List<ItemListDTO>>
     {
-        public long PricingId { get; } = pricingId;
-        public long WarehouseId { get; } = warehouseId;
+        public Guid PricingId { get; } = pricingId;
+        public Guid WarehouseId { get; } = warehouseId;
 
         public async Task<List<ItemListDTO>> GetData(
             IUnitOfWork unitOfWork,

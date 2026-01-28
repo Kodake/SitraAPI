@@ -11,6 +11,6 @@ namespace SITRA.Core.DTOs.AdministrativeTools.FiscalSupports
         public long InitialSequence { get; set; }
         public long FinalSequence { get; set; }
         public long SpaceNumber { get; set; }
-        public long WarehouseId { get; set; }
+        public Guid WarehouseId { get; set; }
     }
 }

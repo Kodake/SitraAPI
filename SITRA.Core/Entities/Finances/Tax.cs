@@ -5,7 +5,7 @@ namespace SITRA.Core.Entities.Finances
 {
     public sealed class Tax : ITenant, IAuditableEntity
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public double Amount { get; set; }
         public bool IsActive { get; set; } = true;

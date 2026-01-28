@@ -5,10 +5,10 @@ namespace SITRA.Core.Entities.Invoices
 {
     public class InvoiceItem : ITenant, IAuditableEntity
     {
-        public long Id { get; set; }
-        public long InvoiceId { get; set; }
+        public Guid Id { get; set; }
+        public Guid InvoiceId { get; set; }
         public virtual Invoice Invoice { get; set; } = null!;
-        public long ItemId { get; set; }
+        public Guid ItemId { get; set; }
         public Item Item { get; set; } = null!;
         public double Qty { get; set; }
         public double BasePrice { get; set; }

@@ -4,7 +4,7 @@ namespace SITRA.Core.Entities.Finances
 {
     public sealed class Currency : ITenant, IAuditableEntity
     {
-        public long Id { get; set; }
+        public Guid Id { get; set; }
         public string Code { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
         public string Symbol { get; set; } = string.Empty;

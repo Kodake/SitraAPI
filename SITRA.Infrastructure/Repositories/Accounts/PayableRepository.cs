@@ -29,7 +29,7 @@ namespace SITRA.Infrastructure.Repositories.Accounts
                 .ToListAsync();
         }
 
-        public async Task<Payable?> GetAllByIdAsync(long id)
+        public async Task<Payable?> GetAllByIdAsync(Guid id)
         {
             return await context.Payables
                 .Include(x => x.Invoice)
@@ -40,7 +40,7 @@ namespace SITRA.Infrastructure.Repositories.Accounts
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<Payable?> GetPaysByIdAsync(long id)
+        public async Task<Payable?> GetPaysByIdAsync(Guid id)
         {
             return await context.Payables
                 .Include(x => x.Invoice)
