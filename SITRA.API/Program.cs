@@ -10,7 +10,7 @@ using SITRA.Core.Entities.Auths;
 using SITRA.Core.Helpers;
 using SITRA.Core.Interfaces;
 using SITRA.Core.Mediator;
-using SITRA.Core.Validations;
+using SITRA.Core.Validations.Products;
 using SITRA.Infrastructure.Persistence;
 using SITRA.Infrastructure.Repositories;
 using SITRA.Infrastructure.Services;

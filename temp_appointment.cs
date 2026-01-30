@@ -5,7 +5,7 @@ using SITRA.Core.Helpers;
 using SITRA.Core.Interfaces;
 using FluentValidation;
 
-namespace SITRA.Core.Validations
+namespace SITRA.Core.Validations.Appointments
 {
     public class CreateAppointmentDTOValidator
         : AbstractValidator<CreateAppointmentDTO>

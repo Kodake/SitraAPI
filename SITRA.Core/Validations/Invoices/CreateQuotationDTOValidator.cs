@@ -1,0 +1,60 @@
+using FluentValidation;
+using SITRA.Core.DTOs.Invoices.SaleInvoices;
+using SITRA.Core.Enums;
+using SITRA.Core.Helpers;
+using SITRA.Core.Interfaces;
+
+namespace SITRA.Core.Validations.Invoices
+{
+    public class CreateQuotationDTOValidator : AbstractValidator<CreateQuotationDTO>
+    {
+        public CreateQuotationDTOValidator(
+            IUnitOfWork unitOfWork)
+        {
+            RuleFor(x => x.PricingId)
+                .MustAsync(async (id, _) => await unitOfWork.PricingRepository.ExistsAsync(id))
+                .WithMessage(x => string.Format(Utilities.NotExistsWith, x.PricingId));
+
+            RuleFor(x => x.BillerId)
+                .MustAsync(async (id, _) => await unitOfWork.ContactRepository.ExistsAsync(id))
+                .WithMessage(x => string.Format(Utilities.NotExistsWith, x.BillerId));
+
+            RuleFor(x => x.CustomerId)
+                .MustAsync(async (id, _) => await unitOfWork.ContactRepository.ExistsAsync(id))
+                .WithMessage(x => string.Format(Utilities.NotExistsWith, x.CustomerId));
+
+            RuleFor(x => x.QuotationNumber)
+                .NotEmpty().WithMessage(Utilities.RequiredFieldMessage);
+
+            RuleFor(x => x.CurrencyId)
+                .MustAsync(async (id, _) => await unitOfWork.CurrencyRepository.ExistsAsync(id))
+                .WithMessage(x => string.Format(Utilities.NotExistsWith, x.CurrencyId));
+
+            // Quotation items validation - each item must exist
+            RuleForEach(x => x.InvoiceItems)
+                .ChildRules(item =>
+                {
+                    item.RuleFor(x => x)
+                        .MustAsync(async (itemDTO, cancellation) =>
+                        {
+                            switch (itemDTO.ItemType)
+                            {
+                                case ItemType.Product:
+                                    var product = await unitOfWork.ProductRepository.GetByIdAsync(itemDTO.ItemId);
+                                    return product != null;
+                                case ItemType.Service:
+                                    var service = await unitOfWork.ServiceRepository.GetByIdAsync(itemDTO.ItemId);
+                                    return service != null;
+                                case ItemType.Combo:
+                                    var combo = await unitOfWork.ComboRepository.GetByIdAsync(itemDTO.ItemId);
+                                    return combo != null;
+                                default:
+                                    return false;
+                            }
+                        })
+                        .WithMessage(itemDTO => string.Format(Utilities.ItemNotFoundMessage, itemDTO.ItemType, itemDTO.ItemId));
+                });
+        }
+    }
+}
+
