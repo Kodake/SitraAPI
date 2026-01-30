@@ -1,8 +1,8 @@
 using AutoMapper;
+using Microsoft.AspNetCore.OutputCaching;
 using SITRA.Core.DTOs.Warehouses.Stocks;
 using SITRA.Core.Entities.Warehouses;
 using SITRA.Core.Interfaces;
-using Microsoft.AspNetCore.OutputCaching;
 
 namespace SITRA.Core.Mediator.Commands.Warehouses.Stocks
 {

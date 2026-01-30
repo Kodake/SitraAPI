@@ -1,14 +1,13 @@
-using SITRA.Core.DTOs;
-using SITRA.Core.DTOs.CashBoxes;
-using SITRA.API.Filters;
-using SITRA.API.Helpers;
-using SITRA.Core.Mediator.Commands.CashBoxes;
-using SITRA.Core.Mediator.Queries.CashBoxes;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using SITRA.API.Filters;
+using SITRA.API.Helpers;
+using SITRA.Core.DTOs;
+using SITRA.Core.DTOs.CashBoxes;
+using SITRA.Core.Mediator.Commands.CashBoxes;
+using SITRA.Core.Mediator.Queries.CashBoxes;
 
 namespace SITRA.API.Endpoints.CashBoxes
 {

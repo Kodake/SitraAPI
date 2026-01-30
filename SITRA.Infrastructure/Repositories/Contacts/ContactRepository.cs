@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using SITRA.Core.Entities.Contacts;
+using SITRA.Core.Enums;
+using SITRA.Core.Interfaces.Contacts;
 using SITRA.Infrastructure.Persistence;
 using SITRA.Infrastructure.Repositories.Generics;
-using SITRA.Core.Entities.Contacts;
-using SITRA.Core.Interfaces.Contacts;
-using SITRA.Core.Enums;
-using Microsoft.EntityFrameworkCore;
 
 namespace SITRA.Infrastructure.Repositories.Contacts
 {

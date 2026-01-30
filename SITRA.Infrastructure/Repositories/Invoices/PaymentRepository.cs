@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Http;
+using SITRA.Core.Entities.Invoices;
+using SITRA.Core.Interfaces.Invoices;
 using SITRA.Infrastructure.Persistence;
 using SITRA.Infrastructure.Repositories.Generics;
-using SITRA.Core.Interfaces.Invoices;
-using SITRA.Core.Entities.Invoices;
 
 namespace SITRA.Infrastructure.Repositories.Invoices
 {

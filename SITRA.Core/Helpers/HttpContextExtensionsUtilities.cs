@@ -1,6 +1,3 @@
-using Microsoft.AspNetCore.Http;
-using Microsoft.IdentityModel.Tokens;
-
 namespace SITRA.Core.Helpers
 {
     public static class HttpContextExtensionsUtilities

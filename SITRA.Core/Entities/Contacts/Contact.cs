@@ -1,7 +1,7 @@
-using SITRA.Core.Interfaces;
 using SITRA.Core.Entities.Appointments;
 using SITRA.Core.Entities.Invoices;
 using SITRA.Core.Enums;
+using SITRA.Core.Interfaces;
 
 namespace SITRA.Core.Entities.Contacts
 {

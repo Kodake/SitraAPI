@@ -1,9 +1,8 @@
-using Microsoft.AspNetCore.Http;
+using FluentValidation;
 using SITRA.Core.DTOs.Accounts.PaymentReceipts;
 using SITRA.Core.Enums;
 using SITRA.Core.Helpers;
 using SITRA.Core.Interfaces;
-using FluentValidation;
 
 namespace SITRA.Core.Validations
 {

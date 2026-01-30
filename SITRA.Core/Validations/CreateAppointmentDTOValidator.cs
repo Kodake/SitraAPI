@@ -1,9 +1,7 @@
-using Microsoft.AspNetCore.Http;
+using FluentValidation;
 using SITRA.Core.DTOs.Appointments.Appointments;
 using SITRA.Core.Helpers;
 using SITRA.Core.Interfaces;
-using FluentValidation;
-using System.Linq;
 
 namespace SITRA.Core.Validations
 {

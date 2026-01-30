@@ -1,8 +1,8 @@
-using SITRA.Core.DTOs.Products.Items;
-using SITRA.Core.Mediator.Queries.Products.Items;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using SITRA.Core.DTOs.Products.Items;
+using SITRA.Core.Mediator.Queries.Products.Items;
 
 namespace SITRA.API.Endpoints
 {

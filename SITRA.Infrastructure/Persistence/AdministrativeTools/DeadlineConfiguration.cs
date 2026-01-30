@@ -1,6 +1,6 @@
-using SITRA.Core.Entities.AdministrativeTools;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using SITRA.Core.Entities.AdministrativeTools;
 
 namespace SITRA.Infrastructure.Persistence.AdministrativeTools
 {

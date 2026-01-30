@@ -1,8 +1,7 @@
-using Microsoft.Extensions.DependencyInjection;
+using MediatR;
 using SITRA.Core.DTOs.Appointments.Appointments;
 using SITRA.Core.Mediator.Commands.Appointments.Appointments;
 using SITRA.Core.Mediator.Queries.Appointments.Appointments;
-using MediatR;
 
 namespace SITRA.Core.Mediator.Handlers.Appointments
 {

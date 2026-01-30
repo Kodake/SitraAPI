@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Http;
-using SITRA.Infrastructure.Persistence;
-using SITRA.Infrastructure.Repositories.Generics;
+using Microsoft.EntityFrameworkCore;
 using SITRA.Core.DTOs;
 using SITRA.Core.Entities.Appointments;
 using SITRA.Core.Helpers;
 using SITRA.Core.Interfaces.Appointments;
-using Microsoft.EntityFrameworkCore;
+using SITRA.Infrastructure.Persistence;
+using SITRA.Infrastructure.Repositories.Generics;
 
 namespace SITRA.Infrastructure.Repositories.Appointments
 {
@@ -13,7 +13,7 @@ namespace SITRA.Infrastructure.Repositories.Appointments
     {
         private new readonly HttpContext httpContext;
         public AppointmentRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
-            : base(context, httpContextAccessor) 
+            : base(context, httpContextAccessor)
         {
             httpContext = httpContextAccessor.HttpContext!;
         }

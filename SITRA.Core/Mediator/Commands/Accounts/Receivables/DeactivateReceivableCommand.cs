@@ -1,6 +1,6 @@
+using Microsoft.AspNetCore.OutputCaching;
 using SITRA.Core.Enums;
 using SITRA.Core.Interfaces;
-using Microsoft.AspNetCore.OutputCaching;
 
 namespace SITRA.Core.Mediator.Commands.Accounts.Receivables
 {

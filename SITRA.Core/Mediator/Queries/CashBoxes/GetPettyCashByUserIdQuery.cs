@@ -1,4 +1,3 @@
-using SITRA.Core.Entities.Auths;
 using AutoMapper;
 using SITRA.Core.DTOs.CashBoxes;
 using SITRA.Core.Enums;

@@ -1,6 +1,5 @@
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
-using QuestPDF.Helpers;
 
 namespace SITRA.Core.Documents
 {

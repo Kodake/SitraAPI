@@ -1,7 +1,7 @@
-using SITRA.Core.DTOs.CashBoxes;
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
 using SITRA.Core.Documents.Components;
+using SITRA.Core.DTOs.CashBoxes;
 
 namespace SITRA.Core.Documents
 {
@@ -71,7 +71,7 @@ namespace SITRA.Core.Documents
 
                 if (PettyCash.PaymentMethods.Any())
                 {
-                    column.Item().Text(SITRA.Core.Helpers.Utilities.SummaryByMethodLabel).SemiBold();
+                    column.Item().PaddingVertical(2).Text(SITRA.Core.Helpers.Utilities.SummaryByMethodLabel).SemiBold();
                     foreach (var method in PettyCash.PaymentMethods)
                     {
                         column.Item().Row(row =>

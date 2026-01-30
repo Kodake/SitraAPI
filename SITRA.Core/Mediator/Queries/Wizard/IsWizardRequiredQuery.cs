@@ -1,8 +1,7 @@
-using SITRA.Core.Interfaces;
 using AutoMapper;
-using SITRA.Core.Enums;
 using SITRA.Core.DTOs;
-using SITRA.Core.Mediator.Queries;
+using SITRA.Core.Enums;
+using SITRA.Core.Interfaces;
 
 namespace SITRA.Core.Mediator.Queries.Wizard
 {

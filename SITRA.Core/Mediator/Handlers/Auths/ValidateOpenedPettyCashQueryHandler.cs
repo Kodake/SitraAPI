@@ -1,9 +1,8 @@
+using MediatR;
 using SITRA.Core.Interfaces;
 using SITRA.Core.Mediator.Queries.Auths;
-using MediatR;
-using Microsoft.AspNetCore.Http;
-using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace SITRA.Core.Mediator.Handlers.Auths
 {
@@ -21,9 +20,9 @@ namespace SITRA.Core.Mediator.Handlers.Auths
         public async Task<(bool Success, string? ErrorMessage)> Handle(ValidateOpenedPettyCashQuery request, CancellationToken cancellationToken)
         {
             var user = _httpContextAccessor.HttpContext?.User;
-            
+
             // Retrieve email safely checking standard claim types
-            var userEmail = user?.FindFirst(JwtRegisteredClaimNames.Email)?.Value 
+            var userEmail = user?.FindFirst(JwtRegisteredClaimNames.Email)?.Value
                          ?? user?.FindFirst(ClaimTypes.Email)?.Value
                          ?? user?.FindFirst("email")?.Value;
 

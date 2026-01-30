@@ -1,7 +1,7 @@
 using AutoMapper;
-using SITRA.Core.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.OutputCaching;
+using SITRA.Core.Interfaces;
 
 namespace SITRA.Core.Mediator.Commands
 {

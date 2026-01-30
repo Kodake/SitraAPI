@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Caching.Memory;
-using System.Net;
 
 namespace SITRA.API.Middlewares
 {

@@ -1,7 +1,6 @@
-using Microsoft.Extensions.DependencyInjection;
+using MediatR;
 using SITRA.Core.DTOs.Invoices.SpotPayables;
 using SITRA.Core.Mediator.Queries.Invoices.SpotPayables;
-using MediatR;
 
 namespace SITRA.Core.Mediator.Handlers.Invoices
 {

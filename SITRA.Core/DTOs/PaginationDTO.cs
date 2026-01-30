@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Http;
 using SITRA.Core.Helpers;
 
 namespace SITRA.Core.DTOs

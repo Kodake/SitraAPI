@@ -1,9 +1,4 @@
-using Microsoft.AspNetCore.RateLimiting;
 using System.Threading.RateLimiting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Http;
-using System;
 
 namespace SITRA.API.Extensions
 {
@@ -70,7 +65,7 @@ namespace SITRA.API.Extensions
                         factory: partition => new FixedWindowRateLimiterOptions
                         {
                             AutoReplenishment = true,
-                            PermitLimit = permitLimit, 
+                            PermitLimit = permitLimit,
                             Window = window,
                             QueueLimit = queueLimit,
                             QueueProcessingOrder = QueueProcessingOrder.OldestFirst

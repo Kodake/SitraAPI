@@ -1,7 +1,6 @@
-using Microsoft.AspNetCore.Http;
+using FluentValidation;
 using SITRA.Core.DTOs.Auths;
 using SITRA.Core.Helpers;
-using FluentValidation;
 
 namespace SITRA.Core.Validations
 {

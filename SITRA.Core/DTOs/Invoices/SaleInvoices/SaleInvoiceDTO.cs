@@ -1,7 +1,7 @@
 namespace SITRA.Core.DTOs.Invoices.SaleInvoices
 {
-    using SITRA.Core.DTOs.Contacts.Contacts;
     using SITRA.Core.DTOs.AdministrativeTools.FiscalSupports;
+    using SITRA.Core.DTOs.Contacts.Contacts;
     public class SaleInvoiceDTO
     {
         public Guid Id { get; set; }

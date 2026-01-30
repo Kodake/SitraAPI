@@ -1,6 +1,6 @@
-using SITRA.Core.Entities.Finances;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using SITRA.Core.Entities.Finances;
 
 namespace SITRA.Infrastructure.Persistence.Finances
 {

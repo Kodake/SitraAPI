@@ -1,8 +1,8 @@
 using AutoMapper;
-using SITRA.Core.Entities.Auths;
-using SITRA.Core.Mediator.Commands.Auths;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using SITRA.Core.Entities.Auths;
+using SITRA.Core.Mediator.Commands.Auths;
 
 namespace SITRA.Core.Mediator.Handlers.Auths
 {
@@ -22,7 +22,7 @@ namespace SITRA.Core.Mediator.Handlers.Auths
         public async Task<IdentityResult> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
             var user = _mapper.Map<User>(request.Dto);
-            
+
             // Create and Save Tenant
             var tenant = new SITRA.Core.Entities.Tenants.Tenant
             {

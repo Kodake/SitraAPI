@@ -1,8 +1,7 @@
-using Microsoft.AspNetCore.Http;
+using FluentValidation;
 using SITRA.Core.DTOs.Products.SubCategories;
 using SITRA.Core.Helpers;
 using SITRA.Core.Interfaces;
-using FluentValidation;
 
 namespace SITRA.Core.Validations
 {

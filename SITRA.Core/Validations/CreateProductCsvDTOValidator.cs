@@ -1,6 +1,6 @@
+using FluentValidation;
 using SITRA.Core.DTOs.Products.Products;
 using SITRA.Core.Helpers;
-using FluentValidation;
 
 namespace SITRA.Core.Validations
 {

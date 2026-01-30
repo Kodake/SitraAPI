@@ -1,7 +1,7 @@
-using SITRA.Core.Entities.Invoices;
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
 using SITRA.Core.Documents.Components;
+using SITRA.Core.Entities.Invoices;
 
 namespace SITRA.Core.Documents
 {
@@ -28,22 +28,33 @@ namespace SITRA.Core.Documents
             {
                 column.Spacing(2);
 
+                column.Item().Text($"{SITRA.Core.Helpers.Utilities.DateLabel}: {Invoice.Date:dd-MM-yyyy}");
+
                 if (!string.IsNullOrEmpty(Invoice.InvoiceBuyer?.Buyer?.Identification))
                     column.Item().Text($"{SITRA.Core.Helpers.Utilities.IdentificationLabel}: {Invoice.InvoiceBuyer?.Buyer.Identification}");
 
-                column.Item().Text($"{SITRA.Core.Helpers.Utilities.DateLabel}: {Invoice.Date:dd-MM-yyyy}");
                 column.Item().Text($"{SITRA.Core.Helpers.Utilities.NameLabel}: {Invoice.InvoiceBuyer?.Buyer?.Name ?? "N/A"}");
 
                 column.Item().PaddingVertical(5).LineHorizontal(0.8f);
 
-                column.Item().Text($"{SITRA.Core.Helpers.Utilities.NumberLabel} {Invoice.Id}").SemiBold();
+                column.Item().Text(SITRA.Core.Helpers.Utilities.NumberLabel).SemiBold();
+                column.Item().Text(Invoice.Id.ToString()).SemiBold();
                 column.Item().Text(SITRA.Core.Helpers.Utilities.FiscalSupportLabel).SemiBold();
                 column.Item().Text(string.IsNullOrEmpty(Invoice.FiscalSupportNumber) ? "N/A" : Invoice.FiscalSupportNumber).SemiBold();
 
                 if (Invoice.DueDate.HasValue)
                     column.Item().Text($"{SITRA.Core.Helpers.Utilities.DueDateLabel}: {Invoice.DueDate:dd-MM-yyyy}");
 
-                column.Item().PaddingVertical(5).LineHorizontal(0.8f);
+                column.Item().PaddingVertical(5).LineHorizontal(0.5f);
+
+                column.Item().Row(row =>
+                {
+                    row.RelativeItem(3).Text(SITRA.Core.Helpers.Utilities.DescriptionLabel).SemiBold();
+                    row.RelativeItem().AlignRight().Text(SITRA.Core.Helpers.Utilities.QuantityLabel).SemiBold();
+                    row.RelativeItem().AlignRight().Text(SITRA.Core.Helpers.Utilities.TotalLabel).SemiBold();
+                });
+
+                column.Item().PaddingVertical(5).LineHorizontal(0.5f);
 
                 // Table
                 column.Item().Table(table =>
@@ -53,13 +64,6 @@ namespace SITRA.Core.Documents
                         column.RelativeColumn(3);
                         column.RelativeColumn();
                         column.RelativeColumn();
-                    });
-
-                    table.Header(header =>
-                    {
-                        header.Cell().Element(ThermalStyles.CellStyleHeader).Text(SITRA.Core.Helpers.Utilities.DescriptionLabel);
-                        header.Cell().Element(ThermalStyles.CellStyleHeader).AlignRight().Text(SITRA.Core.Helpers.Utilities.QuantityLabel);
-                        header.Cell().Element(ThermalStyles.CellStyleHeader).AlignRight().Text(SITRA.Core.Helpers.Utilities.TotalLabel);
                     });
 
                     foreach (var item in Invoice.InvoiceItems)

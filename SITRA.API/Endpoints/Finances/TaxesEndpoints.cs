@@ -1,13 +1,13 @@
-using SITRA.Core.DTOs;
-using SITRA.Core.DTOs.Finances.Taxes;
-using SITRA.Core.Enums;
-using SITRA.API.Filters;
-using SITRA.API.Helpers;
-using SITRA.Core.Mediator.Commands.Finances.Taxes;
-using SITRA.Core.Mediator.Queries.Finances.Taxes;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using SITRA.API.Filters;
+using SITRA.API.Helpers;
+using SITRA.Core.DTOs;
+using SITRA.Core.DTOs.Finances.Taxes;
+using SITRA.Core.Enums;
+using SITRA.Core.Mediator.Commands.Finances.Taxes;
+using SITRA.Core.Mediator.Queries.Finances.Taxes;
 
 namespace SITRA.API.Endpoints
 {

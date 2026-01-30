@@ -1,13 +1,13 @@
-using SITRA.Core.DTOs;
-using SITRA.Core.DTOs.Products.PricingItems;
-using SITRA.API.Filters;
-using SITRA.API.Helpers;
-using SITRA.Core.Mediator.Commands.Products.PricingItems;
-using SITRA.Core.Mediator.Queries.Products.PricingItems;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
+using SITRA.API.Filters;
+using SITRA.API.Helpers;
+using SITRA.Core.DTOs;
+using SITRA.Core.DTOs.Products.PricingItems;
+using SITRA.Core.Mediator.Commands.Products.PricingItems;
+using SITRA.Core.Mediator.Queries.Products.PricingItems;
 
 namespace SITRA.API.Endpoints
 {

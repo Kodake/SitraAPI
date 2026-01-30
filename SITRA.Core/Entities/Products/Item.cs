@@ -1,7 +1,6 @@
-using SITRA.Core.Interfaces;
-using SITRA.Core.Entities.Appointments;
 using SITRA.Core.Entities.Warehouses;
 using SITRA.Core.Enums;
+using SITRA.Core.Interfaces;
 
 namespace SITRA.Core.Entities.Products
 {
@@ -10,8 +9,8 @@ namespace SITRA.Core.Entities.Products
         public Guid Id { get; set; }
         public ItemType ItemType { get; set; }
         public string Name { get; set; } = string.Empty;
-        public string? Reference { get; set; } = string.Empty;
-        public string? Barcode { get; set; } = string.Empty;
+        public string? Reference { get; set; }
+        public string? Barcode { get; set; }
         public string? Description { get; set; }
         public string? ImageUrl { get; set; }
         public ItemBrand? ItemBrand { get; set; }

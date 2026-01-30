@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using SITRA.Core.Entities.Accounts;
+using SITRA.Core.Interfaces.Accounts;
 using SITRA.Infrastructure.Persistence;
 using SITRA.Infrastructure.Repositories.Generics;
-using SITRA.Core.Interfaces.Accounts;
-using SITRA.Core.Entities.Accounts;
-using Microsoft.EntityFrameworkCore;
 
 namespace SITRA.Infrastructure.Repositories.Accounts
 {

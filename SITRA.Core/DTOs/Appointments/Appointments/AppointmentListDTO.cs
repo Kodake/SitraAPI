@@ -1,5 +1,3 @@
-using SITRA.Core.Entities.Products;
-
 namespace SITRA.Core.DTOs.Appointments.Appointments
 {
     public class AppointmentListDTO

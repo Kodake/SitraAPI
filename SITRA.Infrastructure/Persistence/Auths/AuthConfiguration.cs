@@ -1,6 +1,6 @@
-using SITRA.Core.Entities.Auths;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using SITRA.Core.Entities.Auths;
 
 namespace SITRA.Infrastructure.Persistence.Auths
 {

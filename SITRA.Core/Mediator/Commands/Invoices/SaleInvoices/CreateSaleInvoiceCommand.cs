@@ -1,4 +1,6 @@
 using AutoMapper;
+using FluentValidation;
+using Microsoft.AspNetCore.OutputCaching;
 using SITRA.Core.DTOs.Invoices.SaleInvoices;
 using SITRA.Core.Entities.Accounts;
 using SITRA.Core.Entities.AdministrativeTools;
@@ -6,8 +8,6 @@ using SITRA.Core.Entities.CashBoxes;
 using SITRA.Core.Entities.Invoices;
 using SITRA.Core.Enums;
 using SITRA.Core.Interfaces;
-using FluentValidation;
-using Microsoft.AspNetCore.OutputCaching;
 
 namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
 {
@@ -27,14 +27,14 @@ namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
 
             var saleInvoice = mapper.Map<Invoice>(Dto);
             saleInvoice.InvoiceType = InvoiceType.Sale;
-            saleInvoice.Date = DateTimeOffset.UtcNow;
-            
-            if (Dto.CustomerId != Guid.Empty)
+            saleInvoice.Date = DateTimeOffset.Now;
+
+            if (Dto.CustomerId != null)
             {
                 saleInvoice.InvoiceBuyer = new InvoiceBuyer { ContactId = Dto.CustomerId.Value };
             }
 
-            if (Dto.BillerId != Guid.Empty)
+            if (Dto.BillerId != null)
             {
                 saleInvoice.InvoiceBiller = new InvoiceBiller { ContactId = Dto.BillerId.Value };
             }

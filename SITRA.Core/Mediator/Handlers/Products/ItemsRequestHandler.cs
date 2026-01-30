@@ -1,7 +1,6 @@
-using Microsoft.Extensions.DependencyInjection;
+using MediatR;
 using SITRA.Core.DTOs.Products.Items;
 using SITRA.Core.Mediator.Queries.Products.Items;
-using MediatR;
 
 namespace SITRA.Core.Mediator.Handlers.Products
 {

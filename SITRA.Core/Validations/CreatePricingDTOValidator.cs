@@ -1,9 +1,8 @@
-using Microsoft.AspNetCore.Http;
+using FluentValidation;
 using SITRA.Core.DTOs.Products.Pricings;
 using SITRA.Core.Enums;
 using SITRA.Core.Helpers;
 using SITRA.Core.Interfaces.Products;
-using FluentValidation;
 
 namespace SITRA.Core.Validations
 {

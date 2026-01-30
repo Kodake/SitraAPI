@@ -1,7 +1,7 @@
-using SITRA.Core.Entities.Warehouses;
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
 using SITRA.Core.Documents.Components;
+using SITRA.Core.Entities.Warehouses;
 
 namespace SITRA.Core.Documents
 {
@@ -25,8 +25,19 @@ namespace SITRA.Core.Documents
         {
             container.Column(column =>
             {
+                column.Spacing(2);
+
                 column.Item().Text($"{DateTimeOffset.UtcNow:dd-MM-yyyy}");
-                column.Item().PaddingVertical(5);
+
+                column.Item().PaddingVertical(5).LineHorizontal(0.5f);
+
+                column.Item().Row(row =>
+                {
+                    row.RelativeItem().Text(SITRA.Core.Helpers.Utilities.ProductLabel).SemiBold();
+                    row.RelativeItem().AlignRight().Text(SITRA.Core.Helpers.Utilities.QuantityLabel).SemiBold();
+                });
+
+                column.Item().PaddingVertical(5).LineHorizontal(0.5f);
 
                 column.Item().Table(table =>
                 {
@@ -34,12 +45,6 @@ namespace SITRA.Core.Documents
                     {
                         column.RelativeColumn(); // PROD
                         column.RelativeColumn(); // CANT
-                    });
-
-                    table.Header(header =>
-                    {
-                        header.Cell().Element(ThermalStyles.CellStyleHeader).Text(SITRA.Core.Helpers.Utilities.ProductLabel);
-                        header.Cell().Element(ThermalStyles.CellStyleHeader).AlignRight().Text(SITRA.Core.Helpers.Utilities.QuantityLabel);
                     });
 
                     foreach (var item in Stocks)

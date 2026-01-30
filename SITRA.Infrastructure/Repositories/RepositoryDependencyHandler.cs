@@ -1,7 +1,7 @@
-using SITRA.Infrastructure.Repositories.Generics;
+using Microsoft.Extensions.DependencyInjection;
 using SITRA.Core.Interfaces;
 using SITRA.Core.Interfaces.Generics;
-using Microsoft.Extensions.DependencyInjection;
+using SITRA.Infrastructure.Repositories.Generics;
 using System.Reflection;
 
 namespace SITRA.Infrastructure.Repositories

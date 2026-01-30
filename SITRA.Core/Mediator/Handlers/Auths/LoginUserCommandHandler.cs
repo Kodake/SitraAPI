@@ -1,6 +1,5 @@
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using SITRA.Core.DTOs;
 using SITRA.Core.Entities.Auths;
@@ -45,7 +44,7 @@ namespace SITRA.Core.Mediator.Handlers.Auths
             // Get Key using the helper to ensure consistency
             var keys = Keys.GetAllKeys(_configuration).ToList();
             var signingKey = keys.FirstOrDefault();
-            
+
             if (signingKey == null)
             {
                 // Fallback or error if no keys found

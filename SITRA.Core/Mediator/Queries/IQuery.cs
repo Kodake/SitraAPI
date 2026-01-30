@@ -1,6 +1,6 @@
 using AutoMapper;
-using SITRA.Core.Interfaces;
 using MediatR;
+using SITRA.Core.Interfaces;
 
 namespace SITRA.Core.Mediator.Queries
 {

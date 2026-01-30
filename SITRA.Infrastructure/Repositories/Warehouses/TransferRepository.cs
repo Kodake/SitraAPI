@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Http;
-using SITRA.Infrastructure.Persistence;
-using SITRA.Infrastructure.Repositories.Generics;
+using Microsoft.EntityFrameworkCore;
 using SITRA.Core.DTOs;
 using SITRA.Core.Entities.Warehouses;
 using SITRA.Core.Enums;
 using SITRA.Core.Helpers;
 using SITRA.Core.Interfaces.Warehouses;
-using Microsoft.EntityFrameworkCore;
+using SITRA.Infrastructure.Persistence;
+using SITRA.Infrastructure.Repositories.Generics;
 
 namespace SITRA.Infrastructure.Repositories.Warehouses
 {

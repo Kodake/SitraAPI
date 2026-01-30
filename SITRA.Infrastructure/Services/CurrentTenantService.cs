@@ -1,7 +1,6 @@
-using SITRA.Core.Interfaces;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using SITRA.Core.Helpers;
+using SITRA.Core.Interfaces;
 
 namespace SITRA.Infrastructure.Services
 {
@@ -38,7 +37,7 @@ namespace SITRA.Infrastructure.Services
                 {
                     return tenantId;
                 }
-                
+
                 Console.WriteLine(Utilities.TenantServiceFailedToParse);
                 return null;
             }

@@ -1,7 +1,7 @@
 using AutoMapper;
-using SITRA.Core.Mediator.Queries;
-using SITRA.Core.Interfaces;
 using MediatR;
+using SITRA.Core.Interfaces;
+using SITRA.Core.Mediator.Queries;
 
 public class QueryHandler<TQuery, TResult> : IRequestHandler<TQuery, TResult>
     where TQuery : IQuery<TResult>

@@ -1,12 +1,11 @@
 using AutoMapper;
+using Microsoft.AspNetCore.OutputCaching;
 using SITRA.Core.DTOs.Invoices.PurchaseInvoices;
 using SITRA.Core.Entities.Accounts;
+using SITRA.Core.Entities.CashBoxes;
 using SITRA.Core.Entities.Invoices;
 using SITRA.Core.Enums;
 using SITRA.Core.Interfaces;
-using SITRA.Core.Validations;
-using FluentValidation;
-using Microsoft.AspNetCore.OutputCaching;
 
 namespace SITRA.Core.Mediator.Commands.Invoices.PurchaseInvoices
 {
@@ -17,6 +16,9 @@ namespace SITRA.Core.Mediator.Commands.Invoices.PurchaseInvoices
         public override async Task<CreatePurchaseInvoiceDTO> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
         {
             // All validations are handled by FluentValidation before this action is executed
+            var user = await unitOfWork.UserService.GetUserAsync();
+            var pettyCash = await unitOfWork.PettyCashRepository.GetOpenPettyCashAsync();
+
             var currencyDB = await unitOfWork.CurrencyRepository.GetByIdAsync(Dto.CurrencyId);
 
             var purchaseInvoice = mapper.Map<Invoice>(Dto);
@@ -63,10 +65,12 @@ namespace SITRA.Core.Mediator.Commands.Invoices.PurchaseInvoices
 
             await AddInvoiceItems(Dto.InvoiceItems, purchaseInvoice, unitOfWork, mapper, currencyRate);
             await IncreaseStock(Dto, unitOfWork);
+            await AddPettyCashMovement(unitOfWork, pettyCash!, purchaseInvoice);
             await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("stocks-get", cancellationToken);
             await outputCacheStore.EvictByTagAsync("payables-get", cancellationToken);
             await outputCacheStore.EvictByTagAsync("spotPayables-get", cancellationToken);
+            await outputCacheStore.EvictByTagAsync("pettyCashMovements-get", cancellationToken);
 
             return Dto;
         }
@@ -105,6 +109,18 @@ namespace SITRA.Core.Mediator.Commands.Invoices.PurchaseInvoices
                         totalItems += 1;
                         totalAmount += serviceBasePrice * itemDTO.Qty;
                         totalTaxes += (serviceBasePrice * serviceTaxAmount / 100) * itemDTO.Qty;
+                        break;
+
+                    case ItemType.Combo:
+                        var combo = await unitOfWork.ComboRepository.GetByIdAsync(itemDTO.ItemId);
+
+                        var comboBasePrice = combo!.PricingItems.First(x => x.ItemId == itemDTO.ItemId).BasePrice / currencyRate;
+                        var comboTaxAmount = combo.ItemTaxes.Sum(x => x?.Tax?.Amount) ?? 0;
+
+                        totalQtyItems += itemDTO.Qty;
+                        totalItems += 1;
+                        totalAmount += comboBasePrice * itemDTO.Qty;
+                        totalTaxes += (comboBasePrice * comboTaxAmount / 100) * itemDTO.Qty;
                         break;
 
                     default:
@@ -163,6 +179,27 @@ namespace SITRA.Core.Mediator.Commands.Invoices.PurchaseInvoices
                     stock!.Qty += item.Qty;
                     unitOfWork.StockRepository.Update(stock);
                 }
+            }
+        }
+
+        private async Task AddPettyCashMovement(IUnitOfWork unitOfWork, PettyCash pettyCash, Invoice invoice)
+        {
+            var movement = new PettyCashMovement
+            {
+                PettyCashId = pettyCash.Id,
+                PettyCash = pettyCash,
+                InvoiceId = invoice.Id,
+                Invoice = invoice,
+                Amount = invoice.TotalPrice,
+                Type = MovementType.Expense,
+            };
+
+            await unitOfWork.PettyCashMovementRepository.CreateAsync(movement);
+
+            if (Dto.ConditionType == InvoiceCondition.Spot && Dto.PaymentMethod == PaymentMethod.Cash)
+            {
+                pettyCash.ClosingAmount -= invoice.TotalPrice;
+                unitOfWork.PettyCashRepository.Update(pettyCash);
             }
         }
 

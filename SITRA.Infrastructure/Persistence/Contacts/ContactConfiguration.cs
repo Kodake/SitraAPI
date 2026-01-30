@@ -1,6 +1,6 @@
-using SITRA.Core.Entities.Contacts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using SITRA.Core.Entities.Contacts;
 
 namespace SITRA.Infrastructure.Persistence.Contacts
 {

@@ -2,12 +2,12 @@ using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using SITRA.API.Attributes;
 using SITRA.API.Filters;
 using SITRA.Core.DTOs;
 using SITRA.Core.DTOs.Auths;
 using SITRA.Core.Mediator.Commands.Auths;
 using SITRA.Core.Mediator.Queries.Auths;
-using SITRA.API.Attributes;
 
 namespace SITRA.API.Endpoints
 {

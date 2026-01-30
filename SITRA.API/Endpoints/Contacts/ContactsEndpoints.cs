@@ -1,13 +1,13 @@
-using SITRA.Core.DTOs;
-using SITRA.Core.DTOs.Contacts.Contacts;
-using SITRA.API.Filters;
-using SITRA.API.Helpers;
-using SITRA.Core.Mediator.Commands.Contacts;
-using SITRA.Core.Mediator.Queries.Contacts;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
+using SITRA.API.Filters;
+using SITRA.API.Helpers;
+using SITRA.Core.DTOs;
+using SITRA.Core.DTOs.Contacts.Contacts;
+using SITRA.Core.Mediator.Commands.Contacts;
+using SITRA.Core.Mediator.Queries.Contacts;
 
 namespace SITRA.API.Endpoints
 {

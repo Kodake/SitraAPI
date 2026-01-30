@@ -1,14 +1,14 @@
-using SITRA.Core.DTOs;
-using SITRA.Core.DTOs.AdministrativeTools.Deadlines;
-using SITRA.Core.Enums;
-using SITRA.API.Filters;
-using SITRA.API.Helpers;
-using SITRA.Core.Mediator.Commands.AdministrativeTools.Deadlines;
-using SITRA.Core.Mediator.Queries.AdministrativeTools.Deadlines;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
+using SITRA.API.Filters;
+using SITRA.API.Helpers;
+using SITRA.Core.DTOs;
+using SITRA.Core.DTOs.AdministrativeTools.Deadlines;
+using SITRA.Core.Enums;
+using SITRA.Core.Mediator.Commands.AdministrativeTools.Deadlines;
+using SITRA.Core.Mediator.Queries.AdministrativeTools.Deadlines;
 
 namespace SITRA.API.Endpoints
 {

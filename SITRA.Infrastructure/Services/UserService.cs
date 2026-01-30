@@ -1,10 +1,10 @@
-using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
-using SITRA.Infrastructure.Persistence;
-using SITRA.Infrastructure.Repositories.Generics;
+using Microsoft.AspNetCore.Identity;
 using SITRA.Core.Entities.Auths;
 using SITRA.Core.Interfaces.Services;
-using Microsoft.AspNetCore.Identity;
+using SITRA.Infrastructure.Persistence;
+using SITRA.Infrastructure.Repositories.Generics;
+using System.Security.Claims;
 
 namespace SITRA.Infrastructure.Services
 {

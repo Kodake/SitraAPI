@@ -1,8 +1,8 @@
 using AutoMapper;
+using Microsoft.AspNetCore.OutputCaching;
 using SITRA.Core.DTOs.Appointments.Appointments;
 using SITRA.Core.Entities.Appointments;
 using SITRA.Core.Interfaces;
-using Microsoft.AspNetCore.OutputCaching;
 
 namespace SITRA.Core.Mediator.Commands.Appointments.Appointments
 {

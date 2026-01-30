@@ -1,9 +1,9 @@
 using AutoMapper;
+using Microsoft.AspNetCore.OutputCaching;
 using SITRA.Core.DTOs.Invoices.SaleInvoices;
 using SITRA.Core.Entities.Invoices;
 using SITRA.Core.Enums;
 using SITRA.Core.Interfaces;
-using Microsoft.AspNetCore.OutputCaching;
 
 namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
 {
@@ -33,6 +33,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
             var currencyDB = await unitOfWork.CurrencyRepository.GetByIdAsync(Dto.CurrencyId);
 
             mapper.Map(Dto, saleInvoice);
+            //saleInvoice.Date = DateTimeOffset.UtcNow;
             saleInvoice.InvoiceType = InvoiceType.Quotation;
 
             double currencyRate = currencyDB!.Rate;
@@ -41,17 +42,17 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
             unitOfWork.SaleInvoiceRepository.Update(saleInvoice);
 
             quotation.ContactId = Dto.CustomerId != Guid.Empty ? Dto.CustomerId : null;
-            
+
             if (Dto.CustomerId != Guid.Empty)
             {
-               if (saleInvoice.InvoiceBuyer == null)
-               {
+                if (saleInvoice.InvoiceBuyer == null)
+                {
                     saleInvoice.InvoiceBuyer = new InvoiceBuyer { ContactId = Dto.CustomerId };
-               }
-               else
-               {
+                }
+                else
+                {
                     saleInvoice.InvoiceBuyer.ContactId = Dto.CustomerId;
-               }
+                }
             }
 
             if (Dto.BillerId != Guid.Empty)

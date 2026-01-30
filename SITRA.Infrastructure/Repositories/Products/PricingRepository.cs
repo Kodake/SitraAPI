@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using SITRA.Core.Entities.Products;
+using SITRA.Core.Interfaces.Products;
 using SITRA.Infrastructure.Persistence;
 using SITRA.Infrastructure.Repositories.Generics;
-using SITRA.Core.Interfaces.Products;
-using SITRA.Core.Entities.Products;
-using Microsoft.EntityFrameworkCore;
 
 namespace SITRA.Infrastructure.Repositories.Products
 {

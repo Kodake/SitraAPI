@@ -1,5 +1,6 @@
-using SITRA.Core.Entities.Auths;
 using AutoMapper;
+using FluentValidation;
+using Microsoft.AspNetCore.OutputCaching;
 using SITRA.Core.DTOs.Invoices.SaleInvoices;
 using SITRA.Core.Entities.Accounts;
 using SITRA.Core.Entities.AdministrativeTools;
@@ -7,9 +8,6 @@ using SITRA.Core.Entities.CashBoxes;
 using SITRA.Core.Entities.Invoices;
 using SITRA.Core.Enums;
 using SITRA.Core.Interfaces;
-using SITRA.Core.Validations;
-using FluentValidation;
-using Microsoft.AspNetCore.OutputCaching;
 
 namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
 {
@@ -30,13 +28,14 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
             var currencyDB = await unitOfWork.CurrencyRepository.GetByIdAsync(Dto.CurrencyId);
 
             var saleInvoice = mapper.Map<Invoice>(Dto);
+            saleInvoice.Date = DateTimeOffset.Now;
             saleInvoice.InvoiceType = InvoiceType.Sale;
-            if (Dto.CustomerId != Guid.Empty)
+            if (Dto.CustomerId != null)
             {
                 saleInvoice.InvoiceBuyer = new InvoiceBuyer { ContactId = Dto.CustomerId.Value };
             }
 
-            if (Dto.BillerId != Guid.Empty)
+            if (Dto.BillerId != null)
             {
                 saleInvoice.InvoiceBiller = new InvoiceBiller { ContactId = Dto.BillerId.Value };
             }

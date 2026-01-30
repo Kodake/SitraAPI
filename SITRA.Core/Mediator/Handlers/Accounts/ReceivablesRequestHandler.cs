@@ -1,9 +1,8 @@
-using Microsoft.Extensions.DependencyInjection;
+using MediatR;
 using SITRA.Core.DTOs.Accounts.PaymentReceipts;
 using SITRA.Core.DTOs.Accounts.Receivables;
 using SITRA.Core.Mediator.Commands.Accounts.Receivables;
 using SITRA.Core.Mediator.Queries.Receivables;
-using MediatR;
 
 namespace SITRA.Core.Mediator.Handlers.Accounts
 {

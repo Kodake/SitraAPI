@@ -1,8 +1,6 @@
-using Microsoft.AspNetCore.Http;
+using FluentValidation;
 using SITRA.Core.DTOs.Finances.Taxes;
 using SITRA.Core.Helpers;
-using SITRA.Core.Interfaces.Finances;
-using FluentValidation;
 
 namespace SITRA.Core.Validations
 {

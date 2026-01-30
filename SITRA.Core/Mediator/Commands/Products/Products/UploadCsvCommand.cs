@@ -1,13 +1,12 @@
-using Microsoft.Extensions.Configuration;
 using AutoMapper;
+using FluentValidation;
+using MediatR;
+using Microsoft.AspNetCore.OutputCaching;
 using SITRA.Core.DTOs;
 using SITRA.Core.DTOs.Products.Products;
 using SITRA.Core.Entities.Products;
 using SITRA.Core.Enums;
 using SITRA.Core.Interfaces;
-using FluentValidation;
-using MediatR;
-using Microsoft.AspNetCore.OutputCaching;
 using System.Globalization;
 
 namespace SITRA.Core.Mediator.Commands.Products.Products

@@ -1,8 +1,7 @@
-using Microsoft.Extensions.DependencyInjection;
+using MediatR;
 using SITRA.Core.DTOs.Finances.Taxes;
 using SITRA.Core.Mediator.Commands.Finances.Taxes;
 using SITRA.Core.Mediator.Queries.Finances.Taxes;
-using MediatR;
 
 namespace SITRA.Core.Mediator.Handlers.Finances
 {

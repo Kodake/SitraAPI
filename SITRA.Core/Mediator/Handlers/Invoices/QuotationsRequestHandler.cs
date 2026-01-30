@@ -1,10 +1,9 @@
-using Microsoft.Extensions.DependencyInjection;
+using MediatR;
 using SITRA.Core.DTOs.Invoices.Quotations;
 using SITRA.Core.DTOs.Invoices.SaleInvoices;
 using SITRA.Core.Mediator.Commands;
 using SITRA.Core.Mediator.Commands.Invoices.Quotations;
 using SITRA.Core.Mediator.Queries.Invoices.Quotations;
-using MediatR;
 
 namespace SITRA.Core.Mediator.Handlers.Invoices
 {

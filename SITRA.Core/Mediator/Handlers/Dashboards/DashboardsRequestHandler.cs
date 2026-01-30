@@ -1,7 +1,6 @@
-using Microsoft.Extensions.DependencyInjection;
-using SITRA.Core.Mediator.Queries.Dashboards;
 using MediatR;
 using SITRA.Core.DTOs.Dashboards;
+using SITRA.Core.Mediator.Queries.Dashboards;
 
 namespace SITRA.Core.Mediator.Handlers.Dashboards
 {

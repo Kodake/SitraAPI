@@ -1,6 +1,6 @@
-using SITRA.Core.Entities.Invoices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using SITRA.Core.Entities.Invoices;
 
 namespace SITRA.Infrastructure.Persistence.Invoices
 {

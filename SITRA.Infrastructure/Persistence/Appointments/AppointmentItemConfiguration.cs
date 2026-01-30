@@ -1,6 +1,6 @@
-using SITRA.Core.Entities.Appointments;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using SITRA.Core.Entities.Appointments;
 
 namespace SITRA.Infrastructure.Persistence.Appointments
 {

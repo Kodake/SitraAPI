@@ -1,6 +1,6 @@
-using SITRA.Core.Entities.Accounts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using SITRA.Core.Entities.Accounts;
 
 namespace SITRA.Infrastructure.Persistence.Accounts
 {

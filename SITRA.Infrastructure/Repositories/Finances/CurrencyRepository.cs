@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using SITRA.Core.Entities.Finances;
+using SITRA.Core.Interfaces.Finances;
 using SITRA.Infrastructure.Persistence;
 using SITRA.Infrastructure.Repositories.Generics;
-using SITRA.Core.Interfaces.Finances;
-using SITRA.Core.Entities.Finances;
-using Microsoft.EntityFrameworkCore;
 
 namespace SITRA.Infrastructure.Repositories.Finances
 {

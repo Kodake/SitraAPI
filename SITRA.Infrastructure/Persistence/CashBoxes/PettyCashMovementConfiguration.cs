@@ -1,6 +1,6 @@
-using SITRA.Core.Entities.CashBoxes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using SITRA.Core.Entities.CashBoxes;
 
 namespace SITRA.Infrastructure.Persistence.CashBoxes
 {

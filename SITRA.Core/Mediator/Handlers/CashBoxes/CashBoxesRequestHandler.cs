@@ -1,8 +1,7 @@
-using Microsoft.Extensions.DependencyInjection;
+using MediatR;
 using SITRA.Core.DTOs.CashBoxes;
 using SITRA.Core.Mediator.Commands.CashBoxes;
 using SITRA.Core.Mediator.Queries.CashBoxes;
-using MediatR;
 
 namespace SITRA.Core.Mediator.Handlers.CashBoxes
 {

@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Http;
-using SITRA.Infrastructure.Persistence;
-using SITRA.Infrastructure.Repositories.Generics;
-using SITRA.Core.Interfaces.CashBoxes;
+using Microsoft.EntityFrameworkCore;
 using SITRA.Core.Entities.CashBoxes;
 using SITRA.Core.Enums;
-using Microsoft.EntityFrameworkCore;
+using SITRA.Core.Interfaces.CashBoxes;
+using SITRA.Infrastructure.Persistence;
+using SITRA.Infrastructure.Repositories.Generics;
 
 namespace SITRA.Infrastructure.Repositories.CashBoxes
 {

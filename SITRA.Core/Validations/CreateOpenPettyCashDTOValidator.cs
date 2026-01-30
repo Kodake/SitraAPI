@@ -1,7 +1,7 @@
+using FluentValidation;
 using SITRA.Core.DTOs.CashBoxes;
 using SITRA.Core.Helpers;
 using SITRA.Core.Interfaces;
-using FluentValidation;
 
 namespace SITRA.Core.Validations
 {

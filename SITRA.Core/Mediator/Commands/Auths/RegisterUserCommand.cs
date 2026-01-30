@@ -1,6 +1,6 @@
-using SITRA.Core.DTOs.Auths;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using SITRA.Core.DTOs.Auths;
 using SITRA.Core.Interfaces;
 
 namespace SITRA.Core.Mediator.Commands.Auths

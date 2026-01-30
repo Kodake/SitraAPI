@@ -1,9 +1,9 @@
-using SITRA.Core.Entities.Auths;
-using SITRA.Core.Entities.Invoices;
-using SITRA.Core.Enums;
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
 using SITRA.Core.Documents.Components;
+using SITRA.Core.Entities.Auths;
+using SITRA.Core.Entities.Invoices;
+using SITRA.Core.Enums;
 
 namespace SITRA.Core.Documents
 {
@@ -40,7 +40,7 @@ namespace SITRA.Core.Documents
                     row.RelativeItem().AlignRight().Text(Invoice.ConditionType == InvoiceCondition.Spot ? SITRA.Core.Helpers.Utilities.SpotConditionLabel : SITRA.Core.Helpers.Utilities.CreditConditionLabel);
                 });
 
-                column.Item().LineHorizontal(0.8f);
+                column.Item().PaddingVertical(5).LineHorizontal(0.8f);
 
                 // Invoice Main Details
                 column.Item().Row(row =>
@@ -83,7 +83,7 @@ namespace SITRA.Core.Documents
                     row.ConstantItem(45).AlignRight().Text(SITRA.Core.Helpers.Utilities.TotalLabelShort);
                 });
 
-                column.Item().LineHorizontal(0.5f);
+                column.Item().PaddingVertical(5).LineHorizontal(0.5f);
 
                 foreach (var item in Invoice.InvoiceItems)
                 {
@@ -145,6 +145,13 @@ namespace SITRA.Core.Documents
                             row.RelativeItem().AlignRight().Text($"{Invoice.SpotPayment.AmountReturned:N2}").SemiBold();
                         });
                     }
+                }
+
+                // Description
+                if (!string.IsNullOrWhiteSpace(Invoice.Description))
+                {
+                    column.Item().PaddingVertical(5).LineHorizontal(0.5f);
+                    column.Item().AlignCenter().Text(Invoice.Description);
                 }
             });
         }

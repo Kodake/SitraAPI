@@ -1,9 +1,8 @@
-using Microsoft.AspNetCore.Http;
+using FluentValidation;
 using SITRA.Core.DTOs.Contacts.Contacts;
 using SITRA.Core.Enums;
 using SITRA.Core.Helpers;
 using SITRA.Core.Interfaces.Contacts;
-using FluentValidation;
 
 namespace SITRA.Core.Validations
 {

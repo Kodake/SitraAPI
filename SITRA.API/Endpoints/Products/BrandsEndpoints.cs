@@ -1,13 +1,13 @@
-using SITRA.Core.DTOs;
-using SITRA.Core.DTOs.Products.Brands;
-using SITRA.Core.Enums;
-using SITRA.API.Filters;
-using SITRA.API.Helpers;
-using SITRA.Core.Mediator.Commands.Products.Brands;
-using SITRA.Core.Mediator.Queries.Products.Brands;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using SITRA.API.Filters;
+using SITRA.API.Helpers;
+using SITRA.Core.DTOs;
+using SITRA.Core.DTOs.Products.Brands;
+using SITRA.Core.Enums;
+using SITRA.Core.Mediator.Commands.Products.Brands;
+using SITRA.Core.Mediator.Queries.Products.Brands;
 
 namespace SITRA.API.Endpoints
 {

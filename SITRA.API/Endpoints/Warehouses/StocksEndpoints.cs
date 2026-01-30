@@ -1,13 +1,13 @@
-using SITRA.Core.DTOs;
-using SITRA.Core.DTOs.Warehouses.Stocks;
-using SITRA.API.Filters;
-using SITRA.API.Helpers;
-using SITRA.Core.Mediator.Commands.Warehouses.Stocks;
-using SITRA.Core.Mediator.Queries.Warehouses.Stocks;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
+using SITRA.API.Filters;
+using SITRA.API.Helpers;
+using SITRA.Core.DTOs;
+using SITRA.Core.DTOs.Warehouses.Stocks;
+using SITRA.Core.Mediator.Commands.Warehouses.Stocks;
+using SITRA.Core.Mediator.Queries.Warehouses.Stocks;
 
 namespace SITRA.API.Endpoints
 {

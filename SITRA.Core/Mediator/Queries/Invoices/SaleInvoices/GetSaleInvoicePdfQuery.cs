@@ -1,10 +1,6 @@
 using AutoMapper;
-using SITRA.Core.DTOs;
-using SITRA.Core.Interfaces;
 using SITRA.Core.Documents;
-using SITRA.Core.Mediator.Queries;
-using System.Threading;
-using System.Threading.Tasks;
+using SITRA.Core.Interfaces;
 
 namespace SITRA.Core.Mediator.Queries.Invoices.SaleInvoices
 {

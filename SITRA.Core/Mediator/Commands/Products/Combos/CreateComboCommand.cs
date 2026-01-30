@@ -1,9 +1,9 @@
 using AutoMapper;
+using Microsoft.AspNetCore.OutputCaching;
 using SITRA.Core.DTOs.Products.Combos;
 using SITRA.Core.Entities.Products;
 using SITRA.Core.Enums;
 using SITRA.Core.Interfaces;
-using Microsoft.AspNetCore.OutputCaching;
 
 namespace SITRA.Core.Mediator.Commands.Products.Combos
 {

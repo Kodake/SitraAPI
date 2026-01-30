@@ -1,9 +1,8 @@
 using FluentValidation;
-using SITRA.Core.DTOs.Auths;
-using SITRA.Core.Helpers;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using SITRA.Core.DTOs.Auths;
 using SITRA.Core.Entities.Auths;
+using SITRA.Core.Helpers;
 using System.Security.Claims;
 
 namespace SITRA.Core.Validations

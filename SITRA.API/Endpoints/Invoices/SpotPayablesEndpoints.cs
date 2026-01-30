@@ -1,10 +1,10 @@
-using SITRA.Core.DTOs;
-using SITRA.Core.DTOs.Invoices.SpotPayables;
-using SITRA.API.Helpers;
-using SITRA.Core.Mediator.Queries.Invoices.SpotPayables;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using SITRA.API.Helpers;
+using SITRA.Core.DTOs;
+using SITRA.Core.DTOs.Invoices.SpotPayables;
+using SITRA.Core.Mediator.Queries.Invoices.SpotPayables;
 
 namespace SITRA.API.Endpoints
 {

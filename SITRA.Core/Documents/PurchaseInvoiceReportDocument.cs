@@ -1,7 +1,7 @@
-using SITRA.Core.Entities.Invoices;
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
 using SITRA.Core.Documents.Components;
+using SITRA.Core.Entities.Invoices;
 
 namespace SITRA.Core.Documents
 {
@@ -27,9 +27,20 @@ namespace SITRA.Core.Documents
         {
             container.Column(column =>
             {
+                column.Spacing(2);
+
                 column.Item().Text($"{SITRA.Core.Helpers.Utilities.FromLabel} {From:dd-MM-yyyy}");
                 column.Item().Text($"{SITRA.Core.Helpers.Utilities.ToLabel} {To:dd-MM-yyyy}");
-                column.Item().PaddingVertical(5);
+
+                column.Item().PaddingVertical(5).LineHorizontal(0.5f);
+
+                column.Item().Row(row =>
+                {
+                    row.RelativeItem().Text(SITRA.Core.Helpers.Utilities.DateLabel).SemiBold();
+                    row.RelativeItem().AlignRight().Text(SITRA.Core.Helpers.Utilities.TotalLabel).SemiBold();
+                });
+
+                column.Item().PaddingVertical(5).LineHorizontal(0.5f);
 
                 column.Item().Table(table =>
                 {
@@ -39,12 +50,6 @@ namespace SITRA.Core.Documents
                         colDef.RelativeColumn(); // TOTAL
                     });
 
-                    table.Header(header =>
-                    {
-                        header.Cell().Element(ThermalStyles.CellStyleHeader).Text(SITRA.Core.Helpers.Utilities.DateLabel);
-                        header.Cell().Element(ThermalStyles.CellStyleHeader).AlignRight().Text(SITRA.Core.Helpers.Utilities.TotalLabel);
-                    });
-
                     foreach (var item in Invoices)
                     {
                         table.Cell().Element(ThermalStyles.CellStyleRow).Text(item.CreatedAt.ToString("dd/MM/yyyy"));
@@ -52,7 +57,7 @@ namespace SITRA.Core.Documents
                     }
                 });
 
-                column.Item().PaddingTop(10).AlignRight().Column(totals =>
+                column.Item().PaddingVertical(5).AlignRight().Column(totals =>
                 {
                     totals.Item().Text($"{SITRA.Core.Helpers.Utilities.SubtotalLabel}: {Invoices.Sum(x => x.TotalAmount):N2}");
                     totals.Item().Text($"{SITRA.Core.Helpers.Utilities.TaxesLabel}: {Invoices.Sum(x => x.TotalTaxes):N2}");

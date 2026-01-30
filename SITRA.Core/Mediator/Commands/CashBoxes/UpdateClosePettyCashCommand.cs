@@ -1,13 +1,11 @@
-using SITRA.Core.Entities.Auths;
 using AutoMapper;
-using SITRA.Core.DTOs;
+using Microsoft.AspNetCore.OutputCaching;
+using QuestPDF.Infrastructure;
+using SITRA.Core.Documents;
 using SITRA.Core.DTOs.CashBoxes;
 using SITRA.Core.Entities.CashBoxes;
 using SITRA.Core.Enums;
 using SITRA.Core.Interfaces;
-using Microsoft.AspNetCore.OutputCaching;
-using QuestPDF.Infrastructure;
-using SITRA.Core.Documents;
 
 namespace SITRA.Core.Mediator.Commands.CashBoxes
 {

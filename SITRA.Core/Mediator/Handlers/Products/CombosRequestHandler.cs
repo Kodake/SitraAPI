@@ -1,8 +1,7 @@
-using Microsoft.Extensions.DependencyInjection;
+using MediatR;
 using SITRA.Core.DTOs.Products.Combos;
 using SITRA.Core.Mediator.Commands.Products.Combos;
 using SITRA.Core.Mediator.Queries.Products.Combos;
-using MediatR;
 
 namespace SITRA.Core.Mediator.Handlers.Combos
 {

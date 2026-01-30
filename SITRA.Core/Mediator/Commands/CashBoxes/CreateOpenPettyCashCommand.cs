@@ -1,10 +1,9 @@
-using SITRA.Core.Entities.Auths;
 using AutoMapper;
+using Microsoft.AspNetCore.OutputCaching;
 using SITRA.Core.DTOs.CashBoxes;
 using SITRA.Core.Entities.CashBoxes;
 using SITRA.Core.Enums;
 using SITRA.Core.Interfaces;
-using Microsoft.AspNetCore.OutputCaching;
 
 namespace SITRA.Core.Mediator.Commands.CashBoxes
 {

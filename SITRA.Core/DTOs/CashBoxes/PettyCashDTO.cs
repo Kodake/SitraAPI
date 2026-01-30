@@ -1,4 +1,3 @@
-using SITRA.Core.Entities.Auths;
 using SITRA.Core.DTOs.Auths;
 using SITRA.Core.Enums;
 

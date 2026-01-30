@@ -1,8 +1,7 @@
-using Microsoft.Extensions.DependencyInjection;
+using MediatR;
 using SITRA.Core.DTOs.Warehouses.Warehouses;
 using SITRA.Core.Mediator.Commands.Warehouses.Warehouses;
 using SITRA.Core.Mediator.Queries.Warehouses.Warehouses;
-using MediatR;
 
 namespace SITRA.Core.Mediator.Handlers.Warehouses
 {

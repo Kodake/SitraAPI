@@ -1,10 +1,8 @@
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using SITRA.Core.Entities.Auths;
 using SITRA.Core.Mediator.Commands.Auths;
 using System.Security.Claims;
-using System.IdentityModel.Tokens.Jwt;
 
 namespace SITRA.Core.Mediator.Handlers.Auths
 {

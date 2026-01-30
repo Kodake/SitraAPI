@@ -1,6 +1,6 @@
-using SITRA.Core.Entities.Products;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using SITRA.Core.Entities.Products;
 
 namespace SITRA.Infrastructure.Persistence.Products;
 public class CategoryConfiguration : IEntityTypeConfiguration<Category>

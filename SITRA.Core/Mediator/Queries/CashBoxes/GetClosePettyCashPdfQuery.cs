@@ -1,5 +1,4 @@
 using AutoMapper;
-using SITRA.Core.DTOs;
 using MediatR;
 using QuestPDF.Infrastructure;
 

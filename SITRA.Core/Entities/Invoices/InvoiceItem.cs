@@ -1,5 +1,5 @@
-using SITRA.Core.Interfaces;
 using SITRA.Core.Entities.Products;
+using SITRA.Core.Interfaces;
 
 namespace SITRA.Core.Entities.Invoices
 {

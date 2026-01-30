@@ -1,17 +1,8 @@
 using Microsoft.AspNetCore.Http;
-using SITRA.Infrastructure.Persistence;
-using SITRA.Infrastructure.Repositories.Generics;
-using SITRA.Infrastructure.Repositories.Accounts;
-using SITRA.Infrastructure.Repositories.AdministrativeTools;
-using SITRA.Infrastructure.Repositories.Appointments;
-using SITRA.Infrastructure.Repositories.CashBoxes;
-using SITRA.Infrastructure.Repositories.Contacts;
-using SITRA.Infrastructure.Repositories.Finances;
-using SITRA.Infrastructure.Repositories.Invoices;
-using SITRA.Infrastructure.Repositories.Products;
-using SITRA.Infrastructure.Repositories.Warehouses;
-using SITRA.Infrastructure.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using SITRA.Core.Entities.Auths;
+using SITRA.Core.Interfaces;
 using SITRA.Core.Interfaces.Accounts;
 using SITRA.Core.Interfaces.AdministrativeTools;
 using SITRA.Core.Interfaces.Appointments;
@@ -21,11 +12,20 @@ using SITRA.Core.Interfaces.Finances;
 using SITRA.Core.Interfaces.Generics;
 using SITRA.Core.Interfaces.Invoices;
 using SITRA.Core.Interfaces.Products;
-using SITRA.Core.Interfaces.Warehouses;
 using SITRA.Core.Interfaces.Services;
-using SITRA.Core.Interfaces;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
+using SITRA.Core.Interfaces.Warehouses;
+using SITRA.Infrastructure.Persistence;
+using SITRA.Infrastructure.Repositories.Accounts;
+using SITRA.Infrastructure.Repositories.AdministrativeTools;
+using SITRA.Infrastructure.Repositories.Appointments;
+using SITRA.Infrastructure.Repositories.CashBoxes;
+using SITRA.Infrastructure.Repositories.Contacts;
+using SITRA.Infrastructure.Repositories.Finances;
+using SITRA.Infrastructure.Repositories.Generics;
+using SITRA.Infrastructure.Repositories.Invoices;
+using SITRA.Infrastructure.Repositories.Products;
+using SITRA.Infrastructure.Repositories.Warehouses;
+using SITRA.Infrastructure.Services;
 namespace SITRA.Infrastructure.Repositories
 {
     public class UnitOfWork : IUnitOfWork

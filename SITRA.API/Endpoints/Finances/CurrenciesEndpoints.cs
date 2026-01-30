@@ -1,12 +1,12 @@
-using SITRA.Core.DTOs;
-using SITRA.Core.DTOs.Finances.Currencies;
-using SITRA.API.Filters;
-using SITRA.API.Helpers;
-using SITRA.Core.Mediator.Commands.Finances.Currencies;
-using SITRA.Core.Mediator.Queries.Finances.Currencies;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using SITRA.API.Filters;
+using SITRA.API.Helpers;
+using SITRA.Core.DTOs;
+using SITRA.Core.DTOs.Finances.Currencies;
+using SITRA.Core.Mediator.Commands.Finances.Currencies;
+using SITRA.Core.Mediator.Queries.Finances.Currencies;
 
 namespace SITRA.API.Endpoints
 {

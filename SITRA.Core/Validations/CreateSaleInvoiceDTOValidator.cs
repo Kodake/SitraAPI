@@ -1,10 +1,9 @@
+using FluentValidation;
 using SITRA.Core.DTOs.Invoices.SaleInvoices;
 using SITRA.Core.Entities.AdministrativeTools;
 using SITRA.Core.Enums;
 using SITRA.Core.Helpers;
 using SITRA.Core.Interfaces;
-using FluentValidation;
-using Microsoft.AspNetCore.Http;
 
 namespace SITRA.Core.Validations
 {
@@ -132,9 +131,9 @@ namespace SITRA.Core.Validations
                 .WithMessage(x => string.Format(Utilities.NotExistsWith, x.PricingId));
 
             RuleFor(x => x.BillerId)
-                .MustAsync(async (id, _) =>
-                    !id.HasValue || await unitOfWork.ContactRepository.ExistsAsync(id.Value))
-                .WithMessage(x => string.Format(Utilities.NotExistsWith, x.BillerId));
+                .MustAsync(async (id, _) => await unitOfWork.ContactRepository.ExistsAsync(id!.Value))
+                .WithMessage(x => string.Format(Utilities.NotExistsWith, x.BillerId))
+                .When(x => x.BillerId.HasValue);
 
             RuleFor(x => x.CustomerId)
                 .MustAsync(async (id, _) =>

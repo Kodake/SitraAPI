@@ -1,8 +1,8 @@
 using AutoMapper;
+using Microsoft.AspNetCore.OutputCaching;
 using SITRA.Core.DTOs.AdministrativeTools.FiscalSupports;
 using SITRA.Core.Entities.AdministrativeTools;
 using SITRA.Core.Interfaces;
-using Microsoft.AspNetCore.OutputCaching;
 
 namespace SITRA.Core.Mediator.Commands.AdministrativeTools.FiscalSupports
 {

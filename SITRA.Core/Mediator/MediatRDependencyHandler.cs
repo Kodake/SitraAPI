@@ -1,4 +1,3 @@
-using Microsoft.Extensions.DependencyInjection;
 using MediatR;
 using SITRA.Core.Mediator.Handlers.Accounts;
 using SITRA.Core.Mediator.Handlers.AdministrativeTools;
@@ -10,8 +9,8 @@ using SITRA.Core.Mediator.Handlers.Dashboards;
 using SITRA.Core.Mediator.Handlers.Finances;
 using SITRA.Core.Mediator.Handlers.Invoices;
 using SITRA.Core.Mediator.Handlers.Products;
-using SITRA.Core.Mediator.Handlers.Wizard;
 using SITRA.Core.Mediator.Handlers.Warehouses;
+using SITRA.Core.Mediator.Handlers.Wizard;
 
 namespace SITRA.Core.Mediator
 {

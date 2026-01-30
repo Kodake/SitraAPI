@@ -1,6 +1,5 @@
-using SITRA.Core.Entities.Auths;
-using SITRA.Core.Enums;
 using Microsoft.AspNetCore.Identity;
+using SITRA.Core.Enums;
 
 namespace SITRA.Core.Entities.Auths
 {

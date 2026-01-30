@@ -5,7 +5,7 @@ using SITRA.Core.Entities.Appointments;
 
 namespace SITRA.API.Profiles.Appointments
 {
-    public class AppointmentsProfile: Profile
+    public class AppointmentsProfile : Profile
     {
         public AppointmentsProfile()
         {

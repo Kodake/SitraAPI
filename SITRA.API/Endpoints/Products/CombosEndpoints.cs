@@ -1,12 +1,12 @@
-using SITRA.Core.DTOs;
-using SITRA.Core.DTOs.Products.Combos;
-using SITRA.API.Filters;
-using SITRA.API.Helpers;
-using SITRA.Core.Mediator.Commands.Products.Combos;
-using SITRA.Core.Mediator.Queries.Products.Combos;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using SITRA.API.Filters;
+using SITRA.API.Helpers;
+using SITRA.Core.DTOs;
+using SITRA.Core.DTOs.Products.Combos;
+using SITRA.Core.Mediator.Commands.Products.Combos;
+using SITRA.Core.Mediator.Queries.Products.Combos;
 
 namespace SITRA.API.Endpoints
 {

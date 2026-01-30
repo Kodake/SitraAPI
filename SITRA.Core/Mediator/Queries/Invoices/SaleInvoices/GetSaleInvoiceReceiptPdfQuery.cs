@@ -1,9 +1,6 @@
-using SITRA.Core.Entities.Auths;
 using AutoMapper;
-using SITRA.Core.DTOs;
-using SITRA.Core.Entities.Invoices;
-using SITRA.Core.Interfaces;
 using SITRA.Core.Documents;
+using SITRA.Core.Interfaces;
 
 namespace SITRA.Core.Mediator.Queries.Invoices.SaleInvoices
 {

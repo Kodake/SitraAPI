@@ -1,22 +1,19 @@
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
+using SITRA.API.Extensions;
 using SITRA.Core.Entities.Auths;
-using FluentValidation;
-using SITRA.Core.Validations;
-using SITRA.Core.Mediator;
 using SITRA.Core.Helpers;
+using SITRA.Core.Interfaces;
+using SITRA.Core.Mediator;
+using SITRA.Core.Validations;
 using SITRA.Infrastructure.Persistence;
 using SITRA.Infrastructure.Repositories;
-using SITRA.Core.Interfaces;
 using SITRA.Infrastructure.Services;
-using Microsoft.AspNetCore.RateLimiting;
-using Serilog;
-using System.Text;
-using System.Threading.RateLimiting;
-using SITRA.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

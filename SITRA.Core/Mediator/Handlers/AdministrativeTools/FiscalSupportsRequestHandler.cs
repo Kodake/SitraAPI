@@ -1,9 +1,8 @@
-using Microsoft.Extensions.DependencyInjection;
+using MediatR;
 using SITRA.Core.DTOs.AdministrativeTools.FiscalSupports;
 using SITRA.Core.Mediator.Commands.AdministrativeTools.FiscalSupports;
 using SITRA.Core.Mediator.Queries.AdministrativeTools.FiscalSupports;
 using SITRA.Core.Mediator.Queries.Products.Items;
-using MediatR;
 
 namespace SITRA.Core.Mediator.Handlers.AdministrativeTools
 {

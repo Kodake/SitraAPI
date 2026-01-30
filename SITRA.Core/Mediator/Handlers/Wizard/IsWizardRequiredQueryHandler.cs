@@ -1,7 +1,7 @@
+using AutoMapper;
+using MediatR;
 using SITRA.Core.Interfaces;
 using SITRA.Core.Mediator.Queries.Wizard;
-using MediatR;
-using AutoMapper;
 
 namespace SITRA.Core.Mediator.Handlers.Wizard
 {

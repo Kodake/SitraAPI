@@ -1,13 +1,6 @@
-using SITRA.Infrastructure.Persistence.Accounts;
-using SITRA.Infrastructure.Persistence.AdministrativeTools;
-using SITRA.Infrastructure.Persistence.Appointments;
-using SITRA.Infrastructure.Persistence.Auths;
-using SITRA.Infrastructure.Persistence.CashBoxes;
-using SITRA.Infrastructure.Persistence.Contacts;
-using SITRA.Infrastructure.Persistence.Finances;
-using SITRA.Infrastructure.Persistence.Invoices;
-using SITRA.Infrastructure.Persistence.Products;
-using SITRA.Infrastructure.Persistence.Warehouses;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SITRA.Core.Entities.Accounts;
 using SITRA.Core.Entities.AdministrativeTools;
 using SITRA.Core.Entities.Appointments;
@@ -19,10 +12,16 @@ using SITRA.Core.Entities.Invoices;
 using SITRA.Core.Entities.Products;
 using SITRA.Core.Entities.Tenants;
 using SITRA.Core.Entities.Warehouses;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
 using SITRA.Core.Interfaces;
+using SITRA.Infrastructure.Persistence.Accounts;
+using SITRA.Infrastructure.Persistence.AdministrativeTools;
+using SITRA.Infrastructure.Persistence.Appointments;
+using SITRA.Infrastructure.Persistence.CashBoxes;
+using SITRA.Infrastructure.Persistence.Contacts;
+using SITRA.Infrastructure.Persistence.Finances;
+using SITRA.Infrastructure.Persistence.Invoices;
+using SITRA.Infrastructure.Persistence.Products;
+using SITRA.Infrastructure.Persistence.Warehouses;
 using System.Reflection;
 
 namespace SITRA.Infrastructure.Persistence

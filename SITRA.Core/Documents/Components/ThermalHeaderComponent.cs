@@ -1,7 +1,6 @@
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
 using SITRA.Core.Entities.Auths;
-using SITRA.Core.Helpers;
 
 namespace SITRA.Core.Documents.Components
 {
@@ -21,45 +20,45 @@ namespace SITRA.Core.Documents.Components
             container.Column(column =>
             {
                 // Logo section
-                var logoPath = Path.Combine(AppContext.BaseDirectory, "Resources", "logo-black.png");
+                //var logoPath = Path.Combine(AppContext.BaseDirectory, "Resources", "logo-black.png");
 
-                try
-                {
-                    if (File.Exists(logoPath))
-                    {
-                        column.Item()
-                              .AlignCenter()
-                              .MaxHeight(1.5f, Unit.Centimetre)
-                              .Width(100)
-                              .Image(logoPath)
-                              .FitWidth();
-                        
-                        column.Item().Text(" ");
-                    }
-                    else
-                    {
-                        column.Item()
-                              .AlignCenter()
-                              .Text(SITRA.Core.Helpers.Utilities.LogoNotAvailableLabel)
-                              .Style(ThermalStyles.SubtitleStyle);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    column.Item()
-                          .AlignCenter()
-                          .Text(SITRA.Core.Helpers.Utilities.ErrorLoadingLogoLabel)
-                          .Style(ThermalStyles.SubtitleStyle);
+                //try
+                //{
+                //    if (File.Exists(logoPath))
+                //    {
+                //        column.Item()
+                //              .AlignCenter()
+                //              .MaxHeight(1.5f, Unit.Centimetre)
+                //              .Width(100)
+                //              .Image(logoPath)
+                //              .FitWidth();
 
-                    // Using localized message for internal logging
-                    Console.WriteLine(Utilities.InvoiceDocumentErrorLoadingLogo(ex.Message));
-                }
+                //        column.Item().Text(" ");
+                //    }
+                //    else
+                //    {
+                //        column.Item()
+                //              .AlignCenter()
+                //              .Text(SITRA.Core.Helpers.Utilities.LogoNotAvailableLabel)
+                //              .Style(ThermalStyles.SubtitleStyle);
+                //    }
+                //}
+                //catch (Exception ex)
+                //{
+                //    column.Item()
+                //          .AlignCenter()
+                //          .Text(SITRA.Core.Helpers.Utilities.ErrorLoadingLogoLabel)
+                //          .Style(ThermalStyles.SubtitleStyle);
+
+                //    // Using localized message for internal logging
+                //    Console.WriteLine(Utilities.InvoiceDocumentErrorLoadingLogo(ex.Message));
+                //}
 
                 // Company Info
                 if (_companyUser != null)
                 {
                     column.Item().AlignCenter().Text(_companyUser.CompanyName).Style(ThermalStyles.HeaderStyle);
-                    
+
                     if (!string.IsNullOrEmpty(_companyUser.Email))
                         column.Item().AlignCenter().Text(_companyUser.Email).Style(ThermalStyles.ContentStyle);
 
@@ -81,7 +80,7 @@ namespace SITRA.Core.Documents.Components
 
                 column.Item().PaddingVertical(5).LineHorizontal(0.8f);
                 column.Item().AlignCenter().Text(_title).Style(ThermalStyles.HeaderStyle);
-                column.Item().LineHorizontal(0.8f);
+                column.Item().PaddingVertical(5).LineHorizontal(0.8f);
             });
         }
     }

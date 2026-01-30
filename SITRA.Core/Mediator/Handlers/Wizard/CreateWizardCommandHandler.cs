@@ -1,8 +1,8 @@
 using AutoMapper;
+using Microsoft.AspNetCore.OutputCaching;
 using SITRA.Core.DTOs.Wizard;
 using SITRA.Core.Interfaces;
 using SITRA.Core.Mediator.Commands.Wizard;
-using Microsoft.AspNetCore.OutputCaching;
 
 namespace SITRA.Core.Mediator.Handlers.Wizard
 {

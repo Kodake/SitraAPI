@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Http;
 namespace SITRA.Core.DTOs.Products.Combos
 {
     public class CreateComboDTO

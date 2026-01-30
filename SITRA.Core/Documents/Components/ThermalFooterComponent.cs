@@ -16,7 +16,7 @@ namespace SITRA.Core.Documents.Components
         {
             container.Column(column =>
             {
-                column.Item().PaddingTop(5).LineHorizontal(0.8f);
+                column.Item().PaddingVertical(5).LineHorizontal(0.8f);
 
                 if (!string.IsNullOrEmpty(_customMessage))
                 {

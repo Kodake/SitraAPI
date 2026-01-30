@@ -1,8 +1,7 @@
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using SITRA.Core.Entities.AdministrativeTools;
-using SITRA.Core.Interfaces;
 using SITRA.Core.Helpers;
+using SITRA.Core.Interfaces;
 using System.Text.Json;
 
 namespace SITRA.Core.Mediator.Behaviors
@@ -50,7 +49,7 @@ namespace SITRA.Core.Mediator.Behaviors
                 // Note: TResponse might be complex or just a primitive/MediatR Unit.
                 if (typeof(TResponse) == typeof(Unit))
                 {
-                   return (TResponse)(object)Unit.Value;
+                    return (TResponse)(object)Unit.Value;
                 }
 
                 if (!string.IsNullOrEmpty(existingRequest.ResponseBody))

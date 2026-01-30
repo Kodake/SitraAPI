@@ -1,5 +1,5 @@
-using SITRA.Core.Interfaces;
 using Microsoft.AspNetCore.OutputCaching;
+using SITRA.Core.Interfaces;
 
 namespace SITRA.Core.Mediator.Commands.Products.Services
 {

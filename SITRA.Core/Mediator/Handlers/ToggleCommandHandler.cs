@@ -1,7 +1,7 @@
-using SITRA.Core.Mediator.Commands;
-using SITRA.Core.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.OutputCaching;
+using SITRA.Core.Interfaces;
+using SITRA.Core.Mediator.Commands;
 
 namespace SITRA.Core.Mediator.Handlers
 {

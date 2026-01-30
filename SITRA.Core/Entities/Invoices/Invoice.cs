@@ -1,11 +1,9 @@
-using SITRA.Core.Interfaces;
 using SITRA.Core.Entities.Accounts;
-using SITRA.Core.Entities.AdministrativeTools;
-using SITRA.Core.Entities.Contacts;
 using SITRA.Core.Entities.Finances;
 using SITRA.Core.Entities.Products;
 using SITRA.Core.Entities.Warehouses;
 using SITRA.Core.Enums;
+using SITRA.Core.Interfaces;
 
 namespace SITRA.Core.Entities.Invoices
 {

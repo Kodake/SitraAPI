@@ -1,8 +1,7 @@
-using Microsoft.Extensions.DependencyInjection;
+using MediatR;
 using SITRA.Core.DTOs.AdministrativeTools.Deadlines;
 using SITRA.Core.Mediator.Commands.AdministrativeTools.Deadlines;
 using SITRA.Core.Mediator.Queries.AdministrativeTools.Deadlines;
-using MediatR;
 
 namespace SITRA.Core.Mediator.Handlers.AdministrativeTools
 {

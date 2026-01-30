@@ -1,10 +1,10 @@
-using SITRA.Core.DTOs.Wizard;
-using SITRA.API.Filters;
-using SITRA.Core.Mediator.Commands.Wizard;
-using SITRA.Core.Mediator.Queries.Wizard;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using SITRA.API.Filters;
+using SITRA.Core.DTOs.Wizard;
+using SITRA.Core.Mediator.Commands.Wizard;
+using SITRA.Core.Mediator.Queries.Wizard;
 
 namespace SITRA.API.Endpoints
 {

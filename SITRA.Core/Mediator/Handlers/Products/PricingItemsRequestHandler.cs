@@ -1,8 +1,7 @@
-using Microsoft.Extensions.DependencyInjection;
+using MediatR;
 using SITRA.Core.DTOs.Products.PricingItems;
 using SITRA.Core.Mediator.Commands.Products.PricingItems;
 using SITRA.Core.Mediator.Queries.Products.PricingItems;
-using MediatR;
 
 namespace SITRA.Core.Mediator.Handlers.Products
 {

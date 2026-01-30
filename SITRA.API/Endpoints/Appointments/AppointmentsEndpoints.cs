@@ -1,12 +1,12 @@
-using SITRA.Core.DTOs;
-using SITRA.Core.DTOs.Appointments.Appointments;
-using SITRA.API.Filters;
-using SITRA.API.Helpers;
-using SITRA.Core.Mediator.Commands.Appointments.Appointments;
-using SITRA.Core.Mediator.Queries.Appointments.Appointments;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using SITRA.API.Filters;
+using SITRA.API.Helpers;
+using SITRA.Core.DTOs;
+using SITRA.Core.DTOs.Appointments.Appointments;
+using SITRA.Core.Mediator.Commands.Appointments.Appointments;
+using SITRA.Core.Mediator.Queries.Appointments.Appointments;
 
 namespace SITRA.API.Endpoints
 {

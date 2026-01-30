@@ -1,6 +1,6 @@
-using SITRA.Core.Entities.Warehouses;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using SITRA.Core.Entities.Warehouses;
 
 namespace SITRA.Infrastructure.Persistence.Warehouses
 {

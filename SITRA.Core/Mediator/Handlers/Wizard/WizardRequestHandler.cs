@@ -1,8 +1,7 @@
-using Microsoft.Extensions.DependencyInjection;
+using MediatR;
 using SITRA.Core.DTOs.Wizard;
 using SITRA.Core.Mediator.Commands.Wizard;
 using SITRA.Core.Mediator.Queries.Wizard;
-using MediatR;
 
 namespace SITRA.Core.Mediator.Handlers.Wizard
 {
