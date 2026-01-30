@@ -342,7 +342,7 @@ C:\Users\Kodake\Desktop\PosAPI\SITRA.API\obj\Release\net8.0\win-x86\PubTmp\Out\c
 C:\Users\Kodake\Desktop\PosAPI\SITRA.API\obj\Release\net8.0\win-x86\PubTmp\Out\hostfxr.dll
 C:\Users\Kodake\Desktop\PosAPI\SITRA.API\obj\Release\net8.0\win-x86\PubTmp\Out\hostpolicy.dll
 C:\Users\Kodake\Desktop\PosAPI\SITRA.API\obj\Release\net8.0\win-x86\PubTmp\Out\mscordaccore.dll
-C:\Users\Kodake\Desktop\PosAPI\SITRA.API\obj\Release\net8.0\win-x86\PubTmp\Out\mscordaccore_x86_x86_8.0.2025.41914.dll
+C:\Users\Kodake\Desktop\PosAPI\SITRA.API\obj\Release\net8.0\win-x86\PubTmp\Out\mscordaccore_x86_x86_8.0.2325.60607.dll
 C:\Users\Kodake\Desktop\PosAPI\SITRA.API\obj\Release\net8.0\win-x86\PubTmp\Out\mscordbi.dll
 C:\Users\Kodake\Desktop\PosAPI\SITRA.API\obj\Release\net8.0\win-x86\PubTmp\Out\mscorrc.dll
 C:\Users\Kodake\Desktop\PosAPI\SITRA.API\obj\Release\net8.0\win-x86\PubTmp\Out\msquic.dll

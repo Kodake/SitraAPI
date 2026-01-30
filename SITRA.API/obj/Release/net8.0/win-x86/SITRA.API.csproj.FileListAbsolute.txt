@@ -481,7 +481,6 @@ C:\Users\Kodake\Desktop\PosAPI\SITRA.API\bin\Release\net8.0\win-x86\createdump.e
 C:\Users\Kodake\Desktop\PosAPI\SITRA.API\bin\Release\net8.0\win-x86\hostfxr.dll
 C:\Users\Kodake\Desktop\PosAPI\SITRA.API\bin\Release\net8.0\win-x86\hostpolicy.dll
 C:\Users\Kodake\Desktop\PosAPI\SITRA.API\bin\Release\net8.0\win-x86\mscordaccore.dll
-C:\Users\Kodake\Desktop\PosAPI\SITRA.API\bin\Release\net8.0\win-x86\mscordaccore_x86_x86_8.0.2025.41914.dll
 C:\Users\Kodake\Desktop\PosAPI\SITRA.API\bin\Release\net8.0\win-x86\mscordbi.dll
 C:\Users\Kodake\Desktop\PosAPI\SITRA.API\bin\Release\net8.0\win-x86\mscorrc.dll
 C:\Users\Kodake\Desktop\PosAPI\SITRA.API\bin\Release\net8.0\win-x86\msquic.dll
@@ -516,3 +515,5 @@ C:\Users\Kodake\Desktop\PosAPI\SITRA.API\obj\Release\net8.0\win-x86\SITRA.API.ge
 C:\Users\Kodake\Desktop\PosAPI\SITRA.API\obj\Release\net8.0\win-x86\ref\SITRA.API.dll
 C:\Users\Kodake\Desktop\PosAPI\SITRA.API\bin\Release\net8.0\win-x86\SITRA.Core.staticwebassets.endpoints.json
 C:\Users\Kodake\Desktop\PosAPI\SITRA.API\bin\Release\net8.0\win-x86\es\SITRA.Core.resources.dll
+C:\Users\Kodake\Desktop\PosAPI\SITRA.API\bin\Release\net8.0\win-x86\mscordaccore_x86_x86_8.0.2325.60607.dll
+C:\Users\Kodake\Desktop\PosAPI\SITRA.API\obj\Release\net8.0\win-x86\swae.build.ex.cache

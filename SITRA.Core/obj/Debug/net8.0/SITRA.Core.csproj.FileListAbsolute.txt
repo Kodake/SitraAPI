@@ -46,3 +46,4 @@ C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Debug\net8.0\SITRA.Core.dll
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Debug\net8.0\refint\SITRA.Core.dll
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Debug\net8.0\SITRA.Core.pdb
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Debug\net8.0\ref\SITRA.Core.dll
+C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Debug\net8.0\swae.build.ex.cache
