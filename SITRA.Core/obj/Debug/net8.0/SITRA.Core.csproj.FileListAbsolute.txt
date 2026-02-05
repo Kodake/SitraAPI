@@ -90,8 +90,8 @@ C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\obj\Debug\net8.0\staticwebasset
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\obj\Debug\net8.0\staticwebassets.build.json.cache
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\obj\Debug\net8.0\SITRA.Core.dll
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\obj\Debug\net8.0\refint\SITRA.Core.dll
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\obj\Debug\net8.0\SITRA.Core.pdb
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\obj\Debug\net8.0\ref\SITRA.Core.dll
+C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

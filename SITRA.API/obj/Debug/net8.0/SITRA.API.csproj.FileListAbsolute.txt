@@ -456,10 +456,10 @@ C:\Users\rflorentino\Desktop\SitraAPI\SITRA.API\obj\Debug\net8.0\staticwebassets
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.API\obj\Debug\net8.0\staticwebassets.build.json.cache
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.API\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.API\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-C:\Users\rflorentino\Desktop\SitraAPI\SITRA.API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.API\obj\Debug\net8.0\SITRA.API.csproj.Up2Date
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.API\obj\Debug\net8.0\SITRA.API.dll
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.API\obj\Debug\net8.0\refint\SITRA.API.dll
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.API\obj\Debug\net8.0\SITRA.API.pdb
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.API\obj\Debug\net8.0\SITRA.API.genruntimeconfig.cache
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.API\obj\Debug\net8.0\ref\SITRA.API.dll
+C:\Users\rflorentino\Desktop\SitraAPI\SITRA.API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

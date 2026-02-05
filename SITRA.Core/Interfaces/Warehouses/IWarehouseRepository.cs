@@ -11,5 +11,6 @@ namespace SITRA.Core.Interfaces.Warehouses
         Task<IEnumerable<Warehouse>> GetUnregisteredWarehouseById(Guid id);
         Task<bool> Exists(Guid id, string code);
         Task<int> TotalWarehousesAddedAsync();
+        Task<bool> SetDefault(Guid id);
     }
 }

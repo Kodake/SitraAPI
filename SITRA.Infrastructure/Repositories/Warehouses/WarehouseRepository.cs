@@ -66,6 +66,22 @@ namespace SITRA.Infrastructure.Repositories.Warehouses
         {
             return await context.Warehouses.CountAsync(x => x.IsActive);
         }
+
+        public async Task<bool> SetDefault(Guid id)
+        {
+            var warehouse = await context.Warehouses.FindAsync(id);
+            if (warehouse == null) return false;
+
+            var defaults = await context.Warehouses
+                .Where(x => x.IsDefault && x.Id != id)
+                .ToListAsync();
+
+            foreach (var w in defaults)
+                w.IsDefault = false;
+
+            warehouse.IsDefault = true;
+            return true;
+        }
     }
 }
 

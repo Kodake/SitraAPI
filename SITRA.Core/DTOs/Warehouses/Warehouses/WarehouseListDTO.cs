@@ -12,6 +12,7 @@ namespace SITRA.Core.DTOs.Warehouses.Warehouses
         public string? City { get; set; }
         public string? Country { get; set; }
         public string? ZipCode { get; set; }
+        public bool IsDefault { get; set; }
         public bool IsActive { get; set; }
         public List<StockDTO> Stocks { get; set; } = [];
         public DateTimeOffset CreatedAt { get; set; }

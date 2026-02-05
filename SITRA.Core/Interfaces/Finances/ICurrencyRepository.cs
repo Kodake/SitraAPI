@@ -7,5 +7,6 @@ namespace SITRA.Core.Interfaces.Finances
     {
         Task<List<Currency>> GetCurrencies();
         Task<bool> Exists(Guid id, string code);
+        Task<bool> SetDefault(Guid id);
     }
 }

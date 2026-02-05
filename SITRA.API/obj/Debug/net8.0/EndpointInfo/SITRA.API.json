@@ -1471,6 +1471,32 @@
         }
       }
     },
+    "/api/v1/currencies/{id}/set-default": {
+      "patch": {
+        "tags": [
+          "CurrenciesEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found"
+          },
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/v1/currencies/{id}/deactivate": {
       "delete": {
         "tags": [
@@ -6492,6 +6518,32 @@
         }
       }
     },
+    "/api/v1/warehouses/{id}/set-default": {
+      "patch": {
+        "tags": [
+          "WarehousesEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found"
+          },
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/v1/warehouses/{id}/deactivate": {
       "delete": {
         "tags": [
@@ -8198,6 +8250,9 @@
           "rate": {
             "type": "number",
             "format": "double"
+          },
+          "isDefault": {
+            "type": "boolean"
           },
           "isActive": {
             "type": "boolean"
@@ -11482,6 +11537,9 @@
             "type": "string",
             "nullable": true
           },
+          "isDefault": {
+            "type": "boolean"
+          },
           "isActive": {
             "type": "boolean"
           },
@@ -11610,6 +11668,9 @@
           "zipCode": {
             "type": "string",
             "nullable": true
+          },
+          "isDefault": {
+            "type": "boolean"
           },
           "isActive": {
             "type": "boolean"

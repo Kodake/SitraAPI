@@ -23,6 +23,22 @@ namespace SITRA.Infrastructure.Repositories.Finances
         {
             return await context.Currencies.AnyAsync(x => x.Id != id && x.Code == code);
         }
+
+        public async Task<bool> SetDefault(Guid id)
+        {
+            var currency = await context.Currencies.FindAsync(id);
+            if (currency == null) return false;
+
+            var defaults = await context.Currencies
+                .Where(x => x.IsDefault && x.Id != id)
+                .ToListAsync();
+
+            foreach (var c in defaults)
+                c.IsDefault = false;
+
+            currency.IsDefault = true;
+            return true;
+        }
     }
 }
 
