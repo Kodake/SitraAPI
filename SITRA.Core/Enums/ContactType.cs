@@ -4,7 +4,6 @@ namespace SITRA.Core.Enums
     {
         Customer = 1,
         Provider = 2,
-        Both = 3,
-        Biller = 4
+        Biller = 3
     }
 }
