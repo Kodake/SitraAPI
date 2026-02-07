@@ -172,6 +172,12 @@ namespace SITRA.Core.Helpers
             return string.Format(message!, minDate.ToString("yyyy-MM-dd"));
         }
 
+        public static string MonthlySalesLimitReachedMessage(int limit, string plan)
+        {
+            var message = _resourceManager.GetString("MonthlySalesLimitReachedMessage");
+            return string.Format(message!, limit, plan);
+        }
+
         public static bool FirstCharUppercase(string valor)
         {
             if (string.IsNullOrWhiteSpace(valor))

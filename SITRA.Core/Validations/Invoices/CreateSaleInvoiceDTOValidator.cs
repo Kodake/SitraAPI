@@ -1,9 +1,13 @@
 using FluentValidation;
 using SITRA.Core.DTOs.Invoices.SaleInvoices;
 using SITRA.Core.Entities.AdministrativeTools;
+using SITRA.Core.Entities.Tenants;
 using SITRA.Core.Enums;
 using SITRA.Core.Helpers;
 using SITRA.Core.Interfaces;
+
+using Microsoft.Extensions.Localization;
+
 
 namespace SITRA.Core.Validations.Invoices
 {
@@ -20,6 +24,49 @@ namespace SITRA.Core.Validations.Invoices
                 })
                 .WithMessage(Utilities.UserNotAuthMessage)
                 .WithName("User");
+
+            // Plan Limit Validation (Moved from Command)
+            RuleFor(x => x)
+                .MustAsync(async (dto, cancellation) =>
+                {
+                    var user = await unitOfWork.UserService.GetUserAsync();
+                    if (user != null)
+                    {
+                        var tenant = await unitOfWork.Repository<Tenant>().GetByIdAsync(user.TenantId);
+                        var monthlySalesLimit = unitOfWork.PlanService.GetMaxMonthlySales(tenant!.Plan);
+
+                        if (monthlySalesLimit.HasValue)
+                        {
+                            var currentMonth = DateTime.UtcNow.Month;
+                            var currentYear = DateTime.UtcNow.Year;
+
+                            var salesCount = await unitOfWork.SaleInvoiceRepository
+                                .CountAsync(x => x.Date.Month == currentMonth && x.Date.Year == currentYear);
+
+                            if (salesCount >= monthlySalesLimit.Value)
+                            {
+                                return false; // Validation failed
+                            }
+                        }
+                    }
+                    return true;
+                })
+                .WithMessage((dto) =>
+                {
+                    // Re-fetch logic to format message properly might be expensive or redundant, 
+                    // but needed for context in message builder if we don't store state.
+                    // Ideally we could use context to pass data but for now we re-fetch.
+                    var user = unitOfWork.UserService.GetUserAsync().Result;
+                    if (user != null)
+                    {
+                        var tenant = unitOfWork.Repository<Tenant>().GetByIdAsync(user.TenantId).Result;
+                        var monthlySalesLimit = unitOfWork.PlanService.GetMaxMonthlySales(tenant!.Plan);
+                        return Utilities.MonthlySalesLimitReachedMessage(monthlySalesLimit ?? 0, tenant.Plan.ToString());
+                    }
+                    return "Limit reached";
+                })
+                .WithName("PlanLimit");
+
 
             // Petty cash existence validation
             RuleFor(x => x)

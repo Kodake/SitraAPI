@@ -490,3 +490,4 @@ C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Tests\obj\Debug\net8.0\refint\SITRA.
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Tests\obj\Debug\net8.0\SITRA.Tests.pdb
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Tests\obj\Debug\net8.0\SITRA.Tests.genruntimeconfig.cache
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Tests\obj\Debug\net8.0\ref\SITRA.Tests.dll
+C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Tests\bin\Debug\net8.0\en\SITRA.Core.resources.dll

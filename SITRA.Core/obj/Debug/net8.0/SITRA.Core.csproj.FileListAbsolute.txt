@@ -47,6 +47,7 @@ C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Debug\net8.0\refint\SITRA.Core.dll
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Debug\net8.0\SITRA.Core.pdb
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Debug\net8.0\ref\SITRA.Core.dll
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Core\obj\Debug\net8.0\swae.build.ex.cache
+C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\bin\Debug\net8.0\SITRA.Core.staticwebassets.endpoints.json
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\bin\Debug\net8.0\LatoFont\Lato-Black.ttf
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\bin\Debug\net8.0\LatoFont\Lato-BlackItalic.ttf
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\bin\Debug\net8.0\LatoFont\Lato-Bold.ttf
@@ -66,14 +67,14 @@ C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\bin\Debug\net8.0\LatoFont\Lato-
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\bin\Debug\net8.0\LatoFont\Lato-Thin.ttf
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\bin\Debug\net8.0\LatoFont\Lato-ThinItalic.ttf
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\bin\Debug\net8.0\LatoFont\OFL.txt
-C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\bin\Debug\net8.0\SITRA.Core.staticwebassets.endpoints.json
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\bin\Debug\net8.0\SITRA.Core.deps.json
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\bin\Debug\net8.0\SITRA.Core.dll
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\bin\Debug\net8.0\SITRA.Core.pdb
+C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\bin\Debug\net8.0\en\SITRA.Core.resources.dll
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\bin\Debug\net8.0\es\SITRA.Core.resources.dll
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\obj\Debug\net8.0\SITRA.Core.csproj.AssemblyReference.cache
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\obj\Debug\net8.0\rpswa.dswa.cache.json
-C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\obj\Debug\net8.0\SITRA.Core.Resources.ValidationMessages.resources
+C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\obj\Debug\net8.0\SITRA.Core.Resources.ValidationMessages.en.resources
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\obj\Debug\net8.0\SITRA.Core.Resources.ValidationMessages.es.resources
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\obj\Debug\net8.0\SITRA.Core.csproj.GenerateResource.cache
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\obj\Debug\net8.0\SITRA.Core.GeneratedMSBuildEditorConfig.editorconfig
@@ -81,6 +82,7 @@ C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\obj\Debug\net8.0\SITRA.Core.Ass
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\obj\Debug\net8.0\SITRA.Core.AssemblyInfo.cs
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\obj\Debug\net8.0\SITRA.Core.csproj.CoreCompileInputs.cache
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\obj\Debug\net8.0\SITRA.Core.sourcelink.json
+C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\obj\Debug\net8.0\en\SITRA.Core.resources.dll
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\obj\Debug\net8.0\es\SITRA.Core.resources.dll
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\obj\Debug\net8.0\rjimswa.dswa.cache.json
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Core\obj\Debug\net8.0\rjsmrazor.dswa.cache.json

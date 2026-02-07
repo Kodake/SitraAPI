@@ -2,14 +2,14 @@ using FluentValidation;
 using SITRA.Core.DTOs.Invoices.SaleInvoices;
 using SITRA.Core.Enums;
 using SITRA.Core.Helpers;
+using SITRA.Core.Helpers;
 using SITRA.Core.Interfaces;
 
 namespace SITRA.Core.Validations.Invoices
 {
     public class CreateQuotationDTOValidator : AbstractValidator<CreateQuotationDTO>
     {
-        public CreateQuotationDTOValidator(
-            IUnitOfWork unitOfWork)
+        public CreateQuotationDTOValidator(IUnitOfWork unitOfWork)
         {
             RuleFor(x => x.PricingId)
                 .MustAsync(async (id, _) => await unitOfWork.PricingRepository.ExistsAsync(id))

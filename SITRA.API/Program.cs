@@ -97,6 +97,7 @@ builder.Services.AddOutputCache();
 builder.Services.AddMemoryCache();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICurrentTenantService, CurrentTenantService>();
+builder.Services.AddScoped<IPlanService, PlanService>();
 
 // Global Exception Handler
 builder.Services.AddExceptionHandler<SITRA.API.ExceptionHandlers.GlobalExceptionHandler>();

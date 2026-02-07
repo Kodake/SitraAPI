@@ -69,6 +69,7 @@ namespace SITRA.Infrastructure.Repositories
         public IPettyCashMovementRepository PettyCashMovementRepository { get; }
         public IAppointmentRepository AppointmentRepository { get; }
         public IUserService UserService { get; }
+        public IPlanService PlanService { get; }
         public IFileStorageService FileStorageService { get; }
 
         public UnitOfWork(
@@ -111,6 +112,7 @@ namespace SITRA.Infrastructure.Repositories
             PettyCashMovementRepository = new PettyCashMovementRepository(context, httpContextAccessor);
             AppointmentRepository = new AppointmentRepository(context, httpContextAccessor);
             UserService = new UserService(context, httpContextAccessor, userManager);
+            PlanService = new PlanService();
             FileStorageService = new AzureFileService(configuration);
 
             _context = context;

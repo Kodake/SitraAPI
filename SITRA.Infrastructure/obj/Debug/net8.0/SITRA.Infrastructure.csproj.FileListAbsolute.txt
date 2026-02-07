@@ -63,6 +63,7 @@ C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Infrastructure\bin\Debug\net8.0\SITR
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Infrastructure\bin\Debug\net8.0\SITRA.Infrastructure.pdb
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Infrastructure\bin\Debug\net8.0\SITRA.Core.dll
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Infrastructure\bin\Debug\net8.0\SITRA.Core.pdb
+C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Infrastructure\bin\Debug\net8.0\en\SITRA.Core.resources.dll
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Infrastructure\bin\Debug\net8.0\es\SITRA.Core.resources.dll
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Infrastructure\obj\Debug\net8.0\SITRA.Infrastructure.csproj.AssemblyReference.cache
 C:\Users\rflorentino\Desktop\SitraAPI\SITRA.Infrastructure\obj\Debug\net8.0\SITRA.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig

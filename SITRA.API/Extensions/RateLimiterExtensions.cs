@@ -34,14 +34,17 @@ namespace SITRA.API.Extensions
                             {
                                 switch (tenant.Plan)
                                 {
-                                    case SITRA.Core.Enums.PlanType.Basic:
-                                        permitLimit = 250;
+                                    case SITRA.Core.Enums.PlanType.Full:
+                                        permitLimit = 1000;
                                         break;
                                     case SITRA.Core.Enums.PlanType.Premium:
                                         permitLimit = 500;
                                         break;
+                                    case SITRA.Core.Enums.PlanType.Free:
+                                        permitLimit = 250;
+                                        break;
                                     default: // Free
-                                        permitLimit = 100;
+                                        permitLimit = 50;
                                         break;
                                 }
 

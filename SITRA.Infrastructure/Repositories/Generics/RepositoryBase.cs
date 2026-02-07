@@ -81,8 +81,10 @@ namespace SITRA.Infrastructure.Repositories.Generics
         {
             return await context.Set<T>().AnyAsync(e => EF.Property<Guid>(e, "Id") == id);
         }
+
+        public async Task<int> CountAsync(Expression<Func<T, bool>> filter)
+        {
+            return await context.Set<T>().CountAsync(filter);
+        }
     }
-
-
-
 }

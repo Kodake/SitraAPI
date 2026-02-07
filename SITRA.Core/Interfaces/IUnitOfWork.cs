@@ -48,6 +48,7 @@ namespace SITRA.Core.Interfaces
         IPettyCashMovementRepository PettyCashMovementRepository { get; }
         IAppointmentRepository AppointmentRepository { get; }
         IUserService UserService { get; }
+        IPlanService PlanService { get; }
         IFileStorageService FileStorageService { get; }
         Task<int> SaveChangesAsync();
     }

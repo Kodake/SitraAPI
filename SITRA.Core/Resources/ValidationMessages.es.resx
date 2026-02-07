@@ -46,6 +46,7 @@
       </xsd:complexType>
     </xsd:element>
   </xsd:schema>
+
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
@@ -411,5 +412,8 @@
   </data>
   <data name="RncLabel" xml:space="preserve">
     <value>RNC:</value>
+  </data>
+  <data name="MonthlySalesLimitReachedMessage" xml:space="preserve">
+    <value>Se ha alcanzado el límite mensual de ventas de {0} para su plan ({1}). Actualice su plan para aumentar el límite.</value>
   </data>
 </root>

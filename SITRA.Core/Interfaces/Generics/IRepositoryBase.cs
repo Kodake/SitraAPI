@@ -13,5 +13,6 @@ namespace SITRA.Core.Interfaces.Generics
         Task ActivateAsync(Guid id);
         Task DeactivateAsync(Guid id);
         Task<bool> ExistsAsync(Guid id);
+        Task<int> CountAsync(Expression<Func<T, bool>> filter);
     }
 }
