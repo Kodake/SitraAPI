@@ -16,6 +16,7 @@ namespace SITRA.Core.Entities.AdministrativeTools
         public long SpaceNumber { get; set; }
         public Guid WarehouseId { get; set; }
         public Warehouse Warehouse { get; set; } = null!;
+        public bool IsDefault { get; set; }
         public bool IsActive { get; set; } = true;
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }

@@ -26,6 +26,7 @@ namespace SITRA.API.Endpoints
             group.MapPut("/{id:guid}", Update).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreatePricingDTO>>()
                 .WithOpenApi().RequireAuthorization();
+            group.MapPatch("/{id:guid}/set-default", SetDefault).RequireAuthorization();
             return group;
         }
 
@@ -81,6 +82,15 @@ namespace SITRA.API.Endpoints
             IOutputCacheStore outputCacheStore)
         {
             var command = new UpdatePricingCommand(id, dto);
+            var success = await mediator.Send(command, default);
+            return success ? TypedResults.Ok() : TypedResults.NotFound();
+        }
+
+        static async Task<Results<NotFound, Ok>> SetDefault(
+            [FromRoute] Guid id,
+            [FromServices] IMediator mediator)
+        {
+            var command = new SetDefaultPricingCommand(id);
             var success = await mediator.Send(command, default);
             return success ? TypedResults.Ok() : TypedResults.NotFound();
         }

@@ -40,6 +40,22 @@ namespace SITRA.Infrastructure.Repositories.Products
         {
             return await context.Pricings.AnyAsync(x => x.Id != id && x.Name == name);
         }
+
+        public async Task<bool> SetDefault(Guid id)
+        {
+            var pricing = await context.Pricings.FindAsync(id);
+            if (pricing == null) return false;
+
+            var defaults = await context.Pricings
+                .Where(x => x.IsDefault && x.Id != id)
+                .ToListAsync();
+
+            foreach (var p in defaults)
+                p.IsDefault = false;
+
+            pricing.IsDefault = true;
+            return true;
+        }
     }
 }
 

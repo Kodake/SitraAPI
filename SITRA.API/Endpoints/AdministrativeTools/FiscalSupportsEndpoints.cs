@@ -29,6 +29,7 @@ namespace SITRA.API.Endpoints
                 .AddEndpointFilter<ValidationFilter<CreateFiscalSupportDTO>>()
                 .WithOpenApi().RequireAuthorization();
             group.MapPatch("/{id:guid}/activate", Activate).RequireAuthorization();
+            group.MapPatch("/{id:guid}/set-default", SetDefault).RequireAuthorization();
             group.MapDelete("/{id:guid}/deactivate", Deactivate).RequireAuthorization();
             return group;
         }
@@ -105,6 +106,15 @@ namespace SITRA.API.Endpoints
             IOutputCacheStore outputCacheStore)
         {
             var command = new DeactivateFiscalSupportCommand(id);
+            var result = await mediator.Send(command);
+            return result ? TypedResults.Ok() : TypedResults.NotFound();
+        }
+
+        static async Task<Results<NotFound, Ok>> SetDefault(
+            [FromRoute] Guid id,
+            [FromServices] IMediator mediator)
+        {
+            var command = new SetDefaultFiscalSupportCommand(id);
             var result = await mediator.Send(command);
             return result ? TypedResults.Ok() : TypedResults.NotFound();
         }

@@ -2225,6 +2225,32 @@
         }
       }
     },
+    "/api/v1/fiscalSupports/{id}/set-default": {
+      "patch": {
+        "tags": [
+          "FiscalSupportsEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found"
+          },
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/v1/fiscalSupports/{id}/deactivate": {
       "delete": {
         "tags": [
@@ -3333,6 +3359,32 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/api/v1/pricings/{id}/set-default": {
+      "patch": {
+        "tags": [
+          "PricingsEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found"
+          },
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -7013,8 +7065,8 @@
             "format": "double"
           },
           "brandId": {
-            "type": "integer",
-            "format": "int32",
+            "type": "string",
+            "format": "uuid",
             "nullable": true
           },
           "brand": {
@@ -7029,8 +7081,8 @@
             "$ref": "#/components/schemas/ModelDTO"
           },
           "categoryId": {
-            "type": "integer",
-            "format": "int32",
+            "type": "string",
+            "format": "uuid",
             "nullable": true
           },
           "category": {
@@ -7045,8 +7097,8 @@
             "$ref": "#/components/schemas/SubCategoryDTO"
           },
           "unitId": {
-            "type": "integer",
-            "format": "int32",
+            "type": "string",
+            "format": "uuid",
             "nullable": true
           },
           "unit": {
@@ -7055,8 +7107,8 @@
           "taxIds": {
             "type": "array",
             "items": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string",
+              "format": "uuid"
             },
             "nullable": true
           },
@@ -8472,6 +8524,9 @@
           "warehouse": {
             "$ref": "#/components/schemas/Warehouse"
           },
+          "isDefault": {
+            "type": "boolean"
+          },
           "isActive": {
             "type": "boolean"
           },
@@ -8571,6 +8626,9 @@
           },
           "warehouse": {
             "$ref": "#/components/schemas/WarehouseDTO"
+          },
+          "isDefault": {
+            "type": "boolean"
           },
           "isActive": {
             "type": "boolean"
@@ -9519,6 +9577,9 @@
             "format": "double",
             "nullable": true
           },
+          "isDefault": {
+            "type": "boolean"
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -9560,6 +9621,9 @@
             "type": "number",
             "format": "double",
             "nullable": true
+          },
+          "isDefault": {
+            "type": "boolean"
           },
           "createdAt": {
             "type": "string",
@@ -9707,6 +9771,9 @@
             "type": "number",
             "format": "double",
             "nullable": true
+          },
+          "isDefault": {
+            "type": "boolean"
           },
           "createdAt": {
             "type": "string",

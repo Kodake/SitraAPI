@@ -81,6 +81,22 @@ namespace SITRA.Infrastructure.Repositories.AdministrativeTools
             return await context.FiscalSupports
                 .FirstOrDefaultAsync(x => x.FiscalSupportType == fiscalSupportType && x.WarehouseId == warehouseId);
         }
+
+        public async Task<bool> SetDefault(Guid id)
+        {
+            var fiscalSupport = await context.FiscalSupports.FindAsync(id);
+            if (fiscalSupport == null) return false;
+
+            var defaults = await context.FiscalSupports
+                .Where(x => x.IsDefault && x.Id != id)
+                .ToListAsync();
+
+            foreach (var f in defaults)
+                f.IsDefault = false;
+
+            fiscalSupport.IsDefault = true;
+            return true;
+        }
     }
 }
 

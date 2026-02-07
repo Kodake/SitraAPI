@@ -15,5 +15,6 @@ namespace SITRA.Core.Interfaces.AdministrativeTools
             Guid warehouseId);
         Task<bool> Exists(Guid id, string code);
         Task<FiscalSupport?> GetByTypeAndWarehouseAsync(FiscalSupportType fiscalSupportType, Guid warehouseId);
+        Task<bool> SetDefault(Guid id);
     }
 }
