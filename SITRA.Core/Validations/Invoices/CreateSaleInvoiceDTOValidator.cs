@@ -118,6 +118,21 @@ namespace SITRA.Core.Validations.Invoices
                 .WithMessage(Utilities.FiscalSupportNotFoundMessage)
                 .When(x => x.FiscalSupportId.HasValue);
 
+            // Fiscal support sequence limit validation
+            RuleFor(x => x.FiscalSupportId)
+                .MustAsync(async (id, cancellation) =>
+                {
+                    if (!id.HasValue) return true;
+                    var fiscalSupport = await unitOfWork.FiscalSupportRepository.GetByIdAsync(id.Value);
+                    return fiscalSupport!.InitialSequence < fiscalSupport.FinalSequence;
+                })
+                .When(x => x.FiscalSupportId.HasValue)
+                .WithMessage((dto) =>
+                {
+                    var fiscalSupport = unitOfWork.FiscalSupportRepository.GetByIdAsync(dto.FiscalSupportId!.Value).Result;
+                    return Utilities.FiscalSupportSequenceLimitReachedMessage(fiscalSupport!.FinalSequence);
+                });
+
             // Invoice items validation - each item must exist
             RuleForEach(x => x.InvoiceItems)
                 .ChildRules(item =>

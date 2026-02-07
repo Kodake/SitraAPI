@@ -178,6 +178,12 @@ namespace SITRA.Core.Helpers
             return string.Format(message!, limit, plan);
         }
 
+        public static string FiscalSupportSequenceLimitReachedMessage(long maxSequence)
+        {
+            var message = _resourceManager.GetString("FiscalSupportSequenceLimitReachedMessage");
+            return string.Format(message!, maxSequence);
+        }
+
         public static bool FirstCharUppercase(string valor)
         {
             if (string.IsNullOrWhiteSpace(valor))

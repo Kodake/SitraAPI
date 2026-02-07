@@ -416,4 +416,7 @@
   <data name="MonthlySalesLimitReachedMessage" xml:space="preserve">
     <value>Monthly sales limit of {0} reached for your plan ({1}). Upgrade your plan to increase limit.</value>
   </data>
+  <data name="FiscalSupportSequenceLimitReachedMessage" xml:space="preserve">
+    <value>You've reached the limit of fiscal support max sequence ({0}). Please configure a new fiscal support.</value>
+  </data>
 </root>

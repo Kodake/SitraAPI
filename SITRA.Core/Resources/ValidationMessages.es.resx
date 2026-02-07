@@ -416,4 +416,7 @@
   <data name="MonthlySalesLimitReachedMessage" xml:space="preserve">
     <value>Se ha alcanzado el límite mensual de ventas de {0} para su plan ({1}). Actualice su plan para aumentar el límite.</value>
   </data>
+  <data name="FiscalSupportSequenceLimitReachedMessage" xml:space="preserve">
+    <value>Ha alcanzado el límite de secuencia máxima del comprobante fiscal ({0}). Por favor, configure un nuevo comprobante fiscal.</value>
+  </data>
 </root>
