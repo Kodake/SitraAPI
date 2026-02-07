@@ -160,20 +160,11 @@ app.UseMiddleware<SITRA.API.Middlewares.IpBlockingMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseRateLimiter();
 
-// Localization Middleware
-app.Use(async (context, next) =>
-{
-    var languageClaim = context.User.FindFirst("language")?.Value;
-    if (!string.IsNullOrEmpty(languageClaim))
-    {
-        var culture = new System.Globalization.CultureInfo(languageClaim);
-        System.Globalization.CultureInfo.CurrentCulture = culture;
-        System.Globalization.CultureInfo.CurrentUICulture = culture;
-    }
-    await next();
-});
+// Localization Middleware - must be after authentication
+app.UseMiddleware<SITRA.API.Middlewares.LocalizationMiddleware>();
+
+app.UseRateLimiter();
 
 app.MapApiRoutes();
 

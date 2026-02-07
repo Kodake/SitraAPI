@@ -11,7 +11,7 @@ namespace SITRA.Core.DTOs.AdministrativeTools.FiscalSupports
         public string Name { get; set; } = string.Empty;
         public long InitialSequence { get; set; }
         public long FinalSequence { get; set; }
-        public string? FiscalSupportNumber { get; set; } = string.Empty;
+        public string FiscalSupportNumber { get; set; } = string.Empty;
         public Guid WarehouseId { get; set; }
         public WarehouseDTO Warehouse { get; set; } = null!;
         public DateTimeOffset CreatedAt { get; set; }

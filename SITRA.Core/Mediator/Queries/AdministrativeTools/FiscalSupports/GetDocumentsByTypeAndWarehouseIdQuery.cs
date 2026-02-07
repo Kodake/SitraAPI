@@ -5,20 +5,27 @@ using SITRA.Core.Interfaces;
 
 namespace SITRA.Core.Mediator.Queries.Products.Items
 {
-    public class GetDocumentsByTypeIdAndWarehouseIdQuery(FiscalSupportType supportType, Guid warehouseId) : IQuery<FiscalSupportDTO>
+    public class GetDocumentsByTypeIdAndWarehouseIdQuery(FiscalSupportType supportType, Guid warehouseId) : IQuery<FiscalSupportDTO?>
     {
         public FiscalSupportType SupportType { get; } = supportType;
         public Guid WarehouseId { get; } = warehouseId;
 
-        public async Task<FiscalSupportDTO> GetData(
+        public async Task<FiscalSupportDTO?> GetData(
             IUnitOfWork unitOfWork,
             IMapper mapper,
             CancellationToken cancellationToken)
         {
-            var documents = await unitOfWork.FiscalSupportRepository.GetByDocumentTypeAndWarehouseIdAsync(SupportType, WarehouseId);
-            var documentsDTO = mapper.Map<FiscalSupportDTO>(documents);
-            documentsDTO.FiscalSupportNumber = documents?.GetNextFiscalSupportNumber();
-            return documentsDTO;
+            var fiscalSupport = await unitOfWork
+                .FiscalSupportRepository
+                .GetByDocumentTypeAndWarehouseIdAsync(SupportType, WarehouseId);
+
+            if (fiscalSupport is null)
+                return null;
+
+            var dto = mapper.Map<FiscalSupportDTO>(fiscalSupport);
+            dto.FiscalSupportNumber = fiscalSupport.GetNextFiscalSupportNumber();
+
+            return dto;
         }
     }
 }

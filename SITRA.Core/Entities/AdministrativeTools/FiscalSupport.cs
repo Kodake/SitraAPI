@@ -33,7 +33,7 @@ namespace SITRA.Core.Entities.AdministrativeTools
 
             InitialSequence++;
         }
-        public string? GetNextFiscalSupportNumber()
+        public string GetNextFiscalSupportNumber()
         {
             if (InitialSequence >= FinalSequence)
                 return null;
