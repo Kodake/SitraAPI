@@ -7600,19 +7600,11 @@
             "type": "string",
             "nullable": true
           },
-          "symbol": {
-            "type": "string",
-            "nullable": true
-          },
           "initialSequence": {
             "type": "integer",
             "format": "int64"
           },
           "finalSequence": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "spaceNumber": {
             "type": "integer",
             "format": "int64"
           },
@@ -8503,7 +8495,8 @@
           },
           "symbol": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "readOnly": true
           },
           "initialSequence": {
             "type": "integer",
@@ -8515,7 +8508,8 @@
           },
           "spaceNumber": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "readOnly": true
           },
           "warehouseId": {
             "type": "string",
@@ -8563,10 +8557,6 @@
             "type": "string",
             "nullable": true
           },
-          "symbol": {
-            "type": "string",
-            "nullable": true
-          },
           "initialSequence": {
             "type": "integer",
             "format": "int64"
@@ -8575,18 +8565,13 @@
             "type": "integer",
             "format": "int64"
           },
-          "spaceNumber": {
-            "type": "integer",
-            "format": "int64"
+          "fiscalSupportNumber": {
+            "type": "string",
+            "nullable": true
           },
           "warehouseId": {
             "type": "string",
             "format": "uuid"
-          },
-          "fiscalSupportNumber": {
-            "type": "string",
-            "nullable": true,
-            "readOnly": true
           },
           "warehouse": {
             "$ref": "#/components/schemas/WarehouseDTO"

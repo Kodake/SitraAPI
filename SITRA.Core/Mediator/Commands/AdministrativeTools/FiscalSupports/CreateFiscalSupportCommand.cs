@@ -13,6 +13,7 @@ namespace SITRA.Core.Mediator.Commands.AdministrativeTools.FiscalSupports
         public override async Task<CreateFiscalSupportDTO> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
         {
             var fiscalSupport = mapper.Map<FiscalSupport>(Dto);
+            fiscalSupport.InitializeDefaults();
             await unitOfWork.FiscalSupportRepository.CreateAsync(fiscalSupport);
             await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("fiscalsupports-get", cancellationToken);

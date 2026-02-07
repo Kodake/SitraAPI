@@ -118,19 +118,28 @@ namespace SITRA.Core.Validations.Invoices
                 .WithMessage(Utilities.FiscalSupportNotFoundMessage)
                 .When(x => x.FiscalSupportId.HasValue);
 
-            // Fiscal support sequence limit validation
             RuleFor(x => x.FiscalSupportId)
-                .MustAsync(async (id, cancellation) =>
+                .MustAsync(async (id, _) =>
                 {
                     if (!id.HasValue) return true;
-                    var fiscalSupport = await unitOfWork.FiscalSupportRepository.GetByIdAsync(id.Value);
-                    return fiscalSupport!.InitialSequence < fiscalSupport.FinalSequence;
+
+                    var fiscalSupport = await unitOfWork
+                        .FiscalSupportRepository
+                        .GetByIdAsync(id.Value);
+
+                    return fiscalSupport != null
+                        && fiscalSupport.InitialSequence < fiscalSupport.FinalSequence;
                 })
-                .When(x => x.FiscalSupportId.HasValue)
-                .WithMessage((dto) =>
+                .WithMessage(dto =>
                 {
-                    var fiscalSupport = unitOfWork.FiscalSupportRepository.GetByIdAsync(dto.FiscalSupportId!.Value).Result;
-                    return Utilities.FiscalSupportSequenceLimitReachedMessage(fiscalSupport!.FinalSequence);
+                    var fiscalSupport = unitOfWork
+                        .FiscalSupportRepository
+                        .GetByIdAsync(dto.FiscalSupportId!.Value)
+                        .Result;
+
+                    return Utilities.FiscalSupportSequenceLimitReachedMessage(
+                        fiscalSupport!.FinalSequence
+                    );
                 });
 
             // Invoice items validation - each item must exist
@@ -205,16 +214,26 @@ namespace SITRA.Core.Validations.Invoices
             RuleFor(x => x.FiscalSupportId)
                 .MustAsync(async (id, _) =>
                 {
-                    if (!id.HasValue)
-                        return true;
+                    if (!id.HasValue) return true;
 
-                    var exists = await unitOfWork.FiscalSupportRepository.ExistsAsync(id.Value);
-                    if (!exists) return false;
+                    var fiscalSupport = await unitOfWork
+                        .FiscalSupportRepository
+                        .GetByIdAsync(id.Value);
 
-                    var support = await unitOfWork.FiscalSupportRepository.GetByIdAsync(id.Value);
-                    return TryUpdateFiscalSupportSequence(support!);
+                    return fiscalSupport != null
+                        && fiscalSupport.InitialSequence < fiscalSupport.FinalSequence;
                 })
-                .WithMessage(Utilities.MaximumSupportsReachedMessage);
+                .WithMessage(dto =>
+                {
+                    var fiscalSupport = unitOfWork
+                        .FiscalSupportRepository
+                        .GetByIdAsync(dto.FiscalSupportId!.Value)
+                        .Result;
+
+                    return Utilities.FiscalSupportSequenceLimitReachedMessage(
+                        fiscalSupport!.FinalSequence
+                    );
+                });
 
             RuleFor(x => x)
                 .MustAsync(async (dto, cancellation) =>
@@ -229,16 +248,6 @@ namespace SITRA.Core.Validations.Invoices
                 })
                 .WithMessage(Utilities.QuotationNotFoundMessage)
                 .WithName("QuotationId");
-        }
-
-        private static bool TryUpdateFiscalSupportSequence(FiscalSupport fiscalSupport)
-        {
-            const int increment = 1;
-            var nextSequence = fiscalSupport.InitialSequence + increment;
-            if (nextSequence > fiscalSupport.FinalSequence) return false;
-
-            fiscalSupport.InitialSequence = nextSequence;
-            return true;
         }
     }
 }

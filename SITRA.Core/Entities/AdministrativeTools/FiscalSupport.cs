@@ -10,10 +10,10 @@ namespace SITRA.Core.Entities.AdministrativeTools
         public DocumentType DocumentType { get; set; }
         public FiscalSupportType FiscalSupportType { get; set; }
         public string Name { get; set; } = string.Empty;
-        public string Symbol { get; set; } = string.Empty;
+        public string Symbol { get; private set; } = string.Empty;
         public long InitialSequence { get; set; }
         public long FinalSequence { get; set; }
-        public long SpaceNumber { get; set; }
+        public long SpaceNumber { get; private set; }
         public Guid WarehouseId { get; set; }
         public Warehouse Warehouse { get; set; } = null!;
         public bool IsDefault { get; set; }
@@ -21,5 +21,46 @@ namespace SITRA.Core.Entities.AdministrativeTools
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }
         public Guid TenantId { get; set; }
+        public void InitializeDefaults()
+        {
+            SpaceNumber = 8;
+            Symbol = "0";
+        }
+        public void IncrementSequence()
+        {
+            if (InitialSequence >= FinalSequence)
+                throw new InvalidOperationException("Sequence limit reached");
+
+            InitialSequence++;
+        }
+        public string? GetNextFiscalSupportNumber()
+        {
+            if (InitialSequence >= FinalSequence)
+                return null;
+
+            var fiscalSupportName =
+                Enum.GetName(typeof(FiscalSupportType), FiscalSupportType) ?? "Unknown";
+
+            char symbolChar = Symbol[0];
+            int space = (int)SpaceNumber;
+
+            long nextSequence = InitialSequence + 1;
+
+            var sequence = nextSequence.ToString().PadLeft(space, symbolChar);
+
+            return $"{fiscalSupportName}{sequence}";
+        }
+        public string GenerateFiscalSupportNumber()
+        {
+            var fiscalSupportName =
+                Enum.GetName(typeof(FiscalSupportType), FiscalSupportType) ?? "Unknown";
+
+            char symbolChar = Symbol[0];
+            int space = (int)SpaceNumber;
+
+            var sequence = InitialSequence.ToString().PadLeft(space, symbolChar);
+
+            return $"{fiscalSupportName}{sequence}";
+        }
     }
 }

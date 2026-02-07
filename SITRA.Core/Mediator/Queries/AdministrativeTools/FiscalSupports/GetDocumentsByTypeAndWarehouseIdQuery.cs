@@ -17,6 +17,7 @@ namespace SITRA.Core.Mediator.Queries.Products.Items
         {
             var documents = await unitOfWork.FiscalSupportRepository.GetByDocumentTypeAndWarehouseIdAsync(SupportType, WarehouseId);
             var documentsDTO = mapper.Map<FiscalSupportDTO>(documents);
+            documentsDTO.FiscalSupportNumber = documents?.GetNextFiscalSupportNumber();
             return documentsDTO;
         }
     }

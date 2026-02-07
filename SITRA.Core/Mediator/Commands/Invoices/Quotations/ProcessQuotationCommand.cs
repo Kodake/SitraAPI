@@ -42,7 +42,8 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
 
             if (fiscalSupportDB != null)
             {
-                saleInvoice.FiscalSupportNumber = GenerateFiscalSupportNumber(fiscalSupportDB);
+                fiscalSupportDB.IncrementSequence();
+                saleInvoice.FiscalSupportNumber = fiscalSupportDB.GenerateFiscalSupportNumber();
                 saleInvoice.InvoiceFiscalSupport = new InvoiceFiscalSupport { FiscalSupportId = fiscalSupportDB.Id };
                 unitOfWork.FiscalSupportRepository.Update(fiscalSupportDB);
             }
@@ -264,18 +265,6 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
             pettyCash.ClosingAmount += cashPaymentsTotal;
 
             unitOfWork.PettyCashRepository.Update(pettyCash);
-        }
-
-        private static string GenerateFiscalSupportNumber(FiscalSupport fiscalSupport)
-        {
-            string fiscalSupportName = Enum.GetName(typeof(FiscalSupportType), fiscalSupport.FiscalSupportType) ?? "Unknown";
-            char symbolChar = fiscalSupport.Symbol.Length > 0 ? fiscalSupport.Symbol[0] : '?';
-            int validSpaceNumber = (int)fiscalSupport.SpaceNumber;
-            string repeatedSymbols = new(symbolChar, validSpaceNumber);
-            string sequence = ((int)fiscalSupport.InitialSequence).ToString().PadLeft(validSpaceNumber, symbolChar);
-            string finalSymbols = repeatedSymbols[..^validSpaceNumber] + sequence;
-
-            return $"{fiscalSupportName}{finalSymbols}";
         }
 
         private static async Task<(double basePrice, double taxAmount)> GetItemPricingAndTax(
