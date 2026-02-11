@@ -46,11 +46,12 @@ namespace SITRA.Core.Interfaces
         IWarehouseRepository WarehouseRepository { get; }
         IPettyCashRepository PettyCashRepository { get; }
         IPettyCashMovementRepository PettyCashMovementRepository { get; }
+        IRoleRepository RoleRepository { get; }
         IAppointmentRepository AppointmentRepository { get; }
         IUserService UserService { get; }
         IPlanService PlanService { get; }
         IFileStorageService FileStorageService { get; }
-        Task<int> SaveChangesAsync();
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }
 

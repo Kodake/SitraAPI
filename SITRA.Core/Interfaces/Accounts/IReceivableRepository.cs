@@ -6,8 +6,8 @@ namespace SITRA.Core.Interfaces.Accounts
 {
     public interface IReceivableRepository : IRepositoryBase<Receivable>
     {
-        new Task<List<Receivable>> GetAllAsync(PaginationDTO paginationDTO);
-        Task<Receivable?> GetAllByIdAsync(Guid id);
-        Task<Receivable?> GetPaysByIdAsync(Guid id);
+        new Task<List<Receivable>> GetAllAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default);
+        Task<Receivable?> GetAllByIdAsync(Guid id, CancellationToken cancellationToken = default);
+        Task<Receivable?> GetPaysByIdAsync(Guid id, CancellationToken cancellationToken = default);
     }
 }

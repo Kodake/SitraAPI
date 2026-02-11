@@ -13,7 +13,7 @@ namespace SITRA.Infrastructure.Repositories.AdministrativeTools
         public DeadlineRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
             : base(context, httpContextAccessor) { }
 
-        public async Task<List<Deadline>> GetAll(StatusType status)
+        public async Task<List<Deadline>> GetAll(StatusType status, CancellationToken cancellationToken = default)
         {
             IQueryable<Deadline> query = context.Deadlines.AsQueryable();
 
@@ -30,12 +30,12 @@ namespace SITRA.Infrastructure.Repositories.AdministrativeTools
                     break;
             }
 
-            return await query.OrderBy(u => u.Id).ToListAsync();
+            return await query.OrderBy(u => u.Id).ToListAsync(cancellationToken);
         }
 
-        public async Task<bool> Exists(Guid id, long days)
+        public async Task<bool> Exists(Guid id, long days, CancellationToken cancellationToken = default)
         {
-            return await context.Deadlines.AnyAsync(x => x.Id != id && x.Days == days);
+            return await context.Deadlines.AnyAsync(x => x.Id != id && x.Days == days, cancellationToken);
         }
     }
 }

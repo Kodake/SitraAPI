@@ -10,30 +10,30 @@ namespace SITRA.Infrastructure.Repositories.CashBoxes
 {
     public class PettyCashRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor) : RepositoryBase<PettyCash>(context, httpContextAccessor), IPettyCashRepository
     {
-        public async Task<bool> ExistsOpenAsync(string userId)
+        public async Task<bool> ExistsOpenAsync(string userId, CancellationToken cancellationToken = default)
         {
-            return await context.PettyCashes.AnyAsync(pc => pc.UserId == userId && pc.Status == PettyCashStatus.Open);
+            return await context.PettyCashes.AnyAsync(pc => pc.UserId == userId && pc.Status == PettyCashStatus.Open, cancellationToken);
         }
 
-        public async Task<PettyCash?> GetOpenPettyCashAsync()
-        {
-            return await context.PettyCashes
-                .Include(pc => pc.User)
-                .FirstOrDefaultAsync(pc => pc.Status == PettyCashStatus.Open);
-        }
-
-        public async Task<PettyCash?> GetOpenPettyCashByUserIdAsync(string userId)
+        public async Task<PettyCash?> GetOpenPettyCashAsync(CancellationToken cancellationToken = default)
         {
             return await context.PettyCashes
                 .Include(pc => pc.User)
-                .FirstOrDefaultAsync(pc => pc.UserId == userId && pc.Status == PettyCashStatus.Open);
+                .FirstOrDefaultAsync(pc => pc.Status == PettyCashStatus.Open, cancellationToken);
         }
 
-        public async Task<PettyCash?> GetAllByUserIdAsync(string userId)
+        public async Task<PettyCash?> GetOpenPettyCashByUserIdAsync(string userId, CancellationToken cancellationToken = default)
+        {
+            return await context.PettyCashes
+                .Include(pc => pc.User)
+                .FirstOrDefaultAsync(pc => pc.UserId == userId && pc.Status == PettyCashStatus.Open, cancellationToken);
+        }
+
+        public async Task<PettyCash?> GetAllByUserIdAsync(string userId, CancellationToken cancellationToken = default)
         {
             return await context.PettyCashes
                 .Include(x => x.User)
-                .FirstOrDefaultAsync(x => x.UserId == userId && x.Status == PettyCashStatus.Open);
+                .FirstOrDefaultAsync(x => x.UserId == userId && x.Status == PettyCashStatus.Open, cancellationToken);
         }
     }
 }

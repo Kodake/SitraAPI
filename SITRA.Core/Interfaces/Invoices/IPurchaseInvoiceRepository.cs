@@ -6,13 +6,13 @@ namespace SITRA.Core.Interfaces.Invoices
 {
     public interface IPurchaseInvoiceRepository : IRepositoryBase<Invoice>
     {
-        new Task<List<Invoice>> GetAllAsync(PaginationDTO paginationDTO);
-        new Task<Invoice?> GetByIdAsync(Guid id);
-        Task AddInvoiceItem(InvoiceItem item);
-        Task<List<InvoiceItem>> GetItemsByInvoiceId(Guid invoiceId);
-        Task DeleteInvoiceItemsByInvoiceId(Guid invoiceId);
-        Task<double> Last30DaysPurchasesAsync();
-        Task<List<Invoice>> GetPurchasesByDateRangeAsync(DateTime from, DateTime to, PaginationDTO paginationDTO);
-        Task<List<Invoice>> GetPurchasesReportByDateRangeAsync(DateTime from, DateTime to);
+        new Task<List<Invoice>> GetAllAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default);
+        new Task<Invoice?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+        Task AddInvoiceItem(InvoiceItem item, CancellationToken cancellationToken = default);
+        Task<List<InvoiceItem>> GetItemsByInvoiceId(Guid invoiceId, CancellationToken cancellationToken = default);
+        Task DeleteInvoiceItemsByInvoiceId(Guid invoiceId, CancellationToken cancellationToken = default);
+        Task<double> Last30DaysPurchasesAsync(CancellationToken cancellationToken = default);
+        Task<List<Invoice>> GetPurchasesByDateRangeAsync(DateTime from, DateTime to, PaginationDTO paginationDTO, CancellationToken cancellationToken = default);
+        Task<List<Invoice>> GetPurchasesReportByDateRangeAsync(DateTime from, DateTime to, CancellationToken cancellationToken = default);
     }
 }

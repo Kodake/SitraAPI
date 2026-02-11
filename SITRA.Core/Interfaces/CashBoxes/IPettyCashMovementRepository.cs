@@ -7,11 +7,11 @@ namespace SITRA.Core.Interfaces.CashBoxes
 {
     public interface IPettyCashMovementRepository : IRepositoryBase<PettyCashMovement>
     {
-        Task<List<PettyCashMovement>> GetAllAsync(PaginationDTO paginationDTO, Guid pettyCashId);
-        Task<List<PettyCashMovement>> GetAllWithdrawalsAsync(PaginationDTO paginationDTO, Guid pettyCashId);
-        Task<double> GetTotalWithdrawalsAsync(Guid pettyCashId);
-        Task<double> GetTotalAmountPaidAsync(Guid pettyCashId);
-        Task<Dictionary<object, double>> GetPaymentMethodSumsAsync(Guid pettyCashId);
-        Task<List<PaymentMethodAmountListDTO>> GetPaymentMethodAmountListAsync(Guid pettyCashId);
+        Task<List<PettyCashMovement>> GetAllAsync(PaginationDTO paginationDTO, Guid pettyCashId, CancellationToken cancellationToken = default);
+        Task<List<PettyCashMovement>> GetAllWithdrawalsAsync(PaginationDTO paginationDTO, Guid pettyCashId, CancellationToken cancellationToken = default);
+        Task<double> GetTotalWithdrawalsAsync(Guid pettyCashId, CancellationToken cancellationToken = default);
+        Task<double> GetTotalAmountPaidAsync(Guid pettyCashId, CancellationToken cancellationToken = default);
+        Task<Dictionary<object, double>> GetPaymentMethodSumsAsync(Guid pettyCashId, CancellationToken cancellationToken = default);
+        Task<List<PaymentMethodAmountListDTO>> GetPaymentMethodAmountListAsync(Guid pettyCashId, CancellationToken cancellationToken = default);
     }
 }

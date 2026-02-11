@@ -9,14 +9,14 @@ namespace SITRA.Infrastructure.Repositories.Accounts
 {
     public class PayableReceiptRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor) : RepositoryBase<PayableReceipt>(context, httpContextAccessor), IPayableReceiptRepository
     {
-        public async new Task<PayableReceipt?> GetByIdAsync(Guid id)
+        public async new Task<PayableReceipt?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await context.PayableReceipts
                 .Include(p => p.Payable)
                     .ThenInclude(x => x.Invoice)
                     .ThenInclude(x => x.InvoiceBuyer)
                         .ThenInclude(ib => ib.Buyer)
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
     }
 }

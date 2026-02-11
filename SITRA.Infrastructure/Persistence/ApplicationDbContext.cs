@@ -84,6 +84,7 @@ namespace SITRA.Infrastructure.Persistence
 
             modelBuilder.ApplyConfiguration(new DeadlineConfiguration());
             modelBuilder.ApplyConfiguration(new FiscalSupportConfiguration());
+            modelBuilder.ApplyConfiguration(new RoleConfiguration());
 
             modelBuilder.ApplyConfiguration(new ContactConfiguration());
 
@@ -133,7 +134,7 @@ namespace SITRA.Infrastructure.Persistence
             // Identity ? schema auths
             // ===============================
             modelBuilder.Entity<User>().ToTable("AspNetUsers", "auths");
-            modelBuilder.Entity<IdentityRole>().ToTable("AspNetRoles", "auths");
+            // Role configuration is handled by RoleConfiguration class
             modelBuilder.Entity<IdentityUserRole<string>>().ToTable("AspNetUserRoles", "auths");
             modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("AspNetUserClaims", "auths");
             modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("AspNetRoleClaims", "auths");
@@ -154,6 +155,7 @@ namespace SITRA.Infrastructure.Persistence
         #region DbSets
         public DbSet<IdempotentRequest> IdempotentRequests { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Role> TenantRoles { get; set; }
         public DbSet<Tenant> Tenants { get; set; }
         public DbSet<SubCategory> SubCategories { get; set; }
         public DbSet<Brand> Brands { get; set; }

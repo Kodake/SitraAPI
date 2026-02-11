@@ -18,7 +18,7 @@ namespace SITRA.Infrastructure.Repositories.Appointments
             httpContext = httpContextAccessor.HttpContext!;
         }
 
-        public async new Task<List<Appointment>> GetAllAsync(PaginationDTO paginationDTO)
+        public async new Task<List<Appointment>> GetAllAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
         {
             var queryable = context.Appointments
                 .OrderBy(x => x.Description);
@@ -29,12 +29,12 @@ namespace SITRA.Infrastructure.Repositories.Appointments
                 .Paginate(paginationDTO)
                 .Include(p => p.Contact)
                 .Include(p => p.AppointmentItems)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
 
             return items;
         }
 
-        public async Task<bool> ExistsAtDateTime(DateTimeOffset scheduledAt, Guid? excludeId = null)
+        public async Task<bool> ExistsAtDateTime(DateTimeOffset scheduledAt, Guid? excludeId = null, CancellationToken cancellationToken = default)
         {
             return await context.Appointments.AnyAsync(a =>
                 a.IsActive &&
@@ -43,17 +43,17 @@ namespace SITRA.Infrastructure.Repositories.Appointments
                 a.ScheduledAt.Day == scheduledAt.Day &&
                 a.ScheduledAt.Hour == scheduledAt.Hour &&
                 a.ScheduledAt.Minute == scheduledAt.Minute &&
-                (!excludeId.HasValue || a.Id != excludeId.Value)
+                (!excludeId.HasValue || a.Id != excludeId.Value), cancellationToken
             );
         }
 
-        public async new Task<Appointment?> GetByIdAsync(Guid id)
+        public async new Task<Appointment?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await context.Appointments
                 .Include(a => a.Contact)
                 .Include(a => a.AppointmentItems)
                 .ThenInclude(a => a.Item)
-                .FirstOrDefaultAsync(a => a.Id == id);
+                .FirstOrDefaultAsync(a => a.Id == id, cancellationToken);
         }
     }
 }

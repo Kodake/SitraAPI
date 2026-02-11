@@ -18,7 +18,7 @@ namespace SITRA.Infrastructure.Repositories.Invoices
             httpContext = httpContextAccessor.HttpContext!;
         }
 
-        public async new Task<List<SpotPayable>> GetAllAsync(PaginationDTO paginationDTO)
+        public async new Task<List<SpotPayable>> GetAllAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
         {
             var queryable = context.SpotPayables
                 .Include(x => x.Invoice)
@@ -29,15 +29,15 @@ namespace SITRA.Infrastructure.Repositories.Invoices
             return await queryable
                 .OrderBy(x => x.Id)
                 .Paginate(paginationDTO)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
 
-        public async new Task<SpotPayable?> GetByIdAsync(Guid id)
+        public async new Task<SpotPayable?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await context.SpotPayables
                 .Include(x => x.Invoice)
                 .Include(x => x.Supplier)
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
     }
 }

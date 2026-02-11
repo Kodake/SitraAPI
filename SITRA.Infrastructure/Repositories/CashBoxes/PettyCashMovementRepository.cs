@@ -15,7 +15,7 @@ namespace SITRA.Infrastructure.Repositories.CashBoxes
     {
         private new readonly HttpContext httpContext = httpContextAccessor.HttpContext!;
 
-        public async Task<List<PettyCashMovement>> GetAllAsync(PaginationDTO paginationDTO, Guid pettyCashId)
+        public async Task<List<PettyCashMovement>> GetAllAsync(PaginationDTO paginationDTO, Guid pettyCashId, CancellationToken cancellationToken = default)
         {
             var queryable = context.PettyCashMovements
                 .Include(x => x.Invoice)
@@ -27,10 +27,10 @@ namespace SITRA.Infrastructure.Repositories.CashBoxes
             return await queryable
                 .OrderBy(x => x.Id)
                 .Paginate(paginationDTO)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
 
-        public async Task<List<PettyCashMovement>> GetAllWithdrawalsAsync(PaginationDTO paginationDTO, Guid pettyCashId)
+        public async Task<List<PettyCashMovement>> GetAllWithdrawalsAsync(PaginationDTO paginationDTO, Guid pettyCashId, CancellationToken cancellationToken = default)
         {
             var queryable = context.PettyCashMovements
                 .Include(x => x.PettyCash)
@@ -41,17 +41,17 @@ namespace SITRA.Infrastructure.Repositories.CashBoxes
             return await queryable
                 .OrderBy(x => x.Id)
                 .Paginate(paginationDTO)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
 
-        public async Task<double> GetTotalWithdrawalsAsync(Guid pettyCashId)
+        public async Task<double> GetTotalWithdrawalsAsync(Guid pettyCashId, CancellationToken cancellationToken = default)
         {
             return await context.PettyCashMovements
                 .Where(x => x.PettyCashId == pettyCashId && x.Type == MovementType.CashWithdrawals)
-                .SumAsync(x => x.Amount);
+                .SumAsync(x => x.Amount, cancellationToken);
         }
 
-        public async Task<double> GetTotalAmountPaidAsync(Guid pettyCashId)
+        public async Task<double> GetTotalAmountPaidAsync(Guid pettyCashId, CancellationToken cancellationToken = default)
         {
             return await context.PettyCashMovements
                 .Include(x => x.Invoice)
@@ -59,10 +59,10 @@ namespace SITRA.Infrastructure.Repositories.CashBoxes
                             x.Invoice != null &&
                             x.Invoice.Receivable == null &&
                             x.Invoice.SpotPayment == null)
-                .SumAsync(x => x.Amount);
+                .SumAsync(x => x.Amount, cancellationToken);
         }
 
-        public async Task<Dictionary<object, double>> GetPaymentMethodSumsAsync(Guid pettyCashId)
+        public async Task<Dictionary<object, double>> GetPaymentMethodSumsAsync(Guid pettyCashId, CancellationToken cancellationToken = default)
         {
             var payments = await context.PettyCashMovements
                 .Include(x => x.Invoice)
@@ -76,7 +76,7 @@ namespace SITRA.Infrastructure.Repositories.CashBoxes
                     PaymentMethod = g.Key,
                     TotalAmount = g.Sum(p => p.Amount)
                 })
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
 
             var allMethods = Enum.GetValues(typeof(PaymentMethod)).Cast<PaymentMethod>();
 
@@ -90,7 +90,7 @@ namespace SITRA.Infrastructure.Repositories.CashBoxes
             return result;
         }
 
-        public async Task<List<PaymentMethodAmountListDTO>> GetPaymentMethodAmountListAsync(Guid pettyCashId)
+        public async Task<List<PaymentMethodAmountListDTO>> GetPaymentMethodAmountListAsync(Guid pettyCashId, CancellationToken cancellationToken = default)
         {
             var payments = await context.PettyCashMovements
                 .Include(x => x.Invoice)
@@ -104,7 +104,7 @@ namespace SITRA.Infrastructure.Repositories.CashBoxes
                     PaymentMethod = g.Key,
                     TotalAmount = g.Sum(p => p.Amount)
                 })
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
 
             var allMethods = Enum.GetValues(typeof(PaymentMethod)).Cast<PaymentMethod>();
 

@@ -419,4 +419,31 @@
   <data name="FiscalSupportSequenceLimitReachedMessage" xml:space="preserve">
     <value>Ha alcanzado el límite de secuencia máxima del comprobante fiscal ({0}). Por favor, configure un nuevo comprobante fiscal.</value>
   </data>
+  <data name="RoleNameRequiredMessage" xml:space="preserve">
+    <value>El nombre del rol es requerido</value>
+  </data>
+  <data name="RoleDescriptionRequiredMessage" xml:space="preserve">
+    <value>La descripción del rol es requerida</value>
+  </data>
+  <data name="RoleAlreadyExistsMessage" xml:space="preserve">
+    <value>Ya existe un rol con el nombre '{0}' para este tenant</value>
+  </data>
+  <data name="RoleNotFoundMessage" xml:space="preserve">
+    <value>No se encontró el rol con ID '{0}'</value>
+  </data>
+  <data name="CannotDeleteSystemRoleMessage" xml:space="preserve">
+    <value>Los roles del sistema no pueden ser eliminados</value>
+  </data>
+  <data name="PermissionIdsRequiredMessage" xml:space="preserve">
+    <value>Debe asignar al menos un permiso</value>
+  </data>
+  <data name="InvalidPermissionIdMessage" xml:space="preserve">
+    <value>Uno o más IDs de permisos son inválidos</value>
+  </data>
+  <data name="RoleNameMaxLengthMessage" xml:space="preserve">
+    <value>El nombre del rol no puede exceder 256 caracteres</value>
+  </data>
+  <data name="RoleDescriptionMaxLengthMessage" xml:space="preserve">
+    <value>La descripción del rol no puede exceder 500 caracteres</value>
+  </data>
 </root>

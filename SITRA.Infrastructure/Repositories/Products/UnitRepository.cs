@@ -13,7 +13,7 @@ namespace SITRA.Infrastructure.Repositories.Products
         public UnitRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
             : base(context, httpContextAccessor) { }
 
-        public async Task<List<Unit>> GetAll(StatusType status)
+        public async Task<List<Unit>> GetAll(StatusType status, CancellationToken cancellationToken = default)
         {
             IQueryable<Unit> query = context.Units.AsQueryable();
 
@@ -30,12 +30,12 @@ namespace SITRA.Infrastructure.Repositories.Products
                     break;
             }
 
-            return await query.OrderBy(u => u.Id).ToListAsync();
+            return await query.OrderBy(u => u.Id).ToListAsync(cancellationToken);
         }
 
-        public async Task<bool> Exists(Guid id, string name)
+        public async Task<bool> Exists(Guid id, string name, CancellationToken cancellationToken = default)
         {
-            return await context.Units.AnyAsync(x => x.Id != id && x.Name == name);
+            return await context.Units.AnyAsync(x => x.Id != id && x.Name == name, cancellationToken);
         }
     }
 }

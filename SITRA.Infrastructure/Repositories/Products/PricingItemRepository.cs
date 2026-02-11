@@ -18,7 +18,7 @@ namespace SITRA.Infrastructure.Repositories.Products
             httpContext = httpContextAccessor.HttpContext!;
         }
 
-        public async Task<List<PricingItem>> GetAllAsync(PaginationDTO paginationDTO, Guid itemId)
+        public async Task<List<PricingItem>> GetAllAsync(PaginationDTO paginationDTO, Guid itemId, CancellationToken cancellationToken = default)
         {
             var queryable = context.PricingItems
                 .Where(x => x.ItemId == itemId)
@@ -29,21 +29,21 @@ namespace SITRA.Infrastructure.Repositories.Products
             var items = await queryable
                 .Paginate(paginationDTO)
                 .Include(p => p.Pricing)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
 
             return items;
         }
 
-        public async Task<PricingItem?> GetPricingItemByItemIdAndPricingId(Guid itemId, Guid pricingId)
+        public async Task<PricingItem?> GetPricingItemByItemIdAndPricingId(Guid itemId, Guid pricingId, CancellationToken cancellationToken = default)
         {
-            return await context.PricingItems.FirstOrDefaultAsync(pi => pi.ItemId == itemId && pi.PricingId == pricingId);
+            return await context.PricingItems.FirstOrDefaultAsync(pi => pi.ItemId == itemId && pi.PricingId == pricingId, cancellationToken);
         }
 
-        public async new Task<bool> ActivateAsync(Guid id)
+        public async new Task<bool> ActivateAsync(Guid id, CancellationToken cancellationToken = default)
         {
             var pricingItemToSetPrincipal = await context.PricingItems
                 .Include(pi => pi.Item)
-                .FirstOrDefaultAsync(pi => pi.Id == id);
+                .FirstOrDefaultAsync(pi => pi.Id == id, cancellationToken);
 
             if (pricingItemToSetPrincipal == null)
             {
@@ -52,7 +52,7 @@ namespace SITRA.Infrastructure.Repositories.Products
 
             var pricingItems = await context.PricingItems
                 .Where(pi => pi.ItemId == pricingItemToSetPrincipal.ItemId && pi.Id != id)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
 
             foreach (var pricingItem in pricingItems)
             {
@@ -64,14 +64,14 @@ namespace SITRA.Infrastructure.Repositories.Products
             return true;
         }
 
-        public async Task<bool> ExistsAsync(Guid pricingId, Guid itemId)
+        public async Task<bool> ExistsAsync(Guid pricingId, Guid itemId, CancellationToken cancellationToken = default)
         {
-            return await context.PricingItems.AnyAsync(pi => pi.PricingId == pricingId && pi.ItemId == itemId);
+            return await context.PricingItems.AnyAsync(pi => pi.PricingId == pricingId && pi.ItemId == itemId, cancellationToken);
         }
 
-        public async Task Delete(Guid id)
+        public async Task Delete(Guid id, CancellationToken cancellationToken = default)
         {
-            var pricingItem = await context.PricingItems.FirstOrDefaultAsync(x => x.Id == id);
+            var pricingItem = await context.PricingItems.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
             if (pricingItem != null)
             {
                 context.PricingItems.Remove(pricingItem);

@@ -20,7 +20,7 @@ namespace SITRA.Infrastructure.Repositories.Invoices
             httpContext = httpContextAccessor.HttpContext!;
         }
 
-        public async new Task<List<Invoice>> GetAllAsync(PaginationDTO paginationDTO)
+        public async new Task<List<Invoice>> GetAllAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
         {
             var queryable = context.Invoices
                 .Include(x => x.InvoiceBuyer)
@@ -34,10 +34,10 @@ namespace SITRA.Infrastructure.Repositories.Invoices
                 .Where(x => x.InvoiceType == InvoiceType.Sale)
                 .OrderBy(x => x.Id)
                 .Paginate(paginationDTO)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
 
-        public async new Task<Invoice?> GetByIdAsync(Guid id)
+        public async new Task<Invoice?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await context.Invoices
                 .Include(i => i.InvoiceBuyer)
@@ -58,26 +58,26 @@ namespace SITRA.Infrastructure.Repositories.Invoices
                         .ThenInclude(it => it.ItemTaxes)
                             .ThenInclude(itx => itx.Tax)
 
-                .FirstOrDefaultAsync(i => i.Id == id);
+                .FirstOrDefaultAsync(i => i.Id == id, cancellationToken);
         }
 
-        public async Task AddInvoiceItem(InvoiceItem item)
+        public async Task AddInvoiceItem(InvoiceItem item, CancellationToken cancellationToken = default)
         {
-            await context.InvoiceItems.AddAsync(item);
+            await context.InvoiceItems.AddAsync(item, cancellationToken);
         }
 
-        public async Task<List<InvoiceItem>> GetItemsByInvoiceId(Guid invoiceId)
+        public async Task<List<InvoiceItem>> GetItemsByInvoiceId(Guid invoiceId, CancellationToken cancellationToken = default)
         {
             return await context.InvoiceItems
                 .Where(i => i.InvoiceId == invoiceId)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
 
-        public async Task DeleteInvoiceItemsByInvoiceId(Guid? invoiceId)
+        public async Task DeleteInvoiceItemsByInvoiceId(Guid? invoiceId, CancellationToken cancellationToken = default)
         {
             var items = await context.InvoiceItems
                 .Where(i => i.InvoiceId == invoiceId)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
 
             if (items.Count != 0)
             {
@@ -85,21 +85,21 @@ namespace SITRA.Infrastructure.Repositories.Invoices
             }
         }
 
-        public async Task<int> Last24HoursSaleInvoicesAsync()
+        public async Task<int> Last24HoursSaleInvoicesAsync(CancellationToken cancellationToken = default)
         {
             return await context.Invoices
                 .Where(x => x.InvoiceType == InvoiceType.Sale && x.CreatedAt >= DateTimeOffset.UtcNow.AddDays((double)TimeElapsed.Last24Hours))
-                .CountAsync();
+                .CountAsync(cancellationToken);
         }
 
-        public async Task<double> Last30DaysSalesAsync()
+        public async Task<double> Last30DaysSalesAsync(CancellationToken cancellationToken = default)
         {
             return await context.Invoices
                 .Where(x => x.InvoiceType == InvoiceType.Sale && x.CreatedAt >= DateTimeOffset.UtcNow.AddDays((double)TimeElapsed.Last30Days))
-                .SumAsync(x => x.TotalPrice);
+                .SumAsync(x => x.TotalPrice, cancellationToken);
         }
 
-        public async Task<List<Invoice>> GetSalesByDateRangeAsync(DateTime from, DateTime to, PaginationDTO paginationDTO)
+        public async Task<List<Invoice>> GetSalesByDateRangeAsync(DateTime from, DateTime to, PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
         {
             to = to.Date.AddDays(1).AddTicks(-1);
 
@@ -119,10 +119,10 @@ namespace SITRA.Infrastructure.Repositories.Invoices
             return await queryable
                 .OrderBy(x => x.Id)
                 .Paginate(paginationDTO)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
 
-        public async Task<List<Invoice>> GetSalesReportByDateRangeAsync(DateTime from, DateTime to)
+        public async Task<List<Invoice>> GetSalesReportByDateRangeAsync(DateTime from, DateTime to, CancellationToken cancellationToken = default)
         {
             to = to.Date.AddDays(1).AddTicks(-1);
 
@@ -131,25 +131,25 @@ namespace SITRA.Infrastructure.Repositories.Invoices
                     x.InvoiceType == InvoiceType.Sale &&
                     x.CreatedAt >= from &&
                     x.CreatedAt <= to
-                ).ToListAsync();
+                ).ToListAsync(cancellationToken);
         }
 
-        public async Task<BalanceSummaryDTO> GetBalanceAsync(DateTimeOffset from, DateTimeOffset to)
+        public async Task<BalanceSummaryDTO> GetBalanceAsync(DateTimeOffset from, DateTimeOffset to, CancellationToken cancellationToken = default)
         {
             to = to.Date.AddDays(1).AddTicks(-1);
 
             var expenses = await context.Expenses
                 .Where(x => x.Date >= from && x.Date <= to && x.IsActive)
-                .SumAsync(x => x.Amount);
+                .SumAsync(x => x.Amount, cancellationToken);
 
             var spotSales = await context.SpotPayments
                 .Include(sp => sp.Invoice)
                 .Where(sp => sp.Invoice.CreatedAt >= from && sp.Invoice.CreatedAt <= to && sp.IsActive)
-                .SumAsync(sp => sp.Invoice.TotalPrice);
+                .SumAsync(sp => sp.Invoice.TotalPrice, cancellationToken);
 
             var receivablePayments = await context.PaymentReceipts
                 .Where(pr => pr.CreatedAt >= from && pr.CreatedAt <= to && pr.IsActive)
-                .SumAsync(pr => pr.Amount);
+                .SumAsync(pr => pr.Amount, cancellationToken);
 
             var totalIncome = spotSales + receivablePayments;
 

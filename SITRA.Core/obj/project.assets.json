@@ -1410,11 +1410,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\rflorentino\\Desktop\\SitraAPI\\SITRA.Core\\SITRA.Core.csproj",
+      "projectUniqueName": "C:\\Users\\rflorentino\\Desktop\\src\\SitraAPI\\SITRA.Core\\SITRA.Core.csproj",
       "projectName": "SITRA.Core",
-      "projectPath": "C:\\Users\\rflorentino\\Desktop\\SitraAPI\\SITRA.Core\\SITRA.Core.csproj",
+      "projectPath": "C:\\Users\\rflorentino\\Desktop\\src\\SitraAPI\\SITRA.Core\\SITRA.Core.csproj",
       "packagesPath": "C:\\Users\\rflorentino\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\rflorentino\\Desktop\\SitraAPI\\SITRA.Core\\obj\\",
+      "outputPath": "C:\\Users\\rflorentino\\Desktop\\src\\SitraAPI\\SITRA.Core\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

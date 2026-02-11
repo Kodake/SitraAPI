@@ -14,13 +14,13 @@ namespace SITRA.Infrastructure.Repositories.Products
             : base(context, httpContextAccessor)
         { }
 
-        public async Task<bool> Exists(Guid id, ItemType itemType)
+        public async Task<bool> Exists(Guid id, ItemType itemType, CancellationToken cancellationToken = default)
         {
             return await context.Items
-                .AnyAsync(i => i.Id == id && i.ItemType == itemType);
+                .AnyAsync(i => i.Id == id && i.ItemType == itemType, cancellationToken);
         }
 
-        public async Task<List<Item>> GetByPricingIdAndWarehouseId(Guid pricingId, Guid warehouseId)
+        public async Task<List<Item>> GetByPricingIdAndWarehouseId(Guid pricingId, Guid warehouseId, CancellationToken cancellationToken = default)
         {
             return await context.Items
                 .Include(x => x.Stocks)
@@ -50,7 +50,7 @@ namespace SITRA.Infrastructure.Repositories.Products
                         )
                     )
                 )
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
     }
 }

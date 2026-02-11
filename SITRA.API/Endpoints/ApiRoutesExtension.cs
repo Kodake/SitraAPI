@@ -1,4 +1,6 @@
 using SITRA.API.Endpoints;
+using SITRA.API.Endpoints.AdministrativeTools;
+using SITRA.API.Endpoints.Auths;
 using SITRA.API.Endpoints.CashBoxes;
 using SITRA.API.Endpoints.Invoices;
 using SITRA.API.Endpoints.Products;
@@ -9,7 +11,10 @@ public static class ApiRouteExtensions
     {
         var apiGroup = endpoints.MapGroup("/api/v1").RequireRateLimiting("fixed");
 
-        apiGroup.MapGroup("/identity").MapAuths();
+        var identityGroup = apiGroup.MapGroup("/identity");
+        identityGroup.MapAuths();
+        apiGroup.MapGroup("/roles").MapRoles();
+        apiGroup.MapGroup("/permissions").MapPermissions();
         apiGroup.MapGroup("/dashboards").MapDashboards();
         apiGroup.MapGroup("/receivables").MapReceivables();
         apiGroup.MapGroup("/payables").MapPayables();

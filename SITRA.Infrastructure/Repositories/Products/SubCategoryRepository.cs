@@ -18,7 +18,7 @@ namespace SITRA.Infrastructure.Repositories.Products
             httpContext = httpContextAccessor.HttpContext!;
         }
 
-        public async new Task<List<SubCategory>> GetAllAsync(PaginationDTO paginationDTO)
+        public async new Task<List<SubCategory>> GetAllAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
         {
             var queryable = context.SubCategories
                 .OrderBy(x => x.Name);
@@ -28,26 +28,26 @@ namespace SITRA.Infrastructure.Repositories.Products
             var subCategories = await queryable
                 .Paginate(paginationDTO)
                 .Include(p => p.Category)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
 
             return subCategories;
         }
 
-        public async new Task<SubCategory?> GetByIdAsync(Guid id)
+        public async new Task<SubCategory?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await context.SubCategories
                 .Include(p => p.Category)
-                .FirstOrDefaultAsync(p => p.Id == id);
+                .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
         }
 
-        public Task<List<SubCategory>> GetByCategoryId(Guid categoryId) =>
+        public Task<List<SubCategory>> GetByCategoryId(Guid categoryId, CancellationToken cancellationToken = default) =>
             context.SubCategories
                 .Where(x => x.CategoryId == categoryId)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
 
-        public async Task<bool> Exists(Guid id, string name)
+        public async Task<bool> Exists(Guid id, string name, CancellationToken cancellationToken = default)
         {
-            return await context.SubCategories.AnyAsync(x => x.Id != id && x.Name == name);
+            return await context.SubCategories.AnyAsync(x => x.Id != id && x.Name == name, cancellationToken);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace SITRA.Infrastructure.Repositories.Warehouses
             httpContext = httpContextAccessor.HttpContext!;
         }
 
-        public async new Task<List<Stock>> GetAllAsync(PaginationDTO paginationDTO)
+        public async new Task<List<Stock>> GetAllAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
         {
             var queryable = context.Stocks
                 .AsQueryable()
@@ -30,10 +30,10 @@ namespace SITRA.Infrastructure.Repositories.Warehouses
             return await queryable
                 .OrderBy(x => x.Item.Name)
                 .Paginate(paginationDTO)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
 
-        public async Task<List<Stock>> GetAllByWarehouseIdsAsync(List<Guid> warehouseIds, PaginationDTO paginationDTO)
+        public async Task<List<Stock>> GetAllByWarehouseIdsAsync(List<Guid> warehouseIds, PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
         {
             var queryable = context.Stocks
                 .AsQueryable()
@@ -46,31 +46,31 @@ namespace SITRA.Infrastructure.Repositories.Warehouses
             return await queryable
                 .OrderBy(x => x.Item.Name)
                 .Paginate(paginationDTO)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
 
-        public async Task<List<Stock>> GetStockByWarehouseIdsAsync(List<Guid> warehouseIds)
+        public async Task<List<Stock>> GetStockByWarehouseIdsAsync(List<Guid> warehouseIds, CancellationToken cancellationToken = default)
         {
             return await context.Stocks
                 .Where(s => warehouseIds.Contains(s.WarehouseId))
                 .Include(p => p.Item)
                 .Include(p => p.Warehouse)
                 .AsNoTracking()
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
 
-        public async Task<Stock?> GetByItemIdAndWarehouseId(Guid itemId, Guid warehouseId)
+        public async Task<Stock?> GetByItemIdAndWarehouseId(Guid itemId, Guid warehouseId, CancellationToken cancellationToken = default)
         {
             return await context.Stocks
                 .Where(s => s.ItemId == itemId && s.WarehouseId == warehouseId)
                 .AsNoTracking()
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<double> TotalProductsInStockAsync()
+        public async Task<double> TotalProductsInStockAsync(CancellationToken cancellationToken = default)
         {
             return await context.Stocks
-                .CountAsync(x => x.Qty > 0);
+                .CountAsync(x => x.Qty > 0, cancellationToken);
         }
     }
 }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Rt27SNYVd2A=",
+  "dgSpecHash": "7jhYzF8JLRM=",
   "success": true,
-  "projectFilePath": "C:\\Users\\rflorentino\\Desktop\\SitraAPI\\SITRA.Tests\\SITRA.Tests.csproj",
+  "projectFilePath": "C:\\Users\\rflorentino\\Desktop\\src\\SitraAPI\\SITRA.Tests\\SITRA.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\rflorentino\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\rflorentino\\.nuget\\packages\\azure.core\\1.47.3\\azure.core.1.47.3.nupkg.sha512",

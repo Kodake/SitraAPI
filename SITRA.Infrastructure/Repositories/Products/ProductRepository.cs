@@ -19,7 +19,7 @@ namespace SITRA.Infrastructure.Repositories.Products
             httpContext = httpContextAccessor.HttpContext!;
         }
 
-        public async new Task<List<Item>> GetAllAsync(PaginationDTO paginationDTO)
+        public async new Task<List<Item>> GetAllAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
         {
             var queryable = context.Items
                 .Where(x => x.ItemType == ItemType.Product)
@@ -33,12 +33,12 @@ namespace SITRA.Infrastructure.Repositories.Products
                 .ThenInclude(p => p.Pricing)
                 .Include(p => p.ItemTaxes)
                 .ThenInclude(pt => pt.Tax)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
 
             return items;
         }
 
-        public async Task<List<Item>> GetAll(StatusType status)
+        public async Task<List<Item>> GetAll(StatusType status, CancellationToken cancellationToken = default)
         {
             IQueryable<Item> query = context.Items
                 .Where(u => u.ItemType == ItemType.Product);
@@ -56,10 +56,10 @@ namespace SITRA.Infrastructure.Repositories.Products
                     break;
             }
 
-            return await query.OrderBy(u => u.Id).ToListAsync();
+            return await query.OrderBy(u => u.Id).ToListAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<Item>> GetAll()
+        public async Task<IEnumerable<Item>> GetAll(CancellationToken cancellationToken = default)
         {
             return await context.Items
                 .Where(p => p.Stocks.Any(x => x.Item.ItemType == ItemType.Product))
@@ -69,10 +69,10 @@ namespace SITRA.Infrastructure.Repositories.Products
                     Name = p.Name,
                     Reference = p.Reference,
                     Barcode = p.Barcode,
-                }).ToListAsync();
+                }).ToListAsync(cancellationToken);
         }
 
-        public async new Task<Item?> GetByIdAsync(Guid id)
+        public async new Task<Item?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await context.Items
                 .Include(p => p.ItemUnit)
@@ -89,36 +89,36 @@ namespace SITRA.Infrastructure.Repositories.Products
                     .ThenInclude(p => p.Pricing)
                 .Include(p => p.ItemTaxes)
                     .ThenInclude(pt => pt.Tax)
-                .FirstOrDefaultAsync(p => p.Id == id && p.ItemType == ItemType.Product);
+                .FirstOrDefaultAsync(p => p.Id == id && p.ItemType == ItemType.Product, cancellationToken);
         }
 
-        public async new Task ActivateAsync(Guid id)
+        public async new Task ActivateAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            var product = await context.Items.FirstOrDefaultAsync(x => x.Id == id && x.ItemType == ItemType.Product);
+            var product = await context.Items.FirstOrDefaultAsync(x => x.Id == id && x.ItemType == ItemType.Product, cancellationToken);
             if (product != null)
             {
                 product.IsActive = true;
-                await context.SaveChangesAsync();
+                await context.SaveChangesAsync(cancellationToken);
             }
         }
 
-        public async new Task DeactivateAsync(Guid id)
+        public async new Task DeactivateAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            var product = await context.Items.FirstOrDefaultAsync(x => x.Id == id && x.ItemType == ItemType.Product);
+            var product = await context.Items.FirstOrDefaultAsync(x => x.Id == id && x.ItemType == ItemType.Product, cancellationToken);
             if (product != null)
             {
                 product.IsActive = false;
             }
         }
 
-        public async new Task<bool> ExistsAsync(Guid id)
+        public async new Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            return await context.Items.AnyAsync(x => x.Id == id && x.ItemType == ItemType.Product);
+            return await context.Items.AnyAsync(x => x.Id == id && x.ItemType == ItemType.Product, cancellationToken);
         }
 
-        public async Task<bool> Exists(Guid id, string name)
+        public async Task<bool> Exists(Guid id, string name, CancellationToken cancellationToken = default)
         {
-            return await context.Items.AnyAsync(x => x.Id != id && x.Name == name && x.ItemType == ItemType.Product);
+            return await context.Items.AnyAsync(x => x.Id != id && x.Name == name && x.ItemType == ItemType.Product, cancellationToken);
         }
     }
 }

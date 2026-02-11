@@ -5,8 +5,8 @@ namespace SITRA.Core.Interfaces.Finances
 {
     public interface ICurrencyRepository : IRepositoryBase<Currency>
     {
-        Task<List<Currency>> GetCurrencies();
-        Task<bool> Exists(Guid id, string code);
-        Task<bool> SetDefault(Guid id);
+        Task<List<Currency>> GetCurrencies(CancellationToken cancellationToken = default);
+        Task<bool> Exists(Guid id, string code, CancellationToken cancellationToken = default);
+        Task<bool> SetDefault(Guid id, CancellationToken cancellationToken = default);
     }
 }

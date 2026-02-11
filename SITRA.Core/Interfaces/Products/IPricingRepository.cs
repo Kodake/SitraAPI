@@ -5,10 +5,10 @@ namespace SITRA.Core.Interfaces.Products
 {
     public interface IPricingRepository : IRepositoryBase<Pricing>
     {
-        Task<List<Pricing>> GetAll();
-        Task<Pricing?> GetPricingByName(string? name);
-        Task<IEnumerable<Pricing>> GetUnregisteredPricingsForItem(Guid itemId);
-        Task<bool> Exists(Guid id, string name);
-        Task<bool> SetDefault(Guid id);
+        Task<List<Pricing>> GetAll(CancellationToken cancellationToken = default);
+        Task<Pricing?> GetPricingByName(string? name, CancellationToken cancellationToken = default);
+        Task<IEnumerable<Pricing>> GetUnregisteredPricingsForItem(Guid itemId, CancellationToken cancellationToken = default);
+        Task<bool> Exists(Guid id, string name, CancellationToken cancellationToken = default);
+        Task<bool> SetDefault(Guid id, CancellationToken cancellationToken = default);
     }
 }

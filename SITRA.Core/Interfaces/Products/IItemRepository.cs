@@ -6,7 +6,7 @@ namespace SITRA.Core.Interfaces.Products
 {
     public interface IItemRepository : IRepositoryBase<Item>
     {
-        Task<List<Item>> GetByPricingIdAndWarehouseId(Guid pricingId, Guid warehouseId);
-        Task<bool> Exists(Guid id, ItemType itemType);
+        Task<List<Item>> GetByPricingIdAndWarehouseId(Guid pricingId, Guid warehouseId, CancellationToken cancellationToken = default);
+        Task<bool> Exists(Guid id, ItemType itemType, CancellationToken cancellationToken = default);
     }
 }

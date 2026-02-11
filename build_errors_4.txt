@@ -1,0 +1,25 @@
+  Determining projects to restore...
+C:\Program Files\dotnet\sdk\9.0.310\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.FrameworkReferenceResolution.targets(82,5): warning NETSDK1086: A FrameworkReference for 'Microsoft.AspNetCore.App' was included in the project. This is implicitly referenced by the .NET SDK and you do not typically need to reference it from your project. For more information, see https://aka.ms/sdkimplicitrefs [C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\SITRA.Core.csproj]
+  All projects are up-to-date for restore.
+C:\Program Files\dotnet\sdk\9.0.310\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.FrameworkReferenceResolution.targets(82,5): warning NETSDK1086: A FrameworkReference for 'Microsoft.AspNetCore.App' was included in the project. This is implicitly referenced by the .NET SDK and you do not typically need to reference it from your project. For more information, see https://aka.ms/sdkimplicitrefs [C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\SITRA.Core.csproj]
+  SITRA.Core -> C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\bin\Debug\net8.0\SITRA.Core.dll
+  SITRA.Infrastructure -> C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Infrastructure\bin\Debug\net8.0\SITRA.Infrastructure.dll
+C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.API\Profiles\Accounts\ReceivablesProfile.cs(18,75): warning CS8602: Dereference of a possibly null reference. [C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.API\SITRA.API.csproj]
+C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.API\Profiles\Accounts\ReceivablesProfile.cs(19,73): warning CS8602: Dereference of a possibly null reference. [C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.API\SITRA.API.csproj]
+C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.API\Profiles\Invoices\QuotationsProfiles.cs(17,79): warning CS8602: Dereference of a possibly null reference. [C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.API\SITRA.API.csproj]
+  SITRA.API -> C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.API\bin\Debug\net8.0\SITRA.API.dll
+  SITRA.Tests -> C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Tests\bin\Debug\net8.0\SITRA.Tests.dll
+
+Build succeeded.
+
+C:\Program Files\dotnet\sdk\9.0.310\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.FrameworkReferenceResolution.targets(82,5): warning NETSDK1086: A FrameworkReference for 'Microsoft.AspNetCore.App' was included in the project. This is implicitly referenced by the .NET SDK and you do not typically need to reference it from your project. For more information, see https://aka.ms/sdkimplicitrefs [C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\SITRA.Core.csproj]
+C:\Program Files\dotnet\sdk\9.0.310\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.Sdk.FrameworkReferenceResolution.targets(82,5): warning NETSDK1086: A FrameworkReference for 'Microsoft.AspNetCore.App' was included in the project. This is implicitly referenced by the .NET SDK and you do not typically need to reference it from your project. For more information, see https://aka.ms/sdkimplicitrefs [C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\SITRA.Core.csproj]
+C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.API\Profiles\Accounts\ReceivablesProfile.cs(18,75): warning CS8602: Dereference of a possibly null reference. [C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.API\SITRA.API.csproj]
+C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.API\Profiles\Accounts\ReceivablesProfile.cs(19,73): warning CS8602: Dereference of a possibly null reference. [C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.API\SITRA.API.csproj]
+C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.API\Profiles\Invoices\QuotationsProfiles.cs(17,79): warning CS8602: Dereference of a possibly null reference. [C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.API\SITRA.API.csproj]
+    5 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:05.53
+
+Workload updates are available. Run `dotnet workload list` for more information.

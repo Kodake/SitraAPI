@@ -6712,11 +6712,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\rflorentino\\Desktop\\SitraAPI\\SITRA.Tests\\SITRA.Tests.csproj",
+      "projectUniqueName": "C:\\Users\\rflorentino\\Desktop\\src\\SitraAPI\\SITRA.Tests\\SITRA.Tests.csproj",
       "projectName": "SITRA.Tests",
-      "projectPath": "C:\\Users\\rflorentino\\Desktop\\SitraAPI\\SITRA.Tests\\SITRA.Tests.csproj",
+      "projectPath": "C:\\Users\\rflorentino\\Desktop\\src\\SitraAPI\\SITRA.Tests\\SITRA.Tests.csproj",
       "packagesPath": "C:\\Users\\rflorentino\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\rflorentino\\Desktop\\SitraAPI\\SITRA.Tests\\obj\\",
+      "outputPath": "C:\\Users\\rflorentino\\Desktop\\src\\SitraAPI\\SITRA.Tests\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -6738,14 +6738,14 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\rflorentino\\Desktop\\SitraAPI\\SITRA.API\\SITRA.API.csproj": {
-              "projectPath": "C:\\Users\\rflorentino\\Desktop\\SitraAPI\\SITRA.API\\SITRA.API.csproj"
+            "C:\\Users\\rflorentino\\Desktop\\src\\SitraAPI\\SITRA.API\\SITRA.API.csproj": {
+              "projectPath": "C:\\Users\\rflorentino\\Desktop\\src\\SitraAPI\\SITRA.API\\SITRA.API.csproj"
             },
-            "C:\\Users\\rflorentino\\Desktop\\SitraAPI\\SITRA.Core\\SITRA.Core.csproj": {
-              "projectPath": "C:\\Users\\rflorentino\\Desktop\\SitraAPI\\SITRA.Core\\SITRA.Core.csproj"
+            "C:\\Users\\rflorentino\\Desktop\\src\\SitraAPI\\SITRA.Core\\SITRA.Core.csproj": {
+              "projectPath": "C:\\Users\\rflorentino\\Desktop\\src\\SitraAPI\\SITRA.Core\\SITRA.Core.csproj"
             },
-            "C:\\Users\\rflorentino\\Desktop\\SitraAPI\\SITRA.Infrastructure\\SITRA.Infrastructure.csproj": {
-              "projectPath": "C:\\Users\\rflorentino\\Desktop\\SitraAPI\\SITRA.Infrastructure\\SITRA.Infrastructure.csproj"
+            "C:\\Users\\rflorentino\\Desktop\\src\\SitraAPI\\SITRA.Infrastructure\\SITRA.Infrastructure.csproj": {
+              "projectPath": "C:\\Users\\rflorentino\\Desktop\\src\\SitraAPI\\SITRA.Infrastructure\\SITRA.Infrastructure.csproj"
             }
           }
         }

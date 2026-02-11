@@ -13,7 +13,7 @@ namespace SITRA.Infrastructure.Repositories.Warehouses
         public WarehouseRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
             : base(context, httpContextAccessor) { }
 
-        public async Task<List<Warehouse>> GetAll(StatusType status)
+        public async Task<List<Warehouse>> GetAll(StatusType status, CancellationToken cancellationToken = default)
         {
             IQueryable<Warehouse> query = context.Warehouses.AsQueryable();
 
@@ -30,10 +30,10 @@ namespace SITRA.Infrastructure.Repositories.Warehouses
                     break;
             }
 
-            return await query.OrderBy(u => u.Id).ToListAsync();
+            return await query.OrderBy(u => u.Id).ToListAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<Warehouse>> GetStockWarehouseByProductId(Guid productId)
+        public async Task<IEnumerable<Warehouse>> GetStockWarehouseByProductId(Guid productId, CancellationToken cancellationToken = default)
         {
             return await context.Warehouses
                 .Where(p => p.Stocks.Any(pi => pi.ItemId == productId))
@@ -42,10 +42,10 @@ namespace SITRA.Infrastructure.Repositories.Warehouses
                     Id = p.Id,
                     Name = p.Name,
                     Stocks = p.Stocks.Where(stock => stock.ItemId == productId).ToList(),
-                }).ToListAsync();
+                }).ToListAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<Warehouse>> GetUnregisteredWarehouseById(Guid id)
+        public async Task<IEnumerable<Warehouse>> GetUnregisteredWarehouseById(Guid id, CancellationToken cancellationToken = default)
         {
             return await context.Warehouses
                 .Where(pi => pi.Id != id)
@@ -54,27 +54,27 @@ namespace SITRA.Infrastructure.Repositories.Warehouses
                     Id = p.Id,
                     Name = p.Name,
                     Stocks = p.Stocks,
-                }).ToListAsync();
+                }).ToListAsync(cancellationToken);
         }
 
-        public async Task<bool> Exists(Guid id, string name)
+        public async Task<bool> Exists(Guid id, string name, CancellationToken cancellationToken = default)
         {
-            return await context.Warehouses.AnyAsync(x => x.Id != id && x.Name == name);
+            return await context.Warehouses.AnyAsync(x => x.Id != id && x.Name == name, cancellationToken);
         }
 
-        public async Task<int> TotalWarehousesAddedAsync()
+        public async Task<int> TotalWarehousesAddedAsync(CancellationToken cancellationToken = default)
         {
-            return await context.Warehouses.CountAsync(x => x.IsActive);
+            return await context.Warehouses.CountAsync(x => x.IsActive, cancellationToken);
         }
 
-        public async Task<bool> SetDefault(Guid id)
+        public async Task<bool> SetDefault(Guid id, CancellationToken cancellationToken = default)
         {
-            var warehouse = await context.Warehouses.FindAsync(id);
+            var warehouse = await context.Warehouses.FindAsync(new object[] { id }, cancellationToken);
             if (warehouse == null) return false;
 
             var defaults = await context.Warehouses
                 .Where(x => x.IsDefault && x.Id != id)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
 
             foreach (var w in defaults)
                 w.IsDefault = false;

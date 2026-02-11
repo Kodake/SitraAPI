@@ -56,6 +56,17 @@ namespace SITRA.Core.Helpers
         public static string ContactNotFoundOrInvalidMessage => _resourceManager.GetString("ContactNotFoundOrInvalidMessage")!;
         public static string NoSigningKeysFoundMessage => _resourceManager.GetString("NoSigningKeysFoundMessage")!;
 
+        // Role and Permission validation messages
+        public static string RoleNameRequiredMessage => _resourceManager.GetString("RoleNameRequiredMessage")!;
+        public static string RoleDescriptionRequiredMessage => _resourceManager.GetString("RoleDescriptionRequiredMessage")!;
+        public static string RoleAlreadyExistsMessage => _resourceManager.GetString("RoleAlreadyExistsMessage")!;
+        public static string RoleNotFoundMessage => _resourceManager.GetString("RoleNotFoundMessage")!;
+        public static string CannotDeleteSystemRoleMessage => _resourceManager.GetString("CannotDeleteSystemRoleMessage")!;
+        public static string PermissionIdsRequiredMessage => _resourceManager.GetString("PermissionIdsRequiredMessage")!;
+        public static string InvalidPermissionIdMessage => _resourceManager.GetString("InvalidPermissionIdMessage")!;
+        public static string RoleNameMaxLengthMessage => _resourceManager.GetString("RoleNameMaxLengthMessage")!;
+        public static string RoleDescriptionMaxLengthMessage => _resourceManager.GetString("RoleDescriptionMaxLengthMessage")!;
+
         // Report Titles
         public static string StockReportTitle => _resourceManager.GetString("StockReportTitle")!;
         public static string SalesReportTitle => _resourceManager.GetString("SalesReportTitle")!;

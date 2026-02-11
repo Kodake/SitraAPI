@@ -20,7 +20,7 @@ namespace SITRA.Infrastructure.Repositories.Generics
             this.httpContext = httpContextAccessor?.HttpContext;
         }
 
-        public async Task<List<T>> GetAllAsync(PaginationDTO paginationDTO)
+        public async Task<List<T>> GetAllAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
         {
             var queryable = context.Set<T>().AsQueryable();
 
@@ -32,22 +32,22 @@ namespace SITRA.Infrastructure.Repositories.Generics
             return await queryable
                 .OrderBy(x => EF.Property<Guid>(x, "Id"))
                 .Paginate(paginationDTO)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
 
-        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>> filter)
+        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>> filter, CancellationToken cancellationToken = default)
         {
-            return await context.Set<T>().Where(filter).ToListAsync();
+            return await context.Set<T>().Where(filter).ToListAsync(cancellationToken);
         }
 
-        public async Task<T?> GetByIdAsync(Guid id)
+        public async Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            return await context.Set<T>().FindAsync(id);
+            return await context.Set<T>().FindAsync(new object[] { id }, cancellationToken);
         }
 
-        public async Task<T> CreateAsync(T entity)
+        public async Task<T> CreateAsync(T entity, CancellationToken cancellationToken = default)
         {
-            EntityEntry<T> inserted = await context.Set<T>().AddAsync(entity);
+            EntityEntry<T> inserted = await context.Set<T>().AddAsync(entity, cancellationToken);
             return inserted.Entity;
         }
 
@@ -57,9 +57,9 @@ namespace SITRA.Infrastructure.Repositories.Generics
             return updated.Entity;
         }
 
-        public async Task ActivateAsync(Guid id)
+        public async Task ActivateAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            var entity = await context.Set<T>().FindAsync(id);
+            var entity = await context.Set<T>().FindAsync(new object[] { id }, cancellationToken);
             if (entity != null)
             {
                 var property = typeof(T).GetProperty("IsActive");
@@ -67,9 +67,9 @@ namespace SITRA.Infrastructure.Repositories.Generics
             }
         }
 
-        public async Task DeactivateAsync(Guid id)
+        public async Task DeactivateAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            var entity = await context.Set<T>().FindAsync(id);
+            var entity = await context.Set<T>().FindAsync(new object[] { id }, cancellationToken);
             if (entity != null)
             {
                 var property = typeof(T).GetProperty("IsActive");
@@ -77,14 +77,14 @@ namespace SITRA.Infrastructure.Repositories.Generics
             }
         }
 
-        public async Task<bool> ExistsAsync(Guid id)
+        public async Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            return await context.Set<T>().AnyAsync(e => EF.Property<Guid>(e, "Id") == id);
+            return await context.Set<T>().AnyAsync(e => EF.Property<Guid>(e, "Id") == id, cancellationToken);
         }
 
-        public async Task<int> CountAsync(Expression<Func<T, bool>> filter)
+        public async Task<int> CountAsync(Expression<Func<T, bool>> filter, CancellationToken cancellationToken = default)
         {
-            return await context.Set<T>().CountAsync(filter);
+            return await context.Set<T>().CountAsync(filter, cancellationToken);
         }
     }
 }

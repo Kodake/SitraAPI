@@ -19,17 +19,17 @@ namespace SITRA.Infrastructure.Repositories.Warehouses
             httpContext = httpContextAccessor.HttpContext!;
         }
 
-        public async new Task<Transfer?> GetByIdAsync(Guid id)
+        public async new Task<Transfer?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await context.Transfers
                 .Include(t => t.Product)
                 .Include(t => t.DestinationWarehouse)
                 .AsNoTracking()
                 .Where(t => t.Product!.ItemType == ItemType.Product)
-                .FirstOrDefaultAsync(t => t.Id == id);
+                .FirstOrDefaultAsync(t => t.Id == id, cancellationToken);
         }
 
-        public async new Task<List<Transfer>> GetAllAsync(PaginationDTO paginationDTO)
+        public async new Task<List<Transfer>> GetAllAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
         {
             var queryable = context.Transfers
                 .Include(t => t.Product)
@@ -44,7 +44,7 @@ namespace SITRA.Infrastructure.Repositories.Warehouses
 
             return await queryable
                 .Paginate(paginationDTO)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
     }
 }

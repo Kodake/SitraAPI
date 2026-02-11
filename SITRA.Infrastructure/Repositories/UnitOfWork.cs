@@ -67,6 +67,7 @@ namespace SITRA.Infrastructure.Repositories
         public IWarehouseRepository WarehouseRepository { get; }
         public IPettyCashRepository PettyCashRepository { get; }
         public IPettyCashMovementRepository PettyCashMovementRepository { get; }
+        public IRoleRepository RoleRepository { get; }
         public IAppointmentRepository AppointmentRepository { get; }
         public IUserService UserService { get; }
         public IPlanService PlanService { get; }
@@ -110,6 +111,7 @@ namespace SITRA.Infrastructure.Repositories
             WarehouseRepository = new WarehouseRepository(context, httpContextAccessor);
             PettyCashRepository = new PettyCashRepository(context, httpContextAccessor);
             PettyCashMovementRepository = new PettyCashMovementRepository(context, httpContextAccessor);
+            RoleRepository = new RoleRepository(context, httpContextAccessor);
             AppointmentRepository = new AppointmentRepository(context, httpContextAccessor);
             UserService = new UserService(context, httpContextAccessor, userManager);
             PlanService = new PlanService();
@@ -132,8 +134,8 @@ namespace SITRA.Infrastructure.Repositories
             return (IRepositoryBase<T>)_repositories[type];
         }
 
-        public async Task<int> SaveChangesAsync()
-            => await _context.SaveChangesAsync();
+        public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+            => await _context.SaveChangesAsync(cancellationToken);
 
         public void Dispose()
         {

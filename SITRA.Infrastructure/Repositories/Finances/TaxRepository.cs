@@ -13,7 +13,7 @@ namespace SITRA.Infrastructure.Repositories.Finances
         public TaxRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
             : base(context, httpContextAccessor) { }
 
-        public async Task<List<Tax>> GetAll(StatusType status)
+        public async Task<List<Tax>> GetAll(StatusType status, CancellationToken cancellationToken = default)
         {
             IQueryable<Tax> query = context.Taxes.AsQueryable();
 
@@ -30,7 +30,7 @@ namespace SITRA.Infrastructure.Repositories.Finances
                     break;
             }
 
-            return await query.OrderBy(u => u.Id).ToListAsync();
+            return await query.OrderBy(u => u.Id).ToListAsync(cancellationToken);
         }
     }
 }

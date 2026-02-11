@@ -14,7 +14,7 @@ namespace SITRA.Infrastructure.Repositories.Accounts
     {
         private new readonly HttpContext httpContext = httpContextAccessor.HttpContext!;
 
-        public async new Task<List<Receivable>> GetAllAsync(PaginationDTO paginationDTO)
+        public async new Task<List<Receivable>> GetAllAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
         {
             var queryable = context.Receivables
                 .Include(x => x.PaymentReceipts)
@@ -26,10 +26,10 @@ namespace SITRA.Infrastructure.Repositories.Accounts
             return await queryable
                 .OrderBy(x => x.Id)
                 .Paginate(paginationDTO)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
 
-        public async Task<Receivable?> GetAllByIdAsync(Guid id)
+        public async Task<Receivable?> GetAllByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await context.Receivables
                 .Include(x => x.Invoice)
@@ -37,10 +37,10 @@ namespace SITRA.Infrastructure.Repositories.Accounts
                 .Include(x => x.Invoice.InvoiceBiller)
                     .ThenInclude(ib => ib.Biller)
                 .Include(x => x.PaymentReceipts.OrderByDescending(p => p.Id))
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
 
-        public async Task<Receivable?> GetPaysByIdAsync(Guid id)
+        public async Task<Receivable?> GetPaysByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await context.Receivables
                 .Include(x => x.Invoice)
@@ -48,7 +48,7 @@ namespace SITRA.Infrastructure.Repositories.Accounts
                 .Include(x => x.PaymentReceipts
                     .Where(x => x.IsActive)
                     .OrderByDescending(p => p.Id))
-                .FirstOrDefaultAsync(x => x.Id == id && x.Status == AccountStatus.Paid);
+                .FirstOrDefaultAsync(x => x.Id == id && x.Status == AccountStatus.Paid, cancellationToken);
         }
     }
 }

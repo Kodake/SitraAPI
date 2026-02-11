@@ -14,7 +14,7 @@ namespace SITRA.Core.Mediator.Handlers.AdministrativeTools
             services.AddTransient<IRequestHandler<DeactivateFiscalSupportCommand, bool>, ToggleCommandHandler<DeactivateFiscalSupportCommand>>();
             services.AddTransient<IRequestHandler<GetAllFiscalSupportsQuery, List<FiscalSupportListDTO>>, QueryHandler<GetAllFiscalSupportsQuery, List<FiscalSupportListDTO>>>();
             services.AddTransient<IRequestHandler<GetFiscalSupportByIdQuery, FiscalSupportDTO>, QueryHandler<GetFiscalSupportByIdQuery, FiscalSupportDTO>>();
-            services.AddTransient<IRequestHandler<GetDocumentsByTypeIdAndWarehouseIdQuery, FiscalSupportDTO>, QueryHandler<GetDocumentsByTypeIdAndWarehouseIdQuery, FiscalSupportDTO>>();
+            services.AddTransient<IRequestHandler<GetDocumentsByTypeIdAndWarehouseIdQuery, FiscalSupportDTO?>, QueryHandler<GetDocumentsByTypeIdAndWarehouseIdQuery, FiscalSupportDTO?>>();
             services.AddTransient<IRequestHandler<GetSelectsFiscalSupportsQuery, List<FiscalSupportListDTO>>, QueryHandler<GetSelectsFiscalSupportsQuery, List<FiscalSupportListDTO>>>();
             services.AddTransient<IRequestHandler<CreateFiscalSupportCommand, CreateFiscalSupportDTO>, CreateCommandHandler<Entities.AdministrativeTools.FiscalSupport, CreateFiscalSupportDTO>>();
             services.AddTransient<IRequestHandler<UpdateFiscalSupportCommand, bool>, UpdateCommandHandler<Entities.AdministrativeTools.FiscalSupport, CreateFiscalSupportDTO>>();
@@ -23,4 +23,3 @@ namespace SITRA.Core.Mediator.Handlers.AdministrativeTools
         }
     }
 }
-

@@ -18,7 +18,7 @@ namespace SITRA.Infrastructure.Repositories.Products
             httpContext = httpContextAccessor.HttpContext!;
         }
 
-        public async new Task<List<Model>> GetAllAsync(PaginationDTO paginationDTO)
+        public async new Task<List<Model>> GetAllAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
         {
             var queryable = context.Models
                 .OrderBy(x => x.Name);
@@ -28,27 +28,27 @@ namespace SITRA.Infrastructure.Repositories.Products
             var subCategories = await queryable
                 .Paginate(paginationDTO)
                 .Include(p => p.Brand)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
 
             return subCategories;
         }
 
-        public async new Task<Model?> GetByIdAsync(Guid id)
+        public async new Task<Model?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await context.Models
                 .Include(p => p.Brand)
-                .FirstOrDefaultAsync(p => p.Id == id);
+                .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
         }
 
-        public async Task<bool> Exists(Guid id, string name)
+        public async Task<bool> Exists(Guid id, string name, CancellationToken cancellationToken = default)
         {
-            return await context.Models.AnyAsync(x => x.Id != id && x.Name == name);
+            return await context.Models.AnyAsync(x => x.Id != id && x.Name == name, cancellationToken);
         }
 
-        public Task<List<Model>> GetByBrandId(Guid brandId) =>
+        public Task<List<Model>> GetByBrandId(Guid brandId, CancellationToken cancellationToken = default) =>
             context.Models
                 .Where(x => x.BrandId == brandId)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
     }
 }
 

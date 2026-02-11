@@ -5,6 +5,6 @@ namespace SITRA.Core.Interfaces.Accounts
 {
     public interface IPayableReceiptRepository : IRepositoryBase<PayableReceipt>
     {
-        new Task<PayableReceipt?> GetByIdAsync(Guid id);
+        new Task<PayableReceipt?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
     }
 }

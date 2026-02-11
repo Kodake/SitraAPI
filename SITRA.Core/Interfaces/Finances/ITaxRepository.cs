@@ -6,6 +6,6 @@ namespace SITRA.Core.Interfaces.Finances
 {
     public interface ITaxRepository : IRepositoryBase<Tax>
     {
-        Task<List<Tax>> GetAll(StatusType status);
+        Task<List<Tax>> GetAll(StatusType status, CancellationToken cancellationToken = default);
     }
 }

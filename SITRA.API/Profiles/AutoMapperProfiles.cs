@@ -19,6 +19,7 @@ namespace SITRA.API.Profiles
             AddProfile<ReceivablesProfile>();
             AddProfile<DeadlinesProfile>();
             AddProfile<FiscalSupportsProfile>();
+            AddProfile<RolesProfile>();
             AddProfile<ContactsProfile>();
             AddProfile<CurrenciesProfile>();
             AddProfile<TaxesProfile>();

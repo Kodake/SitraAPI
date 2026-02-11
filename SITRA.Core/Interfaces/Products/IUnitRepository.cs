@@ -6,7 +6,7 @@ namespace SITRA.Core.Interfaces.Products
 {
     public interface IUnitRepository : IRepositoryBase<Unit>
     {
-        Task<List<Unit>> GetAll(StatusType status);
-        Task<bool> Exists(Guid id, string name);
+        Task<List<Unit>> GetAll(StatusType status, CancellationToken cancellationToken = default);
+        Task<bool> Exists(Guid id, string name, CancellationToken cancellationToken = default);
     }
 }

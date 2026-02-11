@@ -419,4 +419,31 @@
   <data name="FiscalSupportSequenceLimitReachedMessage" xml:space="preserve">
     <value>You've reached the limit of fiscal support max sequence ({0}). Please configure a new fiscal support.</value>
   </data>
+  <data name="RoleNameRequiredMessage" xml:space="preserve">
+    <value>Role name is required</value>
+  </data>
+  <data name="RoleDescriptionRequiredMessage" xml:space="preserve">
+    <value>Role description is required</value>
+  </data>
+  <data name="RoleAlreadyExistsMessage" xml:space="preserve">
+    <value>A role with the name '{0}' already exists for this tenant</value>
+  </data>
+  <data name="RoleNotFoundMessage" xml:space="preserve">
+    <value>Role with ID '{0}' not found</value>
+  </data>
+  <data name="CannotDeleteSystemRoleMessage" xml:space="preserve">
+    <value>System roles cannot be deleted</value>
+  </data>
+  <data name="PermissionIdsRequiredMessage" xml:space="preserve">
+    <value>At least one permission must be assigned</value>
+  </data>
+  <data name="InvalidPermissionIdMessage" xml:space="preserve">
+    <value>One or more permission IDs are invalid</value>
+  </data>
+  <data name="RoleNameMaxLengthMessage" xml:space="preserve">
+    <value>Role name cannot exceed 256 characters</value>
+  </data>
+  <data name="RoleDescriptionMaxLengthMessage" xml:space="preserve">
+    <value>Role description cannot exceed 500 characters</value>
+  </data>
 </root>

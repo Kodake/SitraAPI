@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using SITRA.API.Extensions;
+using SITRA.Core.Entities.AdministrativeTools;
 using SITRA.Core.Entities.Auths;
 using SITRA.Core.Helpers;
 using SITRA.Core.Interfaces;
@@ -133,6 +134,11 @@ if (app.Environment.IsProduction())
                 dbContext.Database.Migrate();
                 Log.Information("Database migrated successfully.");
             }
+
+            // Seed Permissions
+            //var permissionRepository = scope.ServiceProvider.GetRequiredService<IPermissionRepository>();
+            //await permissionRepository.SeedPermissionsAsync();
+            //Log.Information("Permissions seeded successfully.");
         }
         catch (Exception ex)
         {

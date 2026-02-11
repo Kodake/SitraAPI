@@ -13,40 +13,40 @@ namespace SITRA.Infrastructure.Repositories.Contacts
         public ContactRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
             : base(context, httpContextAccessor) { }
 
-        public async Task<List<Contact>> GetSuppliers()
+        public async Task<List<Contact>> GetSuppliers(CancellationToken cancellationToken = default)
         {
             return await context.Contacts
                 .Where(x => x.ContactType == ContactType.Provider && x.IsActive)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
 
-        public async Task<List<Contact>> GetCustomers()
+        public async Task<List<Contact>> GetCustomers(CancellationToken cancellationToken = default)
         {
             return await context.Contacts
                 .Where(x => x.ContactType == ContactType.Customer && x.IsActive)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
 
-        public async Task<List<Contact>> GetBillers()
+        public async Task<List<Contact>> GetBillers(CancellationToken cancellationToken = default)
         {
             return await context.Contacts
                 .Where(x => x.ContactType == ContactType.Biller && x.IsActive)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
 
-        public async Task<bool> Exists(Guid id, string name)
+        public async Task<bool> Exists(Guid id, string name, CancellationToken cancellationToken = default)
         {
-            return await context.Contacts.AnyAsync(x => x.Id != id && x.Name == name);
+            return await context.Contacts.AnyAsync(x => x.Id != id && x.Name == name, cancellationToken);
         }
 
-        public async Task<bool> Exists(Guid id)
+        public async Task<bool> Exists(Guid id, CancellationToken cancellationToken = default)
         {
-            return await context.Contacts.AnyAsync(x => x.Id == id);
+            return await context.Contacts.AnyAsync(x => x.Id == id, cancellationToken);
         }
 
-        public async Task<int> TotalContactsAddedAsync()
+        public async Task<int> TotalContactsAddedAsync(CancellationToken cancellationToken = default)
         {
-            return await context.Contacts.CountAsync(x => x.IsActive);
+            return await context.Contacts.CountAsync(x => x.IsActive, cancellationToken);
         }
     }
 }

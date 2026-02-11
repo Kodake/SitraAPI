@@ -7,14 +7,15 @@ namespace SITRA.Core.Interfaces.AdministrativeTools
 {
     public interface IFiscalSupportRepository : IRepositoryBase<FiscalSupport>
     {
-        new Task<List<FiscalSupport>> GetAllAsync(PaginationDTO paginationDTO);
-        Task<List<FiscalSupport>> GetAll(StatusType status);
-        Task<FiscalSupport?> GetByIdAsync(Guid? id);
+        new Task<List<FiscalSupport>> GetAllAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default);
+        Task<List<FiscalSupport>> GetAll(StatusType status, CancellationToken cancellationToken = default);
+        Task<FiscalSupport?> GetByIdAsync(Guid? id, CancellationToken cancellationToken = default);
         Task<FiscalSupport?> GetByDocumentTypeAndWarehouseIdAsync(
             FiscalSupportType supportType,
-            Guid warehouseId);
-        Task<bool> Exists(Guid id, string code);
-        Task<FiscalSupport?> GetByTypeAndWarehouseAsync(FiscalSupportType fiscalSupportType, Guid warehouseId);
-        Task<bool> SetDefault(Guid id);
+            Guid warehouseId,
+            CancellationToken cancellationToken = default);
+        Task<bool> Exists(Guid id, string code, CancellationToken cancellationToken = default);
+        Task<FiscalSupport?> GetByTypeAndWarehouseAsync(FiscalSupportType fiscalSupportType, Guid warehouseId, CancellationToken cancellationToken = default);
+        Task<bool> SetDefault(Guid id, CancellationToken cancellationToken = default);
     }
 }

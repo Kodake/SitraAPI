@@ -2,7 +2,6 @@ using FluentValidation;
 using SITRA.Core.DTOs.Invoices.SaleInvoices;
 using SITRA.Core.Enums;
 using SITRA.Core.Helpers;
-using SITRA.Core.Helpers;
 using SITRA.Core.Interfaces;
 
 namespace SITRA.Core.Validations.Invoices

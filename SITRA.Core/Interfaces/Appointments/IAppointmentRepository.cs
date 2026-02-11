@@ -5,6 +5,6 @@ namespace SITRA.Core.Interfaces.Appointments
 {
     public interface IAppointmentRepository : IRepositoryBase<Appointment>
     {
-        Task<bool> ExistsAtDateTime(DateTimeOffset scheduledAt, Guid? excludeId = null);
+        Task<bool> ExistsAtDateTime(DateTimeOffset scheduledAt, Guid? excludeId = null, CancellationToken cancellationToken = default);
     }
 }

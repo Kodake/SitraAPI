@@ -7,12 +7,12 @@ namespace SITRA.Core.Interfaces.Products;
 
 public interface IProductRepository : IRepositoryBase<Item>
 {
-    new Task<Item?> GetByIdAsync(Guid id);
-    new Task<List<Item>> GetAllAsync(PaginationDTO paginationDTO);
-    Task<List<Item>> GetAll(StatusType status);
-    Task<IEnumerable<Item>> GetAll();
-    new Task ActivateAsync(Guid id);
-    new Task DeactivateAsync(Guid id);
-    new Task<bool> ExistsAsync(Guid id);
-    Task<bool> Exists(Guid id, string name);
+    new Task<Item?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+    new Task<List<Item>> GetAllAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default);
+    Task<List<Item>> GetAll(StatusType status, CancellationToken cancellationToken = default);
+    Task<IEnumerable<Item>> GetAll(CancellationToken cancellationToken = default);
+    new Task ActivateAsync(Guid id, CancellationToken cancellationToken = default);
+    new Task DeactivateAsync(Guid id, CancellationToken cancellationToken = default);
+    new Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<bool> Exists(Guid id, string name, CancellationToken cancellationToken = default);
 }

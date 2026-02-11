@@ -12,26 +12,26 @@ namespace SITRA.Infrastructure.Repositories.Finances
         public CurrencyRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
             : base(context, httpContextAccessor) { }
 
-        public async Task<List<Currency>> GetCurrencies()
+        public async Task<List<Currency>> GetCurrencies(CancellationToken cancellationToken = default)
         {
             return await context.Currencies
                 .Where(x => x.IsActive)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
 
-        public async Task<bool> Exists(Guid id, string code)
+        public async Task<bool> Exists(Guid id, string code, CancellationToken cancellationToken = default)
         {
-            return await context.Currencies.AnyAsync(x => x.Id != id && x.Code == code);
+            return await context.Currencies.AnyAsync(x => x.Id != id && x.Code == code, cancellationToken);
         }
 
-        public async Task<bool> SetDefault(Guid id)
+        public async Task<bool> SetDefault(Guid id, CancellationToken cancellationToken = default)
         {
-            var currency = await context.Currencies.FindAsync(id);
+            var currency = await context.Currencies.FindAsync(new object[] { id }, cancellationToken);
             if (currency == null) return false;
 
             var defaults = await context.Currencies
                 .Where(x => x.IsDefault && x.Id != id)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
 
             foreach (var c in defaults)
                 c.IsDefault = false;
