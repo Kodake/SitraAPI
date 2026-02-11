@@ -17,6 +17,7 @@ namespace SITRA.Infrastructure.Persistence.Invoices
                    .WithMany()
                    .HasForeignKey(x => x.FiscalSupportId)
                    .OnDelete(DeleteBehavior.Restrict);
+            builder.HasIndex(x => x.TenantId);
         }
     }
 }

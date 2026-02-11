@@ -13,5 +13,6 @@ public class ModelConfiguration : IEntityTypeConfiguration<Model>
             .OnDelete(DeleteBehavior.Restrict);
         builder.Property(p => p.Name).HasMaxLength(50);
         builder.Property(p => p.Description).HasMaxLength(100).IsRequired(false);
+        builder.HasIndex(x => x.TenantId);
     }
 }

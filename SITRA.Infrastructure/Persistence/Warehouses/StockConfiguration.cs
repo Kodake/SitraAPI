@@ -18,5 +18,6 @@ public class StockConfiguration : IEntityTypeConfiguration<Stock>
             .HasOne(ps => ps.Warehouse)
             .WithMany(w => w.Stocks)
             .HasForeignKey(ps => ps.WarehouseId);
+        builder.HasIndex(x => x.TenantId);
     }
 }

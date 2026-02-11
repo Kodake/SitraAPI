@@ -20,6 +20,7 @@ namespace SITRA.Infrastructure.Persistence.AdministrativeTools
                 .HasForeignKey(p => p.WarehouseId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
+            builder.HasIndex(x => x.TenantId);
         }
     }
 }

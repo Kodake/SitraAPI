@@ -9,6 +9,7 @@ namespace SITRA.Infrastructure.Persistence.Accounts
         public void Configure(EntityTypeBuilder<PaymentReceipt> builder)
         {
             builder.Property(p => p.Amount).HasColumnType("decimal(18,2)").IsRequired();
+            builder.HasIndex(x => x.TenantId);
         }
     }
 }

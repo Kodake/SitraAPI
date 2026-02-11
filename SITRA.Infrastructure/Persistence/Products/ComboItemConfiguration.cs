@@ -23,6 +23,8 @@ namespace SITRA.Infrastructure.Persistence.Products
                 .WithMany()
                 .HasForeignKey(ic => ic.ChildItemId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasIndex(x => x.TenantId);
         }
     }
 }

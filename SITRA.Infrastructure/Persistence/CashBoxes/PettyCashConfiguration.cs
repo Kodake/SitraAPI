@@ -43,6 +43,8 @@ namespace SITRA.Infrastructure.Persistence.CashBoxes
                    .WithOne(m => m.PettyCash)
                    .HasForeignKey(m => m.PettyCashId)
                    .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasIndex(x => x.TenantId);
         }
     }
 }

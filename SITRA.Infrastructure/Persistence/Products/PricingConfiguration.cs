@@ -9,6 +9,7 @@ namespace SITRA.Infrastructure.Persistence.Products
         public void Configure(EntityTypeBuilder<Pricing> builder)
         {
             builder.Property(p => p.Percentage).HasColumnType("decimal(18,2)");
+            builder.HasIndex(x => x.TenantId);
         }
     }
 }

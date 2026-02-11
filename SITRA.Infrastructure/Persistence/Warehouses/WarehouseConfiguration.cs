@@ -15,6 +15,7 @@ namespace SITRA.Infrastructure.Persistence.Warehouses
             builder.Property(p => p.City).HasMaxLength(50).IsRequired(false);
             builder.Property(p => p.Country).HasMaxLength(2).IsRequired(false);
             builder.Property(p => p.ZipCode).HasMaxLength(5).IsRequired(false);
+            builder.HasIndex(x => x.TenantId);
         }
     }
 }

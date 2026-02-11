@@ -14,5 +14,6 @@ public class ItemConfiguration : IEntityTypeConfiguration<Item>
         builder.Property(p => p.Description).HasMaxLength(100).IsRequired(false);
         builder.Property(p => p.ImageUrl).IsUnicode().IsRequired(false);
 
+        builder.HasIndex(x => x.TenantId);
     }
 }

@@ -29,6 +29,8 @@ namespace SITRA.Infrastructure.Persistence.CashBoxes
                    .WithMany()
                    .HasForeignKey(m => m.InvoiceId)
                    .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasIndex(x => x.TenantId);
         }
     }
 }

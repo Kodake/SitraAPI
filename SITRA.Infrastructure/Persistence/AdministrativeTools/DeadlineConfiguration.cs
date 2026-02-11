@@ -10,6 +10,7 @@ namespace SITRA.Infrastructure.Persistence.AdministrativeTools
         {
             builder.Property(p => p.Name).HasMaxLength(50).IsRequired();
             builder.Property(p => p.Days).IsRequired();
+            builder.HasIndex(x => x.TenantId);
         }
     }
 }

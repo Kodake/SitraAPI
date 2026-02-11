@@ -3,20 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\rflorentino\\Desktop\\src\\SitraAPI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{80AD3C08-CD53-444A-BBC6-3A4FCD9600F9}|SITRA.API\\SITRA.API.csproj|c:\\users\\rflorentino\\desktop\\src\\sitraapi\\sitra.api\\endpoints\\administrativetools\\rolesendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{80AD3C08-CD53-444A-BBC6-3A4FCD9600F9}|SITRA.API\\SITRA.API.csproj|solutionrelative:sitra.api\\endpoints\\administrativetools\\rolesendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A236490C-3D9D-4ED9-A2FF-8A31C3D2BCD6}|SITRA.Core\\SITRA.Core.csproj|c:\\users\\rflorentino\\desktop\\src\\sitraapi\\sitra.core\\validations\\administrativetools\\createroledtovalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A236490C-3D9D-4ED9-A2FF-8A31C3D2BCD6}|SITRA.Core\\SITRA.Core.csproj|solutionrelative:sitra.core\\validations\\administrativetools\\createroledtovalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\rflorentino\\Desktop\\src\\SitraAPI\\SITRA.Infrastructure\\Migrations\\20260211032850_AddexIX.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:SITRA.Infrastructure\\Migrations\\20260211032850_AddexIX.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{CDDBE765-C437-40CB-88E5-D34CD88A1353}|SITRA.Infrastructure\\SITRA.Infrastructure.csproj|c:\\users\\rflorentino\\desktop\\src\\sitraapi\\sitra.infrastructure\\persistence\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{CDDBE765-C437-40CB-88E5-D34CD88A1353}|SITRA.Infrastructure\\SITRA.Infrastructure.csproj|solutionrelative:sitra.infrastructure\\persistence\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\rflorentino\\Desktop\\src\\SitraAPI\\SITRA.Infrastructure\\Migrations\\20260211024431_UpdatedRolesTable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:SITRA.Infrastructure\\Migrations\\20260211024431_UpdatedRolesTable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{80AD3C08-CD53-444A-BBC6-3A4FCD9600F9}|SITRA.API\\SITRA.API.csproj|c:\\users\\rflorentino\\desktop\\src\\sitraapi\\sitra.api\\endpoints\\administrativetools\\rolesendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{80AD3C08-CD53-444A-BBC6-3A4FCD9600F9}|SITRA.API\\SITRA.API.csproj|solutionrelative:sitra.api\\endpoints\\administrativetools\\rolesendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A236490C-3D9D-4ED9-A2FF-8A31C3D2BCD6}|SITRA.Core\\SITRA.Core.csproj|c:\\users\\rflorentino\\desktop\\src\\sitraapi\\sitra.core\\validations\\administrativetools\\createroledtovalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A236490C-3D9D-4ED9-A2FF-8A31C3D2BCD6}|SITRA.Core\\SITRA.Core.csproj|solutionrelative:sitra.core\\validations\\administrativetools\\createroledtovalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{80AD3C08-CD53-444A-BBC6-3A4FCD9600F9}|SITRA.API\\SITRA.API.csproj|c:\\users\\rflorentino\\desktop\\src\\sitraapi\\sitra.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -70,10 +70,6 @@
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\dotnet\\sdk\\9.0.310\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.Sdk.FrameworkReferenceResolution.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\rflorentino\\Desktop\\src\\SitraAPI\\SITRA.Infrastructure\\Migrations\\20260211002837_AddedRolesTableEntity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:SITRA.Infrastructure\\Migrations\\20260211002837_AddedRolesTableEntity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{80AD3C08-CD53-444A-BBC6-3A4FCD9600F9}|SITRA.API\\SITRA.API.csproj|c:\\users\\rflorentino\\desktop\\src\\sitraapi\\sitra.api\\profiles\\automapperprofiles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{80AD3C08-CD53-444A-BBC6-3A4FCD9600F9}|SITRA.API\\SITRA.API.csproj|solutionrelative:sitra.api\\profiles\\automapperprofiles.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -92,6 +88,14 @@
     {
       "AbsoluteMoniker": "D:0:0:{A236490C-3D9D-4ED9-A2FF-8A31C3D2BCD6}|SITRA.Core\\SITRA.Core.csproj|c:\\users\\rflorentino\\desktop\\src\\sitraapi\\sitra.core\\mediator\\handlers\\queryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A236490C-3D9D-4ED9-A2FF-8A31C3D2BCD6}|SITRA.Core\\SITRA.Core.csproj|solutionrelative:sitra.core\\mediator\\handlers\\queryhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CDDBE765-C437-40CB-88E5-D34CD88A1353}|SITRA.Infrastructure\\SITRA.Infrastructure.csproj|c:\\users\\rflorentino\\desktop\\src\\sitraapi\\sitra.infrastructure\\migrations\\20260211024431_updatedrolestable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CDDBE765-C437-40CB-88E5-D34CD88A1353}|SITRA.Infrastructure\\SITRA.Infrastructure.csproj|solutionrelative:sitra.infrastructure\\migrations\\20260211024431_updatedrolestable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CDDBE765-C437-40CB-88E5-D34CD88A1353}|SITRA.Infrastructure\\SITRA.Infrastructure.csproj|c:\\users\\rflorentino\\desktop\\src\\sitraapi\\sitra.infrastructure\\migrations\\20260211002837_addedrolestableentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CDDBE765-C437-40CB-88E5-D34CD88A1353}|SITRA.Infrastructure\\SITRA.Infrastructure.csproj|solutionrelative:sitra.infrastructure\\migrations\\20260211002837_addedrolestableentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -130,6 +134,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "20260211032850_AddexIX.cs",
+              "DocumentMoniker": "C:\\Users\\rflorentino\\Desktop\\src\\SitraAPI\\SITRA.Infrastructure\\Migrations\\20260211032850_AddexIX.cs",
+              "RelativeDocumentMoniker": "SITRA.Infrastructure\\Migrations\\20260211032850_AddexIX.cs",
+              "ToolTip": "C:\\Users\\rflorentino\\Desktop\\src\\SitraAPI\\SITRA.Infrastructure\\Migrations\\20260211032850_AddexIX.cs",
+              "RelativeToolTip": "SITRA.Infrastructure\\Migrations\\20260211032850_AddexIX.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-11T03:28:50.784Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "RolesEndpoints.cs",
               "DocumentMoniker": "C:\\Users\\rflorentino\\Desktop\\src\\SitraAPI\\SITRA.API\\Endpoints\\AdministrativeTools\\RolesEndpoints.cs",
               "RelativeDocumentMoniker": "SITRA.API\\Endpoints\\AdministrativeTools\\RolesEndpoints.cs",
@@ -137,25 +154,11 @@
               "RelativeToolTip": "SITRA.API\\Endpoints\\AdministrativeTools\\RolesEndpoints.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-11T02:47:35.068Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-11T02:47:35.068Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "CreateRoleDTOValidator.cs",
-              "DocumentMoniker": "C:\\Users\\rflorentino\\Desktop\\src\\SitraAPI\\SITRA.Core\\Validations\\AdministrativeTools\\CreateRoleDTOValidator.cs",
-              "RelativeDocumentMoniker": "SITRA.Core\\Validations\\AdministrativeTools\\CreateRoleDTOValidator.cs",
-              "ToolTip": "C:\\Users\\rflorentino\\Desktop\\src\\SitraAPI\\SITRA.Core\\Validations\\AdministrativeTools\\CreateRoleDTOValidator.cs",
-              "RelativeToolTip": "SITRA.Core\\Validations\\AdministrativeTools\\CreateRoleDTOValidator.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAABYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-11T02:46:30.552Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 22,
               "Title": "20260211024431_UpdatedRolesTable.cs",
               "DocumentMoniker": "C:\\Users\\rflorentino\\Desktop\\src\\SitraAPI\\SITRA.Infrastructure\\Migrations\\20260211024431_UpdatedRolesTable.cs",
               "RelativeDocumentMoniker": "SITRA.Infrastructure\\Migrations\\20260211024431_UpdatedRolesTable.cs",
@@ -163,8 +166,7 @@
               "RelativeToolTip": "SITRA.Infrastructure\\Migrations\\20260211024431_UpdatedRolesTable.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-11T02:44:31.84Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-11T02:44:31.84Z"
             },
             {
               "$type": "Document",
@@ -176,8 +178,7 @@
               "RelativeToolTip": "SITRA.Infrastructure\\Repositories\\AdministrativeTools\\RoleRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAqwAkAAABAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-11T02:41:21.633Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-11T02:41:21.633Z"
             },
             {
               "$type": "Document",
@@ -189,8 +190,7 @@
               "RelativeToolTip": "SITRA.Core\\Entities\\Accounts\\PayableReceipt.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-11T02:39:38.24Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-11T02:39:38.24Z"
             },
             {
               "$type": "Document",
@@ -202,8 +202,7 @@
               "RelativeToolTip": "SITRA.Core\\Entities\\AdministrativeTools\\FiscalSupport.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-11T02:39:35.701Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-11T02:39:35.701Z"
             },
             {
               "$type": "Document",
@@ -215,8 +214,7 @@
               "RelativeToolTip": "SITRA.Infrastructure\\Repositories\\Accounts\\PaymentReceiptRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-11T02:36:54.69Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-11T02:36:54.69Z"
             },
             {
               "$type": "Document",
@@ -228,8 +226,7 @@
               "RelativeToolTip": "SITRA.Core\\Entities\\AdministrativeTools\\Role.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-11T02:34:50.4Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-11T02:34:50.4Z"
             },
             {
               "$type": "Document",
@@ -241,8 +238,32 @@
               "RelativeToolTip": "SITRA.Core\\Entities\\Accounts\\Payable.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-11T02:34:39.14Z",
+              "WhenOpened": "2026-02-11T02:34:39.14Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\rflorentino\\Desktop\\src\\SitraAPI\\SITRA.Infrastructure\\Persistence\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "SITRA.Infrastructure\\Persistence\\ApplicationDbContext.cs",
+              "ToolTip": "C:\\Users\\rflorentino\\Desktop\\src\\SitraAPI\\SITRA.Infrastructure\\Persistence\\ApplicationDbContext.cs",
+              "RelativeToolTip": "SITRA.Infrastructure\\Persistence\\ApplicationDbContext.cs",
+              "ViewState": "AgIAAHoAAAAAAAAAAAAuwJUAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-11T00:02:31.654Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CreateRoleDTOValidator.cs",
+              "DocumentMoniker": "C:\\Users\\rflorentino\\Desktop\\src\\SitraAPI\\SITRA.Core\\Validations\\AdministrativeTools\\CreateRoleDTOValidator.cs",
+              "RelativeDocumentMoniker": "SITRA.Core\\Validations\\AdministrativeTools\\CreateRoleDTOValidator.cs",
+              "ToolTip": "C:\\Users\\rflorentino\\Desktop\\src\\SitraAPI\\SITRA.Core\\Validations\\AdministrativeTools\\CreateRoleDTOValidator.cs",
+              "RelativeToolTip": "SITRA.Core\\Validations\\AdministrativeTools\\CreateRoleDTOValidator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAABYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-11T02:46:30.552Z"
             },
             {
               "$type": "Document",
@@ -254,8 +275,7 @@
               "RelativeToolTip": "SITRA.Infrastructure\\Persistence\\AdministrativeTools\\RoleConfiguration.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-11T02:26:05.031Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-11T02:26:05.031Z"
             },
             {
               "$type": "Document",
@@ -267,21 +287,7 @@
               "RelativeToolTip": "SITRA.API\\Program.cs",
               "ViewState": "AgIAACgAAAAAAAAAAIAwwEIAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-11T02:27:22.277Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ApplicationDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\rflorentino\\Desktop\\src\\SitraAPI\\SITRA.Infrastructure\\Persistence\\ApplicationDbContext.cs",
-              "RelativeDocumentMoniker": "SITRA.Infrastructure\\Persistence\\ApplicationDbContext.cs",
-              "ToolTip": "C:\\Users\\rflorentino\\Desktop\\src\\SitraAPI\\SITRA.Infrastructure\\Persistence\\ApplicationDbContext.cs",
-              "RelativeToolTip": "SITRA.Infrastructure\\Persistence\\ApplicationDbContext.cs",
-              "ViewState": "AgIAAAIAAAAAAAAAAAAowBwAAAA+AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-11T00:02:31.654Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-11T02:27:22.277Z"
             },
             {
               "$type": "Document",
@@ -293,8 +299,7 @@
               "RelativeToolTip": "SITRA.Infrastructure\\Persistence\\AdministrativeTools\\DeadlineConfiguration.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-11T02:41:47.274Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-11T02:41:47.274Z"
             },
             {
               "$type": "Document",
@@ -306,8 +311,7 @@
               "RelativeToolTip": "SITRA.Core\\Interfaces\\AdministrativeTools\\IRoleRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAqwAkAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-11T02:41:55.479Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-11T02:41:55.479Z"
             },
             {
               "$type": "Document",
@@ -319,8 +323,7 @@
               "RelativeToolTip": "SITRA.Infrastructure\\Persistence\\AdministrativeTools\\FiscalSupportConfiguration.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-11T02:41:49.158Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-11T02:41:49.158Z"
             },
             {
               "$type": "Document",
@@ -332,8 +335,7 @@
               "RelativeToolTip": "SITRA.Infrastructure\\Repositories\\Accounts\\PayableReceiptRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-11T02:36:52.956Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-11T02:36:52.956Z"
             },
             {
               "$type": "Document",
@@ -345,12 +347,11 @@
               "RelativeToolTip": "..\\..\\..\\..\\..\\Program Files\\dotnet\\sdk\\9.0.310\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.NET.Sdk.FrameworkReferenceResolution.targets",
               "ViewState": "AgIAADUAAAAAAAAAAAAhwFEAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
-              "WhenOpened": "2026-02-11T02:28:53.294Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-11T02:28:53.294Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 23,
               "Title": "20260211002837_AddedRolesTableEntity.cs",
               "DocumentMoniker": "C:\\Users\\rflorentino\\Desktop\\src\\SitraAPI\\SITRA.Infrastructure\\Migrations\\20260211002837_AddedRolesTableEntity.cs",
               "RelativeDocumentMoniker": "SITRA.Infrastructure\\Migrations\\20260211002837_AddedRolesTableEntity.cs",
@@ -358,12 +359,11 @@
               "RelativeToolTip": "SITRA.Infrastructure\\Migrations\\20260211002837_AddedRolesTableEntity.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-11T00:28:37.927Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-11T00:28:37.927Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 17,
               "Title": "AutoMapperProfiles.cs",
               "DocumentMoniker": "C:\\Users\\rflorentino\\Desktop\\src\\SitraAPI\\SITRA.API\\Profiles\\AutoMapperProfiles.cs",
               "RelativeDocumentMoniker": "SITRA.API\\Profiles\\AutoMapperProfiles.cs",
@@ -371,12 +371,11 @@
               "RelativeToolTip": "SITRA.API\\Profiles\\AutoMapperProfiles.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-11T00:00:01.456Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-11T00:00:01.456Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 18,
               "Title": "FiscalSupportsProfile.cs",
               "DocumentMoniker": "C:\\Users\\rflorentino\\Desktop\\src\\SitraAPI\\SITRA.API\\Profiles\\AdministrativeTools\\FiscalSupportsProfile.cs",
               "RelativeDocumentMoniker": "SITRA.API\\Profiles\\AdministrativeTools\\FiscalSupportsProfile.cs",
@@ -384,12 +383,11 @@
               "RelativeToolTip": "SITRA.API\\Profiles\\AdministrativeTools\\FiscalSupportsProfile.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-10T23:59:54.629Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-10T23:59:54.629Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 19,
               "Title": "RolesProfile.cs",
               "DocumentMoniker": "C:\\Users\\rflorentino\\Desktop\\src\\SitraAPI\\SITRA.API\\Profiles\\AdministrativeTools\\RolesProfile.cs",
               "RelativeDocumentMoniker": "SITRA.API\\Profiles\\AdministrativeTools\\RolesProfile.cs",
@@ -397,12 +395,11 @@
               "RelativeToolTip": "SITRA.API\\Profiles\\AdministrativeTools\\RolesProfile.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-10T23:59:51.151Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-10T23:59:51.151Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 21,
               "Title": "QueryHandler.cs",
               "DocumentMoniker": "C:\\Users\\rflorentino\\Desktop\\src\\SitraAPI\\SITRA.Core\\Mediator\\Handlers\\QueryHandler.cs",
               "RelativeDocumentMoniker": "SITRA.Core\\Mediator\\Handlers\\QueryHandler.cs",
@@ -410,12 +407,11 @@
               "RelativeToolTip": "SITRA.Core\\Mediator\\Handlers\\QueryHandler.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-10T23:58:15.247Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-10T23:58:15.247Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 20,
               "Title": "GetRoleByIdQuery.cs",
               "DocumentMoniker": "C:\\Users\\rflorentino\\Desktop\\src\\SitraAPI\\SITRA.Core\\Mediator\\Queries\\AdministrativeTools\\Roles\\GetRoleByIdQuery.cs",
               "RelativeDocumentMoniker": "SITRA.Core\\Mediator\\Queries\\AdministrativeTools\\Roles\\GetRoleByIdQuery.cs",
@@ -423,8 +419,7 @@
               "RelativeToolTip": "SITRA.Core\\Mediator\\Queries\\AdministrativeTools\\Roles\\GetRoleByIdQuery.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-10T23:56:59.256Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-10T23:56:59.256Z"
             }
           ]
         },

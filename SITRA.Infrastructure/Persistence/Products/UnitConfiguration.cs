@@ -9,5 +9,6 @@ public class UnitConfiguration : IEntityTypeConfiguration<Unit>
     {
         builder.Property(p => p.Name).HasMaxLength(20);
         builder.Property(p => p.ShortName).HasMaxLength(20);
+        builder.HasIndex(x => x.TenantId);
     }
 }

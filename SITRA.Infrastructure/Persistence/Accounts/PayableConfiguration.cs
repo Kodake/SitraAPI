@@ -18,6 +18,8 @@ namespace SITRA.Infrastructure.Persistence.Accounts
                 .WithOne(pr => pr.Payable)
                 .HasForeignKey(pr => pr.PayableId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasIndex(x => x.TenantId);
         }
     }
 }

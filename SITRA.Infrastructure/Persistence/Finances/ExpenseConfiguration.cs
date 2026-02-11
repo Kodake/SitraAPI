@@ -10,6 +10,7 @@ namespace SITRA.Infrastructure.Persistence.Finances
         {
             builder.Property(p => p.Description).HasMaxLength(50);
             builder.Property(p => p.Amount).HasColumnType("decimal(18,2)").IsRequired();
+            builder.HasIndex(x => x.TenantId);
         }
     }
 }

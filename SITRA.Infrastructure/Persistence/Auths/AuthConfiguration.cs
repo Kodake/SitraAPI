@@ -13,6 +13,7 @@ namespace SITRA.Infrastructure.Persistence.Auths
             builder.Property(p => p.Address).HasMaxLength(100);
             builder.Property(p => p.PhoneNumber).HasMaxLength(10);
             builder.Property(p => p.TenantId).IsRequired();
+            builder.HasIndex(x => x.TenantId);
         }
     }
 }

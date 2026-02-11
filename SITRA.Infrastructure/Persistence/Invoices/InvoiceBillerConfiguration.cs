@@ -17,6 +17,7 @@ namespace SITRA.Infrastructure.Persistence.Invoices
                    .WithMany(x => x.InvoiceBillers)
                    .HasForeignKey(x => x.ContactId)
                    .OnDelete(DeleteBehavior.Restrict);
+            builder.HasIndex(x => x.TenantId);
         }
     }
 }

@@ -11,6 +11,7 @@ namespace SITRA.Infrastructure.Persistence.Appointments
         {
             // ?? CLAVE PRIMARIA COMPUESTA (ESTO SOLUCIONA EL ERROR)
             builder.HasKey(x => new { x.AppointmentId, x.ItemId });
+            builder.HasIndex(x => x.TenantId);
         }
     }
 }

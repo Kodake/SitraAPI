@@ -13,6 +13,7 @@ namespace SITRA.Infrastructure.Persistence.Invoices
                 .WithMany(sp => sp.Payments)
                 .HasForeignKey(p => p.SpotPaymentId)
                 .IsRequired();
+            builder.HasIndex(x => x.TenantId);
         }
     }
 }

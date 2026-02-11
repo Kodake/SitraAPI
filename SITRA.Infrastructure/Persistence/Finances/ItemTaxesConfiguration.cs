@@ -9,6 +9,7 @@ namespace SITRA.Infrastructure.Persistence.Finances
         public void Configure(EntityTypeBuilder<ItemTaxes> builder)
         {
             builder.HasKey(g => new { g.TaxId, g.ItemId });
+            builder.HasIndex(x => x.TenantId);
         }
     }
 }

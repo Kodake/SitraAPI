@@ -12,6 +12,7 @@ namespace SITRA.Infrastructure.Persistence.Invoices
                 .WithOne(s => s.SpotPayable)
                 .HasForeignKey<SpotPayable>(ar => ar.InvoiceId)
                 .OnDelete(DeleteBehavior.Cascade);
+            builder.HasIndex(x => x.TenantId);
         }
     }
 }

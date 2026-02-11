@@ -27,6 +27,8 @@ namespace SITRA.Infrastructure.Persistence.Warehouses
                 .WithMany(w => w.OriginTransfers)
                 .HasForeignKey(t => t.OriginWarehouseId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasIndex(x => x.TenantId);
         }
     }
 }

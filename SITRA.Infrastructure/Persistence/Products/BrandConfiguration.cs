@@ -9,5 +9,6 @@ public class BrandConfiguration : IEntityTypeConfiguration<Brand>
     {
         builder.Property(p => p.Name).HasMaxLength(50);
         builder.Property(p => p.ImageURL).IsRequired(false);
+        builder.HasIndex(x => x.TenantId);
     }
 }

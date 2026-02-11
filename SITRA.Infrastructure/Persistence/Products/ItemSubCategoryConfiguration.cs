@@ -17,6 +17,7 @@ namespace SITRA.Infrastructure.Persistence.Products
                    .WithMany(x => x.ItemSubCategories)
                    .HasForeignKey(x => x.SubCategoryId)
                    .OnDelete(DeleteBehavior.Restrict);
+            builder.HasIndex(x => x.TenantId);
         }
     }
 }
