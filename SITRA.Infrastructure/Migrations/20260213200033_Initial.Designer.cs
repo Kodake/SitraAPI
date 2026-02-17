@@ -12,8 +12,8 @@ using SITRA.Infrastructure.Persistence;
 namespace SITRA.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260211024431_UpdatedRolesTable")]
-    partial class UpdatedRolesTable
+    [Migration("20260213200033_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -195,6 +195,8 @@ namespace SITRA.Infrastructure.Migrations
                     b.HasIndex("InvoiceId")
                         .IsUnique();
 
+                    b.HasIndex("TenantId");
+
                     b.ToTable("Payables");
                 });
 
@@ -232,6 +234,8 @@ namespace SITRA.Infrastructure.Migrations
 
                     b.HasIndex("PayableId");
 
+                    b.HasIndex("TenantId");
+
                     b.ToTable("PayableReceipts");
                 });
 
@@ -268,6 +272,8 @@ namespace SITRA.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ReceivableId");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("PaymentReceipts");
                 });
@@ -310,6 +316,8 @@ namespace SITRA.Infrastructure.Migrations
                         .IsUnique()
                         .HasFilter("[InvoiceId] IS NOT NULL");
 
+                    b.HasIndex("TenantId");
+
                     b.ToTable("Receivables");
                 });
 
@@ -340,6 +348,8 @@ namespace SITRA.Infrastructure.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("Deadlines");
                 });
@@ -394,6 +404,8 @@ namespace SITRA.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.HasIndex("WarehouseId");
 
@@ -519,6 +531,8 @@ namespace SITRA.Infrastructure.Migrations
                     b.HasKey("AppointmentId", "ItemId");
 
                     b.HasIndex("ItemId");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("AppointmentItems");
                 });
@@ -650,6 +664,8 @@ namespace SITRA.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("TenantId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("PettyCashes");
@@ -687,6 +703,8 @@ namespace SITRA.Infrastructure.Migrations
                     b.HasIndex("InvoiceId");
 
                     b.HasIndex("PettyCashId");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("PettyCashMovements");
                 });
@@ -744,6 +762,8 @@ namespace SITRA.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("TenantId");
+
                     b.ToTable("Contacts");
                 });
 
@@ -788,6 +808,8 @@ namespace SITRA.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("TenantId");
+
                     b.ToTable("Currencies");
                 });
 
@@ -822,6 +844,8 @@ namespace SITRA.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("TenantId");
+
                     b.ToTable("Expenses");
                 });
 
@@ -851,6 +875,8 @@ namespace SITRA.Infrastructure.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("Taxes");
                 });
@@ -927,6 +953,8 @@ namespace SITRA.Infrastructure.Migrations
 
                     b.HasIndex("PricingId");
 
+                    b.HasIndex("TenantId");
+
                     b.HasIndex("WarehouseId");
 
                     b.ToTable("Invoices");
@@ -953,6 +981,8 @@ namespace SITRA.Infrastructure.Migrations
 
                     b.HasIndex("ContactId");
 
+                    b.HasIndex("TenantId");
+
                     b.ToTable("InvoiceBillers");
                 });
 
@@ -977,6 +1007,8 @@ namespace SITRA.Infrastructure.Migrations
 
                     b.HasIndex("ContactId");
 
+                    b.HasIndex("TenantId");
+
                     b.ToTable("InvoiceBuyers");
                 });
 
@@ -1000,6 +1032,8 @@ namespace SITRA.Infrastructure.Migrations
                     b.HasKey("InvoiceId");
 
                     b.HasIndex("FiscalSupportId");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("InvoiceFiscalSupports");
                 });
@@ -1051,6 +1085,8 @@ namespace SITRA.Infrastructure.Migrations
 
                     b.HasIndex("QuotationId");
 
+                    b.HasIndex("TenantId");
+
                     b.ToTable("InvoiceItems");
                 });
 
@@ -1081,6 +1117,8 @@ namespace SITRA.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("SpotPaymentId");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("Payments");
                 });
@@ -1117,6 +1155,8 @@ namespace SITRA.Infrastructure.Migrations
                     b.HasIndex("InvoiceId")
                         .IsUnique()
                         .HasFilter("[InvoiceId] IS NOT NULL");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("Quotations");
                 });
@@ -1159,6 +1199,8 @@ namespace SITRA.Infrastructure.Migrations
                         .IsUnique()
                         .HasFilter("[InvoiceId] IS NOT NULL");
 
+                    b.HasIndex("TenantId");
+
                     b.ToTable("SpotPayables");
                 });
 
@@ -1199,6 +1241,8 @@ namespace SITRA.Infrastructure.Migrations
                     b.HasIndex("InvoiceId")
                         .IsUnique();
 
+                    b.HasIndex("TenantId");
+
                     b.ToTable("SpotPayments");
                 });
 
@@ -1229,6 +1273,8 @@ namespace SITRA.Infrastructure.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("Brands");
                 });
@@ -1262,6 +1308,8 @@ namespace SITRA.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("TenantId");
+
                     b.ToTable("Categories");
                 });
 
@@ -1288,6 +1336,8 @@ namespace SITRA.Infrastructure.Migrations
                     b.HasKey("ParentItemId", "ChildItemId");
 
                     b.HasIndex("ChildItemId");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("ComboItems", (string)null);
                 });
@@ -1336,6 +1386,8 @@ namespace SITRA.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("TenantId");
+
                     b.ToTable("Items");
                 });
 
@@ -1359,6 +1411,8 @@ namespace SITRA.Infrastructure.Migrations
                     b.HasKey("ItemId");
 
                     b.HasIndex("BrandId");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("ItemBrands");
                 });
@@ -1384,6 +1438,8 @@ namespace SITRA.Infrastructure.Migrations
 
                     b.HasIndex("CategoryId");
 
+                    b.HasIndex("TenantId");
+
                     b.ToTable("ItemCategories");
                 });
 
@@ -1407,6 +1463,8 @@ namespace SITRA.Infrastructure.Migrations
                     b.HasKey("ItemId");
 
                     b.HasIndex("ModelId");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("ItemModels");
                 });
@@ -1432,6 +1490,8 @@ namespace SITRA.Infrastructure.Migrations
 
                     b.HasIndex("SubCategoryId");
 
+                    b.HasIndex("TenantId");
+
                     b.ToTable("ItemSubCategories");
                 });
 
@@ -1456,6 +1516,8 @@ namespace SITRA.Infrastructure.Migrations
 
                     b.HasIndex("ItemId");
 
+                    b.HasIndex("TenantId");
+
                     b.ToTable("ItemTaxes");
                 });
 
@@ -1477,6 +1539,8 @@ namespace SITRA.Infrastructure.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.HasKey("ItemId");
+
+                    b.HasIndex("TenantId");
 
                     b.HasIndex("UnitId");
 
@@ -1517,6 +1581,8 @@ namespace SITRA.Infrastructure.Migrations
 
                     b.HasIndex("BrandId");
 
+                    b.HasIndex("TenantId");
+
                     b.ToTable("Models");
                 });
 
@@ -1549,6 +1615,8 @@ namespace SITRA.Infrastructure.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("Pricings");
                 });
@@ -1589,6 +1657,8 @@ namespace SITRA.Infrastructure.Migrations
 
                     b.HasIndex("PricingId");
 
+                    b.HasIndex("TenantId");
+
                     b.ToTable("PricingItems");
                 });
 
@@ -1626,6 +1696,8 @@ namespace SITRA.Infrastructure.Migrations
 
                     b.HasIndex("CategoryId");
 
+                    b.HasIndex("TenantId");
+
                     b.ToTable("SubCategories");
                 });
 
@@ -1658,6 +1730,8 @@ namespace SITRA.Infrastructure.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("Units");
                 });
@@ -1714,6 +1788,8 @@ namespace SITRA.Infrastructure.Migrations
 
                     b.HasIndex("ItemId");
 
+                    b.HasIndex("TenantId");
+
                     b.HasIndex("WarehouseId");
 
                     b.ToTable("Stocks");
@@ -1765,6 +1841,8 @@ namespace SITRA.Infrastructure.Migrations
                     b.HasIndex("ProductId");
 
                     b.HasIndex("StockId");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("Transfers");
                 });
@@ -1821,6 +1899,8 @@ namespace SITRA.Infrastructure.Migrations
                         .HasColumnType("nvarchar(5)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("Warehouses");
                 });

@@ -22,6 +22,9 @@
           "SITRA.Core.dll": {}
         },
         "resources": {
+          "en/SITRA.Core.resources.dll": {
+            "locale": "en"
+          },
           "es/SITRA.Core.resources.dll": {
             "locale": "es"
           }

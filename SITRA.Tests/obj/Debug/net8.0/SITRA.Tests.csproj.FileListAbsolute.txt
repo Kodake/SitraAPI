@@ -738,3 +738,4 @@ c:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Tests\obj\Debug\net8.0\SITRA.Tes
 c:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Tests\obj\Debug\net8.0\SITRA.Te.8AFE790F.Up2Date
 c:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Tests\obj\Debug\net8.0\SITRA.Tests.genruntimeconfig.cache
 c:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Tests\obj\Debug\net8.0\ref\SITRA.Tests.dll
+C:\Users\Kodake\Desktop\PosAPI\SITRA.Tests\bin\Debug\net8.0\en\SITRA.Core.resources.dll

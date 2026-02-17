@@ -19,7 +19,6 @@ namespace SITRA.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
-                schema: "auths",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -130,6 +129,7 @@ namespace SITRA.Infrastructure.Migrations
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Symbol = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
                     Rate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    IsDefault = table.Column<bool>(type: "bit", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
@@ -220,6 +220,7 @@ namespace SITRA.Infrastructure.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PricingType = table.Column<int>(type: "int", nullable: false),
                     Percentage = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    IsDefault = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
@@ -244,6 +245,23 @@ namespace SITRA.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Taxes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TenantRoles",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    IsSystemRole = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TenantRoles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -288,6 +306,7 @@ namespace SITRA.Infrastructure.Migrations
                     City = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Country = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: true),
                     ZipCode = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: true),
+                    IsDefault = table.Column<bool>(type: "bit", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
@@ -315,7 +334,6 @@ namespace SITRA.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
-                        principalSchema: "auths",
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -380,7 +398,6 @@ namespace SITRA.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
                         column: x => x.RoleId,
-                        principalSchema: "auths",
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -696,6 +713,7 @@ namespace SITRA.Infrastructure.Migrations
                     FinalSequence = table.Column<long>(type: "bigint", nullable: false),
                     SpaceNumber = table.Column<long>(type: "bigint", nullable: false),
                     WarehouseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsDefault = table.Column<bool>(type: "bit", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
@@ -1295,6 +1313,11 @@ namespace SITRA.Infrastructure.Migrations
                 column: "ItemId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AppointmentItems_TenantId",
+                table: "AppointmentItems",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Appointments_ContactId",
                 table: "Appointments",
                 column: "ContactId");
@@ -1307,7 +1330,6 @@ namespace SITRA.Infrastructure.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
-                schema: "auths",
                 table: "AspNetRoles",
                 column: "NormalizedName",
                 unique: true,
@@ -1346,9 +1368,49 @@ namespace SITRA.Infrastructure.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Brands_TenantId",
+                table: "Brands",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Categories_TenantId",
+                table: "Categories",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ComboItems_ChildItemId",
                 table: "ComboItems",
                 column: "ChildItemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ComboItems_TenantId",
+                table: "ComboItems",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Contacts_TenantId",
+                table: "Contacts",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Currencies_TenantId",
+                table: "Currencies",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Deadlines_TenantId",
+                table: "Deadlines",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Expenses_TenantId",
+                table: "Expenses",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FiscalSupports_TenantId",
+                table: "FiscalSupports",
+                column: "TenantId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_FiscalSupports_WarehouseId",
@@ -1361,14 +1423,29 @@ namespace SITRA.Infrastructure.Migrations
                 column: "ContactId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_InvoiceBillers_TenantId",
+                table: "InvoiceBillers",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_InvoiceBuyers_ContactId",
                 table: "InvoiceBuyers",
                 column: "ContactId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_InvoiceBuyers_TenantId",
+                table: "InvoiceBuyers",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_InvoiceFiscalSupports_FiscalSupportId",
                 table: "InvoiceFiscalSupports",
                 column: "FiscalSupportId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InvoiceFiscalSupports_TenantId",
+                table: "InvoiceFiscalSupports",
+                column: "TenantId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_InvoiceItems_InvoiceId",
@@ -1386,6 +1463,11 @@ namespace SITRA.Infrastructure.Migrations
                 column: "QuotationId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_InvoiceItems_TenantId",
+                table: "InvoiceItems",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Invoices_CurrencyId",
                 table: "Invoices",
                 column: "CurrencyId");
@@ -1394,6 +1476,11 @@ namespace SITRA.Infrastructure.Migrations
                 name: "IX_Invoices_PricingId",
                 table: "Invoices",
                 column: "PricingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Invoices_TenantId",
+                table: "Invoices",
+                column: "TenantId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Invoices_WarehouseId",
@@ -1406,9 +1493,19 @@ namespace SITRA.Infrastructure.Migrations
                 column: "BrandId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ItemBrands_TenantId",
+                table: "ItemBrands",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ItemCategories_CategoryId",
                 table: "ItemCategories",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemCategories_TenantId",
+                table: "ItemCategories",
+                column: "TenantId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ItemModels_ModelId",
@@ -1416,14 +1513,39 @@ namespace SITRA.Infrastructure.Migrations
                 column: "ModelId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ItemModels_TenantId",
+                table: "ItemModels",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Items_TenantId",
+                table: "Items",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ItemSubCategories_SubCategoryId",
                 table: "ItemSubCategories",
                 column: "SubCategoryId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ItemSubCategories_TenantId",
+                table: "ItemSubCategories",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ItemTaxes_ItemId",
                 table: "ItemTaxes",
                 column: "ItemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemTaxes_TenantId",
+                table: "ItemTaxes",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItemUnits_TenantId",
+                table: "ItemUnits",
+                column: "TenantId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ItemUnits_UnitId",
@@ -1436,9 +1558,19 @@ namespace SITRA.Infrastructure.Migrations
                 column: "BrandId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Models_TenantId",
+                table: "Models",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PayableReceipts_PayableId",
                 table: "PayableReceipts",
                 column: "PayableId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PayableReceipts_TenantId",
+                table: "PayableReceipts",
+                column: "TenantId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Payables_ContactId",
@@ -1452,14 +1584,34 @@ namespace SITRA.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Payables_TenantId",
+                table: "Payables",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PaymentReceipts_ReceivableId",
                 table: "PaymentReceipts",
                 column: "ReceivableId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PaymentReceipts_TenantId",
+                table: "PaymentReceipts",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Payments_SpotPaymentId",
                 table: "Payments",
                 column: "SpotPaymentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Payments_TenantId",
+                table: "Payments",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PettyCashes_TenantId",
+                table: "PettyCashes",
+                column: "TenantId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PettyCashes_UserId",
@@ -1477,6 +1629,11 @@ namespace SITRA.Infrastructure.Migrations
                 column: "PettyCashId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PettyCashMovements_TenantId",
+                table: "PettyCashMovements",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PricingItems_ItemId",
                 table: "PricingItems",
                 column: "ItemId");
@@ -1485,6 +1642,16 @@ namespace SITRA.Infrastructure.Migrations
                 name: "IX_PricingItems_PricingId",
                 table: "PricingItems",
                 column: "PricingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PricingItems_TenantId",
+                table: "PricingItems",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Pricings_TenantId",
+                table: "Pricings",
+                column: "TenantId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Quotations_ContactId",
@@ -1499,6 +1666,11 @@ namespace SITRA.Infrastructure.Migrations
                 filter: "[InvoiceId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Quotations_TenantId",
+                table: "Quotations",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Receivables_ContactId",
                 table: "Receivables",
                 column: "ContactId");
@@ -1509,6 +1681,11 @@ namespace SITRA.Infrastructure.Migrations
                 column: "InvoiceId",
                 unique: true,
                 filter: "[InvoiceId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Receivables_TenantId",
+                table: "Receivables",
+                column: "TenantId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SpotPayables_ContactId",
@@ -1523,6 +1700,11 @@ namespace SITRA.Infrastructure.Migrations
                 filter: "[InvoiceId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_SpotPayables_TenantId",
+                table: "SpotPayables",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SpotPayments_ContactId",
                 table: "SpotPayments",
                 column: "ContactId");
@@ -1534,9 +1716,19 @@ namespace SITRA.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_SpotPayments_TenantId",
+                table: "SpotPayments",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Stocks_ItemId",
                 table: "Stocks",
                 column: "ItemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Stocks_TenantId",
+                table: "Stocks",
+                column: "TenantId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Stocks_WarehouseId",
@@ -1547,6 +1739,22 @@ namespace SITRA.Infrastructure.Migrations
                 name: "IX_SubCategories_CategoryId",
                 table: "SubCategories",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SubCategories_TenantId",
+                table: "SubCategories",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Taxes_TenantId",
+                table: "Taxes",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Roles_TenantId_Name",
+                table: "TenantRoles",
+                columns: new[] { "TenantId", "Name" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Transfers_DestinationWarehouseId",
@@ -1567,6 +1775,21 @@ namespace SITRA.Infrastructure.Migrations
                 name: "IX_Transfers_StockId",
                 table: "Transfers",
                 column: "StockId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Transfers_TenantId",
+                table: "Transfers",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Units_TenantId",
+                table: "Units",
+                column: "TenantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Warehouses_TenantId",
+                table: "Warehouses",
+                column: "TenantId");
         }
 
         /// <inheritdoc />
@@ -1657,6 +1880,9 @@ namespace SITRA.Infrastructure.Migrations
                 name: "SpotPayables");
 
             migrationBuilder.DropTable(
+                name: "TenantRoles");
+
+            migrationBuilder.DropTable(
                 name: "Tenants");
 
             migrationBuilder.DropTable(
@@ -1666,8 +1892,7 @@ namespace SITRA.Infrastructure.Migrations
                 name: "Appointments");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles",
-                schema: "auths");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "FiscalSupports");

@@ -117,3 +117,4 @@ C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Infrastructure\obj\Debug\net8.0\
 C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Infrastructure\obj\Debug\net8.0\SITRA.Infrastructure.pdb
 C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Infrastructure\obj\Debug\net8.0\SITRA.Infrastructure.genruntimeconfig.cache
 C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Infrastructure\obj\Debug\net8.0\ref\SITRA.Infrastructure.dll
+C:\Users\Kodake\Desktop\PosAPI\SITRA.Infrastructure\bin\Debug\net8.0\en\SITRA.Core.resources.dll

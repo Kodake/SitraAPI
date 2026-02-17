@@ -423,5 +423,6 @@ C:\Users\Kodake\Desktop\PosAPI\SITRA.API\obj\Release\net8.0\win-x86\PubTmp\Out\S
 C:\Users\Kodake\Desktop\PosAPI\SITRA.API\obj\Release\net8.0\win-x86\PubTmp\Out\SITRA.Infrastructure.dll
 C:\Users\Kodake\Desktop\PosAPI\SITRA.API\obj\Release\net8.0\win-x86\PubTmp\Out\SITRA.Core.pdb
 C:\Users\Kodake\Desktop\PosAPI\SITRA.API\obj\Release\net8.0\win-x86\PubTmp\Out\SITRA.Infrastructure.pdb
+C:\Users\Kodake\Desktop\PosAPI\SITRA.API\obj\Release\net8.0\win-x86\PubTmp\Out\en\SITRA.Core.resources.dll
 C:\Users\Kodake\Desktop\PosAPI\SITRA.API\obj\Release\net8.0\win-x86\PubTmp\Out\es\SITRA.Core.resources.dll
 C:\Users\Kodake\Desktop\PosAPI\SITRA.API\obj\Release\net8.0\win-x86\PubTmp\Out\SITRA.API.deps.json

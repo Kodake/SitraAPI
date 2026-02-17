@@ -697,3 +697,4 @@ C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.API\obj\Debug\net8.0\SITRA.API.p
 C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.API\obj\Debug\net8.0\SITRA.API.genruntimeconfig.cache
 C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.API\obj\Debug\net8.0\ref\SITRA.API.dll
 C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\Kodake\Desktop\PosAPI\SITRA.API\bin\Debug\net8.0\en\SITRA.Core.resources.dll

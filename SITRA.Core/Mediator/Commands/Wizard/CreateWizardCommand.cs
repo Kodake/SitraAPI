@@ -19,6 +19,7 @@ namespace SITRA.Core.Mediator.Commands.Wizard
 
             // 1. Currency
             var currency = mapper.Map<Currency>(dto.Currency);
+            currency.IsDefault = true;
             await unitOfWork.CurrencyRepository.CreateAsync(currency);
 
             // 2. Tax
@@ -27,6 +28,7 @@ namespace SITRA.Core.Mediator.Commands.Wizard
 
             // 3. Warehouse
             var warehouse = mapper.Map<Warehouse>(dto.Warehouse);
+            warehouse.IsDefault = true;
             var warehouseSaved = await unitOfWork.WarehouseRepository.CreateAsync(warehouse);
 
             // 4. Product (Item)
@@ -54,7 +56,8 @@ namespace SITRA.Core.Mediator.Commands.Wizard
                 pricing = new Pricing
                 {
                     Name = Enum.GetName(PricingName.Principal)?.ToUpper() ?? "PRINCIPAL",
-                    PricingType = PricingType.Value
+                    PricingType = PricingType.Value,
+                    IsDefault = true
                 };
                 pricing = await unitOfWork.PricingRepository.CreateAsync(pricing);
             }
