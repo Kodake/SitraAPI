@@ -1,6 +1,5 @@
 using SITRA.API.Endpoints;
 using SITRA.API.Endpoints.AdministrativeTools;
-using SITRA.API.Endpoints.Auths;
 using SITRA.API.Endpoints.CashBoxes;
 using SITRA.API.Endpoints.Invoices;
 using SITRA.API.Endpoints.Products;

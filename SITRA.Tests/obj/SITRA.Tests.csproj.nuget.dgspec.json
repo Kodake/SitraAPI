@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Tests\\SITRA.Tests.csproj": {}
+    "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Tests\\SITRA.Tests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.API\\SITRA.API.csproj": {
+    "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.API\\SITRA.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.API\\SITRA.API.csproj",
+        "projectUniqueName": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.API\\SITRA.API.csproj",
         "projectName": "SITRA.API",
-        "projectPath": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.API\\SITRA.API.csproj",
+        "projectPath": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.API\\SITRA.API.csproj",
         "packagesPath": "C:\\Users\\Kodake\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.API\\obj\\",
+        "outputPath": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -32,11 +32,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Core\\SITRA.Core.csproj": {
-                "projectPath": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Core\\SITRA.Core.csproj"
+              "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Core\\SITRA.Core.csproj": {
+                "projectPath": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Core\\SITRA.Core.csproj"
               },
-              "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Infrastructure\\SITRA.Infrastructure.csproj": {
-                "projectPath": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Infrastructure\\SITRA.Infrastructure.csproj"
+              "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Infrastructure\\SITRA.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Infrastructure\\SITRA.Infrastructure.csproj"
               }
             }
           }
@@ -155,14 +155,14 @@
         }
       }
     },
-    "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Core\\SITRA.Core.csproj": {
+    "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Core\\SITRA.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Core\\SITRA.Core.csproj",
+        "projectUniqueName": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Core\\SITRA.Core.csproj",
         "projectName": "SITRA.Core",
-        "projectPath": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Core\\SITRA.Core.csproj",
+        "projectPath": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Core\\SITRA.Core.csproj",
         "packagesPath": "C:\\Users\\Kodake\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Core\\obj\\",
+        "outputPath": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -261,14 +261,14 @@
         }
       }
     },
-    "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Infrastructure\\SITRA.Infrastructure.csproj": {
+    "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Infrastructure\\SITRA.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Infrastructure\\SITRA.Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Infrastructure\\SITRA.Infrastructure.csproj",
         "projectName": "SITRA.Infrastructure",
-        "projectPath": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Infrastructure\\SITRA.Infrastructure.csproj",
+        "projectPath": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Infrastructure\\SITRA.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\Kodake\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Infrastructure\\obj\\",
+        "outputPath": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -289,8 +289,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Core\\SITRA.Core.csproj": {
-                "projectPath": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Core\\SITRA.Core.csproj"
+              "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Core\\SITRA.Core.csproj": {
+                "projectPath": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Core\\SITRA.Core.csproj"
               }
             }
           }
@@ -367,14 +367,14 @@
         }
       }
     },
-    "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Tests\\SITRA.Tests.csproj": {
+    "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Tests\\SITRA.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Tests\\SITRA.Tests.csproj",
+        "projectUniqueName": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Tests\\SITRA.Tests.csproj",
         "projectName": "SITRA.Tests",
-        "projectPath": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Tests\\SITRA.Tests.csproj",
+        "projectPath": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Tests\\SITRA.Tests.csproj",
         "packagesPath": "C:\\Users\\Kodake\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Tests\\obj\\",
+        "outputPath": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -395,14 +395,14 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.API\\SITRA.API.csproj": {
-                "projectPath": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.API\\SITRA.API.csproj"
+              "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.API\\SITRA.API.csproj": {
+                "projectPath": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.API\\SITRA.API.csproj"
               },
-              "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Core\\SITRA.Core.csproj": {
-                "projectPath": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Core\\SITRA.Core.csproj"
+              "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Core\\SITRA.Core.csproj": {
+                "projectPath": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Core\\SITRA.Core.csproj"
               },
-              "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Infrastructure\\SITRA.Infrastructure.csproj": {
-                "projectPath": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Infrastructure\\SITRA.Infrastructure.csproj"
+              "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Infrastructure\\SITRA.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Infrastructure\\SITRA.Infrastructure.csproj"
               }
             }
           }

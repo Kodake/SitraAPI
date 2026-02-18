@@ -5176,6 +5176,18 @@
         }
       }
     },
+    "/api/v1/permissions/config": {
+      "get": {
+        "tags": [
+          "SITRA.API"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/v1/spotPayables": {
       "get": {
         "tags": [

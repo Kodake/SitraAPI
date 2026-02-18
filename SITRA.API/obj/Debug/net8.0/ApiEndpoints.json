@@ -2324,6 +2324,22 @@
     ]
   },
   {
+    "ContainingType": "SITRA.API.Endpoints.AdministrativeTools.PermissionsEndpoints\u002B\u003C\u003Ec",
+    "Method": "\u003CMapPermissions\u003Eb__0_0",
+    "RelativePath": "api/v1/permissions/config",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "SITRA.API.Endpoints.CashBoxes.PettyCashesEndpoints",
     "Method": "GetById",
     "RelativePath": "api/v1/pettyCashes/",

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "XtObCDR7Wdk=",
+  "dgSpecHash": "eSvoK0srUCE=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Kodake\\Desktop\\PosAPI\\SITRA.Core\\SITRA.Core.csproj",
+  "projectFilePath": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Core\\SITRA.Core.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Kodake\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\Kodake\\.nuget\\packages\\azure.core\\1.47.3\\azure.core.1.47.3.nupkg.sha512",
