@@ -4450,6 +4450,28 @@
         }
       }
     },
+    "/api/v1/roles/selects": {
+      "get": {
+        "tags": [
+          "RolesEndpoints"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RoleListDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/roles/{id}": {
       "get": {
         "tags": [

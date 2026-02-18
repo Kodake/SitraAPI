@@ -8,6 +8,11 @@ namespace SITRA.Core.Mediator.Queries
     {
         public StatusType Status { get; set; }
 
+        protected GetSelectsQuery()
+        {
+            Status = StatusType.All;
+        }
+
         protected GetSelectsQuery(StatusType status)
         {
             Status = status;

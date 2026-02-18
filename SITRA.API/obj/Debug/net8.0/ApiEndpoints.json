@@ -3714,6 +3714,24 @@
     ]
   },
   {
+    "ContainingType": "SITRA.API.Endpoints.AdministrativeTools.RolesEndpoints",
+    "Method": "GetSelects",
+    "RelativePath": "api/v1/roles/selects",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[SITRA.Core.DTOs.AdministrativeTools.Roles.RoleListDTO, SITRA.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "SITRA.API.Endpoints.Invoices.SaleInvoicesEndpoints",
     "Method": "GetAll",
     "RelativePath": "api/v1/saleInvoices/",

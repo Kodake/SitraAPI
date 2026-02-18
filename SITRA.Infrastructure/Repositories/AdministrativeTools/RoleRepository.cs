@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using SITRA.Core.Enums;
+using System.Collections.Generic;
 using SITRA.Core.Entities.AdministrativeTools;
 using SITRA.Core.Interfaces.AdministrativeTools;
 using SITRA.Infrastructure.Persistence;
@@ -13,6 +15,12 @@ namespace SITRA.Infrastructure.Repositories.AdministrativeTools
             : base(context, httpContextAccessor)
                 { }
 
+        public async Task<List<Role>> GetAll(CancellationToken cancellationToken = default)
+        {
+            // Note: Role entity does not have IsActive property yet. 
+            // Returning all roles to maintain interface consistency.
+            return await context.Set<Role>().OrderBy(u => u.Name).ToListAsync(cancellationToken);
+        }
 
         public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
         {

@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using SITRA.Core.Enums;
 using SITRA.API.Filters;
 using SITRA.API.Helpers;
 using SITRA.Core.DTOs;
@@ -16,6 +17,7 @@ namespace SITRA.API.Endpoints.AdministrativeTools
         {
             group.MapGet("/", GetAll).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("roles-get"))
                 .AddPaginationParamsOpenAPI().RequireAuthorization();
+            group.MapGet("/selects", GetSelects).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("roles-get")).RequireAuthorization();
             group.MapGet("/{id:guid}", GetById).RequireAuthorization();
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateRoleDTO>>()
@@ -32,6 +34,14 @@ namespace SITRA.API.Endpoints.AdministrativeTools
             PaginationDTO pagination)
         {
             var query = new GetAllRolesQuery(pagination);
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
+        }
+
+        static async Task<Ok<List<RoleListDTO>>> GetSelects(
+            [FromServices] IMediator mediator)
+        {
+            var query = new GetSelectsRolesQuery();
             var dto = await mediator.Send(query);
             return TypedResults.Ok(dto);
         }
