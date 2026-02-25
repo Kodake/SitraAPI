@@ -6,6 +6,7 @@ using SITRA.API.Filters;
 using SITRA.API.Helpers;
 using SITRA.Core.DTOs;
 using SITRA.Core.DTOs.AdministrativeTools.Roles;
+using SITRA.Core.DTOs.Auths;
 using SITRA.Core.Mediator.Commands.AdministrativeTools.Roles;
 using SITRA.Core.Mediator.Queries.AdministrativeTools.Roles;
 
@@ -26,6 +27,9 @@ namespace SITRA.API.Endpoints.AdministrativeTools
                 .AddEndpointFilter<ValidationFilter<CreateRoleDTO>>()
                 .WithOpenApi().RequireAuthorization();
             group.MapDelete("/{id:guid}", Delete).RequireAuthorization();
+            group.MapPost("/assign-permissions", AssignPermissions).DisableAntiforgery()
+                .AddEndpointFilter<ValidationFilter<AssignPermissionsDTO>>()
+                .WithOpenApi().RequireAuthorization();
             return group;
         }
 
@@ -81,6 +85,15 @@ namespace SITRA.API.Endpoints.AdministrativeTools
             var command = new DeleteRoleCommand(id);
             var success = await mediator.Send(command, default);
             return success ? TypedResults.NoContent() : TypedResults.NotFound();
+        }
+
+        static async Task<Results<Ok, NotFound, ValidationProblem>> AssignPermissions(
+            [FromBody] AssignPermissionsDTO dto,
+            [FromServices] IMediator mediator)
+        {
+            var command = new AssignPermissionsCommand(dto);
+            var success = await mediator.Send(command);
+            return success ? TypedResults.Ok() : TypedResults.NotFound();
         }
     }
 }

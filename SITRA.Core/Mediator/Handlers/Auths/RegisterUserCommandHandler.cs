@@ -3,6 +3,9 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using SITRA.Core.Entities.Auths;
 using SITRA.Core.Mediator.Commands.Auths;
+using Microsoft.Extensions.Configuration;
+using SITRA.Core.DTOs.AdministrativeTools;
+using System.Security.Claims;
 
 namespace SITRA.Core.Mediator.Handlers.Auths
 {
@@ -11,12 +14,14 @@ namespace SITRA.Core.Mediator.Handlers.Auths
         private readonly UserManager<User> _userManager;
         private readonly IMapper _mapper;
         private readonly SITRA.Core.Interfaces.IUnitOfWork _unitOfWork;
+        private readonly IConfiguration _configuration;
 
-        public RegisterUserCommandHandler(UserManager<User> userManager, IMapper mapper, SITRA.Core.Interfaces.IUnitOfWork unitOfWork)
+        public RegisterUserCommandHandler(UserManager<User> userManager, IMapper mapper, SITRA.Core.Interfaces.IUnitOfWork unitOfWork, IConfiguration configuration)
         {
             _userManager = userManager;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _configuration = configuration;
         }
 
         public async Task<IdentityResult> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
@@ -36,7 +41,27 @@ namespace SITRA.Core.Mediator.Handlers.Auths
 
             user.TenantId = tenant.TenantId;
 
-            return await _userManager.CreateAsync(user, request.Dto.Password);
+            var result = await _userManager.CreateAsync(user, request.Dto.Password);
+
+            if (result.Succeeded)
+            {
+                // Assign all permissions for all modules (Full Access)
+                var config = _configuration.GetSection("PermissionManagement").Get<PermissionManagementConfigDTO>();
+                if (config != null)
+                {
+                    foreach (var module in config.Modules)
+                    {
+                        foreach (var action in module.Actions)
+                        {
+                            await _userManager.AddClaimAsync(user, new Claim("Permission", $"{module.Key}:{action.Name}"));
+                        }
+                    }
+                }
+                // Also add wildcard for full access
+                await _userManager.AddClaimAsync(user, new Claim("Permission", "*:*"));
+            }
+
+            return result;
         }
     }
 }

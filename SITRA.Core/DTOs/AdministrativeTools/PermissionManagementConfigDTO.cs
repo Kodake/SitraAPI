@@ -10,6 +10,12 @@ namespace SITRA.Core.DTOs.AdministrativeTools
         public string Name { get; set; } = null!;
         public string Key { get; set; } = null!;
         public string Section { get; set; } = null!;
-        public List<string> Actions { get; set; } = new();
+        public List<ActionConfigDTO> Actions { get; set; } = new();
+    }
+
+    public class ActionConfigDTO
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; } = null!;
     }
 }

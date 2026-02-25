@@ -3715,6 +3715,40 @@
   },
   {
     "ContainingType": "SITRA.API.Endpoints.AdministrativeTools.RolesEndpoints",
+    "Method": "AssignPermissions",
+    "RelativePath": "api/v1/roles/assign-permissions",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Auths.AssignPermissionsDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Http.HttpValidationProblemDetails",
+        "MediaTypes": [
+          "application/problem\u002Bjson"
+        ],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.AdministrativeTools.RolesEndpoints",
     "Method": "GetSelects",
     "RelativePath": "api/v1/roles/selects",
     "HttpMethod": "GET",

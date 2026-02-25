@@ -13,11 +13,13 @@ namespace SITRA.Core.Mediator.Handlers.Auths
     public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, TokenResponseDTO?>
     {
         private readonly UserManager<User> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
 
-        public LoginUserCommandHandler(UserManager<User> userManager, IConfiguration configuration)
+        public LoginUserCommandHandler(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
             _configuration = configuration;
         }
 
@@ -68,10 +70,22 @@ namespace SITRA.Core.Mediator.Handlers.Auths
                 new Claim("language", user.Language.ToString())
             };
 
+            // 1. Fetch User Claims
+            var userClaims = await _userManager.GetClaimsAsync(user);
+            claims.AddRange(userClaims);
+
+            // 2. Fetch Roles and their Claims
             var roles = await _userManager.GetRolesAsync(user);
-            foreach (var role in roles)
+            foreach (var roleName in roles)
             {
-                claims.Add(new Claim(ClaimTypes.Role, role));
+                claims.Add(new Claim(ClaimTypes.Role, roleName));
+                
+                var role = await _roleManager.FindByNameAsync(roleName);
+                if (role != null)
+                {
+                    var roleClaims = await _roleManager.GetClaimsAsync(role);
+                    claims.AddRange(roleClaims);
+                }
             }
 
             var token = new JwtSecurityToken(
