@@ -9,6 +9,7 @@ using SITRA.Core.Mediator.Handlers.Dashboards;
 using SITRA.Core.Mediator.Handlers.Finances;
 using SITRA.Core.Mediator.Handlers.Invoices;
 using SITRA.Core.Mediator.Handlers.Products;
+using SITRA.Core.Mediator.Handlers.Tenants;
 using SITRA.Core.Mediator.Handlers.Warehouses;
 using SITRA.Core.Mediator.Handlers.Wizard;
 
@@ -54,6 +55,7 @@ namespace SITRA.Core.Mediator
             services.AddAppointmentServices();
             services.AddRoleServices();
             services.AddWizardServices();
+            services.AddTenantServices();
 
             return services;
         }
