@@ -1,5 +1,6 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using SITRA.Core.DTOs.Auths;
 using SITRA.Core.Entities.Auths;
 using SITRA.Core.Helpers;
@@ -24,7 +25,9 @@ namespace SITRA.Core.Validations.Auths
             RuleFor(x => x)
                 .MustAsync(async (dto, cancellationToken) =>
                 {
-                    var user = await _userManager.FindByEmailAsync(dto.Email);
+                    var user = await _userManager.Users
+                        .IgnoreQueryFilters()
+                        .FirstOrDefaultAsync(u => u.Email == dto.Email);
                     if (user == null) return false;
 
                     var result = await _userManager.CheckPasswordAsync(user, dto.Password);

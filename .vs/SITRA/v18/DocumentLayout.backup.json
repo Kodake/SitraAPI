@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{80AD3C08-CD53-444A-BBC6-3A4FCD9600F9}|SITRA.API\\SITRA.API.csproj|c:\\users\\kodake\\desktop\\sitra src\\posapi\\sitra.api\\endpoints\\auths\\tenantuserendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{80AD3C08-CD53-444A-BBC6-3A4FCD9600F9}|SITRA.API\\SITRA.API.csproj|solutionrelative:sitra.api\\endpoints\\auths\\tenantuserendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{80AD3C08-CD53-444A-BBC6-3A4FCD9600F9}|SITRA.API\\SITRA.API.csproj|c:\\users\\kodake\\desktop\\sitra src\\posapi\\sitra.api\\endpoints\\auths\\authsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{80AD3C08-CD53-444A-BBC6-3A4FCD9600F9}|SITRA.API\\SITRA.API.csproj|solutionrelative:sitra.api\\endpoints\\auths\\authsendpoints.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A236490C-3D9D-4ED9-A2FF-8A31C3D2BCD6}|SITRA.Core\\SITRA.Core.csproj|c:\\users\\kodake\\desktop\\sitra src\\posapi\\sitra.core\\entities\\auths\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A236490C-3D9D-4ED9-A2FF-8A31C3D2BCD6}|SITRA.Core\\SITRA.Core.csproj|solutionrelative:sitra.core\\entities\\auths\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A236490C-3D9D-4ED9-A2FF-8A31C3D2BCD6}|SITRA.Core\\SITRA.Core.csproj|c:\\users\\kodake\\desktop\\sitra src\\posapi\\sitra.core\\validations\\auths\\createloginuserdtovalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A236490C-3D9D-4ED9-A2FF-8A31C3D2BCD6}|SITRA.Core\\SITRA.Core.csproj|solutionrelative:sitra.core\\validations\\auths\\createloginuserdtovalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -43,27 +43,27 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "TenantUserEndpoints.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.API\\Endpoints\\Auths\\TenantUserEndpoints.cs",
-              "RelativeDocumentMoniker": "SITRA.API\\Endpoints\\Auths\\TenantUserEndpoints.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.API\\Endpoints\\Auths\\TenantUserEndpoints.cs",
-              "RelativeToolTip": "SITRA.API\\Endpoints\\Auths\\TenantUserEndpoints.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAAABQAAAAJAAAAAAAAAA==",
+              "Title": "AuthsEndpoints.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.API\\Endpoints\\Auths\\AuthsEndpoints.cs",
+              "RelativeDocumentMoniker": "SITRA.API\\Endpoints\\Auths\\AuthsEndpoints.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.API\\Endpoints\\Auths\\AuthsEndpoints.cs",
+              "RelativeToolTip": "SITRA.API\\Endpoints\\Auths\\AuthsEndpoints.cs",
+              "ViewState": "AgIAACAAAAAAAAAAAAAAADMAAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-02T03:45:27.586Z",
+              "WhenOpened": "2026-03-02T05:10:52.768Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "User.cs",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Core\\Entities\\Auths\\User.cs",
-              "RelativeDocumentMoniker": "SITRA.Core\\Entities\\Auths\\User.cs",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Core\\Entities\\Auths\\User.cs",
-              "RelativeToolTip": "SITRA.Core\\Entities\\Auths\\User.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAASAAAAAAAAAA==",
+              "Title": "CreateLoginUserDTOValidator.cs",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Core\\Validations\\Auths\\CreateLoginUserDTOValidator.cs",
+              "RelativeDocumentMoniker": "SITRA.Core\\Validations\\Auths\\CreateLoginUserDTOValidator.cs",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Core\\Validations\\Auths\\CreateLoginUserDTOValidator.cs",
+              "RelativeToolTip": "SITRA.Core\\Validations\\Auths\\CreateLoginUserDTOValidator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-02T03:45:10.229Z",
+              "WhenOpened": "2026-03-02T05:05:17.362Z",
               "EditorCaption": ""
             }
           ]

@@ -12,7 +12,7 @@ using SITRA.Infrastructure.Persistence;
 namespace SITRA.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260213200033_Initial")]
+    [Migration("20260302042530_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -546,11 +546,9 @@ namespace SITRA.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CompanyName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -563,6 +561,12 @@ namespace SITRA.Infrastructure.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("InvitationExpiry")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("InvitationToken")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Language")
                         .IsRequired()
@@ -582,6 +586,9 @@ namespace SITRA.Infrastructure.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<string>("ParentUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
@@ -592,7 +599,6 @@ namespace SITRA.Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("RucNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
@@ -617,6 +623,8 @@ namespace SITRA.Infrastructure.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("ParentUserId");
 
                     b.ToTable("AspNetUsers", "auths");
                 });
@@ -2052,6 +2060,15 @@ namespace SITRA.Infrastructure.Migrations
                     b.Navigation("Item");
                 });
 
+            modelBuilder.Entity("SITRA.Core.Entities.Auths.User", b =>
+                {
+                    b.HasOne("SITRA.Core.Entities.Auths.User", "ParentUser")
+                        .WithMany("SubUsers")
+                        .HasForeignKey("ParentUserId");
+
+                    b.Navigation("ParentUser");
+                });
+
             modelBuilder.Entity("SITRA.Core.Entities.CashBoxes.PettyCash", b =>
                 {
                     b.HasOne("SITRA.Core.Entities.Auths.User", "User")
@@ -2489,6 +2506,11 @@ namespace SITRA.Infrastructure.Migrations
             modelBuilder.Entity("SITRA.Core.Entities.Appointments.Appointment", b =>
                 {
                     b.Navigation("AppointmentItems");
+                });
+
+            modelBuilder.Entity("SITRA.Core.Entities.Auths.User", b =>
+                {
+                    b.Navigation("SubUsers");
                 });
 
             modelBuilder.Entity("SITRA.Core.Entities.CashBoxes.PettyCash", b =>

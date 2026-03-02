@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SITRA.Core.DTOs;
 using SITRA.Core.Entities.Auths;
@@ -25,7 +26,9 @@ namespace SITRA.Core.Mediator.Handlers.Auths
 
         public async Task<TokenResponseDTO?> Handle(LoginUserCommand request, CancellationToken cancellationToken)
         {
-            var user = await _userManager.FindByEmailAsync(request.Dto.Email);
+            var user = await _userManager.Users
+                .IgnoreQueryFilters()
+                .FirstOrDefaultAsync(u => u.Email == request.Dto.Email);
             // Validation handled in DTO Validator
             if (user == null) return null; // Should not happen if validation passes, but kept for type safety or concurrency
 
