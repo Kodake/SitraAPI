@@ -1,0 +1,33 @@
+﻿  Determining projects to restore...
+  All projects are up-to-date for restore.
+C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\Entities\AdministrativeTools\FiscalSupport.cs(39,24): warning CS8603: Possible null reference return. [C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\SITRA.Core.csproj]
+C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\Documents\QuotationDocument.cs(73,42): warning CS8602: Dereference of a possibly null reference. [C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\SITRA.Core.csproj]
+C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\Documents\QuotationDocument.cs(83,91): warning CS8602: Dereference of a possibly null reference. [C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\SITRA.Core.csproj]
+C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\Validations\Warehouses\CreateTransferStatusDTOValidator.cs(33,41): warning CS8602: Dereference of a possibly null reference. [C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\SITRA.Core.csproj]
+C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\Validations\Warehouses\CreateTransferStatusDTOValidator.cs(33,41): warning CS8602: Dereference of a possibly null reference. [C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\SITRA.Core.csproj]
+C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\Validations\Warehouses\CreateTransferStatusDTOValidator.cs(44,41): warning CS8602: Dereference of a possibly null reference. [C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\SITRA.Core.csproj]
+C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\Validations\Warehouses\CreateTransferStatusDTOValidator.cs(44,41): warning CS8602: Dereference of a possibly null reference. [C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\SITRA.Core.csproj]
+C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\Mediator\Commands\Warehouses\Transfers\UpdateTransferStatusCommand.cs(27,13): warning CS8602: Dereference of a possibly null reference. [C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\SITRA.Core.csproj]
+C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\Mediator\Commands\CashBoxes\UpdateClosePettyCashCommand.cs(30,13): warning CS8602: Dereference of a possibly null reference. [C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\SITRA.Core.csproj]
+C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\Mediator\Commands\Tenants\CompleteSubUserRegistrationCommand.cs(23,45): error CS1061: 'User' does not contain a definition for 'InvitationToken' and no accessible extension method 'InvitationToken' accepting a first argument of type 'User' could be found (are you missing a using directive or an assembly reference?) [C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\SITRA.Core.csproj]
+C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\Validations\Invoices\CreateSaleInvoiceDTOValidator.cs(242,95): warning CS8602: Dereference of a possibly null reference. [C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\SITRA.Core.csproj]
+
+Build FAILED.
+
+C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\Entities\AdministrativeTools\FiscalSupport.cs(39,24): warning CS8603: Possible null reference return. [C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\SITRA.Core.csproj]
+C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\Documents\QuotationDocument.cs(73,42): warning CS8602: Dereference of a possibly null reference. [C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\SITRA.Core.csproj]
+C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\Documents\QuotationDocument.cs(83,91): warning CS8602: Dereference of a possibly null reference. [C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\SITRA.Core.csproj]
+C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\Validations\Warehouses\CreateTransferStatusDTOValidator.cs(33,41): warning CS8602: Dereference of a possibly null reference. [C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\SITRA.Core.csproj]
+C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\Validations\Warehouses\CreateTransferStatusDTOValidator.cs(33,41): warning CS8602: Dereference of a possibly null reference. [C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\SITRA.Core.csproj]
+C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\Validations\Warehouses\CreateTransferStatusDTOValidator.cs(44,41): warning CS8602: Dereference of a possibly null reference. [C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\SITRA.Core.csproj]
+C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\Validations\Warehouses\CreateTransferStatusDTOValidator.cs(44,41): warning CS8602: Dereference of a possibly null reference. [C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\SITRA.Core.csproj]
+C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\Mediator\Commands\Warehouses\Transfers\UpdateTransferStatusCommand.cs(27,13): warning CS8602: Dereference of a possibly null reference. [C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\SITRA.Core.csproj]
+C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\Mediator\Commands\CashBoxes\UpdateClosePettyCashCommand.cs(30,13): warning CS8602: Dereference of a possibly null reference. [C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\SITRA.Core.csproj]
+C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\Validations\Invoices\CreateSaleInvoiceDTOValidator.cs(242,95): warning CS8602: Dereference of a possibly null reference. [C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\SITRA.Core.csproj]
+C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\Mediator\Commands\Tenants\CompleteSubUserRegistrationCommand.cs(23,45): error CS1061: 'User' does not contain a definition for 'InvitationToken' and no accessible extension method 'InvitationToken' accepting a first argument of type 'User' could be found (are you missing a using directive or an assembly reference?) [C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\SITRA.Core.csproj]
+    10 Warning(s)
+    1 Error(s)
+
+Time Elapsed 00:00:04.22
+
+Workload updates are available. Run `dotnet workload list` for more information.

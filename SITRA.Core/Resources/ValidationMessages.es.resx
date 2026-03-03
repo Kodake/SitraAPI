@@ -446,4 +446,10 @@
   <data name="RoleDescriptionMaxLengthMessage" xml:space="preserve">
     <value>La descripción del rol no puede exceder 500 caracteres</value>
   </data>
+  <data name="PettyCashNotOpenMessage" xml:space="preserve">
+    <value>Debe abrir la caja chica antes de continuar</value>
+  </data>
+  <data name="PettyCashOpenedByOtherUserMessage" xml:space="preserve">
+    <value>El usuario {0} debe cerrar la caja chica previamente abierta antes de que puedas continuar</value>
+  </data>
 </root>

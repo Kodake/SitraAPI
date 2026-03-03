@@ -1,0 +1,13 @@
+﻿  Determining projects to restore...
+  All projects are up-to-date for restore.
+C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\Mediator\Handlers\Tenants\TenantsRequestHandler.cs(4,36): error CS0234: The type or namespace name 'Tenants' does not exist in the namespace 'SITRA.Core.Mediator.Commands' (are you missing an assembly reference?) [C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\SITRA.Core.csproj]
+
+Build FAILED.
+
+C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\Mediator\Handlers\Tenants\TenantsRequestHandler.cs(4,36): error CS0234: The type or namespace name 'Tenants' does not exist in the namespace 'SITRA.Core.Mediator.Commands' (are you missing an assembly reference?) [C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\SITRA.Core.csproj]
+    0 Warning(s)
+    1 Error(s)
+
+Time Elapsed 00:00:03.59
+
+Workload updates are available. Run `dotnet workload list` for more information.

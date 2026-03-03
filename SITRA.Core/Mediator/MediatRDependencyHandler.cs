@@ -2,6 +2,7 @@ using MediatR;
 using SITRA.Core.Mediator.Handlers.Accounts;
 using SITRA.Core.Mediator.Handlers.AdministrativeTools;
 using SITRA.Core.Mediator.Handlers.Appointments;
+using SITRA.Core.Mediator.Handlers.Auths;
 using SITRA.Core.Mediator.Handlers.CashBoxes;
 using SITRA.Core.Mediator.Handlers.Combos;
 using SITRA.Core.Mediator.Handlers.Contacts;
@@ -53,6 +54,7 @@ namespace SITRA.Core.Mediator
             services.AddPurchaseInvoicesServices();
             services.AddCashBoxServices();
             services.AddAppointmentServices();
+            services.AddAuthServices();
             services.AddRoleServices();
             services.AddWizardServices();
             services.AddTenantServices();

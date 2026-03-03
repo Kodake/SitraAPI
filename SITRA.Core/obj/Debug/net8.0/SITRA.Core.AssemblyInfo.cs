@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SITRA.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8403cc4df52a254b4611419ee09957a17fca127e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f59f98082a5c2d9a55777f58186a5082abdb40f5")]
 [assembly: System.Reflection.AssemblyProductAttribute("SITRA.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SITRA.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

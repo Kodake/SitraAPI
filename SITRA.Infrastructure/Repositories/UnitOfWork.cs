@@ -77,6 +77,7 @@ namespace SITRA.Infrastructure.Repositories
             ApplicationDbContext context,
             IHttpContextAccessor httpContextAccessor,
             UserManager<User> userManager,
+            RoleManager<IdentityRole> roleManager,
             IConfiguration configuration)
         {
             PayableRepository = new PayableRepository(context, httpContextAccessor);
@@ -113,7 +114,7 @@ namespace SITRA.Infrastructure.Repositories
             PettyCashMovementRepository = new PettyCashMovementRepository(context, httpContextAccessor);
             RoleRepository = new RoleRepository(context, httpContextAccessor);
             AppointmentRepository = new AppointmentRepository(context, httpContextAccessor);
-            UserService = new UserService(context, httpContextAccessor, userManager);
+            UserService = new UserService(context, httpContextAccessor, userManager, roleManager, configuration);
             PlanService = new PlanService();
             FileStorageService = new AzureFileService(configuration);
 

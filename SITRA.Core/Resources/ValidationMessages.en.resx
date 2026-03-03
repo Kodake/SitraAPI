@@ -446,4 +446,10 @@
   <data name="RoleDescriptionMaxLengthMessage" xml:space="preserve">
     <value>Role description cannot exceed 500 characters</value>
   </data>
+  <data name="PettyCashNotOpenMessage" xml:space="preserve">
+    <value>You must open the petty cash before continuing</value>
+  </data>
+  <data name="PettyCashOpenedByOtherUserMessage" xml:space="preserve">
+    <value>The user {0} must close the currently open petty cash before you can proceed</value>
+  </data>
 </root>

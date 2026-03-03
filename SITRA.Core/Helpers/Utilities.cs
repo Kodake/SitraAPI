@@ -37,6 +37,8 @@ namespace SITRA.Core.Helpers
         public static string UserNotAuthMessage => _resourceManager.GetString("UserNotAuthMessage")!;
         public static string PettyCashRequiredMessage => _resourceManager.GetString("PettyCashRequiredMessage")!;
         public static string PettyCashOwnedByMessage => _resourceManager.GetString("PettyCashOwnedByMessage")!;
+        public static string PettyCashNotOpenMessage => _resourceManager.GetString("PettyCashNotOpenMessage")!;
+        public static string PettyCashOpenedByOtherUserMessage => _resourceManager.GetString("PettyCashOpenedByOtherUserMessage")!;
         public static string CurrencyNotFoundMessage => _resourceManager.GetString("CurrencyNotFoundMessage")!;
         public static string FiscalSupportNotFoundMessage => _resourceManager.GetString("FiscalSupportNotFoundMessage")!;
         public static string ItemNotFoundMessage => _resourceManager.GetString("ItemNotFoundMessage")!;

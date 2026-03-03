@@ -125,6 +125,7 @@
       "Microsoft.EntityFrameworkCore/8.0.12": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore.Abstractions": "8.0.12",
+          "Microsoft.EntityFrameworkCore.Analyzers": "8.0.12",
           "Microsoft.Extensions.Caching.Memory": "8.0.1",
           "Microsoft.Extensions.Logging": "8.0.1"
         },
@@ -143,11 +144,19 @@
           }
         }
       },
+      "Microsoft.EntityFrameworkCore.Analyzers/8.0.12": {},
+      "Microsoft.Extensions.Caching.Abstractions/8.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.Primitives": "8.0.0"
+        }
+      },
       "Microsoft.Extensions.Caching.Memory/8.0.1": {
         "dependencies": {
+          "Microsoft.Extensions.Caching.Abstractions": "8.0.0",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.2",
           "Microsoft.Extensions.Logging.Abstractions": "8.0.3",
-          "Microsoft.Extensions.Options": "8.0.2"
+          "Microsoft.Extensions.Options": "8.0.2",
+          "Microsoft.Extensions.Primitives": "8.0.0"
         },
         "runtime": {
           "lib/net8.0/Microsoft.Extensions.Caching.Memory.dll": {
@@ -201,7 +210,8 @@
       },
       "Microsoft.Extensions.Options/8.0.2": {
         "dependencies": {
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.2"
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.2",
+          "Microsoft.Extensions.Primitives": "8.0.0"
         },
         "runtime": {
           "lib/net8.0/Microsoft.Extensions.Options.dll": {
@@ -210,6 +220,7 @@
           }
         }
       },
+      "Microsoft.Extensions.Primitives/8.0.0": {},
       "Microsoft.IdentityModel.Abstractions/8.15.0": {
         "runtime": {
           "lib/net8.0/Microsoft.IdentityModel.Abstractions.dll": {
@@ -487,6 +498,20 @@
       "path": "microsoft.entityframeworkcore.abstractions/8.0.12",
       "hashPath": "microsoft.entityframeworkcore.abstractions.8.0.12.nupkg.sha512"
     },
+    "Microsoft.EntityFrameworkCore.Analyzers/8.0.12": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-irXnlkKHepepje6+ICaKpe/G4QnWi1G9Em9CmfqAEKb7OUTYaDQ2ieGps2Tl7/rblj5CKB0tDNI421f64x/Tqw==",
+      "path": "microsoft.entityframeworkcore.analyzers/8.0.12",
+      "hashPath": "microsoft.entityframeworkcore.analyzers.8.0.12.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Caching.Abstractions/8.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-3KuSxeHoNYdxVYfg2IRZCThcrlJ1XJqIXkAWikCsbm5C/bCjv7G0WoKDyuR98Q+T607QT2Zl5GsbGRkENcV2yQ==",
+      "path": "microsoft.extensions.caching.abstractions/8.0.0",
+      "hashPath": "microsoft.extensions.caching.abstractions.8.0.0.nupkg.sha512"
+    },
     "Microsoft.Extensions.Caching.Memory/8.0.1": {
       "type": "package",
       "serviceable": true,
@@ -528,6 +553,13 @@
       "sha512": "sha512-dWGKvhFybsaZpGmzkGCbNNwBD1rVlWzrZKANLW/CcbFJpCEceMCGzT7zZwHOGBCbwM0SzBuceMj5HN1LKV1QqA==",
       "path": "microsoft.extensions.options/8.0.2",
       "hashPath": "microsoft.extensions.options.8.0.2.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Primitives/8.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-bXJEZrW9ny8vjMF1JV253WeLhpEVzFo1lyaZu1vQ4ZxWUlVvknZ/+ftFgVheLubb4eZPSwwxBeqS1JkCOjxd8g==",
+      "path": "microsoft.extensions.primitives/8.0.0",
+      "hashPath": "microsoft.extensions.primitives.8.0.0.nupkg.sha512"
     },
     "Microsoft.IdentityModel.Abstractions/8.15.0": {
       "type": "package",
