@@ -12,7 +12,7 @@ using SITRA.Infrastructure.Persistence;
 namespace SITRA.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260302042530_Initial")]
+    [Migration("20260303185236_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -562,11 +562,8 @@ namespace SITRA.Infrastructure.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<DateTimeOffset?>("InvitationExpiry")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("InvitationToken")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("IsOwner")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Language")
                         .IsRequired()

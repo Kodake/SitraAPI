@@ -1,9 +1,0 @@
-C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Infrastructure\Repositories\RoleRepository.cs(33,48): error CS0506: 'RoleRepository.GetAllAsync(PaginationDTO, CancellationToken)': cannot override inherited member 'RepositoryBase<Role>.GetAllAsync(PaginationDTO, CancellationToken)' because it is not marked virtual, abstract, or override [C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Infrastructure\SITRA.Infrastructure.csproj]
-
-Build FAILED.
-    2 Warning(s)
-    1 Error(s)
-
-Time Elapsed 00:00:03.56
-
-Workload updates are available. Run `dotnet workload list` for more information.

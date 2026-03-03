@@ -16,7 +16,9 @@ namespace SITRA.API.Filters
             {
                 operation.Parameters ??= new List<OpenApiParameter>();
 
-                operation.Parameters.Add(new OpenApiParameter
+                if (!operation.Parameters.Any(p => p.Name == "X-Idempotency-Key"))
+                {
+                    operation.Parameters.Add(new OpenApiParameter
                 {
                     Name = "X-Idempotency-Key",
                     In = ParameterLocation.Header,
@@ -28,6 +30,7 @@ namespace SITRA.API.Filters
                     },
                     Description = "Unique key to ensure idempotency of the operation."
                 });
+                }
             }
         }
     }

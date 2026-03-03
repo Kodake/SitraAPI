@@ -5247,7 +5247,7 @@
     ]
   },
   {
-    "ContainingType": "SITRA.API.Endpoints.Auths.TenantUserEndpoints",
+    "ContainingType": "SITRA.API.Endpoints.Auths.TenantUsersEndpoints",
     "Method": "GetUsers",
     "RelativePath": "api/v1/users/",
     "HttpMethod": "GET",
@@ -5260,6 +5260,33 @@
         "MediaTypes": [
           "application/json"
         ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.Auths.TenantUsersEndpoints",
+    "Method": "CreateAssociatedUser",
+    "RelativePath": "api/v1/users/",
+    "HttpMethod": "POST",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Auths.CreateAssociatedUserDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
         "StatusCode": 200
       },
       {

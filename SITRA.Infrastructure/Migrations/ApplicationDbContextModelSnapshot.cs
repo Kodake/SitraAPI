@@ -559,11 +559,8 @@ namespace SITRA.Infrastructure.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<DateTimeOffset?>("InvitationExpiry")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("InvitationToken")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("IsOwner")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Language")
                         .IsRequired()

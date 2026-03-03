@@ -6092,7 +6092,7 @@
     "/api/v1/users": {
       "get": {
         "tags": [
-          "TenantUserEndpoints"
+          "TenantUsersEndpoints"
         ],
         "responses": {
           "200": {
@@ -6107,6 +6107,29 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "TenantUsersEndpoints"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAssociatedUserDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
           },
           "400": {
             "description": "Bad Request"
@@ -7662,6 +7685,28 @@
               "format": "uuid"
             },
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CreateAssociatedUserDTO": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "roleId": {
+            "type": "string",
+            "format": "uuid"
           }
         },
         "additionalProperties": false

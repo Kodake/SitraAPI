@@ -3,7 +3,6 @@ using FluentValidation;
 using Microsoft.AspNetCore.OutputCaching;
 using SITRA.Core.DTOs.Invoices.SaleInvoices;
 using SITRA.Core.Entities.Accounts;
-using SITRA.Core.Entities.AdministrativeTools;
 using SITRA.Core.Entities.CashBoxes;
 using SITRA.Core.Entities.Invoices;
 using SITRA.Core.Enums;

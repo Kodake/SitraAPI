@@ -155,6 +155,43 @@ namespace SITRA.Infrastructure.Services
             return result;
         }
 
+        public async Task<IdentityResult> RegisterAssociatedUserAsync(CreateAssociatedUserDTO dto, CancellationToken cancellationToken)
+        {
+            var currentUser = await GetUserAsync();
+            if (currentUser == null)
+            {
+                return IdentityResult.Failed(new IdentityError { Description = "Current user not found." });
+            }
+
+            var subUser = new User
+            {
+                UserName = dto.Email,
+                Email = dto.Email,
+                PhoneNumber = dto.PhoneNumber,
+                TenantId = currentUser.TenantId,
+                ParentUserId = currentUser.Id
+            };
+
+            var result = await _userManager.CreateAsync(subUser, dto.Password);
+
+            if (result.Succeeded)
+            {
+                var role = await _roleManager.FindByIdAsync(dto.RoleId.ToString());
+                if (role != null && role.Name != null)
+                {
+                    await _userManager.AddToRoleAsync(subUser, role.Name);
+                    
+                    var roleClaims = await _roleManager.GetClaimsAsync(role);
+                    foreach (var claim in roleClaims)
+                    {
+                        await _userManager.AddClaimAsync(subUser, claim);
+                    }
+                }
+            }
+
+            return result;
+        }
+
         public async Task<bool> ChangeLanguageAsync(Core.Enums.Language language, CancellationToken cancellationToken)
         {
             var userId = httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
