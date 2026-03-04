@@ -224,3 +224,8 @@ C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\obj\Debug\net8.0\staticweba
 C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Core\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Core\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Core\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Core\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Core\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Core\obj\Debug\net8.0\staticwebassets.build.json

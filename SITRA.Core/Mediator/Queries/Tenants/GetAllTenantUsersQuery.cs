@@ -20,7 +20,7 @@ namespace SITRA.Core.Mediator.Queries.Tenants
         public async Task<IEnumerable<UserDTO>> Handle(GetAllTenantUsersQuery request, CancellationToken cancellationToken)
         {
             var users = await _userManager.Users
-                .Where(u => u.TenantId == request.TenantId)
+                .Where(u => u.TenantId == request.TenantId && u.ParentUserId != null)
                 .ToListAsync(cancellationToken);
 
             return users.Select(u => new UserDTO
