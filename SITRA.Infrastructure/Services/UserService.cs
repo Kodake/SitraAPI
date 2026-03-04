@@ -121,6 +121,7 @@ namespace SITRA.Infrastructure.Services
             {
                 UserName = dto.Email,
                 Email = dto.Email,
+                IsOwner = true,
             };
 
             var tenant = new Core.Entities.Tenants.Tenant
@@ -165,11 +166,15 @@ namespace SITRA.Infrastructure.Services
 
             var subUser = new User
             {
+                CompanyName = currentUser.CompanyName,
+                RucNumber = currentUser.RucNumber,
+                Address = currentUser.Address,
                 UserName = dto.Email,
                 Email = dto.Email,
                 PhoneNumber = dto.PhoneNumber,
                 TenantId = currentUser.TenantId,
-                ParentUserId = currentUser.Id
+                ParentUserId = currentUser.Id,
+                IsOwner = false
             };
 
             var result = await _userManager.CreateAsync(subUser, dto.Password);
