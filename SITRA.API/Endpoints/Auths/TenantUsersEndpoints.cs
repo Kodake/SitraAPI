@@ -14,6 +14,7 @@ namespace SITRA.API.Endpoints.Auths
         public static RouteGroupBuilder MapTenantUsers(this RouteGroupBuilder group)
         {
             group.MapGet("/", GetUsers).RequireAuthorization();
+            group.MapGet("/{id}", GetUserById).RequireAuthorization();
             group.MapPost("/", CreateAssociatedUser).RequireAuthorization();
 
             return group;
@@ -28,6 +29,18 @@ namespace SITRA.API.Endpoints.Auths
 
             var users = await mediator.Send(new GetAllTenantUsersQuery(tenantId.Value));
             return TypedResults.Ok(users);
+        }
+
+        static async Task<Results<Ok<UserDTO>, NotFound, BadRequest>> GetUserById(
+            [FromRoute] string id,
+            [FromServices] IMediator mediator,
+            [FromServices] ICurrentTenantService currentTenantService)
+        {
+            var tenantId = currentTenantService.TenantId;
+            if (!tenantId.HasValue) return TypedResults.BadRequest();
+
+            var user = await mediator.Send(new GetUserByIdQuery(tenantId.Value, id));
+            return user != null ? TypedResults.Ok(user) : TypedResults.NotFound();
         }
 
 
