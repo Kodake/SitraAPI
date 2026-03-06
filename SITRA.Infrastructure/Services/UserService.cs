@@ -249,6 +249,13 @@ namespace SITRA.Infrastructure.Services
                             PermissionId = permission.Id
                         });
                     }
+
+                    // 4. Associate User with Role in TenantRoleUsers
+                    context.TenantRoleUsers.Add(new TenantRoleUser
+                    {
+                        RoleId = adminRole.Id,
+                        UserId = user.Id
+                    });
                 }
 
                 await context.SaveChangesAsync(cancellationToken);
@@ -296,6 +303,15 @@ namespace SITRA.Infrastructure.Services
             //// 2. Assign Role using standard UserManager method
             //var roleResult = await _userManager.AddToRoleAsync(subUser, role.Name);
             //if (!roleResult.Succeeded) return roleResult;
+
+            // 2. Associate User with Role in TenantRoleUsers
+            context.TenantRoleUsers.Add(new TenantRoleUser
+            {
+                RoleId = role.Id,
+                UserId = subUser.Id
+            });
+
+            await context.SaveChangesAsync(cancellationToken);
 
             // 3. Assign Permission Claims immediately
             await AddPermissionClaimsFromRolesAsync(subUser, new[] { role.Id }, cancellationToken);
@@ -367,6 +383,25 @@ namespace SITRA.Infrastructure.Services
             }
 
             var addResult = await _userManager.AddToRoleAsync(user, role.Name);
+            if (addResult.Succeeded)
+            {
+                // Update TenantRoleUsers
+                var existingAssociation = await context.TenantRoleUsers
+                    .FirstOrDefaultAsync(tru => tru.UserId == user.Id, cancellationToken);
+
+                if (existingAssociation != null)
+                {
+                    context.TenantRoleUsers.Remove(existingAssociation);
+                }
+
+                context.TenantRoleUsers.Add(new TenantRoleUser
+                {
+                    RoleId = role.Id,
+                    UserId = user.Id
+                });
+
+                await context.SaveChangesAsync(cancellationToken);
+            }
             return addResult;
         }
     }

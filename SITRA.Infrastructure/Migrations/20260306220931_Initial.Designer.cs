@@ -12,7 +12,7 @@ using SITRA.Infrastructure.Persistence;
 namespace SITRA.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260306212919_Initial")]
+    [Migration("20260306220931_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -529,6 +529,32 @@ namespace SITRA.Infrastructure.Migrations
                     b.HasIndex("PermissionId");
 
                     b.ToTable("TenantRolePermissions", "dbo");
+                });
+
+            modelBuilder.Entity("SITRA.Core.Entities.AdministrativeTools.TenantRoleUser", b =>
+                {
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("RoleId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("UserId1");
+
+                    b.ToTable("TenantRoleUsers", "dbo");
                 });
 
             modelBuilder.Entity("SITRA.Core.Entities.Appointments.Appointment", b =>
@@ -2102,6 +2128,29 @@ namespace SITRA.Infrastructure.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("SITRA.Core.Entities.AdministrativeTools.TenantRoleUser", b =>
+                {
+                    b.HasOne("SITRA.Core.Entities.AdministrativeTools.Role", "Role")
+                        .WithMany("TenantRoleUsers")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SITRA.Core.Entities.Auths.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SITRA.Core.Entities.Auths.User", null)
+                        .WithMany("TenantRoleUsers")
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("Role");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("SITRA.Core.Entities.Appointments.Appointment", b =>
                 {
                     b.HasOne("SITRA.Core.Entities.Contacts.Contact", "Contact")
@@ -2583,6 +2632,8 @@ namespace SITRA.Infrastructure.Migrations
             modelBuilder.Entity("SITRA.Core.Entities.AdministrativeTools.Role", b =>
                 {
                     b.Navigation("RolePermissions");
+
+                    b.Navigation("TenantRoleUsers");
                 });
 
             modelBuilder.Entity("SITRA.Core.Entities.Appointments.Appointment", b =>
@@ -2593,6 +2644,8 @@ namespace SITRA.Infrastructure.Migrations
             modelBuilder.Entity("SITRA.Core.Entities.Auths.User", b =>
                 {
                     b.Navigation("SubUsers");
+
+                    b.Navigation("TenantRoleUsers");
                 });
 
             modelBuilder.Entity("SITRA.Core.Entities.CashBoxes.PettyCash", b =>

@@ -87,6 +87,7 @@ namespace SITRA.Infrastructure.Persistence
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
             modelBuilder.ApplyConfiguration(new PermissionConfiguration());
             modelBuilder.ApplyConfiguration(new RolePermissionConfiguration());
+            modelBuilder.ApplyConfiguration(new TenantRoleUserConfiguration());
 
             modelBuilder.ApplyConfiguration(new ContactConfiguration());
 
@@ -161,6 +162,7 @@ namespace SITRA.Infrastructure.Persistence
         public virtual DbSet<Role> TenantRoles { get; set; }
         public virtual DbSet<Permission> TenantPermissions { get; set; }
         public virtual DbSet<RolePermission> TenantRolePermissions { get; set; }
+        public virtual DbSet<TenantRoleUser> TenantRoleUsers { get; set; }
         public virtual DbSet<Tenant> Tenants { get; set; }
         public virtual DbSet<SubCategory> SubCategories { get; set; }
         public DbSet<Brand> Brands { get; set; }

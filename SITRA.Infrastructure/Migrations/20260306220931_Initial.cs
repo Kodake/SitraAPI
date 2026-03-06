@@ -735,6 +735,42 @@ namespace SITRA.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TenantRoleUsers",
+                schema: "dbo",
+                columns: table => new
+                {
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    UserId1 = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TenantRoleUsers", x => new { x.RoleId, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_TenantRoleUsers_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalSchema: "auths",
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TenantRoleUsers_AspNetUsers_UserId1",
+                        column: x => x.UserId1,
+                        principalSchema: "auths",
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_TenantRoleUsers_TenantRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalSchema: "dbo",
+                        principalTable: "TenantRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ItemUnits",
                 columns: table => new
                 {
@@ -1839,6 +1875,18 @@ namespace SITRA.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_TenantRoleUsers_UserId",
+                schema: "dbo",
+                table: "TenantRoleUsers",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TenantRoleUsers_UserId1",
+                schema: "dbo",
+                table: "TenantRoleUsers",
+                column: "UserId1");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Transfers_DestinationWarehouseId",
                 table: "Transfers",
                 column: "DestinationWarehouseId");
@@ -1963,6 +2011,10 @@ namespace SITRA.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "TenantRolePermissions",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "TenantRoleUsers",
                 schema: "dbo");
 
             migrationBuilder.DropTable(

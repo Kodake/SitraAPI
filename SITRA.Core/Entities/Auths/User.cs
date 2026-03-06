@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using SITRA.Core.Enums;
 using SITRA.Core.Interfaces;
+using SITRA.Core.Entities.AdministrativeTools;
 
 namespace SITRA.Core.Entities.Auths
 {
@@ -16,7 +17,7 @@ namespace SITRA.Core.Entities.Auths
         public string? ParentUserId { get; set; }
         public virtual User? ParentUser { get; set; }
         public virtual ICollection<User> SubUsers { get; set; } = new List<User>();
-        
+        public virtual ICollection<TenantRoleUser> TenantRoleUsers { get; set; } = new List<TenantRoleUser>();
     }
 }
 
