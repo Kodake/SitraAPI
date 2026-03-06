@@ -1,43 +1,21 @@
-using MediatR;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using SITRA.Core.DTOs;
 using SITRA.Core.DTOs.Auths;
-using SITRA.Core.Entities.Auths;
+using SITRA.Core.Interfaces;
 
 namespace SITRA.Core.Mediator.Queries.Tenants
 {
-    public record GetAllTenantUsersQuery(Guid TenantId) : IRequest<IEnumerable<UserDTO>>;
-
-    public class GetAllTenantUsersHandler : IRequestHandler<GetAllTenantUsersQuery, IEnumerable<UserDTO>>
+    public class GetAllTenantUsersQuery : GetAllQuery<UserDTO>
     {
-        private readonly UserManager<User> _userManager;
+        public GetAllTenantUsersQuery(PaginationDTO pagination) : base(pagination) { }
 
-        public GetAllTenantUsersHandler(UserManager<User> userManager)
+        public override async Task<List<UserDTO>> GetData(
+            IUnitOfWork unitOfWork,
+            IMapper mapper,
+            CancellationToken cancellationToken)
         {
-            _userManager = userManager;
-        }
-
-        public async Task<IEnumerable<UserDTO>> Handle(GetAllTenantUsersQuery request, CancellationToken cancellationToken)
-        {
-            var users = await _userManager.Users
-                .Where(u => u.TenantId == request.TenantId && u.ParentUserId != null)
-                .ToListAsync(cancellationToken);
-
-            var userDtos = new List<UserDTO>();
-            foreach (var u in users)
-            {
-                var roles = await _userManager.GetRolesAsync(u);
-                userDtos.Add(new UserDTO
-                {
-                    Id = u.Id,
-                    Email = u.Email!,
-                    CompanyName = u.CompanyName,
-                    ParentUserId = u.ParentUserId,
-                    RoleId = roles.FirstOrDefault()
-                });
-            }
-
-            return userDtos;
+            var users = await unitOfWork.UserService.GetAllAssociatedUsersAsync(Pagination, cancellationToken);
+            return mapper.Map<List<UserDTO>>(users);
         }
     }
 }

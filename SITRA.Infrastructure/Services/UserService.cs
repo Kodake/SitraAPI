@@ -417,5 +417,21 @@ namespace SITRA.Infrastructure.Services
 
             return IdentityResult.Success;
         }
+        public async Task<List<User>> GetAllAssociatedUsersAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken)
+        {
+            var queryable = _userManager.Users
+                .Include(u => u.TenantRoleUsers)
+                .Where(u => u.ParentUserId != null);
+
+            if (httpContext != null)
+            {
+                await httpContext.AddPaginationParamsToHeaders(queryable);
+            }
+
+            return await queryable
+                .OrderBy(u => u.UserName)
+                .Paginate(paginationDTO)
+                .ToListAsync(cancellationToken);
+        }
     }
 }

@@ -18,7 +18,7 @@ namespace SITRA.API.Profiles.CashBoxes
                 .ForMember(des => des.User, opt => opt.MapFrom(src => src.User));
 
             CreateMap<User, UserDTO>()
-                .ForMember(dest => dest.RoleId, opt => opt.MapFrom(src => src.TenantRoleUsers.FirstOrDefault().RoleId.ToString()));
+                .ForMember(dest => dest.RoleId, opt => opt.MapFrom(src => src.TenantRoleUsers.FirstOrDefault() == null ? null : src.TenantRoleUsers.FirstOrDefault().RoleId.ToString()));
 
             CreateMap<PettyCashMovement, PettyCashMovementListDTO>()
                 .ForMember(des => des.FiscalSupportNumber, opt => opt.MapFrom(src => src.Invoice!.FiscalSupportNumber));

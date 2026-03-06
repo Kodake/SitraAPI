@@ -5,13 +5,15 @@ using SITRA.Core.DTOs.Auths;
 using SITRA.Core.Interfaces;
 using SITRA.Core.Mediator.Queries.Tenants;
 using SITRA.Core.Mediator.Commands.Auths;
+using SITRA.API.Helpers;
+using SITRA.Core.DTOs;
 namespace SITRA.API.Endpoints.Auths
 {
     public static class TenantUsersEndpoints
     {
         public static RouteGroupBuilder MapTenantUsers(this RouteGroupBuilder group)
         {
-            group.MapGet("/", GetUsers).RequireAuthorization();
+            group.MapGet("/", GetUsers).AddPaginationParamsOpenAPI().RequireAuthorization();
             group.MapGet("/{id}", GetUserById).RequireAuthorization();
             group.MapPost("/", CreateAssociatedUser).RequireAuthorization();
             group.MapPut("/{id}/role", UpdateUserRole).RequireAuthorization();
@@ -19,14 +21,11 @@ namespace SITRA.API.Endpoints.Auths
             return group;
         }
 
-        static async Task<Results<Ok<IEnumerable<UserDTO>>, BadRequest>> GetUsers(
+        static async Task<Results<Ok<List<UserDTO>>, BadRequest>> GetUsers(
             [FromServices] IMediator mediator,
-            [FromServices] ICurrentTenantService currentTenantService)
+            PaginationDTO pagination)
         {
-            var tenantId = currentTenantService.TenantId;
-            if (!tenantId.HasValue) return TypedResults.BadRequest();
-
-            var users = await mediator.Send(new GetAllTenantUsersQuery(tenantId.Value));
+            var users = await mediator.Send(new GetAllTenantUsersQuery(pagination));
             return TypedResults.Ok(users);
         }
 
