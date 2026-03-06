@@ -137,6 +137,7 @@ namespace SITRA.Infrastructure.Persistence
             // ===============================
             modelBuilder.Entity<User>().ToTable("AspNetUsers", "auths");
             // Role configuration is handled by RoleConfiguration class
+            modelBuilder.Entity<IdentityRole>().ToTable("AspNetRoles", "auths");
             modelBuilder.Entity<IdentityUserRole<string>>().ToTable("AspNetUserRoles", "auths");
             modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("AspNetUserClaims", "auths");
             modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("AspNetRoleClaims", "auths");

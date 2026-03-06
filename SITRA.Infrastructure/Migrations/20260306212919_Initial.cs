@@ -22,6 +22,7 @@ namespace SITRA.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
+                schema: "auths",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -363,6 +364,7 @@ namespace SITRA.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
+                        principalSchema: "auths",
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -427,6 +429,7 @@ namespace SITRA.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
                         column: x => x.RoleId,
+                        principalSchema: "auths",
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -1388,6 +1391,7 @@ namespace SITRA.Infrastructure.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
+                schema: "auths",
                 table: "AspNetRoles",
                 column: "NormalizedName",
                 unique: true,
@@ -1971,7 +1975,8 @@ namespace SITRA.Infrastructure.Migrations
                 name: "Appointments");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "AspNetRoles",
+                schema: "auths");
 
             migrationBuilder.DropTable(
                 name: "FiscalSupports");
