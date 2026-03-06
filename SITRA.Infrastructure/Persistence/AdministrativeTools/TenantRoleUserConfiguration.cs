@@ -17,7 +17,7 @@ namespace SITRA.Infrastructure.Persistence.AdministrativeTools
                 .HasForeignKey(tru => tru.RoleId);
 
             builder.HasOne(tru => tru.User)
-                .WithMany()
+                .WithMany(u => u.TenantRoleUsers)
                 .HasForeignKey(tru => tru.UserId);
         }
     }
