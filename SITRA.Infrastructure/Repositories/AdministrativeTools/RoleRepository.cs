@@ -24,6 +24,7 @@ namespace SITRA.Infrastructure.Repositories.AdministrativeTools
         {
             var queryable = context.Set<Role>()
                 .Include(r => r.RolePermissions)
+                    .ThenInclude(rp => rp.Permission)
                 .Where(r => !r.IsSystemRole)
                 .OrderBy(x => x.Name);
 
@@ -40,7 +41,8 @@ namespace SITRA.Infrastructure.Repositories.AdministrativeTools
         {
             return await context.Set<Role>()
                 .Include(r => r.RolePermissions)
-                //.Where(r => !r.IsSystemRole)
+                    .ThenInclude(rp => rp.Permission)
+                .Where(r => !r.IsSystemRole)
                 .OrderBy(u => u.Name)
                 .ToListAsync(cancellationToken);
         }

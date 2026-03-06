@@ -71,7 +71,6 @@ namespace SITRA.Tests
                 .Build();
 
             var handler = new AssignPermissionsCommandHandler(
-                mockRoleManager.Object, 
                 mockUnitOfWork.Object, 
                 configuration);
 
