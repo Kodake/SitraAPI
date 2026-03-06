@@ -139,6 +139,12 @@ namespace SITRA.Core.Helpers
             return string.Format(message!, errors);
         }
 
+        public static string FailedToUpdateUserClaimsMessage(string errors)
+        {
+            var message = _resourceManager.GetString("FailedToUpdateUserClaimsMessage") ?? "Failed to update user claims: {0}";
+            return string.Format(message, errors);
+        }
+
         public static string LoginUsingTenantIdMessage(Guid tenantId)
         {
             var message = _resourceManager.GetString("LoginUsingTenantIdMessage");

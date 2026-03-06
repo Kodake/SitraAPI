@@ -741,6 +741,12 @@ c:\Users\rflorentino\Desktop\src\SitraAPI\SITRA.Tests\obj\Debug\net8.0\ref\SITRA
 C:\Users\Kodake\Desktop\PosAPI\SITRA.Tests\bin\Debug\net8.0\en\SITRA.Core.resources.dll
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\bin\Debug\net8.0\.msCoverageSourceRootsMapping_SITRA.Tests
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\bin\Debug\net8.0\CoverletSourceRootsMapping_SITRA.Tests
+C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\obj\Debug\net8.0\SITRA.Tests.csproj.AssemblyReference.cache
+C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\obj\Debug\net8.0\SITRA.Tests.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\obj\Debug\net8.0\SITRA.Tests.AssemblyInfoInputs.cache
+C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\obj\Debug\net8.0\SITRA.Tests.AssemblyInfo.cs
+C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\obj\Debug\net8.0\SITRA.Tests.csproj.CoreCompileInputs.cache
+C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\obj\Debug\net8.0\SITRA.Tests.sourcelink.json
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\bin\Debug\net8.0\testhost.dll
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\bin\Debug\net8.0\SITRA.API.deps.json
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\bin\Debug\net8.0\SITRA.API.runtimeconfig.json
@@ -805,6 +811,7 @@ C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\bin\Debug\net8.0\Microsoft.
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\bin\Debug\net8.0\Microsoft.Data.SqlClient.dll
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.dll
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.InMemory.dll
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Relational.dll
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.SqlServer.dll
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\bin\Debug\net8.0\Microsoft.Extensions.Caching.Memory.dll
@@ -974,16 +981,9 @@ C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\bin\Debug\net8.0\SITRA.Core
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\bin\Debug\net8.0\SITRA.Infrastructure.pdb
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\bin\Debug\net8.0\en\SITRA.Core.resources.dll
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\bin\Debug\net8.0\es\SITRA.Core.resources.dll
-C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\obj\Debug\net8.0\SITRA.Tests.csproj.AssemblyReference.cache
-C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\obj\Debug\net8.0\SITRA.Tests.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\obj\Debug\net8.0\SITRA.Tests.AssemblyInfoInputs.cache
-C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\obj\Debug\net8.0\SITRA.Tests.AssemblyInfo.cs
-C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\obj\Debug\net8.0\SITRA.Tests.csproj.CoreCompileInputs.cache
-C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\obj\Debug\net8.0\SITRA.Tests.sourcelink.json
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\obj\Debug\net8.0\SITRA.Te.8AFE790F.Up2Date
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\obj\Debug\net8.0\SITRA.Tests.dll
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\obj\Debug\net8.0\refint\SITRA.Tests.dll
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\obj\Debug\net8.0\SITRA.Tests.pdb
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\obj\Debug\net8.0\SITRA.Tests.genruntimeconfig.cache
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\obj\Debug\net8.0\ref\SITRA.Tests.dll
-C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.InMemory.dll

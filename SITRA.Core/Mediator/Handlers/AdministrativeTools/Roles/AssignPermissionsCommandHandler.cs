@@ -1,23 +1,17 @@
 using MediatR;
-using Microsoft.AspNetCore.Identity;
-using SITRA.Core.DTOs.Auths;
 using SITRA.Core.Interfaces;
 using SITRA.Core.Mediator.Commands.AdministrativeTools.Roles;
-using Microsoft.Extensions.Configuration;
 using SITRA.Core.DTOs.AdministrativeTools;
-using System.Security.Claims;
 
 namespace SITRA.Core.Mediator.Handlers.AdministrativeTools.Roles
 {
     public class AssignPermissionsCommandHandler : IRequestHandler<AssignPermissionsCommand, bool>
     {
-        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IConfiguration _configuration;
 
-        public AssignPermissionsCommandHandler(RoleManager<IdentityRole> roleManager, IUnitOfWork unitOfWork, IConfiguration configuration)
+        public AssignPermissionsCommandHandler(IUnitOfWork unitOfWork, IConfiguration configuration)
         {
-            _roleManager = roleManager;
             _unitOfWork = unitOfWork;
             _configuration = configuration;
         }

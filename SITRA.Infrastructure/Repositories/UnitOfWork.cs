@@ -118,7 +118,7 @@ namespace SITRA.Infrastructure.Repositories
             PermissionRepository = new PermissionRepository(context);
             RolePermissionRepository = new RolePermissionRepository(context);
             AppointmentRepository = new AppointmentRepository(context, httpContextAccessor);
-            UserService = new UserService(context, httpContextAccessor, userManager, configuration);
+            UserService = new UserService(this, context, httpContextAccessor, userManager, configuration);
             PlanService = new PlanService();
             FileStorageService = new AzureFileService(configuration);
 

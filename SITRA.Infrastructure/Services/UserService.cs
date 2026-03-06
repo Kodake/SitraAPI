@@ -13,6 +13,7 @@ using SITRA.Infrastructure.Repositories.Generics;
 using SITRA.Core.Entities.AdministrativeTools;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using SITRA.Core.Interfaces;
 
 namespace SITRA.Infrastructure.Services
 {
@@ -21,8 +22,10 @@ namespace SITRA.Infrastructure.Services
         private new readonly HttpContext httpContext;
         private readonly UserManager<User> _userManager;
         private readonly IConfiguration _configuration;
+        private readonly IUnitOfWork _unitOfWork;
 
         public UserService(
+            IUnitOfWork unitOfWork,
             ApplicationDbContext context,
             IHttpContextAccessor httpContextAccessor,
             UserManager<User> userManager,
@@ -32,6 +35,7 @@ namespace SITRA.Infrastructure.Services
             this.httpContext = httpContextAccessor.HttpContext!;
             _userManager = userManager;
             _configuration = configuration;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<User?> GetUserAsync()
@@ -83,23 +87,58 @@ namespace SITRA.Infrastructure.Services
                 new Claim("language", user.Language.ToString())
             };
 
-            var roles = await _userManager.GetRolesAsync(user);
-            foreach (var roleName in roles)
-            {
-                claims.Add(new Claim(ClaimTypes.Role, roleName));
-                
-                var permissions = await context.TenantRolePermissions
-                    .Include(rp => rp.Permission)
-                    .Include(rp => rp.Role)
-                    .Where(rp => rp.Role.Name == roleName && rp.Role.TenantId == user.TenantId)
-                    .Select(rp => rp.Permission.Key)
-                    .ToListAsync(cancellationToken);
+            var userClaims = await _userManager.GetClaimsAsync(user);
+            var permissionClaims = userClaims.Where(c => c.Type == "Permission").ToList();
 
-                foreach (var permissionKey in permissions)
+            if (!permissionClaims.Any())
+            {
+                var roleIds = new List<Guid>();
+
+                if (user.IsOwner)
                 {
-                    claims.Add(new Claim("Permission", permissionKey));
+                    // Owner implicitly has the "Admin" role for their tenant
+                    var adminRole = await context.TenantRoles
+                        .IgnoreQueryFilters()
+                        .FirstOrDefaultAsync(r => r.Name == "Admin" && r.TenantId == user.TenantId, cancellationToken);
+                    
+                    if (adminRole != null)
+                    {
+                        roleIds.Add(adminRole.Id);
+                    }
+                }
+                else
+                {
+                    // For sub-users, get RoleIds from UserRoles join table
+                    roleIds = await context.UserRoles
+                        .Where(ur => ur.UserId == user.Id)
+                        .Select(ur => Guid.Parse(ur.RoleId))
+                        .ToListAsync(cancellationToken);
+                }
+
+                var permissionKeys = new List<string>();
+                foreach (var roleId in roleIds)
+                {
+                    var rolePermissions = await _unitOfWork.RolePermissionRepository
+                        .GetPermissionsByRoleIdAsync(roleId, cancellationToken);
+                    
+                    permissionKeys.AddRange(rolePermissions.Select(p => p.Key));
+                }
+
+                permissionClaims = permissionKeys
+                    .Distinct()
+                    .Select(pk => new Claim("Permission", pk))
+                    .ToList();
+
+                var addClaimsResult = await _userManager.AddClaimsAsync(user, permissionClaims);
+                
+                if (!addClaimsResult.Succeeded)
+                {
+                    Console.WriteLine(Utilities.FailedToUpdateUserClaimsMessage(
+                        string.Join(", ", addClaimsResult.Errors.Select(e => e.Description))));
                 }
             }
+
+            claims.AddRange(permissionClaims);
 
             var token = new JwtSecurityToken(
                 issuer: issuer,
@@ -157,8 +196,8 @@ namespace SITRA.Infrastructure.Services
                 var adminRole = new Role
                 {
                     Id = Guid.NewGuid(),
-                    Name = "Admin",
-                    Description = "Administrator role with all permissions",
+                    Name = "ADMIN",
+                    Description = "ADMINISTRATOR ROLE WITH ALL PERMISSIONS",
                     IsSystemRole = true,
                     TenantId = tenant.TenantId
                 };

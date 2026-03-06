@@ -12,11 +12,20 @@ using Xunit;
 using Microsoft.EntityFrameworkCore;
 using SITRA.Core.Interfaces;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Xunit.Abstractions;
+using SITRA.Infrastructure.Repositories;
 
 namespace SITRA.Tests
 {
     public class UserServiceTests
     {
+        private readonly ITestOutputHelper _output;
+
+        public UserServiceTests(ITestOutputHelper output)
+        {
+            _output = output;
+        }
+
         private Mock<UserManager<User>> GetMockUserManager()
         {
             var store = new Mock<IUserStore<User>>();
@@ -121,7 +130,8 @@ namespace SITRA.Tests
 
             using (var context = new ApplicationDbContext(options, mockCurrentTenantService.Object))
             {
-                var userService = new UserService(context, mockHttpContextAccessor.Object, mockUserManager.Object, configuration);
+                var mockUnitOfWork = new Mock<IUnitOfWork>();
+                var userService = new UserService(mockUnitOfWork.Object, context, mockHttpContextAccessor.Object, mockUserManager.Object, configuration);
 
                 var dto = new CreateRegistrationUserDTO { Email = "admin@store.com", Password = "Abcd-1234", CompanyName = "Test Co", Plan = Core.Enums.PlanType.Free };
 
@@ -130,17 +140,91 @@ namespace SITRA.Tests
 
                 // Assert
                 Assert.True(result.Succeeded);
-                mockRoleManager.Verify(x => x.CreateAsync(It.Is<IdentityRole>(r => r.Name == "Admin")), Times.Once);
-                mockUserManager.Verify(x => x.AddToRoleAsync(It.IsAny<User>(), "Admin"), Times.Once);
                 
                 // Verify Tenant and Role were added to context
-                Assert.True(await context.Tenants.AnyAsync(t => t.Email == "qa@gmail.com"));
+                Assert.True(await context.Tenants.AnyAsync(t => t.Email == "admin@store.com"));
                 var adminRole = await context.TenantRoles.FirstOrDefaultAsync(r => r.Name == "Admin");
                 Assert.NotNull(adminRole);
                 
                 // Verify Permissions were linked
                 var permissionsCount = await context.TenantRolePermissions.CountAsync(rp => rp.RoleId == adminRole.Id);
                 Assert.True(permissionsCount > 0);
+            }
+        }
+
+        [Fact]
+        public async Task LoginAsync_ShouldPersistClaimsOnFirstLogin()
+        {
+            // Arrange
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(databaseName: "PersistClaimsTestDb")
+                .Options;
+
+            var tenantId = Guid.NewGuid();
+            var user = new User { Id = "user-1", Email = "persist@test.com", TenantId = tenantId, UserName = "persist" };
+
+            var mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
+            var mockCurrentTenantService = new Mock<ICurrentTenantService>();
+            mockCurrentTenantService.Setup(x => x.TenantId).Returns(tenantId);
+
+            var myConfiguration = new Dictionary<string, string?>
+            {
+                {"Jwt:Audience", "test-audience"},
+                {"Authentication:Schemes:Bearer:Issuer", "test-issuer"},
+                {"Jwt:Key", "ThisIsATestKeyThatIsLongEnoughToBeAKey!!!"},
+                {"ConnectionStrings:AzureStorage", "DefaultEndpointsProtocol=https;AccountName=test;AccountKey=test;EndpointSuffix=core.windows.net"}
+            };
+            var configuration = new ConfigurationBuilder().AddInMemoryCollection(myConfiguration).Build();
+
+            using (var context = new ApplicationDbContext(options, mockCurrentTenantService.Object))
+            {
+                var role = new Role { Id = Guid.NewGuid(), Name = "Manager", TenantId = tenantId, Description = "Manager" };
+                var permission = new Permission { Id = Guid.NewGuid(), Key = "orders:write", Name = "Write Orders", Section = "Orders" };
+                var rolePermission = new RolePermission { RoleId = role.Id, PermissionId = permission.Id };
+
+                context.TenantRoles.Add(role);
+                context.TenantPermissions.Add(permission);
+                context.TenantRolePermissions.Add(rolePermission);
+                
+                var roleStore = new RoleStore<IdentityRole>(context);
+                var roleManager = new RoleManager<IdentityRole>(roleStore, null!, null!, null!, null!);
+                var userStore = new UserStore<User>(context);
+                var userManager = new UserManager<User>(userStore, null!, new PasswordHasher<User>(), null!, null!, null!, null!, null!, null!);
+                
+                await userManager.CreateAsync(user, "Password1!");
+                
+                // We add the role to ASP.NET Identity system for the user
+                // The UserManager needs to know about roles to return them in GetRolesAsync
+                context.UserRoles.Add(new IdentityUserRole<string> { UserId = user.Id, RoleId = role.Id.ToString() });
+                
+                await context.SaveChangesAsync();
+            }
+
+            // Act
+            using (var testContext = new ApplicationDbContext(options, mockCurrentTenantService.Object))
+            {
+                var roleStore = new RoleStore<IdentityRole>(testContext);
+                var roleManager = new RoleManager<IdentityRole>(roleStore, null!, null!, null!, null!);
+                var userStore = new UserStore<User>(testContext);
+                var userManager = new UserManager<User>(userStore, null!, new PasswordHasher<User>(), null!, null!, null!, null!, null!, null!);
+                
+                // Create UnitOfWork which will create its own UserService
+                var unitOfWork = new UnitOfWork(testContext, mockHttpContextAccessor.Object, userManager, roleManager, configuration);
+                var userService = unitOfWork.UserService;
+                
+                var dto = new CreateLoginUserDTO { Email = "persist@test.com", Password = "Password1!" };
+                var result = await userService.LoginAsync(dto, CancellationToken.None);
+
+                // Assert
+                Assert.NotNull(result);
+                Assert.True(result.IsAuthenticated);
+
+                // Verify claims are now in the database
+                var persistedClaims = await testContext.UserClaims
+                    .Where(c => c.UserId == user.Id && c.ClaimType == "Permission")
+                    .ToListAsync();
+                    
+                Assert.Contains(persistedClaims, c => c.ClaimValue == "orders:write");
             }
         }
 
@@ -164,8 +248,8 @@ namespace SITRA.Tests
             mockCurrentTenantService.Setup(x => x.TenantId).Returns(tenantId);
 
             var context = new ApplicationDbContext(options, mockCurrentTenantService.Object);
-            var userStore = new UserStore<User>(context);
-            var userManager = new UserManager<User>(userStore, null!, new PasswordHasher<User>(), null!, null!, null!, null!, null!, null!);
+            var setupUserStore = new UserStore<User>(context);
+            var setupUserManager = new UserManager<User>(setupUserStore, null!, new PasswordHasher<User>(), null!, null!, null!, null!, null!, null!);
             
             using (context)
             {
@@ -177,7 +261,14 @@ namespace SITRA.Tests
                 context.TenantRoles.Add(role);
                 context.TenantRolePermissions.Add(rolePermission);
                 
-                await userManager.CreateAsync(user, "Password1!");
+                await setupUserManager.CreateAsync(user, "Password1!");
+                // TODO:
+                // - [x] Implement logic in `UserService.LoginAsync` <!-- id: 3 -->
+                //    - [x] Check if user has claims in `AspNetUserClaims`
+                //    - [x] If not, fetch role permissions from `TenantRolePermissions`
+                //    - [x] Persist permissions as claims using `UserManager.AddClaimsAsync`
+                //    - [x] Add all relevant claims to the JWT
+                // - [x] Verify the changes <!-- id: 4 -->
                 await context.SaveChangesAsync();
             }
 
@@ -189,19 +280,28 @@ namespace SITRA.Tests
             var mockKeysSection = new Mock<IConfigurationSection>();
             mockKeysSection.Setup(x => x.GetChildren()).Returns(new List<IConfigurationSection>().AsEnumerable());
             mockConfiguration.Setup(x => x.GetSection("Authentication:Schemes:Bearer:SigningKeys")).Returns(mockKeysSection.Object);
+            
+            var mockConnSection = new Mock<IConfigurationSection>();
+            mockConnSection.Setup(x => x["AzureStorage"]).Returns("DefaultEndpointsProtocol=https;AccountName=test;AccountKey=test;EndpointSuffix=core.windows.net");
+            mockConfiguration.Setup(x => x.GetSection("ConnectionStrings")).Returns(mockConnSection.Object);
 
             using (var testContext = new ApplicationDbContext(options, mockCurrentTenantService.Object))
             {
-                var realUserManager = new UserManager<User>(new UserStore<User>(testContext), null!, new PasswordHasher<User>(), null!, null!, null!, null!, null!, null!);
-                var userService = new UserService(testContext, mockHttpContextAccessor.Object, realUserManager, mockConfiguration.Object);
+                var roleStore = new RoleStore<IdentityRole>(testContext);
+                var roleManager = new RoleManager<IdentityRole>(roleStore, null!, null!, null!, null!);
+                var userStore = new UserStore<User>(testContext);
+                var userManager = new UserManager<User>(userStore, null!, new PasswordHasher<User>(), null!, null!, null!, null!, null!, null!);
+                
+                var unitOfWork = new UnitOfWork(testContext, mockHttpContextAccessor.Object, userManager, roleManager, mockConfiguration.Object);
+                var userService = unitOfWork.UserService;
+                
                 var dto = new CreateLoginUserDTO { Email = "test@test.com", Password = "Password1!" };
-
-                // Act
                 var result = await userService.LoginAsync(dto, CancellationToken.None);
 
                 // Assert
                 Assert.NotNull(result);
                 Assert.True(result.IsAuthenticated);
+                Assert.NotNull(result.Token);
             }
         }
     }

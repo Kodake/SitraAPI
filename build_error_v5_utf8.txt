@@ -1,0 +1,12 @@
+﻿  Determining projects to restore...
+  All projects are up-to-date for restore.
+  SITRA.Core -> C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Core\bin\Debug\net8.0\SITRA.Core.dll
+  SITRA.Infrastructure -> C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Infrastructure\bin\Debug\net8.0\SITRA.Infrastructure.dll
+  SITRA.API -> C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\bin\Debug\net8.0\SITRA.API.dll
+  SITRA.Tests -> C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\bin\Debug\net8.0\SITRA.Tests.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:01.73

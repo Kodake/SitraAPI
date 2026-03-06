@@ -1,0 +1,119 @@
+﻿
+> 
+test_results_debug.log:76: 
+ Failed SITRA.Tests.UserSer
+viceTests.LoginAsync_Should
+PersistClaimsOnFirstLogin 
+[1 s]
+  
+test_results_debug.log:77: 
+ Error Message:
+  
+test_results_debug.log:78: 
+  System.InvalidOperationEx
+ception : Role Manager 
+does not exist.
+  
+test_results_debug.log:79: 
+ Stack Trace:
+  
+test_results_debug.log:80: 
+    at Microsoft.AspNetCore
+.Identity.EntityFrameworkCo
+re.UserStore`9.AddToRoleAsy
+nc(TUser user, String 
+normalizedRoleName, 
+CancellationToken 
+cancellationToken)
+  
+test_results_debug.log:81: 
+  at Microsoft.AspNetCore.I
+dentity.UserManager`1.AddTo
+RoleAsync(TUser user, 
+String role)
+  
+test_results_debug.log:82: 
+  at SITRA.Tests.UserServic
+eTests.LoginAsync_ShouldPer
+sistClaimsOnFirstLogin() 
+in C:\Users\Kodake\Desktop\
+SITRA SRC\PosAPI\SITRA.Test
+s\UserServiceTests.cs:line 
+183
+  test_results_debug.log:83
+:--- End of stack trace 
+from previous location ---
+> 
+test_results_debug.log:84: 
+ Failed SITRA.Tests.UserSer
+viceTests.RegisterAsync_Val
+idRequest_CreatesAdminRoleA
+ndSyncsPermissions [106 ms]
+  
+test_results_debug.log:85: 
+ Error Message:
+  
+test_results_debug.log:86: 
+  Moq.MockException : 
+  test_results_debug.log:87
+:Expected invocation on 
+the mock once, but was 0 
+times: x => x.CreateAsync(I
+t.Is<IdentityRole>(r => 
+r.Name == "Admin"))
+  
+test_results_debug.log:88:
+  test_results_debug.log:89
+:Performed invocations:
+  
+test_results_debug.log:90:
+  
+test_results_debug.log:91: 
+  Mock<RoleManager<Identity
+Role>:2> (x):
+  
+test_results_debug.log:92: 
+  No invocations performed.
+  
+test_results_debug.log:93:
+  
+test_results_debug.log:94: 
+ Stack Trace:
+  
+test_results_debug.log:95: 
+    at 
+Moq.Mock.Verify(Mock mock, 
+LambdaExpression 
+expression, Times times, 
+String failMessage) in 
+/_/src/Moq/Mock.cs:line 331
+  
+test_results_debug.log:96: 
+  at Moq.Mock`1.Verify[TRes
+ult](Expression`1 
+expression, Func`1 times) 
+in 
+/_/src/Moq/Mock`1.cs:line 
+1033
+  
+test_results_debug.log:97: 
+  at SITRA.Tests.UserServic
+eTests.RegisterAsync_ValidR
+equest_CreatesAdminRoleAndS
+yncsPermissions() in C:\Use
+rs\Kodake\Desktop\SITRA SRC
+\PosAPI\SITRA.Tests\UserSer
+viceTests.cs:line 133
+  test_results_debug.log:98
+:--- End of stack trace 
+from previous location ---
+  
+test_results_debug.log:99:
+  test_results_debug.log:10
+0:Failed!  - Failed:     
+2, Passed:     8, Skipped: 
+    0, Total:    10, 
+Duration: 1 s - 
+SITRA.Tests.dll (net8.0)
+
+
