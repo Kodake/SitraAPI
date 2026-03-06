@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using SITRA.Core.DTOs.Auths;
 using SITRA.Core.Interfaces;
-using SITRA.Core.Interfaces.Services;
-
 using SITRA.Core.Mediator.Queries.Tenants;
 using SITRA.Core.Mediator.Commands.Auths;
 namespace SITRA.API.Endpoints.Auths
@@ -16,6 +14,7 @@ namespace SITRA.API.Endpoints.Auths
             group.MapGet("/", GetUsers).RequireAuthorization();
             group.MapGet("/{id}", GetUserById).RequireAuthorization();
             group.MapPost("/", CreateAssociatedUser).RequireAuthorization();
+            group.MapPut("/{id}/role", UpdateUserRole).RequireAuthorization();
 
             return group;
         }
@@ -49,6 +48,15 @@ namespace SITRA.API.Endpoints.Auths
             [FromServices] IMediator mediator)
         {
             var result = await mediator.Send(new CreateAssociatedUserCommand(dto));
+            return result.Succeeded ? TypedResults.Ok() : TypedResults.BadRequest();
+        }
+
+        static async Task<Results<Ok, BadRequest>> UpdateUserRole(
+            [FromRoute] string id,
+            [FromBody] UpdateUserRoleDTO dto,
+            [FromServices] IMediator mediator)
+        {
+            var result = await mediator.Send(new UpdateUserRoleCommand(id, dto));
             return result.Succeeded ? TypedResults.Ok() : TypedResults.BadRequest();
         }
 

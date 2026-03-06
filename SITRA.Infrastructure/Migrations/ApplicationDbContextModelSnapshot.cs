@@ -433,6 +433,41 @@ namespace SITRA.Infrastructure.Migrations
                     b.ToTable("IdempotentRequests", "audits");
                 });
 
+            modelBuilder.Entity("SITRA.Core.Entities.AdministrativeTools.Permission", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Section")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Key")
+                        .IsUnique();
+
+                    b.ToTable("TenantPermissions", "dbo");
+                });
+
             modelBuilder.Entity("SITRA.Core.Entities.AdministrativeTools.Role", b =>
                 {
                     b.Property<Guid>("Id")
@@ -469,7 +504,28 @@ namespace SITRA.Infrastructure.Migrations
                         .IsUnique()
                         .HasDatabaseName("IX_Roles_TenantId_Name");
 
-                    b.ToTable("TenantRoles");
+                    b.ToTable("TenantRoles", "dbo");
+                });
+
+            modelBuilder.Entity("SITRA.Core.Entities.AdministrativeTools.RolePermission", b =>
+                {
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PermissionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("RoleId", "PermissionId");
+
+                    b.HasIndex("PermissionId");
+
+                    b.ToTable("TenantRolePermissions", "dbo");
                 });
 
             modelBuilder.Entity("SITRA.Core.Entities.Appointments.Appointment", b =>
@@ -1744,7 +1800,7 @@ namespace SITRA.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -2022,6 +2078,25 @@ namespace SITRA.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Warehouse");
+                });
+
+            modelBuilder.Entity("SITRA.Core.Entities.AdministrativeTools.RolePermission", b =>
+                {
+                    b.HasOne("SITRA.Core.Entities.AdministrativeTools.Permission", "Permission")
+                        .WithMany("RolePermissions")
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SITRA.Core.Entities.AdministrativeTools.Role", "Role")
+                        .WithMany("RolePermissions")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Permission");
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("SITRA.Core.Entities.Appointments.Appointment", b =>
@@ -2495,6 +2570,16 @@ namespace SITRA.Infrastructure.Migrations
             modelBuilder.Entity("SITRA.Core.Entities.Accounts.Receivable", b =>
                 {
                     b.Navigation("PaymentReceipts");
+                });
+
+            modelBuilder.Entity("SITRA.Core.Entities.AdministrativeTools.Permission", b =>
+                {
+                    b.Navigation("RolePermissions");
+                });
+
+            modelBuilder.Entity("SITRA.Core.Entities.AdministrativeTools.Role", b =>
+                {
+                    b.Navigation("RolePermissions");
                 });
 
             modelBuilder.Entity("SITRA.Core.Entities.Appointments.Appointment", b =>

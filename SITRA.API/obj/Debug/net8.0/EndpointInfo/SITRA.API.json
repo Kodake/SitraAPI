@@ -6172,6 +6172,41 @@
         }
       }
     },
+    "/api/v1/users/{id}/role": {
+      "put": {
+        "tags": [
+          "TenantUsersEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserRoleDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
     "/api/v1/transfers": {
       "get": {
         "tags": [
@@ -7124,8 +7159,7 @@
           "permissionIds": {
             "type": "array",
             "items": {
-              "type": "string",
-              "format": "uuid"
+              "type": "string"
             },
             "nullable": true
           }
@@ -10729,6 +10763,13 @@
             "type": "string",
             "format": "date-time",
             "nullable": true
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -10758,6 +10799,13 @@
           "updatedAt": {
             "type": "string",
             "format": "date-time",
+            "nullable": true
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
             "nullable": true
           }
         },
@@ -11981,6 +12029,16 @@
         },
         "additionalProperties": false
       },
+      "UpdateUserRoleDTO": {
+        "type": "object",
+        "properties": {
+          "roleId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
       "UserDTO": {
         "type": "object",
         "properties": {
@@ -11997,6 +12055,10 @@
             "nullable": true
           },
           "parentUserId": {
+            "type": "string",
+            "nullable": true
+          },
+          "roleId": {
             "type": "string",
             "nullable": true
           }

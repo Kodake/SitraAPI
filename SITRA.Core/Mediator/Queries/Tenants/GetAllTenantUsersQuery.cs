@@ -23,13 +23,21 @@ namespace SITRA.Core.Mediator.Queries.Tenants
                 .Where(u => u.TenantId == request.TenantId && u.ParentUserId != null)
                 .ToListAsync(cancellationToken);
 
-            return users.Select(u => new UserDTO
+            var userDtos = new List<UserDTO>();
+            foreach (var u in users)
             {
-                Id = u.Id,
-                Email = u.Email!,
-                CompanyName = u.CompanyName,
-                ParentUserId = u.ParentUserId
-            });
+                var roles = await _userManager.GetRolesAsync(u);
+                userDtos.Add(new UserDTO
+                {
+                    Id = u.Id,
+                    Email = u.Email!,
+                    CompanyName = u.CompanyName,
+                    ParentUserId = u.ParentUserId,
+                    RoleId = roles.FirstOrDefault()
+                });
+            }
+
+            return userDtos;
         }
     }
 }

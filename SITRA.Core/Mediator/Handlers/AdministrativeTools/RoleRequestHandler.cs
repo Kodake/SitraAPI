@@ -11,9 +11,9 @@ namespace SITRA.Core.Mediator.Handlers.AdministrativeTools
     {
         public static IServiceCollection AddRoleServices(this IServiceCollection services)
         {
-            services.AddTransient<IRequestHandler<GetRoleByIdQuery, RoleDTO?>, QueryHandler<GetRoleByIdQuery, RoleDTO?>>();
-            services.AddTransient<IRequestHandler<GetAllRolesQuery, List<RoleListDTO>>, QueryHandler<GetAllRolesQuery, List<RoleListDTO>>>();
-            services.AddTransient<IRequestHandler<GetSelectsRolesQuery, List<RoleListDTO>>, QueryHandler<GetSelectsRolesQuery, List<RoleListDTO>>>();
+            services.AddTransient<IRequestHandler<GetRoleByIdQuery, RoleDTO?>, GetRoleByIdHandler>();
+            services.AddTransient<IRequestHandler<GetAllRolesQuery, List<RoleListDTO>>, GetAllRolesHandler>();
+            services.AddTransient<IRequestHandler<GetSelectsRolesQuery, List<RoleListDTO>>, GetSelectsRolesHandler>();
 
             services.AddTransient<IRequestHandler<CreateRoleCommand, CreateRoleDTO>, CreateCommandHandler<Role, CreateRoleDTO>>();
             services.AddTransient<IRequestHandler<UpdateRoleCommand, bool>, UpdateCommandHandler<Role, CreateRoleDTO>>();

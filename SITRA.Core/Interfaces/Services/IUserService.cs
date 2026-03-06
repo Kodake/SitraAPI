@@ -12,6 +12,7 @@ namespace SITRA.Core.Interfaces.Services
         Task<TokenResponseDTO?> LoginAsync(CreateLoginUserDTO dto, CancellationToken cancellationToken);
         Task<IdentityResult> RegisterAsync(CreateRegistrationUserDTO dto, CancellationToken cancellationToken);
         Task<IdentityResult> RegisterAssociatedUserAsync(CreateAssociatedUserDTO dto, CancellationToken cancellationToken);
+        Task<IdentityResult> UpdateUserRoleAsync(string userId, UpdateUserRoleDTO dto, CancellationToken cancellationToken);
         Task<bool> ChangeLanguageAsync(Language language, CancellationToken cancellationToken);
     }
 }

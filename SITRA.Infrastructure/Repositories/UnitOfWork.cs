@@ -68,6 +68,8 @@ namespace SITRA.Infrastructure.Repositories
         public IPettyCashRepository PettyCashRepository { get; }
         public IPettyCashMovementRepository PettyCashMovementRepository { get; }
         public IRoleRepository RoleRepository { get; }
+        public IPermissionRepository PermissionRepository { get; }
+        public IRolePermissionRepository RolePermissionRepository { get; }
         public IAppointmentRepository AppointmentRepository { get; }
         public IUserService UserService { get; }
         public IPlanService PlanService { get; }
@@ -113,8 +115,10 @@ namespace SITRA.Infrastructure.Repositories
             PettyCashRepository = new PettyCashRepository(context, httpContextAccessor);
             PettyCashMovementRepository = new PettyCashMovementRepository(context, httpContextAccessor);
             RoleRepository = new RoleRepository(context, httpContextAccessor);
+            PermissionRepository = new PermissionRepository(context);
+            RolePermissionRepository = new RolePermissionRepository(context);
             AppointmentRepository = new AppointmentRepository(context, httpContextAccessor);
-            UserService = new UserService(context, httpContextAccessor, userManager, roleManager, configuration);
+            UserService = new UserService(context, httpContextAccessor, userManager, configuration);
             PlanService = new PlanService();
             FileStorageService = new AzureFileService(configuration);
 

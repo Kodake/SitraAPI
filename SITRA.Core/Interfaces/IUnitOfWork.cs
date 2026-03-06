@@ -47,6 +47,8 @@ namespace SITRA.Core.Interfaces
         IPettyCashRepository PettyCashRepository { get; }
         IPettyCashMovementRepository PettyCashMovementRepository { get; }
         IRoleRepository RoleRepository { get; }
+        IPermissionRepository PermissionRepository { get; }
+        IRolePermissionRepository RolePermissionRepository { get; }
         IAppointmentRepository AppointmentRepository { get; }
         IUserService UserService { get; }
         IPlanService PlanService { get; }

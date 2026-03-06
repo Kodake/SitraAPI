@@ -24,26 +24,26 @@ namespace SITRA.Tests
         }
 
         [Fact]
-        public async Task Handle_ValidRequest_AssignsClaimsCorrectly()
+        public async Task Handle_ValidRequest_AssignsPermissionsToRepository()
         {
             // Arrange
             var mockRoleManager = GetMockRoleManager();
             var mockUnitOfWork = new Mock<IUnitOfWork>();
             var mockRoleRepo = new Mock<IRoleRepository>();
-
-            var mockConfigSection = new Mock<IConfigurationSection>();
-            var mockConfiguration = new Mock<IConfiguration>();
+            var mockPermissionRepo = new Mock<IPermissionRepository>();
+            var mockRolePermissionRepo = new Mock<IRolePermissionRepository>();
 
             var roleId = Guid.NewGuid();
-            var permissionId = Guid.NewGuid(); // Random permission action id
+            var permissionId = Guid.NewGuid();
+            var permissionKey = "products:read";
 
             var customRole = new Role { Id = roleId, Name = "Manager Role", TenantId = Guid.NewGuid() };
-            var identityRole = new IdentityRole("Manager Role");
+            var permission = new Permission { Id = permissionId, Key = permissionKey };
 
             var dto = new AssignPermissionsDTO
             {
                 RoleId = roleId,
-                PermissionIds = new List<Guid> { permissionId }
+                PermissionIds = new List<string> { permissionKey } // Passing the KEY
             };
 
             var command = new AssignPermissionsCommand(dto);
@@ -51,40 +51,15 @@ namespace SITRA.Tests
             // Mock IUnitOfWork repository
             mockRoleRepo.Setup(r => r.GetByIdAsync(roleId, It.IsAny<CancellationToken>()))
                         .ReturnsAsync(customRole);
-            mockUnitOfWork.Setup(u => u.RoleRepository).Returns(mockRoleRepo.Object);
-
-            // Mock Identity Role manager lookups
-            mockRoleManager.Setup(r => r.FindByNameAsync("Manager Role"))
-                           .ReturnsAsync(identityRole);
-
-            // Mock Identity claims responses
-            mockRoleManager.Setup(r => r.GetClaimsAsync(identityRole))
-                           .ReturnsAsync(new List<Claim>());
-
-            mockRoleManager.Setup(r => r.AddClaimAsync(identityRole, It.IsAny<Claim>()))
-                           .ReturnsAsync(IdentityResult.Success);
-
-            // Mock Configuration for permission dict mapping
-            var configData = new PermissionManagementConfigDTO
-            {
-                Modules = new List<ModuleConfigDTO>
-                {
-                    new ModuleConfigDTO
-                    {
-                        Key = "products",
-                        Actions = new List<ActionConfigDTO>
-                        {
-                            new ActionConfigDTO { Id = permissionId, Name = "read" }
-                        }
-                    }
-                }
-            };
             
-            // Note: Since .Get<T>() is an extension method, we usually have to mock the config root 
-            // but for simplicity in IConfiguration returning an object directly we can build a stub if needed
-            // However, Moq struggles with Get<T>() extension cleanly unless we wrap it or use IOptions.
-            // But we will just try to bypass/create a concrete Config using InMemory configuration safely.
+            mockPermissionRepo.Setup(p => p.GetAllAsync(It.IsAny<System.Linq.Expressions.Expression<System.Func<Permission, bool>>>(), It.IsAny<CancellationToken>()))
+                              .ReturnsAsync(new List<Permission> { permission });
 
+            mockUnitOfWork.Setup(u => u.RoleRepository).Returns(mockRoleRepo.Object);
+            mockUnitOfWork.Setup(u => u.PermissionRepository).Returns(mockPermissionRepo.Object);
+            mockUnitOfWork.Setup(u => u.RolePermissionRepository).Returns(mockRolePermissionRepo.Object);
+
+            // Mock Configuration
             var inMemorySettings = new Dictionary<string, string?> {
                 {"PermissionManagement:Modules:0:Key", "products"},
                 {"PermissionManagement:Modules:0:Actions:0:Id", permissionId.ToString()},
@@ -106,10 +81,11 @@ namespace SITRA.Tests
             // Assert
             Assert.True(result);
             
-            // Verify AddClaimAsync was called perfectly with "products:read" !
-            mockRoleManager.Verify(r => r.AddClaimAsync(
-                identityRole, 
-                It.Is<Claim>(c => c.Type == "Permission" && c.Value == "products:read")), 
+            // Verify UpdateRolePermissionsAsync was called with the RESOLVED GUID
+            mockRolePermissionRepo.Verify(r => r.UpdateRolePermissionsAsync(
+                roleId, 
+                It.Is<List<Guid>>(list => list.Contains(permissionId)), 
+                It.IsAny<CancellationToken>()), 
             Times.Once);
         }
     }

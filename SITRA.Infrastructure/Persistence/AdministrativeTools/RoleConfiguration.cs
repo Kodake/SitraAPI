@@ -8,6 +8,7 @@ namespace SITRA.Infrastructure.Persistence.AdministrativeTools
     {
         public void Configure(EntityTypeBuilder<Role> builder)
         {
+            builder.ToTable("TenantRoles", "dbo");
             builder.Property(p => p.Name).HasMaxLength(50).IsRequired();
 
             builder.Property(r => r.Description).HasMaxLength(100).IsRequired();

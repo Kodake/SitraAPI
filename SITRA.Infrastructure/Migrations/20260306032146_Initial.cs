@@ -17,6 +17,9 @@ namespace SITRA.Infrastructure.Migrations
             migrationBuilder.EnsureSchema(
                 name: "audits");
 
+            migrationBuilder.EnsureSchema(
+                name: "dbo");
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -256,7 +259,25 @@ namespace SITRA.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TenantPermissions",
+                schema: "dbo",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Key = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Section = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TenantPermissions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TenantRoles",
+                schema: "dbo",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -277,7 +298,7 @@ namespace SITRA.Infrastructure.Migrations
                 columns: table => new
                 {
                     TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Plan = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -677,6 +698,35 @@ namespace SITRA.Infrastructure.Migrations
                         name: "FK_ItemTaxes_Taxes_TaxId",
                         column: x => x.TaxId,
                         principalTable: "Taxes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TenantRolePermissions",
+                schema: "dbo",
+                columns: table => new
+                {
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PermissionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TenantRolePermissions", x => new { x.RoleId, x.PermissionId });
+                    table.ForeignKey(
+                        name: "FK_TenantRolePermissions_TenantPermissions_PermissionId",
+                        column: x => x.PermissionId,
+                        principalSchema: "dbo",
+                        principalTable: "TenantPermissions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TenantRolePermissions_TenantRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalSchema: "dbo",
+                        principalTable: "TenantRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -1765,7 +1815,21 @@ namespace SITRA.Infrastructure.Migrations
                 column: "TenantId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TenantPermissions_Key",
+                schema: "dbo",
+                table: "TenantPermissions",
+                column: "Key",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TenantRolePermissions_PermissionId",
+                schema: "dbo",
+                table: "TenantRolePermissions",
+                column: "PermissionId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Roles_TenantId_Name",
+                schema: "dbo",
                 table: "TenantRoles",
                 columns: new[] { "TenantId", "Name" },
                 unique: true);
@@ -1894,7 +1958,8 @@ namespace SITRA.Infrastructure.Migrations
                 name: "SpotPayables");
 
             migrationBuilder.DropTable(
-                name: "TenantRoles");
+                name: "TenantRolePermissions",
+                schema: "dbo");
 
             migrationBuilder.DropTable(
                 name: "Tenants");
@@ -1937,6 +2002,14 @@ namespace SITRA.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "PettyCashes");
+
+            migrationBuilder.DropTable(
+                name: "TenantPermissions",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "TenantRoles",
+                schema: "dbo");
 
             migrationBuilder.DropTable(
                 name: "Stocks");

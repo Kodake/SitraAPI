@@ -85,6 +85,8 @@ namespace SITRA.Infrastructure.Persistence
             modelBuilder.ApplyConfiguration(new DeadlineConfiguration());
             modelBuilder.ApplyConfiguration(new FiscalSupportConfiguration());
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
+            modelBuilder.ApplyConfiguration(new PermissionConfiguration());
+            modelBuilder.ApplyConfiguration(new RolePermissionConfiguration());
 
             modelBuilder.ApplyConfiguration(new ContactConfiguration());
 
@@ -153,11 +155,13 @@ namespace SITRA.Infrastructure.Persistence
         #endregion
 
         #region DbSets
-        public DbSet<IdempotentRequest> IdempotentRequests { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Role> TenantRoles { get; set; }
-        public DbSet<Tenant> Tenants { get; set; }
-        public DbSet<SubCategory> SubCategories { get; set; }
+        public virtual DbSet<IdempotentRequest> IdempotentRequests { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Role> TenantRoles { get; set; }
+        public virtual DbSet<Permission> TenantPermissions { get; set; }
+        public virtual DbSet<RolePermission> TenantRolePermissions { get; set; }
+        public virtual DbSet<Tenant> Tenants { get; set; }
+        public virtual DbSet<SubCategory> SubCategories { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Model> Models { get; set; }
         public DbSet<Unit> Units { get; set; }
