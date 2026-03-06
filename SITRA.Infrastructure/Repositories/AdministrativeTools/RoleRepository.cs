@@ -2,8 +2,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using SITRA.Core.DTOs;
 using SITRA.Core.Entities.AdministrativeTools;
-using SITRA.Core.Entities.Products;
-using SITRA.Core.Enums;
 using SITRA.Core.Helpers;
 using SITRA.Core.Interfaces.AdministrativeTools;
 using SITRA.Infrastructure.Persistence;
@@ -45,6 +43,17 @@ namespace SITRA.Infrastructure.Repositories.AdministrativeTools
                 .Where(r => !r.IsSystemRole)
                 .OrderBy(u => u.Name)
                 .ToListAsync(cancellationToken);
+        }
+
+        public async new Task<Role?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            return await context.Set<Role>()
+                .Include(r => r.RolePermissions)
+                    .ThenInclude(rp => rp.Permission)
+                .Where(r => r.Id == id)
+                .Where(r => !r.IsSystemRole)
+                .OrderBy(u => u.Name)
+                .FirstOrDefaultAsync(cancellationToken);
         }
 
         public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)

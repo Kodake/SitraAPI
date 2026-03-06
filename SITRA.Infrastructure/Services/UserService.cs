@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -252,6 +252,9 @@ namespace SITRA.Infrastructure.Services
                 }
 
                 await context.SaveChangesAsync(cancellationToken);
+
+                // 4. Assign Permission Claims immediately
+                await AddPermissionClaimsFromRolesAsync(user, new[] { adminRole.Id }, cancellationToken);
             }
 
             return result;
@@ -280,16 +283,51 @@ namespace SITRA.Infrastructure.Services
 
             var result = await _userManager.CreateAsync(subUser, dto.Password);
 
-            if (result.Succeeded)
+            if (!result.Succeeded)
+                return result;
+
+            // 1. Resolve role
+            var role = await _unitOfWork.RoleRepository.GetByIdAsync(dto.RoleId, cancellationToken);
+            if (role == null)
             {
-                var role = await context.Set<Role>().FindAsync(new object[] { dto.RoleId }, cancellationToken);
-                if (role != null)
-                {
-                    await _userManager.AddToRoleAsync(subUser, role.Name);
-                }
+                return IdentityResult.Failed(new IdentityError { Description = "Role not found." });
             }
 
+            //// 2. Assign Role using standard UserManager method
+            //var roleResult = await _userManager.AddToRoleAsync(subUser, role.Name);
+            //if (!roleResult.Succeeded) return roleResult;
+
+            // 3. Assign Permission Claims immediately
+            await AddPermissionClaimsFromRolesAsync(subUser, new[] { role.Id }, cancellationToken);
+
             return result;
+        }
+
+        private async Task AddPermissionClaimsFromRolesAsync(User user, IEnumerable<Guid> roleIds, CancellationToken cancellationToken)
+        {
+            var permissionKeys = new List<string>();
+            foreach (var roleId in roleIds)
+            {
+                var rolePermissions = await _unitOfWork.RolePermissionRepository
+                    .GetPermissionsByRoleIdAsync(roleId, cancellationToken);
+                
+                permissionKeys.AddRange(rolePermissions.Select(p => p.Key));
+            }
+
+            var permissionClaims = permissionKeys
+                .Distinct()
+                .Select(pk => new Claim("Permission", pk))
+                .ToList();
+
+            if (permissionClaims.Any())
+            {
+                var result = await _userManager.AddClaimsAsync(user, permissionClaims);
+                if (!result.Succeeded)
+                {
+                    Console.WriteLine(Utilities.FailedToUpdateUserClaimsMessage(
+                        string.Join(", ", result.Errors.Select(e => e.Description))));
+                }
+            }
         }
 
         public async Task<bool> ChangeLanguageAsync(Core.Enums.Language language, CancellationToken cancellationToken)
