@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Moq;
 using SITRA.Core.DTOs.Auths;
 using SITRA.Core.Entities.Auths;
@@ -131,7 +132,8 @@ namespace SITRA.Tests
             using (var context = new ApplicationDbContext(options, mockCurrentTenantService.Object))
             {
                 var mockUnitOfWork = new Mock<IUnitOfWork>();
-                var userService = new UserService(mockUnitOfWork.Object, context, mockHttpContextAccessor.Object, mockUserManager.Object, configuration);
+                var mockLogger = new Mock<ILogger<UserService>>();
+                var userService = new UserService(mockUnitOfWork.Object, context, mockHttpContextAccessor.Object, mockUserManager.Object, configuration, mockLogger.Object);
 
                 var dto = new CreateRegistrationUserDTO { Email = "admin@store.com", Password = "Abcd-1234", CompanyName = "Test Co", Plan = Core.Enums.PlanType.Free };
 
@@ -209,7 +211,8 @@ namespace SITRA.Tests
                 var userManager = new UserManager<User>(userStore, null!, new PasswordHasher<User>(), null!, null!, null!, null!, null!, null!);
                 
                 // Create UnitOfWork which will create its own UserService
-                var unitOfWork = new UnitOfWork(testContext, mockHttpContextAccessor.Object, userManager, roleManager, configuration);
+                var mockLogger = new Mock<ILogger<UserService>>();
+                var unitOfWork = new UnitOfWork(testContext, mockHttpContextAccessor.Object, userManager, roleManager, configuration, mockLogger.Object);
                 var userService = unitOfWork.UserService;
                 
                 var dto = new CreateLoginUserDTO { Email = "persist@test.com", Password = "Password1!" };
@@ -292,7 +295,8 @@ namespace SITRA.Tests
                 var userStore = new UserStore<User>(testContext);
                 var userManager = new UserManager<User>(userStore, null!, new PasswordHasher<User>(), null!, null!, null!, null!, null!, null!);
                 
-                var unitOfWork = new UnitOfWork(testContext, mockHttpContextAccessor.Object, userManager, roleManager, mockConfiguration.Object);
+                var mockLogger = new Mock<ILogger<UserService>>();
+                var unitOfWork = new UnitOfWork(testContext, mockHttpContextAccessor.Object, userManager, roleManager, mockConfiguration.Object, mockLogger.Object);
                 var userService = unitOfWork.UserService;
                 
                 var dto = new CreateLoginUserDTO { Email = "test@test.com", Password = "Password1!" };

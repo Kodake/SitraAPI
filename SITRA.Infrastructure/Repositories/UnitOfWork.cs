@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using SITRA.Core.Entities.Auths;
 using SITRA.Core.Interfaces;
 using SITRA.Core.Interfaces.Accounts;
@@ -80,7 +81,8 @@ namespace SITRA.Infrastructure.Repositories
             IHttpContextAccessor httpContextAccessor,
             UserManager<User> userManager,
             RoleManager<IdentityRole> roleManager,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            ILogger<UserService> logger)
         {
             PayableRepository = new PayableRepository(context, httpContextAccessor);
             ReceivableRepository = new ReceivableRepository(context, httpContextAccessor);
@@ -118,7 +120,7 @@ namespace SITRA.Infrastructure.Repositories
             PermissionRepository = new PermissionRepository(context);
             RolePermissionRepository = new RolePermissionRepository(context);
             AppointmentRepository = new AppointmentRepository(context, httpContextAccessor);
-            UserService = new UserService(this, context, httpContextAccessor, userManager, configuration);
+            UserService = new UserService(this, context, httpContextAccessor, userManager, configuration, logger);
             PlanService = new PlanService();
             FileStorageService = new AzureFileService(configuration);
 
