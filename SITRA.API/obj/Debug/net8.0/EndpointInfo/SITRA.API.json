@@ -6094,24 +6094,6 @@
         "tags": [
           "TenantUsersEndpoints"
         ],
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "default": 1
-            }
-          },
-          {
-            "name": "recordsPerPage",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "default": 10
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK",

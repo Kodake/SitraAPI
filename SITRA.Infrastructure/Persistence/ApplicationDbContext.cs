@@ -39,7 +39,9 @@ namespace SITRA.Infrastructure.Persistence
         {
             foreach (var entry in ChangeTracker.Entries<ITenant>())
             {
-                if (entry.State == EntityState.Added && _currentTenantService.TenantId.HasValue)
+                if (entry.State == EntityState.Added && 
+                    _currentTenantService.TenantId.HasValue && 
+                    entry.Entity.TenantId == Guid.Empty)
                 {
                     entry.Entity.TenantId = _currentTenantService.TenantId.Value;
                 }

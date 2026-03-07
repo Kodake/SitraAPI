@@ -15,6 +15,7 @@ using SITRA.Core.Interfaces;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Xunit.Abstractions;
 using SITRA.Infrastructure.Repositories;
+using SITRA.Core.Interfaces.AdministrativeTools;
 
 namespace SITRA.Tests
 {
@@ -132,6 +133,11 @@ namespace SITRA.Tests
             using (var context = new ApplicationDbContext(options, mockCurrentTenantService.Object))
             {
                 var mockUnitOfWork = new Mock<IUnitOfWork>();
+                var mockRolePermissionRepo = new Mock<IRolePermissionRepository>();
+                mockRolePermissionRepo.Setup(x => x.GetPermissionsByRoleIdAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+                    .ReturnsAsync(new List<Permission>());
+                mockUnitOfWork.Setup(x => x.RolePermissionRepository).Returns(mockRolePermissionRepo.Object);
+
                 var mockLogger = new Mock<ILogger<UserService>>();
                 var userService = new UserService(mockUnitOfWork.Object, context, mockHttpContextAccessor.Object, mockUserManager.Object, configuration, mockLogger.Object);
 

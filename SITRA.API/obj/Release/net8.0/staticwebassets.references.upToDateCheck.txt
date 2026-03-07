@@ -20,3 +20,4 @@ C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Core\obj\Release\net8.0\staticweb
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Core\obj\Release\net8.0\staticwebassets.build.json
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Core\obj\Release\net8.0\staticwebassets.build.json
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Core\obj\Release\net8.0\staticwebassets.build.json
+C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Core\obj\Release\net8.0\staticwebassets.build.json

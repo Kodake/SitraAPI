@@ -13,7 +13,7 @@ namespace SITRA.API.Endpoints.Auths
     {
         public static RouteGroupBuilder MapTenantUsers(this RouteGroupBuilder group)
         {
-            group.MapGet("/", GetUsers).AddPaginationParamsOpenAPI().RequireAuthorization();
+            group.MapGet("/", GetUsers).RequireAuthorization();
             group.MapGet("/{id}", GetUserById).RequireAuthorization();
             group.MapPost("/", CreateAssociatedUser).RequireAuthorization();
             group.MapPut("/{id}/role", UpdateUserRole).RequireAuthorization();
@@ -22,10 +22,9 @@ namespace SITRA.API.Endpoints.Auths
         }
 
         static async Task<Results<Ok<List<UserDTO>>, BadRequest>> GetUsers(
-            [FromServices] IMediator mediator,
-            PaginationDTO pagination)
+            [FromServices] IMediator mediator)
         {
-            var users = await mediator.Send(new GetAllTenantUsersQuery(pagination));
+            var users = await mediator.Send(new GetAllTenantUsersQuery());
             return TypedResults.Ok(users);
         }
 

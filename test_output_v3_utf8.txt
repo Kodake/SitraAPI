@@ -1,0 +1,59 @@
+﻿  Determining projects to restore...
+  All projects are up-to-date for restore.
+  SITRA.Core -> C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Core\bin\Debug\net8.0\SITRA.Core.dll
+  SITRA.Infrastructure -> C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Infrastructure\bin\Debug\net8.0\SITRA.Infrastructure.dll
+  SITRA.API -> C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\bin\Debug\net8.0\SITRA.API.dll
+  SITRA.Tests -> C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\bin\Debug\net8.0\SITRA.Tests.dll
+Test run for C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\bin\Debug\net8.0\SITRA.Tests.dll (.NETCoreApp,Version=v8.0)
+VSTest version 18.0.1 (x64)
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+dotnet : [xUnit.net 
+00:00:01.25]     SITRA.
+Tests.UserServiceTests.
+LoginAsync_ShouldPersis
+tClaimsOnFirstLogin 
+[FAIL]
+At line:1 char:1
++ dotnet test SITRA.Tes
+ts\SITRA.Tests.csproj 
+--filter 
+"FullyQualifiedNa ...
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: ([xUnit.net 00   
+ :0...rstLogin [FAI    
+L]:String) [], Rem    
+oteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+  Failed SITRA.Tests.UserServiceTests.LoginAsync_ShouldPersistClaimsOnFirstLogin [1 s]
+  Error Message:
+   Assert.Contains() Failure: Filter not matched in collection
+Collection: []
+  Stack Trace:
+     at SITRA.Tests.UserServiceTests.LoginAsync_ShouldPersistClaimsOnFirstLogin() in C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\UserServiceTests.cs:line 236
+--- End of stack trace from previous location ---
+[xUnit.net 
+00:00:01.36]     SITRA.
+Tests.UserServiceTests.
+RegisterAsync_ValidRequ
+est_CreatesAdminRoleAnd
+SyncsPermissions [FAIL]
+  Failed SITRA.Tests.UserServiceTests.RegisterAsync_ValidRequest_CreatesAdminRoleAndSyncsPermissions [109 ms]
+  Error Message:
+   Assert.True() Failure
+Expected: True
+Actual:   False
+  Stack Trace:
+     at SITRA.Tests.UserServiceTests.RegisterAsync_ValidRequest_CreatesAdminRoleAndSyncsPermissions() in C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\UserServiceTests.cs:line 153
+--- End of stack trace from previous location ---
+
+Failed!  - Failed:     2, Passed:     1, Skipped:     0, Total:     3, Duration: 1 s - SITRA.Tests.dll (net8.0)

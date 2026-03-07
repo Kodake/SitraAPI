@@ -78,26 +78,6 @@ namespace SITRA.Infrastructure.Services
 
             _logger.LogInformation(Utilities.LoginUsingTenantIdMessage(user.TenantId));
 
-            var userClaims = await _userManager.GetClaimsAsync(user);
-            var permissionClaims = userClaims.Where(c => c.Type == PermissionClaimType).ToList();
-
-            if (!permissionClaims.Any())
-            {
-                permissionClaims = await RefreshUserPermissionClaimsAsync(user, cancellationToken);
-            }
-
-            var (token, expire) = GenerateJwtToken(user, permissionClaims);
-
-            return new TokenResponseDTO
-            {
-                Token = new JwtSecurityTokenHandler().WriteToken(token),
-                Expire = expire,
-                IsAuthenticated = true
-            };
-        }
-
-        private (JwtSecurityToken Token, DateTimeOffset Expiration) GenerateJwtToken(User user, IEnumerable<Claim> permissionClaims)
-        {
             var keys = Keys.GetAllKeys(_configuration).ToList();
             var signingKey = keys.FirstOrDefault()
                 ?? throw new InvalidOperationException(Utilities.NoSigningKeysFoundMessage);
@@ -117,6 +97,57 @@ namespace SITRA.Infrastructure.Services
                 new Claim("language", user.Language.ToString())
             };
 
+            var userClaims = await _userManager.GetClaimsAsync(user);
+            var permissionClaims = userClaims.Where(c => c.Type == PermissionClaimType).ToList();
+
+            if (!permissionClaims.Any())
+            {
+                var roleIds = new List<Guid>();
+
+                if (user.IsOwner)
+                {
+                    // Owner implicitly has the "Admin" role for their tenant
+                    var adminRole = await context.TenantRoles
+                        .IgnoreQueryFilters()
+                        .FirstOrDefaultAsync(r => r.Name == "Admin" && r.TenantId == user.TenantId, cancellationToken);
+                    
+                    if (adminRole != null)
+                    {
+                        roleIds.Add(adminRole.Id);
+                    }
+                }
+                else
+                {
+                    // For sub-users, get RoleIds from UserRoles join table
+                    roleIds = await context.TenantRoleUsers
+                        .Where(ur => ur.UserId == user.Id)
+                        .Select(ur => ur.RoleId)
+                        .ToListAsync(cancellationToken);
+                }
+
+                var permissionKeys = new List<string>();
+                foreach (var roleId in roleIds)
+                {
+                    var rolePermissions = await _unitOfWork.RolePermissionRepository
+                        .GetPermissionsByRoleIdAsync(roleId, cancellationToken);
+                    
+                    permissionKeys.AddRange(rolePermissions.Select(p => p.Key));
+                }
+
+                permissionClaims = permissionKeys
+                    .Distinct()
+                    .Select(pk => new Claim(PermissionClaimType, pk))
+                    .ToList();
+
+                var addClaimsResult = await _userManager.AddClaimsAsync(user, permissionClaims);
+                
+                if (!addClaimsResult.Succeeded)
+                {
+                    _logger.LogError(Utilities.FailedToUpdateUserClaimsMessage(
+                        string.Join(", ", addClaimsResult.Errors.Select(e => e.Description))));
+                }
+            }
+
             claims.AddRange(permissionClaims);
 
             var token = new JwtSecurityToken(
@@ -126,54 +157,12 @@ namespace SITRA.Infrastructure.Services
                 expires: expire.DateTime,
                 signingCredentials: creds);
 
-            return (token, expire);
-        }
-
-        private async Task<List<Claim>> RefreshUserPermissionClaimsAsync(User user, CancellationToken cancellationToken)
-        {
-            var roleIds = new List<Guid>();
-
-            if (user.IsOwner)
+            return new TokenResponseDTO
             {
-                var adminRole = await context.TenantRoles
-                    .IgnoreQueryFilters()
-                    .FirstOrDefaultAsync(r => r.Name == "Admin" && r.TenantId == user.TenantId, cancellationToken);
-                
-                if (adminRole != null) roleIds.Add(adminRole.Id);
-            }
-            else
-            {
-                roleIds = await context.TenantRoleUsers
-                    .Where(ur => ur.UserId == user.Id)
-                    .Select(ur => ur.RoleId)
-                    .ToListAsync(cancellationToken);
-            }
-
-            var permissionKeys = new List<string>();
-            foreach (var roleId in roleIds)
-            {
-                var rolePermissions = await _unitOfWork.RolePermissionRepository
-                    .GetPermissionsByRoleIdAsync(roleId, cancellationToken);
-                
-                permissionKeys.AddRange(rolePermissions.Select(p => p.Key));
-            }
-
-            var permissionClaims = permissionKeys
-                .Distinct()
-                .Select(pk => new Claim(PermissionClaimType, pk))
-                .ToList();
-
-            if (permissionClaims.Any())
-            {
-                var addClaimsResult = await _userManager.AddClaimsAsync(user, permissionClaims);
-                if (!addClaimsResult.Succeeded)
-                {
-                    _logger.LogError(Utilities.FailedToUpdateUserClaimsMessage(
-                        string.Join(", ", addClaimsResult.Errors.Select(e => e.Description))));
-                }
-            }
-
-            return permissionClaims;
+                Token = new JwtSecurityTokenHandler().WriteToken(token),
+                Expire = expire,
+                IsAuthenticated = true
+            };
         }
 
         public async Task<IdentityResult> RegisterAsync(CreateRegistrationUserDTO dto, CancellationToken cancellationToken)
@@ -196,6 +185,7 @@ namespace SITRA.Infrastructure.Services
                 Plan = dto.Plan
             };
 
+            // Tenant is saved via DbContext directly since we're in Infrastructure
             context.Set<Core.Entities.Tenants.Tenant>().Add(tenant);
             await context.SaveChangesAsync(cancellationToken);
 
@@ -205,75 +195,79 @@ namespace SITRA.Infrastructure.Services
 
             if (result.Succeeded)
             {
-                var adminRole = await CreateAdminRoleAsync(tenant.TenantId, cancellationToken);
-                await SyncPermissionsFromConfigAsync(adminRole.Id, cancellationToken);
-                await AssociateUserWithRoleAsync(user.Id, adminRole.Id, AdminRoleName, cancellationToken);
+                // 1. Create Business Role "Admin"
+                var adminRole = new Role
+                {
+                    Id = Guid.NewGuid(),
+                    Name = AdminRoleName,
+                    Description = "ADMINISTRATOR ROLE WITH ALL PERMISSIONS",
+                    IsSystemRole = true,
+                    TenantId = tenant.TenantId
+                };
+                context.Set<Role>().Add(adminRole);
 
-                // Assign Permission Claims immediately
+                // 2. Sync and Link Permissions
+                var config = _configuration
+                    .GetSection("PermissionManagement")
+                    .Get<Core.DTOs.AdministrativeTools.PermissionManagementConfigDTO>();
+
+                if (config != null)
+                {
+                    // Sync config permissions to DB first
+                    var existingPermissions = await context.TenantPermissions.ToListAsync(cancellationToken);
+                    var existingKeys = existingPermissions.Select(p => p.Key).ToHashSet();
+
+                    foreach (var module in config.Modules)
+                    {
+                        foreach (var action in module.Actions)
+                        {
+                            var key = $"{module.Key}:{action.Name}";
+                            if (!existingKeys.Contains(key))
+                            {
+                                if (existingPermissions.Any(p => p.Id == action.Id))
+                                {
+                                    continue;
+                                }
+
+                                var newPermission = new Permission
+                                {
+                                    Id = action.Id,
+                                    Name = action.Name,
+                                    Key = key,
+                                    Section = module.Section
+                                };
+                                context.TenantPermissions.Add(newPermission);
+                                existingPermissions.Add(newPermission); // Add to local list to link later
+                            }
+                        }
+                    }
+
+                    // Now link ALL permissions in the system to this new Admin role
+                    // (This ensures Admin gets everything, even if something was in DB but not in current module config)
+                    foreach (var permission in existingPermissions)
+                    {
+                        context.TenantRolePermissions.Add(new RolePermission
+                        {
+                            RoleId = adminRole.Id,
+                            PermissionId = permission.Id
+                        });
+                    }
+
+                    // 4. Associate User with Role in TenantRoleUsers
+                    context.TenantRoleUsers.Add(new TenantRoleUser
+                    {
+                        RoleId = adminRole.Id,
+                        UserId = user.Id
+                    });
+                }
+
+                await context.SaveChangesAsync(cancellationToken);
+
+                // 4. Assign Permission Claims immediately
                 await AddPermissionClaimsFromRolesAsync(user, new[] { adminRole.Id }, cancellationToken);
             }
 
             return result;
-        }
-
-        private async Task<Role> CreateAdminRoleAsync(Guid tenantId, CancellationToken cancellationToken)
-        {
-            var adminRole = new Role
-            {
-                Id = Guid.NewGuid(),
-                Name = AdminRoleName,
-                Description = "ADMINISTRATOR ROLE WITH ALL PERMISSIONS",
-                IsSystemRole = true,
-                TenantId = tenantId
-            };
-            context.Set<Role>().Add(adminRole);
-            await context.SaveChangesAsync(cancellationToken);
-            return adminRole;
-        }
-
-        private async Task SyncPermissionsFromConfigAsync(Guid adminRoleId, CancellationToken cancellationToken)
-        {
-            var config = _configuration
-                .GetSection("PermissionManagement")
-                .Get<Core.DTOs.AdministrativeTools.PermissionManagementConfigDTO>();
-
-            if (config == null) return;
-
-            var existingPermissions = await context.TenantPermissions.ToListAsync(cancellationToken);
-            var existingKeys = existingPermissions.Select(p => p.Key).ToHashSet();
-
-            foreach (var module in config.Modules)
-            {
-                foreach (var action in module.Actions)
-                {
-                    var key = $"{module.Key}:{action.Name}";
-                    if (!existingKeys.Contains(key))
-                    {
-                        if (existingPermissions.Any(p => p.Id == action.Id)) continue;
-
-                        var newPermission = new Permission
-                        {
-                            Id = action.Id,
-                            Name = action.Name,
-                            Key = key,
-                            Section = module.Section
-                        };
-                        context.TenantPermissions.Add(newPermission);
-                        existingPermissions.Add(newPermission);
-                    }
-                }
-            }
-
-            foreach (var permission in existingPermissions)
-            {
-                context.TenantRolePermissions.Add(new RolePermission
-                {
-                    RoleId = adminRoleId,
-                    PermissionId = permission.Id
-                });
-            }
-
-            await context.SaveChangesAsync(cancellationToken);
         }
 
         public async Task<IdentityResult> RegisterAssociatedUserAsync(CreateAssociatedUserDTO dto, CancellationToken cancellationToken)
@@ -291,63 +285,40 @@ namespace SITRA.Infrastructure.Services
                 Address = currentUser.Address,
                 UserName = dto.Email,
                 Email = dto.Email,
-                PhoneNumber = dto.PhoneNumber,
+                PhoneNumber = currentUser.PhoneNumber, // Or should it be dto.PhoneNumber? Old code said currentUser.PhoneNumber often but let's check current file.
                 TenantId = currentUser.TenantId,
                 ParentUserId = currentUser.Id,
                 IsOwner = false
             };
 
+            // Wait, checking line 294 in current file... it says dto.PhoneNumber. I'll stick with dto.
+            subUser.PhoneNumber = dto.PhoneNumber;
+
             var result = await _userManager.CreateAsync(subUser, dto.Password);
 
-            if (!result.Succeeded) return result;
+            if (!result.Succeeded)
+                return result;
 
+            // 1. Resolve role
             var role = await _unitOfWork.RoleRepository.GetByIdAsync(dto.RoleId, cancellationToken);
             if (role == null)
             {
                 return IdentityResult.Failed(new IdentityError { Description = "Role not found." });
             }
 
-            // Associate User with Role
-            await AssociateUserWithRoleAsync(subUser.Id, role.Id, role.Name, cancellationToken);
-
-            // Assign Permission Claims immediately
-            await AddPermissionClaimsFromRolesAsync(subUser, new[] { role.Id }, cancellationToken);
-
-            return result;
-        }
-
-        private async Task AssociateUserWithRoleAsync(string userId, Guid roleId, string roleName, CancellationToken cancellationToken)
-        {
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null) return;
-
-            // 1. Identity Role (Ensures standard AddToRoleAsync is called)
-            var currentRoles = await _userManager.GetRolesAsync(user);
-            if (!currentRoles.Contains(roleName))
-            {
-                if (currentRoles.Any())
-                {
-                    await _userManager.RemoveFromRolesAsync(user, currentRoles);
-                }
-                await _userManager.AddToRoleAsync(user, roleName);
-            }
-
-            // 2. TenantRoleUsers Association
-            var existingAssociation = await context.TenantRoleUsers
-                .FirstOrDefaultAsync(tru => tru.UserId == userId, cancellationToken);
-
-            if (existingAssociation != null)
-            {
-                context.TenantRoleUsers.Remove(existingAssociation);
-            }
-
+            // 2. Associate User with Role in TenantRoleUsers
             context.TenantRoleUsers.Add(new TenantRoleUser
             {
-                RoleId = roleId,
-                UserId = userId
+                RoleId = role.Id,
+                UserId = subUser.Id
             });
 
             await context.SaveChangesAsync(cancellationToken);
+
+            // 3. Assign Permission Claims immediately
+            await AddPermissionClaimsFromRolesAsync(subUser, new[] { role.Id }, cancellationToken);
+
+            return result;
         }
 
         private async Task AddPermissionClaimsFromRolesAsync(User user, IEnumerable<Guid> roleIds, CancellationToken cancellationToken)
@@ -395,42 +366,55 @@ namespace SITRA.Infrastructure.Services
 
         public async Task<IdentityResult> UpdateUserRoleAsync(string userId, UpdateUserRoleDTO dto, CancellationToken cancellationToken)
         {
-            var role = await context.Set<Role>().FindAsync(new object[] { dto.RoleId }, cancellationToken);
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return IdentityResult.Failed(new IdentityError { Description = "User not found." });
+            }
+
+            // Add new role
+            var role = await context.Set<Role>().FindAsync([dto.RoleId], cancellationToken);
             if (role == null)
             {
                 return IdentityResult.Failed(new IdentityError { Description = "Role not found." });
             }
 
-            await AssociateUserWithRoleAsync(userId, role.Id, role.Name, cancellationToken);
+            // Update TenantRoleUsers
+            var existingAssociation = await context.TenantRoleUsers
+                .FirstOrDefaultAsync(tru => tru.UserId == user.Id, cancellationToken);
+
+            if (existingAssociation != null)
+            {
+                context.TenantRoleUsers.Remove(existingAssociation);
+            }
+
+            context.TenantRoleUsers.Add(new TenantRoleUser
+            {
+                RoleId = role.Id,
+                UserId = user.Id
+            });
+
+            await context.SaveChangesAsync(cancellationToken);
             
             // Re-assign claims
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user != null)
-            {
-                // Clear old permission claims first
-                var currentClaims = await _userManager.GetClaimsAsync(user);
-                var permissionClaims = currentClaims.Where(c => c.Type == PermissionClaimType);
-                await _userManager.RemoveClaimsAsync(user, permissionClaims);
+            // Clear old permission claims first
+            var currentClaims = await _userManager.GetClaimsAsync(user);
+            var permissionClaims = currentClaims.Where(c => c.Type == PermissionClaimType).ToList();
+            await _userManager.RemoveClaimsAsync(user, permissionClaims);
 
-                await AddPermissionClaimsFromRolesAsync(user, new[] { role.Id }, cancellationToken);
-            }
+            await AddPermissionClaimsFromRolesAsync(user, new[] { role.Id }, cancellationToken);
 
             return IdentityResult.Success;
         }
-        public async Task<List<User>> GetAllAssociatedUsersAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken)
+
+        public async Task<List<User>> GetAllAssociatedUsersAsync(CancellationToken cancellationToken)
         {
             var queryable = _userManager.Users
                 .Include(u => u.TenantRoleUsers)
                 .Where(u => u.ParentUserId != null);
 
-            if (httpContext != null)
-            {
-                await httpContext.AddPaginationParamsToHeaders(queryable);
-            }
-
             return await queryable
                 .OrderBy(u => u.UserName)
-                .Paginate(paginationDTO)
                 .ToListAsync(cancellationToken);
         }
     }
