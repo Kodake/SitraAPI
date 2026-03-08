@@ -337,6 +337,28 @@
         }
       }
     },
+    "/api/v1/identity/me": {
+      "get": {
+        "tags": [
+          "AuthsEndpoints"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDTO"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
     "/api/v1/brands": {
       "get": {
         "tags": [
@@ -12052,6 +12074,10 @@
         "type": "object",
         "properties": {
           "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "userName": {
             "type": "string",
             "nullable": true
           },

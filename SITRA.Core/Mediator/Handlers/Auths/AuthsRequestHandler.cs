@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using SITRA.Core.DTOs;
+using SITRA.Core.DTOs.Auths;
 using SITRA.Core.Mediator.Commands.Auths;
 using SITRA.Core.Mediator.Queries.Auths;
 
@@ -16,7 +17,7 @@ namespace SITRA.Core.Mediator.Handlers.Auths
             services.AddTransient<IRequestHandler<CreateAssociatedUserCommand, IdentityResult>, AuthCommandHandler<CreateAssociatedUserCommand, IdentityResult>>();
             services.AddTransient<IRequestHandler<ValidateOpenedPettyCashQuery, (bool Success, string? ErrorMessage)>, AuthQueryHandler<ValidateOpenedPettyCashQuery, (bool Success, string? ErrorMessage)>>();
             services.AddTransient<IRequestHandler<UpdateAssociatedUserRoleCommand, IdentityResult>, AuthCommandHandler<UpdateAssociatedUserRoleCommand, IdentityResult>>();
-
+            services.AddTransient<IRequestHandler<GetUserQuery, UserDTO?>, AuthQueryHandler<GetUserQuery, UserDTO?>>();
             return services;
         }
     }

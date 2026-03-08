@@ -26,6 +26,8 @@ namespace SITRA.API.Endpoints
             group.MapPatch("/change-language", ChangeLanguage)
                 .AddEndpointFilter<ValidationFilter<ChangeLanguageDTO>>()
                 .WithOpenApi().RequireAuthorization();
+            group.MapGet("/me", GetUser)
+                .WithOpenApi().RequireAuthorization();
 
             return group;
         }
@@ -81,6 +83,17 @@ namespace SITRA.API.Endpoints
             var success = await mediator.Send(command);
 
             return success ? TypedResults.Ok() : TypedResults.BadRequest();
+        }
+
+        static async Task<Results<Ok<UserDTO>, NotFound>> GetUser(
+            [FromServices] IMediator mediator)
+        {
+            var query = new GetUserQuery();
+            var user = await mediator.Send(query);
+
+            return user is not null
+                ? TypedResults.Ok(user)
+                : TypedResults.NotFound();
         }
     }
 }

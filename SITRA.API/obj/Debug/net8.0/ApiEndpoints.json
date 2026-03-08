@@ -1899,6 +1899,29 @@
   },
   {
     "ContainingType": "SITRA.API.Endpoints.AuthsEndpoints",
+    "Method": "GetUser",
+    "RelativePath": "api/v1/identity/me",
+    "HttpMethod": "GET",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "SITRA.Core.DTOs.Auths.UserDTO",
+        "MediaTypes": [
+          "application/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 404
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.AuthsEndpoints",
     "Method": "Register",
     "RelativePath": "api/v1/identity/register",
     "HttpMethod": "POST",

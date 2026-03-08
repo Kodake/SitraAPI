@@ -5,8 +5,6 @@ using SITRA.Core.DTOs.Auths;
 using SITRA.Core.Interfaces;
 using SITRA.Core.Mediator.Queries.Tenants;
 using SITRA.Core.Mediator.Commands.Auths;
-using SITRA.API.Helpers;
-using SITRA.Core.DTOs;
 namespace SITRA.API.Endpoints.Auths
 {
     public static class TenantUsersEndpoints

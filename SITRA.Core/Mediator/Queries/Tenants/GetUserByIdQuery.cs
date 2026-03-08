@@ -28,6 +28,7 @@ namespace SITRA.Core.Mediator.Queries.Tenants
             var dto = new UserDTO
             {
                 Id = user.Id,
+                UserName = user.UserName!,
                 Email = user.Email!,
                 CompanyName = user.CompanyName,
                 ParentUserId = user.ParentUserId,
