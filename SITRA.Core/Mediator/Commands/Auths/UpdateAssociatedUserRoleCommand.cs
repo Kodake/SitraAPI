@@ -6,12 +6,12 @@ using AutoMapper;
 
 namespace SITRA.Core.Mediator.Commands.Auths
 {
-    public class UpdateUserRoleCommand : AuthCommand<IdentityResult>
+    public class UpdateAssociatedUserRoleCommand : AuthCommand<IdentityResult>
     {
         public string UserId { get; }
         public UpdateUserRoleDTO Dto { get; }
 
-        public UpdateUserRoleCommand(string userId, UpdateUserRoleDTO dto)
+        public UpdateAssociatedUserRoleCommand(string userId, UpdateUserRoleDTO dto)
         {
             UserId = userId;
             Dto = dto;
@@ -27,7 +27,10 @@ namespace SITRA.Core.Mediator.Commands.Auths
 
             if (result.Succeeded)
             {
-                await unitOfWork.PermissionClaimService.SyncPermissionClaimsAsync(
+                await unitOfWork.PermissionClaimService.RemovePermissionClaimsAsync(
+                    UserId, cancellationToken);
+
+                await unitOfWork.PermissionClaimService.AddPermissionClaimsFromRolesAsync(
                     UserId, new[] { Dto.RoleId }, cancellationToken);
             }
 

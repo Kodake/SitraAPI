@@ -16,7 +16,7 @@ namespace SITRA.API.Endpoints.Auths
             group.MapGet("/", GetUsers).RequireAuthorization();
             group.MapGet("/{id}", GetUserById).RequireAuthorization();
             group.MapPost("/", CreateAssociatedUser).RequireAuthorization();
-            group.MapPut("/{id}/role", UpdateUserRole).RequireAuthorization();
+            group.MapPut("/{id}/role", UpdateAssociatedUserRole).RequireAuthorization();
 
             return group;
         }
@@ -49,12 +49,12 @@ namespace SITRA.API.Endpoints.Auths
             return result.Succeeded ? TypedResults.Ok() : TypedResults.BadRequest();
         }
 
-        static async Task<Results<Ok, BadRequest>> UpdateUserRole(
+        static async Task<Results<Ok, BadRequest>> UpdateAssociatedUserRole(
             [FromRoute] string id,
             [FromBody] UpdateUserRoleDTO dto,
             [FromServices] IMediator mediator)
         {
-            var result = await mediator.Send(new UpdateUserRoleCommand(id, dto));
+            var result = await mediator.Send(new UpdateAssociatedUserRoleCommand(id, dto));
             return result.Succeeded ? TypedResults.Ok() : TypedResults.BadRequest();
         }
 

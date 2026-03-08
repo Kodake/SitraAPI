@@ -5338,7 +5338,7 @@
   },
   {
     "ContainingType": "SITRA.API.Endpoints.Auths.TenantUsersEndpoints",
-    "Method": "UpdateUserRole",
+    "Method": "UpdateAssociatedUserRole",
     "RelativePath": "api/v1/users/{id}/role",
     "HttpMethod": "PUT",
     "IsController": false,

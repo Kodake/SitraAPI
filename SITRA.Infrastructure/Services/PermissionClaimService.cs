@@ -60,26 +60,22 @@ namespace SITRA.Infrastructure.Services
             }
         }
 
-        public async Task SyncPermissionClaimsAsync(string userId, IEnumerable<Guid> newRoleIds, CancellationToken cancellationToken)
+        public async Task RemovePermissionClaimsAsync(string userId, CancellationToken cancellationToken)
         {
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                _logger.LogError("User {UserId} not found when syncing permission claims.", userId);
+                _logger.LogError("User {UserId} not found when removing permission claims.", userId);
                 return;
             }
 
-            // Remove existing permission claims
             var currentClaims = await _userManager.GetClaimsAsync(user);
-            var oldPermissionClaims = currentClaims.Where(c => c.Type == PermissionClaimType).ToList();
+            var permissionClaims = currentClaims.Where(c => c.Type == PermissionClaimType).ToList();
 
-            if (oldPermissionClaims.Any())
+            if (permissionClaims.Any())
             {
-                await _userManager.RemoveClaimsAsync(user, oldPermissionClaims);
+                await _userManager.RemoveClaimsAsync(user, permissionClaims);
             }
-
-            // Add new permission claims from roles
-            await AddPermissionClaimsFromRolesAsync(userId, newRoleIds, cancellationToken);
         }
     }
 }
