@@ -21,7 +21,7 @@ namespace SITRA.Core.Mediator.Commands.Auths
             IMapper mapper,
             CancellationToken cancellationToken)
         {
-            return unitOfWork.UserService.LoginAsync(Dto, cancellationToken);
+            return unitOfWork.AuthenticationService.LoginAsync(Dto, cancellationToken);
         }
     }
 }

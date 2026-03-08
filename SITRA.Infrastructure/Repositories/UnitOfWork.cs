@@ -73,6 +73,9 @@ namespace SITRA.Infrastructure.Repositories
         public IRolePermissionRepository RolePermissionRepository { get; }
         public IAppointmentRepository AppointmentRepository { get; }
         public IUserService UserService { get; }
+        public IAuthenticationService AuthenticationService { get; }
+        public IUserRegistrationService UserRegistrationService { get; }
+        public IUserRoleService UserRoleService { get; }
         public IPlanService PlanService { get; }
         public IFileStorageService FileStorageService { get; }
 
@@ -82,7 +85,11 @@ namespace SITRA.Infrastructure.Repositories
             UserManager<User> userManager,
             RoleManager<IdentityRole> roleManager,
             IConfiguration configuration,
-            ILogger<UserService> logger)
+            ILogger<UserService> userLogger,
+            ILogger<PermissionClaimService> permissionClaimLogger,
+            ILogger<AuthenticationService> authLogger,
+            ILogger<UserRegistrationService> registrationLogger,
+            ILogger<UserRoleService> roleServiceLogger)
         {
             PayableRepository = new PayableRepository(context, httpContextAccessor);
             ReceivableRepository = new ReceivableRepository(context, httpContextAccessor);
@@ -120,7 +127,14 @@ namespace SITRA.Infrastructure.Repositories
             PermissionRepository = new PermissionRepository(context);
             RolePermissionRepository = new RolePermissionRepository(context);
             AppointmentRepository = new AppointmentRepository(context, httpContextAccessor);
-            UserService = new UserService(this, context, httpContextAccessor, userManager, configuration, logger);
+
+            // Services — order matters due to dependencies
+            UserService = new UserService(context, httpContextAccessor, userManager);
+            var permissionClaimService = new PermissionClaimService(userManager, this, permissionClaimLogger);
+            AuthenticationService = new AuthenticationService(context, userManager, configuration, this, permissionClaimService, authLogger);
+            UserRegistrationService = new UserRegistrationService(context, userManager, configuration, this, UserService, permissionClaimService, registrationLogger);
+            UserRoleService = new UserRoleService(context, userManager, httpContextAccessor, permissionClaimService, roleServiceLogger);
+
             PlanService = new PlanService();
             FileStorageService = new AzureFileService(configuration);
 

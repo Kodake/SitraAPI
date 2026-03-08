@@ -51,6 +51,9 @@ namespace SITRA.Core.Interfaces
         IRolePermissionRepository RolePermissionRepository { get; }
         IAppointmentRepository AppointmentRepository { get; }
         IUserService UserService { get; }
+        IAuthenticationService AuthenticationService { get; }
+        IUserRegistrationService UserRegistrationService { get; }
+        IUserRoleService UserRoleService { get; }
         IPlanService PlanService { get; }
         IFileStorageService FileStorageService { get; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);

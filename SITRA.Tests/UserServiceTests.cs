@@ -126,6 +126,7 @@ namespace SITRA.Tests
             mockCurrentTenantService.Setup(x => x.TenantId).Returns(Guid.NewGuid());
 
             mockUserManager.Setup(x => x.CreateAsync(It.IsAny<User>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Success);
+            mockUserManager.Setup(x => x.AddClaimsAsync(It.IsAny<User>(), It.IsAny<IEnumerable<System.Security.Claims.Claim>>())).ReturnsAsync(IdentityResult.Success);
             mockRoleManager.Setup(x => x.RoleExistsAsync("Admin")).ReturnsAsync(false);
             mockRoleManager.Setup(x => x.CreateAsync(It.IsAny<IdentityRole>())).ReturnsAsync(IdentityResult.Success);
             mockUserManager.Setup(x => x.AddToRoleAsync(It.IsAny<User>(), "Admin")).ReturnsAsync(IdentityResult.Success);
@@ -139,7 +140,11 @@ namespace SITRA.Tests
                 mockUnitOfWork.Setup(x => x.RolePermissionRepository).Returns(mockRolePermissionRepo.Object);
 
                 var mockLogger = new Mock<ILogger<UserService>>();
-                var userService = new UserService(mockUnitOfWork.Object, context, mockHttpContextAccessor.Object, mockUserManager.Object, configuration, mockLogger.Object);
+                var mockPermClaimLogger = new Mock<ILogger<PermissionClaimService>>();
+                var mockAuthLogger = new Mock<ILogger<AuthenticationService>>();
+                var mockRegLogger = new Mock<ILogger<UserRegistrationService>>();
+                var mockRoleServiceLogger = new Mock<ILogger<UserRoleService>>();
+                var userService = new UserRegistrationService(context, mockUserManager.Object, configuration, mockUnitOfWork.Object, new UserService(context, mockHttpContextAccessor.Object, mockUserManager.Object), new PermissionClaimService(mockUserManager.Object, mockUnitOfWork.Object, mockPermClaimLogger.Object), mockRegLogger.Object);
 
                 var dto = new CreateRegistrationUserDTO { Email = "admin@store.com", Password = "Abcd-1234", CompanyName = "Test Co", Plan = Core.Enums.PlanType.Free };
 
@@ -150,12 +155,12 @@ namespace SITRA.Tests
                 Assert.True(result.Succeeded);
                 
                 // Verify Tenant and Role were added to context
-                Assert.True(await context.Tenants.AnyAsync(t => t.Email == "admin@store.com"));
-                var adminRole = await context.TenantRoles.FirstOrDefaultAsync(r => r.Name == "Admin");
+                Assert.True(await context.Tenants.IgnoreQueryFilters().AnyAsync(t => t.Email == "admin@store.com"));
+                var adminRole = await context.TenantRoles.IgnoreQueryFilters().FirstOrDefaultAsync(r => r.Name == "ADMIN");
                 Assert.NotNull(adminRole);
                 
                 // Verify Permissions were linked
-                var permissionsCount = await context.TenantRolePermissions.CountAsync(rp => rp.RoleId == adminRole.Id);
+                var permissionsCount = await context.TenantRolePermissions.IgnoreQueryFilters().CountAsync(rp => rp.RoleId == adminRole.Id);
                 Assert.True(permissionsCount > 0);
             }
         }
@@ -204,6 +209,8 @@ namespace SITRA.Tests
                 // We add the role to ASP.NET Identity system for the user
                 // The UserManager needs to know about roles to return them in GetRolesAsync
                 context.UserRoles.Add(new IdentityUserRole<string> { UserId = user.Id, RoleId = role.Id.ToString() });
+                // Also add to TenantRoleUsers which is what AuthenticationService queries
+                context.TenantRoleUsers.Add(new TenantRoleUser { RoleId = role.Id, UserId = user.Id });
                 
                 await context.SaveChangesAsync();
             }
@@ -218,11 +225,15 @@ namespace SITRA.Tests
                 
                 // Create UnitOfWork which will create its own UserService
                 var mockLogger = new Mock<ILogger<UserService>>();
-                var unitOfWork = new UnitOfWork(testContext, mockHttpContextAccessor.Object, userManager, roleManager, configuration, mockLogger.Object);
-                var userService = unitOfWork.UserService;
+                var mockPermClaimLogger = new Mock<ILogger<PermissionClaimService>>();
+                var mockAuthLogger = new Mock<ILogger<AuthenticationService>>();
+                var mockRegLogger = new Mock<ILogger<UserRegistrationService>>();
+                var mockRoleServiceLogger = new Mock<ILogger<UserRoleService>>();
+                var unitOfWork = new UnitOfWork(testContext, mockHttpContextAccessor.Object, userManager, roleManager, configuration, mockLogger.Object, mockPermClaimLogger.Object, mockAuthLogger.Object, mockRegLogger.Object, mockRoleServiceLogger.Object);
+                var authService = unitOfWork.AuthenticationService;
                 
                 var dto = new CreateLoginUserDTO { Email = "persist@test.com", Password = "Password1!" };
-                var result = await userService.LoginAsync(dto, CancellationToken.None);
+                var result = await authService.LoginAsync(dto, CancellationToken.None);
 
                 // Assert
                 Assert.NotNull(result);
@@ -271,6 +282,8 @@ namespace SITRA.Tests
                 context.TenantRolePermissions.Add(rolePermission);
                 
                 await setupUserManager.CreateAsync(user, "Password1!");
+                // Add to TenantRoleUsers which is what AuthenticationService queries
+                context.TenantRoleUsers.Add(new TenantRoleUser { RoleId = role.Id, UserId = user.Id });
                 // TODO:
                 // - [x] Implement logic in `UserService.LoginAsync` <!-- id: 3 -->
                 //    - [x] Check if user has claims in `AspNetUserClaims`
@@ -302,11 +315,15 @@ namespace SITRA.Tests
                 var userManager = new UserManager<User>(userStore, null!, new PasswordHasher<User>(), null!, null!, null!, null!, null!, null!);
                 
                 var mockLogger = new Mock<ILogger<UserService>>();
-                var unitOfWork = new UnitOfWork(testContext, mockHttpContextAccessor.Object, userManager, roleManager, mockConfiguration.Object, mockLogger.Object);
-                var userService = unitOfWork.UserService;
+                var mockPermClaimLogger = new Mock<ILogger<PermissionClaimService>>();
+                var mockAuthLogger = new Mock<ILogger<AuthenticationService>>();
+                var mockRegLogger = new Mock<ILogger<UserRegistrationService>>();
+                var mockRoleServiceLogger = new Mock<ILogger<UserRoleService>>();
+                var unitOfWork = new UnitOfWork(testContext, mockHttpContextAccessor.Object, userManager, roleManager, mockConfiguration.Object, mockLogger.Object, mockPermClaimLogger.Object, mockAuthLogger.Object, mockRegLogger.Object, mockRoleServiceLogger.Object);
+                var authService = unitOfWork.AuthenticationService;
                 
                 var dto = new CreateLoginUserDTO { Email = "test@test.com", Password = "Password1!" };
-                var result = await userService.LoginAsync(dto, CancellationToken.None);
+                var result = await authService.LoginAsync(dto, CancellationToken.None);
 
                 // Assert
                 Assert.NotNull(result);

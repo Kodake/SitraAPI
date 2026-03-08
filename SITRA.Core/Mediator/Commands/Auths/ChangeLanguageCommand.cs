@@ -20,7 +20,7 @@ namespace SITRA.Core.Mediator.Commands.Auths
             IMapper mapper,
             CancellationToken cancellationToken)
         {
-            return unitOfWork.UserService.ChangeLanguageAsync(Dto.Language, cancellationToken);
+            return unitOfWork.UserRoleService.ChangeLanguageAsync(Dto.Language, cancellationToken);
         }
     }
 }
