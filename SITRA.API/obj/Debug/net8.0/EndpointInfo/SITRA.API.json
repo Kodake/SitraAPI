@@ -359,6 +359,31 @@
         }
       }
     },
+    "/api/v1/identity/update-profile": {
+      "patch": {
+        "tags": [
+          "AuthsEndpoints"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProfileNameDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
     "/api/v1/brands": {
       "get": {
         "tags": [
@@ -12055,6 +12080,16 @@
           "updatedAt": {
             "type": "string",
             "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateProfileNameDTO": {
+        "type": "object",
+        "properties": {
+          "userName": {
+            "type": "string",
             "nullable": true
           }
         },

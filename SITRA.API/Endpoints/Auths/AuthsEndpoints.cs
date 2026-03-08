@@ -28,6 +28,9 @@ namespace SITRA.API.Endpoints
                 .WithOpenApi().RequireAuthorization();
             group.MapGet("/me", GetUser)
                 .WithOpenApi().RequireAuthorization();
+            group.MapPatch("/update-profile", UpdateProfile)
+                .AddEndpointFilter<ValidationFilter<UpdateProfileNameDTO>>()
+                .WithOpenApi().RequireAuthorization();
 
             return group;
         }
@@ -94,6 +97,16 @@ namespace SITRA.API.Endpoints
             return user is not null
                 ? TypedResults.Ok(user)
                 : TypedResults.NotFound();
+        }
+
+        static async Task<Results<Ok, BadRequest>> UpdateProfile(
+            [FromBody] UpdateProfileNameDTO dto,
+            [FromServices] IMediator mediator)
+        {
+            var command = new UpdateProfileCommand(dto);
+            var success = await mediator.Send(command);
+
+            return success ? TypedResults.Ok() : TypedResults.BadRequest();
         }
     }
 }

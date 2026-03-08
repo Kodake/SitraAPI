@@ -1951,6 +1951,33 @@
   },
   {
     "ContainingType": "SITRA.API.Endpoints.AuthsEndpoints",
+    "Method": "UpdateProfile",
+    "RelativePath": "api/v1/identity/update-profile",
+    "HttpMethod": "PATCH",
+    "IsController": false,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "SITRA.Core.DTOs.Auths.UpdateProfileNameDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 400
+      }
+    ]
+  },
+  {
+    "ContainingType": "SITRA.API.Endpoints.AuthsEndpoints",
     "Method": "ValidateOpenedPettyCashEndpoint",
     "RelativePath": "api/v1/identity/validate-opened-petty-cash",
     "HttpMethod": "GET",
