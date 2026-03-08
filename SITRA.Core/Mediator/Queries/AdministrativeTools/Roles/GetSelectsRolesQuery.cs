@@ -6,14 +6,19 @@ namespace SITRA.Core.Mediator.Queries.AdministrativeTools.Roles
 {
     public class GetSelectsRolesQuery : GetSelectsQuery<RoleListDTO>
     {
-        public GetSelectsRolesQuery() : base() { }
+        public bool? HasPermissions { get; }
+
+        public GetSelectsRolesQuery(bool? hasPermissions = null) : base()
+        {
+            HasPermissions = hasPermissions;
+        }
 
         public override async Task<List<RoleListDTO>> GetData(
             IUnitOfWork unitOfWork,
             IMapper mapper,
             CancellationToken cancellationToken)
         {
-            var roles = await unitOfWork.RoleRepository.GetAll();
+            var roles = await unitOfWork.RoleRepository.GetAll(HasPermissions, cancellationToken);
             return mapper.Map<List<RoleListDTO>>(roles);
         }
     }

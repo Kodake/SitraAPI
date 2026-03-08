@@ -43,9 +43,10 @@ namespace SITRA.API.Endpoints.AdministrativeTools
         }
 
         static async Task<Ok<List<RoleListDTO>>> GetSelects(
-            [FromServices] IMediator mediator)
+            [FromServices] IMediator mediator,
+            [FromQuery] bool? hasPermissions = null)
         {
-            var query = new GetSelectsRolesQuery();
+            var query = new GetSelectsRolesQuery(hasPermissions);
             var dto = await mediator.Send(query);
             return TypedResults.Ok(dto);
         }

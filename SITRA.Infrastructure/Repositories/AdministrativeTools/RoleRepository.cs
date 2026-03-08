@@ -35,13 +35,26 @@ namespace SITRA.Infrastructure.Repositories.AdministrativeTools
             return items;
         }
 
-        public async Task<List<Role>> GetAll(CancellationToken cancellationToken = default)
+        public async Task<List<Role>> GetAll(
+            bool? hasPermissions = null,
+            CancellationToken cancellationToken = default)
         {
-            return await context.Set<Role>()
+            var query = context.Set<Role>()
+                .Where(r => !r.IsSystemRole);
+
+            if (hasPermissions.HasValue)
+            {
+                query = hasPermissions.Value
+                    ? query.Where(r => r.RolePermissions.Any())
+                    : query.Where(r => !r.RolePermissions.Any());
+            }
+
+            query = query
                 .Include(r => r.RolePermissions)
-                    .ThenInclude(rp => rp.Permission)
-                .Where(r => !r.IsSystemRole)
-                .OrderBy(u => u.Name)
+                    .ThenInclude(rp => rp.Permission);
+
+            return await query
+                .OrderBy(r => r.Name)
                 .ToListAsync(cancellationToken);
         }
 

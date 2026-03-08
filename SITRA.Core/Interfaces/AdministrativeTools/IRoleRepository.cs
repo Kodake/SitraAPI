@@ -8,7 +8,7 @@ namespace SITRA.Core.Interfaces.AdministrativeTools
     {
         new Task<Role?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
         new Task<List<Role>> GetAllAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default);
-        Task<List<Role>> GetAll(CancellationToken cancellationToken = default);
+        Task<List<Role>> GetAll(bool? hasPermissions = null, CancellationToken cancellationToken = default);
         Task DeleteAsync(Guid id, CancellationToken cancellationToken = default);
     }
 }
