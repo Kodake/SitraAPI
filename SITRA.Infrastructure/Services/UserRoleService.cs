@@ -16,22 +16,17 @@ namespace SITRA.Infrastructure.Services
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
         private readonly HttpContext _httpContext;
-        private readonly IPermissionClaimService _permissionClaimService;
         private readonly ILogger<UserRoleService> _logger;
-
-        private const string PermissionClaimType = "Permission";
 
         public UserRoleService(
             ApplicationDbContext context,
             UserManager<User> userManager,
             IHttpContextAccessor httpContextAccessor,
-            IPermissionClaimService permissionClaimService,
             ILogger<UserRoleService> logger)
         {
             _context = context;
             _userManager = userManager;
             _httpContext = httpContextAccessor.HttpContext!;
-            _permissionClaimService = permissionClaimService;
             _logger = logger;
         }
 
@@ -43,7 +38,7 @@ namespace SITRA.Infrastructure.Services
                 return IdentityResult.Failed(new IdentityError { Description = "User not found." });
             }
 
-            // Add new role
+            // Find new role
             var role = await _context.Set<Role>().FindAsync([dto.RoleId], cancellationToken);
             if (role == null)
             {
@@ -66,13 +61,6 @@ namespace SITRA.Infrastructure.Services
             });
 
             await _context.SaveChangesAsync(cancellationToken);
-
-            // Re-assign claims — clear old permission claims first
-            var currentClaims = await _userManager.GetClaimsAsync(user);
-            var permissionClaims = currentClaims.Where(c => c.Type == PermissionClaimType).ToList();
-            await _userManager.RemoveClaimsAsync(user, permissionClaims);
-
-            await _permissionClaimService.AddPermissionClaimsFromRolesAsync(user, new[] { role.Id }, cancellationToken);
 
             return IdentityResult.Success;
         }

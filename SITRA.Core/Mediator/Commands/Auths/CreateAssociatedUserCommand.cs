@@ -15,13 +15,21 @@ namespace SITRA.Core.Mediator.Commands.Auths
             Dto = dto;
         }
 
-        public override Task<IdentityResult> ExecuteAction(
+        public override async Task<IdentityResult> ExecuteAction(
             IUnitOfWork unitOfWork,
             IOutputCacheStore outputCacheStore,
             IMapper mapper,
             CancellationToken cancellationToken)
         {
-            return unitOfWork.UserRegistrationService.RegisterAssociatedUserAsync(Dto, cancellationToken);
+            var result = await unitOfWork.UserRegistrationService.RegisterAssociatedUserAsync(Dto, cancellationToken);
+
+            if (result.IdentityResult.Succeeded && result.UserId != null && result.AdminRoleId.HasValue)
+            {
+                await unitOfWork.PermissionClaimService.AddPermissionClaimsFromRolesAsync(
+                    result.UserId, new[] { result.AdminRoleId.Value }, cancellationToken);
+            }
+
+            return result.IdentityResult;
         }
     }
 }

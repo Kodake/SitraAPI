@@ -21,7 +21,6 @@ namespace SITRA.Infrastructure.Services
         private readonly UserManager<User> _userManager;
         private readonly IConfiguration _configuration;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IPermissionClaimService _permissionClaimService;
         private readonly ILogger<AuthenticationService> _logger;
 
         private const string PermissionClaimType = "Permission";
@@ -31,14 +30,12 @@ namespace SITRA.Infrastructure.Services
             UserManager<User> userManager,
             IConfiguration configuration,
             IUnitOfWork unitOfWork,
-            IPermissionClaimService permissionClaimService,
             ILogger<AuthenticationService> logger)
         {
             _context = context;
             _userManager = userManager;
             _configuration = configuration;
             _unitOfWork = unitOfWork;
-            _permissionClaimService = permissionClaimService;
             _logger = logger;
         }
 

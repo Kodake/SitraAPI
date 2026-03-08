@@ -76,6 +76,7 @@ namespace SITRA.Infrastructure.Repositories
         public IAuthenticationService AuthenticationService { get; }
         public IUserRegistrationService UserRegistrationService { get; }
         public IUserRoleService UserRoleService { get; }
+        public IPermissionClaimService PermissionClaimService { get; }
         public IPlanService PlanService { get; }
         public IFileStorageService FileStorageService { get; }
 
@@ -128,12 +129,12 @@ namespace SITRA.Infrastructure.Repositories
             RolePermissionRepository = new RolePermissionRepository(context);
             AppointmentRepository = new AppointmentRepository(context, httpContextAccessor);
 
-            // Services — order matters due to dependencies
+            // Services — no inter-service dependencies, all are peers
             UserService = new UserService(context, httpContextAccessor, userManager);
-            var permissionClaimService = new PermissionClaimService(userManager, this, permissionClaimLogger);
-            AuthenticationService = new AuthenticationService(context, userManager, configuration, this, permissionClaimService, authLogger);
-            UserRegistrationService = new UserRegistrationService(context, userManager, configuration, this, UserService, permissionClaimService, registrationLogger);
-            UserRoleService = new UserRoleService(context, userManager, httpContextAccessor, permissionClaimService, roleServiceLogger);
+            PermissionClaimService = new PermissionClaimService(userManager, this, permissionClaimLogger);
+            AuthenticationService = new AuthenticationService(context, userManager, configuration, this, authLogger);
+            UserRegistrationService = new UserRegistrationService(context, userManager, configuration, this, UserService, registrationLogger);
+            UserRoleService = new UserRoleService(context, userManager, httpContextAccessor, roleServiceLogger);
 
             PlanService = new PlanService();
             FileStorageService = new AzureFileService(configuration);

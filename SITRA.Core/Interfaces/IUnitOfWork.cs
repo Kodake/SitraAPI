@@ -54,6 +54,7 @@ namespace SITRA.Core.Interfaces
         IAuthenticationService AuthenticationService { get; }
         IUserRegistrationService UserRegistrationService { get; }
         IUserRoleService UserRoleService { get; }
+        IPermissionClaimService PermissionClaimService { get; }
         IPlanService PlanService { get; }
         IFileStorageService FileStorageService { get; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);

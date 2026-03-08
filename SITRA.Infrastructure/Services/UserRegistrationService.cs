@@ -18,7 +18,6 @@ namespace SITRA.Infrastructure.Services
         private readonly IConfiguration _configuration;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserService _userService;
-        private readonly IPermissionClaimService _permissionClaimService;
         private readonly ILogger<UserRegistrationService> _logger;
 
         private const string AdminRoleName = "ADMIN";
@@ -29,7 +28,6 @@ namespace SITRA.Infrastructure.Services
             IConfiguration configuration,
             IUnitOfWork unitOfWork,
             IUserService userService,
-            IPermissionClaimService permissionClaimService,
             ILogger<UserRegistrationService> logger)
         {
             _context = context;
@@ -37,11 +35,10 @@ namespace SITRA.Infrastructure.Services
             _configuration = configuration;
             _unitOfWork = unitOfWork;
             _userService = userService;
-            _permissionClaimService = permissionClaimService;
             _logger = logger;
         }
 
-        public async Task<IdentityResult> RegisterAsync(CreateRegistrationUserDTO dto, CancellationToken cancellationToken)
+        public async Task<RegistrationDTO> RegisterAsync(CreateRegistrationUserDTO dto, CancellationToken cancellationToken)
         {
             var user = new User
             {
@@ -68,6 +65,8 @@ namespace SITRA.Infrastructure.Services
 
             var result = await _userManager.CreateAsync(user, dto.Password);
 
+            Guid? adminRoleId = null;
+
             if (result.Succeeded)
             {
                 // 1. Create Business Role "Admin"
@@ -80,6 +79,7 @@ namespace SITRA.Infrastructure.Services
                     TenantId = tenant.TenantId
                 };
                 _context.Set<Role>().Add(adminRole);
+                adminRoleId = adminRole.Id;
 
                 // 2. Sync and Link Permissions
                 var config = _configuration
@@ -133,20 +133,25 @@ namespace SITRA.Infrastructure.Services
                 }
 
                 await _context.SaveChangesAsync(cancellationToken);
-
-                // Assign Permission Claims immediately
-                await _permissionClaimService.AddPermissionClaimsFromRolesAsync(user, new[] { adminRole.Id }, cancellationToken);
             }
 
-            return result;
+            return new RegistrationDTO
+            {
+                IdentityResult = result,
+                UserId = result.Succeeded ? user.Id : null,
+                AdminRoleId = adminRoleId
+            };
         }
 
-        public async Task<IdentityResult> RegisterAssociatedUserAsync(CreateAssociatedUserDTO dto, CancellationToken cancellationToken)
+        public async Task<RegistrationDTO> RegisterAssociatedUserAsync(CreateAssociatedUserDTO dto, CancellationToken cancellationToken)
         {
             var currentUser = await _userService.GetUserAsync();
             if (currentUser == null)
             {
-                return IdentityResult.Failed(new IdentityError { Description = "Current user not found." });
+                return new RegistrationDTO
+                {
+                    IdentityResult = IdentityResult.Failed(new IdentityError { Description = "Current user not found." })
+                };
             }
 
             var subUser = new User
@@ -165,13 +170,16 @@ namespace SITRA.Infrastructure.Services
             var result = await _userManager.CreateAsync(subUser, dto.Password);
 
             if (!result.Succeeded)
-                return result;
+                return new RegistrationDTO { IdentityResult = result };
 
             // 1. Resolve role
             var role = await _unitOfWork.RoleRepository.GetByIdAsync(dto.RoleId, cancellationToken);
             if (role == null)
             {
-                return IdentityResult.Failed(new IdentityError { Description = "Role not found." });
+                return new RegistrationDTO
+                {
+                    IdentityResult = IdentityResult.Failed(new IdentityError { Description = "Role not found." })
+                };
             }
 
             // 2. Associate User with Role in TenantRoleUsers
@@ -183,10 +191,12 @@ namespace SITRA.Infrastructure.Services
 
             await _context.SaveChangesAsync(cancellationToken);
 
-            // 3. Assign Permission Claims immediately
-            await _permissionClaimService.AddPermissionClaimsFromRolesAsync(subUser, new[] { role.Id }, cancellationToken);
-
-            return result;
+            return new RegistrationDTO
+            {
+                IdentityResult = result,
+                UserId = subUser.Id,
+                AdminRoleId = role.Id
+            };
         }
     }
 }

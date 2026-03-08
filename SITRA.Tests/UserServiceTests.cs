@@ -143,16 +143,15 @@ namespace SITRA.Tests
                 var mockPermClaimLogger = new Mock<ILogger<PermissionClaimService>>();
                 var mockAuthLogger = new Mock<ILogger<AuthenticationService>>();
                 var mockRegLogger = new Mock<ILogger<UserRegistrationService>>();
-                var mockRoleServiceLogger = new Mock<ILogger<UserRoleService>>();
-                var userService = new UserRegistrationService(context, mockUserManager.Object, configuration, mockUnitOfWork.Object, new UserService(context, mockHttpContextAccessor.Object, mockUserManager.Object), new PermissionClaimService(mockUserManager.Object, mockUnitOfWork.Object, mockPermClaimLogger.Object), mockRegLogger.Object);
+                var registrationService = new UserRegistrationService(context, mockUserManager.Object, configuration, mockUnitOfWork.Object, new UserService(context, mockHttpContextAccessor.Object, mockUserManager.Object), mockRegLogger.Object);
 
                 var dto = new CreateRegistrationUserDTO { Email = "admin@store.com", Password = "Abcd-1234", CompanyName = "Test Co", Plan = Core.Enums.PlanType.Free };
 
                 // Act
-                var result = await userService.RegisterAsync(dto, CancellationToken.None);
+                var result = await registrationService.RegisterAsync(dto, CancellationToken.None);
 
                 // Assert
-                Assert.True(result.Succeeded);
+                Assert.True(result.IdentityResult.Succeeded);
                 
                 // Verify Tenant and Role were added to context
                 Assert.True(await context.Tenants.IgnoreQueryFilters().AnyAsync(t => t.Email == "admin@store.com"));
