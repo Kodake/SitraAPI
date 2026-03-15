@@ -224,5 +224,4 @@ C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Core\obj\Debug\net8.0\SITRA.Core.
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Core\obj\Debug\net8.0\refint\SITRA.Core.dll
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Core\obj\Debug\net8.0\SITRA.Core.pdb
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Core\obj\Debug\net8.0\ref\SITRA.Core.dll
-c:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Core\obj\Debug\net8.0\en\SITRA.Core.resources.cs
-c:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Core\obj\Debug\net8.0\es\SITRA.Core.resources.cs
+C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Core\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

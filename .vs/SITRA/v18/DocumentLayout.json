@@ -61,20 +61,6 @@
           "SelectedChildIndex": 6,
           "Children": [
             {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "ValidationMessages.es.resx",
-              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Core\\Resources\\ValidationMessages.es.resx",
-              "RelativeDocumentMoniker": "SITRA.Core\\Resources\\ValidationMessages.es.resx",
-              "ToolTip": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Core\\Resources\\ValidationMessages.es.resx",
-              "RelativeToolTip": "SITRA.Core\\Resources\\ValidationMessages.es.resx",
-              "ViewState": "AgIAALoBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001005|",
-              "WhenOpened": "2026-03-15T02:05:38.939Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
@@ -96,13 +82,26 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ValidationMessages.es.resx",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Core\\Resources\\ValidationMessages.es.resx",
+              "RelativeDocumentMoniker": "SITRA.Core\\Resources\\ValidationMessages.es.resx",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Core\\Resources\\ValidationMessages.es.resx",
+              "RelativeToolTip": "SITRA.Core\\Resources\\ValidationMessages.es.resx",
+              "ViewState": "AgIAALoBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001005|",
+              "WhenOpened": "2026-03-15T02:05:38.939Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "AuthsEndpoints.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.API\\Endpoints\\Auths\\AuthsEndpoints.cs",
               "RelativeDocumentMoniker": "SITRA.API\\Endpoints\\Auths\\AuthsEndpoints.cs",
               "ToolTip": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.API\\Endpoints\\Auths\\AuthsEndpoints.cs",
               "RelativeToolTip": "SITRA.API\\Endpoints\\Auths\\AuthsEndpoints.cs",
-              "ViewState": "AgIAAFEAAAAAAAAAAAAvwFoAAABCAAAAAAAAAA==",
+              "ViewState": "AgIAACQAAAAAAAAAAIAwwFoAAABCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-15T02:56:53.366Z",
               "EditorCaption": ""
@@ -117,8 +116,7 @@
               "RelativeToolTip": "SITRA.Core\\Mediator\\Queries\\Auths\\ValidateOpenedPettyCashQuery.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-15T02:55:41.916Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-15T02:55:41.916Z"
             },
             {
               "$type": "Document",
@@ -130,8 +128,7 @@
               "RelativeToolTip": "SITRA.Core\\Mediator\\Queries\\Auths\\GetUserQuery.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAABRAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-15T02:55:33.553Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-15T02:55:33.553Z"
             },
             {
               "$type": "Document",
@@ -143,8 +140,7 @@
               "RelativeToolTip": "SITRA.Core\\Mediator\\Commands\\Auths\\UpdateAssociatedUserRoleCommand.cs",
               "ViewState": "AgIAAAoAAAAAAAAAAIA0wBMAAABBAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-15T02:19:33.012Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-15T02:19:33.012Z"
             },
             {
               "$type": "Document",
@@ -156,8 +152,7 @@
               "RelativeToolTip": "SITRA.Infrastructure\\Services\\UserService.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-15T02:19:17.918Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-15T02:19:17.918Z"
             },
             {
               "$type": "Document",
@@ -169,8 +164,7 @@
               "RelativeToolTip": "SITRA.Infrastructure\\Services\\PermissionClaimService.cs",
               "ViewState": "AgIAADEAAAAAAAAAAAAwwC8AAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-15T02:17:45.135Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-15T02:17:45.135Z"
             },
             {
               "$type": "Document",
@@ -182,8 +176,7 @@
               "RelativeToolTip": "SITRA.Infrastructure\\Services\\AuthenticationService.cs",
               "ViewState": "AgIAAFQAAAAAAAAAAAAnwGYAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-15T02:17:02.581Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-15T02:17:02.581Z"
             },
             {
               "$type": "Document",
@@ -195,8 +188,7 @@
               "RelativeToolTip": "SITRA.Core\\Mediator\\Commands\\Auths\\LoginUserCommand.cs",
               "ViewState": "AgIAABEAAAAAAAAAAAA9wBcAAAA5AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-15T02:16:45.968Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-15T02:16:45.968Z"
             },
             {
               "$type": "Document",
@@ -208,8 +200,7 @@
               "RelativeToolTip": "SITRA.Core\\Validations\\Auths\\CreateLoginUserDTOValidator.cs",
               "ViewState": "AgIAABAAAAAAAAAAAAAgwCAAAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-15T02:16:22.698Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-15T02:16:22.698Z"
             },
             {
               "$type": "Document",
@@ -221,8 +212,7 @@
               "RelativeToolTip": "SITRA.Core\\Validations\\Auths\\CreateAssociatedUserDTOValidator.cs",
               "ViewState": "AgIAABMAAAAAAAAAAAAnwCMAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-15T02:06:37.523Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-15T02:06:37.523Z"
             },
             {
               "$type": "Document",
@@ -234,8 +224,7 @@
               "RelativeToolTip": "SITRA.Core\\Resources\\ValidationMessages.en.resx",
               "ViewState": "AgIAAK8BAAAAAAAAAAAuwM0BAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001005|",
-              "WhenOpened": "2026-03-15T02:05:37.593Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-15T02:05:37.593Z"
             }
           ]
         }

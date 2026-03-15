@@ -5,6 +5,8 @@ using SITRA.Core.Entities.Auths;
 using SITRA.Core.Interfaces.Services;
 using SITRA.Infrastructure.Persistence;
 using SITRA.Infrastructure.Repositories.Generics;
+using SITRA.Core.DTOs;
+using SITRA.Core.Helpers;
 using System.Security.Claims;
 
 namespace SITRA.Infrastructure.Services
@@ -48,15 +50,25 @@ namespace SITRA.Infrastructure.Services
                 .FirstOrDefaultAsync(u => u.Email == emailClaim.Value, cancellationToken);
         }
 
-        public async Task<List<User>> GetAllAssociatedUsersAsync(CancellationToken cancellationToken)
+        public async Task<List<User>> GetAllAssociatedUsersAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken)
         {
             var queryable = _userManager.Users
                 .Include(u => u.TenantRoleUsers)
                 .Where(u => u.ParentUserId != null);
 
+            await httpContext.AddPaginationParamsToHeaders(queryable);
+
             return await queryable
                 .OrderBy(u => u.UserName)
+                .Paginate(paginationDTO)
                 .ToListAsync(cancellationToken);
+        }
+
+        public async Task<int> GetAssociatedUsersCountAsync(CancellationToken cancellationToken = default)
+        {
+            return await _userManager.Users
+                .Where(u => u.ParentUserId != null)
+                .CountAsync(cancellationToken);
         }
 
         public async Task<bool> ExistsByEmailAsync(string email)

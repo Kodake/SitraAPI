@@ -37,9 +37,9 @@ namespace SITRA.Core.Validations.Auths
 
                     var maxUsers = unitOfWork.PlanService.GetMaxUsers(tenant.Plan);
                     
-                    var associatedUsers = await unitOfWork.UserService.GetAllAssociatedUsersAsync(cancellation);
+                    var currentUsersCount = await unitOfWork.UserService.GetAssociatedUsersCountAsync(cancellation);
                     
-                    if (associatedUsers.Count + 1 >= maxUsers)
+                    if (currentUsersCount + 1 >= maxUsers)
                     {
                         context.AddFailure("PlanLimit", Utilities.MaximumUsersReachedMessage(maxUsers, tenant.Plan.ToString()));
                     }

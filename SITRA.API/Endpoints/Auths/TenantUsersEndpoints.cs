@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using SITRA.API.Filters;
+using SITRA.Core.DTOs;
 using SITRA.Core.DTOs.Auths;
 using SITRA.Core.Interfaces;
 using SITRA.Core.Mediator.Commands.Auths;
@@ -23,9 +24,10 @@ namespace SITRA.API.Endpoints.Auths
         }
 
         static async Task<Results<Ok<List<UserDTO>>, BadRequest>> GetUsers(
-            [FromServices] IMediator mediator)
+            [FromServices] IMediator mediator,
+            PaginationDTO pagination)
         {
-            var users = await mediator.Send(new GetAllTenantUsersQuery());
+            var users = await mediator.Send(new GetAllTenantUsersQuery(pagination));
             return TypedResults.Ok(users);
         }
 

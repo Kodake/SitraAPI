@@ -959,5 +959,5 @@ C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\bin\Debug\net8.0\SITRA.API.pd
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\obj\Debug\net8.0\SITRA.API.csproj.Up2Date
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\obj\Debug\net8.0\SITRA.API.genruntimeconfig.cache
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\obj\Debug\net8.0\ref\SITRA.API.dll
-C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 c:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\obj\Debug\net8.0\SITRA.API.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
