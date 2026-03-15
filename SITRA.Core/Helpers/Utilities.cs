@@ -13,6 +13,11 @@ namespace SITRA.Core.Helpers
         public static string MaximunLengthMessage => _resourceManager.GetString("MaximunLengthMessage")!;
         public static string FirstCharUpperMessage => _resourceManager.GetString("FirstCharUpperMessage")!;
         public static string EmailMessage => _resourceManager.GetString("EmailMessage")!;
+        public static string EmailAlreadyExistsMessage(string email)
+        {
+            var message = _resourceManager.GetString("EmailAlreadyExistsMessage");
+            return string.Format(message!, email);
+        }
         public static string GreatherThanZero => _resourceManager.GetString("GreatherThanZero")!;
         public static string GreaterThanOrEqualToZero => _resourceManager.GetString("GreaterThanOrEqualToZero")!;
         public static string NameAlreadyExistsWith => _resourceManager.GetString("NameAlreadyExistsWith")!;
@@ -201,6 +206,12 @@ namespace SITRA.Core.Helpers
         {
             var message = _resourceManager.GetString("FiscalSupportSequenceLimitReachedMessage");
             return string.Format(message!, maxSequence);
+        }
+
+        public static string MaximumUsersReachedMessage(int limit, string plan)
+        {
+            var message = _resourceManager.GetString("MaximumUsersReachedMessage");
+            return string.Format(message!, limit, plan);
         }
 
         public static bool FirstCharUppercase(string valor)

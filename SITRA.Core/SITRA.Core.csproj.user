@@ -2,6 +2,9 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
+    <EmbeddedResource Update="Resources\ValidationMessages.en.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\ValidationMessages.es.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>

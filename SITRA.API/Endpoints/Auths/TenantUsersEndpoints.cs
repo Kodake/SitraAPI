@@ -1,10 +1,11 @@
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using SITRA.API.Filters;
 using SITRA.Core.DTOs.Auths;
 using SITRA.Core.Interfaces;
-using SITRA.Core.Mediator.Queries.Tenants;
 using SITRA.Core.Mediator.Commands.Auths;
+using SITRA.Core.Mediator.Queries.Tenants;
 namespace SITRA.API.Endpoints.Auths
 {
     public static class TenantUsersEndpoints
@@ -13,7 +14,9 @@ namespace SITRA.API.Endpoints.Auths
         {
             group.MapGet("/", GetUsers).RequireAuthorization();
             group.MapGet("/{id}", GetUserById).RequireAuthorization();
-            group.MapPost("/", CreateAssociatedUser).RequireAuthorization();
+            group.MapPost("/", CreateAssociatedUser).RequireAuthorization()
+                .AddEndpointFilter<ValidationFilter<CreateAssociatedUserDTO>>()
+                .WithOpenApi();
             group.MapPut("/{id}/role", UpdateAssociatedUserRole).RequireAuthorization();
 
             return group;

@@ -452,4 +452,10 @@
   <data name="PettyCashOpenedByOtherUserMessage" xml:space="preserve">
     <value>The user {0} must close the currently open petty cash before you can proceed</value>
   </data>
+  <data name="MaximumUsersReachedMessage" xml:space="preserve">
+    <value>User limit of {0} reached for your plan ({1}). Upgrade your plan to add more users.</value>
+  </data>
+  <data name="EmailAlreadyExistsMessage" xml:space="preserve">
+    <value>The email '{0}' is already registered</value>
+  </data>
 </root>

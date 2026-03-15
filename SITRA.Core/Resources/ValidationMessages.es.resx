@@ -452,4 +452,10 @@
   <data name="PettyCashOpenedByOtherUserMessage" xml:space="preserve">
     <value>El usuario {0} debe cerrar la caja chica previamente abierta antes de que puedas continuar</value>
   </data>
+  <data name="MaximumUsersReachedMessage" xml:space="preserve">
+    <value>Se ha alcanzado el límite de {0} usuarios de su plan ({1}). Actualice su plan para agregar más usuarios.</value>
+  </data>
+  <data name="EmailAlreadyExistsMessage" xml:space="preserve">
+    <value>El correo electrónico '{0}' ya se encuentra registrado</value>
+  </data>
 </root>

@@ -83,7 +83,11 @@ namespace SITRA.Infrastructure.Services
             var userClaims = await _userManager.GetClaimsAsync(user);
             var permissionClaims = userClaims.Where(c => c.Type == PermissionClaimType).ToList();
 
-            if (!permissionClaims.Any())
+            bool isAssociatedUser = !string.IsNullOrEmpty(user.ParentUserId);
+
+            // Re-evaluate permissions if the user has NO permission claims, OR if they are an associated user 
+            // because associated users' role permissions might have changed.
+            if (!permissionClaims.Any() || isAssociatedUser)
             {
                 var roleIds = new List<Guid>();
 
@@ -115,17 +119,39 @@ namespace SITRA.Infrastructure.Services
                     permissionKeys.AddRange(rolePermissions.Select(p => p.Key));
                 }
 
-                permissionClaims = permissionKeys
-                    .Distinct()
-                    .Select(pk => new Claim(PermissionClaimType, pk))
-                    .ToList();
+                var distinctPermissionKeys = permissionKeys.Distinct().ToList();
+                var currentPermissionKeys = permissionClaims.Select(c => c.Value).ToList();
 
-                var addClaimsResult = await _userManager.AddClaimsAsync(user, permissionClaims);
+                // Only make changes to the database claims if there is a mismatch
+                bool claimsChanged = distinctPermissionKeys.Count != currentPermissionKeys.Count || 
+                                     distinctPermissionKeys.Except(currentPermissionKeys).Any();
 
-                if (!addClaimsResult.Succeeded)
+                if (claimsChanged)
                 {
-                    _logger.LogError(Utilities.FailedToUpdateUserClaimsMessage(
-                        string.Join(", ", addClaimsResult.Errors.Select(e => e.Description))));
+                    if (permissionClaims.Any())
+                    {
+                        var removeResult = await _userManager.RemoveClaimsAsync(user, permissionClaims);
+                        if (!removeResult.Succeeded)
+                        {
+                            _logger.LogError(Utilities.FailedToUpdateUserClaimsMessage(
+                                string.Join(", ", removeResult.Errors.Select(e => e.Description))));
+                        }
+                    }
+
+                    permissionClaims = distinctPermissionKeys
+                        .Select(pk => new Claim(PermissionClaimType, pk))
+                        .ToList();
+
+                    if (permissionClaims.Any())
+                    {
+                        var addClaimsResult = await _userManager.AddClaimsAsync(user, permissionClaims);
+
+                        if (!addClaimsResult.Succeeded)
+                        {
+                            _logger.LogError(Utilities.FailedToUpdateUserClaimsMessage(
+                                string.Join(", ", addClaimsResult.Errors.Select(e => e.Description))));
+                        }
+                    }
                 }
             }
 

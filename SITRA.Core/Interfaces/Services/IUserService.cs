@@ -7,5 +7,6 @@ namespace SITRA.Core.Interfaces.Services
         Task<User?> GetUserAsync();
         Task<User?> GetUserWithRoleAsync(CancellationToken cancellationToken = default);
         Task<List<User>> GetAllAssociatedUsersAsync(CancellationToken cancellationToken);
+        Task<bool> ExistsByEmailAsync(string email);
     }
 }

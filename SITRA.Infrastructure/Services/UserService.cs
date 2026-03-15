@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SITRA.Core.Entities.Auths;
@@ -57,6 +57,12 @@ namespace SITRA.Infrastructure.Services
             return await queryable
                 .OrderBy(u => u.UserName)
                 .ToListAsync(cancellationToken);
+        }
+
+        public async Task<bool> ExistsByEmailAsync(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            return user != null;
         }
     }
 }

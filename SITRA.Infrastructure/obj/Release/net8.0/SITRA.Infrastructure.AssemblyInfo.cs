@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SITRA.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dc8455b42ae855a0fb39d432dd1eb2970eeb7e75")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+834be595a5b1737714653b2dbf8bb77129924ee8")]
 [assembly: System.Reflection.AssemblyProductAttribute("SITRA.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SITRA.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

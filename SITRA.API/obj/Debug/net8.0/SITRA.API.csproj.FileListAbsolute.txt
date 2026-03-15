@@ -915,7 +915,6 @@ C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\obj\Debug\net8.0\SITRA.API.Ge
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\obj\Debug\net8.0\SITRA.API.AssemblyInfoInputs.cache
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\obj\Debug\net8.0\SITRA.API.AssemblyInfo.cs
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\obj\Debug\net8.0\SITRA.API.csproj.CoreCompileInputs.cache
-C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\obj\Debug\net8.0\SITRA.API.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\obj\Debug\net8.0\SITRA.API.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\obj\Debug\net8.0\SITRA.API.sourcelink.json
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\obj\Debug\net8.0\rjimswa.dswa.cache.json
@@ -961,3 +960,4 @@ C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\obj\Debug\net8.0\SITRA.API.cs
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\obj\Debug\net8.0\SITRA.API.genruntimeconfig.cache
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\obj\Debug\net8.0\ref\SITRA.API.dll
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+c:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\obj\Debug\net8.0\SITRA.API.MvcApplicationPartsAssemblyInfo.cs
