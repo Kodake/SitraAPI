@@ -59,7 +59,7 @@
           "dependencies": {
             "AutoMapper": {
               "target": "Package",
-              "version": "[13.0.1, )"
+              "version": "[16.1.1, )"
             },
             "Azure.Identity": {
               "target": "Package",
@@ -315,6 +315,10 @@
               "target": "Package",
               "version": "[12.26.0, )"
             },
+            "ClosedXML": {
+              "target": "Package",
+              "version": "[0.105.0, )"
+            },
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
               "version": "[8.0.12, )"
@@ -342,6 +346,10 @@
             "Microsoft.Extensions.DependencyInjection.Abstractions": {
               "target": "Package",
               "version": "[8.0.2, )"
+            },
+            "System.Security.Cryptography.Xml": {
+              "target": "Package",
+              "version": "[8.0.0, )"
             }
           },
           "imports": [

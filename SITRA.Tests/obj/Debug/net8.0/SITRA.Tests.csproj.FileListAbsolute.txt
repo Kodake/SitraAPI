@@ -987,3 +987,13 @@ C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\obj\Debug\net8.0\refint\SIT
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\obj\Debug\net8.0\SITRA.Tests.pdb
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\obj\Debug\net8.0\SITRA.Tests.genruntimeconfig.cache
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\obj\Debug\net8.0\ref\SITRA.Tests.dll
+C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\bin\Debug\net8.0\ClosedXML.dll
+C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\bin\Debug\net8.0\ClosedXML.Parser.dll
+C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\bin\Debug\net8.0\DocumentFormat.OpenXml.dll
+C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\bin\Debug\net8.0\DocumentFormat.OpenXml.Framework.dll
+C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\bin\Debug\net8.0\ExcelNumberFormat.dll
+C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\bin\Debug\net8.0\RBush.dll
+C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\bin\Debug\net8.0\SixLabors.Fonts.dll
+C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\bin\Debug\net8.0\System.IO.Packaging.dll
+C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\bin\Debug\net8.0\Microsoft.Extensions.Primitives.dll
+C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\bin\Debug\net8.0\System.Diagnostics.DiagnosticSource.dll

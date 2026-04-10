@@ -1,5 +1,15 @@
 [
   {
+    "ContainingType": "SITRA.API.Controllers.DgiiTestController",
+    "Method": "RunDgiiTests",
+    "RelativePath": "api/DgiiTest/run-tests",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "SITRA.API.Endpoints.AppointmentsEndpoints",
     "Method": "GetAll",
     "RelativePath": "api/v1/appointments/",

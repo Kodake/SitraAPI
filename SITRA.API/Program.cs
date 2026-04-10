@@ -15,7 +15,10 @@ using SITRA.Core.Validations.Products;
 using SITRA.Infrastructure.Persistence;
 using SITRA.Infrastructure.Repositories;
 using SITRA.Infrastructure.Services;
-
+using SITRA.Infrastructure.Services.DGII;
+using SITRA.Infrastructure.ExternalServices.DGII;
+using Microsoft.Extensions.DependencyInjection;
+using AutoMapper;
 var builder = WebApplication.CreateBuilder(args);
 
 // Serilog
@@ -92,13 +95,19 @@ builder.Services.AddAuthentication(options =>
 builder.Services.RegisterRequestHandlers();
 builder.Services.RegisterRepositories();
 
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+// Explicitly load AutoMapper for the API and Core assemblies to avoid AppDomain crashes
+builder.Services.AddAutoMapper(config => { }, typeof(Program).Assembly);
 builder.Services.AddValidatorsFromAssemblyContaining<CreateProductDTOValidator>();
 builder.Services.AddOutputCache();
 builder.Services.AddMemoryCache();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICurrentTenantService, CurrentTenantService>();
 builder.Services.AddScoped<IPlanService, PlanService>();
+
+// DGII Services
+builder.Services.AddScoped<TestCasesReaderService>();
+builder.Services.AddScoped<EcfXmlGeneratorService>();
+builder.Services.AddHttpClient<IDgiiApiService, DgiiApiService>();
 
 // Global Exception Handler
 builder.Services.AddExceptionHandler<SITRA.API.ExceptionHandlers.GlobalExceptionHandler>();
@@ -173,5 +182,6 @@ app.UseMiddleware<SITRA.API.Middlewares.LocalizationMiddleware>();
 app.UseRateLimiter();
 
 app.MapApiRoutes();
+app.MapControllers();
 
 app.Run();
