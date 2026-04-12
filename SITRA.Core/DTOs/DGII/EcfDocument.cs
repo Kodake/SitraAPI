@@ -7,16 +7,25 @@ namespace SITRA.Core.DTOs.DGII
     [XmlRoot(ElementName = "ECF")]
     public class EcfDocument
     {
-        [XmlIgnore] // Propiedad interna de SITRA para logueo de Test, el XML la ignora.
+        [XmlIgnore]
         public string TestCaseName { get; set; } = string.Empty;
 
         [XmlElement(ElementName = "Encabezado", Order = 1)]
         public Encabezado Encabezado { get; set; } = new();
+
         [XmlElement(ElementName = "DetallesItems", Order = 2)]
         public Detalles Detalles { get; set; } = new();
-        [XmlElement(ElementName = "InformacionReferencia", Order = 3)]
+
+        [XmlElement(ElementName = "Subtotales", Order = 3)]
+        public Subtotales? Subtotales { get; set; }
+
+        [XmlElement(ElementName = "DescuentosORecargos", Order = 4)]
+        public DescuentosORecargos? DescuentosORecargos { get; set; }
+
+        [XmlElement(ElementName = "InformacionReferencia", Order = 5)]
         public InformacionReferencia? InformacionReferencia { get; set; }
-        [XmlElement(ElementName = "FechaHoraFirma", Order = 4)]
+
+        [XmlElement(ElementName = "FechaHoraFirma", Order = 6)]
         public string FechaHoraFirma { get; set; } = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss");
     }
 
@@ -295,7 +304,77 @@ namespace SITRA.Core.DTOs.DGII
         [XmlElement(ElementName = "PrecioUnitarioItem", Order = 9)]
         public decimal PrecioUnitario { get; set; }
 
-        [XmlElement(ElementName = "MontoItem", Order = 10)]
+        [XmlElement(ElementName = "DescuentoMonto", Order = 10)]
+        public decimal? DescuentoMonto { get; set; }
+        [XmlIgnore]
+        public bool DescuentoMontoSpecified => DescuentoMonto.HasValue;
+
+        [XmlElement(ElementName = "RecargoMonto", Order = 11)]
+        public decimal? RecargoMonto { get; set; }
+        [XmlIgnore]
+        public bool RecargoMontoSpecified => RecargoMonto.HasValue;
+
+        [XmlElement(ElementName = "MontoItem", Order = 12)]
         public decimal MontoItem { get; set; }
+    }
+
+    public class Subtotales
+    {
+        [XmlElement(ElementName = "Subtotal", Order = 1)]
+        public List<Subtotal> Items { get; set; } = new();
+    }
+
+    public class Subtotal
+    {
+        [XmlElement(ElementName = "NumeroSubTotal", Order = 1)]
+        public int NumeroSubTotal { get; set; }
+
+        [XmlElement(ElementName = "DescripcionSubtotal", Order = 2)]
+        public string? DescripcionSubtotal { get; set; }
+
+        [XmlElement(ElementName = "Orden", Order = 3)]
+        public int Orden { get; set; }
+
+        [XmlElement(ElementName = "MontoSubTotal", Order = 4)]
+        public decimal MontoSubTotal { get; set; }
+    }
+
+    public class DescuentosORecargos
+    {
+        [XmlElement(ElementName = "DescuentoORecargo", Order = 1)]
+        public List<DescuentoORecargo> Items { get; set; } = new();
+    }
+
+    public class DescuentoORecargo
+    {
+        [XmlElement(ElementName = "NumeroLinea", Order = 1)]
+        public int NumeroLinea { get; set; }
+
+        [XmlElement(ElementName = "TipoAjuste", Order = 2)]
+        public string TipoAjuste { get; set; } = "D"; // D or R
+
+        [XmlElement(ElementName = "IndicadorNorma1007", Order = 3)]
+        public int? IndicadorNorma1007 { get; set; }
+        [XmlIgnore]
+        public bool IndicadorNorma1007Specified => IndicadorNorma1007.HasValue;
+
+        [XmlElement(ElementName = "DescripcionDescuentooRecargo", Order = 4)]
+        public string? DescripcionDescuentooRecargo { get; set; }
+
+        [XmlElement(ElementName = "TipoValor", Order = 5)]
+        public string? TipoValor { get; set; } // $ or %
+
+        [XmlElement(ElementName = "ValorDescuentooRecargo", Order = 6)]
+        public decimal? ValorDescuentooRecargo { get; set; }
+        [XmlIgnore]
+        public bool ValorDescuentooRecargoSpecified => ValorDescuentooRecargo.HasValue;
+
+        [XmlElement(ElementName = "MontoDescuentooRecargo", Order = 7)]
+        public decimal MontoDescuentooRecargo { get; set; }
+
+        [XmlElement(ElementName = "IndicadorFacturacionDescuentooRecargo", Order = 8)]
+        public int? IndicadorFacturacion { get; set; }
+        [XmlIgnore]
+        public bool IndicadorFacturacionSpecified => IndicadorFacturacion.HasValue;
     }
 }

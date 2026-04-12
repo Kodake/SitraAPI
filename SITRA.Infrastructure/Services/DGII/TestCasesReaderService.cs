@@ -68,8 +68,7 @@ namespace SITRA.Infrastructure.Services.DGII
             doc.Encabezado.IdDoc.ENCF = Get("ENCF");
             doc.Encabezado.IdDoc.FechaVencimientoSecuencia = Get("FechaVencimientoSecuencia");
 
-            string indicadorMonto = Get("IndicadorMontoGravado");
-            doc.Encabezado.IdDoc.IndicadorMontoGral = string.IsNullOrEmpty(indicadorMonto) ? "0" : indicadorMonto;
+            doc.Encabezado.IdDoc.IndicadorMontoGral = Get("IndicadorMontoGravado");
 
             doc.Encabezado.IdDoc.TipoIngresos = Get("TipoIngresos") ?? "01";
             doc.Encabezado.IdDoc.TipoPago = Get("TipoPago") ?? "1";
@@ -113,10 +112,10 @@ namespace SITRA.Infrastructure.Services.DGII
             doc.Encabezado.Totales.MontoExento = GetDec("MontoExento");
             doc.Encabezado.Totales.ITBIS1 = GetInt("ITBIS1");
             doc.Encabezado.Totales.ITBIS2 = GetInt("ITBIS2");
-            doc.Encabezado.Totales.TotalITBIS = GetDec("TotalITBIS") ?? 0;
+            doc.Encabezado.Totales.TotalITBIS = GetDec("TotalITBIS");
             doc.Encabezado.Totales.TotalITBIS1 = GetDec("TotalITBIS1");
             doc.Encabezado.Totales.TotalITBIS2 = GetDec("TotalITBIS2");
-            doc.Encabezado.Totales.MontoTotal = GetDec("MontoTotal") ?? 0;
+            doc.Encabezado.Totales.MontoTotal = GetDec("MontoTotal");
             doc.Encabezado.Totales.MontoNoFacturable = GetDec("MontoNoFacturable");
             doc.Encabezado.Totales.MontoPeriodo = GetDec("MontoPeriodo");
             doc.Encabezado.Totales.SaldoAnterior = GetDec("SaldoAnterior");
@@ -143,9 +142,52 @@ namespace SITRA.Infrastructure.Services.DGII
                     FechaElaboracion = Get($"FechaElaboracion[{i}]"),
                     FechaVencimientoItem = Get($"FechaVencimientoItem[{i}]"),
                     PrecioUnitario = GetDec($"PrecioUnitarioItem[{i}]") ?? 0,
+                    DescuentoMonto = GetDec($"DescuentoMonto[{i}]"),
+                    RecargoMonto = GetDec($"RecargoMonto[{i}]"),
                     MontoItem = GetDec($"MontoItem[{i}]") ?? 0
                 };
                 doc.Detalles.Items.Add(item);
+            }
+
+            // Global Adjustments
+            for (int i = 1; i <= 20; i++)
+            {
+                string lineKey = $"TipoAjuste[{i}]";
+                if (!headerIndex.ContainsKey(lineKey)) break;
+
+                string typeVal = Get(lineKey);
+                if (string.IsNullOrEmpty(typeVal)) break;
+
+                if (doc.DescuentosORecargos == null) doc.DescuentosORecargos = new DescuentosORecargos();
+                doc.DescuentosORecargos.Items.Add(new DescuentoORecargo
+                {
+                    NumeroLinea = i,
+                    TipoAjuste = typeVal,
+                    DescripcionDescuentooRecargo = Get($"DescripcionDescuentooRecargo[{i}]"),
+                    TipoValor = Get($"TipoValor[{i}]"),
+                    ValorDescuentooRecargo = GetDec($"ValorDescuentooRecargo[{i}]"),
+                    MontoDescuentooRecargo = GetDec($"MontoDescuentooRecargo[{i}]") ?? 0,
+                    IndicadorFacturacion = GetInt($"IndicadorFacturacionDescuentooRecargo[{i}]")
+                });
+            }
+
+            // Subtotals
+            for (int i = 1; i <= 20; i++)
+            {
+                string lineKey = $"NumeroSubTotal[{i}]";
+                if (!headerIndex.ContainsKey(lineKey)) break;
+
+                string val = Get(lineKey);
+                if (string.IsNullOrEmpty(val) || !int.TryParse(val, out int nst)) break;
+
+                if (doc.Subtotales == null) doc.Subtotales = new Subtotales();
+                doc.Subtotales.Items.Add(new Subtotal
+                {
+                    NumeroSubTotal = nst,
+                    DescripcionSubtotal = Get($"DescripcionSubtotal[{i}]"),
+                    Orden = GetIntOrZero($"Orden[{i}]"),
+                    MontoSubTotal = GetDec($"MontoSubTotal[{i}]") ?? 0
+                });
             }
 
             return doc;

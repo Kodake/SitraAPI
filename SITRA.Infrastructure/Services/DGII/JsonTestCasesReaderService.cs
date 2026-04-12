@@ -37,6 +37,7 @@ namespace SITRA.Infrastructure.Services.DGII
                     ecfDocument.Encabezado.IdDoc.TipoeCF = GetString(rawDoc, "TipoeCF");
                     ecfDocument.Encabezado.IdDoc.ENCF = GetString(rawDoc, "ENCF");
                     ecfDocument.Encabezado.IdDoc.FechaVencimientoSecuencia = GetString(rawDoc, "FechaVencimientoSecuencia");
+                    ecfDocument.Encabezado.IdDoc.IndicadorMontoGral = GetString(rawDoc, "IndicadorMontoGravado");
                     
                     // Emisor Mapping
                     ecfDocument.Encabezado.Emisor.RNCEmisor = GetString(rawDoc, "RNCEmisor");
@@ -134,8 +135,11 @@ namespace SITRA.Infrastructure.Services.DGII
                             ecfDocument.InformacionReferencia.CodigoModificacion = cm;
                     }
 
-                    // Mapping Items [n]
+                    // Mapping Items, Subtotales, and Global adjustments
                     var itemsDict = new SortedDictionary<int, Item>();
+                    var subtotalsDict = new SortedDictionary<int, Subtotal>();
+                    var adjustmentsDict = new SortedDictionary<int, DescuentoORecargo>();
+
                     foreach (var kvp in rawDoc)
                     {
                         var match = Regex.Match(kvp.Key, @"(\w+)?\[(\d+)\]");
@@ -147,36 +151,69 @@ namespace SITRA.Infrastructure.Services.DGII
 
                             if (value == "#e") continue;
 
-                            if (!itemsDict.ContainsKey(index))
-                                itemsDict[index] = new Item { NumeroLinea = index };
-
-                            var item = itemsDict[index];
-                            switch (fieldName)
+                            // Line Items
+                            if (fieldName.Contains("Item") || fieldName == "IndicadorFacturacion" || fieldName == "UnidadMedida" || fieldName == "FechaElaboracion" || fieldName == "FechaVencimientoItem")
                             {
-                                case "NombreItem": item.NombreItem = value; break;
-                                case "PrecioUnitarioItem": 
-                                    if (decimal.TryParse(value, out decimal p)) item.PrecioUnitario = p; 
-                                    break;
-                                case "CantidadItem": 
-                                    if (decimal.TryParse(value, out decimal c)) item.Cantidad = c; 
-                                    break;
-                                case "MontoItem": 
-                                    if (decimal.TryParse(value, out decimal m)) item.MontoItem = m; 
-                                    break;
-                                case "IndicadorFacturacion":
-                                    if (int.TryParse(value, out int f)) item.IndicadorFacturacion = f;
-                                    break;
-                                case "UnidadMedida":
-                                    item.UnidadMedida = value;
-                                    break;
+                                if (!itemsDict.ContainsKey(index)) itemsDict[index] = new Item { NumeroLinea = index };
+                                var item = itemsDict[index];
+                                switch (fieldName)
+                                {
+                                    case "NombreItem": item.NombreItem = value; break;
+                                    case "PrecioUnitarioItem": if (decimal.TryParse(value, out decimal p)) item.PrecioUnitario = p; break;
+                                    case "CantidadItem": if (decimal.TryParse(value, out decimal c)) item.Cantidad = c; break;
+                                    case "MontoItem": if (decimal.TryParse(value, out decimal m)) item.MontoItem = m; break;
+                                    case "DescuentoMonto": if (decimal.TryParse(value, out decimal d)) item.DescuentoMonto = d; break;
+                                    case "RecargoMonto": if (decimal.TryParse(value, out decimal r)) item.RecargoMonto = r; break;
+                                    case "IndicadorBienoServicio": if (int.TryParse(value, out int b)) item.IndicadorBienoServicio = b; break;
+                                    case "IndicadorFacturacion": if (int.TryParse(value, out int f)) item.IndicadorFacturacion = f; break;
+                                    case "UnidadMedida": item.UnidadMedida = value; break;
+                                    case "FechaElaboracion": item.FechaElaboracion = value; break;
+                                    case "FechaVencimientoItem": item.FechaVencimientoItem = value; break;
+                                }
+                            }
+                            // Global Adjustments
+                            else if (fieldName == "TipoAjuste" || fieldName == "MontoDescuentooRecargo" || fieldName == "DescripcionDescuentooRecargo" || fieldName == "TipoValor" || fieldName == "ValorDescuentooRecargo" || fieldName == "IndicadorFacturacionDescuentooRecargo")
+                            {
+                                if (!adjustmentsDict.ContainsKey(index)) adjustmentsDict[index] = new DescuentoORecargo { NumeroLinea = index };
+                                var adj = adjustmentsDict[index];
+                                switch (fieldName)
+                                {
+                                    case "TipoAjuste": adj.TipoAjuste = value; break;
+                                    case "DescripcionDescuentooRecargo": adj.DescripcionDescuentooRecargo = value; break;
+                                    case "TipoValor": adj.TipoValor = value; break;
+                                    case "ValorDescuentooRecargo": if (decimal.TryParse(value, out decimal v)) adj.ValorDescuentooRecargo = v; break;
+                                    case "MontoDescuentooRecargo": if (decimal.TryParse(value, out decimal m)) adj.MontoDescuentooRecargo = m; break;
+                                    case "IndicadorFacturacionDescuentooRecargo": if (int.TryParse(value, out int f)) adj.IndicadorFacturacion = f; break;
+                                }
+                            }
+                            // Subtotals
+                            else if (fieldName.StartsWith("SubTotal") || fieldName == "NumeroSubTotal" || fieldName == "DescripcionSubtotal" || fieldName == "Orden")
+                            {
+                                if (!subtotalsDict.ContainsKey(index)) subtotalsDict[index] = new Subtotal { NumeroSubTotal = index };
+                                var st = subtotalsDict[index];
+                                switch (fieldName)
+                                {
+                                    case "NumeroSubTotal": if (int.TryParse(value, out int n)) st.NumeroSubTotal = n; break;
+                                    case "DescripcionSubtotal": st.DescripcionSubtotal = value; break;
+                                    case "Orden": if (int.TryParse(value, out int o)) st.Orden = o; break;
+                                    case "MontoSubTotal": if (decimal.TryParse(value, out decimal m)) st.MontoSubTotal = m; break;
+                                }
                             }
                         }
                     }
 
-                    foreach (var item in itemsDict.Values)
+                    foreach (var item in itemsDict.Values) if (!string.IsNullOrEmpty(item.NombreItem)) ecfDocument.Detalles.Items.Add(item);
+                    
+                    if (adjustmentsDict.Any())
                     {
-                        if (!string.IsNullOrEmpty(item.NombreItem))
-                            ecfDocument.Detalles.Items.Add(item);
+                        ecfDocument.DescuentosORecargos = new DescuentosORecargos();
+                        ecfDocument.DescuentosORecargos.Items.AddRange(adjustmentsDict.Values);
+                    }
+
+                    if (subtotalsDict.Any())
+                    {
+                        ecfDocument.Subtotales = new Subtotales();
+                        ecfDocument.Subtotales.Items.AddRange(subtotalsDict.Values);
                     }
 
                     documents.Add(ecfDocument);
@@ -190,8 +227,8 @@ namespace SITRA.Infrastructure.Services.DGII
         {
             if (dict.TryGetValue(key, out var value) && value != null)
             {
-                string valStr = value.ToString() ?? "";
-                return valStr == "#e" ? null : valStr;
+                string valStr = value.ToString()?.Trim() ?? "";
+                return (valStr == "#e" || valStr == "") ? null : valStr;
             }
             return null;
         }
