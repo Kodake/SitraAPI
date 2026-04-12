@@ -2,13 +2,22 @@ using System;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Cryptography.Xml;
 using System.Xml;
+using XmlElement = System.Xml.XmlElement;
+using SITRA.Core.Interfaces;
+using SITRA.Core.DTOs.DGII;
 
 namespace SITRA.Infrastructure.Services.DGII
 {
-    public class SignatureService
+    public class SignatureService : ISignatureService
     {
-        private readonly string _certificatePath;
-        private readonly string _certificatePassword;
+        private string _certificatePath;
+        private string _certificatePassword;
+
+        public SignatureService() 
+        {
+            _certificatePath = string.Empty;
+            _certificatePassword = string.Empty;
+        }
 
         public SignatureService(string certificatePath, string certificatePassword)
         {
@@ -16,15 +25,17 @@ namespace SITRA.Infrastructure.Services.DGII
             _certificatePassword = certificatePassword;
         }
 
-        public string SignXml(string xmlString)
+        public string SignXml(string xmlString, string certPath = null, string certPassword = null)
         {
+            string path = certPath ?? _certificatePath;
+            string pass = certPassword ?? _certificatePassword;
+
             XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.PreserveWhitespace = false; // Es de vida o muerte para DGII: si es 'true', a veces altera el Hash criptográfico final.
+            xmlDoc.PreserveWhitespace = false; 
             xmlDoc.LoadXml(xmlString);
 
-            // Read directly from bytes and export the key to RAM to isolate from Windows CNG Permission issues
-            byte[] certBytes = System.IO.File.ReadAllBytes(_certificatePath);
-            var cert = new X509Certificate2(certBytes, _certificatePassword, X509KeyStorageFlags.Exportable);
+            byte[] certBytes = System.IO.File.ReadAllBytes(path);
+            var cert = new X509Certificate2(certBytes, pass, X509KeyStorageFlags.Exportable);
 
             // Create a SignedXml object
             SignedXml signedXml = new SignedXml(xmlDoc);
@@ -70,10 +81,9 @@ namespace SITRA.Infrastructure.Services.DGII
             return xmlDoc.OuterXml;
         }
         
-        public string SignAuthenticationSeed(string seedXmlString)
+        public string SignAuthenticationSeed(string seedXmlString, string certPath = null, string certPassword = null)
         {
-            // DGII Authentication Seed uses the same XMLDSIG format
-            return SignXml(seedXmlString);
+            return SignXml(seedXmlString, certPath, certPassword);
         }
     }
 }

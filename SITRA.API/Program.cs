@@ -19,6 +19,7 @@ using SITRA.Infrastructure.Services.DGII;
 using SITRA.Infrastructure.ExternalServices.DGII;
 using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
+using SITRA.Core.Models.Dgii;
 var builder = WebApplication.CreateBuilder(args);
 
 // Serilog
@@ -104,9 +105,15 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICurrentTenantService, CurrentTenantService>();
 builder.Services.AddScoped<IPlanService, PlanService>();
 
-// DGII Services
-builder.Services.AddScoped<TestCasesReaderService>();
-builder.Services.AddScoped<EcfXmlGeneratorService>();
+// DGII Configuration & Services
+builder.Services.Configure<DgiiSettings>(builder.Configuration.GetSection("Dgii"));
+
+builder.Services.AddScoped<ISignatureService, SignatureService>();
+builder.Services.AddScoped<IEcfXmlGenerator, EcfXmlGeneratorService>();
+builder.Services.AddScoped<ITestCasesReader, JsonTestCasesReaderService>();
+builder.Services.AddScoped<ITestCasesReader, TestCasesReaderService>();
+builder.Services.AddScoped<IDgiiTestService, DgiiTestService>();
+
 builder.Services.AddHttpClient<IDgiiApiService, DgiiApiService>();
 
 // Global Exception Handler

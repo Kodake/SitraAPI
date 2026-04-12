@@ -2,11 +2,12 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+using SITRA.Core.Interfaces;
 using SITRA.Core.DTOs.DGII;
 
 namespace SITRA.Infrastructure.Services.DGII
 {
-    public class EcfXmlGeneratorService
+    public class EcfXmlGeneratorService : IEcfXmlGenerator
     {
         public string GenerateEcfXml(EcfDocument document)
         {

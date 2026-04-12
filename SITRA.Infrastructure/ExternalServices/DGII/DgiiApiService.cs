@@ -69,7 +69,26 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
             var xmlContent = new ByteArrayContent(xmlBytes);
             xmlContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("text/xml");
             
-            formData.Add(xmlContent, "xml", "factura_electronica.xml");
+            // DGII requiere que el nombre del archivo en el multipart siga un patrón específico:
+            // RNCEmisor + TipoeCF + eNCF + .xml
+            string fileName = "factura_electronica.xml";
+            try
+            {
+                var doc = System.Xml.Linq.XDocument.Parse(ecfXmlSigned);
+                var ns = doc.Root.Name.Namespace;
+                var rnc = doc.Descendants(ns + "RNCEmisor").FirstOrDefault()?.Value;
+                var encf = doc.Descendants(ns + "eNCF").FirstOrDefault()?.Value;
+                
+                if (!string.IsNullOrEmpty(rnc) && !string.IsNullOrEmpty(encf))
+                {
+                    // Clean RNC of any dashes or spaces (common in Excel)
+                    var cleanRnc = System.Text.RegularExpressions.Regex.Replace(rnc, @"[^0-9]", "");
+                    fileName = $"{cleanRnc}{encf.Trim()}.xml";
+                }
+            }
+            catch { /* Fallback to default if parsing fails */ }
+
+            formData.Add(xmlContent, "xml", fileName);
             
             _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             

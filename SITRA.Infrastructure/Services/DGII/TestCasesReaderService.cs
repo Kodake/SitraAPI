@@ -2,11 +2,13 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using ClosedXML.Excel;
+using SITRA.Core.Interfaces;
 using SITRA.Core.DTOs.DGII;
+using System.Linq;
 
 namespace SITRA.Infrastructure.Services.DGII
 {
-    public class TestCasesReaderService
+    public class TestCasesReaderService : ITestCasesReader
     {
         public List<EcfDocument> ReadTestCases(Stream excelStream)
         {
@@ -14,64 +16,139 @@ namespace SITRA.Infrastructure.Services.DGII
 
             using (var workbook = new XLWorkbook(excelStream))
             {
-                // By default DGII might have different sheets or one sheet "E31", "E32", etc.
-                // For simplicity, we read the first active worksheet
                 var worksheet = workbook.Worksheet(1);
-                var rows = worksheet.RangeUsed().RowsUsed();
+                var range = worksheet.RangeUsed();
+                var headerRow = range.Row(1);
 
-                bool isFirstRow = true;
+                // Build a dynamic index to be resilient to column shifts
+                var headerIndex = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+                for (int i = 1; i <= range.ColumnCount(); i++)
+                {
+                    string header = headerRow.Cell(i).GetString();
+                    if (!string.IsNullOrEmpty(header) && !headerIndex.ContainsKey(header))
+                    {
+                        headerIndex[header] = i;
+                    }
+                }
 
-                int rowIndex = 1;
+                var rows = range.RowsUsed().Skip(1);
                 foreach (var row in rows)
                 {
-                    if (isFirstRow)
+                    var doc = MapRowToDocument(row, headerIndex);
+                    if (doc != null && !string.IsNullOrEmpty(doc.Encabezado.IdDoc.ENCF))
                     {
-                        isFirstRow = false;
-                        rowIndex++;
-                        continue; // Skip header
+                        documents.Add(doc);
                     }
-
-                    // A generic mapping - we will adjust these indexes based on the actual Excel layout.
-                    var ecfDocument = new EcfDocument();
-                    
-                    ecfDocument.Encabezado.Version = "1.0";
-                    ecfDocument.Encabezado.IdDoc.TipoeCF = "31";
-                    ecfDocument.Encabezado.IdDoc.ENCF = "E310000000001";
-                    ecfDocument.TestCaseName = $"Fila {rowIndex} - Comprobante Tipo {ecfDocument.Encabezado.IdDoc.TipoeCF}";
-
-                    ecfDocument.Encabezado.IdDoc.FechaVencimientoSecuencia = DateTime.Now.AddYears(1).ToString("dd-MM-yyyy");
-
-                    ecfDocument.Encabezado.Emisor.RNCEmisor = "133556545";
-                    ecfDocument.Encabezado.Emisor.RazonSocial = "Emisor de Pruebas SITRA";
-                    ecfDocument.Encabezado.Emisor.FechaEmision = DateTime.Now.ToString("dd-MM-yyyy");
-                    ecfDocument.Encabezado.Emisor.DireccionEmisor = "Av. Pruebas DGII, Distrito Nacional";
-                    
-                    ecfDocument.Encabezado.Comprador.RNCComprador = "101010101";
-                    ecfDocument.Encabezado.Comprador.RazonSocialComprador = "Comprador de Pruebas DGII";
-                    
-                    if (decimal.TryParse(row.Cell(7).GetString(), out decimal total))
-                    {
-                        ecfDocument.Encabezado.Totales.MontoTotal = total;
-                        ecfDocument.Encabezado.Totales.TotalITBIS = 0; // Default ITBIS para que mande 0 antes que MontoTotal
-                    }
-
-                    // Example Details Item
-                    var item = new Item
-                    {
-                        NumeroLinea = 1,
-                        NombreItem = "Servicios o Bienes",
-                        Cantidad = 1,
-                        PrecioUnitario = ecfDocument.Encabezado.Totales.MontoTotal,
-                        MontoItem = ecfDocument.Encabezado.Totales.MontoTotal
-                    };
-                    ecfDocument.Detalles.Items.Add(item);
-
-                    documents.Add(ecfDocument);
-                    rowIndex++;
                 }
             }
 
             return documents;
+        }
+
+        private EcfDocument MapRowToDocument(IXLRangeRow row, Dictionary<string, int> headerIndex)
+        {
+            var doc = new EcfDocument();
+
+            string Get(string header)
+            {
+                if (!headerIndex.TryGetValue(header, out int idx)) return null;
+                var val = row.Cell(idx).GetString()?.Trim();
+                return (string.IsNullOrEmpty(val) || val == "#e") ? null : val;
+            }
+
+            decimal? GetDec(string header) => decimal.TryParse(Get(header), out decimal d) ? d : (decimal?)null;
+            int? GetInt(string header) => int.TryParse(Get(header), out int i) ? i : (int?)null;
+            int GetIntOrZero(string header) => int.TryParse(Get(header), out int i) ? i : 0;
+
+            doc.TestCaseName = Get("CasoPrueba");
+
+            // IdDoc
+            doc.Encabezado.Version = Get("Version") ?? "1.0";
+            doc.Encabezado.IdDoc.TipoeCF = Get("TipoeCF") ?? "31";
+            doc.Encabezado.IdDoc.ENCF = Get("ENCF");
+            doc.Encabezado.IdDoc.FechaVencimientoSecuencia = Get("FechaVencimientoSecuencia");
+
+            string indicadorMonto = Get("IndicadorMontoGravado");
+            doc.Encabezado.IdDoc.IndicadorMontoGral = string.IsNullOrEmpty(indicadorMonto) ? "0" : indicadorMonto;
+
+            doc.Encabezado.IdDoc.TipoIngresos = Get("TipoIngresos") ?? "01";
+            doc.Encabezado.IdDoc.TipoPago = Get("TipoPago") ?? "1";
+
+            // Emisor
+            doc.Encabezado.Emisor.RNCEmisor = Get("RNCEmisor");
+            doc.Encabezado.Emisor.RazonSocial = Get("RazonSocialEmisor");
+            doc.Encabezado.Emisor.NombreComercial = Get("NombreComercial");
+            doc.Encabezado.Emisor.Sucursal = Get("Sucursal");
+            doc.Encabezado.Emisor.DireccionEmisor = Get("DireccionEmisor");
+            doc.Encabezado.Emisor.Municipio = Get("Municipio");
+            doc.Encabezado.Emisor.Provincia = Get("Provincia");
+            doc.Encabezado.Emisor.CorreoEmisor = Get("CorreoEmisor");
+            doc.Encabezado.Emisor.WebSite = Get("WebSite");
+            doc.Encabezado.Emisor.ActividadEconomica = Get("ActividadEconomica");
+            doc.Encabezado.Emisor.CodigoVendedor = Get("CodigoVendedor");
+            doc.Encabezado.Emisor.NumeroFacturaInterna = Get("NumeroFacturaInterna");
+            doc.Encabezado.Emisor.NumeroPedidoInterno = Get("NumeroPedidoInterno");
+            doc.Encabezado.Emisor.ZonaVenta = Get("ZonaVenta");
+            doc.Encabezado.Emisor.RutaVenta = Get("RutaVenta");
+            doc.Encabezado.Emisor.InformacionAdicionalEmisor = Get("InformacionAdicionalEmisor");
+            doc.Encabezado.Emisor.FechaEmision = Get("FechaEmision");
+
+            // Comprador
+            doc.Encabezado.Comprador.RNCComprador = Get("RNCComprador");
+            doc.Encabezado.Comprador.RazonSocialComprador = Get("RazonSocialComprador");
+            doc.Encabezado.Comprador.ContactoComprador = Get("ContactoComprador");
+            doc.Encabezado.Comprador.CorreoComprador = Get("CorreoComprador");
+            doc.Encabezado.Comprador.DireccionComprador = Get("DireccionComprador");
+            doc.Encabezado.Comprador.MunicipioComprador = Get("MunicipioComprador");
+            doc.Encabezado.Comprador.ProvinciaComprador = Get("ProvinciaComprador");
+            doc.Encabezado.Comprador.FechaEntrega = Get("FechaEntrega");
+            doc.Encabezado.Comprador.FechaOrdenCompra = Get("FechaOrdenCompra");
+            doc.Encabezado.Comprador.NumeroOrdenCompra = Get("NumeroOrdenCompra");
+            doc.Encabezado.Comprador.CodigoInternoComprador = Get("CodigoInternoComprador");
+
+            // Totales
+            doc.Encabezado.Totales.MontoGravadoTotal = GetDec("MontoGravadoTotal");
+            doc.Encabezado.Totales.MontoGravadoI1 = GetDec("MontoGravadoI1");
+            doc.Encabezado.Totales.MontoGravadoI2 = GetDec("MontoGravadoI2");
+            doc.Encabezado.Totales.MontoExento = GetDec("MontoExento");
+            doc.Encabezado.Totales.ITBIS1 = GetInt("ITBIS1");
+            doc.Encabezado.Totales.ITBIS2 = GetInt("ITBIS2");
+            doc.Encabezado.Totales.TotalITBIS = GetDec("TotalITBIS") ?? 0;
+            doc.Encabezado.Totales.TotalITBIS1 = GetDec("TotalITBIS1");
+            doc.Encabezado.Totales.TotalITBIS2 = GetDec("TotalITBIS2");
+            doc.Encabezado.Totales.MontoTotal = GetDec("MontoTotal") ?? 0;
+            doc.Encabezado.Totales.MontoNoFacturable = GetDec("MontoNoFacturable");
+            doc.Encabezado.Totales.MontoPeriodo = GetDec("MontoPeriodo");
+            doc.Encabezado.Totales.SaldoAnterior = GetDec("SaldoAnterior");
+            doc.Encabezado.Totales.MontoAvancePago = GetDec("MontoAvancePago");
+            doc.Encabezado.Totales.ValorPagar = GetDec("ValorPagar");
+
+            // Items - iterate while we find line numbers
+            for (int i = 1; i <= 200; i++)
+            {
+                string lineKey = $"NumeroLinea[{i}]";
+                if (!headerIndex.ContainsKey(lineKey)) break;
+                
+                string lineVal = Get(lineKey);
+                if (string.IsNullOrEmpty(lineVal) || !int.TryParse(lineVal, out int numeroLinea)) break;
+
+                var item = new Item
+                {
+                    NumeroLinea = numeroLinea,
+                    IndicadorFacturacion = GetIntOrZero($"IndicadorFacturacion[{i}]"),
+                    NombreItem = Get($"NombreItem[{i}]"),
+                    IndicadorBienoServicio = GetIntOrZero($"IndicadorBienoServicio[{i}]"),
+                    Cantidad = GetDec($"CantidadItem[{i}]") ?? 0,
+                    UnidadMedida = Get($"UnidadMedida[{i}]"),
+                    FechaElaboracion = Get($"FechaElaboracion[{i}]"),
+                    FechaVencimientoItem = Get($"FechaVencimientoItem[{i}]"),
+                    PrecioUnitario = GetDec($"PrecioUnitarioItem[{i}]") ?? 0,
+                    MontoItem = GetDec($"MontoItem[{i}]") ?? 0
+                };
+                doc.Detalles.Items.Add(item);
+            }
+
+            return doc;
         }
     }
 }

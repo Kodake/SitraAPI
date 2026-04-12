@@ -12,9 +12,12 @@ namespace SITRA.Core.DTOs.DGII
 
         [XmlElement(ElementName = "Encabezado", Order = 1)]
         public Encabezado Encabezado { get; set; } = new();
-
         [XmlElement(ElementName = "DetallesItems", Order = 2)]
         public Detalles Detalles { get; set; } = new();
+        [XmlElement(ElementName = "InformacionReferencia", Order = 3)]
+        public InformacionReferencia? InformacionReferencia { get; set; }
+        [XmlElement(ElementName = "FechaHoraFirma", Order = 4)]
+        public string FechaHoraFirma { get; set; } = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss");
     }
 
     public class Encabezado
@@ -47,13 +50,30 @@ namespace SITRA.Core.DTOs.DGII
         public string FechaVencimientoSecuencia { get; set; } = string.Empty;
 
         [XmlElement(ElementName = "IndicadorMontoGravado", Order = 4)]
-        public string IndicadorMontoGral { get; set; } = "0";
+        public string? IndicadorMontoGral { get; set; }
 
         [XmlElement(ElementName = "TipoIngresos", Order = 5)]
         public string TipoIngresos { get; set; } = "01";
 
         [XmlElement(ElementName = "TipoPago", Order = 6)]
         public string TipoPago { get; set; } = "1";
+    }
+
+    public class InformacionReferencia
+    {
+        [XmlElement(ElementName = "NCFModificado", Order = 1)]
+        public string? NCFModificado { get; set; }
+
+        [XmlElement(ElementName = "RNCOtroContribuyente", Order = 2)]
+        public string? RNCOtroContribuyente { get; set; }
+
+        [XmlElement(ElementName = "FechaNCFModificado", Order = 3)]
+        public string? FechaNCFModificado { get; set; }
+
+        [XmlElement(ElementName = "CodigoModificacion", Order = 4)]
+        public int? CodigoModificacion { get; set; }
+        [XmlIgnore]
+        public bool CodigoModificacionSpecified => CodigoModificacion.HasValue;
     }
 
     public class Emisor
@@ -65,24 +85,52 @@ namespace SITRA.Core.DTOs.DGII
         public string RazonSocial { get; set; } = string.Empty;
 
         [XmlElement(ElementName = "NombreComercial", Order = 3)]
-        public string NombreComercial { get; set; } = null; // Omitir si está vacío para evadir error MinLength
+        public string? NombreComercial { get; set; }
 
         [XmlElement(ElementName = "Sucursal", Order = 4)]
-        public string Sucursal { get; set; } = null;
+        public string? Sucursal { get; set; }
 
         [XmlElement(ElementName = "DireccionEmisor", Order = 5)]
         public string DireccionEmisor { get; set; } = string.Empty;
         
         [XmlElement(ElementName = "Municipio", Order = 6)]
-        public string Municipio { get; set; } = null;
+        public string? Municipio { get; set; }
 
         [XmlElement(ElementName = "Provincia", Order = 7)]
-        public string Provincia { get; set; } = null;
+        public string? Provincia { get; set; }
 
-        [XmlElement(ElementName = "FechaEmision", Order = 8)]
+        [XmlElement(ElementName = "CorreoEmisor", Order = 8)]
+        public string? CorreoEmisor { get; set; }
+
+        [XmlElement(ElementName = "WebSite", Order = 9)]
+        public string? WebSite { get; set; }
+
+        [XmlElement(ElementName = "ActividadEconomica", Order = 10)]
+        public string? ActividadEconomica { get; set; }
+
+        [XmlElement(ElementName = "CodigoVendedor", Order = 11)]
+        public string? CodigoVendedor { get; set; }
+
+        [XmlElement(ElementName = "NumeroFacturaInterna", Order = 12)]
+        public string? NumeroFacturaInterna { get; set; }
+
+        [XmlElement(ElementName = "NumeroPedidoInterno", Order = 13)]
+        public string? NumeroPedidoInterno { get; set; }
+
+        [XmlElement(ElementName = "ZonaVenta", Order = 14)]
+        public string? ZonaVenta { get; set; }
+
+        [XmlElement(ElementName = "RutaVenta", Order = 15)]
+        public string? RutaVenta { get; set; }
+
+        [XmlElement(ElementName = "InformacionAdicionalEmisor", Order = 16)]
+        public string? InformacionAdicionalEmisor { get; set; }
+
+        [XmlElement(ElementName = "FechaEmision", Order = 17)]
         public string FechaEmision { get; set; } = string.Empty;
     }
-
+    
+    // ... Comprador remains mostly same but I'll make sure it's nullable ...
     public class Comprador
     {
         [XmlElement(ElementName = "RNCComprador", Order = 1)]
@@ -90,15 +138,126 @@ namespace SITRA.Core.DTOs.DGII
 
         [XmlElement(ElementName = "RazonSocialComprador", Order = 2)]
         public string RazonSocialComprador { get; set; } = string.Empty;
+
+        [XmlElement(ElementName = "ContactoComprador", Order = 3)]
+        public string? ContactoComprador { get; set; }
+
+        [XmlElement(ElementName = "CorreoComprador", Order = 4)]
+        public string? CorreoComprador { get; set; }
+
+        [XmlElement(ElementName = "DireccionComprador", Order = 5)]
+        public string? DireccionComprador { get; set; }
+
+        [XmlElement(ElementName = "MunicipioComprador", Order = 6)]
+        public string? MunicipioComprador { get; set; }
+
+        [XmlElement(ElementName = "ProvinciaComprador", Order = 7)]
+        public string? ProvinciaComprador { get; set; }
+
+        [XmlElement(ElementName = "FechaEntrega", Order = 8)]
+        public string? FechaEntrega { get; set; }
+
+        [XmlElement(ElementName = "ContactoEntrega", Order = 9)]
+        public string? ContactoEntrega { get; set; }
+
+        [XmlElement(ElementName = "DireccionEntrega", Order = 10)]
+        public string? DireccionEntrega { get; set; }
+
+        [XmlElement(ElementName = "TelefonoAdicional", Order = 11)]
+        public string? TelefonoAdicional { get; set; }
+
+        [XmlElement(ElementName = "FechaOrdenCompra", Order = 12)]
+        public string? FechaOrdenCompra { get; set; }
+
+        [XmlElement(ElementName = "NumeroOrdenCompra", Order = 13)]
+        public string? NumeroOrdenCompra { get; set; }
+
+        [XmlElement(ElementName = "CodigoInternoComprador", Order = 14)]
+        public string? CodigoInternoComprador { get; set; }
+
+        [XmlElement(ElementName = "ResponsablePago", Order = 15)]
+        public string? ResponsablePago { get; set; }
+
+        [XmlElement(ElementName = "InformacionAdicionalComprador", Order = 16)]
+        public string? InformacionAdicionalComprador { get; set; }
     }
-    
+
     public class Totales
     {
-        [XmlElement(ElementName = "TotalITBIS", Order = 1)] // ITBIS va antes del MontoTotal (Línea 140 XSD)
-        public decimal TotalITBIS { get; set; }
+        [XmlElement(ElementName = "MontoGravadoTotal", Order = 1)]
+        public decimal? MontoGravadoTotal { get; set; }
+        [XmlIgnore]
+        public bool MontoGravadoTotalSpecified => MontoGravadoTotal.HasValue;
 
-        [XmlElement(ElementName = "MontoTotal", Order = 2)] // MontoTotal (Línea 162 XSD)
-        public decimal MontoTotal { get; set; }
+        [XmlElement(ElementName = "MontoGravadoI1", Order = 2)]
+        public decimal? MontoGravadoI1 { get; set; }
+        [XmlIgnore]
+        public bool MontoGravadoI1Specified => MontoGravadoI1.HasValue;
+
+        [XmlElement(ElementName = "MontoGravadoI2", Order = 3)]
+        public decimal? MontoGravadoI2 { get; set; }
+        [XmlIgnore]
+        public bool MontoGravadoI2Specified => MontoGravadoI2.HasValue;
+
+        [XmlElement(ElementName = "MontoExento", Order = 4)]
+        public decimal? MontoExento { get; set; }
+        [XmlIgnore]
+        public bool MontoExentoSpecified => MontoExento.HasValue;
+
+        [XmlElement(ElementName = "ITBIS1", Order = 5)]
+        public int? ITBIS1 { get; set; }
+        [XmlIgnore]
+        public bool ITBIS1Specified => ITBIS1.HasValue;
+
+        [XmlElement(ElementName = "ITBIS2", Order = 6)]
+        public int? ITBIS2 { get; set; }
+        [XmlIgnore]
+        public bool ITBIS2Specified => ITBIS2.HasValue;
+
+        [XmlElement(ElementName = "TotalITBIS", Order = 7)]
+        public decimal? TotalITBIS { get; set; }
+        [XmlIgnore]
+        public bool TotalITBISSpecified => TotalITBIS.HasValue;
+
+        [XmlElement(ElementName = "TotalITBIS1", Order = 8)]
+        public decimal? TotalITBIS1 { get; set; }
+        [XmlIgnore]
+        public bool TotalITBIS1Specified => TotalITBIS1.HasValue;
+
+        [XmlElement(ElementName = "TotalITBIS2", Order = 9)]
+        public decimal? TotalITBIS2 { get; set; }
+        [XmlIgnore]
+        public bool TotalITBIS2Specified => TotalITBIS2.HasValue;
+
+        [XmlElement(ElementName = "MontoTotal", Order = 10)]
+        public decimal? MontoTotal { get; set; }
+        [XmlIgnore]
+        public bool MontoTotalSpecified => MontoTotal.HasValue;
+
+        [XmlElement(ElementName = "MontoNoFacturable", Order = 11)]
+        public decimal? MontoNoFacturable { get; set; }
+        [XmlIgnore]
+        public bool MontoNoFacturableSpecified => MontoNoFacturable.HasValue;
+
+        [XmlElement(ElementName = "MontoPeriodo", Order = 12)]
+        public decimal? MontoPeriodo { get; set; }
+        [XmlIgnore]
+        public bool MontoPeriodoSpecified => MontoPeriodo.HasValue;
+
+        [XmlElement(ElementName = "SaldoAnterior", Order = 13)]
+        public decimal? SaldoAnterior { get; set; }
+        [XmlIgnore]
+        public bool SaldoAnteriorSpecified => SaldoAnterior.HasValue;
+
+        [XmlElement(ElementName = "MontoAvancePago", Order = 14)]
+        public decimal? MontoAvancePago { get; set; }
+        [XmlIgnore]
+        public bool MontoAvancePagoSpecified => MontoAvancePago.HasValue;
+
+        [XmlElement(ElementName = "ValorPagar", Order = 15)]
+        public decimal? ValorPagar { get; set; }
+        [XmlIgnore]
+        public bool ValorPagarSpecified => ValorPagar.HasValue;
     }
 
     public class Detalles
@@ -124,10 +283,19 @@ namespace SITRA.Core.DTOs.DGII
         [XmlElement(ElementName = "CantidadItem", Order = 5)]
         public decimal Cantidad { get; set; }
 
-        [XmlElement(ElementName = "PrecioUnitarioItem", Order = 6)]
+        [XmlElement(ElementName = "UnidadMedida", Order = 6)]
+        public string? UnidadMedida { get; set; }
+
+        [XmlElement(ElementName = "FechaElaboracion", Order = 7)]
+        public string? FechaElaboracion { get; set; }
+
+        [XmlElement(ElementName = "FechaVencimientoItem", Order = 8)]
+        public string? FechaVencimientoItem { get; set; }
+
+        [XmlElement(ElementName = "PrecioUnitarioItem", Order = 9)]
         public decimal PrecioUnitario { get; set; }
 
-        [XmlElement(ElementName = "MontoItem", Order = 7)]
+        [XmlElement(ElementName = "MontoItem", Order = 10)]
         public decimal MontoItem { get; set; }
     }
 }

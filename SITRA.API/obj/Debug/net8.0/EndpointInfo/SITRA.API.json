@@ -1825,10 +1825,19 @@
         }
       }
     },
-    "/api/DgiiTest/run-tests": {
+    "/api/dgiiTests/run-tests": {
       "post": {
         "tags": [
           "DgiiTest"
+        ],
+        "parameters": [
+          {
+            "name": "ecfType",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
           "200": {

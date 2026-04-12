@@ -2,11 +2,17 @@
   {
     "ContainingType": "SITRA.API.Controllers.DgiiTestController",
     "Method": "RunDgiiTests",
-    "RelativePath": "api/DgiiTest/run-tests",
+    "RelativePath": "api/dgiiTests/run-tests",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "ecfType",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   },
   {
