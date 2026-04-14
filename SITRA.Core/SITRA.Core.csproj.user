@@ -9,4 +9,51 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <None Update="Resources\ACECF v.1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Resources\ANECF v.1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Resources\ARECF v1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Resources\e-CF 31 v.1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Resources\e-CF 32 v.1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Resources\e-CF 33 v.1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Resources\e-CF 34 v.1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Resources\e-CF 41 v.1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Resources\e-CF 43 v.1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Resources\e-CF 44 v.1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Resources\e-CF 45 v.1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Resources\e-CF 46 v.1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Resources\e-CF 47 v.1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Resources\RFCE 32 v.1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Resources\Semilla v.1.0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
 </Project>

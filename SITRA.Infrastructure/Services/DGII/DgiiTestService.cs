@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text.Json;
 using Microsoft.Extensions.Options;
 using SITRA.Core.Interfaces;
 using SITRA.Core.Models.Dgii;
@@ -31,7 +32,7 @@ namespace SITRA.Infrastructure.Services.DGII
             _settings = settings.Value;
         }
 
-        public async Task<List<DgiiTestResult>> RunTestsAsync(string? ecfType = null)
+        public async Task<DgiiTestSuiteResult> RunTestsAsync(string? ecfType = null)
         {
             var results = new List<DgiiTestResult>();
 
@@ -77,10 +78,21 @@ namespace SITRA.Infrastructure.Services.DGII
                     string xmlSinFirma = _ecfXmlGenerator.GenerateEcfXml(doc);
                     string xmlFirmado = _signatureService.SignXml(xmlSinFirma, _settings.CertificatePath, _settings.CertificatePassword);
 
-                    string resultTrackId = await _dgiiApiService.SendEcfAsync(xmlFirmado, token);
+                    string rawResponse = await _dgiiApiService.SendEcfAsync(xmlFirmado, token);
+                    
+                    using (JsonDocument docJson = JsonDocument.Parse(rawResponse))
+                    {
+                        if (docJson.RootElement.TryGetProperty("trackId", out JsonElement trackIdElement))
+                        {
+                            result.TrackId = trackIdElement.GetString();
+                        }
+                        else
+                        {
+                            result.TrackId = rawResponse; // Fallback if property is missing
+                        }
+                    }
                     
                     result.Status = "Success";
-                    result.TrackId = resultTrackId;
                 }
                 catch (Exception ex)
                 {
@@ -90,7 +102,12 @@ namespace SITRA.Infrastructure.Services.DGII
                 results.Add(result);
             }
 
-            return results;
+            return new DgiiTestSuiteResult
+            {
+                Token = token,
+                Message = "Ronda de pruebas completada",
+                Results = results
+            };
         }
     }
 }

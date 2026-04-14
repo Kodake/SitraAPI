@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace SITRA.Core.DTOs.DGII
@@ -27,6 +28,9 @@ namespace SITRA.Core.DTOs.DGII
 
         [XmlElement(ElementName = "FechaHoraFirma", Order = 6)]
         public string FechaHoraFirma { get; set; } = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss");
+
+        [XmlAnyElement(Order = 7)]
+        public XmlElement? Signature { get; set; }
     }
 
     public class Encabezado
@@ -208,62 +212,82 @@ namespace SITRA.Core.DTOs.DGII
         [XmlIgnore]
         public bool MontoGravadoI2Specified => MontoGravadoI2.HasValue;
 
-        [XmlElement(ElementName = "MontoExento", Order = 4)]
+        [XmlElement(ElementName = "MontoGravadoI3", Order = 4)]
+        public decimal? MontoGravadoI3 { get; set; }
+        [XmlIgnore]
+        public bool MontoGravadoI3Specified => MontoGravadoI3.HasValue;
+
+        [XmlElement(ElementName = "MontoExento", Order = 5)]
         public decimal? MontoExento { get; set; }
         [XmlIgnore]
         public bool MontoExentoSpecified => MontoExento.HasValue;
 
-        [XmlElement(ElementName = "ITBIS1", Order = 5)]
+        [XmlElement(ElementName = "ITBIS1", Order = 6)]
         public int? ITBIS1 { get; set; }
         [XmlIgnore]
         public bool ITBIS1Specified => ITBIS1.HasValue;
 
-        [XmlElement(ElementName = "ITBIS2", Order = 6)]
+        [XmlElement(ElementName = "ITBIS2", Order = 7)]
         public int? ITBIS2 { get; set; }
         [XmlIgnore]
         public bool ITBIS2Specified => ITBIS2.HasValue;
 
-        [XmlElement(ElementName = "TotalITBIS", Order = 7)]
+        [XmlElement(ElementName = "ITBIS3", Order = 8)]
+        public int? ITBIS3 { get; set; }
+        [XmlIgnore]
+        public bool ITBIS3Specified => ITBIS3.HasValue;
+
+        [XmlElement(ElementName = "TotalITBIS", Order = 9)]
         public decimal? TotalITBIS { get; set; }
         [XmlIgnore]
         public bool TotalITBISSpecified => TotalITBIS.HasValue;
 
-        [XmlElement(ElementName = "TotalITBIS1", Order = 8)]
+        [XmlElement(ElementName = "TotalITBIS1", Order = 10)]
         public decimal? TotalITBIS1 { get; set; }
         [XmlIgnore]
         public bool TotalITBIS1Specified => TotalITBIS1.HasValue;
 
-        [XmlElement(ElementName = "TotalITBIS2", Order = 9)]
+        [XmlElement(ElementName = "TotalITBIS2", Order = 11)]
         public decimal? TotalITBIS2 { get; set; }
         [XmlIgnore]
         public bool TotalITBIS2Specified => TotalITBIS2.HasValue;
 
-        [XmlElement(ElementName = "MontoTotal", Order = 10)]
+        [XmlElement(ElementName = "TotalITBIS3", Order = 12)]
+        public decimal? TotalITBIS3 { get; set; }
+        [XmlIgnore]
+        public bool TotalITBIS3Specified => TotalITBIS3.HasValue;
+
+        [XmlElement(ElementName = "MontoImpuestoAdicional", Order = 13)]
+        public decimal? MontoImpuestoAdicional { get; set; }
+        [XmlIgnore]
+        public bool MontoImpuestoAdicionalSpecified => MontoImpuestoAdicional.HasValue;
+
+        [XmlElement(ElementName = "MontoTotal", Order = 15)]
         public decimal? MontoTotal { get; set; }
         [XmlIgnore]
         public bool MontoTotalSpecified => MontoTotal.HasValue;
 
-        [XmlElement(ElementName = "MontoNoFacturable", Order = 11)]
+        [XmlElement(ElementName = "MontoNoFacturable", Order = 16)]
         public decimal? MontoNoFacturable { get; set; }
         [XmlIgnore]
         public bool MontoNoFacturableSpecified => MontoNoFacturable.HasValue;
 
-        [XmlElement(ElementName = "MontoPeriodo", Order = 12)]
+        [XmlElement(ElementName = "MontoPeriodo", Order = 17)]
         public decimal? MontoPeriodo { get; set; }
         [XmlIgnore]
         public bool MontoPeriodoSpecified => MontoPeriodo.HasValue;
 
-        [XmlElement(ElementName = "SaldoAnterior", Order = 13)]
+        [XmlElement(ElementName = "SaldoAnterior", Order = 18)]
         public decimal? SaldoAnterior { get; set; }
         [XmlIgnore]
         public bool SaldoAnteriorSpecified => SaldoAnterior.HasValue;
 
-        [XmlElement(ElementName = "MontoAvancePago", Order = 14)]
+        [XmlElement(ElementName = "MontoAvancePago", Order = 19)]
         public decimal? MontoAvancePago { get; set; }
         [XmlIgnore]
         public bool MontoAvancePagoSpecified => MontoAvancePago.HasValue;
 
-        [XmlElement(ElementName = "ValorPagar", Order = 15)]
+        [XmlElement(ElementName = "ValorPagar", Order = 20)]
         public decimal? ValorPagar { get; set; }
         [XmlIgnore]
         public bool ValorPagarSpecified => ValorPagar.HasValue;

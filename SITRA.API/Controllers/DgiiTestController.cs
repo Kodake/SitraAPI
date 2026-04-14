@@ -20,12 +20,8 @@ namespace SITRA.API.Controllers
         {
             try
             {
-                var results = await _dgiiTestService.RunTestsAsync(ecfType);
-                return Ok(new 
-                { 
-                    Message = "Ronda de pruebas completada", 
-                    Results = results 
-                });
+                var result = await _dgiiTestService.RunTestsAsync(ecfType);
+                return Ok(result);
             }
             catch (System.Exception ex)
             {

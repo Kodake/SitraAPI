@@ -106,6 +106,9 @@ namespace SITRA.Infrastructure.Services.DGII
                     if (decimal.TryParse(GetString(rawDoc, "MontoGravadoI2"), out decimal mg2))
                         ecfDocument.Encabezado.Totales.MontoGravadoI2 = mg2;
 
+                    if (decimal.TryParse(GetString(rawDoc, "MontoGravadoI3"), out decimal mg3))
+                        ecfDocument.Encabezado.Totales.MontoGravadoI3 = mg3;
+
                     if (decimal.TryParse(GetString(rawDoc, "MontoExento"), out decimal mex))
                         ecfDocument.Encabezado.Totales.MontoExento = mex;
 
@@ -115,11 +118,17 @@ namespace SITRA.Infrastructure.Services.DGII
                     if (int.TryParse(GetString(rawDoc, "ITBIS2"), out int i2))
                         ecfDocument.Encabezado.Totales.ITBIS2 = i2;
 
+                    if (int.TryParse(GetString(rawDoc, "ITBIS3"), out int i3))
+                        ecfDocument.Encabezado.Totales.ITBIS3 = i3;
+
                     if (decimal.TryParse(GetString(rawDoc, "TotalITBIS1"), out decimal ti1))
                         ecfDocument.Encabezado.Totales.TotalITBIS1 = ti1;
 
                     if (decimal.TryParse(GetString(rawDoc, "TotalITBIS2"), out decimal ti2))
                         ecfDocument.Encabezado.Totales.TotalITBIS2 = ti2;
+
+                    if (decimal.TryParse(GetString(rawDoc, "TotalITBIS3"), out decimal ti3))
+                        ecfDocument.Encabezado.Totales.TotalITBIS3 = ti3;
 
                     // Reference Mapping
                     string? ncfMod = GetString(rawDoc, "NCFModificado");

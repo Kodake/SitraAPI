@@ -5,7 +5,14 @@ namespace SITRA.Core.Interfaces
 {
     public interface IDgiiTestService
     {
-        Task<List<DgiiTestResult>> RunTestsAsync(string? ecfType = null);
+        Task<DgiiTestSuiteResult> RunTestsAsync(string? ecfType = null);
+    }
+
+    public class DgiiTestSuiteResult
+    {
+        public string? Token { get; set; }
+        public string Message { get; set; } = string.Empty;
+        public List<DgiiTestResult> Results { get; set; } = new();
     }
 
     public class DgiiTestResult
