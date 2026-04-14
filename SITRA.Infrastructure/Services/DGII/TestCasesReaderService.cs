@@ -209,6 +209,43 @@ namespace SITRA.Infrastructure.Services.DGII
                     MontoItem = GetDec($"MontoItem[{i}]") ?? 0
                 };
 
+                // Item Codes
+                for (int j = 1; j <= 5; j++)
+                {
+                    string tipo = Get($"TipoCodigo[{i}][{j}]");
+                    if (string.IsNullOrEmpty(tipo)) break;
+                    if (item.TablaCodigosItem == null) item.TablaCodigosItem = new List<CodigoItem>();
+                    item.TablaCodigosItem.Add(new CodigoItem { TipoCodigo = tipo, Codigo = Get($"CodigoItem[{i}][{j}]") ?? "" });
+                }
+
+                // Sub Descuentos
+                for (int j = 1; j <= 5; j++)
+                {
+                    string tipo = Get($"TipoSubDescuento[{i}][{j}]");
+                    if (string.IsNullOrEmpty(tipo)) break;
+                    if (item.TablaSubDescuento == null) item.TablaSubDescuento = new List<SubDescuento>();
+                    item.TablaSubDescuento.Add(new SubDescuento
+                    {
+                        TipoSubDescuento = tipo,
+                        SubDescuentoPorcentaje = GetDec($"SubDescuentoPorcentaje[{i}][{j}]"),
+                        MontoSubDescuento = GetDec($"MontoSubDescuento[{i}][{j}]")
+                    });
+                }
+
+                // Sub Recargos
+                for (int j = 1; j <= 5; j++)
+                {
+                    string tipo = Get($"TipoSubRecargo[{i}][{j}]");
+                    if (string.IsNullOrEmpty(tipo)) break;
+                    if (item.TablaSubRecargo == null) item.TablaSubRecargo = new List<SubRecargo>();
+                    item.TablaSubRecargo.Add(new SubRecargo
+                    {
+                        TipoSubRecargo = tipo,
+                        SubRecargoPorcentaje = GetDec($"SubRecargoPorcentaje[{i}][{j}]"),
+                        MontoSubRecargo = GetDec($"MontoSubRecargo[{i}][{j}]")
+                    });
+                }
+
                 item.DescripcionItem = Get($"DescripcionItem[{i}]");
 
                 // Item level retention
