@@ -70,12 +70,14 @@ namespace SITRA.Infrastructure.Services.DGII
                     
                     // Comprador Mapping
                     ecfDocument.Encabezado.Comprador.RNCComprador = GetString(rawDoc, "RNCComprador");
+                    ecfDocument.Encabezado.Comprador.IdentificadorExtranjero = GetString(rawDoc, "IdentificadorExtranjero");
                     ecfDocument.Encabezado.Comprador.RazonSocialComprador = GetString(rawDoc, "RazonSocialComprador");
                     ecfDocument.Encabezado.Comprador.ContactoComprador = GetString(rawDoc, "ContactoComprador");
                     ecfDocument.Encabezado.Comprador.CorreoComprador = GetString(rawDoc, "CorreoComprador") ?? GetString(rawDoc, "Correo");
                     ecfDocument.Encabezado.Comprador.DireccionComprador = GetString(rawDoc, "DireccionComprador");
                     ecfDocument.Encabezado.Comprador.MunicipioComprador = GetString(rawDoc, "MunicipioComprador");
                     ecfDocument.Encabezado.Comprador.ProvinciaComprador = GetString(rawDoc, "ProvinciaComprador");
+                    ecfDocument.Encabezado.Comprador.PaisComprador = GetString(rawDoc, "PaisComprador");
                     ecfDocument.Encabezado.Comprador.FechaEntrega = GetString(rawDoc, "FechaEntrega");
                     ecfDocument.Encabezado.Comprador.ContactoEntrega = GetString(rawDoc, "ContactoEntrega");
                     ecfDocument.Encabezado.Comprador.DireccionEntrega = GetString(rawDoc, "DireccionEntrega");

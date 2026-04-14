@@ -52,8 +52,16 @@ namespace SITRA.Core.DTOs.DGII
         [XmlElement(ElementName = "Comprador", Order = 4)]
         public Comprador Comprador { get; set; } = new();
 
-        [XmlElement(ElementName = "Totales", Order = 5)]
+        [XmlElement(ElementName = "Totales", Order = 7)]
         public Totales Totales { get; set; } = new();
+
+        [XmlElement(ElementName = "InformacionesAdicionales", Order = 5)]
+        public InformacionesAdicionales? InformacionesAdicionales { get; set; }
+        public bool ShouldSerializeInformacionesAdicionales() => InformacionesAdicionales != null;
+
+        [XmlElement(ElementName = "Transporte", Order = 6)]
+        public Transporte? Transporte { get; set; }
+        public bool ShouldSerializeTransporte() => Transporte != null;
 
         public bool ShouldSerializeComprador() => IdDoc.TipoeCF != "43";
     }
@@ -219,52 +227,191 @@ namespace SITRA.Core.DTOs.DGII
     public class Comprador
     {
         [XmlElement(ElementName = "RNCComprador", Order = 1)]
-        public string RNCComprador { get; set; } = string.Empty;
+        public string? RNCComprador { get; set; }
+        public bool ShouldSerializeRNCComprador() => !string.IsNullOrEmpty(RNCComprador);
 
-        [XmlElement(ElementName = "RazonSocialComprador", Order = 2)]
+        [XmlElement(ElementName = "IdentificadorExtranjero", Order = 2)]
+        public string? IdentificadorExtranjero { get; set; }
+
+        [XmlElement(ElementName = "RazonSocialComprador", Order = 3)]
         public string RazonSocialComprador { get; set; } = string.Empty;
 
-        [XmlElement(ElementName = "ContactoComprador", Order = 3)]
+        [XmlElement(ElementName = "ContactoComprador", Order = 4)]
         public string? ContactoComprador { get; set; }
 
-        [XmlElement(ElementName = "CorreoComprador", Order = 4)]
+        [XmlElement(ElementName = "CorreoComprador", Order = 5)]
         public string? CorreoComprador { get; set; }
 
-        [XmlElement(ElementName = "DireccionComprador", Order = 5)]
+        [XmlElement(ElementName = "DireccionComprador", Order = 6)]
         public string? DireccionComprador { get; set; }
 
-        [XmlElement(ElementName = "MunicipioComprador", Order = 6)]
+        [XmlElement(ElementName = "MunicipioComprador", Order = 7)]
         public string? MunicipioComprador { get; set; }
 
-        [XmlElement(ElementName = "ProvinciaComprador", Order = 7)]
+        [XmlElement(ElementName = "ProvinciaComprador", Order = 8)]
         public string? ProvinciaComprador { get; set; }
 
-        [XmlElement(ElementName = "FechaEntrega", Order = 8)]
+        [XmlElement(ElementName = "PaisComprador", Order = 9)]
+        public string? PaisComprador { get; set; }
+
+        [XmlElement(ElementName = "FechaEntrega", Order = 10)]
         public string? FechaEntrega { get; set; }
 
-        [XmlElement(ElementName = "ContactoEntrega", Order = 9)]
+        [XmlElement(ElementName = "ContactoEntrega", Order = 11)]
         public string? ContactoEntrega { get; set; }
 
-        [XmlElement(ElementName = "DireccionEntrega", Order = 10)]
+        [XmlElement(ElementName = "DireccionEntrega", Order = 12)]
         public string? DireccionEntrega { get; set; }
 
-        [XmlElement(ElementName = "TelefonoAdicional", Order = 11)]
+        [XmlElement(ElementName = "TelefonoAdicional", Order = 13)]
         public string? TelefonoAdicional { get; set; }
 
-        [XmlElement(ElementName = "FechaOrdenCompra", Order = 12)]
+        [XmlElement(ElementName = "FechaOrdenCompra", Order = 14)]
         public string? FechaOrdenCompra { get; set; }
 
-        [XmlElement(ElementName = "NumeroOrdenCompra", Order = 13)]
+        [XmlElement(ElementName = "NumeroOrdenCompra", Order = 15)]
         public string? NumeroOrdenCompra { get; set; }
 
-        [XmlElement(ElementName = "CodigoInternoComprador", Order = 14)]
+        [XmlElement(ElementName = "CodigoInternoComprador", Order = 16)]
         public string? CodigoInternoComprador { get; set; }
 
-        [XmlElement(ElementName = "ResponsablePago", Order = 15)]
+        [XmlElement(ElementName = "ResponsablePago", Order = 17)]
         public string? ResponsablePago { get; set; }
 
-        [XmlElement(ElementName = "InformacionAdicionalComprador", Order = 16)]
+        [XmlElement(ElementName = "InformacionAdicionalComprador", Order = 18)]
         public string? InformacionAdicionalComprador { get; set; }
+    }
+
+    public class InformacionesAdicionales
+    {
+        [XmlElement(ElementName = "FechaEmbarque", Order = 1)]
+        public string? FechaEmbarque { get; set; }
+
+        [XmlElement(ElementName = "NumeroEmbarque", Order = 2)]
+        public string? NumeroEmbarque { get; set; }
+
+        [XmlElement(ElementName = "NumeroContenedor", Order = 3)]
+        public string? NumeroContenedor { get; set; }
+
+        [XmlElement(ElementName = "NumeroReferencia", Order = 4)]
+        public string? NumeroReferencia { get; set; }
+
+        [XmlElement(ElementName = "NombrePuertoEmbarque", Order = 5)]
+        public string? NombrePuertoEmbarque { get; set; }
+
+        [XmlElement(ElementName = "CondicionesEntrega", Order = 6)]
+        public string? CondicionesEntrega { get; set; }
+
+        [XmlElement(ElementName = "TotalFob", Order = 7)]
+        public decimal? TotalFob { get; set; }
+        [XmlIgnore]
+        public bool TotalFobSpecified => TotalFob.HasValue;
+
+        [XmlElement(ElementName = "Seguro", Order = 8)]
+        public decimal? Seguro { get; set; }
+        [XmlIgnore]
+        public bool SeguroSpecified => Seguro.HasValue;
+
+        [XmlElement(ElementName = "Flete", Order = 9)]
+        public decimal? Flete { get; set; }
+        [XmlIgnore]
+        public bool FleteSpecified => Flete.HasValue;
+
+        [XmlElement(ElementName = "OtrosGastos", Order = 10)]
+        public decimal? OtrosGastos { get; set; }
+        [XmlIgnore]
+        public bool OtrosGastosSpecified => OtrosGastos.HasValue;
+
+        [XmlElement(ElementName = "TotalCif", Order = 11)]
+        public decimal? TotalCif { get; set; }
+        [XmlIgnore]
+        public bool TotalCifSpecified => TotalCif.HasValue;
+
+        [XmlElement(ElementName = "RegimenAduanero", Order = 12)]
+        public string? RegimenAduanero { get; set; }
+
+        [XmlElement(ElementName = "NombrePuertoSalida", Order = 13)]
+        public string? NombrePuertoSalida { get; set; }
+
+        [XmlElement(ElementName = "NombrePuertoDesembarque", Order = 14)]
+        public string? NombrePuertoDesembarque { get; set; }
+
+        [XmlElement(ElementName = "PesoBruto", Order = 15)]
+        public decimal? PesoBruto { get; set; }
+        [XmlIgnore]
+        public bool PesoBrutoSpecified => PesoBruto.HasValue;
+
+        [XmlElement(ElementName = "PesoNeto", Order = 16)]
+        public decimal? PesoNeto { get; set; }
+        [XmlIgnore]
+        public bool PesoNetoSpecified => PesoNeto.HasValue;
+
+        [XmlElement(ElementName = "UnidadPesoBruto", Order = 17)]
+        public string? UnidadPesoBruto { get; set; }
+
+        [XmlElement(ElementName = "UnidadPesoNeto", Order = 18)]
+        public string? UnidadPesoNeto { get; set; }
+
+        [XmlElement(ElementName = "CantidadBulto", Order = 19)]
+        public decimal? CantidadBulto { get; set; }
+        [XmlIgnore]
+        public bool CantidadBultoSpecified => CantidadBulto.HasValue;
+
+        [XmlElement(ElementName = "UnidadBulto", Order = 20)]
+        public string? UnidadBulto { get; set; }
+
+        [XmlElement(ElementName = "VolumenBulto", Order = 21)]
+        public decimal? VolumenBulto { get; set; }
+        [XmlIgnore]
+        public bool VolumenBultoSpecified => VolumenBulto.HasValue;
+
+        [XmlElement(ElementName = "UnidadVolumen", Order = 22)]
+        public string? UnidadVolumen { get; set; }
+    }
+
+    public class Transporte
+    {
+        [XmlElement(ElementName = "ViaTransporte", Order = 1)]
+        public string? ViaTransporte { get; set; }
+
+        [XmlElement(ElementName = "PaisOrigen", Order = 2)]
+        public string? PaisOrigen { get; set; }
+
+        [XmlElement(ElementName = "DireccionDestino", Order = 3)]
+        public string? DireccionDestino { get; set; }
+
+        [XmlElement(ElementName = "PaisDestino", Order = 4)]
+        public string? PaisDestino { get; set; }
+
+        [XmlElement(ElementName = "RNCIdentificacionCompaniaTransportista", Order = 5)]
+        public string? RNCIdentificacionCompaniaTransportista { get; set; }
+
+        [XmlElement(ElementName = "NombreCompaniaTransportista", Order = 6)]
+        public string? NombreCompaniaTransportista { get; set; }
+
+        [XmlElement(ElementName = "NumeroViaje", Order = 7)]
+        public string? NumeroViaje { get; set; }
+
+        [XmlElement(ElementName = "Conductor", Order = 8)]
+        public string? Conductor { get; set; }
+
+        [XmlElement(ElementName = "DocumentoTransporte", Order = 9)]
+        public string? DocumentoTransporte { get; set; }
+
+        [XmlElement(ElementName = "Ficha", Order = 10)]
+        public string? Ficha { get; set; }
+
+        [XmlElement(ElementName = "Placa", Order = 11)]
+        public string? Placa { get; set; }
+
+        [XmlElement(ElementName = "RutaTransporte", Order = 12)]
+        public string? RutaTransporte { get; set; }
+
+        [XmlElement(ElementName = "ZonaTransporte", Order = 13)]
+        public string? ZonaTransporte { get; set; }
+
+        [XmlElement(ElementName = "NumeroAlbaran", Order = 14)]
+        public string? NumeroAlbaran { get; set; }
     }
 
     public class Totales

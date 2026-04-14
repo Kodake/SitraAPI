@@ -149,12 +149,14 @@ namespace SITRA.Infrastructure.Services.DGII
 
             // Comprador
             doc.Encabezado.Comprador.RNCComprador = Get("RNCComprador");
+            doc.Encabezado.Comprador.IdentificadorExtranjero = Get("IdentificadorExtranjero");
             doc.Encabezado.Comprador.RazonSocialComprador = Get("RazonSocialComprador");
             doc.Encabezado.Comprador.ContactoComprador = Get("ContactoComprador");
             doc.Encabezado.Comprador.CorreoComprador = Get("CorreoComprador");
             doc.Encabezado.Comprador.DireccionComprador = Get("DireccionComprador");
             doc.Encabezado.Comprador.MunicipioComprador = Get("MunicipioComprador");
             doc.Encabezado.Comprador.ProvinciaComprador = Get("ProvinciaComprador");
+            doc.Encabezado.Comprador.PaisComprador = Get("PaisComprador");
             doc.Encabezado.Comprador.FechaEntrega = Get("FechaEntrega");
             doc.Encabezado.Comprador.ContactoEntrega = Get("ContactoEntrega");
             doc.Encabezado.Comprador.DireccionEntrega = Get("DireccionEntrega");
