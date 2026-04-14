@@ -49,7 +49,7 @@ namespace SITRA.Core.DTOs.DGII
 
         [XmlElement(ElementName = "Comprador", Order = 4)]
         public Comprador Comprador { get; set; } = new();
-        
+
         [XmlElement(ElementName = "Totales", Order = 5)]
         public Totales Totales { get; set; } = new();
     }
@@ -65,14 +65,64 @@ namespace SITRA.Core.DTOs.DGII
         [XmlElement(ElementName = "FechaVencimientoSecuencia", Order = 3)]
         public string FechaVencimientoSecuencia { get; set; } = string.Empty;
 
-        [XmlElement(ElementName = "IndicadorMontoGravado", Order = 4)]
+        [XmlElement(ElementName = "IndicadorEnvioDiferido", Order = 4)]
+        public int? IndicadorEnvioDiferido { get; set; }
+        [XmlIgnore]
+        public bool IndicadorEnvioDiferidoSpecified => IndicadorEnvioDiferido.HasValue;
+
+        [XmlElement(ElementName = "IndicadorMontoGravado", Order = 5)]
         public string? IndicadorMontoGral { get; set; }
 
-        [XmlElement(ElementName = "TipoIngresos", Order = 5)]
-        public string TipoIngresos { get; set; } = "01";
+        [XmlElement(ElementName = "IndicadorServicioTodoIncluido", Order = 6)]
+        public int? IndicadorServicioTodoIncluido { get; set; }
+        [XmlIgnore]
+        public bool IndicadorServicioTodoIncluidoSpecified => IndicadorServicioTodoIncluido.HasValue;
 
-        [XmlElement(ElementName = "TipoPago", Order = 6)]
+        [XmlElement(ElementName = "TipoIngresos", Order = 7)]
+        public string? TipoIngresos { get; set; }
+        public bool ShouldSerializeTipoIngresos() => TipoeCF != "41" && TipoeCF != "43" && TipoeCF != "44" && TipoeCF != "45" && TipoeCF != "46" && TipoeCF != "47";
+
+        [XmlElement(ElementName = "TipoPago", Order = 8)]
         public string TipoPago { get; set; } = "1";
+
+        [XmlElement(ElementName = "FechaLimitePago", Order = 9)]
+        public string? FechaLimitePago { get; set; }
+
+        [XmlElement(ElementName = "TerminoPago", Order = 10)]
+        public string? TerminoPago { get; set; }
+
+        [XmlArray(ElementName = "TablaFormasPago", Order = 11)]
+        [XmlArrayItem(ElementName = "FormaDePago")]
+        public List<FormaDePago>? TablaFormasPago { get; set; }
+
+        [XmlElement(ElementName = "TipoCuentaPago", Order = 12)]
+        public string? TipoCuentaPago { get; set; }
+
+        [XmlElement(ElementName = "NumeroCuentaPago", Order = 13)]
+        public string? NumeroCuentaPago { get; set; }
+
+        [XmlElement(ElementName = "BancoPago", Order = 14)]
+        public string? BancoPago { get; set; }
+
+        [XmlElement(ElementName = "FechaDesde", Order = 15)]
+        public string? FechaDesde { get; set; }
+
+        [XmlElement(ElementName = "FechaHasta", Order = 16)]
+        public string? FechaHasta { get; set; }
+
+        [XmlElement(ElementName = "TotalPaginas", Order = 17)]
+        public int? TotalPaginas { get; set; }
+        [XmlIgnore]
+        public bool TotalPaginasSpecified => TotalPaginas.HasValue;
+    }
+
+    public class FormaDePago
+    {
+        [XmlElement(ElementName = "FormaPago", Order = 1)]
+        public string FormaPago { get; set; } = string.Empty;
+
+        [XmlElement(ElementName = "MontoPago", Order = 2)]
+        public decimal MontoPago { get; set; }
     }
 
     public class InformacionReferencia
@@ -108,45 +158,48 @@ namespace SITRA.Core.DTOs.DGII
 
         [XmlElement(ElementName = "DireccionEmisor", Order = 5)]
         public string DireccionEmisor { get; set; } = string.Empty;
-        
+
         [XmlElement(ElementName = "Municipio", Order = 6)]
         public string? Municipio { get; set; }
 
         [XmlElement(ElementName = "Provincia", Order = 7)]
         public string? Provincia { get; set; }
 
-        [XmlElement(ElementName = "CorreoEmisor", Order = 8)]
+        [XmlArray(ElementName = "TablaTelefonoEmisor", Order = 8)]
+        [XmlArrayItem(ElementName = "TelefonoEmisor")]
+        public List<string>? TablaTelefonoEmisor { get; set; }
+
+        [XmlElement(ElementName = "CorreoEmisor", Order = 9)]
         public string? CorreoEmisor { get; set; }
 
-        [XmlElement(ElementName = "WebSite", Order = 9)]
+        [XmlElement(ElementName = "WebSite", Order = 10)]
         public string? WebSite { get; set; }
 
-        [XmlElement(ElementName = "ActividadEconomica", Order = 10)]
+        [XmlElement(ElementName = "ActividadEconomica", Order = 11)]
         public string? ActividadEconomica { get; set; }
 
-        [XmlElement(ElementName = "CodigoVendedor", Order = 11)]
+        [XmlElement(ElementName = "CodigoVendedor", Order = 12)]
         public string? CodigoVendedor { get; set; }
 
-        [XmlElement(ElementName = "NumeroFacturaInterna", Order = 12)]
+        [XmlElement(ElementName = "NumeroFacturaInterna", Order = 13)]
         public string? NumeroFacturaInterna { get; set; }
 
-        [XmlElement(ElementName = "NumeroPedidoInterno", Order = 13)]
+        [XmlElement(ElementName = "NumeroPedidoInterno", Order = 14)]
         public string? NumeroPedidoInterno { get; set; }
 
-        [XmlElement(ElementName = "ZonaVenta", Order = 14)]
+        [XmlElement(ElementName = "ZonaVenta", Order = 15)]
         public string? ZonaVenta { get; set; }
 
-        [XmlElement(ElementName = "RutaVenta", Order = 15)]
+        [XmlElement(ElementName = "RutaVenta", Order = 16)]
         public string? RutaVenta { get; set; }
 
-        [XmlElement(ElementName = "InformacionAdicionalEmisor", Order = 16)]
+        [XmlElement(ElementName = "InformacionAdicionalEmisor", Order = 17)]
         public string? InformacionAdicionalEmisor { get; set; }
 
-        [XmlElement(ElementName = "FechaEmision", Order = 17)]
+        [XmlElement(ElementName = "FechaEmision", Order = 18)]
         public string FechaEmision { get; set; } = string.Empty;
     }
-    
-    // ... Comprador remains mostly same but I'll make sure it's nullable ...
+
     public class Comprador
     {
         [XmlElement(ElementName = "RNCComprador", Order = 1)]
@@ -294,6 +347,26 @@ namespace SITRA.Core.DTOs.DGII
         public decimal? ValorPagar { get; set; }
         [XmlIgnore]
         public bool ValorPagarSpecified => ValorPagar.HasValue;
+
+        [XmlElement(ElementName = "TotalITBISRetenido", Order = 21)]
+        public decimal? TotalITBISRetenido { get; set; }
+        [XmlIgnore]
+        public bool TotalITBISRetenidoSpecified => TotalITBISRetenido.HasValue;
+
+        [XmlElement(ElementName = "TotalISRRetencion", Order = 22)]
+        public decimal? TotalISRRetencion { get; set; }
+        [XmlIgnore]
+        public bool TotalISRRetencionSpecified => TotalISRRetencion.HasValue;
+
+        [XmlElement(ElementName = "TotalITBISPercepcion", Order = 23)]
+        public decimal? TotalITBISPercepcion { get; set; }
+        [XmlIgnore]
+        public bool TotalITBISPercepcionSpecified => TotalITBISPercepcion.HasValue;
+
+        [XmlElement(ElementName = "TotalISRPercepcion", Order = 24)]
+        public decimal? TotalISRPercepcion { get; set; }
+        [XmlIgnore]
+        public bool TotalISRPercepcionSpecified => TotalISRPercepcion.HasValue;
     }
 
     public class Detalles
@@ -307,42 +380,143 @@ namespace SITRA.Core.DTOs.DGII
         [XmlElement(ElementName = "NumeroLinea", Order = 1)]
         public int NumeroLinea { get; set; }
 
-        [XmlElement(ElementName = "IndicadorFacturacion", Order = 2)]
+        [XmlArray(ElementName = "TablaCodigosItem", Order = 2)]
+        [XmlArrayItem(ElementName = "CodigosItem")]
+        public List<CodigoItem>? TablaCodigosItem { get; set; }
+
+        [XmlElement(ElementName = "IndicadorFacturacion", Order = 3)]
         public int IndicadorFacturacion { get; set; } = 1;
 
-        [XmlElement(ElementName = "NombreItem", Order = 3)]
+        [XmlElement(ElementName = "Retencion", Order = 4)]
+        public Retencion? Retencion { get; set; }
+
+        [XmlElement(ElementName = "NombreItem", Order = 5)]
         public string NombreItem { get; set; } = string.Empty;
 
-        [XmlElement(ElementName = "IndicadorBienoServicio", Order = 4)]
+        [XmlElement(ElementName = "IndicadorBienoServicio", Order = 6)]
         public int IndicadorBienoServicio { get; set; } = 1;
 
-        [XmlElement(ElementName = "CantidadItem", Order = 5)]
+        [XmlElement(ElementName = "DescripcionItem", Order = 7)]
+        public string? DescripcionItem { get; set; }
+
+        [XmlElement(ElementName = "CantidadItem", Order = 8)]
         public decimal Cantidad { get; set; }
 
-        [XmlElement(ElementName = "UnidadMedida", Order = 6)]
+        [XmlElement(ElementName = "UnidadMedida", Order = 9)]
         public string? UnidadMedida { get; set; }
 
-        [XmlElement(ElementName = "FechaElaboracion", Order = 7)]
+        [XmlElement(ElementName = "FechaElaboracion", Order = 10)]
         public string? FechaElaboracion { get; set; }
 
-        [XmlElement(ElementName = "FechaVencimientoItem", Order = 8)]
+        [XmlElement(ElementName = "FechaVencimientoItem", Order = 11)]
         public string? FechaVencimientoItem { get; set; }
 
-        [XmlElement(ElementName = "PrecioUnitarioItem", Order = 9)]
+        [XmlElement(ElementName = "PrecioUnitarioItem", Order = 12)]
         public decimal PrecioUnitario { get; set; }
 
-        [XmlElement(ElementName = "DescuentoMonto", Order = 10)]
+        [XmlElement(ElementName = "DescuentoMonto", Order = 13)]
         public decimal? DescuentoMonto { get; set; }
         [XmlIgnore]
         public bool DescuentoMontoSpecified => DescuentoMonto.HasValue;
 
-        [XmlElement(ElementName = "RecargoMonto", Order = 11)]
+        [XmlArray(ElementName = "TablaSubDescuento", Order = 14)]
+        [XmlArrayItem(ElementName = "SubDescuento")]
+        public List<SubDescuento>? TablaSubDescuento { get; set; }
+
+        [XmlElement(ElementName = "RecargoMonto", Order = 15)]
         public decimal? RecargoMonto { get; set; }
         [XmlIgnore]
         public bool RecargoMontoSpecified => RecargoMonto.HasValue;
 
-        [XmlElement(ElementName = "MontoItem", Order = 12)]
+        [XmlArray(ElementName = "TablaSubRecargo", Order = 16)]
+        [XmlArrayItem(ElementName = "SubRecargo")]
+        public List<SubRecargo>? TablaSubRecargo { get; set; }
+
+        [XmlElement(ElementName = "OtraMonedaDetalle", Order = 17)]
+        public OtraMonedaDetalle? OtraMonedaDetalle { get; set; }
+
+        [XmlElement(ElementName = "MontoItem", Order = 18)]
         public decimal MontoItem { get; set; }
+    }
+
+    public class CodigoItem
+    {
+        [XmlElement(ElementName = "TipoCodigo", Order = 1)]
+        public string TipoCodigo { get; set; } = string.Empty;
+
+        [XmlElement(ElementName = "CodigoItem", Order = 2)]
+        public string Codigo { get; set; } = string.Empty;
+    }
+
+    public class Retencion
+    {
+        [XmlElement(ElementName = "IndicadorAgenteRetencionoPercepcion", Order = 1)]
+        public int IndicadorAgenteRetencionoPercepcion { get; set; }
+
+        [XmlElement(ElementName = "MontoITBISRetenido", Order = 2)]
+        public decimal? MontoITBISRetenido { get; set; }
+        [XmlIgnore]
+        public bool MontoITBISRetenidoSpecified => MontoITBISRetenido.HasValue;
+
+        [XmlElement(ElementName = "MontoISRRetenido", Order = 3)]
+        public decimal? MontoISRRetenido { get; set; }
+        [XmlIgnore]
+        public bool MontoISRRetenidoSpecified => MontoISRRetenido.HasValue;
+    }
+
+    public class SubDescuento
+    {
+        [XmlElement(ElementName = "TipoSubDescuento", Order = 1)]
+        public string TipoSubDescuento { get; set; } = string.Empty;
+
+        [XmlElement(ElementName = "SubDescuentoPorcentaje", Order = 2)]
+        public decimal? SubDescuentoPorcentaje { get; set; }
+        [XmlIgnore]
+        public bool SubDescuentoPorcentajeSpecified => SubDescuentoPorcentaje.HasValue;
+
+        [XmlElement(ElementName = "MontoSubDescuento", Order = 3)]
+        public decimal? MontoSubDescuento { get; set; }
+        [XmlIgnore]
+        public bool MontoSubDescuentoSpecified => MontoSubDescuento.HasValue;
+    }
+
+    public class SubRecargo
+    {
+        [XmlElement(ElementName = "TipoSubRecargo", Order = 1)]
+        public string TipoSubRecargo { get; set; } = string.Empty;
+
+        [XmlElement(ElementName = "SubRecargoPorcentaje", Order = 2)]
+        public decimal? SubRecargoPorcentaje { get; set; }
+        [XmlIgnore]
+        public bool SubRecargoPorcentajeSpecified => SubRecargoPorcentaje.HasValue;
+
+        [XmlElement(ElementName = "MontoSubRecargo", Order = 3)]
+        public decimal? MontoSubRecargo { get; set; }
+        [XmlIgnore]
+        public bool MontoSubRecargoSpecified => MontoSubRecargo.HasValue;
+    }
+
+    public class OtraMonedaDetalle
+    {
+        [XmlElement(ElementName = "PrecioOtraMoneda", Order = 1)]
+        public decimal? PrecioOtraMoneda { get; set; }
+        [XmlIgnore]
+        public bool PrecioOtraMonedaSpecified => PrecioOtraMoneda.HasValue;
+
+        [XmlElement(ElementName = "DescuentoOtraMoneda", Order = 2)]
+        public decimal? DescuentoOtraMoneda { get; set; }
+        [XmlIgnore]
+        public bool DescuentoOtraMonedaSpecified => DescuentoOtraMoneda.HasValue;
+
+        [XmlElement(ElementName = "RecargoOtraMoneda", Order = 3)]
+        public decimal? RecargoOtraMoneda { get; set; }
+        [XmlIgnore]
+        public bool RecargoOtraMonedaSpecified => RecargoOtraMoneda.HasValue;
+
+        [XmlElement(ElementName = "MontoItemOtraMoneda", Order = 4)]
+        public decimal? MontoItemOtraMoneda { get; set; }
+        [XmlIgnore]
+        public bool MontoItemOtraMonedaSpecified => MontoItemOtraMoneda.HasValue;
     }
 
     public class Subtotales
@@ -362,8 +536,63 @@ namespace SITRA.Core.DTOs.DGII
         [XmlElement(ElementName = "Orden", Order = 3)]
         public int Orden { get; set; }
 
-        [XmlElement(ElementName = "MontoSubTotal", Order = 4)]
+        [XmlElement(ElementName = "SubTotalMontoGravadoTotal", Order = 4)]
+        public decimal? SubTotalMontoGravadoTotal { get; set; }
+        [XmlIgnore]
+        public bool SubTotalMontoGravadoTotalSpecified => SubTotalMontoGravadoTotal.HasValue;
+
+        [XmlElement(ElementName = "SubTotalMontoGravadoI1", Order = 5)]
+        public decimal? SubTotalMontoGravadoI1 { get; set; }
+        [XmlIgnore]
+        public bool SubTotalMontoGravadoI1Specified => SubTotalMontoGravadoI1.HasValue;
+
+        [XmlElement(ElementName = "SubTotalMontoGravadoI2", Order = 6)]
+        public decimal? SubTotalMontoGravadoI2 { get; set; }
+        [XmlIgnore]
+        public bool SubTotalMontoGravadoI2Specified => SubTotalMontoGravadoI2.HasValue;
+
+        [XmlElement(ElementName = "SubTotalMontoGravadoI3", Order = 7)]
+        public decimal? SubTotalMontoGravadoI3 { get; set; }
+        [XmlIgnore]
+        public bool SubTotalMontoGravadoI3Specified => SubTotalMontoGravadoI3.HasValue;
+
+        [XmlElement(ElementName = "SubTotaITBIS", Order = 8)]
+        public decimal? SubTotaITBIS { get; set; }
+        [XmlIgnore]
+        public bool SubTotaITBISSpecified => SubTotaITBIS.HasValue;
+
+        [XmlElement(ElementName = "SubTotaITBIS1", Order = 9)]
+        public decimal? SubTotaITBIS1 { get; set; }
+        [XmlIgnore]
+        public bool SubTotaITBIS1Specified => SubTotaITBIS1.HasValue;
+
+        [XmlElement(ElementName = "SubTotaITBIS2", Order = 10)]
+        public decimal? SubTotaITBIS2 { get; set; }
+        [XmlIgnore]
+        public bool SubTotaITBIS2Specified => SubTotaITBIS2.HasValue;
+
+        [XmlElement(ElementName = "SubTotaITBIS3", Order = 11)]
+        public decimal? SubTotaITBIS3 { get; set; }
+        [XmlIgnore]
+        public bool SubTotaITBIS3Specified => SubTotaITBIS3.HasValue;
+
+        [XmlElement(ElementName = "SubTotalImpuestoAdicional", Order = 12)]
+        public decimal? SubTotalImpuestoAdicional { get; set; }
+        [XmlIgnore]
+        public bool SubTotalImpuestoAdicionalSpecified => SubTotalImpuestoAdicional.HasValue;
+
+        [XmlElement(ElementName = "SubTotalExento", Order = 13)]
+        public decimal? SubTotalExento { get; set; }
+        [XmlIgnore]
+        public bool SubTotalExentoSpecified => SubTotalExento.HasValue;
+
+        [XmlElement(ElementName = "MontoSubTotal", Order = 14)]
         public decimal MontoSubTotal { get; set; }
+
+        [XmlElement(ElementName = "Lineas", Order = 15)]
+        public int? Lineas { get; set; }
+        [XmlIgnore]
+        public bool LineasSpecified => Lineas.HasValue;
     }
 
     public class DescuentosORecargos
@@ -399,9 +628,75 @@ namespace SITRA.Core.DTOs.DGII
         [XmlElement(ElementName = "MontoDescuentooRecargo", Order = 7)]
         public decimal MontoDescuentooRecargo { get; set; }
 
-        [XmlElement(ElementName = "IndicadorFacturacionDescuentooRecargo", Order = 8)]
+        [XmlElement(ElementName = "MontoDescuentooRecargoOtraMoneda", Order = 8)]
+        public decimal? MontoDescuentooRecargoOtraMoneda { get; set; }
+        [XmlIgnore]
+        public bool MontoDescuentooRecargoOtraMonedaSpecified => MontoDescuentooRecargoOtraMoneda.HasValue;
+
+        [XmlElement(ElementName = "IndicadorFacturacionDescuentooRecargo", Order = 9)]
         public int? IndicadorFacturacion { get; set; }
         [XmlIgnore]
         public bool IndicadorFacturacionSpecified => IndicadorFacturacion.HasValue;
+    }
+
+    public class OtraMoneda
+    {
+        [XmlElement(ElementName = "TipoMoneda", Order = 1)]
+        public string? TipoMoneda { get; set; }
+
+        [XmlElement(ElementName = "TipoCambio", Order = 2)]
+        public decimal? TipoCambio { get; set; }
+        [XmlIgnore]
+        public bool TipoCambioSpecified => TipoCambio.HasValue;
+
+        [XmlElement(ElementName = "MontoGravadoTotalOtraMoneda", Order = 3)]
+        public decimal? MontoGravadoTotalOtraMoneda { get; set; }
+        [XmlIgnore]
+        public bool MontoGravadoTotalOtraMonedaSpecified => MontoGravadoTotalOtraMoneda.HasValue;
+
+        [XmlElement(ElementName = "MontoGravado1OtraMoneda", Order = 4)]
+        public decimal? MontoGravado1OtraMoneda { get; set; }
+        [XmlIgnore]
+        public bool MontoGravado1OtraMonedaSpecified => MontoGravado1OtraMoneda.HasValue;
+
+        [XmlElement(ElementName = "MontoGravado2OtraMoneda", Order = 5)]
+        public decimal? MontoGravado2OtraMoneda { get; set; }
+        [XmlIgnore]
+        public bool MontoGravado2OtraMonedaSpecified => MontoGravado2OtraMoneda.HasValue;
+
+        [XmlElement(ElementName = "MontoGravado3OtraMoneda", Order = 6)]
+        public decimal? MontoGravado3OtraMoneda { get; set; }
+        [XmlIgnore]
+        public bool MontoGravado3OtraMonedaSpecified => MontoGravado3OtraMoneda.HasValue;
+
+        [XmlElement(ElementName = "MontoExentoOtraMoneda", Order = 7)]
+        public decimal? MontoExentoOtraMoneda { get; set; }
+        [XmlIgnore]
+        public bool MontoExentoOtraMonedaSpecified => MontoExentoOtraMoneda.HasValue;
+
+        [XmlElement(ElementName = "TotalITBISOtraMoneda", Order = 8)]
+        public decimal? TotalITBISOtraMoneda { get; set; }
+        [XmlIgnore]
+        public bool TotalITBISOtraMonedaSpecified => TotalITBISOtraMoneda.HasValue;
+
+        [XmlElement(ElementName = "TotalITBIS1OtraMoneda", Order = 9)]
+        public decimal? TotalITBIS1OtraMoneda { get; set; }
+        [XmlIgnore]
+        public bool TotalITBIS1OtraMonedaSpecified => TotalITBIS1OtraMoneda.HasValue;
+
+        [XmlElement(ElementName = "TotalITBIS2OtraMoneda", Order = 10)]
+        public decimal? TotalITBIS2OtraMoneda { get; set; }
+        [XmlIgnore]
+        public bool TotalITBIS2OtraMonedaSpecified => TotalITBIS2OtraMoneda.HasValue;
+
+        [XmlElement(ElementName = "TotalITBIS3OtraMoneda", Order = 11)]
+        public decimal? TotalITBIS3OtraMoneda { get; set; }
+        [XmlIgnore]
+        public bool TotalITBIS3OtraMonedaSpecified => TotalITBIS3OtraMoneda.HasValue;
+
+        [XmlElement(ElementName = "MontoTotalOtraMoneda", Order = 12)]
+        public decimal? MontoTotalOtraMoneda { get; set; }
+        [XmlIgnore]
+        public bool MontoTotalOtraMonedaSpecified => MontoTotalOtraMoneda.HasValue;
     }
 }

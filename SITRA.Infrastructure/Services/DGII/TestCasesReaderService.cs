@@ -104,8 +104,14 @@ namespace SITRA.Infrastructure.Services.DGII
 
             doc.Encabezado.IdDoc.IndicadorMontoGral = Get("IndicadorMontoGravado");
 
-            doc.Encabezado.IdDoc.TipoIngresos = Get("TipoIngresos") ?? "01";
+            doc.Encabezado.IdDoc.TipoIngresos = Get("TipoIngresos"); // Only populate IF provided (prevents default 01 for E41)
             doc.Encabezado.IdDoc.TipoPago = Get("TipoPago") ?? "1";
+            doc.Encabezado.IdDoc.FechaLimitePago = Get("FechaLimitePago");
+            doc.Encabezado.IdDoc.TerminoPago = Get("TerminoPago");
+            doc.Encabezado.IdDoc.TipoCuentaPago = Get("TipoCuentaPago");
+            doc.Encabezado.IdDoc.NumeroCuentaPago = Get("NumeroCuentaPago");
+            doc.Encabezado.IdDoc.BancoPago = Get("BancoPago");
+            doc.Encabezado.IdDoc.TotalPaginas = GetInt("TotalPaginas");
 
             // Emisor
             doc.Encabezado.Emisor.RNCEmisor = Get("RNCEmisor");
@@ -126,6 +132,16 @@ namespace SITRA.Infrastructure.Services.DGII
             doc.Encabezado.Emisor.InformacionAdicionalEmisor = Get("InformacionAdicionalEmisor");
             doc.Encabezado.Emisor.FechaEmision = Get("FechaEmision");
 
+            for (int i = 1; i <= 3; i++)
+            {
+                string? phone = Get($"TelefonoEmisor[{i}]") ?? (i == 1 ? Get("TelefonoEmisor") : null);
+                if (!string.IsNullOrEmpty(phone))
+                {
+                    if (doc.Encabezado.Emisor.TablaTelefonoEmisor == null) doc.Encabezado.Emisor.TablaTelefonoEmisor = new List<string>();
+                    doc.Encabezado.Emisor.TablaTelefonoEmisor.Add(phone);
+                }
+            }
+
             // Comprador
             doc.Encabezado.Comprador.RNCComprador = Get("RNCComprador");
             doc.Encabezado.Comprador.RazonSocialComprador = Get("RazonSocialComprador");
@@ -135,9 +151,14 @@ namespace SITRA.Infrastructure.Services.DGII
             doc.Encabezado.Comprador.MunicipioComprador = Get("MunicipioComprador");
             doc.Encabezado.Comprador.ProvinciaComprador = Get("ProvinciaComprador");
             doc.Encabezado.Comprador.FechaEntrega = Get("FechaEntrega");
+            doc.Encabezado.Comprador.ContactoEntrega = Get("ContactoEntrega");
+            doc.Encabezado.Comprador.DireccionEntrega = Get("DireccionEntrega");
+            doc.Encabezado.Comprador.TelefonoAdicional = Get("TelefonoAdicional");
             doc.Encabezado.Comprador.FechaOrdenCompra = Get("FechaOrdenCompra");
             doc.Encabezado.Comprador.NumeroOrdenCompra = Get("NumeroOrdenCompra");
             doc.Encabezado.Comprador.CodigoInternoComprador = Get("CodigoInternoComprador");
+            doc.Encabezado.Comprador.ResponsablePago = Get("ResponsablePago");
+            doc.Encabezado.Comprador.InformacionAdicionalComprador = Get("InformacionAdicionalComprador");
 
             // Totales
             doc.Encabezado.Totales.MontoGravadoTotal = GetDec("MontoGravadoTotal");
@@ -158,6 +179,10 @@ namespace SITRA.Infrastructure.Services.DGII
             doc.Encabezado.Totales.SaldoAnterior = GetDec("SaldoAnterior");
             doc.Encabezado.Totales.MontoAvancePago = GetDec("MontoAvancePago");
             doc.Encabezado.Totales.ValorPagar = GetDec("ValorPagar");
+            doc.Encabezado.Totales.TotalITBISRetenido = GetDec("TotalITBISRetenido");
+            doc.Encabezado.Totales.TotalISRRetencion = GetDec("TotalISRRetencion");
+            doc.Encabezado.Totales.TotalITBISPercepcion = GetDec("TotalITBISPercepcion");
+            doc.Encabezado.Totales.TotalISRPercepcion = GetDec("TotalISRPercepcion");
 
             // Items - iterate while we find line numbers
             for (int i = 1; i <= 200; i++)
@@ -183,6 +208,29 @@ namespace SITRA.Infrastructure.Services.DGII
                     RecargoMonto = GetDec($"RecargoMonto[{i}]"),
                     MontoItem = GetDec($"MontoItem[{i}]") ?? 0
                 };
+
+                item.DescripcionItem = Get($"DescripcionItem[{i}]");
+
+                // Item level retention
+                int? iarp = GetInt($"IndicadorAgenteRetencionoPercepcion[{i}]");
+                if (iarp.HasValue)
+                {
+                    item.Retencion = new Retencion
+                    {
+                        IndicadorAgenteRetencionoPercepcion = iarp.Value,
+                        MontoITBISRetenido = GetDec($"MontoITBISRetenido[{i}]"),
+                        MontoISRRetenido = GetDec($"MontoISRRetenido[{i}]")
+                    };
+                }
+                else if (doc.Encabezado.IdDoc.TipoeCF == "41")
+                {
+                    // For E41, Retencion is mandatory. If not present in excel, we must at least provide an empty one with a default indicator
+                    // But usually the excel SHOULD have it if it's a valid E41 test case.
+                    // The error says: "invalid child element 'NombreItem'. List of possible elements expected: 'Retencion'"
+                    // So we MUST set it for 41.
+                    item.Retencion = new Retencion { IndicadorAgenteRetencionoPercepcion = 0 }; 
+                }
+
                 doc.Detalles.Items.Add(item);
             }
 
@@ -204,6 +252,7 @@ namespace SITRA.Infrastructure.Services.DGII
                     TipoValor = Get($"TipoValor[{i}]"),
                     ValorDescuentooRecargo = GetDec($"ValorDescuentooRecargo[{i}]"),
                     MontoDescuentooRecargo = GetDec($"MontoDescuentooRecargo[{i}]") ?? 0,
+                    MontoDescuentooRecargoOtraMoneda = GetDec($"MontoDescuentooRecargoOtraMoneda[{i}]"),
                     IndicadorFacturacion = GetInt($"IndicadorFacturacionDescuentooRecargo[{i}]")
                 });
             }
@@ -223,7 +272,45 @@ namespace SITRA.Infrastructure.Services.DGII
                     NumeroSubTotal = nst,
                     DescripcionSubtotal = Get($"DescripcionSubtotal[{i}]"),
                     Orden = GetIntOrZero($"Orden[{i}]"),
-                    MontoSubTotal = GetDec($"MontoSubTotal[{i}]") ?? 0
+                    MontoSubTotal = GetDec($"MontoSubTotal[{i}]") ?? 0,
+                    SubTotalMontoGravadoTotal = GetDec($"SubTotalMontoGravadoTotal[{i}]"),
+                    SubTotalMontoGravadoI1 = GetDec($"SubTotalMontoGravadoI1[{i}]"),
+                    SubTotalMontoGravadoI2 = GetDec($"SubTotalMontoGravadoI2[{i}]"),
+                    SubTotalMontoGravadoI3 = GetDec($"SubTotalMontoGravadoI3[{i}]"),
+                    SubTotaITBIS = GetDec($"SubTotaITBIS[{i}]"),
+                    SubTotaITBIS1 = GetDec($"SubTotaITBIS1[{i}]"),
+                    SubTotaITBIS2 = GetDec($"SubTotaITBIS2[{i}]"),
+                    SubTotaITBIS3 = GetDec($"SubTotaITBIS3[{i}]"),
+                    SubTotalImpuestoAdicional = GetDec($"SubTotalImpuestoAdicional[{i}]"),
+                    SubTotalExento = GetDec($"SubTotalExento[{i}]"),
+                    Lineas = GetInt($"Lineas[{i}]")
+                });
+            }
+
+            // Information Referencia
+            string? ncfModificado = Get("NCFModificado");
+            if (!string.IsNullOrEmpty(ncfModificado))
+            {
+                doc.InformacionReferencia = new InformacionReferencia
+                {
+                    NCFModificado = ncfModificado,
+                    RNCOtroContribuyente = Get("RNCOtroContribuyente"),
+                    FechaNCFModificado = Get("FechaNCFModificado"),
+                    CodigoModificacion = GetInt("CodigoModificacion")
+                };
+            }
+
+            // Forms of Payment
+            for (int i = 1; i <= 10; i++)
+            {
+                string? fpago = Get($"FormaPago[{i}]");
+                if (string.IsNullOrEmpty(fpago)) break;
+
+                if (doc.Encabezado.IdDoc.TablaFormasPago == null) doc.Encabezado.IdDoc.TablaFormasPago = new List<FormaDePago>();
+                doc.Encabezado.IdDoc.TablaFormasPago.Add(new FormaDePago
+                {
+                    FormaPago = fpago,
+                    MontoPago = GetDec($"MontoPago[{i}]") ?? 0
                 });
             }
 
