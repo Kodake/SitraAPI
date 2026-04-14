@@ -38,6 +38,11 @@ namespace SITRA.Infrastructure.Services.DGII
                     ecfDocument.Encabezado.IdDoc.ENCF = GetString(rawDoc, "ENCF");
                     ecfDocument.Encabezado.IdDoc.FechaVencimientoSecuencia = GetString(rawDoc, "FechaVencimientoSecuencia");
                     ecfDocument.Encabezado.IdDoc.IndicadorMontoGral = GetString(rawDoc, "IndicadorMontoGravado");
+                    ecfDocument.Encabezado.IdDoc.TipoIngresos = GetString(rawDoc, "TipoIngresos");
+                    string ecType = ecfDocument.Encabezado.IdDoc.TipoeCF;
+                    ecfDocument.Encabezado.IdDoc.TipoPago = GetString(rawDoc, "TipoPago") ?? (ecType == "31" || ecType == "32" || ecType == "33" || ecType == "34" ? "1" : null);
+                    if (int.TryParse(GetString(rawDoc, "TotalPaginas"), out int tp))
+                        ecfDocument.Encabezado.IdDoc.TotalPaginas = tp;
                     
                     // Emisor Mapping
                     ecfDocument.Encabezado.Emisor.RNCEmisor = GetString(rawDoc, "RNCEmisor");

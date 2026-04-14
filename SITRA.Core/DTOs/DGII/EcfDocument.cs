@@ -34,6 +34,8 @@ namespace SITRA.Core.DTOs.DGII
 
         [XmlAnyElement(Order = 7)]
         public XmlElement? Signature { get; set; }
+
+        public bool ShouldSerializeDescuentosORecargos() => Encabezado.IdDoc.TipoeCF != "43" && DescuentosORecargos != null;
     }
 
     public class Encabezado
@@ -52,6 +54,8 @@ namespace SITRA.Core.DTOs.DGII
 
         [XmlElement(ElementName = "Totales", Order = 5)]
         public Totales Totales { get; set; } = new();
+
+        public bool ShouldSerializeComprador() => IdDoc.TipoeCF != "43";
     }
 
     public class IdDoc
@@ -69,46 +73,58 @@ namespace SITRA.Core.DTOs.DGII
         public int? IndicadorEnvioDiferido { get; set; }
         [XmlIgnore]
         public bool IndicadorEnvioDiferidoSpecified => IndicadorEnvioDiferido.HasValue;
+        public bool ShouldSerializeIndicadorEnvioDiferido() => TipoeCF != "43";
 
         [XmlElement(ElementName = "IndicadorMontoGravado", Order = 5)]
         public string? IndicadorMontoGral { get; set; }
+        public bool ShouldSerializeIndicadorMontoGral() => TipoeCF != "43";
 
         [XmlElement(ElementName = "IndicadorServicioTodoIncluido", Order = 6)]
         public int? IndicadorServicioTodoIncluido { get; set; }
         [XmlIgnore]
         public bool IndicadorServicioTodoIncluidoSpecified => IndicadorServicioTodoIncluido.HasValue;
+        public bool ShouldSerializeIndicadorServicioTodoIncluido() => TipoeCF != "43";
 
         [XmlElement(ElementName = "TipoIngresos", Order = 7)]
         public string? TipoIngresos { get; set; }
         public bool ShouldSerializeTipoIngresos() => TipoeCF != "41" && TipoeCF != "43" && TipoeCF != "44" && TipoeCF != "45" && TipoeCF != "46" && TipoeCF != "47";
 
         [XmlElement(ElementName = "TipoPago", Order = 8)]
-        public string TipoPago { get; set; } = "1";
+        public string? TipoPago { get; set; }
+        public bool ShouldSerializeTipoPago() => !string.IsNullOrEmpty(TipoPago);
 
         [XmlElement(ElementName = "FechaLimitePago", Order = 9)]
         public string? FechaLimitePago { get; set; }
+        public bool ShouldSerializeFechaLimitePago() => TipoeCF != "43";
 
         [XmlElement(ElementName = "TerminoPago", Order = 10)]
         public string? TerminoPago { get; set; }
+        public bool ShouldSerializeTerminoPago() => TipoeCF != "43";
 
         [XmlArray(ElementName = "TablaFormasPago", Order = 11)]
         [XmlArrayItem(ElementName = "FormaDePago")]
         public List<FormaDePago>? TablaFormasPago { get; set; }
+        public bool ShouldSerializeTablaFormasPago() => TipoeCF != "43" && TablaFormasPago != null;
 
         [XmlElement(ElementName = "TipoCuentaPago", Order = 12)]
         public string? TipoCuentaPago { get; set; }
+        public bool ShouldSerializeTipoCuentaPago() => TipoeCF != "43";
 
         [XmlElement(ElementName = "NumeroCuentaPago", Order = 13)]
         public string? NumeroCuentaPago { get; set; }
+        public bool ShouldSerializeNumeroCuentaPago() => TipoeCF != "43";
 
         [XmlElement(ElementName = "BancoPago", Order = 14)]
         public string? BancoPago { get; set; }
+        public bool ShouldSerializeBancoPago() => TipoeCF != "43";
 
         [XmlElement(ElementName = "FechaDesde", Order = 15)]
         public string? FechaDesde { get; set; }
+        public bool ShouldSerializeFechaDesde() => TipoeCF != "43";
 
         [XmlElement(ElementName = "FechaHasta", Order = 16)]
         public string? FechaHasta { get; set; }
+        public bool ShouldSerializeFechaHasta() => TipoeCF != "43";
 
         [XmlElement(ElementName = "TotalPaginas", Order = 17)]
         public int? TotalPaginas { get; set; }
@@ -389,6 +405,7 @@ namespace SITRA.Core.DTOs.DGII
 
         [XmlElement(ElementName = "Retencion", Order = 4)]
         public Retencion? Retencion { get; set; }
+        public bool ShouldSerializeRetencion() => Retencion != null; // Item class doesn't have IdDoc reference easily, but if it's null it's omitted. We'll ensure it's null in mapper for 43.
 
         [XmlElement(ElementName = "NombreItem", Order = 5)]
         public string NombreItem { get; set; } = string.Empty;
@@ -407,9 +424,11 @@ namespace SITRA.Core.DTOs.DGII
 
         [XmlElement(ElementName = "FechaElaboracion", Order = 10)]
         public string? FechaElaboracion { get; set; }
+        public bool ShouldSerializeFechaElaboracion() => !string.IsNullOrEmpty(FechaElaboracion); // Not in E43 but if empty is okay.
 
         [XmlElement(ElementName = "FechaVencimientoItem", Order = 11)]
         public string? FechaVencimientoItem { get; set; }
+        public bool ShouldSerializeFechaVencimientoItem() => !string.IsNullOrEmpty(FechaVencimientoItem); // Not in E43
 
         [XmlElement(ElementName = "PrecioUnitarioItem", Order = 12)]
         public decimal PrecioUnitario { get; set; }
@@ -418,19 +437,23 @@ namespace SITRA.Core.DTOs.DGII
         public decimal? DescuentoMonto { get; set; }
         [XmlIgnore]
         public bool DescuentoMontoSpecified => DescuentoMonto.HasValue;
+        public bool ShouldSerializeDescuentoMonto() => DescuentoMonto.HasValue; // Items for 43 don't have this.
 
         [XmlArray(ElementName = "TablaSubDescuento", Order = 14)]
         [XmlArrayItem(ElementName = "SubDescuento")]
         public List<SubDescuento>? TablaSubDescuento { get; set; }
+        public bool ShouldSerializeTablaSubDescuento() => TablaSubDescuento != null;
 
         [XmlElement(ElementName = "RecargoMonto", Order = 15)]
         public decimal? RecargoMonto { get; set; }
         [XmlIgnore]
         public bool RecargoMontoSpecified => RecargoMonto.HasValue;
+        public bool ShouldSerializeRecargoMonto() => RecargoMonto.HasValue;
 
         [XmlArray(ElementName = "TablaSubRecargo", Order = 16)]
         [XmlArrayItem(ElementName = "SubRecargo")]
         public List<SubRecargo>? TablaSubRecargo { get; set; }
+        public bool ShouldSerializeTablaSubRecargo() => TablaSubRecargo != null;
 
         [XmlElement(ElementName = "OtraMonedaDetalle", Order = 17)]
         public OtraMonedaDetalle? OtraMonedaDetalle { get; set; }
