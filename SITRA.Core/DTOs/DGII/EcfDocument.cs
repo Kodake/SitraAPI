@@ -87,7 +87,7 @@ namespace SITRA.Core.DTOs.DGII
 
         [XmlElement(ElementName = "TipoIngresos", Order = 7)]
         public string? TipoIngresos { get; set; }
-        public bool ShouldSerializeTipoIngresos() => TipoeCF != "41" && TipoeCF != "43" && TipoeCF != "44" && TipoeCF != "45" && TipoeCF != "46" && TipoeCF != "47";
+        public bool ShouldSerializeTipoIngresos() => TipoeCF != "41" && TipoeCF != "43";
 
         [XmlElement(ElementName = "TipoPago", Order = 8)]
         public string? TipoPago { get; set; }

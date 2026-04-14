@@ -104,9 +104,13 @@ namespace SITRA.Infrastructure.Services.DGII
 
             doc.Encabezado.IdDoc.IndicadorMontoGral = Get("IndicadorMontoGravado");
 
-            doc.Encabezado.IdDoc.TipoIngresos = Get("TipoIngresos"); // Only populate IF provided (prevents default 01 for E41)
             string eCfType = doc.Encabezado.IdDoc.TipoeCF;
-            doc.Encabezado.IdDoc.TipoPago = Get("TipoPago") ?? (eCfType == "31" || eCfType == "32" || eCfType == "33" || eCfType == "34" ? "1" : null);
+            
+            // TipoIngresos default logic (01 for most types except 41, 43 and only if not provided)
+            doc.Encabezado.IdDoc.TipoIngresos = Get("TipoIngresos") ?? (eCfType != "41" && eCfType != "43" ? "01" : null);
+
+            // TipoPago default logic (1 for most types except 41, 43)
+            doc.Encabezado.IdDoc.TipoPago = Get("TipoPago") ?? (eCfType != "41" && eCfType != "43" ? "1" : null);
             doc.Encabezado.IdDoc.FechaLimitePago = Get("FechaLimitePago");
             doc.Encabezado.IdDoc.TerminoPago = Get("TerminoPago");
             doc.Encabezado.IdDoc.TipoCuentaPago = Get("TipoCuentaPago");

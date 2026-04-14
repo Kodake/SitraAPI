@@ -40,7 +40,12 @@ namespace SITRA.Infrastructure.Services.DGII
                     ecfDocument.Encabezado.IdDoc.IndicadorMontoGral = GetString(rawDoc, "IndicadorMontoGravado");
                     ecfDocument.Encabezado.IdDoc.TipoIngresos = GetString(rawDoc, "TipoIngresos");
                     string ecType = ecfDocument.Encabezado.IdDoc.TipoeCF;
-                    ecfDocument.Encabezado.IdDoc.TipoPago = GetString(rawDoc, "TipoPago") ?? (ecType == "31" || ecType == "32" || ecType == "33" || ecType == "34" ? "1" : null);
+                    
+                    // Unified default logic (apply to all except 41 and 43)
+                    if (string.IsNullOrEmpty(ecfDocument.Encabezado.IdDoc.TipoIngresos) && ecType != "41" && ecType != "43")
+                        ecfDocument.Encabezado.IdDoc.TipoIngresos = "01";
+
+                    ecfDocument.Encabezado.IdDoc.TipoPago = GetString(rawDoc, "TipoPago") ?? (ecType != "41" && ecType != "43" ? "1" : null);
                     if (int.TryParse(GetString(rawDoc, "TotalPaginas"), out int tp))
                         ecfDocument.Encabezado.IdDoc.TotalPaginas = tp;
                     
