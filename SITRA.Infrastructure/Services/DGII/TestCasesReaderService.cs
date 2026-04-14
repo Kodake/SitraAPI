@@ -109,12 +109,15 @@ namespace SITRA.Infrastructure.Services.DGII
             doc.Encabezado.Totales.MontoGravadoTotal = GetDec("MontoGravadoTotal");
             doc.Encabezado.Totales.MontoGravadoI1 = GetDec("MontoGravadoI1");
             doc.Encabezado.Totales.MontoGravadoI2 = GetDec("MontoGravadoI2");
+            doc.Encabezado.Totales.MontoGravadoI3 = GetDec("MontoGravadoI3");
             doc.Encabezado.Totales.MontoExento = GetDec("MontoExento");
             doc.Encabezado.Totales.ITBIS1 = GetInt("ITBIS1");
             doc.Encabezado.Totales.ITBIS2 = GetInt("ITBIS2");
+            doc.Encabezado.Totales.ITBIS3 = GetInt("ITBIS3");
             doc.Encabezado.Totales.TotalITBIS = GetDec("TotalITBIS");
             doc.Encabezado.Totales.TotalITBIS1 = GetDec("TotalITBIS1");
             doc.Encabezado.Totales.TotalITBIS2 = GetDec("TotalITBIS2");
+            doc.Encabezado.Totales.TotalITBIS3 = GetDec("TotalITBIS3");
             doc.Encabezado.Totales.MontoTotal = GetDec("MontoTotal");
             doc.Encabezado.Totales.MontoNoFacturable = GetDec("MontoNoFacturable");
             doc.Encabezado.Totales.MontoPeriodo = GetDec("MontoPeriodo");

@@ -62,8 +62,7 @@
               "RelativeToolTip": "SITRA.Infrastructure\\Services\\DGII\\TestCasesReaderService.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-14T03:09:36.084Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-14T03:09:36.084Z"
             },
             {
               "$type": "Document",
@@ -75,8 +74,7 @@
               "RelativeToolTip": "SITRA.Core\\Interfaces\\IDgiiTestService.cs",
               "ViewState": "AgIAAAUAAAAAAAAAAADgvxEAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-13T14:03:37.051Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-13T14:03:37.051Z"
             },
             {
               "$type": "Document",
@@ -113,8 +111,7 @@
               "RelativeToolTip": "SITRA.API\\Controllers\\DgiiTestController.cs",
               "ViewState": "AgIAAAoAAAAAAAAAAAAnwB8AAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-10T21:17:55.726Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-10T21:17:55.726Z"
             }
           ]
         }
