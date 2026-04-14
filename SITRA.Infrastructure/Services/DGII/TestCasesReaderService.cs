@@ -13,9 +13,39 @@ namespace SITRA.Infrastructure.Services.DGII
         public List<EcfDocument> ReadTestCases(Stream excelStream)
         {
             var documents = new List<EcfDocument>();
+            var rfceEncfs = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
             using (var workbook = new XLWorkbook(excelStream))
             {
+                // Check for RFCE sheet to flag documents that should be skipped
+                if (workbook.TryGetWorksheet("RFCE", out var rfceSheet))
+                {
+                    var rfceRange = rfceSheet.RangeUsed();
+                    var rfceHeaderRow = rfceRange.Row(1);
+                    int encfColIndex = -1;
+
+                    for (int i = 1; i <= rfceRange.ColumnCount(); i++)
+                    {
+                        if (string.Equals(rfceHeaderRow.Cell(i).GetString(), "ENCF", StringComparison.OrdinalIgnoreCase))
+                        {
+                            encfColIndex = i;
+                            break;
+                        }
+                    }
+
+                    if (encfColIndex != -1)
+                    {
+                        foreach (var row in rfceRange.RowsUsed().Skip(1))
+                        {
+                            string encf = row.Cell(encfColIndex).GetString()?.Trim();
+                            if (!string.IsNullOrEmpty(encf))
+                            {
+                                rfceEncfs.Add(encf);
+                            }
+                        }
+                    }
+                }
+
                 var worksheet = workbook.Worksheet(1);
                 var range = worksheet.RangeUsed();
                 var headerRow = range.Row(1);
@@ -37,6 +67,10 @@ namespace SITRA.Infrastructure.Services.DGII
                     var doc = MapRowToDocument(row, headerIndex);
                     if (doc != null && !string.IsNullOrEmpty(doc.Encabezado.IdDoc.ENCF))
                     {
+                        if (rfceEncfs.Contains(doc.Encabezado.IdDoc.ENCF))
+                        {
+                            doc.IsRfce = true;
+                        }
                         documents.Add(doc);
                     }
                 }

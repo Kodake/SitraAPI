@@ -73,6 +73,15 @@ namespace SITRA.Infrastructure.Services.DGII
             foreach (var doc in documents)
             {
                 var result = new DgiiTestResult { TestName = doc.TestCaseName };
+                
+                if (doc.IsRfce)
+                {
+                    result.Status = "Skipped";
+                    result.Error = "Test case belongs to RFCE Summary (B2C) channel. Skipped to prevent 'Invalid Channel' rejection.";
+                    results.Add(result);
+                    continue;
+                }
+
                 try
                 {
                     string xmlSinFirma = _ecfXmlGenerator.GenerateEcfXml(doc);

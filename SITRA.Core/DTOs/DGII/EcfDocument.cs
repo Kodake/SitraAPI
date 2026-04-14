@@ -11,6 +11,9 @@ namespace SITRA.Core.DTOs.DGII
         [XmlIgnore]
         public string TestCaseName { get; set; } = string.Empty;
 
+        [XmlIgnore]
+        public bool IsRfce { get; set; }
+
         [XmlElement(ElementName = "Encabezado", Order = 1)]
         public Encabezado Encabezado { get; set; } = new();
 
