@@ -15,6 +15,7 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
         private const string AutenticacionUrl = "https://ecf.dgii.gov.do/CerteCF/Autenticacion/api/Autenticacion/ValidarSemilla";
         private const string RecepcionUrl = "https://ecf.dgii.gov.do/CerteCF/Recepcion/api/FacturasElectronicas";
         private const string ConsultaUrl = "https://ecf.dgii.gov.do/CerteCF/ConsultaResultado/api/Consultas/Estado";
+        private const string RecepcionResumenUrl = "https://fc.dgii.gov.do/CerteCF/RecepcionFC/api/Recepcion/Ecf";
 
         public DgiiApiService(HttpClient httpClient)
         {
