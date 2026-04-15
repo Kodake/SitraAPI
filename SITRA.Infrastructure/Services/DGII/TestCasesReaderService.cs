@@ -101,13 +101,14 @@ namespace SITRA.Infrastructure.Services.DGII
             doc.Encabezado.IdDoc.TipoeCF = Get("TipoeCF") ?? "31";
             doc.Encabezado.IdDoc.ENCF = Get("ENCF");
             doc.Encabezado.IdDoc.FechaVencimientoSecuencia = Get("FechaVencimientoSecuencia");
+            doc.Encabezado.IdDoc.IndicadorNotaCredito = GetInt("IndicadorNotaCredito");
 
             doc.Encabezado.IdDoc.IndicadorMontoGral = Get("IndicadorMontoGravado");
 
             string eCfType = doc.Encabezado.IdDoc.TipoeCF;
             
-            // TipoIngresos default logic (01 for most types except 41, 43 and only if not provided)
-            doc.Encabezado.IdDoc.TipoIngresos = Get("TipoIngresos") ?? (eCfType != "41" && eCfType != "43" ? "01" : null);
+            // TipoIngresos default logic (01 for most types except 41, 43, 47 and only if not provided)
+            doc.Encabezado.IdDoc.TipoIngresos = Get("TipoIngresos") ?? (eCfType != "41" && eCfType != "43" && eCfType != "47" ? "01" : null);
 
             // TipoPago default logic (1 for most types except 41, 43)
             doc.Encabezado.IdDoc.TipoPago = Get("TipoPago") ?? (eCfType != "41" && eCfType != "43" ? "1" : null);
@@ -340,7 +341,8 @@ namespace SITRA.Infrastructure.Services.DGII
                     NCFModificado = ncfModificado,
                     RNCOtroContribuyente = Get("RNCOtroContribuyente"),
                     FechaNCFModificado = Get("FechaNCFModificado"),
-                    CodigoModificacion = GetInt("CodigoModificacion")
+                    CodigoModificacion = GetInt("CodigoModificacion"),
+                    RazonModificacion = Get("RazonModificacion")
                 };
             }
 

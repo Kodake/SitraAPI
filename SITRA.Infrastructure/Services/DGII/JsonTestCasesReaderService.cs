@@ -37,12 +37,14 @@ namespace SITRA.Infrastructure.Services.DGII
                     ecfDocument.Encabezado.IdDoc.TipoeCF = GetString(rawDoc, "TipoeCF");
                     ecfDocument.Encabezado.IdDoc.ENCF = GetString(rawDoc, "ENCF");
                     ecfDocument.Encabezado.IdDoc.FechaVencimientoSecuencia = GetString(rawDoc, "FechaVencimientoSecuencia");
+                    if (int.TryParse(GetString(rawDoc, "IndicadorNotaCredito"), out int inc))
+                        ecfDocument.Encabezado.IdDoc.IndicadorNotaCredito = inc;
                     ecfDocument.Encabezado.IdDoc.IndicadorMontoGral = GetString(rawDoc, "IndicadorMontoGravado");
                     ecfDocument.Encabezado.IdDoc.TipoIngresos = GetString(rawDoc, "TipoIngresos");
                     string ecType = ecfDocument.Encabezado.IdDoc.TipoeCF;
                     
-                    // Unified default logic (apply to all except 41 and 43)
-                    if (string.IsNullOrEmpty(ecfDocument.Encabezado.IdDoc.TipoIngresos) && ecType != "41" && ecType != "43")
+                    // Unified default logic (apply to all except 41, 43, and 47)
+                    if (string.IsNullOrEmpty(ecfDocument.Encabezado.IdDoc.TipoIngresos) && ecType != "41" && ecType != "43" && ecType != "47")
                         ecfDocument.Encabezado.IdDoc.TipoIngresos = "01";
 
                     ecfDocument.Encabezado.IdDoc.TipoPago = GetString(rawDoc, "TipoPago") ?? (ecType != "41" && ecType != "43" ? "1" : null);
@@ -150,7 +152,8 @@ namespace SITRA.Infrastructure.Services.DGII
                         {
                             NCFModificado = ncfMod,
                             RNCOtroContribuyente = GetString(rawDoc, "RNCOtroContribuyente"),
-                            FechaNCFModificado = GetString(rawDoc, "FechaNCFModificado")
+                            FechaNCFModificado = GetString(rawDoc, "FechaNCFModificado"),
+                            RazonModificacion = GetString(rawDoc, "RazonModificacion")
                         };
                         if (int.TryParse(GetString(rawDoc, "CodigoModificacion"), out int cm))
                             ecfDocument.InformacionReferencia.CodigoModificacion = cm;

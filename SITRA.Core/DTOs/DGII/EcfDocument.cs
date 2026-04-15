@@ -76,65 +76,72 @@ namespace SITRA.Core.DTOs.DGII
 
         [XmlElement(ElementName = "FechaVencimientoSecuencia", Order = 3)]
         public string FechaVencimientoSecuencia { get; set; } = string.Empty;
+        public bool ShouldSerializeFechaVencimientoSecuencia() => TipoeCF != "34";
 
-        [XmlElement(ElementName = "IndicadorEnvioDiferido", Order = 4)]
+        [XmlElement(ElementName = "IndicadorNotaCredito", Order = 4)]
+        public int? IndicadorNotaCredito { get; set; }
+        [XmlIgnore]
+        public bool IndicadorNotaCreditoSpecified => IndicadorNotaCredito.HasValue;
+        public bool ShouldSerializeIndicadorNotaCredito() => TipoeCF == "34";
+
+        [XmlElement(ElementName = "IndicadorEnvioDiferido", Order = 5)]
         public int? IndicadorEnvioDiferido { get; set; }
         [XmlIgnore]
         public bool IndicadorEnvioDiferidoSpecified => IndicadorEnvioDiferido.HasValue;
         public bool ShouldSerializeIndicadorEnvioDiferido() => TipoeCF != "43";
 
-        [XmlElement(ElementName = "IndicadorMontoGravado", Order = 5)]
+        [XmlElement(ElementName = "IndicadorMontoGravado", Order = 6)]
         public string? IndicadorMontoGral { get; set; }
         public bool ShouldSerializeIndicadorMontoGral() => TipoeCF != "43";
 
-        [XmlElement(ElementName = "IndicadorServicioTodoIncluido", Order = 6)]
+        [XmlElement(ElementName = "IndicadorServicioTodoIncluido", Order = 7)]
         public int? IndicadorServicioTodoIncluido { get; set; }
         [XmlIgnore]
         public bool IndicadorServicioTodoIncluidoSpecified => IndicadorServicioTodoIncluido.HasValue;
         public bool ShouldSerializeIndicadorServicioTodoIncluido() => TipoeCF != "43";
 
-        [XmlElement(ElementName = "TipoIngresos", Order = 7)]
+        [XmlElement(ElementName = "TipoIngresos", Order = 8)]
         public string? TipoIngresos { get; set; }
         public bool ShouldSerializeTipoIngresos() => TipoeCF != "41" && TipoeCF != "43" && TipoeCF != "47";
 
-        [XmlElement(ElementName = "TipoPago", Order = 8)]
+        [XmlElement(ElementName = "TipoPago", Order = 9)]
         public string? TipoPago { get; set; }
         public bool ShouldSerializeTipoPago() => !string.IsNullOrEmpty(TipoPago);
 
-        [XmlElement(ElementName = "FechaLimitePago", Order = 9)]
+        [XmlElement(ElementName = "FechaLimitePago", Order = 10)]
         public string? FechaLimitePago { get; set; }
         public bool ShouldSerializeFechaLimitePago() => TipoeCF != "43";
 
-        [XmlElement(ElementName = "TerminoPago", Order = 10)]
+        [XmlElement(ElementName = "TerminoPago", Order = 11)]
         public string? TerminoPago { get; set; }
         public bool ShouldSerializeTerminoPago() => TipoeCF != "43";
 
-        [XmlArray(ElementName = "TablaFormasPago", Order = 11)]
+        [XmlArray(ElementName = "TablaFormasPago", Order = 12)]
         [XmlArrayItem(ElementName = "FormaDePago")]
         public List<FormaDePago>? TablaFormasPago { get; set; }
         public bool ShouldSerializeTablaFormasPago() => TipoeCF != "43" && TablaFormasPago != null;
 
-        [XmlElement(ElementName = "TipoCuentaPago", Order = 12)]
+        [XmlElement(ElementName = "TipoCuentaPago", Order = 13)]
         public string? TipoCuentaPago { get; set; }
         public bool ShouldSerializeTipoCuentaPago() => TipoeCF != "43";
 
-        [XmlElement(ElementName = "NumeroCuentaPago", Order = 13)]
+        [XmlElement(ElementName = "NumeroCuentaPago", Order = 14)]
         public string? NumeroCuentaPago { get; set; }
         public bool ShouldSerializeNumeroCuentaPago() => TipoeCF != "43";
 
-        [XmlElement(ElementName = "BancoPago", Order = 14)]
+        [XmlElement(ElementName = "BancoPago", Order = 15)]
         public string? BancoPago { get; set; }
         public bool ShouldSerializeBancoPago() => TipoeCF != "43";
 
-        [XmlElement(ElementName = "FechaDesde", Order = 15)]
+        [XmlElement(ElementName = "FechaDesde", Order = 16)]
         public string? FechaDesde { get; set; }
         public bool ShouldSerializeFechaDesde() => TipoeCF != "43";
 
-        [XmlElement(ElementName = "FechaHasta", Order = 16)]
+        [XmlElement(ElementName = "FechaHasta", Order = 17)]
         public string? FechaHasta { get; set; }
         public bool ShouldSerializeFechaHasta() => TipoeCF != "43";
 
-        [XmlElement(ElementName = "TotalPaginas", Order = 17)]
+        [XmlElement(ElementName = "TotalPaginas", Order = 18)]
         public int? TotalPaginas { get; set; }
         [XmlIgnore]
         public bool TotalPaginasSpecified => TotalPaginas.HasValue;
@@ -164,6 +171,9 @@ namespace SITRA.Core.DTOs.DGII
         public int? CodigoModificacion { get; set; }
         [XmlIgnore]
         public bool CodigoModificacionSpecified => CodigoModificacion.HasValue;
+
+        [XmlElement(ElementName = "RazonModificacion", Order = 5)]
+        public string? RazonModificacion { get; set; }
     }
 
     public class Emisor
