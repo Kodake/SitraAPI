@@ -43,8 +43,8 @@ namespace SITRA.Infrastructure.Services.DGII
                     ecfDocument.Encabezado.IdDoc.TipoIngresos = GetString(rawDoc, "TipoIngresos");
                     string ecType = ecfDocument.Encabezado.IdDoc.TipoeCF;
                     
-                    // Unified default logic (apply to all except 41, 43, and 47)
-                    if (string.IsNullOrEmpty(ecfDocument.Encabezado.IdDoc.TipoIngresos) && ecType != "41" && ecType != "43" && ecType != "47")
+                    // Unified default logic (apply to all except 31, 33, 34, 41, 43, and 47)
+                    if (string.IsNullOrEmpty(ecfDocument.Encabezado.IdDoc.TipoIngresos) && ecType != "34" && ecType != "41" && ecType != "43" && ecType != "47")
                         ecfDocument.Encabezado.IdDoc.TipoIngresos = "01";
 
                     ecfDocument.Encabezado.IdDoc.TipoPago = GetString(rawDoc, "TipoPago") ?? (ecType != "41" && ecType != "43" ? "1" : null);

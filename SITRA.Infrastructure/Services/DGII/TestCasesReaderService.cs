@@ -107,8 +107,8 @@ namespace SITRA.Infrastructure.Services.DGII
 
             string eCfType = doc.Encabezado.IdDoc.TipoeCF;
             
-            // TipoIngresos default logic (01 for most types except 41, 43, 47 and only if not provided)
-            doc.Encabezado.IdDoc.TipoIngresos = Get("TipoIngresos") ?? (eCfType != "41" && eCfType != "43" && eCfType != "47" ? "01" : null);
+            // TipoIngresos default logic (01 for most types except 34, 41, 43, 47 and only if not provided)
+            doc.Encabezado.IdDoc.TipoIngresos = Get("TipoIngresos") ?? (eCfType != "34" && eCfType != "41" && eCfType != "43" && eCfType != "47" ? "01" : null);
 
             // TipoPago default logic (1 for most types except 41, 43)
             doc.Encabezado.IdDoc.TipoPago = Get("TipoPago") ?? (eCfType != "41" && eCfType != "43" ? "1" : null);
