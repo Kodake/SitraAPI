@@ -106,6 +106,28 @@ namespace SITRA.Infrastructure.Services.DGII
                         var rfceDoc = MapToRfce(doc);
                         string xmlSinFirma = _ecfXmlGenerator.GenerateRfceXml(rfceDoc);
                         xmlFirmado = _signatureService.SignXml(xmlSinFirma, _settings.CertificatePath, _settings.CertificatePassword);
+
+                        // Save RFCE XML to Desktop if qualifying conditions are met
+                        if (doc.Encabezado.Totales.MontoTotal <= 250000)
+                        {
+                            try
+                            {
+                                string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                                string rfceDir = Path.Combine(desktopPath, "RfceDocuments");
+
+                                if (!Directory.Exists(rfceDir))
+                                {
+                                    Directory.CreateDirectory(rfceDir);
+                                }
+
+                                string filePath = Path.Combine(rfceDir, $"{doc.Encabezado.IdDoc.ENCF}.xml");
+                                File.WriteAllText(filePath, xmlFirmado);
+                            }
+                            catch (Exception ex)
+                            {
+                                System.Diagnostics.Debug.WriteLine($"Failed to save RFCE XML: {ex.Message}");
+                            }
+                        }
                     }
                     else
                     {
@@ -139,6 +161,9 @@ namespace SITRA.Infrastructure.Services.DGII
                     }
                     
                     result.Status = "Success";
+
+
+
                 }
                 catch (Exception ex)
                 {
