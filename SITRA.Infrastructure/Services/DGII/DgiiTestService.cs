@@ -123,9 +123,18 @@ namespace SITRA.Infrastructure.Services.DGII
                         {
                             result.TrackId = trackIdElement.GetString();
                         }
+                        else if (docJson.RootElement.TryGetProperty("estado", out JsonElement estadoElement))
+                        {
+                            string estado = estadoElement.GetString() ?? string.Empty;
+                            string encf = docJson.RootElement.TryGetProperty("encf", out JsonElement encfElement) 
+                                ? encfElement.GetString() ?? string.Empty 
+                                : string.Empty;
+                            
+                            result.TrackId = !string.IsNullOrEmpty(encf) ? $"{estado} ({encf})" : estado;
+                        }
                         else
                         {
-                            result.TrackId = rawResponse; // Fallback if property is missing
+                            result.TrackId = rawResponse; 
                         }
                     }
                     
@@ -134,7 +143,55 @@ namespace SITRA.Infrastructure.Services.DGII
                 catch (Exception ex)
                 {
                     result.Status = "Failed";
-                    result.Error = ex.Message;
+                    string exMessage = ex.Message;
+
+                    try
+                    {
+                        // Attempt to extract and parse JSON from the exception message
+                        // Formatted by DgiiApiService as "DGII Reception Failed (code): {json}"
+                        int jsonStart = exMessage.IndexOf('{');
+                        int jsonEnd = exMessage.LastIndexOf('}');
+
+                        if (jsonStart != -1 && jsonEnd != -1 && jsonEnd > jsonStart)
+                        {
+                            string jsonString = exMessage.Substring(jsonStart, jsonEnd - jsonStart + 1);
+                            using (JsonDocument docJson = JsonDocument.Parse(jsonString))
+                            {
+                                var root = docJson.RootElement;
+                                string estado = root.TryGetProperty("estado", out var e) ? e.GetString() ?? "" : "";
+                                
+                                List<string> errorMessages = new List<string>();
+                                if (root.TryGetProperty("mensajes", out var m) && m.ValueKind == JsonValueKind.Array)
+                                {
+                                    foreach (var msg in m.EnumerateArray())
+                                    {
+                                        if (msg.TryGetProperty("valor", out var v))
+                                        {
+                                            errorMessages.Add(v.GetString() ?? "");
+                                        }
+                                    }
+                                }
+
+                                if (!string.IsNullOrEmpty(estado))
+                                {
+                                    result.Status = $"Failed ({estado})";
+                                }
+
+                                result.Error = errorMessages.Count > 0 
+                                    ? string.Join("; ", errorMessages) 
+                                    : exMessage;
+                            }
+                        }
+                        else
+                        {
+                            result.Error = exMessage;
+                        }
+                    }
+                    catch
+                    {
+                        // Fallback to raw message if parsing fails
+                        result.Error = exMessage;
+                    }
                 }
                 results.Add(result);
             }
