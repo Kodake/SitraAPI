@@ -14,6 +14,8 @@ namespace SITRA.Infrastructure.Services.DGII
         {
             var documents = new List<EcfDocument>();
             var rfceEncfs = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            var rfceFiscalSupports = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            var rfceCodigoSeguridades = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
             using (var workbook = new XLWorkbook(excelStream))
             {
@@ -23,13 +25,23 @@ namespace SITRA.Infrastructure.Services.DGII
                     var rfceRange = rfceSheet.RangeUsed();
                     var rfceHeaderRow = rfceRange.Row(1);
                     int encfColIndex = -1;
+                    int fiscalSupportColIndex = -1;
+                    int codigoSeguridadColIndex = -1;
 
                     for (int i = 1; i <= rfceRange.ColumnCount(); i++)
                     {
-                        if (string.Equals(rfceHeaderRow.Cell(i).GetString(), "ENCF", StringComparison.OrdinalIgnoreCase))
+                        var header = rfceHeaderRow.Cell(i).GetString();
+                        if (string.Equals(header, "ENCF", StringComparison.OrdinalIgnoreCase))
                         {
                             encfColIndex = i;
-                            break;
+                        }
+                        else if (string.Equals(header, "FiscalSupport", StringComparison.OrdinalIgnoreCase))
+                        {
+                            fiscalSupportColIndex = i;
+                        }
+                        else if (string.Equals(header, "CodigoSeguridad", StringComparison.OrdinalIgnoreCase))
+                        {
+                            codigoSeguridadColIndex = i;
                         }
                     }
 
@@ -41,6 +53,24 @@ namespace SITRA.Infrastructure.Services.DGII
                             if (!string.IsNullOrEmpty(encf))
                             {
                                 rfceEncfs.Add(encf);
+
+                                if (fiscalSupportColIndex != -1)
+                                {
+                                    string fs = row.Cell(fiscalSupportColIndex).GetString()?.Trim();
+                                    if (!string.IsNullOrEmpty(fs))
+                                    {
+                                        rfceFiscalSupports[encf] = fs;
+                                    }
+                                }
+
+                                if (codigoSeguridadColIndex != -1)
+                                {
+                                    string cs = row.Cell(codigoSeguridadColIndex).GetString()?.Trim();
+                                    if (!string.IsNullOrEmpty(cs))
+                                    {
+                                        rfceCodigoSeguridades[encf] = cs;
+                                    }
+                                }
                             }
                         }
                     }
@@ -70,6 +100,14 @@ namespace SITRA.Infrastructure.Services.DGII
                         if (rfceEncfs.Contains(doc.Encabezado.IdDoc.ENCF))
                         {
                             doc.IsRfce = true;
+                            if (rfceFiscalSupports.TryGetValue(doc.Encabezado.IdDoc.ENCF, out var fs))
+                            {
+                                doc.Encabezado.IdDoc.TipoIngresos = fs;
+                            }
+                            if (rfceCodigoSeguridades.TryGetValue(doc.Encabezado.IdDoc.ENCF, out var cs))
+                            {
+                                doc.CodigoSeguridad = cs;
+                            }
                         }
                         documents.Add(doc);
                     }

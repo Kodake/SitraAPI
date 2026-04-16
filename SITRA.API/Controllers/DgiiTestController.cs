@@ -32,5 +32,23 @@ namespace SITRA.API.Controllers
                 });
             }
         }
+
+        [HttpPost("rfce/run-tests")]
+        public async Task<IActionResult> RunRfceTests()
+        {
+            try
+            {
+                var result = await _dgiiTestService.RunRfceTestsAsync();
+                return Ok(result);
+            }
+            catch (System.Exception ex)
+            {
+                return StatusCode(500, new 
+                { 
+                    Error = ex.Message, 
+                    Stack = ex.StackTrace 
+                });
+            }
+        }
     }
 }

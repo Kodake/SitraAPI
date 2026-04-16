@@ -63,6 +63,16 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
 
         public async Task<string> SendEcfAsync(string ecfXmlSigned, string token)
         {
+            return await SendToDgiiAsync(ecfXmlSigned, token, RecepcionUrl);
+        }
+
+        public async Task<string> SendRfceAsync(string ecfXmlSigned, string token)
+        {
+            return await SendToDgiiAsync(ecfXmlSigned, token, RecepcionResumenUrl);
+        }
+
+        private async Task<string> SendToDgiiAsync(string ecfXmlSigned, string token, string targetUrl)
+        {
             using var formData = new MultipartFormDataContent();
             
             // Enviamos el XML codificado en binario puro (UTF-8 sin BOM) igual que con la semilla
@@ -70,7 +80,7 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
             var xmlContent = new ByteArrayContent(xmlBytes);
             xmlContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("text/xml");
             
-            // DGII requiere que el nombre del archivo en el multipart siga un patrón específico:
+            // DGII requiere que el nombre del archivo en el multipart siga un patrn especfico:
             // RNCEmisor + TipoeCF + eNCF + .xml
             string fileName = "factura_electronica.xml";
             try
@@ -93,7 +103,7 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
             
             _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             
-            var response = await _httpClient.PostAsync(RecepcionUrl, formData);
+            var response = await _httpClient.PostAsync(targetUrl, formData);
             
             if (!response.IsSuccessStatusCode)
             {

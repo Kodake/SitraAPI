@@ -1846,6 +1846,18 @@
         }
       }
     },
+    "/api/dgiiTests/rfce/run-tests": {
+      "post": {
+        "tags": [
+          "DgiiTest"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/v1/expenses": {
       "get": {
         "tags": [

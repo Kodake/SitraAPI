@@ -14,6 +14,8 @@ namespace SITRA.Core.DTOs.DGII
         [XmlIgnore]
         public bool IsRfce { get; set; }
 
+        [XmlIgnore]
+        public string? CodigoSeguridad { get; set; }
         [XmlElement(ElementName = "Encabezado", Order = 1)]
         public Encabezado Encabezado { get; set; } = new();
 

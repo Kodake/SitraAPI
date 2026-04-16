@@ -6,6 +6,7 @@ namespace SITRA.Core.Interfaces
     public interface IDgiiTestService
     {
         Task<DgiiTestSuiteResult> RunTestsAsync(string? ecfType = null);
+        Task<DgiiTestSuiteResult> RunRfceTestsAsync();
     }
 
     public class DgiiTestSuiteResult

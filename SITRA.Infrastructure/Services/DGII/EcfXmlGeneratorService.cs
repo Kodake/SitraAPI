@@ -11,7 +11,17 @@ namespace SITRA.Infrastructure.Services.DGII
     {
         public string GenerateEcfXml(EcfDocument document)
         {
-            var serializer = new XmlSerializer(typeof(EcfDocument));
+            return SerializeToXml(document);
+        }
+
+        public string GenerateRfceXml(RfceDocument document)
+        {
+            return SerializeToXml(document);
+        }
+
+        private static string SerializeToXml<T>(T document)
+        {
+            var serializer = new XmlSerializer(typeof(T));
 
             var settings = new XmlWriterSettings
             {
