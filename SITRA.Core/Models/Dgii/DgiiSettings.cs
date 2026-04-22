@@ -6,5 +6,6 @@ namespace SITRA.Core.Models.Dgii
         public string CertificatePassword { get; set; } = string.Empty;
         public string TestFilePath { get; set; } = string.Empty;
         public string SchemasPath { get; set; } = string.Empty;
+        public string StoragePath { get; set; } = string.Empty;
     }
 }

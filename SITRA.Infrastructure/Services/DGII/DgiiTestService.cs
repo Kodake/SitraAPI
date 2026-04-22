@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Text.Json;
+using System.Text;
+using System.Xml.Linq;
 using Microsoft.Extensions.Options;
 using SITRA.Core.Interfaces;
 using SITRA.Core.Models.Dgii;
@@ -103,7 +105,15 @@ namespace SITRA.Infrastructure.Services.DGII
 
                     if (forRfce)
                     {
+                        // 1. Generate and sign the base ECF to get the security code (as required by DGII for RFCE)
+                        string baseEcfXml = _ecfXmlGenerator.GenerateEcfXml(doc);
+                        string signedBaseEcf = _signatureService.SignXml(baseEcfXml, _settings.CertificatePath, _settings.CertificatePassword);
+                        string securityCode = GetSecurityCodeFromSignedXml(signedBaseEcf);
+
+                        // 2. Map to RFCE and set the security code
                         var rfceDoc = MapToRfce(doc);
+                        rfceDoc.Encabezado.CodigoSeguridadeCF = securityCode;
+
                         string xmlSinFirma = _ecfXmlGenerator.GenerateRfceXml(rfceDoc);
                         xmlFirmado = _signatureService.SignXml(xmlSinFirma, _settings.CertificatePath, _settings.CertificatePassword);
                     }
@@ -113,28 +123,8 @@ namespace SITRA.Infrastructure.Services.DGII
                         xmlFirmado = _signatureService.SignXml(xmlSinFirma, _settings.CertificatePath, _settings.CertificatePassword);
                     }
 
-                    // Save XML to Desktop if qualifying conditions are met
-                    // Applied to both ECF and RFCE as requested
-                    if ((doc.Encabezado.Totales.MontoTotal ?? 0) <= 250000)
-                    {
-                        try
-                        {
-                            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                            string saveDir = Path.Combine(desktopPath, "DgiiDocuments");
-
-                            if (!Directory.Exists(saveDir))
-                            {
-                                Directory.CreateDirectory(saveDir);
-                            }
-
-                            string filePath = Path.Combine(saveDir, $"{doc.Encabezado.IdDoc.ENCF}.xml");
-                            File.WriteAllText(filePath, xmlFirmado);
-                        }
-                        catch (Exception ex)
-                        {
-                            System.Diagnostics.Debug.WriteLine($"Failed to save DGII XML: {ex.Message}");
-                        }
-                    }
+                    // Save XML using improved storage logic (organized by RNC and Type)
+                    SaveDocumentXml(xmlFirmado, doc.Encabezado.IdDoc.ENCF, doc.Encabezado.Emisor.RNCEmisor, forRfce ? "RFCE" : doc.Encabezado.IdDoc.TipoeCF);
 
                     string rawResponse = forRfce 
                         ? await _dgiiApiService.SendRfceAsync(xmlFirmado, token)
@@ -162,8 +152,6 @@ namespace SITRA.Infrastructure.Services.DGII
                     }
                     
                     result.Status = "Success";
-
-                    result.Status = "Success";
                 }
                 catch (Exception ex)
                 {
@@ -172,8 +160,6 @@ namespace SITRA.Infrastructure.Services.DGII
 
                     try
                     {
-                        // Attempt to extract and parse JSON from the exception message
-                        // Formatted by DgiiApiService as "DGII Reception Failed (code): {json}"
                         int jsonStart = exMessage.IndexOf('{');
                         int jsonEnd = exMessage.LastIndexOf('}');
 
@@ -214,7 +200,6 @@ namespace SITRA.Infrastructure.Services.DGII
                     }
                     catch
                     {
-                        // Fallback to raw message if parsing fails
                         result.Error = exMessage;
                     }
                 }
@@ -227,6 +212,52 @@ namespace SITRA.Infrastructure.Services.DGII
                 Message = forRfce ? "Pruebas RFCE completadas" : "Ronda de pruebas completada",
                 Results = results
             };
+        }
+
+        private void SaveDocumentXml(string xml, string encf, string rnc, string docType)
+        {
+            try
+            {
+                string baseDir = !string.IsNullOrEmpty(_settings.StoragePath)
+                    ? _settings.StoragePath
+                    : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "DgiiDocuments");
+
+                // Organizar por RNC y Tipo de Documento para mejores prácticas de auditoría
+                string saveDir = Path.Combine(baseDir, rnc, docType);
+
+                if (!Directory.Exists(saveDir))
+                {
+                    Directory.CreateDirectory(saveDir);
+                }
+
+                string filePath = Path.Combine(saveDir, $"{encf}.xml");
+                File.WriteAllText(filePath, xml, new UTF8Encoding(false));
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Failed to save DGII XML: {ex.Message}");
+            }
+        }
+
+        private static string GetSecurityCodeFromSignedXml(string signedXml)
+        {
+            try
+            {
+                var doc = XDocument.Parse(signedXml);
+                XNamespace ds = "http://www.w3.org/2000/09/xmldsig#";
+                var sigValue = doc.Descendants(ds + "SignatureValue").FirstOrDefault()?.Value;
+                
+                if (!string.IsNullOrEmpty(sigValue))
+                {
+                    // Limpiar el string base64 de espacios y retornos
+                    sigValue = sigValue.Replace("\n", "").Replace("\r", "").Replace(" ", "");
+                    // Tomar los primeros 6 caracteres según la normativa DGII para el resumen de consumo
+                    return sigValue.Length >= 6 ? sigValue.Substring(0, 6) : sigValue;
+                }
+            }
+            catch { }
+            
+            return "000000";
         }
 
         private static RfceDocument MapToRfce(EcfDocument doc)
