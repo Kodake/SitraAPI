@@ -106,33 +106,34 @@ namespace SITRA.Infrastructure.Services.DGII
                         var rfceDoc = MapToRfce(doc);
                         string xmlSinFirma = _ecfXmlGenerator.GenerateRfceXml(rfceDoc);
                         xmlFirmado = _signatureService.SignXml(xmlSinFirma, _settings.CertificatePath, _settings.CertificatePassword);
-
-                        // Save RFCE XML to Desktop if qualifying conditions are met
-                        if (doc.Encabezado.Totales.MontoTotal <= 250000)
-                        {
-                            try
-                            {
-                                string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-                                string rfceDir = Path.Combine(desktopPath, "RfceDocuments");
-
-                                if (!Directory.Exists(rfceDir))
-                                {
-                                    Directory.CreateDirectory(rfceDir);
-                                }
-
-                                string filePath = Path.Combine(rfceDir, $"{doc.Encabezado.IdDoc.ENCF}.xml");
-                                File.WriteAllText(filePath, xmlFirmado);
-                            }
-                            catch (Exception ex)
-                            {
-                                System.Diagnostics.Debug.WriteLine($"Failed to save RFCE XML: {ex.Message}");
-                            }
-                        }
                     }
                     else
                     {
                         string xmlSinFirma = _ecfXmlGenerator.GenerateEcfXml(doc);
                         xmlFirmado = _signatureService.SignXml(xmlSinFirma, _settings.CertificatePath, _settings.CertificatePassword);
+                    }
+
+                    // Save XML to Desktop if qualifying conditions are met
+                    // Applied to both ECF and RFCE as requested
+                    if ((doc.Encabezado.Totales.MontoTotal ?? 0) <= 250000)
+                    {
+                        try
+                        {
+                            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                            string saveDir = Path.Combine(desktopPath, "DgiiDocuments");
+
+                            if (!Directory.Exists(saveDir))
+                            {
+                                Directory.CreateDirectory(saveDir);
+                            }
+
+                            string filePath = Path.Combine(saveDir, $"{doc.Encabezado.IdDoc.ENCF}.xml");
+                            File.WriteAllText(filePath, xmlFirmado);
+                        }
+                        catch (Exception ex)
+                        {
+                            System.Diagnostics.Debug.WriteLine($"Failed to save DGII XML: {ex.Message}");
+                        }
                     }
 
                     string rawResponse = forRfce 
@@ -162,8 +163,7 @@ namespace SITRA.Infrastructure.Services.DGII
                     
                     result.Status = "Success";
 
-
-
+                    result.Status = "Success";
                 }
                 catch (Exception ex)
                 {
@@ -268,7 +268,7 @@ namespace SITRA.Infrastructure.Services.DGII
                         TotalITBIS2 = (decimal?)doc.Encabezado.Totales.TotalITBIS2,
                         TotalITBIS3 = (decimal?)doc.Encabezado.Totales.TotalITBIS3,
                         MontoImpuestoAdicional = (decimal?)doc.Encabezado.Totales.MontoImpuestoAdicional,
-                        MontoTotal = (decimal)doc.Encabezado.Totales.MontoTotal,
+                        MontoTotal = doc.Encabezado.Totales.MontoTotal ?? 0,
                         MontoNoFacturable = (decimal?)doc.Encabezado.Totales.MontoNoFacturable,
                         MontoPeriodo = (decimal?)doc.Encabezado.Totales.MontoPeriodo
                     }

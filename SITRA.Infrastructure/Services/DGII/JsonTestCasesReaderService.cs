@@ -230,7 +230,7 @@ namespace SITRA.Infrastructure.Services.DGII
                     
                     if (adjustmentsDict.Any())
                     {
-                        ecfDocument.DescuentosORecargos = new DescuentosORecargos();
+                        ecfDocument.DescuentosORecargos = new DescuentosORecargos();                    
                         ecfDocument.DescuentosORecargos.Items.AddRange(adjustmentsDict.Values);
                     }
 
