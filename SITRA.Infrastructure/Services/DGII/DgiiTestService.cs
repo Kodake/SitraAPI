@@ -102,31 +102,56 @@ namespace SITRA.Infrastructure.Services.DGII
                 try
                 {
                     string xmlFirmado = string.Empty;
+                    bool useRfceChannel = forRfce;
 
                     if (forRfce)
                     {
-                        // 1. Generate and sign the base ECF to get the security code (as required by DGII for RFCE)
+                        // 1. Generate and sign the base ECF (Type 32)
                         string baseEcfXml = _ecfXmlGenerator.GenerateEcfXml(doc);
                         string signedBaseEcf = _signatureService.SignXml(baseEcfXml, _settings.CertificatePath, _settings.CertificatePassword);
+                        
+                        // 2. Save the base e-CF in the "32" folder (always archive individual invoices)
+                        SaveDocumentXml(signedBaseEcf, doc.Encabezado.IdDoc.ENCF, doc.Encabezado.Emisor.RNCEmisor, "32");
+                        
+                        // 3. Extract the security code and generate RFCE
                         string securityCode = GetSecurityCodeFromSignedXml(signedBaseEcf);
-
-                        // 2. Map to RFCE and set the security code
                         var rfceDoc = MapToRfce(doc);
                         rfceDoc.Encabezado.CodigoSeguridadeCF = securityCode;
 
                         string xmlSinFirma = _ecfXmlGenerator.GenerateRfceXml(rfceDoc);
                         xmlFirmado = _signatureService.SignXml(xmlSinFirma, _settings.CertificatePath, _settings.CertificatePassword);
+                        
+                        // Save the RFCE summary
+                        SaveDocumentXml(xmlFirmado, doc.Encabezado.IdDoc.ENCF, doc.Encabezado.Emisor.RNCEmisor, "RFCE");
+                    }
+                    else if (doc.Encabezado.IdDoc.TipoeCF == "32" && doc.Encabezado.Totales.MontoTotal < 250000)
+                    {
+                        // Automatic redirect for B2C < 250k: Save individual E32, then generate and send RFCE instead
+                        string baseEcfXml = _ecfXmlGenerator.GenerateEcfXml(doc);
+                        string signedBaseEcf = _signatureService.SignXml(baseEcfXml, _settings.CertificatePath, _settings.CertificatePassword);
+                        SaveDocumentXml(signedBaseEcf, doc.Encabezado.IdDoc.ENCF, doc.Encabezado.Emisor.RNCEmisor, "32");
+                        
+                        string securityCode = GetSecurityCodeFromSignedXml(signedBaseEcf);
+                        var rfceDoc = MapToRfce(doc);
+                        rfceDoc.Encabezado.CodigoSeguridadeCF = securityCode;
+                        
+                        string rfceXmlSinFirma = _ecfXmlGenerator.GenerateRfceXml(rfceDoc);
+                        xmlFirmado = _signatureService.SignXml(rfceXmlSinFirma, _settings.CertificatePath, _settings.CertificatePassword);
+                        
+                        // Save and prepare for RFCE sending
+                        SaveDocumentXml(xmlFirmado, doc.Encabezado.IdDoc.ENCF, doc.Encabezado.Emisor.RNCEmisor, "RFCE");
+                        useRfceChannel = true;
                     }
                     else
                     {
+                        // Standard individual invoice generation
                         string xmlSinFirma = _ecfXmlGenerator.GenerateEcfXml(doc);
                         xmlFirmado = _signatureService.SignXml(xmlSinFirma, _settings.CertificatePath, _settings.CertificatePassword);
+                        
+                        SaveDocumentXml(xmlFirmado, doc.Encabezado.IdDoc.ENCF, doc.Encabezado.Emisor.RNCEmisor, doc.Encabezado.IdDoc.TipoeCF);
                     }
 
-                    // Save XML using improved storage logic (organized by RNC and Type)
-                    SaveDocumentXml(xmlFirmado, doc.Encabezado.IdDoc.ENCF, doc.Encabezado.Emisor.RNCEmisor, forRfce ? "RFCE" : doc.Encabezado.IdDoc.TipoeCF);
-
-                    string rawResponse = forRfce 
+                    string rawResponse = useRfceChannel 
                         ? await _dgiiApiService.SendRfceAsync(xmlFirmado, token)
                         : await _dgiiApiService.SendEcfAsync(xmlFirmado, token);
                     
@@ -230,7 +255,9 @@ namespace SITRA.Infrastructure.Services.DGII
                     Directory.CreateDirectory(saveDir);
                 }
 
-                string filePath = Path.Combine(saveDir, $"{encf}.xml");
+                // Nomenclature: {RNC}{ENCF}.xml or {RNC}{ENCF}_RFCE.xml
+                string fileName = docType == "RFCE" ? $"{rnc}{encf}_RFCE.xml" : $"{rnc}{encf}.xml";
+                string filePath = Path.Combine(saveDir, fileName);
                 File.WriteAllText(filePath, xml, new UTF8Encoding(false));
             }
             catch (Exception ex)
@@ -249,9 +276,9 @@ namespace SITRA.Infrastructure.Services.DGII
                 
                 if (!string.IsNullOrEmpty(sigValue))
                 {
-                    // Limpiar el string base64 de espacios y retornos
+                    // Clean the base64 string
                     sigValue = sigValue.Replace("\n", "").Replace("\r", "").Replace(" ", "");
-                    // Tomar los primeros 6 caracteres según la normativa DGII para el resumen de consumo
+                    // Take first 6 characters as required by DGII
                     return sigValue.Length >= 6 ? sigValue.Substring(0, 6) : sigValue;
                 }
             }

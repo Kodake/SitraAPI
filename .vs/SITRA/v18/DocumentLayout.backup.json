@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{80AD3C08-CD53-444A-BBC6-3A4FCD9600F9}|SITRA.API\\SITRA.API.csproj|c:\\users\\kodake\\desktop\\sitra src\\posapi\\sitra.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{80AD3C08-CD53-444A-BBC6-3A4FCD9600F9}|SITRA.API\\SITRA.API.csproj|solutionrelative:sitra.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{CDDBE765-C437-40CB-88E5-D34CD88A1353}|SITRA.Infrastructure\\SITRA.Infrastructure.csproj|c:\\users\\kodake\\desktop\\sitra src\\posapi\\sitra.infrastructure\\services\\dgii\\dgiitestservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{CDDBE765-C437-40CB-88E5-D34CD88A1353}|SITRA.Infrastructure\\SITRA.Infrastructure.csproj|solutionrelative:sitra.infrastructure\\services\\dgii\\dgiitestservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -30,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 297,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -54,7 +58,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.API\\appsettings.json",
+              "RelativeDocumentMoniker": "SITRA.API\\appsettings.json",
+              "ToolTip": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.API\\appsettings.json",
+              "RelativeToolTip": "SITRA.API\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAABoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-04-22T01:32:02.42Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "SignatureService.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Infrastructure\\Services\\DGII\\SignatureService.cs",
               "RelativeDocumentMoniker": "SITRA.Infrastructure\\Services\\DGII\\SignatureService.cs",
@@ -66,7 +83,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "TestCasesReaderService.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Infrastructure\\Services\\DGII\\TestCasesReaderService.cs",
               "RelativeDocumentMoniker": "SITRA.Infrastructure\\Services\\DGII\\TestCasesReaderService.cs",
@@ -78,7 +95,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "JsonTestCasesReaderService.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Infrastructure\\Services\\DGII\\JsonTestCasesReaderService.cs",
               "RelativeDocumentMoniker": "SITRA.Infrastructure\\Services\\DGII\\JsonTestCasesReaderService.cs",
@@ -86,24 +103,24 @@
               "RelativeToolTip": "SITRA.Infrastructure\\Services\\DGII\\JsonTestCasesReaderService.cs",
               "ViewState": "AgIAAAkAAAAAAAAAAAAAABEAAABJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-21T16:15:43.818Z"
+              "WhenOpened": "2026-04-21T16:15:43.818Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "DgiiTestService.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Infrastructure\\Services\\DGII\\DgiiTestService.cs",
               "RelativeDocumentMoniker": "SITRA.Infrastructure\\Services\\DGII\\DgiiTestService.cs",
               "ToolTip": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.Infrastructure\\Services\\DGII\\DgiiTestService.cs",
               "RelativeToolTip": "SITRA.Infrastructure\\Services\\DGII\\DgiiTestService.cs",
-              "ViewState": "AgIAAGQAAAAAAAAAAAAAAGoAAAAVAAAAAAAAAA==",
+              "ViewState": "AgIAANAAAAAAAAAAAAAewNgAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-16T01:04:54.409Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-16T01:04:54.409Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "DgiiTestController.cs",
               "DocumentMoniker": "C:\\Users\\Kodake\\Desktop\\SITRA SRC\\PosAPI\\SITRA.API\\Controllers\\DgiiTestController.cs",
               "RelativeDocumentMoniker": "SITRA.API\\Controllers\\DgiiTestController.cs",
