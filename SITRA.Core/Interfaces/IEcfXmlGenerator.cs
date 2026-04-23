@@ -6,5 +6,6 @@ namespace SITRA.Core.Interfaces
     {
         string GenerateEcfXml(EcfDocument document);
         string GenerateRfceXml(RfceDocument document);
+        string GenerateAcecfXml(AcecfDocument document);
     }
 }

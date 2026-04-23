@@ -16,6 +16,18 @@ namespace SITRA.Core.DTOs.DGII
 
         [XmlIgnore]
         public string? CodigoSeguridad { get; set; }
+
+        [XmlIgnore]
+        public bool IsAcecf { get; set; }
+
+        [XmlIgnore]
+        public string? AcecfEstado { get; set; }
+
+        [XmlIgnore]
+        public string? AcecfMotivoRechazo { get; set; }
+
+        [XmlIgnore]
+        public string? AcecfFechaHora { get; set; }
         [XmlElement(ElementName = "Encabezado", Order = 1)]
         public Encabezado Encabezado { get; set; } = new();
 

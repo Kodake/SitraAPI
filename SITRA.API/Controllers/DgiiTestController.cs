@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using SITRA.Core.Interfaces;
-using System.Threading.Tasks;
 
 namespace SITRA.API.Controllers
 {
@@ -39,6 +38,24 @@ namespace SITRA.API.Controllers
             try
             {
                 var result = await _dgiiTestService.RunRfceTestsAsync();
+                return Ok(result);
+            }
+            catch (System.Exception ex)
+            {
+                return StatusCode(500, new 
+                { 
+                    Error = ex.Message, 
+                    Stack = ex.StackTrace 
+                });
+            }
+        }
+
+        [HttpPost("acecf/run-tests")]
+        public async Task<IActionResult> RunAcecfTests()
+        {
+            try
+            {
+                var result = await _dgiiTestService.RunAprobacionComercialTestsAsync();
                 return Ok(result);
             }
             catch (System.Exception ex)

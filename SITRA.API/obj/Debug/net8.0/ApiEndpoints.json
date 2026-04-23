@@ -1,6 +1,16 @@
 [
   {
     "ContainingType": "SITRA.API.Controllers.DgiiTestController",
+    "Method": "RunAcecfTests",
+    "RelativePath": "api/dgiiTests/acecf/run-tests",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SITRA.API.Controllers.DgiiTestController",
     "Method": "RunRfceTests",
     "RelativePath": "api/dgiiTests/rfce/run-tests",
     "HttpMethod": "POST",

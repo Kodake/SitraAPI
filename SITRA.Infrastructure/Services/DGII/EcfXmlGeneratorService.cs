@@ -29,6 +29,13 @@ namespace SITRA.Infrastructure.Services.DGII
             return NormalizeXmlDeclaration(xml);
         }
 
+        public string GenerateAcecfXml(AcecfDocument document)
+        {
+            string xml = SerializeToXml(document);
+            xml = RemoveEmptyElements(xml);
+            return NormalizeXmlDeclaration(xml);
+        }
+
         private static string SerializeToXml<T>(T document)
         {
             var serializer = new XmlSerializer(typeof(T));

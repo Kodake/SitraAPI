@@ -16,6 +16,7 @@ namespace SITRA.Infrastructure.Services.DGII
             var rfceEncfs = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             var rfceFiscalSupports = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
             var rfceCodigoSeguridades = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            var acecfData = new Dictionary<string, (string Estado, string Motivo, string FechaHora)>(StringComparer.OrdinalIgnoreCase);
 
             using (var workbook = new XLWorkbook(excelStream))
             {
@@ -76,6 +77,38 @@ namespace SITRA.Infrastructure.Services.DGII
                     }
                 }
 
+                // Check for ACECF sheet
+                if (workbook.TryGetWorksheet("ACECF", out var acecfSheet))
+                {
+                    var acecfRange = acecfSheet.RangeUsed();
+                    var acecfHeaderRow = acecfRange.Row(1);
+                    int encfCol = -1, estadoCol = -1, motivoCol = -1, fechaHoraCol = -1;
+
+                    for (int i = 1; i <= acecfRange.ColumnCount(); i++)
+                   {
+                        var h = acecfHeaderRow.Cell(i).GetString();
+                        if (string.Equals(h, "ENCF", StringComparison.OrdinalIgnoreCase) || string.Equals(h, "eNCF", StringComparison.OrdinalIgnoreCase)) encfCol = i;
+                        else if (string.Equals(h, "Estado", StringComparison.OrdinalIgnoreCase)) estadoCol = i;
+                        else if (string.Equals(h, "DetalleMotivoRechazo", StringComparison.OrdinalIgnoreCase)) motivoCol = i;
+                        else if (string.Equals(h, "FechaHoraAprobacionComercial", StringComparison.OrdinalIgnoreCase)) fechaHoraCol = i;
+                    }
+
+                    if (encfCol != -1)
+                    {
+                        foreach (var row in acecfRange.RowsUsed().Skip(1))
+                        {
+                            string encf = row.Cell(encfCol).GetString()?.Trim();
+                            if (!string.IsNullOrEmpty(encf))
+                            {
+                                string st = estadoCol != -1 ? row.Cell(estadoCol).GetString()?.Trim() : "1";
+                                string mt = motivoCol != -1 ? row.Cell(motivoCol).GetString()?.Trim() : null;
+                                string fh = fechaHoraCol != -1 ? row.Cell(fechaHoraCol).GetString()?.Trim() : DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss");
+                                acecfData[encf] = (st, mt, fh);
+                            }
+                        }
+                    }
+                }
+
                 var worksheet = workbook.Worksheet(1);
                 var range = worksheet.RangeUsed();
                 var headerRow = range.Row(1);
@@ -108,6 +141,14 @@ namespace SITRA.Infrastructure.Services.DGII
                             {
                                 doc.CodigoSeguridad = cs;
                             }
+                        }
+
+                        if (acecfData.TryGetValue(doc.Encabezado.IdDoc.ENCF, out var aceData))
+                        {
+                            doc.IsAcecf = true;
+                            doc.AcecfEstado = aceData.Estado;
+                            doc.AcecfMotivoRechazo = aceData.Motivo;
+                            doc.AcecfFechaHora = aceData.FechaHora;
                         }
                         documents.Add(doc);
                     }

@@ -9,5 +9,6 @@ namespace SITRA.Core.Interfaces
         Task<string> SendEcfAsync(string ecfXmlSigned, string token);
         Task<string> SendRfceAsync(string ecfXmlSigned, string token);
         Task<string> CheckStatusAsync(string trackId, string token);
+        Task<string> SendAprobacionComercialAsync(string ecfXmlSigned, string token);
     }
 }

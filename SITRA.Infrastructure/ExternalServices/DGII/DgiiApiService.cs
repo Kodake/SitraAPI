@@ -16,6 +16,7 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
         private const string RecepcionUrl = "https://ecf.dgii.gov.do/CerteCF/Recepcion/api/FacturasElectronicas";
         private const string ConsultaUrl = "https://ecf.dgii.gov.do/CerteCF/ConsultaResultado/api/Consultas/Estado";
         private const string RecepcionResumenUrl = "https://fc.dgii.gov.do/CerteCF/RecepcionFC/api/Recepcion/Ecf";
+        private const string AprobacionComercial = "https://ecf.dgii.gov.do/CerteCF/AprobacionComercial/api/AprobacionComercial";
 
         public DgiiApiService(HttpClient httpClient)
         {
@@ -69,6 +70,11 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
         public async Task<string> SendRfceAsync(string ecfXmlSigned, string token)
         {
             return await SendToDgiiAsync(ecfXmlSigned, token, RecepcionResumenUrl);
+        }
+
+        public async Task<string> SendAprobacionComercialAsync(string ecfXmlSigned, string token)
+        {
+            return await SendToDgiiAsync(ecfXmlSigned, token, AprobacionComercial);
         }
 
         private async Task<string> SendToDgiiAsync(string ecfXmlSigned, string token, string targetUrl)

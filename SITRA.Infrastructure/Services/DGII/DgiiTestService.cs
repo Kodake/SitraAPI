@@ -37,15 +37,20 @@ namespace SITRA.Infrastructure.Services.DGII
 
         public async Task<DgiiTestSuiteResult> RunTestsAsync(string? ecfType = null)
         {
-            return await RunTestSuiteAsync(ecfType, false);
+            return await RunTestSuiteAsync(ecfType, false, false);
         }
 
         public async Task<DgiiTestSuiteResult> RunRfceTestsAsync()
         {
-            return await RunTestSuiteAsync(null, true);
+            return await RunTestSuiteAsync(null, true, false);
         }
 
-        private async Task<DgiiTestSuiteResult> RunTestSuiteAsync(string? ecfType, bool forRfce)
+        public async Task<DgiiTestSuiteResult> RunAprobacionComercialTestsAsync()
+        {
+            return await RunTestSuiteAsync(null, false, true);
+        }
+
+        private async Task<DgiiTestSuiteResult> RunTestSuiteAsync(string? ecfType, bool forRfce, bool forAcecf)
         {
             var results = new List<DgiiTestResult>();
 
@@ -81,6 +86,10 @@ namespace SITRA.Infrastructure.Services.DGII
             {
                 documents = documents.FindAll(d => d.IsRfce);
             }
+            else if (forAcecf)
+            {
+                documents = documents.FindAll(d => d.IsAcecf);
+            }
             else if (!string.IsNullOrEmpty(ecfType))
             {
                 documents = documents.FindAll(d => d.Encabezado.IdDoc.TipoeCF == ecfType);
@@ -103,8 +112,17 @@ namespace SITRA.Infrastructure.Services.DGII
                 {
                     string xmlFirmado = string.Empty;
                     bool useRfceChannel = forRfce;
+                    bool useAcecfChannel = forAcecf;
 
-                    if (forRfce)
+                    if (forAcecf)
+                    {
+                        var acecfDoc = MapToAcecf(doc);
+                        string xmlSinFirma = _ecfXmlGenerator.GenerateAcecfXml(acecfDoc);
+                        xmlFirmado = _signatureService.SignXml(xmlSinFirma, _settings.CertificatePath, _settings.CertificatePassword);
+                        
+                        SaveDocumentXml(xmlFirmado, doc.Encabezado.IdDoc.ENCF, doc.Encabezado.Emisor.RNCEmisor, "ACECF");
+                    }
+                    else if (forRfce)
                     {
                         // 1. Generate and sign the base ECF (Type 32)
                         string baseEcfXml = _ecfXmlGenerator.GenerateEcfXml(doc);
@@ -151,9 +169,11 @@ namespace SITRA.Infrastructure.Services.DGII
                         SaveDocumentXml(xmlFirmado, doc.Encabezado.IdDoc.ENCF, doc.Encabezado.Emisor.RNCEmisor, doc.Encabezado.IdDoc.TipoeCF);
                     }
 
-                    string rawResponse = useRfceChannel 
-                        ? await _dgiiApiService.SendRfceAsync(xmlFirmado, token)
-                        : await _dgiiApiService.SendEcfAsync(xmlFirmado, token);
+                    string rawResponse = useAcecfChannel
+                        ? await _dgiiApiService.SendAprobacionComercialAsync(xmlFirmado, token)
+                        : useRfceChannel 
+                            ? await _dgiiApiService.SendRfceAsync(xmlFirmado, token)
+                            : await _dgiiApiService.SendEcfAsync(xmlFirmado, token);
                     
                     using (JsonDocument docJson = JsonDocument.Parse(rawResponse))
                     {
@@ -234,8 +254,27 @@ namespace SITRA.Infrastructure.Services.DGII
             return new DgiiTestSuiteResult
             {
                 Token = token,
-                Message = forRfce ? "Pruebas RFCE completadas" : "Ronda de pruebas completada",
+                Message = forRfce ? "Pruebas RFCE completadas" : forAcecf ? "Pruebas ACECF completadas" : "Ronda de pruebas completada",
                 Results = results
+            };
+        }
+
+        private static AcecfDocument MapToAcecf(EcfDocument doc)
+        {
+            return new AcecfDocument
+            {
+                Detalle = new DetalleAprobacionComercial
+                {
+                    Version = doc.Encabezado.Version,
+                    RNCEmisor = doc.Encabezado.Emisor.RNCEmisor,
+                    ENCF = doc.Encabezado.IdDoc.ENCF,
+                    FechaEmision = doc.Encabezado.Emisor.FechaEmision,
+                    MontoTotal = doc.Encabezado.Totales.MontoTotal?.ToString("F2") ?? "0.00",
+                    RNCComprador = doc.Encabezado.Comprador.RNCComprador ?? string.Empty,
+                    Estado = doc.AcecfEstado ?? "1",
+                    DetalleMotivoRechazo = doc.AcecfMotivoRechazo,
+                    FechaHoraAprobacionComercial = doc.AcecfFechaHora ?? DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss")
+                }
             };
         }
 
@@ -255,8 +294,26 @@ namespace SITRA.Infrastructure.Services.DGII
                     Directory.CreateDirectory(saveDir);
                 }
 
-                // Nomenclature: {RNC}{ENCF}.xml or {RNC}{ENCF}_RFCE.xml
-                string fileName = docType == "RFCE" ? $"{rnc}{encf}_RFCE.xml" : $"{rnc}{encf}.xml";
+                // Nomenclature: {RNCComprador}{ENCF}_ACECF.xml or {RNCEmisor}{ENCF}_RFCE.xml or {RNCEmisor}{ENCF}.xml
+                string fileName = docType switch
+                {
+                    "RFCE" => $"{rnc}{encf}_RFCE.xml",
+                    "ACECF" => $"{xml.Substring(xml.IndexOf("<RNCComprador>") + 14, 9)}{encf}_ACECF.xml", // Quick extraction or pass RNCComprador
+                    _ => $"{rnc}{encf}.xml"
+                };
+
+                // Better way: let's just pass the RNC to the method if it's different.
+                // Actually, I'll just use a more robust way to get it from XML or just simplify.
+                if (docType == "ACECF")
+                {
+                   // Try to find RNCComprador in XML
+                   var docX = XDocument.Parse(xml);
+                   var rncComprador = docX.Descendants("RNCComprador").FirstOrDefault()?.Value;
+                   if (!string.IsNullOrEmpty(rncComprador))
+                   {
+                       fileName = $"{rncComprador}{encf}_ACECF.xml";
+                   }
+                }
                 string filePath = Path.Combine(saveDir, fileName);
                 File.WriteAllText(filePath, xml, new UTF8Encoding(false));
             }
