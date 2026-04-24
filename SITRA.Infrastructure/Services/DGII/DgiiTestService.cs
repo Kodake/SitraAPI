@@ -70,8 +70,10 @@ namespace SITRA.Infrastructure.Services.DGII
             }
 
             // Step 2: Read Test Cases
-            using var stream = File.OpenRead(_settings.TestFilePath);
-            var extension = Path.GetExtension(_settings.TestFilePath).ToLower();
+            var filePath = forAcecf ? _settings.TestFilePath2 : _settings.TestFilePath;
+
+            using var stream = File.OpenRead(filePath);
+            var extension = Path.GetExtension(filePath).ToLower();
             
             ITestCasesReader reader = extension switch
             {

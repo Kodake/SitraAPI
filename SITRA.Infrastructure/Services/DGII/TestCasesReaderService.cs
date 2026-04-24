@@ -78,7 +78,9 @@ namespace SITRA.Infrastructure.Services.DGII
                 }
 
                 // Check for ACECF sheet
-                if (workbook.TryGetWorksheet("ACECF", out var acecfSheet))
+                if (workbook.TryGetWorksheet("ACECF", out var acecfSheet) || 
+                    workbook.TryGetWorksheet("ACEECF_Generadas", out acecfSheet) ||
+                    workbook.TryGetWorksheet("AprobacionComercial", out acecfSheet))
                 {
                     var acecfRange = acecfSheet.RangeUsed();
                     var acecfHeaderRow = acecfRange.Row(1);
@@ -183,6 +185,15 @@ namespace SITRA.Infrastructure.Services.DGII
             doc.Encabezado.IdDoc.IndicadorNotaCredito = GetInt("IndicadorNotaCredito");
 
             doc.Encabezado.IdDoc.IndicadorMontoGral = Get("IndicadorMontoGravado");
+
+            // ACECF fields
+            doc.AcecfEstado = Get("Estado");
+            doc.AcecfMotivoRechazo = Get("DetalleMotivoRechazo");
+            doc.AcecfFechaHora = Get("FechaHoraAprobacionComercial");
+            if (!string.IsNullOrEmpty(doc.AcecfEstado))
+            {
+                doc.IsAcecf = true;
+            }
 
             string eCfType = doc.Encabezado.IdDoc.TipoeCF;
             

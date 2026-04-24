@@ -93,14 +93,21 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
             {
                 var doc = System.Xml.Linq.XDocument.Parse(ecfXmlSigned);
                 var ns = doc.Root.Name.Namespace;
-                var rnc = doc.Descendants(ns + "RNCEmisor").FirstOrDefault()?.Value;
+                bool isAcecf = doc.Root.Name.LocalName == "ACECF";
+
+                var rnc = isAcecf 
+                    ? doc.Descendants(ns + "RNCComprador").FirstOrDefault()?.Value 
+                    : doc.Descendants(ns + "RNCEmisor").FirstOrDefault()?.Value;
+                    
                 var encf = doc.Descendants(ns + "eNCF").FirstOrDefault()?.Value;
                 
                 if (!string.IsNullOrEmpty(rnc) && !string.IsNullOrEmpty(encf))
                 {
                     // Clean RNC of any dashes or spaces (common in Excel)
                     var cleanRnc = System.Text.RegularExpressions.Regex.Replace(rnc, @"[^0-9]", "");
-                    fileName = $"{cleanRnc}{encf.Trim()}.xml";
+                    fileName = isAcecf 
+                        ? $"{cleanRnc}{encf.Trim()}ACECF.xml"
+                        : $"{cleanRnc}{encf.Trim()}.xml";
                 }
             }
             catch { /* Fallback to default if parsing fails */ }
