@@ -1,9 +1,6 @@
 using AutoMapper;
 using SITRA.Core.Helpers;
 using SITRA.Core.Interfaces;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
 
 namespace SITRA.Core.Mediator.Queries.Auths
 {

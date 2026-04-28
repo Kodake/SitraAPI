@@ -163,7 +163,6 @@ C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Infrastructure\bin\Debug\net8.0\L
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Infrastructure\bin\Debug\net8.0\LatoFont\Lato-ThinItalic.ttf
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Infrastructure\bin\Debug\net8.0\LatoFont\OFL.txt
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Infrastructure\bin\Debug\net8.0\SITRA.Infrastructure.deps.json
-C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Infrastructure\bin\Debug\net8.0\SITRA.Infrastructure.runtimeconfig.json
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Infrastructure\bin\Debug\net8.0\SITRA.Infrastructure.dll
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Infrastructure\bin\Debug\net8.0\SITRA.Infrastructure.pdb
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Infrastructure\bin\Debug\net8.0\SITRA.Core.dll
@@ -180,5 +179,4 @@ C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Infrastructure\obj\Debug\net8.0\S
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Infrastructure\obj\Debug\net8.0\SITRA.Infrastructure.dll
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Infrastructure\obj\Debug\net8.0\refint\SITRA.Infrastructure.dll
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Infrastructure\obj\Debug\net8.0\SITRA.Infrastructure.pdb
-C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Infrastructure\obj\Debug\net8.0\SITRA.Infrastructure.genruntimeconfig.cache
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Infrastructure\obj\Debug\net8.0\ref\SITRA.Infrastructure.dll
