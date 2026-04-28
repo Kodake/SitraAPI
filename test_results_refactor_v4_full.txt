@@ -1,7 +1,0 @@
-﻿  Determining projects to restore...
-  All projects are up-to-date for restore.
-  SITRA.Core -> C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Core\bin\Debug\net8.0\SITRA.Core.dll
-  SITRA.Infrastructure -> C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Infrastructure\bin\Debug\net8.0\SITRA.Infrastructure.dll
-  SITRA.API -> C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\bin\Debug\net8.0\SITRA.API.dll
-C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\UserServiceTests.cs(287,21): error CS0136: A local or parameter named 'userStore' cannot be declared in this scope because that name is used in an enclosing local scope to define a local or parameter [C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\SITRA.Tests.csproj]
-C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\UserServiceTests.cs(288,21): error CS0136: A local or parameter named 'userManager' cannot be declared in this scope because that name is used in an enclosing local scope to define a local or parameter [C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\SITRA.Tests.csproj]

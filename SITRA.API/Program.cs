@@ -39,8 +39,8 @@ builder.Services.AddSwaggerGen(c =>
         Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
         Name = "Authorization",
         In = ParameterLocation.Header,
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = "Bearer"
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer"
     });
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
@@ -83,9 +83,27 @@ builder.Services.AddAuthentication(options =>
     {
         ValidateIssuer = true,
         ValidateAudience = true,
+        ValidateIssuerSigningKey = true,
         ValidAudience = builder.Configuration["Jwt:Audience"],
-        ValidIssuer = builder.Configuration["Authentication:Schemes:Bearer:Issuer"],
+        ValidIssuer = builder.Configuration["Authentication:Schemes:Bearer:Issuer"] 
+            ?? builder.Configuration["Authentication:Schemes:Bearer:ValidIssuer"] 
+            ?? builder.Configuration["Jwt:Issuer"],
         IssuerSigningKeys = Keys.GetAllKeys(builder.Configuration)
+    };
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            var authHeader = context.Request.Headers["Authorization"].ToString();
+            Console.WriteLine($"[DEBUG] Auth Header='{authHeader}'");
+            // If we manually extract token here, let's see what happens
+            if (authHeader.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+            {
+                context.Token = authHeader.Substring("Bearer ".Length).Trim();
+            }
+            Console.WriteLine($"[DEBUG] context.Token='{context.Token}'");
+            return Task.CompletedTask;
+        }
     };
 });
 
@@ -173,9 +191,8 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 app.UseHttpsRedirection();
 
 app.UseCors("AllowAll");
-app.UseOutputCache();
 
-//app.UseMiddleware<SITRA.API.Middlewares.IpBlockingMiddleware>();
+app.UseOutputCache();
 
 app.UseAuthentication();
 app.UseAuthorization();

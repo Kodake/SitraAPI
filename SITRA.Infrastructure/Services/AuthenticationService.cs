@@ -66,7 +66,9 @@ namespace SITRA.Infrastructure.Services
                 ?? throw new InvalidOperationException(Utilities.NoSigningKeysFoundMessage);
 
             var creds = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
-            var issuer = _configuration["Authentication:Schemes:Bearer:Issuer"];
+            var issuer = _configuration["Authentication:Schemes:Bearer:Issuer"] 
+                ?? _configuration["Authentication:Schemes:Bearer:ValidIssuer"] 
+                ?? _configuration["Jwt:Issuer"];
             var audience = _configuration["Jwt:Audience"];
             var expire = DateTimeOffset.UtcNow.AddHours(12);
 

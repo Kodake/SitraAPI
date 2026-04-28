@@ -1,6 +1,0 @@
-﻿  Determining projects to restore...
-  All projects are up-to-date for restore.
-  SITRA.Core -> C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Core\bin\Debug\net8.0\SITRA.Core.dll
-  SITRA.Infrastructure -> C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Infrastructure\bin\Debug\net8.0\SITRA.Infrastructure.dll
-  SITRA.API -> C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\bin\Debug\net8.0\SITRA.API.dll
-C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\UserServiceTests.cs(135,55): error CS0246: The type or namespace name 'IRolePermissionRepository' could not be found (are you missing a using directive or an assembly reference?) [C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Tests\SITRA.Tests.csproj]
