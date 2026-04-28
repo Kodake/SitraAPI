@@ -949,10 +949,10 @@ C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\obj\Debug\net8.0\staticwebass
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\obj\Debug\net8.0\staticwebassets.build.endpoints.json
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\obj\Debug\net8.0\swae.build.ex.cache
-C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\obj\Debug\net8.0\SITRA.API.csproj.Up2Date
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\obj\Debug\net8.0\SITRA.API.dll
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\obj\Debug\net8.0\refint\SITRA.API.dll
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\obj\Debug\net8.0\SITRA.API.pdb
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\obj\Debug\net8.0\SITRA.API.genruntimeconfig.cache
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\obj\Debug\net8.0\ref\SITRA.API.dll
+C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

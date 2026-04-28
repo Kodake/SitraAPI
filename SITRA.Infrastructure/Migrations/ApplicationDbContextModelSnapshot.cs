@@ -542,14 +542,9 @@ namespace SITRA.Infrastructure.Migrations
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<string>("UserId1")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("RoleId", "UserId");
 
                     b.HasIndex("UserId");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("TenantRoleUsers", "dbo");
                 });
@@ -2134,14 +2129,10 @@ namespace SITRA.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("SITRA.Core.Entities.Auths.User", "User")
-                        .WithMany()
+                        .WithMany("TenantRoleUsers")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("SITRA.Core.Entities.Auths.User", null)
-                        .WithMany("TenantRoleUsers")
-                        .HasForeignKey("UserId1");
 
                     b.Navigation("Role");
 

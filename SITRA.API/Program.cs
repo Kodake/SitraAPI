@@ -175,7 +175,7 @@ app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 app.UseOutputCache();
 
-app.UseMiddleware<SITRA.API.Middlewares.IpBlockingMiddleware>();
+//app.UseMiddleware<SITRA.API.Middlewares.IpBlockingMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();

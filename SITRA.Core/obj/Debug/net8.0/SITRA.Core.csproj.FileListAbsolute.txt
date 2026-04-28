@@ -220,8 +220,8 @@ C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Core\obj\Debug\net8.0\staticwebas
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Core\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Core\obj\Debug\net8.0\staticwebassets.build.endpoints.json
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Core\obj\Debug\net8.0\swae.build.ex.cache
-C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Core\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Core\obj\Debug\net8.0\SITRA.Core.dll
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Core\obj\Debug\net8.0\refint\SITRA.Core.dll
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Core\obj\Debug\net8.0\SITRA.Core.pdb
 C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Core\obj\Debug\net8.0\ref\SITRA.Core.dll
+C:\Users\Kodake\Desktop\SITRA SRC\PosAPI\SITRA.Core\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
