@@ -19,17 +19,17 @@ namespace SITRA.API.Filters
                 if (!operation.Parameters.Any(p => p.Name == "X-Idempotency-Key"))
                 {
                     operation.Parameters.Add(new OpenApiParameter
-                {
-                    Name = "X-Idempotency-Key",
-                    In = ParameterLocation.Header,
-                    Required = true,
-                    Schema = new OpenApiSchema
                     {
-                        Type = "string",
-                        Format = "uuid"
-                    },
-                    Description = "Unique key to ensure idempotency of the operation."
-                });
+                        Name = "X-Idempotency-Key",
+                        In = ParameterLocation.Header,
+                        Required = true,
+                        Schema = new OpenApiSchema
+                        {
+                            Type = "string",
+                            Format = "uuid"
+                        },
+                        Description = "Unique key to ensure idempotency of the operation."
+                    });
                 }
             }
         }

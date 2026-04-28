@@ -24,10 +24,10 @@ namespace SITRA.API.Controllers
             }
             catch (System.Exception ex)
             {
-                return StatusCode(500, new 
-                { 
-                    Error = ex.Message, 
-                    Stack = ex.StackTrace 
+                return StatusCode(500, new
+                {
+                    Error = ex.Message,
+                    Stack = ex.StackTrace
                 });
             }
         }
@@ -42,10 +42,10 @@ namespace SITRA.API.Controllers
             }
             catch (System.Exception ex)
             {
-                return StatusCode(500, new 
-                { 
-                    Error = ex.Message, 
-                    Stack = ex.StackTrace 
+                return StatusCode(500, new
+                {
+                    Error = ex.Message,
+                    Stack = ex.StackTrace
                 });
             }
         }
@@ -60,10 +60,10 @@ namespace SITRA.API.Controllers
             }
             catch (System.Exception ex)
             {
-                return StatusCode(500, new 
-                { 
-                    Error = ex.Message, 
-                    Stack = ex.StackTrace 
+                return StatusCode(500, new
+                {
+                    Error = ex.Message,
+                    Stack = ex.StackTrace
                 });
             }
         }

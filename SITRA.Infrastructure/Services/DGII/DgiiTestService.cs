@@ -74,7 +74,7 @@ namespace SITRA.Infrastructure.Services.DGII
 
             using var stream = File.OpenRead(filePath);
             var extension = Path.GetExtension(filePath).ToLower();
-            
+
             ITestCasesReader reader = extension switch
             {
                 ".json" => _testCasesReaders.OfType<JsonTestCasesReaderService>().FirstOrDefault() ?? throw new Exception("JSON Reader not registered"),
@@ -101,7 +101,7 @@ namespace SITRA.Infrastructure.Services.DGII
             foreach (var doc in documents)
             {
                 var result = new DgiiTestResult { TestName = doc.TestCaseName };
-                
+
                 if (!forRfce && doc.IsRfce)
                 {
                     result.Status = "Skipped";
@@ -121,7 +121,7 @@ namespace SITRA.Infrastructure.Services.DGII
                         var acecfDoc = MapToAcecf(doc);
                         string xmlSinFirma = _ecfXmlGenerator.GenerateAcecfXml(acecfDoc);
                         xmlFirmado = _signatureService.SignXml(xmlSinFirma, _settings.CertificatePath, _settings.CertificatePassword);
-                        
+
                         SaveDocumentXml(xmlFirmado, doc.Encabezado.IdDoc.ENCF, doc.Encabezado.Emisor.RNCEmisor, "ACECF");
                     }
                     else if (forRfce)
@@ -129,10 +129,10 @@ namespace SITRA.Infrastructure.Services.DGII
                         // 1. Generate and sign the base ECF (Type 32)
                         string baseEcfXml = _ecfXmlGenerator.GenerateEcfXml(doc);
                         string signedBaseEcf = _signatureService.SignXml(baseEcfXml, _settings.CertificatePath, _settings.CertificatePassword);
-                        
+
                         // 2. Save the base e-CF in the "32" folder (always archive individual invoices)
                         SaveDocumentXml(signedBaseEcf, doc.Encabezado.IdDoc.ENCF, doc.Encabezado.Emisor.RNCEmisor, "32");
-                        
+
                         // 3. Extract the security code and generate RFCE
                         string securityCode = GetSecurityCodeFromSignedXml(signedBaseEcf);
                         var rfceDoc = MapToRfce(doc);
@@ -140,7 +140,7 @@ namespace SITRA.Infrastructure.Services.DGII
 
                         string xmlSinFirma = _ecfXmlGenerator.GenerateRfceXml(rfceDoc);
                         xmlFirmado = _signatureService.SignXml(xmlSinFirma, _settings.CertificatePath, _settings.CertificatePassword);
-                        
+
                         // Save the RFCE summary
                         SaveDocumentXml(xmlFirmado, doc.Encabezado.IdDoc.ENCF, doc.Encabezado.Emisor.RNCEmisor, "RFCE");
                     }
@@ -150,14 +150,14 @@ namespace SITRA.Infrastructure.Services.DGII
                         string baseEcfXml = _ecfXmlGenerator.GenerateEcfXml(doc);
                         string signedBaseEcf = _signatureService.SignXml(baseEcfXml, _settings.CertificatePath, _settings.CertificatePassword);
                         SaveDocumentXml(signedBaseEcf, doc.Encabezado.IdDoc.ENCF, doc.Encabezado.Emisor.RNCEmisor, "32");
-                        
+
                         string securityCode = GetSecurityCodeFromSignedXml(signedBaseEcf);
                         var rfceDoc = MapToRfce(doc);
                         rfceDoc.Encabezado.CodigoSeguridadeCF = securityCode;
-                        
+
                         string rfceXmlSinFirma = _ecfXmlGenerator.GenerateRfceXml(rfceDoc);
                         xmlFirmado = _signatureService.SignXml(rfceXmlSinFirma, _settings.CertificatePath, _settings.CertificatePassword);
-                        
+
                         // Save and prepare for RFCE sending
                         SaveDocumentXml(xmlFirmado, doc.Encabezado.IdDoc.ENCF, doc.Encabezado.Emisor.RNCEmisor, "RFCE");
                         useRfceChannel = true;
@@ -167,16 +167,16 @@ namespace SITRA.Infrastructure.Services.DGII
                         // Standard individual invoice generation
                         string xmlSinFirma = _ecfXmlGenerator.GenerateEcfXml(doc);
                         xmlFirmado = _signatureService.SignXml(xmlSinFirma, _settings.CertificatePath, _settings.CertificatePassword);
-                        
+
                         SaveDocumentXml(xmlFirmado, doc.Encabezado.IdDoc.ENCF, doc.Encabezado.Emisor.RNCEmisor, doc.Encabezado.IdDoc.TipoeCF);
                     }
 
                     string rawResponse = useAcecfChannel
                         ? await _dgiiApiService.SendAprobacionComercialAsync(xmlFirmado, token)
-                        : useRfceChannel 
+                        : useRfceChannel
                             ? await _dgiiApiService.SendRfceAsync(xmlFirmado, token)
                             : await _dgiiApiService.SendEcfAsync(xmlFirmado, token);
-                    
+
                     using (JsonDocument docJson = JsonDocument.Parse(rawResponse))
                     {
                         if (docJson.RootElement.TryGetProperty("trackId", out JsonElement trackIdElement))
@@ -186,18 +186,18 @@ namespace SITRA.Infrastructure.Services.DGII
                         else if (docJson.RootElement.TryGetProperty("estado", out JsonElement estadoElement))
                         {
                             string estado = estadoElement.GetString() ?? string.Empty;
-                            string encf = docJson.RootElement.TryGetProperty("encf", out JsonElement encfElement) 
-                                ? encfElement.GetString() ?? string.Empty 
+                            string encf = docJson.RootElement.TryGetProperty("encf", out JsonElement encfElement)
+                                ? encfElement.GetString() ?? string.Empty
                                 : string.Empty;
-                            
+
                             result.TrackId = !string.IsNullOrEmpty(encf) ? $"{estado} ({encf})" : estado;
                         }
                         else
                         {
-                            result.TrackId = rawResponse; 
+                            result.TrackId = rawResponse;
                         }
                     }
-                    
+
                     result.Status = "Success";
                 }
                 catch (Exception ex)
@@ -217,7 +217,7 @@ namespace SITRA.Infrastructure.Services.DGII
                             {
                                 var root = docJson.RootElement;
                                 string estado = root.TryGetProperty("estado", out var e) ? e.GetString() ?? "" : "";
-                                
+
                                 List<string> errorMessages = new List<string>();
                                 if (root.TryGetProperty("mensajes", out var m) && m.ValueKind == JsonValueKind.Array)
                                 {
@@ -235,8 +235,8 @@ namespace SITRA.Infrastructure.Services.DGII
                                     result.Status = $"Failed ({estado})";
                                 }
 
-                                result.Error = errorMessages.Count > 0 
-                                    ? string.Join("; ", errorMessages) 
+                                result.Error = errorMessages.Count > 0
+                                    ? string.Join("; ", errorMessages)
                                     : exMessage;
                             }
                         }
@@ -308,13 +308,13 @@ namespace SITRA.Infrastructure.Services.DGII
                 // Actually, I'll just use a more robust way to get it from XML or just simplify.
                 if (docType == "ACECF")
                 {
-                   // Try to find RNCComprador in XML
-                   var docX = XDocument.Parse(xml);
-                   var rncComprador = docX.Descendants("RNCComprador").FirstOrDefault()?.Value;
-                   if (!string.IsNullOrEmpty(rncComprador))
-                   {
-                       fileName = $"{rncComprador}{encf}_ACECF.xml";
-                   }
+                    // Try to find RNCComprador in XML
+                    var docX = XDocument.Parse(xml);
+                    var rncComprador = docX.Descendants("RNCComprador").FirstOrDefault()?.Value;
+                    if (!string.IsNullOrEmpty(rncComprador))
+                    {
+                        fileName = $"{rncComprador}{encf}_ACECF.xml";
+                    }
                 }
                 string filePath = Path.Combine(saveDir, fileName);
                 File.WriteAllText(filePath, xml, new UTF8Encoding(false));
@@ -332,7 +332,7 @@ namespace SITRA.Infrastructure.Services.DGII
                 var doc = XDocument.Parse(signedXml);
                 XNamespace ds = "http://www.w3.org/2000/09/xmldsig#";
                 var sigValue = doc.Descendants(ds + "SignatureValue").FirstOrDefault()?.Value;
-                
+
                 if (!string.IsNullOrEmpty(sigValue))
                 {
                     // Clean the base64 string
@@ -342,7 +342,7 @@ namespace SITRA.Infrastructure.Services.DGII
                 }
             }
             catch { }
-            
+
             return "000000";
         }
 

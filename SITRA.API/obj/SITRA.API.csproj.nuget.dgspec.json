@@ -57,33 +57,9 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
-            "AutoMapper": {
-              "target": "Package",
-              "version": "[16.1.1, )"
-            },
-            "Azure.Identity": {
-              "target": "Package",
-              "version": "[1.13.2, )"
-            },
-            "CsvHelper": {
-              "target": "Package",
-              "version": "[33.0.1, )"
-            },
-            "FluentValidation": {
-              "target": "Package",
-              "version": "[11.9.2, )"
-            },
             "FluentValidation.DependencyInjectionExtensions": {
               "target": "Package",
               "version": "[11.9.2, )"
-            },
-            "MediatR": {
-              "target": "Package",
-              "version": "[12.4.1, )"
-            },
-            "Microsoft.ApplicationInsights.AspNetCore": {
-              "target": "Package",
-              "version": "[2.23.0, )"
             },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
@@ -99,10 +75,6 @@
               "target": "Package",
               "version": "[8.0.12, )"
             },
-            "QuestPDF": {
-              "target": "Package",
-              "version": "[2024.12.1, )"
-            },
             "Serilog": {
               "target": "Package",
               "version": "[4.0.1, )"
@@ -111,21 +83,9 @@
               "target": "Package",
               "version": "[8.0.2, )"
             },
-            "Serilog.Enrichers.Environment": {
-              "target": "Package",
-              "version": "[3.0.1, )"
-            },
-            "Serilog.Exceptions": {
-              "target": "Package",
-              "version": "[8.4.0, )"
-            },
             "Serilog.Sinks.Console": {
               "target": "Package",
               "version": "[6.0.0, )"
-            },
-            "Serilog.Sinks.MSSqlServer": {
-              "target": "Package",
-              "version": "[7.0.0, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
@@ -205,10 +165,6 @@
               "target": "Package",
               "version": "[13.0.1, )"
             },
-            "Azure.Storage.Blobs": {
-              "target": "Package",
-              "version": "[12.26.0, )"
-            },
             "CsvHelper": {
               "target": "Package",
               "version": "[33.0.1, )"
@@ -232,10 +188,6 @@
             "QuestPDF": {
               "target": "Package",
               "version": "[2024.12.1, )"
-            },
-            "System.IdentityModel.Tokens.Jwt": {
-              "target": "Package",
-              "version": "[8.15.0, )"
             }
           },
           "imports": [
@@ -323,29 +275,9 @@
               "target": "Package",
               "version": "[8.0.12, )"
             },
-            "Microsoft.EntityFrameworkCore": {
-              "target": "Package",
-              "version": "[8.0.12, )"
-            },
-            "Microsoft.EntityFrameworkCore.Design": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[8.0.12, )"
-            },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[8.0.12, )"
-            },
-            "Microsoft.EntityFrameworkCore.Tools": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[8.0.12, )"
-            },
-            "Microsoft.Extensions.DependencyInjection.Abstractions": {
-              "target": "Package",
-              "version": "[8.0.2, )"
             },
             "System.Security.Cryptography.Xml": {
               "target": "Package",

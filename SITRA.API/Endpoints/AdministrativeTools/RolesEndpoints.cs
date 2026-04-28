@@ -1,7 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using SITRA.Core.Enums;
 using SITRA.API.Filters;
 using SITRA.API.Helpers;
 using SITRA.Core.DTOs;

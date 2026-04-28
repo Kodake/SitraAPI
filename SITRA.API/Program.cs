@@ -6,20 +6,17 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using SITRA.API.Extensions;
-using SITRA.Core.Entities.AdministrativeTools;
 using SITRA.Core.Entities.Auths;
 using SITRA.Core.Helpers;
 using SITRA.Core.Interfaces;
 using SITRA.Core.Mediator;
+using SITRA.Core.Models.Dgii;
 using SITRA.Core.Validations.Products;
+using SITRA.Infrastructure.ExternalServices.DGII;
 using SITRA.Infrastructure.Persistence;
 using SITRA.Infrastructure.Repositories;
 using SITRA.Infrastructure.Services;
 using SITRA.Infrastructure.Services.DGII;
-using SITRA.Infrastructure.ExternalServices.DGII;
-using Microsoft.Extensions.DependencyInjection;
-using AutoMapper;
-using SITRA.Core.Models.Dgii;
 var builder = WebApplication.CreateBuilder(args);
 
 // Serilog

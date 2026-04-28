@@ -54,10 +54,6 @@
               "target": "Package",
               "version": "[13.0.1, )"
             },
-            "Azure.Storage.Blobs": {
-              "target": "Package",
-              "version": "[12.26.0, )"
-            },
             "CsvHelper": {
               "target": "Package",
               "version": "[33.0.1, )"
@@ -81,10 +77,6 @@
             "QuestPDF": {
               "target": "Package",
               "version": "[2024.12.1, )"
-            },
-            "System.IdentityModel.Tokens.Jwt": {
-              "target": "Package",
-              "version": "[8.15.0, )"
             }
           },
           "imports": [
@@ -172,29 +164,9 @@
               "target": "Package",
               "version": "[8.0.12, )"
             },
-            "Microsoft.EntityFrameworkCore": {
-              "target": "Package",
-              "version": "[8.0.12, )"
-            },
-            "Microsoft.EntityFrameworkCore.Design": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[8.0.12, )"
-            },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[8.0.12, )"
-            },
-            "Microsoft.EntityFrameworkCore.Tools": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[8.0.12, )"
-            },
-            "Microsoft.Extensions.DependencyInjection.Abstractions": {
-              "target": "Package",
-              "version": "[8.0.2, )"
             },
             "System.Security.Cryptography.Xml": {
               "target": "Package",

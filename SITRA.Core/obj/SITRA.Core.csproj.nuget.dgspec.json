@@ -54,10 +54,6 @@
               "target": "Package",
               "version": "[13.0.1, )"
             },
-            "Azure.Storage.Blobs": {
-              "target": "Package",
-              "version": "[12.26.0, )"
-            },
             "CsvHelper": {
               "target": "Package",
               "version": "[33.0.1, )"
@@ -81,10 +77,6 @@
             "QuestPDF": {
               "target": "Package",
               "version": "[2024.12.1, )"
-            },
-            "System.IdentityModel.Tokens.Jwt": {
-              "target": "Package",
-              "version": "[8.15.0, )"
             }
           },
           "imports": [
