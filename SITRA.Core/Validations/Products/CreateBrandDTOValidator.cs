@@ -1,13 +1,14 @@
 using FluentValidation;
 using SITRA.Core.DTOs.Products.Brands;
 using SITRA.Core.Helpers;
+using SITRA.Core.Interfaces;
 using SITRA.Core.Interfaces.Products;
 
 namespace SITRA.Core.Validations.Products
 {
     public class CreateBrandDTOValidator : AbstractValidator<CreateBrandDTO>
     {
-        public CreateBrandDTOValidator(IUnitRepository repository,
+        public CreateBrandDTOValidator(IUnitOfWork repository,
           IHttpContextAccessor httpContextAccessor)
         {
             var routeId = httpContextAccessor.HttpContext?.Request.RouteValues["id"];
@@ -25,7 +26,7 @@ namespace SITRA.Core.Validations.Products
             .Must(Utilities.FirstCharUppercase).WithMessage(Utilities.FirstCharUpperMessage)
             .MustAsync(async (name, _) =>
             {
-                var exists = await repository.Exists(id, name);
+                var exists = await repository.BrandRepository.Exists(id, name);
                 return !exists;
             }).WithMessage(x => string.Format(Utilities.NameAlreadyExistsWith, x.Name));
         }

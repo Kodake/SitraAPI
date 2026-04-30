@@ -24,7 +24,6 @@ public static class ApiRouteExtensions
         apiGroup.MapGroup("/subCategories").MapSubCategories();
         apiGroup.MapGroup("/brands").MapBrands();
         apiGroup.MapGroup("/models").MapModels();
-        apiGroup.MapGroup("/units").MapUnits();
         apiGroup.MapGroup("/currencies").MapCurrencies();
         apiGroup.MapGroup("/taxes").MapTaxes();
         apiGroup.MapGroup("/expenses").MapExpenses();

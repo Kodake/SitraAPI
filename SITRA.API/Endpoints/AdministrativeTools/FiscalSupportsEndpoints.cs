@@ -9,7 +9,6 @@ using SITRA.Core.DTOs.AdministrativeTools.FiscalSupports;
 using SITRA.Core.Enums;
 using SITRA.Core.Mediator.Commands.AdministrativeTools.FiscalSupports;
 using SITRA.Core.Mediator.Queries.AdministrativeTools.FiscalSupports;
-using SITRA.Core.Mediator.Queries.Products.Items;
 
 namespace SITRA.API.Endpoints
 {
@@ -21,7 +20,7 @@ namespace SITRA.API.Endpoints
                 .AddPaginationParamsOpenAPI().RequireAuthorization();
             group.MapGet("/selects", GetSelects).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("fiscalsupports-get")).RequireAuthorization();
             group.MapGet("/{id:guid}", GetById).RequireAuthorization();
-            group.MapGet("/supportType/{supportType}/warehouse/{warehouseId:guid}", GetByDocumentTypeAndWarehouseId).RequireAuthorization();
+            group.MapGet("/supportType/{supportType}", GetByDocumentType).RequireAuthorization();
             group.MapPost("/", Create).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateFiscalSupportDTO>>()
                 .WithOpenApi().RequireAuthorization();
@@ -61,11 +60,11 @@ namespace SITRA.API.Endpoints
             return result is null ? TypedResults.NotFound() : TypedResults.Ok(result);
         }
 
-        static async Task<Ok<FiscalSupportDTO>> GetByDocumentTypeAndWarehouseId(
+        static async Task<Ok<FiscalSupportDTO>> GetByDocumentType(
             [FromServices] IMediator mediator,
-            [FromRoute] FiscalSupportType supportType, Guid warehouseId)
+            [FromRoute] EcfType supportType)
         {
-            var query = new GetDocumentsByTypeIdAndWarehouseIdQuery(supportType, warehouseId);
+            var query = new GetDocumentsByTypeQuery(supportType);
             var result = await mediator.Send(query);
             return TypedResults.Ok(result);
         }

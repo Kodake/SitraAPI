@@ -23,7 +23,7 @@ namespace SITRA.Core.Validations.AdministrativeTools
                 .MustAsync(async (dto, _) =>
                 {
                     var existing = await unitOfWork.FiscalSupportRepository
-                        .GetByTypeAndWarehouseAsync(dto.FiscalSupportType, dto.WarehouseId);
+                        .GetByTypeAsync(dto.FiscalSupportType);
 
                     if (existing == null) return true;
 
@@ -31,7 +31,7 @@ namespace SITRA.Core.Validations.AdministrativeTools
 
                     return false;
                 })
-                .WithMessage(dto => Utilities.FiscalSupportAlreadyExistsMessage(dto.FiscalSupportType, dto.WarehouseId));
+                .WithMessage(dto => Utilities.FiscalSupportAlreadyExistsMessage(dto.FiscalSupportType));
         }
     }
 }

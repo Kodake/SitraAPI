@@ -9,13 +9,11 @@ namespace SITRA.API.Profiles.AdministrativeTools
         public FiscalSupportsProfile()
         {
             CreateMap<FiscalSupport, FiscalSupportDTO>()
-                .ForMember(des => des.Warehouse, opt => opt.MapFrom(src => src.Warehouse))
                 .ReverseMap();
 
             CreateMap<CreateFiscalSupportDTO, FiscalSupport>();
 
             CreateMap<FiscalSupport, FiscalSupportListDTO>()
-                .ForMember(des => des.Warehouse, opt => opt.MapFrom(src => src.Warehouse))
                 .ReverseMap();
         }
     }

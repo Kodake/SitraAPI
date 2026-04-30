@@ -6,7 +6,6 @@ using SITRA.Core.DTOs.Products.Models;
 using SITRA.Core.DTOs.Products.PricingItems;
 using SITRA.Core.DTOs.Products.Products;
 using SITRA.Core.DTOs.Products.SubCategories;
-using SITRA.Core.DTOs.Products.Units;
 using SITRA.Core.DTOs.Wizard;
 using SITRA.Core.Entities.Products;
 
@@ -21,8 +20,7 @@ namespace SITRA.API.Profiles.Products
                 .ForMember(des => des.ItemBrand, opt => opt.MapFrom(src => src.BrandId.HasValue ? new ItemBrand { BrandId = src.BrandId.Value } : null))
                 .ForMember(des => des.ItemModel, opt => opt.MapFrom(src => src.ModelId.HasValue ? new ItemModel { ModelId = src.ModelId.Value } : null))
                 .ForMember(des => des.ItemCategory, opt => opt.MapFrom(src => src.CategoryId.HasValue ? new ItemCategory { CategoryId = src.CategoryId.Value } : null))
-                .ForMember(des => des.ItemSubCategory, opt => opt.MapFrom(src => src.SubCategoryId.HasValue ? new ItemSubCategory { SubCategoryId = src.SubCategoryId.Value } : null))
-                .ForMember(des => des.ItemUnit, opt => opt.MapFrom(src => src.UnitId.HasValue ? new ItemUnit { UnitId = src.UnitId.Value } : null));
+                .ForMember(des => des.ItemSubCategory, opt => opt.MapFrom(src => src.SubCategoryId.HasValue ? new ItemSubCategory { SubCategoryId = src.SubCategoryId.Value } : null));
 
             CreateMap<WizardProductDTO, Item>()
                 .ForMember(des => des.ItemTaxes, opt => opt.MapFrom(src => src.TaxIds.Select(id => new ItemTaxes { TaxId = id }).ToList()));
@@ -74,13 +72,6 @@ namespace SITRA.API.Profiles.Products
                     Description = src.ItemSubCategory.SubCategory.Description
                 } : null))
                 .ForMember(des => des.SubCategoryId, opt => opt.MapFrom(src => src.ItemSubCategory != null ? src.ItemSubCategory.SubCategory.Id : (Guid?)null))
-                .ForMember(des => des.Unit, opt => opt.MapFrom(src => src.ItemUnit != null ? new UnitDTO
-                {
-                    Id = src.ItemUnit.Unit.Id,
-                    Name = src.ItemUnit.Unit.Name,
-                    ShortName = src.ItemUnit.Unit.ShortName
-                } : null))
-                .ForMember(des => des.UnitId, opt => opt.MapFrom(src => src.ItemUnit != null ? src.ItemUnit.Unit.Id : (Guid?)null))
                 .ForMember(des => des.InitialCost, opt => opt.MapFrom(src =>
                     src.PricingItems.FirstOrDefault(p => p.IsPrincipal)!.InitialCost))
                 .ForMember(des => des.BasePrice, opt => opt.MapFrom(src =>

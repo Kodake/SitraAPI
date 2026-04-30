@@ -33,7 +33,6 @@ namespace SITRA.API.Profiles
             AddProfile<PricingsProfile>();
             AddProfile<ProductsProfile>();
             AddProfile<ServicesProfile>();
-            AddProfile<UnitsProfile>();
             AddProfile<StocksProfile>();
             AddProfile<TransfersProfile>();
             AddProfile<WarehousesProfile>();

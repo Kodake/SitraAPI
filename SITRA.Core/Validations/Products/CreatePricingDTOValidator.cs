@@ -2,13 +2,13 @@ using FluentValidation;
 using SITRA.Core.DTOs.Products.Pricings;
 using SITRA.Core.Enums;
 using SITRA.Core.Helpers;
-using SITRA.Core.Interfaces.Products;
+using SITRA.Core.Interfaces;
 
 namespace SITRA.Core.Validations.Products
 {
     public class CreatePricingDTOValidator : AbstractValidator<CreatePricingDTO>
     {
-        public CreatePricingDTOValidator(IUnitRepository repository,
+        public CreatePricingDTOValidator(IUnitOfWork repository,
             IHttpContextAccessor httpContextAccessor)
         {
             var routeId = httpContextAccessor.HttpContext?.Request.RouteValues["id"];
@@ -26,7 +26,7 @@ namespace SITRA.Core.Validations.Products
             .Must(Utilities.FirstCharUppercase).WithMessage(Utilities.FirstCharUpperMessage)
             .MustAsync(async (name, _) =>
             {
-                var exists = await repository.Exists(id, name);
+                var exists = await repository.PricingRepository.Exists(id, name);
                 return !exists;
             }).WithMessage(x => string.Format(Utilities.NameAlreadyExistsWith, x.Name));
 

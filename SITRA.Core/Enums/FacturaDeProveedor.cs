@@ -2,6 +2,6 @@ namespace SITRA.Core.Enums
 {
     public enum FacturaProveedor
     {
-        B11 = 11 // Comprobante de Compras
+        E41 = 41 // Comprobante Electrónico de Compras
     }
 }

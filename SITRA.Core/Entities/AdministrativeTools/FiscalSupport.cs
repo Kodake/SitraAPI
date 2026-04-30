@@ -1,4 +1,3 @@
-using SITRA.Core.Entities.Warehouses;
 using SITRA.Core.Enums;
 using SITRA.Core.Interfaces;
 
@@ -8,14 +7,12 @@ namespace SITRA.Core.Entities.AdministrativeTools
     {
         public Guid Id { get; set; }
         public DocumentType DocumentType { get; set; }
-        public FiscalSupportType FiscalSupportType { get; set; }
+        public EcfType FiscalSupportType { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Symbol { get; private set; } = string.Empty;
         public long InitialSequence { get; set; }
         public long FinalSequence { get; set; }
         public long SpaceNumber { get; private set; }
-        public Guid WarehouseId { get; set; }
-        public Warehouse Warehouse { get; set; } = null!;
         public bool IsDefault { get; set; }
         public bool IsActive { get; set; } = true;
         public DateTimeOffset CreatedAt { get; set; }
@@ -23,7 +20,7 @@ namespace SITRA.Core.Entities.AdministrativeTools
         public Guid TenantId { get; set; }
         public void InitializeDefaults()
         {
-            SpaceNumber = 8;
+            SpaceNumber = 10;
             Symbol = "0";
         }
         public void IncrementSequence()
@@ -39,7 +36,7 @@ namespace SITRA.Core.Entities.AdministrativeTools
                 return null;
 
             var fiscalSupportName =
-                Enum.GetName(typeof(FiscalSupportType), FiscalSupportType) ?? "Unknown";
+                Enum.GetName(typeof(EcfType), FiscalSupportType) ?? "Unknown";
 
             char symbolChar = Symbol[0];
             int space = (int)SpaceNumber;
@@ -53,7 +50,7 @@ namespace SITRA.Core.Entities.AdministrativeTools
         public string GenerateFiscalSupportNumber()
         {
             var fiscalSupportName =
-                Enum.GetName(typeof(FiscalSupportType), FiscalSupportType) ?? "Unknown";
+                Enum.GetName(typeof(EcfType), FiscalSupportType) ?? "Unknown";
 
             char symbolChar = Symbol[0];
             int space = (int)SpaceNumber;

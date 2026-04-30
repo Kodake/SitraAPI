@@ -75,5 +75,10 @@ namespace SITRA.Infrastructure.Repositories.AdministrativeTools
             if (role == null || role.IsSystemRole) return;
             context.Set<Role>().Remove(role);
         }
+
+        public async Task<bool> Exists(Guid id, string name, CancellationToken cancellationToken = default)
+        {
+            return await context.TenantRoles.AnyAsync(x => x.Id != id && x.Name == name, cancellationToken);
+        }
     }
 }

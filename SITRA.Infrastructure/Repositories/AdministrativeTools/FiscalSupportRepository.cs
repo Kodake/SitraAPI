@@ -22,8 +22,7 @@ namespace SITRA.Infrastructure.Repositories.AdministrativeTools
         public async new Task<List<FiscalSupport>> GetAllAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
         {
             var queryable = context.FiscalSupports
-                .AsQueryable()
-                .Include(p => p.Warehouse);
+                .AsQueryable();
 
             await httpContext.AddPaginationParamsToHeaders(queryable);
 
@@ -56,20 +55,17 @@ namespace SITRA.Infrastructure.Repositories.AdministrativeTools
         public async Task<FiscalSupport?> GetByIdAsync(Guid? id, CancellationToken cancellationToken = default)
         {
             return await context.FiscalSupports
-                .Include(x => x.Warehouse)
                 .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
 
-        public async Task<FiscalSupport?> GetByDocumentTypeAndWarehouseIdAsync(
-            FiscalSupportType supportType,
-            Guid warehouseId,
+        public async Task<FiscalSupport?> GetByDocumentTypeAsync(
+            EcfType supportType,
             CancellationToken cancellationToken = default)
         {
             return await context.FiscalSupports
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x =>
-                    x.FiscalSupportType == supportType &&
-                    x.WarehouseId == warehouseId, cancellationToken);
+                    x.FiscalSupportType == supportType, cancellationToken);
         }
 
         public async Task<bool> Exists(Guid id, string name, CancellationToken cancellationToken = default)
@@ -77,10 +73,10 @@ namespace SITRA.Infrastructure.Repositories.AdministrativeTools
             return await context.FiscalSupports.AnyAsync(x => x.Id != id && x.Name == name, cancellationToken);
         }
 
-        public async Task<FiscalSupport?> GetByTypeAndWarehouseAsync(FiscalSupportType fiscalSupportType, Guid warehouseId, CancellationToken cancellationToken = default)
+        public async Task<FiscalSupport?> GetByTypeAsync(EcfType fiscalSupportType, CancellationToken cancellationToken = default)
         {
             return await context.FiscalSupports
-                .FirstOrDefaultAsync(x => x.FiscalSupportType == fiscalSupportType && x.WarehouseId == warehouseId, cancellationToken);
+                .FirstOrDefaultAsync(x => x.FiscalSupportType == fiscalSupportType, cancellationToken);
         }
 
         public async Task<bool> SetDefault(Guid id, CancellationToken cancellationToken = default)

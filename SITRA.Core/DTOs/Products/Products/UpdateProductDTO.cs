@@ -1,3 +1,5 @@
+using SITRA.Core.Enums;
+
 namespace SITRA.Core.DTOs.Products.Products
 {
     public class UpdateProductDTO
@@ -12,7 +14,7 @@ namespace SITRA.Core.DTOs.Products.Products
         public List<Guid> TaxIds { get; set; } = null!;
         public Guid? BrandId { get; set; }
         public Guid? CategoryId { get; set; }
-        public Guid? UnitId { get; set; }
+        public UnitMeasure? UnitMeasure { get; set; }
     }
 }
 

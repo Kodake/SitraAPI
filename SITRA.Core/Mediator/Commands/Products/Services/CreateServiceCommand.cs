@@ -24,7 +24,8 @@ namespace SITRA.Core.Mediator.Commands.Products.Services
                 pricing = new Pricing
                 {
                     Name = Enum.GetName(PricingName.Principal)?.ToUpper() ?? "PRINCIPAL",
-                    PricingType = PricingType.Value
+                    PricingType = PricingType.Value,
+                    IsDefault = true
                 };
                 pricing = await unitOfWork.PricingRepository.CreateAsync(pricing);
             }

@@ -1,6 +1,5 @@
 using SITRA.Core.DTOs.Finances.Taxes;
 using SITRA.Core.DTOs.Products.PricingItems;
-using SITRA.Core.DTOs.Products.Units;
 using SITRA.Core.DTOs.Warehouses.Stocks;
 using SITRA.Core.Enums;
 using System.Text.Json.Serialization;
@@ -20,7 +19,7 @@ public class ItemListDTO
     public double TotalPrice { get; set; }
     public double Qty { get; set; }
     public bool IsActive { get; set; }
-    public UnitDTO? Unit { get; set; }
+    public UnitMeasure? UnitMeasure { get; set; }
     public List<TaxDTO> Taxes { get; set; } = [];
     [JsonIgnore]
     public List<PricingItemDTO> PricingItems { get; set; } = [];

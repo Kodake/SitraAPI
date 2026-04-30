@@ -8,6 +8,7 @@ namespace SITRA.Core.Entities.Products
     {
         public Guid Id { get; set; }
         public ItemType ItemType { get; set; }
+        public UnitMeasure? UnitMeasure { get; set; }
         public string Name { get; set; } = string.Empty;
         public string? Reference { get; set; }
         public string? Barcode { get; set; }
@@ -17,7 +18,6 @@ namespace SITRA.Core.Entities.Products
         public ItemModel? ItemModel { get; set; }
         public ItemCategory? ItemCategory { get; set; }
         public ItemSubCategory? ItemSubCategory { get; set; }
-        public ItemUnit? ItemUnit { get; set; }
         public bool IsActive { get; set; } = true;
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }

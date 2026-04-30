@@ -2,7 +2,7 @@ namespace SITRA.Core.Enums
 {
     public enum NotaDeCreditoDebito
     {
-        B04 = 4, // Nota de Cr�dito
-        B03 = 3  // Nota de D�bito
+        E33 = 33, // Nota de Débito Electrónica
+        E34 = 34  // Nota de Crédito Electrónica
     }
 }

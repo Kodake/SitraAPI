@@ -118,12 +118,10 @@ namespace SITRA.Infrastructure.Persistence
             modelBuilder.ApplyConfiguration(new PricingConfiguration());
             modelBuilder.ApplyConfiguration(new PricingItemConfiguration());
 
-            modelBuilder.ApplyConfiguration(new UnitConfiguration());
             modelBuilder.ApplyConfiguration(new ItemBrandConfiguration());
             modelBuilder.ApplyConfiguration(new ItemModelConfiguration());
             modelBuilder.ApplyConfiguration(new ItemCategoryConfiguration());
             modelBuilder.ApplyConfiguration(new ItemSubCategoryConfiguration());
-            modelBuilder.ApplyConfiguration(new ItemUnitConfiguration());
 
             modelBuilder.ApplyConfiguration(new StockConfiguration());
             modelBuilder.ApplyConfiguration(new TransferConfiguration());
@@ -169,7 +167,6 @@ namespace SITRA.Infrastructure.Persistence
         public virtual DbSet<SubCategory> SubCategories { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Model> Models { get; set; }
-        public DbSet<Unit> Units { get; set; }
         public DbSet<Currency> Currencies { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Warehouse> Warehouses { get; set; }
@@ -178,7 +175,6 @@ namespace SITRA.Infrastructure.Persistence
         public DbSet<ItemModel> ItemModels { get; set; }
         public DbSet<ItemCategory> ItemCategories { get; set; }
         public DbSet<ItemSubCategory> ItemSubCategories { get; set; }
-        public DbSet<ItemUnit> ItemUnits { get; set; }
         public DbSet<Tax> Taxes { get; set; }
         public DbSet<Expense> Expenses { get; set; }
         public DbSet<Pricing> Pricings { get; set; }

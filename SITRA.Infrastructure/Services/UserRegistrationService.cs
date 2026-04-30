@@ -8,6 +8,9 @@ using SITRA.Core.Entities.AdministrativeTools;
 using SITRA.Core.Interfaces;
 using SITRA.Core.Interfaces.Services;
 using SITRA.Infrastructure.Persistence;
+using SITRA.Core.Entities.Products;
+using SITRA.Core.Enums;
+using SITRA.Core.Entities.Finances;
 
 namespace SITRA.Infrastructure.Services
 {
@@ -62,6 +65,83 @@ namespace SITRA.Infrastructure.Services
             await _context.SaveChangesAsync(cancellationToken);
 
             user.TenantId = tenant.TenantId;
+
+            // Generate Electronic Receipts (e-CFs) for the new tenant
+            foreach (var ecfType in Enum.GetValues<SITRA.Core.Enums.EcfType>())
+            {
+                var fiscalSupport = new FiscalSupport
+                {
+                    Id = Guid.NewGuid(),
+                    TenantId = tenant.TenantId,
+                    FiscalSupportType = ecfType,
+                    Name = ecfType switch
+                    {
+                        SITRA.Core.Enums.EcfType.E31 => "Factura de Crédito Fiscal Electrónica",
+                        SITRA.Core.Enums.EcfType.E32 => "Factura de Consumo Electrónica",
+                        SITRA.Core.Enums.EcfType.E33 => "Nota de Débito Electrónica",
+                        SITRA.Core.Enums.EcfType.E34 => "Nota de Crédito Electrónica",
+                        SITRA.Core.Enums.EcfType.E41 => "Comprobante Electrónico de Compras",
+                        SITRA.Core.Enums.EcfType.E43 => "Comprobante Electrónico para Gastos Menores",
+                        SITRA.Core.Enums.EcfType.E44 => "Comprobante Electrónico para Regímenes Especiales",
+                        SITRA.Core.Enums.EcfType.E45 => "Comprobante Electrónico Gubernamental",
+                        SITRA.Core.Enums.EcfType.E46 => "Comprobante Electrónico para Exportaciones",
+                        SITRA.Core.Enums.EcfType.E47 => "Comprobante Electrónico para Pagos al Exterior",
+                        _ => Enum.GetName(ecfType) ?? string.Empty
+                    },
+                    InitialSequence = 0,
+                    FinalSequence = ecfType == SITRA.Core.Enums.EcfType.E32 ? 50000000 : 10000000,
+                    IsActive = true,
+                    IsDefault = false
+                };
+                fiscalSupport.InitializeDefaults();
+                _context.Set<FiscalSupport>().Add(fiscalSupport);
+            }
+
+            var pricing = new Pricing
+            {
+                Name = Enum.GetName(PricingName.Principal)?.ToUpper() ?? "PRINCIPAL",
+                PricingType = PricingType.Value,
+                IsDefault = true
+            };
+
+            await _context.Set<Pricing>().AddAsync(pricing);
+
+            foreach (var currencyType in Enum.GetValues<CurrencyType>())
+            {
+                var currency = new Currency
+                {
+                    TenantId = tenant.TenantId,
+                    Name = currencyType switch
+                    {
+                        CurrencyType.DOP => "Peso Dominicano",
+                        CurrencyType.BRL => "Real Brasileno",
+                        CurrencyType.CAD => "Dolar Canadiense",
+                        CurrencyType.CHF => "Franco Suizo",
+                        CurrencyType.CHY => "Yuan Chino",
+                        CurrencyType.XDR => "Derecho Especial de Giro",
+                        CurrencyType.DKK => "Corona Danesa",
+                        CurrencyType.EUR => "Euro",
+                        CurrencyType.GBP => "Libra Esterlina",
+                        CurrencyType.JPY => "Yen Japones",
+                        CurrencyType.NOK => "Corona Noruega",
+                        CurrencyType.SCP => "Libra Escocesa",
+                        CurrencyType.SEK => "Corona Sueca",
+                        CurrencyType.USD => "Dolar Estadounidense",
+                        CurrencyType.VEF => "Bolivar Fuerte Venezolano",
+                        CurrencyType.HTG => "Gurda Haitiana",
+                        CurrencyType.MXN => "Peso Mexicano",
+                        CurrencyType.COP => "Peso Colombiano",
+                        _ => Enum.GetName(currencyType) ?? string.Empty
+                    },
+                    Code = currencyType.ToString(),
+                    Rate = 1.00,
+                    IsDefault = currencyType == CurrencyType.DOP
+                };
+
+                await _context.Set<Currency>().AddAsync(currency);
+            }
+
+            await _context.SaveChangesAsync(cancellationToken);
 
             var result = await _userManager.CreateAsync(user, dto.Password);
 

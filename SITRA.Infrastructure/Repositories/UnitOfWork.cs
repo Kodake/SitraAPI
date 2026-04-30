@@ -60,7 +60,6 @@ namespace SITRA.Infrastructure.Repositories
         public ISubCategoryRepository SubCategoryRepository { get; }
         public IBrandRepository BrandRepository { get; }
         public IModelRepository ModelRepository { get; }
-        public IUnitRepository UnitRepository { get; }
         public IPricingItemRepository PricingItemRepository { get; }
         public IPricingRepository PricingRepository { get; }
         public IStockRepository StockRepository { get; }
@@ -116,7 +115,6 @@ namespace SITRA.Infrastructure.Repositories
             SubCategoryRepository = new SubCategoryRepository(context, httpContextAccessor);
             BrandRepository = new BrandRepository(context, httpContextAccessor);
             ModelRepository = new ModelRepository(context, httpContextAccessor);
-            UnitRepository = new UnitRepository(context, httpContextAccessor);
             PricingItemRepository = new PricingItemRepository(context, httpContextAccessor);
             PricingRepository = new PricingRepository(context, httpContextAccessor);
             StockRepository = new StockRepository(context, httpContextAccessor);

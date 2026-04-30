@@ -1,0 +1,77 @@
+<?xml version="1.0" ?>
+<ECF>
+  <Encabezado>
+    <Version>1.0</Version>
+    <IdDoc>
+      <TipoeCF>43</TipoeCF>
+      <eNCF>E430000000012</eNCF>
+      <FechaVencimientoSecuencia>31-12-2028</FechaVencimientoSecuencia>
+      <TipoIngresos>01</TipoIngresos>
+      <TipoPago>1</TipoPago>
+    </IdDoc>
+    <Emisor>
+      <RNCEmisor>130252181</RNCEmisor>
+      <RazonSocialEmisor>DOCUMENTOS ELECTRONICOS DE 02</RazonSocialEmisor>
+      <NombreComercial>DOCUMENTOS ELECTRONICOS DE 02</NombreComercial>
+      <DireccionEmisor>AVE. ISABEL AGUIAR NO. 269, ZONA INDUSTRIAL DE HERRERA</DireccionEmisor>
+      <Municipio>010100</Municipio>
+      <Provincia>010000</Provincia>
+      <CorreoEmisor>DOCUMENTOSELECTRONICOSDE0612345678969789+9000000000000000000000000000001@123.COM</CorreoEmisor>
+      <WebSite>www.facturaelectronica.com</WebSite>
+      <FechaEmision>01-04-2020</FechaEmision>
+    </Emisor>
+    <Comprador/>
+    <Totales>
+      <MontoExento>32300.00</MontoExento>
+      <MontoTotal>32300.00</MontoTotal>
+    </Totales>
+  </Encabezado>
+  <DetallesItems>
+    <Item>
+      <NumeroLinea>1</NumeroLinea>
+      <IndicadorFacturacion>4</IndicadorFacturacion>
+      <NombreItem>Gastos de Oficina</NombreItem>
+      <IndicadorBienoServicio>2</IndicadorBienoServicio>
+      <CantidadItem>1.00</CantidadItem>
+      <PrecioUnitarioItem>10000.00</PrecioUnitarioItem>
+      <MontoItem>10000.00</MontoItem>
+    </Item>
+    <Item>
+      <NumeroLinea>2</NumeroLinea>
+      <IndicadorFacturacion>4</IndicadorFacturacion>
+      <NombreItem>Gastos de Transporte</NombreItem>
+      <IndicadorBienoServicio>2</IndicadorBienoServicio>
+      <CantidadItem>1.00</CantidadItem>
+      <PrecioUnitarioItem>5000.00</PrecioUnitarioItem>
+      <MontoItem>5000.00</MontoItem>
+    </Item>
+    <Item>
+      <NumeroLinea>3</NumeroLinea>
+      <IndicadorFacturacion>4</IndicadorFacturacion>
+      <NombreItem>Mantenimiento</NombreItem>
+      <IndicadorBienoServicio>2</IndicadorBienoServicio>
+      <CantidadItem>1.00</CantidadItem>
+      <PrecioUnitarioItem>3500.00</PrecioUnitarioItem>
+      <MontoItem>3500.00</MontoItem>
+    </Item>
+    <Item>
+      <NumeroLinea>4</NumeroLinea>
+      <IndicadorFacturacion>4</IndicadorFacturacion>
+      <NombreItem>Gastos varios</NombreItem>
+      <IndicadorBienoServicio>2</IndicadorBienoServicio>
+      <CantidadItem>2.00</CantidadItem>
+      <PrecioUnitarioItem>6500.00</PrecioUnitarioItem>
+      <MontoItem>13000.00</MontoItem>
+    </Item>
+    <Item>
+      <NumeroLinea>5</NumeroLinea>
+      <IndicadorFacturacion>4</IndicadorFacturacion>
+      <NombreItem>Gastos menor cuanta</NombreItem>
+      <IndicadorBienoServicio>2</IndicadorBienoServicio>
+      <CantidadItem>1.00</CantidadItem>
+      <PrecioUnitarioItem>800.00</PrecioUnitarioItem>
+      <MontoItem>800.00</MontoItem>
+    </Item>
+  </DetallesItems>
+  <FechaHoraFirma>17-03-2026 10:05:40</FechaHoraFirma>
+</ECF>

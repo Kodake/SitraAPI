@@ -250,10 +250,10 @@ namespace SITRA.Core.Helpers
             }
         }
 
-        public static string FiscalSupportAlreadyExistsMessage(FiscalSupportType supportType, Guid warehouseId)
+        public static string FiscalSupportAlreadyExistsMessage(EcfType supportType)
         {
             var message = _resourceManager.GetString("FiscalSupportAlreadyExistsMessage");
-            return string.Format(message!, supportType, warehouseId);
+            return string.Format(message!, supportType);
         }
 
         public static string GetPaymentMethodLabel(PaymentMethod method)

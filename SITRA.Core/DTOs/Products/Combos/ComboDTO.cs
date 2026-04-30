@@ -5,7 +5,7 @@ using SITRA.Core.DTOs.Products.Combos;
 using SITRA.Core.DTOs.Products.Models;
 using SITRA.Core.DTOs.Products.PricingItems;
 using SITRA.Core.DTOs.Products.SubCategories;
-using SITRA.Core.DTOs.Products.Units;
+using SITRA.Core.Enums;
 
 public class ComboDTO
 {
@@ -28,8 +28,7 @@ public class ComboDTO
     public CategoryDTO? Category { get; set; }
     public Guid? SubCategoryId { get; set; }
     public SubCategoryDTO? SubCategory { get; set; }
-    public Guid? UnitId { get; set; }
-    public UnitDTO? Unit { get; set; }
+    public UnitMeasure? UnitMeasure { get; set; }
     public List<Guid>? TaxIds { get; set; }
     public List<TaxDTO>? Taxes { get; set; } = [];
     public List<PricingItemDTO>? PricingItems { get; set; } = [];

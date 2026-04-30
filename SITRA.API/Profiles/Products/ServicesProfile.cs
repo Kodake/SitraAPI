@@ -4,7 +4,6 @@ using SITRA.Core.DTOs.Products.Categories;
 using SITRA.Core.DTOs.Products.PricingItems;
 using SITRA.Core.DTOs.Products.Services;
 using SITRA.Core.DTOs.Products.SubCategories;
-using SITRA.Core.DTOs.Products.Units;
 using SITRA.Core.Entities.Products;
 
 namespace SITRA.API.Profiles.Products
@@ -16,9 +15,7 @@ namespace SITRA.API.Profiles.Products
             CreateMap<CreateServiceDTO, Item>()
                 .ForMember(des => des.ItemTaxes, opt => opt.MapFrom(src => src.TaxIds.Select(id => new ItemTaxes { TaxId = id }).ToList()))
                 .ForMember(des => des.ItemCategory, opt => opt.MapFrom(src => src.CategoryId.HasValue ? new ItemCategory { CategoryId = src.CategoryId.Value } : null))
-                .ForMember(des => des.ItemSubCategory, opt => opt.MapFrom(src => src.SubCategoryId.HasValue ? new ItemSubCategory { SubCategoryId = src.SubCategoryId.Value } : null))
-                .ForMember(des => des.ItemUnit, opt => opt.MapFrom(src => src.UnitId.HasValue ? new ItemUnit { UnitId = src.UnitId.Value } : null));
-
+                .ForMember(des => des.ItemSubCategory, opt => opt.MapFrom(src => src.SubCategoryId.HasValue ? new ItemSubCategory { SubCategoryId = src.SubCategoryId.Value } : null));
             CreateMap<CreateServiceCsvDTO, Item>();
 
             CreateMap<ServiceDTO, Item>();
@@ -53,13 +50,6 @@ namespace SITRA.API.Profiles.Products
                     Description = src.ItemSubCategory.SubCategory.Description
                 } : null))
                 .ForMember(des => des.SubCategoryId, opt => opt.MapFrom(src => src.ItemSubCategory != null ? src.ItemSubCategory.SubCategory.Id : (Guid?)null))
-                .ForMember(des => des.Unit, opt => opt.MapFrom(src => src.ItemUnit != null ? new UnitDTO
-                {
-                    Id = src.ItemUnit.Unit.Id,
-                    Name = src.ItemUnit.Unit.Name,
-                    ShortName = src.ItemUnit.Unit.ShortName
-                } : null))
-                .ForMember(des => des.UnitId, opt => opt.MapFrom(src => src.ItemUnit != null ? src.ItemUnit.Unit.Id : (Guid?)null))
                 .ForMember(des => des.BasePrice, opt => opt.MapFrom(src =>
                     src.PricingItems.FirstOrDefault(p => p.IsPrincipal)!.BasePrice))
                 .ForMember(des => des.Percentage, opt => opt.MapFrom(src =>

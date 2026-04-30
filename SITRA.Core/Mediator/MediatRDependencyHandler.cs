@@ -27,7 +27,6 @@ namespace SITRA.Core.Mediator
             services.AddDashboardServices();
             services.AddBrandServices();
             services.AddModelServices();
-            services.AddUnitServices();
             services.AddCategoryServices();
             services.AddSubCategoryServices();
             services.AddPricingServices();

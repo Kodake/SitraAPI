@@ -75,8 +75,6 @@ namespace SITRA.Infrastructure.Repositories.Products
         public async new Task<Item?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await context.Items
-                .Include(p => p.ItemUnit)
-                    .ThenInclude(iu => iu.Unit)
                 .Include(p => p.ItemBrand)
                     .ThenInclude(ib => ib.Brand)
                 .Include(p => p.ItemModel)

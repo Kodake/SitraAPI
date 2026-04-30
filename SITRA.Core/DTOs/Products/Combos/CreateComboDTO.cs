@@ -1,3 +1,5 @@
+using SITRA.Core.Enums;
+
 namespace SITRA.Core.DTOs.Products.Combos
 {
     public class CreateComboDTO
@@ -15,7 +17,7 @@ namespace SITRA.Core.DTOs.Products.Combos
         public Guid? ModelId { get; set; }
         public Guid? CategoryId { get; set; }
         public Guid? SubCategoryId { get; set; }
-        public Guid? UnitId { get; set; }
+        public UnitMeasure? UnitMeasure { get; set; }
     }
 }
 

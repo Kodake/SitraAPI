@@ -24,6 +24,9 @@ namespace SITRA.Core.Validations.Products
 
             RuleFor(x => x.BasePrice)
                 .GreaterThan(0).WithMessage(Utilities.GreatherThanZero);
+            
+            RuleFor(x => x.UnitMeasure)
+                .IsInEnum().WithMessage(Utilities.InvalidEnumValueMessage);
 
             // Validate warehouse exists if WarehouseId is provided
             RuleFor(x => x.WarehouseId)

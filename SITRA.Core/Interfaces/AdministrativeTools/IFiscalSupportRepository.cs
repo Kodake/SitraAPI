@@ -10,12 +10,11 @@ namespace SITRA.Core.Interfaces.AdministrativeTools
         new Task<List<FiscalSupport>> GetAllAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default);
         Task<List<FiscalSupport>> GetAll(StatusType status, CancellationToken cancellationToken = default);
         Task<FiscalSupport?> GetByIdAsync(Guid? id, CancellationToken cancellationToken = default);
-        Task<FiscalSupport?> GetByDocumentTypeAndWarehouseIdAsync(
-            FiscalSupportType supportType,
-            Guid warehouseId,
+        Task<FiscalSupport?> GetByDocumentTypeAsync(
+            EcfType supportType,
             CancellationToken cancellationToken = default);
         Task<bool> Exists(Guid id, string code, CancellationToken cancellationToken = default);
-        Task<FiscalSupport?> GetByTypeAndWarehouseAsync(FiscalSupportType fiscalSupportType, Guid warehouseId, CancellationToken cancellationToken = default);
+        Task<FiscalSupport?> GetByTypeAsync(EcfType fiscalSupportType, CancellationToken cancellationToken = default);
         Task<bool> SetDefault(Guid id, CancellationToken cancellationToken = default);
     }
 }

@@ -37,7 +37,6 @@ namespace SITRA.Core.Mediator.Commands.Products.Combos
             comboDB.ItemModel = Dto.ModelId.HasValue ? new ItemModel { ModelId = Dto.ModelId.Value, ItemId = comboDB.Id } : null;
             comboDB.ItemCategory = Dto.CategoryId.HasValue ? new ItemCategory { CategoryId = Dto.CategoryId.Value, ItemId = comboDB.Id } : null;
             comboDB.ItemSubCategory = Dto.SubCategoryId.HasValue ? new ItemSubCategory { SubCategoryId = Dto.SubCategoryId.Value, ItemId = comboDB.Id } : null;
-            comboDB.ItemUnit = Dto.UnitId.HasValue ? new ItemUnit { UnitId = Dto.UnitId.Value, ItemId = comboDB.Id } : null;
 
             var principalPricingItem = comboDB.PricingItems.FirstOrDefault(x => x.IsPrincipal);
             if (principalPricingItem != null)

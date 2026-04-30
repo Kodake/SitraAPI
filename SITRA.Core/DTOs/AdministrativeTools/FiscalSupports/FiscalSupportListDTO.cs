@@ -7,10 +7,10 @@ namespace SITRA.Core.DTOs.AdministrativeTools.FiscalSupports
     {
         public Guid Id { get; set; }
         public DocumentType DocumentType { get; set; }
-        public FiscalSupportType FiscalSupportType { get; set; }
+        public EcfType FiscalSupportType { get; set; }
         public string Name { get; set; } = string.Empty;
-        public Guid WarehouseId { get; set; }
-        public WarehouseDTO Warehouse { get; set; } = null!;
+        public long InitialSequence { get; set; }
+        public long FinalSequence { get; set; }
         public bool IsDefault { get; set; }
         public bool IsActive { get; set; } = true;
         public DateTimeOffset CreatedAt { get; set; }

@@ -1,0 +1,59 @@
+<?xml version="1.0" ?>
+<ECF>
+  <Encabezado>
+    <Version>1.0</Version>
+    <IdDoc>
+      <TipoeCF>46</TipoeCF>
+      <eNCF>E460000000001</eNCF>
+      <FechaVencimientoSecuencia>31-12-2028</FechaVencimientoSecuencia>
+      <TipoIngresos>01</TipoIngresos>
+      <TipoPago>2</TipoPago>
+    </IdDoc>
+    <Emisor>
+      <RNCEmisor>130252181</RNCEmisor>
+      <RazonSocialEmisor>DOCUMENTOS ELECTRONICOS DE 02</RazonSocialEmisor>
+      <NombreComercial>DOCUMENTOS ELECTRONICOS DE 02</NombreComercial>
+      <DireccionEmisor>AVE. ISABEL AGUIAR NO. 269, ZONA INDUSTRIAL DE HERRERA</DireccionEmisor>
+      <Municipio>010101</Municipio>
+      <Provincia>010000</Provincia>
+      <CorreoEmisor>DOCUMENTOSELECTRONICOSDE0612345678969789+9000000000000000000000000000001@123.COM</CorreoEmisor>
+      <WebSite>www.facturaelectronica.com</WebSite>
+      <CodigoVendedor>AA0000000100000000010000000002000000000300000000050000000006</CodigoVendedor>
+      <NumeroFacturaInterna>123456789016</NumeroFacturaInterna>
+      <NumeroPedidoInterno>123456789016</NumeroPedidoInterno>
+      <FechaEmision>01-04-2020</FechaEmision>
+    </Emisor>
+    <Comprador>
+      <RNCComprador>131880681</RNCComprador>
+      <RazonSocialComprador>ZONA FRANCA LOI</RazonSocialComprador>
+      <ContactoComprador>MARCOS LLUBERES</ContactoComprador>
+      <CorreoComprador>MARCOSLLUBERES@KKKK.COM</CorreoComprador>
+      <DireccionComprador>ZONA HAINA</DireccionComprador>
+      <MunicipioComprador>010100</MunicipioComprador>
+      <ProvinciaComprador>010000</ProvinciaComprador>
+      <FechaEntrega>07-04-2020</FechaEntrega>
+      <FechaOrdenCompra>10-03-2020</FechaOrdenCompra>
+      <NumeroOrdenCompra>4500352230</NumeroOrdenCompra>
+      <CodigoInternoComprador>10633441</CodigoInternoComprador>
+    </Comprador>
+    <Totales>
+      <MontoGravadoTotal>1800000.00</MontoGravadoTotal>
+      <MontoGravadoI3>1800000.00</MontoGravadoI3>
+      <TotalITBIS>0.00</TotalITBIS>
+      <TotalITBIS3>0.00</TotalITBIS3>
+      <MontoTotal>1800000.00</MontoTotal>
+    </Totales>
+  </Encabezado>
+  <DetallesItems>
+    <Item>
+      <NumeroLinea>1</NumeroLinea>
+      <IndicadorFacturacion>3</IndicadorFacturacion>
+      <NombreItem>AGUACATE CRIOLLO</NombreItem>
+      <IndicadorBienoServicio>1</IndicadorBienoServicio>
+      <CantidadItem>100.00</CantidadItem>
+      <PrecioUnitarioItem>18000.00</PrecioUnitarioItem>
+      <MontoItem>1800000.00</MontoItem>
+    </Item>
+  </DetallesItems>
+  <FechaHoraFirma>17-03-2026 10:05:40</FechaHoraFirma>
+</ECF>

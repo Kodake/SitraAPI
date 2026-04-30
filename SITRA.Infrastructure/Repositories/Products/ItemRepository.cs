@@ -24,8 +24,7 @@ namespace SITRA.Infrastructure.Repositories.Products
         {
             return await context.Items
                 .Include(x => x.Stocks)
-                .Include(x => x.ItemUnit)
-                    .ThenInclude(iu => iu.Unit)
+                .Include(x => x.UnitMeasure)
                 .Include(x => x.ItemTaxes)
                     .ThenInclude(it => it.Tax)
                 .Include(x => x.PricingItems)

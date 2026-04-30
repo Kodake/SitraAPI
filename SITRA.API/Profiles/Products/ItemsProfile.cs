@@ -2,7 +2,6 @@ using AutoMapper;
 using SITRA.Core.DTOs.Finances.Taxes;
 using SITRA.Core.DTOs.Products.Items;
 using SITRA.Core.DTOs.Products.PricingItems;
-using SITRA.Core.DTOs.Products.Units;
 using SITRA.Core.Entities.Products;
 
 namespace SITRA.API.Profiles.Products
@@ -27,12 +26,6 @@ namespace SITRA.API.Profiles.Products
                     Name = pt.Tax.Name,
                     Amount = pt.Tax.Amount
                 }).ToList()))
-                .ForMember(des => des.Unit, opt => opt.MapFrom(src => src.ItemUnit != null ? new UnitDTO
-                {
-                    Id = src.ItemUnit.Unit.Id,
-                    Name = src.ItemUnit.Unit.Name,
-                    ShortName = src.ItemUnit.Unit.ShortName
-                } : null))
                 .ForMember(des => des.InitialCost, opt => opt.MapFrom(src =>
                     src.PricingItems.FirstOrDefault(p => p.PricingId == p.PricingId)!.InitialCost))
                 .ForMember(des => des.BasePrice, opt => opt.MapFrom(src =>

@@ -397,14 +397,9 @@ namespace SITRA.Infrastructure.Migrations
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<Guid>("WarehouseId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
                     b.HasIndex("TenantId");
-
-                    b.HasIndex("WarehouseId");
 
                     b.ToTable("FiscalSupports");
                 });
@@ -1460,6 +1455,9 @@ namespace SITRA.Infrastructure.Migrations
                     b.Property<Guid>("TenantId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int?>("UnitMeasure")
+                        .HasColumnType("int");
+
                     b.Property<DateTimeOffset?>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
 
@@ -1598,32 +1596,6 @@ namespace SITRA.Infrastructure.Migrations
                     b.HasIndex("TenantId");
 
                     b.ToTable("ItemTaxes");
-                });
-
-            modelBuilder.Entity("SITRA.Core.Entities.Products.ItemUnit", b =>
-                {
-                    b.Property<Guid>("ItemId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid>("TenantId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UnitId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTimeOffset?>("UpdatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.HasKey("ItemId");
-
-                    b.HasIndex("TenantId");
-
-                    b.HasIndex("UnitId");
-
-                    b.ToTable("ItemUnits");
                 });
 
             modelBuilder.Entity("SITRA.Core.Entities.Products.Model", b =>
@@ -1778,41 +1750,6 @@ namespace SITRA.Infrastructure.Migrations
                     b.HasIndex("TenantId");
 
                     b.ToTable("SubCategories");
-                });
-
-            modelBuilder.Entity("SITRA.Core.Entities.Products.Unit", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("ShortName")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<Guid>("TenantId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTimeOffset?>("UpdatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TenantId");
-
-                    b.ToTable("Units");
                 });
 
             modelBuilder.Entity("SITRA.Core.Entities.Tenants.Tenant", b =>
@@ -2088,17 +2025,6 @@ namespace SITRA.Infrastructure.Migrations
                     b.Navigation("Buyer");
 
                     b.Navigation("Invoice");
-                });
-
-            modelBuilder.Entity("SITRA.Core.Entities.AdministrativeTools.FiscalSupport", b =>
-                {
-                    b.HasOne("SITRA.Core.Entities.Warehouses.Warehouse", "Warehouse")
-                        .WithMany("FiscalSupports")
-                        .HasForeignKey("WarehouseId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Warehouse");
                 });
 
             modelBuilder.Entity("SITRA.Core.Entities.AdministrativeTools.RolePermission", b =>
@@ -2488,25 +2414,6 @@ namespace SITRA.Infrastructure.Migrations
                     b.Navigation("Tax");
                 });
 
-            modelBuilder.Entity("SITRA.Core.Entities.Products.ItemUnit", b =>
-                {
-                    b.HasOne("SITRA.Core.Entities.Products.Item", "Item")
-                        .WithOne("ItemUnit")
-                        .HasForeignKey("SITRA.Core.Entities.Products.ItemUnit", "ItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SITRA.Core.Entities.Products.Unit", "Unit")
-                        .WithMany("ItemUnits")
-                        .HasForeignKey("UnitId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Item");
-
-                    b.Navigation("Unit");
-                });
-
             modelBuilder.Entity("SITRA.Core.Entities.Products.Model", b =>
                 {
                     b.HasOne("SITRA.Core.Entities.Products.Brand", "Brand")
@@ -2714,8 +2621,6 @@ namespace SITRA.Infrastructure.Migrations
 
                     b.Navigation("ItemTaxes");
 
-                    b.Navigation("ItemUnit");
-
                     b.Navigation("PricingItems");
 
                     b.Navigation("Stocks");
@@ -2738,16 +2643,9 @@ namespace SITRA.Infrastructure.Migrations
                     b.Navigation("ItemSubCategories");
                 });
 
-            modelBuilder.Entity("SITRA.Core.Entities.Products.Unit", b =>
-                {
-                    b.Navigation("ItemUnits");
-                });
-
             modelBuilder.Entity("SITRA.Core.Entities.Warehouses.Warehouse", b =>
                 {
                     b.Navigation("DestinationTransfers");
-
-                    b.Navigation("FiscalSupports");
 
                     b.Navigation("OriginTransfers");
 

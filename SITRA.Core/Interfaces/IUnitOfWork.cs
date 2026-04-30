@@ -38,7 +38,6 @@ namespace SITRA.Core.Interfaces
         ISubCategoryRepository SubCategoryRepository { get; }
         IBrandRepository BrandRepository { get; }
         IModelRepository ModelRepository { get; }
-        IUnitRepository UnitRepository { get; }
         IPricingItemRepository PricingItemRepository { get; }
         IPricingRepository PricingRepository { get; }
         IStockRepository StockRepository { get; }

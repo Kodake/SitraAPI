@@ -15,11 +15,7 @@ namespace SITRA.Infrastructure.Persistence.AdministrativeTools
             builder.Property(p => p.InitialSequence).IsRequired();
             builder.Property(p => p.FinalSequence).IsRequired();
             builder.Property(p => p.SpaceNumber).IsRequired();
-            builder.HasOne(p => p.Warehouse)
-                .WithMany(c => c.FiscalSupports)
-                .HasForeignKey(p => p.WarehouseId)
-                .OnDelete(DeleteBehavior.Restrict)
-                .IsRequired();
+
             builder.HasIndex(x => x.TenantId);
         }
     }

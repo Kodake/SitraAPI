@@ -19,7 +19,7 @@ namespace SITRA.Core.Entities.Warehouses
         public DateTimeOffset? UpdatedAt { get; set; }
         public Guid TenantId { get; set; }
         public List<Stock> Stocks { get; set; } = [];
-        public List<FiscalSupport> FiscalSupports { get; set; } = [];
+
         public List<Transfer> OriginTransfers { get; set; } = [];
         public List<Transfer> DestinationTransfers { get; set; } = [];
     }

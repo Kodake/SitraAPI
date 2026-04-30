@@ -1,3 +1,5 @@
+using SITRA.Core.Enums;
+
 namespace SITRA.Core.DTOs.Products.Services
 {
     public class CreateServiceDTO
@@ -8,10 +10,10 @@ namespace SITRA.Core.DTOs.Products.Services
         public IFormFile? ImageUrl { get; set; }
         public double InitialCost { get; set; } = 0;
         public double BasePrice { get; set; }
+        public UnitMeasure UnitMeasure { get; set; }
         public List<Guid> TaxIds { get; set; } = [];
         public Guid? CategoryId { get; set; }
         public Guid? SubCategoryId { get; set; }
-        public Guid? UnitId { get; set; }
     }
 }
 
