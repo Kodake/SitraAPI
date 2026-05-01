@@ -7512,6 +7512,10 @@
             "type": "string",
             "nullable": true
           },
+          "municipality": {
+            "type": "string",
+            "nullable": true
+          },
           "address": {
             "type": "string",
             "nullable": true
@@ -7559,6 +7563,10 @@
             "nullable": true
           },
           "province": {
+            "type": "string",
+            "nullable": true
+          },
+          "municipality": {
             "type": "string",
             "nullable": true
           },
@@ -7763,6 +7771,10 @@
             "nullable": true
           },
           "province": {
+            "type": "string",
+            "nullable": true
+          },
+          "municipality": {
             "type": "string",
             "nullable": true
           },
@@ -8152,6 +8164,14 @@
             "nullable": true
           },
           "companyName": {
+            "type": "string",
+            "nullable": true
+          },
+          "province": {
+            "type": "string",
+            "nullable": true
+          },
+          "municipality": {
             "type": "string",
             "nullable": true
           },
@@ -11746,7 +11766,27 @@
             "type": "string",
             "nullable": true
           },
+          "rucNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
           "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "nullable": true
+          },
+          "province": {
+            "type": "string",
+            "nullable": true
+          },
+          "municipality": {
             "type": "string",
             "nullable": true
           },

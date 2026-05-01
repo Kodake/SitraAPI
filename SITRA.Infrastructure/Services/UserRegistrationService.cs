@@ -47,6 +47,8 @@ namespace SITRA.Infrastructure.Services
             {
                 CompanyName = dto.CompanyName,
                 RucNumber = dto.RucNumber,
+                Province = dto.Province,
+                Municipality = dto.Municipality,
                 Address = dto.Address,
                 UserName = dto.Email,
                 Email = dto.Email,

@@ -34,6 +34,10 @@ namespace SITRA.Core.Validations.Contacts
             .MaximumLength(2).WithMessage(Utilities.MaximunLengthMessage)
             .Must(Utilities.FirstCharUppercase).WithMessage(Utilities.FirstCharUpperMessage);
 
+            RuleFor(x => x.Municipality)
+            .MaximumLength(6).WithMessage(Utilities.MaximunLengthMessage)
+            .Must(Utilities.FirstCharUppercase).WithMessage(Utilities.FirstCharUpperMessage);
+
             RuleFor(x => x.Identification)
             .MaximumLength(15).WithMessage(Utilities.MaximunLengthMessage)
             .Must(Utilities.FirstCharUppercase).WithMessage(Utilities.FirstCharUpperMessage);

@@ -21,6 +21,11 @@ namespace SITRA.Core.Mediator.Queries.Auths
                 Id = user.Id,
                 UserName = user.UserName!,
                 Email = user.Email!,
+                RucNumber = user.RucNumber!,
+                Address = user.Address!,
+                Province = user.Province!,
+                Municipality = user.Municipality!,
+                PhoneNumber = user.PhoneNumber!,
                 CompanyName = user.CompanyName,
                 ParentUserId = user.ParentUserId,
                 RoleId = user.TenantRoleUsers.FirstOrDefault()?.RoleId.ToString()

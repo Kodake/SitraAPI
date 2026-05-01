@@ -36,6 +36,14 @@ namespace SITRA.Core.Validations.Auths
                 .Matches(@"^\d{9}(\d{2})?$")
                 .WithMessage(Utilities.RucFieldMessage);
 
+            RuleFor(x => x.Province)
+                .NotEmpty().WithMessage(Utilities.RequiredFieldMessage)
+                .MaximumLength(2).WithMessage(Utilities.MaximunLengthMessage);
+
+            RuleFor(x => x.Municipality)
+                .NotEmpty().WithMessage(Utilities.RequiredFieldMessage)
+                .MaximumLength(6).WithMessage(Utilities.MaximunLengthMessage);
+
             RuleFor(x => x.Plan)
                 .IsInEnum().WithMessage("Invalid Plan Type.");
         }

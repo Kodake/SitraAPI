@@ -74,12 +74,18 @@ namespace SITRA.Infrastructure.Services
 
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email!),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id?.ToString() ?? string.Empty),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email ?? string.Empty),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim("userName", user.UserName!),
+                new Claim("userName", user.UserName ?? string.Empty),
                 new Claim("tenantId", user.TenantId.ToString()),
-                new Claim("language", user.Language.ToString())
+                new Claim("language", user.Language.ToString()),
+                new Claim("email", user.Email ?? string.Empty),
+                new Claim("address", user.Address ?? string.Empty),
+                new Claim("province", user.Province ?? string.Empty),
+                new Claim("municipality", user.Municipality ?? string.Empty),
+                new Claim("companyName", user.CompanyName ?? string.Empty),
+                new Claim("phoneNumber", user.PhoneNumber ?? string.Empty),
             };
 
             var userClaims = await _userManager.GetClaimsAsync(user);
@@ -122,10 +128,10 @@ namespace SITRA.Infrastructure.Services
                 }
 
                 var distinctPermissionKeys = permissionKeys.Distinct().ToList();
-                var currentPermissionKeys = permissionClaims.Select(c => c.Value).ToList();
+                var currentPermissionKeys = permissionClaims.Select(c => c.Value ?? string.Empty).ToList();
 
                 // Only make changes to the database claims if there is a mismatch
-                bool claimsChanged = distinctPermissionKeys.Count != currentPermissionKeys.Count || 
+                bool claimsChanged = distinctPermissionKeys.Count != currentPermissionKeys.Count ||
                                      distinctPermissionKeys.Except(currentPermissionKeys).Any();
 
                 if (claimsChanged)
@@ -141,7 +147,7 @@ namespace SITRA.Infrastructure.Services
                     }
 
                     permissionClaims = distinctPermissionKeys
-                        .Select(pk => new Claim(PermissionClaimType, pk))
+                        .Select(pk => new Claim(PermissionClaimType, pk ?? string.Empty))
                         .ToList();
 
                     if (permissionClaims.Any())

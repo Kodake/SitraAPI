@@ -9,6 +9,8 @@ namespace SITRA.Core.Entities.Auths
     {
         public string? CompanyName { get; set; }
         public string? RucNumber { get; set; }
+        public  string? Province { get; set; }
+        public string? Municipality { get; set; }
         public string? Address { get; set; }
         public Guid TenantId { get; set; }
         public bool IsOwner { get; set; }
