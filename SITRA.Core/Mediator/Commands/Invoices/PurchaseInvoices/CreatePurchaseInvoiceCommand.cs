@@ -1,4 +1,5 @@
 using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.OutputCaching;
 using SITRA.Core.DTOs.Invoices.PurchaseInvoices;
 using SITRA.Core.Entities.Accounts;
@@ -19,14 +20,26 @@ namespace SITRA.Core.Mediator.Commands.Invoices.PurchaseInvoices
             var user = await unitOfWork.UserService.GetUserAsync();
             var pettyCash = await unitOfWork.PettyCashRepository.GetOpenPettyCashAsync();
 
+            var fiscalSupportDB = Dto.FiscalSupportId.HasValue
+                ? await unitOfWork.FiscalSupportRepository.GetByIdAsync(Dto.FiscalSupportId.Value)
+                : null;
+
             var currencyDB = await unitOfWork.CurrencyRepository.GetByIdAsync(Dto.CurrencyId);
 
             var purchaseInvoice = mapper.Map<Invoice>(Dto);
             purchaseInvoice.InvoiceType = InvoiceType.Purchase;
-            purchaseInvoice.Date = DateTimeOffset.UtcNow;
+            purchaseInvoice.Date = DateTimeOffset.Now;
             if (Dto.SupplierId != Guid.Empty)
             {
                 purchaseInvoice.InvoiceBuyer = new InvoiceBuyer { ContactId = Dto.SupplierId };
+            }
+
+            if (fiscalSupportDB != null)
+            {
+                fiscalSupportDB.IncrementSequence();
+                purchaseInvoice.FiscalSupportNumber = fiscalSupportDB.GenerateFiscalSupportNumber();
+                purchaseInvoice.InvoiceFiscalSupport = new InvoiceFiscalSupport { FiscalSupportId = fiscalSupportDB.Id };
+                unitOfWork.FiscalSupportRepository.Update(fiscalSupportDB);
             }
 
             double currencyRate = currencyDB!.Rate;
@@ -67,10 +80,12 @@ namespace SITRA.Core.Mediator.Commands.Invoices.PurchaseInvoices
             await IncreaseStock(Dto, unitOfWork);
             await AddPettyCashMovement(unitOfWork, pettyCash!, purchaseInvoice);
             await unitOfWork.SaveChangesAsync();
+            await outputCacheStore.EvictByTagAsync("fiscal-supports-get", cancellationToken);
             await outputCacheStore.EvictByTagAsync("stocks-get", cancellationToken);
             await outputCacheStore.EvictByTagAsync("payables-get", cancellationToken);
             await outputCacheStore.EvictByTagAsync("spotPayables-get", cancellationToken);
             await outputCacheStore.EvictByTagAsync("pettyCashMovements-get", cancellationToken);
+            Dto.Id = purchaseInvoice.Id;
 
             return Dto;
         }

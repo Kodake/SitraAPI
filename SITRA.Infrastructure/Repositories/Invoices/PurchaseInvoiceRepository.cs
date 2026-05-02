@@ -41,6 +41,8 @@ namespace SITRA.Infrastructure.Repositories.Invoices
                     .ThenInclude(ib => ib.Buyer)
                 .Include(i => i.InvoiceBiller)
                     .ThenInclude(ib => ib.Biller)
+                .Include(i => i.InvoiceFiscalSupport)
+                    .ThenInclude(ifs => ifs.FiscalSupport)
                 .Include(i => i.Pricing)
                 .Include(i => i.Warehouse)
                 .Include(i => i.InvoiceItems)

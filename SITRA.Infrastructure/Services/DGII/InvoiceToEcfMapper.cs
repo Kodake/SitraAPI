@@ -103,6 +103,11 @@ namespace SITRA.Infrastructure.Services.DGII
                 {
                     NumeroLinea = lineNum++,
                     IndicadorFacturacion = indicador,
+                    // E41 requires <Retencion> (minOccurs=1) immediately after IndicadorFacturacion.
+                    // Use IndicadorAgenteRetencionoPercepcion=1 (Retención) with no amounts for the base case.
+                    Retencion = tipoEcf == "41"
+                        ? new Retencion { IndicadorAgenteRetencionoPercepcion = 1 }
+                        : null,
                     NombreItem = item.Item?.Name ?? "Item Generico",
                     IndicadorBienoServicio = (int?)item.Item?.ItemType ?? 1,
                     Cantidad = qty,

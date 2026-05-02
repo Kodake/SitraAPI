@@ -3831,7 +3831,14 @@
         },
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatePurchaseInvoiceDTO"
+                }
+              }
+            }
           },
           "404": {
             "description": "Not Found"
@@ -8057,6 +8064,10 @@
       "CreatePurchaseInvoiceDTO": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
           "pricingId": {
             "type": "string",
             "format": "uuid"
@@ -8076,8 +8087,19 @@
           "documentType": {
             "$ref": "#/components/schemas/DocumentType"
           },
-          "fiscalSupportNumber": {
+          "fiscalSupportId": {
             "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "shipping": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "discount": {
+            "type": "number",
+            "format": "double",
             "nullable": true
           },
           "conditionType": {
@@ -10157,7 +10179,15 @@
             "format": "double",
             "nullable": true
           },
+          "totalAmount": {
+            "type": "number",
+            "format": "double"
+          },
           "totalPrice": {
+            "type": "number",
+            "format": "double"
+          },
+          "totalTaxes": {
             "type": "number",
             "format": "double"
           },
@@ -10167,6 +10197,9 @@
           },
           "supplier": {
             "$ref": "#/components/schemas/ContactDTO"
+          },
+          "fiscalSupport": {
+            "$ref": "#/components/schemas/FiscalSupportDTO"
           },
           "createdAt": {
             "type": "string",
@@ -10200,6 +10233,15 @@
               "$ref": "#/components/schemas/ItemTaxes"
             },
             "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -10226,6 +10268,11 @@
           },
           "supplier": {
             "$ref": "#/components/schemas/ContactDTO"
+          },
+          "shipping": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
           },
           "discount": {
             "type": "number",

@@ -46,14 +46,16 @@ namespace SITRA.API.Endpoints.Invoices
         }
 
         [Idempotent]
-        static async Task<Results<Created, NotFound, ValidationProblem>> Create(
+        static async Task<Results<Created<CreatePurchaseInvoiceDTO>, NotFound, ValidationProblem>> Create(
             [FromBody] CreatePurchaseInvoiceDTO dto,
             [FromServices] IMediator mediator,
             IOutputCacheStore outputCacheStore)
         {
             var command = new CreatePurchaseInvoiceCommand(dto);
-            var saleDTO = await mediator.Send(command);
-            return saleDTO == null ? TypedResults.NotFound() : TypedResults.Created();
+            var purchaseDTO = await mediator.Send(command);
+            return purchaseDTO == null
+                ? TypedResults.NotFound()
+                : TypedResults.Created(string.Empty, purchaseDTO);
         }
 
         static async Task<Results<FileContentHttpResult, NotFound>> GeneratePdf(

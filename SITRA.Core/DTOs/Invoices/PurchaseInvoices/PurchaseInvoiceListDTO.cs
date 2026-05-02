@@ -10,6 +10,7 @@ namespace SITRA.Core.DTOs.Invoices.PurchaseInvoices
         public string? FiscalSupportNumber { get; set; } = string.Empty;
         public Guid? SupplierId { get; set; }
         public virtual ContactDTO? Supplier { get; set; } = null!;
+        public double? Shipping { get; set; } = null!;
         public double? Discount { get; set; } = null!;
         public double TotalQtyItems { get; set; }
         public double TotalItems { get; set; }
