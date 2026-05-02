@@ -16,9 +16,10 @@ namespace SITRA.API.Endpoints
 
         static async Task<Ok<List<ItemListDTO>>> GetByPricingIdAndWarehouseId(
             [FromServices] IMediator mediator,
-            Guid pricingId, Guid warehouseId)
+            Guid pricingId, Guid warehouseId,
+            [FromQuery] string? fiscalSupportType = null)
         {
-            var query = new GetItemsByPricingIdAndWarehouseIdQuery(pricingId, warehouseId);
+            var query = new GetItemsByPricingIdAndWarehouseIdQuery(pricingId, warehouseId, fiscalSupportType);
             var dto = await mediator.Send(query);
             return TypedResults.Ok(dto);
         }

@@ -2383,6 +2383,13 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "fiscalSupportType",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -11523,7 +11530,8 @@
         "enum": [
           1,
           2,
-          3
+          3,
+          4
         ],
         "type": "integer",
         "format": "int32"

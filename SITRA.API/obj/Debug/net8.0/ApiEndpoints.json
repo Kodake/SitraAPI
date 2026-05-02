@@ -2047,6 +2047,11 @@
         "Name": "warehouseId",
         "Type": "System.Guid",
         "IsRequired": true
+      },
+      {
+        "Name": "fiscalSupportType",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": [

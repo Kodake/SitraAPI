@@ -4,6 +4,7 @@
     {
         ITBIS = 1,
         ISC = 2,
-        OTRO = 3
+        OTRO = 3,
+        EXENTO = 4,
     }
 }

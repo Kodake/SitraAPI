@@ -38,6 +38,14 @@ namespace SITRA.Core.Validations.AdministrativeTools
                 .Must(x => x == 0 || x == 16 || x == 18).WithMessage(Utilities.InvalidITBISRateMessage);
             });
 
+            // for this x.Taxtype.EXENTO is mandatory the 0 %... thanks...
+            When(x => x.TaxType == TaxType.EXENTO, () =>
+            {
+                RuleFor(x => x.Amount)
+                .Must(Utilities.IsValidPercentage).WithMessage(Utilities.InvalidPercentageMessage)
+                .Must(x => x == 0).WithMessage(Utilities.InvalidTaxAmountMessage);
+            });
+
             RuleFor(x => x.Name)
             .NotEmpty().WithMessage(Utilities.RequiredFieldMessage)
             .MinimumLength(2).WithMessage(Utilities.MinimunLengthMessage)

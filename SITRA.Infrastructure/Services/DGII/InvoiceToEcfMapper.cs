@@ -75,6 +75,10 @@ namespace SITRA.Infrastructure.Services.DGII
                 var taxes = item.Item?.ItemTaxes ?? [];
                 var (indicador, tasa) = GetIndicadorYtasa(taxes);
 
+                // E43 (Gastos Menores): DGII rule 244 — only IndicadorFacturacion=4 (Exento) is allowed.
+                // Override regardless of the product's tax configuration.
+                if (tipoEcf == "43") { indicador = 4; tasa = 0; }
+
                 var qty = Round((decimal)item.Qty);
                 var price = Round((decimal)item.BasePrice);
                 var montoItem = Round(qty * price); // base neta (precio sin ITBIS × cantidad)
@@ -134,36 +138,53 @@ namespace SITRA.Infrastructure.Services.DGII
                 });
             }
 
-            ecf.Encabezado.Totales = new Totales
+            // E43 and E47 XSD restrict Totales to: MontoExento (opt) + MontoTotal (req) only.
+            // Sending MontoGravadoTotal or any ITBIS field causes error code 3.
+            var simpleTipos = new HashSet<string> { "43", "47" };
+            if (simpleTipos.Contains(tipoEcf))
             {
-                // Tasas porcentuales (campos int en el DTO — indican qué tasa aplica)
-                ITBIS1 = usaI1 ? 18 : null,
-                ITBIS2 = usaI2 ? 16 : null,
-                ITBIS3 = usaI3 ? 0 : null,
-
-                MontoGravadoTotal = Round(montoGravadoI1 + montoGravadoI2 + montoGravadoI3),
-
-                MontoGravadoI1 = montoGravadoI1 > 0 ? Round(montoGravadoI1) : null,
-                MontoGravadoI2 = montoGravadoI2 > 0 ? Round(montoGravadoI2) : null,
-                MontoGravadoI3 = montoGravadoI3 > 0 ? Round(montoGravadoI3) : null,
-
-                MontoExento = montoExento > 0 ? Round(montoExento) : null,
-
-                TotalITBIS = Round(totalITBIS1 + totalITBIS2 + totalITBIS3),
-                TotalITBIS1 = totalITBIS1 > 0 ? Round(totalITBIS1) : null,
-                TotalITBIS2 = totalITBIS2 > 0 ? Round(totalITBIS2) : null,
-                TotalITBIS3 = totalITBIS3 > 0 ? Round(totalITBIS3) : null,
-
-                MontoTotal = Round(
+                decimal montoTotalSimple = Round(
                     montoGravadoI1 + montoGravadoI2 + montoGravadoI3 +
-                    montoExento + totalITBIS1 + totalITBIS2 + totalITBIS3
-                ),
+                    montoExento + totalITBIS1 + totalITBIS2 + totalITBIS3);
 
-                // E41: total ITBIS retained must match the sum of per-line MontoITBISRetenido
-                TotalITBISRetenido = tipoEcf == "41" && totalITBISRetenido > 0
-                    ? Round(totalITBISRetenido)
-                    : null
-            };
+                ecf.Encabezado.Totales = new Totales
+                {
+                    MontoExento = montoExento > 0 ? Round(montoExento) : null,
+                    MontoTotal = montoTotalSimple
+                };
+            }
+            else
+            {
+                ecf.Encabezado.Totales = new Totales
+                {
+                    // Tasas porcentuales (campos int en el DTO — indican qué tasa aplica)
+                    ITBIS1 = usaI1 ? 18 : null,
+                    ITBIS2 = usaI2 ? 16 : null,
+                    ITBIS3 = usaI3 ? 0 : null,
+
+                    MontoGravadoTotal = Round(montoGravadoI1 + montoGravadoI2 + montoGravadoI3),
+
+                    MontoGravadoI1 = montoGravadoI1 > 0 ? Round(montoGravadoI1) : null,
+                    MontoGravadoI2 = montoGravadoI2 > 0 ? Round(montoGravadoI2) : null,
+                    MontoGravadoI3 = montoGravadoI3 > 0 ? Round(montoGravadoI3) : null,
+
+                    MontoExento = montoExento > 0 ? Round(montoExento) : null,
+
+                    TotalITBIS = Round(totalITBIS1 + totalITBIS2 + totalITBIS3),
+                    TotalITBIS1 = totalITBIS1 > 0 ? Round(totalITBIS1) : null,
+                    TotalITBIS2 = totalITBIS2 > 0 ? Round(totalITBIS2) : null,
+                    TotalITBIS3 = totalITBIS3 > 0 ? Round(totalITBIS3) : null,
+
+                    MontoTotal = Round(
+                        montoGravadoI1 + montoGravadoI2 + montoGravadoI3 +
+                        montoExento + totalITBIS1 + totalITBIS2 + totalITBIS3),
+
+                    // E41: total ITBIS retained must match the sum of per-line MontoITBISRetenido
+                    TotalITBISRetenido = tipoEcf == "41" && totalITBISRetenido > 0
+                        ? Round(totalITBISRetenido)
+                        : null
+                };
+            }
 
             return ecf;
         }

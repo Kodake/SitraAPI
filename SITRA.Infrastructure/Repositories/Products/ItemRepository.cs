@@ -20,9 +20,9 @@ namespace SITRA.Infrastructure.Repositories.Products
                 .AnyAsync(i => i.Id == id && i.ItemType == itemType, cancellationToken);
         }
 
-        public async Task<List<Item>> GetByPricingIdAndWarehouseId(Guid pricingId, Guid warehouseId, CancellationToken cancellationToken = default)
+        public async Task<List<Item>> GetByPricingIdAndWarehouseId(Guid pricingId, Guid warehouseId, string? fiscalSupportType = null, CancellationToken cancellationToken = default)
         {
-            return await context.Items
+            var query = context.Items
                 .Include(x => x.Stocks)
                 .Include(x => x.ItemTaxes)
                     .ThenInclude(it => it.Tax)
@@ -47,8 +47,20 @@ namespace SITRA.Infrastructure.Repositories.Products
                             ci.ChildItem.Stocks.Any(s => s.WarehouseId == warehouseId)
                         )
                     )
-                )
-                .ToListAsync(cancellationToken);
+                );
+
+            // E43 (Gastos Menores): DGII only allows Exento items.
+            // Filter to items that have an ITBIS tax with Amount == 0.
+            if (fiscalSupportType == "43")
+            {
+                query = query.Where(x =>
+                    x.ItemTaxes.Any(it =>
+                        it.Tax.TaxType == TaxType.EXENTO
+                    )
+                );
+            }
+
+            return await query.ToListAsync(cancellationToken);
         }
     }
 }
