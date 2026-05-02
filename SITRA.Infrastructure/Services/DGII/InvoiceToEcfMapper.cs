@@ -63,6 +63,7 @@ namespace SITRA.Infrastructure.Services.DGII
             // =========================
             decimal montoGravadoI1 = 0, montoGravadoI2 = 0, montoGravadoI3 = 0, montoExento = 0;
             decimal totalITBIS1 = 0, totalITBIS2 = 0, totalITBIS3 = 0;
+            decimal totalITBISRetenido = 0; // E41: sum of per-item MontoITBISRetenido
 
             // Rastreamos qué tasas se usaron para asignar ITBIS1/ITBIS2/ITBIS3
             bool usaI1 = false, usaI2 = false, usaI3 = false;
@@ -99,14 +100,31 @@ namespace SITRA.Infrastructure.Services.DGII
                         break;
                 }
 
+                // For E41: calculate per-item ITBIS retention amount.
+                // IndicadorFacturacion 1=18%, 2=16%, 3=0%, 4=Exento
+                var montoItbisRetenido = tipoEcf == "41"
+                    ? indicador switch
+                    {
+                        1 => Round(montoItem * (18m / 100m)),
+                        2 => Round(montoItem * (16m / 100m)),
+                        _ => 0m  // ITBIS3 (0%) and Exento → 0
+                    }
+                    : (decimal?)null;
+
+                if (tipoEcf == "41" && montoItbisRetenido.HasValue)
+                    totalITBISRetenido += montoItbisRetenido.Value;
+
                 ecf.Detalles.Items.Add(new SITRA.Core.DTOs.DGII.Item
                 {
                     NumeroLinea = lineNum++,
                     IndicadorFacturacion = indicador,
-                    // E41 requires <Retencion> (minOccurs=1) immediately after IndicadorFacturacion.
-                    // Use IndicadorAgenteRetencionoPercepcion=1 (Retención) with no amounts for the base case.
+                    // E41 requires <Retencion> (minOccurs=1) with a valid MontoITBISRetenido (error 260)
                     Retencion = tipoEcf == "41"
-                        ? new Retencion { IndicadorAgenteRetencionoPercepcion = 1 }
+                        ? new Retencion
+                        {
+                            IndicadorAgenteRetencionoPercepcion = 1,
+                            MontoITBISRetenido = montoItbisRetenido
+                        }
                         : null,
                     NombreItem = item.Item?.Name ?? "Item Generico",
                     IndicadorBienoServicio = (int?)item.Item?.ItemType ?? 1,
@@ -139,7 +157,12 @@ namespace SITRA.Infrastructure.Services.DGII
                 MontoTotal = Round(
                     montoGravadoI1 + montoGravadoI2 + montoGravadoI3 +
                     montoExento + totalITBIS1 + totalITBIS2 + totalITBIS3
-                )
+                ),
+
+                // E41: total ITBIS retained must match the sum of per-line MontoITBISRetenido
+                TotalITBISRetenido = tipoEcf == "41" && totalITBISRetenido > 0
+                    ? Round(totalITBISRetenido)
+                    : null
             };
 
             return ecf;
