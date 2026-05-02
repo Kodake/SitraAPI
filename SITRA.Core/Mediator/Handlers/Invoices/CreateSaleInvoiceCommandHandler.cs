@@ -68,6 +68,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
                 {
                     string xmlFirmado = string.Empty;
                     bool useRfceChannel = false;
+                    string securityCode = "000000"; // extracted from signed XML below
 
                     bool isType32 = ecfDocument.Encabezado?.IdDoc?.TipoeCF == "32";
                     bool isAmountLessThan250k = ecfDocument.Encabezado?.Totales?.MontoTotal < 250000;
@@ -80,7 +81,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
                         
                         SaveDocumentXml(signedBaseEcf, ecfDocument.Encabezado!.IdDoc.ENCF, ecfDocument.Encabezado.Emisor.RNCEmisor, "32", _dgiiSettings.StoragePath);
 
-                        string securityCode = GetSecurityCodeFromSignedXml(signedBaseEcf);
+                        securityCode = GetSecurityCodeFromSignedXml(signedBaseEcf);
                         var rfceDoc = MapToRfce(ecfDocument, securityCode);
 
                         string rfceXmlSinFirma = _ecfXmlGenerator.GenerateRfceXml(rfceDoc);
@@ -94,6 +95,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
                         // Standard individual invoice generation
                         string xmlSinFirma = _ecfXmlGenerator.GenerateEcfXml(ecfDocument);
                         xmlFirmado = _signatureService.SignXml(xmlSinFirma, _dgiiSettings.CertificatePath, _dgiiSettings.CertificatePassword);
+                        securityCode = GetSecurityCodeFromSignedXml(xmlFirmado);
 
                         var docType = ecfDocument.Encabezado?.IdDoc?.TipoeCF ?? "UNKNOWN";
                         SaveDocumentXml(xmlFirmado, ecfDocument.Encabezado?.IdDoc?.ENCF ?? "", ecfDocument.Encabezado?.Emisor?.RNCEmisor ?? "", docType, _dgiiSettings.StoragePath);
@@ -120,6 +122,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
 
                     invoice.DgiiTrackId = extractedTrackId;
                     invoice.DgiiStatus = "Enviado";
+                    invoice.SecurityCode = securityCode;
 
                     _unitOfWork.SaleInvoiceRepository.Update(invoice);
                     await _unitOfWork.SaveChangesAsync(cancellationToken);

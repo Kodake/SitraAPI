@@ -37,6 +37,7 @@ namespace SITRA.Core.Entities.Invoices
         public DateTimeOffset? UpdatedAt { get; set; }
         public string? DgiiTrackId { get; set; }
         public string? DgiiStatus { get; set; }
+        public string? SecurityCode { get; set; }
         public Guid TenantId { get; set; }
         public Receivable? Receivable { get; set; } = null!;
         public Payable? Payable { get; set; } = null!;

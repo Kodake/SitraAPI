@@ -1015,6 +1015,10 @@ namespace SITRA.Infrastructure.Migrations
                     b.Property<Guid>("PricingId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("SecurityCode")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
                     b.Property<decimal?>("Shipping")
                         .HasColumnType("decimal(18,2)");
 

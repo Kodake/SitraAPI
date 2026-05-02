@@ -76,6 +76,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
                     // no RFCE / B2C redirect applies to purchase invoices.
                     string xmlSinFirma = _ecfXmlGenerator.GenerateEcfXml(ecfDocument);
                     string xmlFirmado = _signatureService.SignXml(xmlSinFirma, _dgiiSettings.CertificatePath, _dgiiSettings.CertificatePassword);
+                    string securityCode = GetSecurityCodeFromSignedXml(xmlFirmado);
 
                     SaveDocumentXml(
                         xmlFirmado,
@@ -102,6 +103,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
 
                     invoice.DgiiTrackId = extractedTrackId;
                     invoice.DgiiStatus = "Enviado";
+                    invoice.SecurityCode = securityCode;
 
                     _unitOfWork.PurchaseInvoiceRepository.Update(invoice);
                     await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -114,6 +116,24 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
             }
 
             return dto;
+        }
+
+        private static string GetSecurityCodeFromSignedXml(string signedXml)
+        {
+            try
+            {
+                var doc = System.Xml.Linq.XDocument.Parse(signedXml);
+                System.Xml.Linq.XNamespace ds = "http://www.w3.org/2000/09/xmldsig#";
+                var sigValue = doc.Descendants(ds + "SignatureValue").FirstOrDefault()?.Value;
+
+                if (!string.IsNullOrEmpty(sigValue))
+                {
+                    sigValue = sigValue.Replace("\n", "").Replace("\r", "").Replace(" ", "");
+                    return sigValue.Length >= 6 ? sigValue.Substring(0, 6) : sigValue;
+                }
+            }
+            catch { }
+            return "000000";
         }
 
         private static void SaveDocumentXml(string xml, string encf, string rnc, string docType, string? storagePath)
