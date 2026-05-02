@@ -8399,6 +8399,9 @@
           "amount": {
             "type": "number",
             "format": "double"
+          },
+          "taxType": {
+            "$ref": "#/components/schemas/TaxType"
           }
         },
         "additionalProperties": false
@@ -11380,6 +11383,9 @@
             "type": "number",
             "format": "double"
           },
+          "taxType": {
+            "$ref": "#/components/schemas/TaxType"
+          },
           "isActive": {
             "type": "boolean"
           },
@@ -11448,6 +11454,9 @@
             "type": "number",
             "format": "double"
           },
+          "taxType": {
+            "$ref": "#/components/schemas/TaxType"
+          },
           "isActive": {
             "type": "boolean"
           },
@@ -11462,6 +11471,15 @@
           }
         },
         "additionalProperties": false
+      },
+      "TaxType": {
+        "enum": [
+          1,
+          2,
+          3
+        ],
+        "type": "integer",
+        "format": "int32"
       },
       "TokenResponseDTO": {
         "type": "object",

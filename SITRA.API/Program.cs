@@ -128,6 +128,7 @@ builder.Services.AddScoped<IEcfXmlGenerator, EcfXmlGeneratorService>();
 builder.Services.AddScoped<ITestCasesReader, JsonTestCasesReaderService>();
 builder.Services.AddScoped<ITestCasesReader, TestCasesReaderService>();
 builder.Services.AddScoped<IDgiiTestService, DgiiTestService>();
+builder.Services.AddScoped<IInvoiceToEcfMapper, InvoiceToEcfMapper>();
 
 builder.Services.AddHttpClient<IDgiiApiService, DgiiApiService>();
 

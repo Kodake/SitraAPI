@@ -10,7 +10,7 @@ namespace SITRA.Infrastructure.Persistence.Contacts
         {
             builder.Property(p => p.ContactType).HasConversion<int>().IsRequired(false);
             builder.Property(p => p.IdentificationType).HasConversion<int>().IsRequired(false);
-            builder.Property(p => p.Province).HasMaxLength(2).IsRequired(false);
+            builder.Property(p => p.Province).HasMaxLength(6).IsRequired(false);
             builder.Property(p => p.Municipality).HasMaxLength(6).IsRequired(false);
             builder.Property(p => p.Identification).HasMaxLength(15).IsRequired(false);
             builder.Property(p => p.Name).HasMaxLength(50);

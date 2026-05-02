@@ -63,7 +63,6 @@ namespace SITRA.Infrastructure.Repositories.Products
         {
             return await context.Items
                 .Where(x => x.ItemType == ItemType.Service)
-                .Include(p => p.UnitMeasure)
                 .Include(p => p.ItemCategory)
                     .ThenInclude(ic => ic.Category)
                 .Include(p => p.ItemSubCategory)

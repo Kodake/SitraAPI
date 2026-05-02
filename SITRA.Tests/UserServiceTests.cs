@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using SITRA.Core.DTOs.Auths;
 using SITRA.Core.Entities.Auths;
@@ -228,7 +229,15 @@ namespace SITRA.Tests
                 var mockAuthLogger = new Mock<ILogger<AuthenticationService>>();
                 var mockRegLogger = new Mock<ILogger<UserRegistrationService>>();
                 var mockRoleServiceLogger = new Mock<ILogger<UserRoleService>>();
-                var unitOfWork = new UnitOfWork(testContext, mockHttpContextAccessor.Object, userManager, roleManager, configuration, mockLogger.Object, mockPermClaimLogger.Object, mockAuthLogger.Object, mockRegLogger.Object, mockRoleServiceLogger.Object);
+                var services = new Microsoft.Extensions.DependencyInjection.ServiceCollection();
+                services.AddSingleton(new Mock<IInvoiceToEcfMapper>().Object);
+                services.AddSingleton(new Mock<IEcfXmlGenerator>().Object);
+                services.AddSingleton(new Mock<ISignatureService>().Object);
+                services.AddSingleton(new Mock<IDgiiApiService>().Object);
+                services.AddSingleton(Microsoft.Extensions.Options.Options.Create(new SITRA.Core.Models.Dgii.DgiiSettings()));
+                var serviceProvider = services.BuildServiceProvider();
+
+                var unitOfWork = new UnitOfWork(testContext, mockHttpContextAccessor.Object, userManager, roleManager, configuration, mockLogger.Object, mockPermClaimLogger.Object, mockAuthLogger.Object, mockRegLogger.Object, mockRoleServiceLogger.Object, serviceProvider);
                 var authService = unitOfWork.AuthenticationService;
                 
                 var dto = new CreateLoginUserDTO { Email = "persist@test.com", Password = "Password1!" };
@@ -318,7 +327,15 @@ namespace SITRA.Tests
                 var mockAuthLogger = new Mock<ILogger<AuthenticationService>>();
                 var mockRegLogger = new Mock<ILogger<UserRegistrationService>>();
                 var mockRoleServiceLogger = new Mock<ILogger<UserRoleService>>();
-                var unitOfWork = new UnitOfWork(testContext, mockHttpContextAccessor.Object, userManager, roleManager, mockConfiguration.Object, mockLogger.Object, mockPermClaimLogger.Object, mockAuthLogger.Object, mockRegLogger.Object, mockRoleServiceLogger.Object);
+                var services = new Microsoft.Extensions.DependencyInjection.ServiceCollection();
+                services.AddSingleton(new Mock<IInvoiceToEcfMapper>().Object);
+                services.AddSingleton(new Mock<IEcfXmlGenerator>().Object);
+                services.AddSingleton(new Mock<ISignatureService>().Object);
+                services.AddSingleton(new Mock<IDgiiApiService>().Object);
+                services.AddSingleton(Microsoft.Extensions.Options.Options.Create(new SITRA.Core.Models.Dgii.DgiiSettings()));
+                var serviceProvider = services.BuildServiceProvider();
+
+                var unitOfWork = new UnitOfWork(testContext, mockHttpContextAccessor.Object, userManager, roleManager, mockConfiguration.Object, mockLogger.Object, mockPermClaimLogger.Object, mockAuthLogger.Object, mockRegLogger.Object, mockRoleServiceLogger.Object, serviceProvider);
                 var authService = unitOfWork.AuthenticationService;
                 
                 var dto = new CreateLoginUserDTO { Email = "test@test.com", Password = "Password1!" };

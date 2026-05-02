@@ -11,7 +11,7 @@ namespace SITRA.Core.DTOs.Products.Products
         public IFormFile? ImageUrl { get; set; }
         public double InitialCost { get; set; }
         public double BasePrice { get; set; }
-        public UnitMeasure UnitMeasure { get; set; }
+        public UnitMeasure? UnitMeasure { get; set; }
         public List<Guid> TaxIds { get; set; } = null!;
         public Guid? BrandId { get; set; }
         public Guid? ModelId { get; set; }

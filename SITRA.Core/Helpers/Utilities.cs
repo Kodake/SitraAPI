@@ -1,3 +1,4 @@
+using SITRA.Core.DTOs.Finances.Taxes;
 using SITRA.Core.Enums;
 using System.Reflection;
 using System.Resources;
@@ -131,7 +132,9 @@ namespace SITRA.Core.Helpers
         public static string ErrorLoadingLogoLabel => _resourceManager.GetString("ErrorLoadingLogoLabel")!;
         public static string PhoneLabel => _resourceManager.GetString("PhoneLabel")!;
         public static string RncLabel => _resourceManager.GetString("RncLabel")!;
-
+        public static string InvalidTaxTypeMessage => _resourceManager.GetString("InvalidTaxTypeMessage")!;
+        public static string InvalidPercentageMessage => _resourceManager.GetString("InvalidPercentageMessage")!;
+        public static string InvalidITBISRateMessage => _resourceManager.GetString("InvalidITBISRateMessage")!;
         public static string UserEmptyTenantIdMessage(string email)
         {
             var message = _resourceManager.GetString("UserEmptyTenantIdMessage");
@@ -265,6 +268,17 @@ namespace SITRA.Core.Helpers
                 PaymentMethod.Card => _resourceManager.GetString("PaymentMethodCard")!,
                 _ => method.ToString()
             };
+        }
+
+        public static bool IsValidPercentage(double itbisRate)
+        {
+            return itbisRate == 0 || itbisRate == 16 || itbisRate == 18;
+        }
+
+        public static string InvalidTaxAmountMessage(CreateTaxDTO dTO)
+        {
+            var message = _resourceManager.GetString("InvalidTaxAmountMessage");
+            return string.Format(message!, dTO.Amount);
         }
     }
 }

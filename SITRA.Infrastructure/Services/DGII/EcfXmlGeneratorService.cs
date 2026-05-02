@@ -15,6 +15,7 @@ namespace SITRA.Infrastructure.Services.DGII
         public string GenerateEcfXml(EcfDocument document)
         {
             string xml = SerializeToXml(document);
+            xml = FormatDecimalElements(xml);       // ← nuevo paso
             xml = RemoveEmptyElements(xml);
             xml = MoveFechaHoraFirmaToEnd(xml);
             return NormalizeXmlDeclaration(xml);
@@ -42,21 +43,79 @@ namespace SITRA.Infrastructure.Services.DGII
 
             var settings = new XmlWriterSettings
             {
-                Encoding = new UTF8Encoding(false), // Disable BOM
+                Encoding = new UTF8Encoding(false),
                 Indent = true,
                 IndentChars = "  ",
-                OmitXmlDeclaration = true // We handle the declaration in NormalizeXmlDeclaration
+                OmitXmlDeclaration = true
             };
 
-            // Remove default namespaces (xsi and xsd) as they can cause issues with DGII signature
             var emptyNamespaces = new XmlSerializerNamespaces();
             emptyNamespaces.Add("", "");
 
-            using (var stringWriter = new Utf8StringWriter())
-            using (var xmlWriter = XmlWriter.Create(stringWriter, settings))
+            // Forzar InvariantCulture para que decimales siempre usen punto
+            // y se serialicen con 2 decimales (500.00 en lugar de 500)
+            var prevCulture = System.Threading.Thread.CurrentThread.CurrentCulture;
+            System.Threading.Thread.CurrentThread.CurrentCulture =
+                System.Globalization.CultureInfo.InvariantCulture;
+
+            try
             {
+                using var stringWriter = new Utf8StringWriter();
+                using var xmlWriter = XmlWriter.Create(stringWriter, settings);
                 serializer.Serialize(xmlWriter, document, emptyNamespaces);
                 return stringWriter.ToString();
+            }
+            finally
+            {
+                // Siempre restaurar la cultura original, incluso si hay excepción
+                System.Threading.Thread.CurrentThread.CurrentCulture = prevCulture;
+            }
+        }
+
+        private static readonly HashSet<string> DecimalElements = new()
+        {
+            "MontoGravadoTotal", "MontoGravadoI1", "MontoGravadoI2", "MontoGravadoI3",
+            "MontoExento", "TotalITBIS", "TotalITBIS1", "TotalITBIS2", "TotalITBIS3",
+            "MontoTotal", "MontoItem", "PrecioUnitarioItem", "CantidadItem",
+            "MontoPago", "ValorPagar", "SaldoAnterior", "MontoPeriodo",
+            "MontoAvancePago", "MontoNoFacturable", "MontoImpuestoAdicional",
+            "TotalITBISRetenido", "TotalISRRetencion", "TotalITBISPercepcion", "TotalISRPercepcion"
+        };
+
+        private static string FormatDecimalElements(string xml)
+        {
+            try
+            {
+                var doc = XDocument.Parse(xml, LoadOptions.PreserveWhitespace);
+
+                foreach (var element in doc.Descendants())
+                {
+                    if (!DecimalElements.Contains(element.Name.LocalName)) continue;
+                    if (element.HasElements) continue;
+
+                    var raw = element.Value.Trim();
+                    if (string.IsNullOrEmpty(raw)) continue;
+
+                    // Si ya tiene punto decimal con 2+ dígitos, dejarlo
+                    if (System.Text.RegularExpressions.Regex.IsMatch(raw, @"^\-?\d+\.\d{2,}$"))
+                        continue;
+
+                    // Parsear y reformatear siempre con 2 decimales
+                    if (decimal.TryParse(raw,
+                            System.Globalization.NumberStyles.Any,
+                            System.Globalization.CultureInfo.InvariantCulture,
+                            out decimal value))
+                    {
+                        element.Value = value.ToString("F2",
+                            System.Globalization.CultureInfo.InvariantCulture);
+                    }
+                }
+
+                return doc.ToString();
+            }
+            catch
+            {
+                return xml;
             }
         }
 
@@ -119,7 +178,7 @@ namespace SITRA.Infrastructure.Services.DGII
             if (string.IsNullOrWhiteSpace(xml)) return xml;
 
             var normalized = xml.TrimStart();
-            
+
             // Remove any existing XML declarations if they somehow crept in
             if (normalized.StartsWith("<?xml", StringComparison.OrdinalIgnoreCase))
             {

@@ -1,4 +1,5 @@
 using SITRA.Core.Entities.Finances;
+using SITRA.Core.Enums;
 using SITRA.Core.Interfaces;
 
 namespace SITRA.Core.Entities.Products

@@ -31,7 +31,7 @@ namespace SITRA.Core.Validations.Contacts
             }).WithMessage(x => string.Format(Utilities.NameAlreadyExistsWith, x.Name));
 
             RuleFor(x => x.Province)
-            .MaximumLength(2).WithMessage(Utilities.MaximunLengthMessage)
+            .MaximumLength(6).WithMessage(Utilities.MaximunLengthMessage)
             .Must(Utilities.FirstCharUppercase).WithMessage(Utilities.FirstCharUpperMessage);
 
             RuleFor(x => x.Municipality)

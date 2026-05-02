@@ -38,7 +38,7 @@ namespace SITRA.Core.Validations.Auths
 
             RuleFor(x => x.Province)
                 .NotEmpty().WithMessage(Utilities.RequiredFieldMessage)
-                .MaximumLength(2).WithMessage(Utilities.MaximunLengthMessage);
+                .MaximumLength(6).WithMessage(Utilities.MaximunLengthMessage);
 
             RuleFor(x => x.Municipality)
                 .NotEmpty().WithMessage(Utilities.RequiredFieldMessage)

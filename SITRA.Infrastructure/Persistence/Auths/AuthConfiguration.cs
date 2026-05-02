@@ -10,7 +10,7 @@ namespace SITRA.Infrastructure.Persistence.Auths
         {
             builder.Property(p => p.CompanyName).HasMaxLength(100);
             builder.Property(p => p.RucNumber).HasMaxLength(11);
-            builder.Property(p => p.Province).HasMaxLength(2);
+            builder.Property(p => p.Province).HasMaxLength(6);
             builder.Property(p => p.Municipality).HasMaxLength(6);
             builder.Property(p => p.Address).HasMaxLength(100);
             builder.Property(p => p.PhoneNumber).HasMaxLength(10);

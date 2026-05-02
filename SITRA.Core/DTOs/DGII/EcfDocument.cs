@@ -90,7 +90,7 @@ namespace SITRA.Core.DTOs.DGII
 
         [XmlElement(ElementName = "FechaVencimientoSecuencia", Order = 3)]
         public string FechaVencimientoSecuencia { get; set; } = string.Empty;
-        public bool ShouldSerializeFechaVencimientoSecuencia() => TipoeCF != "34";
+        public bool ShouldSerializeFechaVencimientoSecuencia() => TipoeCF != "34" && TipoeCF != "32";
 
         [XmlElement(ElementName = "IndicadorNotaCredito", Order = 4)]
         public int? IndicadorNotaCredito { get; set; }

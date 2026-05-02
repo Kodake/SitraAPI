@@ -27,6 +27,7 @@ using SITRA.Infrastructure.Repositories.Invoices;
 using SITRA.Infrastructure.Repositories.Products;
 using SITRA.Infrastructure.Repositories.Warehouses;
 using SITRA.Infrastructure.Services;
+using SITRA.Infrastructure.Services.DGII;
 namespace SITRA.Infrastructure.Repositories
 {
     public class UnitOfWork : IUnitOfWork
@@ -89,7 +90,8 @@ namespace SITRA.Infrastructure.Repositories
             ILogger<PermissionClaimService> permissionClaimLogger,
             ILogger<AuthenticationService> authLogger,
             ILogger<UserRegistrationService> registrationLogger,
-            ILogger<UserRoleService> roleServiceLogger)
+            ILogger<UserRoleService> roleServiceLogger,
+            IServiceProvider serviceProvider)
         {
             PayableRepository = new PayableRepository(context, httpContextAccessor);
             ReceivableRepository = new ReceivableRepository(context, httpContextAccessor);

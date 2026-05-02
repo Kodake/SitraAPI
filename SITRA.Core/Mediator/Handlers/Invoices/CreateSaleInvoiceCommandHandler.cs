@@ -20,6 +20,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
         private readonly IDgiiApiService _dgiiApiService;
         private readonly ISignatureService _signatureService;
         private readonly IEcfXmlGenerator _ecfXmlGenerator;
+        private readonly IInvoiceToEcfMapper _mapperToEcf;
         private readonly DgiiSettings _dgiiSettings;
 
         public CreateSaleInvoiceCommandHandler(
@@ -29,6 +30,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
             IDgiiApiService dgiiApiService,
             ISignatureService signatureService,
             IEcfXmlGenerator ecfXmlGenerator,
+            IInvoiceToEcfMapper mapperToEcf,
             IOptions<DgiiSettings> dgiiSettings)
         {
             _unitOfWork = unitOfWork;
@@ -37,6 +39,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
             _dgiiApiService = dgiiApiService;
             _signatureService = signatureService;
             _ecfXmlGenerator = ecfXmlGenerator;
+            _mapperToEcf = mapperToEcf;
             _dgiiSettings = dgiiSettings.Value;
         }
 
@@ -51,11 +54,11 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
             // 2. Perform DGII Transmission Workflow
             try
             {
-                // TODO: Map from the persisted DTO/Entities to the target DGII structure.
-                var ecfDocument = new EcfDocument
-                {
-                    // Encabezado = new EcfEncabezado { ... }
-                };
+                var invoice = await _unitOfWork.SaleInvoiceRepository.GetByIdAsync(dto.Id, cancellationToken);
+                if (invoice == null || string.IsNullOrEmpty(invoice.FiscalSupportNumber))
+                    return dto;
+        
+                var ecfDocument = _mapperToEcf.MapToDgiiDocument(invoice);
 
                 string seedXml = await _dgiiApiService.GetSemillaAsync();
                 string signedSeed = _signatureService.SignAuthenticationSeed(seedXml, _dgiiSettings.CertificatePath, _dgiiSettings.CertificatePassword);
@@ -101,7 +104,25 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
                         ? await _dgiiApiService.SendRfceAsync(xmlFirmado, token)
                         : await _dgiiApiService.SendEcfAsync(xmlFirmado, token);
 
-                    // TODO: Process response (e.g., Update status with TrackId)
+                    string extractedTrackId = rawResponse;
+                    try
+                    {
+                        var jsonDoc = System.Text.Json.JsonDocument.Parse(rawResponse);
+                        if (jsonDoc.RootElement.TryGetProperty("trackId", out var trackIdElement))
+                        {
+                            extractedTrackId = trackIdElement.GetString() ?? rawResponse;
+                        }
+                    }
+                    catch
+                    {
+                        // Si falla el parseo, guarda la respuesta cruda por precaución
+                    }
+
+                    invoice.DgiiTrackId = extractedTrackId;
+                    invoice.DgiiStatus = "Enviado";
+
+                    _unitOfWork.SaleInvoiceRepository.Update(invoice);
+                    await _unitOfWork.SaveChangesAsync(cancellationToken);
                 }
             }
             catch (Exception ex)
