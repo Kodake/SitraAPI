@@ -49,7 +49,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
             if (dto == null)
                 return null!;
 
-            // 2. Perform DGII Transmission Workflow for E41 (Factura de Compras)
+            // 2. Perform DGII Transmission Workflow for Purchase ECFs (E31 and E41)
             try
             {
                 var invoice = await _unitOfWork.PurchaseInvoiceRepository.GetByIdAsync(dto.Id, cancellationToken);
@@ -61,7 +61,11 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
                     ? invoice.FiscalSupportNumber.Substring(1, 2)
                     : string.Empty;
 
-                if (tipoEcf != "41")
+                // Process E31 (Factura de Crédito Fiscal — used for formal supplier invoices)
+                // and E41 (Comprobante de Compras — standard purchase receipt).
+                // Both represent inbound purchase transactions that increment stock.
+                var validPurchaseTypes = new HashSet<string> { "31", "41" };
+                if (!validPurchaseTypes.Contains(tipoEcf))
                     return dto;
 
                 var ecfDocument = _mapperToEcf.MapToDgiiDocument(invoice);
@@ -72,7 +76,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
 
                 if (!string.IsNullOrEmpty(token))
                 {
-                    // E41 (Factura de Compras) always uses the standard eCF channel —
+                    // E31 and E41 purchase invoices always use the standard eCF channel —
                     // no RFCE / B2C redirect applies to purchase invoices.
                     string xmlSinFirma = _ecfXmlGenerator.GenerateEcfXml(ecfDocument);
                     string xmlFirmado = _signatureService.SignXml(xmlSinFirma, _dgiiSettings.CertificatePath, _dgiiSettings.CertificatePassword);
@@ -82,7 +86,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
                         xmlFirmado,
                         ecfDocument.Encabezado?.IdDoc?.ENCF ?? "",
                         ecfDocument.Encabezado?.Emisor?.RNCEmisor ?? "",
-                        "41",
+                        tipoEcf,
                         _dgiiSettings.StoragePath);
 
                     string rawResponse = await _dgiiApiService.SendEcfAsync(xmlFirmado, token);
@@ -112,7 +116,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
             catch (Exception ex)
             {
                 // TODO: Handle exception (e.g., log failure, mark as Pending DGII)
-                System.Diagnostics.Debug.WriteLine($"DGII E41 Flow Error: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"DGII Purchase Flow Error: {ex.Message}");
             }
 
             return dto;
