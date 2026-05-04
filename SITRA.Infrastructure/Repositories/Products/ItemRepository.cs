@@ -56,6 +56,11 @@ namespace SITRA.Infrastructure.Repositories.Products
                         x.ItemTaxes.Any(it => it.Tax.TaxType == TaxType.EXENTO)
                     );
                 }
+                else if (fiscalSupportType == "45")
+                {
+                    // E45 (Gubernamental): Allow all items (Taxed, Exento, and No Facturable)
+                    // since the government can purchase any item and the E45 schema allows it.
+                }
                 else if (fiscalSupportType == "41")
                 {
                     // E41 (Comprobante de Compras): exclude Exento and No Facturable.

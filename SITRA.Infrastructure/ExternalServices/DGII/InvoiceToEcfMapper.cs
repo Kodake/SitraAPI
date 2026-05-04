@@ -50,7 +50,7 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
                     Comprador = new Comprador
                     {
                         RNCComprador = buyer?.Identification,
-                        RazonSocialComprador = buyer?.Name ?? "CONSUMIDOR FINAL",
+                        RazonSocialComprador = buyer?.Name ?? (tipoEcf == "45" ? "ENTIDAD GUBERNAMENTAL" : "CONSUMIDOR FINAL"),
                         DireccionComprador = buyer?.Address ?? "N/A",
                         MunicipioComprador = buyer?.Municipality,
                         ProvinciaComprador = buyer?.Province,
@@ -59,10 +59,17 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
                 }
             };
 
+            // Validation for E45 and other types that require RNC
+            if ((tipoEcf == "31" || tipoEcf == "41" || tipoEcf == "44" || tipoEcf == "45") && string.IsNullOrEmpty(buyer?.Identification))
+            {
+                throw new Exception($"RNC Comprador is mandatory for e-CF type {tipoEcf}.");
+            }
+
             // =========================
             // ACUMULADORES
             // =========================
             decimal montoGravadoI1 = 0, montoGravadoI2 = 0, montoGravadoI3 = 0, montoExento = 0;
+            decimal montoNoFacturableTotal = 0;
             decimal totalITBIS1 = 0, totalITBIS2 = 0, totalITBIS3 = 0;
             decimal totalITBISRetenido = 0; // E41: sum of per-item MontoITBISRetenido
             decimal totalISRRetenido = 0;   // E41: sum of per-item MontoISRRetenido (services only)
@@ -81,9 +88,9 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
                 // E43 and E44 (in practice): DGII only accepts IndicadorFacturacion=4 (Exento).
                 if (tipoEcf == "43" || tipoEcf == "44") { indicador = 4; tasa = 0; }
 
-                // Safety: indicador=0 (No Facturable) is only valid for E44.
+                // Safety: indicador=0 (No Facturable) is only valid for E44 and E45.
                 // For all other types, fall back to Exento to avoid invalid XML.
-                if (tipoEcf != "44" && indicador == 0) { indicador = 4; }
+                if (tipoEcf != "44" && tipoEcf != "45" && indicador == 0) { indicador = 4; }
 
                 var qty = Round((decimal)item.Qty);
                 var price = Round((decimal)item.BasePrice);
@@ -91,8 +98,8 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
 
                 switch (indicador)
                 {
-                    case 0: // No Facturable (E44 only)
-                        montoNoFacturable += montoItem;
+                    case 0: // No Facturable (E44/E45)
+                        montoNoFacturableTotal += montoItem;
                         break;
                     case 1:
                         montoGravadoI1 += montoItem;
@@ -204,7 +211,11 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
                     // E41: total ISR retained must match sum of per-line MontoISRRetenido (services only)
                     TotalISRRetencion = tipoEcf == "41" && totalISRRetenido > 0
                         ? Round(totalISRRetenido)
-                        : null
+                        : null,
+
+                    // E45: Gubernamental specific totals
+                    MontoNoFacturable = tipoEcf == "45" && montoNoFacturableTotal > 0 ? Round(montoNoFacturableTotal) : null,
+                    ValorPagar = tipoEcf == "45" ? Round(montoGravadoI1 + montoGravadoI2 + montoGravadoI3 + montoExento + totalITBIS1 + totalITBIS2 + totalITBIS3) : null
                 };
             }
 
