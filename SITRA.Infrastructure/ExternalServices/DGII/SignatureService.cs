@@ -6,7 +6,7 @@ using XmlElement = System.Xml.XmlElement;
 using SITRA.Core.Interfaces;
 using SITRA.Core.DTOs.DGII;
 
-namespace SITRA.Infrastructure.Services.DGII
+namespace SITRA.Infrastructure.ExternalServices.DGII
 {
     public class SignatureService : ISignatureService
     {

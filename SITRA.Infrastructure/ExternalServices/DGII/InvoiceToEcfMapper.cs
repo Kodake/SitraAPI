@@ -4,7 +4,7 @@ using SITRA.Core.DTOs.DGII;
 using SITRA.Core.Entities.Products;
 using SITRA.Core.Enums;
 
-namespace SITRA.Infrastructure.Services.DGII
+namespace SITRA.Infrastructure.ExternalServices.DGII
 {
     public class InvoiceToEcfMapper : IInvoiceToEcfMapper
     {
@@ -134,7 +134,7 @@ namespace SITRA.Infrastructure.Services.DGII
                 if (tipoEcf == "41" && montoIsrRetenido.HasValue)
                     totalISRRetenido += montoIsrRetenido.Value;
 
-                ecf.Detalles.Items.Add(new SITRA.Core.DTOs.DGII.Item
+                ecf.Detalles.Items.Add(new Core.DTOs.DGII.Item
                 {
                     NumeroLinea = lineNum++,
                     IndicadorFacturacion = indicador,

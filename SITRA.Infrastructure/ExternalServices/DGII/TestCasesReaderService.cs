@@ -6,7 +6,7 @@ using SITRA.Core.Interfaces;
 using SITRA.Core.DTOs.DGII;
 using System.Linq;
 
-namespace SITRA.Infrastructure.Services.DGII
+namespace SITRA.Infrastructure.ExternalServices.DGII
 {
     public class TestCasesReaderService : ITestCasesReader
     {

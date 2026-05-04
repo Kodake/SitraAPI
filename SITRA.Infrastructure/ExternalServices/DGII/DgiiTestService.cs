@@ -11,7 +11,7 @@ using SITRA.Core.Interfaces;
 using SITRA.Core.Models.Dgii;
 using SITRA.Core.DTOs.DGII;
 
-namespace SITRA.Infrastructure.Services.DGII
+namespace SITRA.Infrastructure.ExternalServices.DGII
 {
     public class DgiiTestService : IDgiiTestService
     {

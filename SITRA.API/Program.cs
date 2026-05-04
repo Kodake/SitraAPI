@@ -16,7 +16,6 @@ using SITRA.Infrastructure.ExternalServices.DGII;
 using SITRA.Infrastructure.Persistence;
 using SITRA.Infrastructure.Repositories;
 using SITRA.Infrastructure.Services;
-using SITRA.Infrastructure.Services.DGII;
 var builder = WebApplication.CreateBuilder(args);
 
 // Serilog
