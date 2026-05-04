@@ -49,16 +49,39 @@ namespace SITRA.Infrastructure.Repositories.Products
                     )
                 );
 
-            // E43 (Gastos Menores): DGII only allows Exento items.
-            // Filter to items that have an ITBIS tax with Amount == 0.
-            if (fiscalSupportType == "43")
-            {
-                query = query.Where(x =>
-                    x.ItemTaxes.Any(it =>
-                        it.Tax.TaxType == TaxType.EXENTO
-                    )
-                );
-            }
+                if (fiscalSupportType == "43" || fiscalSupportType == "44")
+                {
+                    // E43 and E44: DGII only accepts Exento items in practice
+                    query = query.Where(x =>
+                        x.ItemTaxes.Any(it => it.Tax.TaxType == TaxType.EXENTO)
+                    );
+                }
+                else if (fiscalSupportType == "41")
+                {
+                    // E41 (Comprobante de Compras): exclude Exento and No Facturable.
+                    // - Goods: must have ITBIS tax configured
+                    // - Services: must have ISR tax configured (DGII requires 10% ISR retention on services)
+                    query = query.Where(x =>
+                        !x.ItemTaxes.Any(it =>
+                            it.Tax.TaxType == TaxType.EXENTO ||
+                            it.Tax.TaxType == TaxType.NO_FACTURABLE
+                        ) &&
+                        (
+                            x.ItemType != ItemType.Service ||
+                            x.ItemTaxes.Any(it => it.Tax.TaxType == TaxType.ISR)
+                        )
+                    );
+                }
+                else
+                {
+                    // All other types (31, 32, etc.): exclude Exento and No Facturable
+                    query = query.Where(x =>
+                        !x.ItemTaxes.Any(it =>
+                            it.Tax.TaxType == TaxType.EXENTO ||
+                            it.Tax.TaxType == TaxType.NO_FACTURABLE
+                        )
+                    );
+                }
 
             return await query.ToListAsync(cancellationToken);
         }

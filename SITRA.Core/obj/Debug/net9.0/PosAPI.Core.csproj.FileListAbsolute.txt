@@ -1,6 +1,0 @@
-C:\Users\Kodake\Desktop\SITRA\SITRA.Core\obj\Debug\net9.0\SITRA.Core.csproj.AssemblyReference.cache
-C:\Users\Kodake\Desktop\SITRA\SITRA.Core\obj\Debug\net9.0\SITRA.Core.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\Kodake\Desktop\SITRA\SITRA.Core\obj\Debug\net9.0\SITRA.Core.AssemblyInfoInputs.cache
-C:\Users\Kodake\Desktop\SITRA\SITRA.Core\obj\Debug\net9.0\SITRA.Core.AssemblyInfo.cs
-C:\Users\Kodake\Desktop\SITRA\SITRA.Core\obj\Debug\net9.0\SITRA.Core.csproj.CoreCompileInputs.cache
-C:\Users\Kodake\Desktop\SITRA\SITRA.Core\obj\Debug\net9.0\SITRA.Core.sourcelink.json

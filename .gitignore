@@ -1,5 +1,29 @@
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ww][Ww]root/lib/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Visual Studio files
+.vs/
+GeneratedData/
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+*.pdb
+
+# Others
 Certificacion-eCF-main/
 Certificacion-wpt-main/
-GeneratedData/
 agents
 build_out/
+SITRA.Core/Resources/Documentations/*.crdownload
+SITRA.Core/Resources/Testcases/

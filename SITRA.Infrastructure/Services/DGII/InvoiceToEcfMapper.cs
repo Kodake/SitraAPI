@@ -32,7 +32,8 @@ namespace SITRA.Infrastructure.Services.DGII
                         TipoeCF = tipoEcf,
                         ENCF = invoice.FiscalSupportNumber!,
                         FechaVencimientoSecuencia = "31-12-2028",
-                        IndicadorMontoGral = "0",
+                        // E43, E44, E47: XSD does not allow IndicadorMontoGral
+                        IndicadorMontoGral = tipoEcf is "43" or "44" or "47" ? null : "0",
                         TipoIngresos = "01",
                         TipoPago = invoice.ConditionType == InvoiceCondition.Spot ? "1" : "2"
                     },
@@ -64,6 +65,8 @@ namespace SITRA.Infrastructure.Services.DGII
             decimal montoGravadoI1 = 0, montoGravadoI2 = 0, montoGravadoI3 = 0, montoExento = 0;
             decimal totalITBIS1 = 0, totalITBIS2 = 0, totalITBIS3 = 0;
             decimal totalITBISRetenido = 0; // E41: sum of per-item MontoITBISRetenido
+            decimal totalISRRetenido = 0;   // E41: sum of per-item MontoISRRetenido (services only)
+            decimal montoNoFacturable = 0;  // E44: items with IndicadorFacturacion=0
 
             // Rastreamos qué tasas se usaron para asignar ITBIS1/ITBIS2/ITBIS3
             bool usaI1 = false, usaI2 = false, usaI3 = false;
@@ -75,9 +78,12 @@ namespace SITRA.Infrastructure.Services.DGII
                 var taxes = item.Item?.ItemTaxes ?? [];
                 var (indicador, tasa) = GetIndicadorYtasa(taxes);
 
-                // E43 (Gastos Menores): DGII rule 244 — only IndicadorFacturacion=4 (Exento) is allowed.
-                // Override regardless of the product's tax configuration.
-                if (tipoEcf == "43") { indicador = 4; tasa = 0; }
+                // E43 and E44 (in practice): DGII only accepts IndicadorFacturacion=4 (Exento).
+                if (tipoEcf == "43" || tipoEcf == "44") { indicador = 4; tasa = 0; }
+
+                // Safety: indicador=0 (No Facturable) is only valid for E44.
+                // For all other types, fall back to Exento to avoid invalid XML.
+                if (tipoEcf != "44" && indicador == 0) { indicador = 4; }
 
                 var qty = Round((decimal)item.Qty);
                 var price = Round((decimal)item.BasePrice);
@@ -85,6 +91,9 @@ namespace SITRA.Infrastructure.Services.DGII
 
                 switch (indicador)
                 {
+                    case 0: // No Facturable (E44 only)
+                        montoNoFacturable += montoItem;
+                        break;
                     case 1:
                         montoGravadoI1 += montoItem;
                         totalITBIS1 += Round(montoItem * (tasa / 100m));
@@ -104,7 +113,7 @@ namespace SITRA.Infrastructure.Services.DGII
                         break;
                 }
 
-                // For E41: calculate per-item ITBIS retention amount.
+                // E41: ITBIS retention per line
                 // IndicadorFacturacion 1=18%, 2=16%, 3=0%, 4=Exento
                 var montoItbisRetenido = tipoEcf == "41"
                     ? indicador switch
@@ -115,19 +124,28 @@ namespace SITRA.Infrastructure.Services.DGII
                     }
                     : (decimal?)null;
 
+                // E41: ISR retention per line — only for services (ItemType.Service)
+                // Uses explicit ISR tax rate if configured, otherwise defaults to 10%
+                var montoIsrRetenido = GetMontoIsrRetenido(taxes, item.Item?.ItemType, montoItem, tipoEcf);
+
                 if (tipoEcf == "41" && montoItbisRetenido.HasValue)
                     totalITBISRetenido += montoItbisRetenido.Value;
+
+                if (tipoEcf == "41" && montoIsrRetenido.HasValue)
+                    totalISRRetenido += montoIsrRetenido.Value;
 
                 ecf.Detalles.Items.Add(new SITRA.Core.DTOs.DGII.Item
                 {
                     NumeroLinea = lineNum++,
                     IndicadorFacturacion = indicador,
-                    // E41 requires <Retencion> (minOccurs=1) with a valid MontoITBISRetenido (error 260)
+                    // E41 requires <Retencion> (minOccurs=1) with MontoITBISRetenido (error 260)
+                    // MontoISRRetenido is included only for services
                     Retencion = tipoEcf == "41"
                         ? new Retencion
                         {
                             IndicadorAgenteRetencionoPercepcion = 1,
-                            MontoITBISRetenido = montoItbisRetenido
+                            MontoITBISRetenido = montoItbisRetenido,
+                            MontoISRRetenido = montoIsrRetenido  // null for goods, 10% for services
                         }
                         : null,
                     NombreItem = item.Item?.Name ?? "Item Generico",
@@ -138,19 +156,18 @@ namespace SITRA.Infrastructure.Services.DGII
                 });
             }
 
-            // E43 and E47 XSD restrict Totales to: MontoExento (opt) + MontoTotal (req) only.
+            // E43, E44 and E47 XSD restrict Totales to: MontoExento (opt) + MontoTotal (req) only.
             // Sending MontoGravadoTotal or any ITBIS field causes error code 3.
-            var simpleTipos = new HashSet<string> { "43", "47" };
+            var simpleTipos = new HashSet<string> { "43", "44", "47" };
             if (simpleTipos.Contains(tipoEcf))
             {
-                decimal montoTotalSimple = Round(
-                    montoGravadoI1 + montoGravadoI2 + montoGravadoI3 +
-                    montoExento + totalITBIS1 + totalITBIS2 + totalITBIS3);
-
                 ecf.Encabezado.Totales = new Totales
                 {
+                    // MontoExento: only truly exempt items (IndicadorFacturacion=4)
                     MontoExento = montoExento > 0 ? Round(montoExento) : null,
-                    MontoTotal = montoTotalSimple
+
+                    // MontoTotal = MontoExento + MontoNoFacturable (no ITBIS ever charged)
+                    MontoTotal = Round(montoExento + montoNoFacturable)
                 };
             }
             else
@@ -179,14 +196,40 @@ namespace SITRA.Infrastructure.Services.DGII
                         montoGravadoI1 + montoGravadoI2 + montoGravadoI3 +
                         montoExento + totalITBIS1 + totalITBIS2 + totalITBIS3),
 
-                    // E41: total ITBIS retained must match the sum of per-line MontoITBISRetenido
+                    // E41: total ITBIS retained must match sum of per-line MontoITBISRetenido
                     TotalITBISRetenido = tipoEcf == "41" && totalITBISRetenido > 0
                         ? Round(totalITBISRetenido)
+                        : null,
+
+                    // E41: total ISR retained must match sum of per-line MontoISRRetenido (services only)
+                    TotalISRRetencion = tipoEcf == "41" && totalISRRetenido > 0
+                        ? Round(totalISRRetenido)
                         : null
                 };
             }
 
             return ecf;
+        }
+
+        // =========================
+        // HELPER ISR
+        // =========================
+        private decimal? GetMontoIsrRetenido(IEnumerable<ItemTaxes> taxes, ItemType? itemType, decimal montoItem, string tipoEcf)
+        {
+            // ISR retention only applies in E41
+            if (tipoEcf != "41") return null;
+
+            // ISR only applies to services
+            if (itemType != ItemType.Service) return null;
+
+            // Check if the item has an explicit ISR tax configured
+            var isrTax = taxes.FirstOrDefault(t => t.Tax.TaxType == TaxType.ISR);
+            if (isrTax != null)
+                return Round(montoItem * ((decimal)isrTax.Tax.Amount / 100m));
+
+            // Fallback: if it's a service in E41 with no ISR tax configured,
+            // apply the default 10% ISR rate as required by DGII
+            return Round(montoItem * (10m / 100m));
         }
 
         // =========================
@@ -197,8 +240,12 @@ namespace SITRA.Infrastructure.Services.DGII
             if (taxes == null || !taxes.Any())
                 return (4, 0);
 
-            var itbisByType = taxes.FirstOrDefault(t => t.Tax.TaxType == TaxType.ITBIS);
+            // Explicit NO_FACTURABLE tax type takes priority
+            var noFacturableByType = taxes.FirstOrDefault(t => t.Tax.TaxType == TaxType.NO_FACTURABLE);
+            if (noFacturableByType != null)
+                return (0, 0);
 
+            var itbisByType = taxes.FirstOrDefault(t => t.Tax.TaxType == TaxType.ITBIS);
             if (itbisByType != null)
             {
                 var rate = (decimal)itbisByType.Tax.Amount;
@@ -208,7 +255,6 @@ namespace SITRA.Infrastructure.Services.DGII
             }
 
             var itbisByName = taxes.FirstOrDefault(t => t.Tax.Name.StartsWith("ITBIS"));
-
             if (itbisByName != null)
             {
                 return itbisByName.Tax.Name switch
@@ -220,7 +266,7 @@ namespace SITRA.Infrastructure.Services.DGII
                 };
             }
 
-            if (taxes.Any(t => t.Tax.Name == "Exento"))
+            if (taxes.Any(t => t.Tax.TaxType == TaxType.EXENTO))
                 return (4, 0);
 
             return (4, 0);

@@ -106,7 +106,7 @@ namespace SITRA.Core.DTOs.DGII
 
         [XmlElement(ElementName = "IndicadorMontoGravado", Order = 6)]
         public string? IndicadorMontoGral { get; set; }
-        public bool ShouldSerializeIndicadorMontoGral() => TipoeCF != "43";
+        public bool ShouldSerializeIndicadorMontoGral() => TipoeCF != "43" && TipoeCF != "44";
 
         [XmlElement(ElementName = "IndicadorServicioTodoIncluido", Order = 7)]
         public int? IndicadorServicioTodoIncluido { get; set; }
@@ -437,13 +437,15 @@ namespace SITRA.Core.DTOs.DGII
         [XmlElement(ElementName = "NumeroAlbaran", Order = 14)]
         public string? NumeroAlbaran { get; set; }
     }
-
     public class Totales
     {
+        [XmlIgnore]
+        public static string? CurrentTipoeCF { get; set; }
+
         [XmlElement(ElementName = "MontoGravadoTotal", Order = 1)]
         public decimal? MontoGravadoTotal { get; set; }
         [XmlIgnore]
-        public bool MontoGravadoTotalSpecified => MontoGravadoTotal.HasValue;
+        public bool MontoGravadoTotalSpecified => MontoGravadoTotal.HasValue && CurrentTipoeCF != "43" && CurrentTipoeCF != "44" && CurrentTipoeCF != "47";
 
         [XmlElement(ElementName = "MontoGravadoI1", Order = 2)]
         public decimal? MontoGravadoI1 { get; set; }
