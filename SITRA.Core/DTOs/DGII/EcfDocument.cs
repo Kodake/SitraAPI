@@ -106,13 +106,13 @@ namespace SITRA.Core.DTOs.DGII
 
         [XmlElement(ElementName = "IndicadorMontoGravado", Order = 6)]
         public string? IndicadorMontoGral { get; set; }
-        public bool ShouldSerializeIndicadorMontoGral() => TipoeCF != "43" && TipoeCF != "44";
+        public bool ShouldSerializeIndicadorMontoGral() => TipoeCF != "43" && TipoeCF != "44" && TipoeCF != "46";
 
         [XmlElement(ElementName = "IndicadorServicioTodoIncluido", Order = 7)]
         public int? IndicadorServicioTodoIncluido { get; set; }
         [XmlIgnore]
         public bool IndicadorServicioTodoIncluidoSpecified => IndicadorServicioTodoIncluido.HasValue;
-        public bool ShouldSerializeIndicadorServicioTodoIncluido() => TipoeCF != "43";
+        public bool ShouldSerializeIndicadorServicioTodoIncluido() => TipoeCF != "43" && TipoeCF != "46";
 
         [XmlElement(ElementName = "TipoIngresos", Order = 8)]
         public string? TipoIngresos { get; set; }
@@ -440,22 +440,24 @@ namespace SITRA.Core.DTOs.DGII
     public class Totales
     {
         [XmlIgnore]
-        public static string? CurrentTipoeCF { get; set; }
+        public string? CurrentTipoeCF { get; set; }
 
         [XmlElement(ElementName = "MontoGravadoTotal", Order = 1)]
         public decimal? MontoGravadoTotal { get; set; }
         [XmlIgnore]
         public bool MontoGravadoTotalSpecified => MontoGravadoTotal.HasValue && CurrentTipoeCF != "43" && CurrentTipoeCF != "44" && CurrentTipoeCF != "47";
+        
+        public bool ShouldSerializeMontoGravadoTotal() => MontoGravadoTotalSpecified;
 
         [XmlElement(ElementName = "MontoGravadoI1", Order = 2)]
         public decimal? MontoGravadoI1 { get; set; }
         [XmlIgnore]
-        public bool MontoGravadoI1Specified => MontoGravadoI1.HasValue;
+        public bool MontoGravadoI1Specified => MontoGravadoI1.HasValue && CurrentTipoeCF != "46";
 
-        [XmlElement(ElementName = "MontoGravadoI2", Order = 3)]
+        [XmlElement(ElementName = "MontoGravadoI2", Order = 3)] 
         public decimal? MontoGravadoI2 { get; set; }
         [XmlIgnore]
-        public bool MontoGravadoI2Specified => MontoGravadoI2.HasValue;
+        public bool MontoGravadoI2Specified => MontoGravadoI2.HasValue && CurrentTipoeCF != "46";
 
         [XmlElement(ElementName = "MontoGravadoI3", Order = 4)]
         public decimal? MontoGravadoI3 { get; set; }
@@ -466,16 +468,17 @@ namespace SITRA.Core.DTOs.DGII
         public decimal? MontoExento { get; set; }
         [XmlIgnore]
         public bool MontoExentoSpecified => MontoExento.HasValue;
+        public bool ShouldSerializeMontoExento() => MontoExento.HasValue;
 
         [XmlElement(ElementName = "ITBIS1", Order = 6)]
         public int? ITBIS1 { get; set; }
         [XmlIgnore]
-        public bool ITBIS1Specified => ITBIS1.HasValue;
+        public bool ITBIS1Specified => ITBIS1.HasValue && CurrentTipoeCF != "46";
 
         [XmlElement(ElementName = "ITBIS2", Order = 7)]
         public int? ITBIS2 { get; set; }
         [XmlIgnore]
-        public bool ITBIS2Specified => ITBIS2.HasValue;
+        public bool ITBIS2Specified => ITBIS2.HasValue && CurrentTipoeCF != "46";
 
         [XmlElement(ElementName = "ITBIS3", Order = 8)]
         public int? ITBIS3 { get; set; }
@@ -490,12 +493,12 @@ namespace SITRA.Core.DTOs.DGII
         [XmlElement(ElementName = "TotalITBIS1", Order = 10)]
         public decimal? TotalITBIS1 { get; set; }
         [XmlIgnore]
-        public bool TotalITBIS1Specified => TotalITBIS1.HasValue;
+        public bool TotalITBIS1Specified => TotalITBIS1.HasValue && CurrentTipoeCF != "46";
 
         [XmlElement(ElementName = "TotalITBIS2", Order = 11)]
         public decimal? TotalITBIS2 { get; set; }
         [XmlIgnore]
-        public bool TotalITBIS2Specified => TotalITBIS2.HasValue;
+        public bool TotalITBIS2Specified => TotalITBIS2.HasValue && CurrentTipoeCF != "46";
 
         [XmlElement(ElementName = "TotalITBIS3", Order = 12)]
         public decimal? TotalITBIS3 { get; set; }

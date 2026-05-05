@@ -45,5 +45,19 @@ namespace SITRA.Core.Entities.Invoices
         public SpotPayable? SpotPayable { get; set; } = null!;
         public Quotation? Quotation { get; set; } = null!;
         public List<InvoiceItem> InvoiceItems { get; set; } = [];
+        [System.ComponentModel.DataAnnotations.Schema.NotMapped]
+        public decimal? MontoNoFacturable { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.NotMapped]
+        public decimal? SaldoAnterior { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.NotMapped]
+        public decimal? MontoAvancePago { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.NotMapped]
+        public decimal? MontoPeriodo { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.NotMapped]
+        public string? TipoIngresos { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.NotMapped]
+        public int? IndicadorEnvioDiferido { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.NotMapped]
+        public string? IndicadorMontoGral { get; set; }
     }
 }

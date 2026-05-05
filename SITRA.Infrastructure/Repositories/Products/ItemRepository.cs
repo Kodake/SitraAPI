@@ -34,66 +34,34 @@ namespace SITRA.Infrastructure.Repositories.Products
                 .Include(x => x.ComboItems)
                     .ThenInclude(ci => ci.ChildItem)
                         .ThenInclude(child => child.PricingItems)
-                .Where(x =>
-                    x.PricingItems.Any(pi => pi.PricingId == pricingId) &&
-                    (
-                        x.ItemType == ItemType.Service ||
-                        x.Stocks.Any(s => s.WarehouseId == warehouseId)
-                    )
-                    || (
-                        x.ItemType == ItemType.Combo &&
-                        x.ComboItems.Any(ci =>
-                            ci.ChildItem.PricingItems.Any(pi => pi.PricingId == pricingId) &&
-                            ci.ChildItem.Stocks.Any(s => s.WarehouseId == warehouseId)
-                        )
-                    )
-                );
+                .Where(x => x.PricingItems.Any(pi => pi.PricingId == pricingId) &&
+                           (x.ItemType == ItemType.Service || x.Stocks.Any(s => s.WarehouseId == warehouseId)));
 
-                if (fiscalSupportType == "43" || fiscalSupportType == "44")
-                {
-                    // E43 and E44: DGII only accepts Exento items in practice
-                    query = query.Where(x =>
-                        x.ItemTaxes.Any(it => it.Tax.TaxType == TaxType.EXENTO)
-                    );
-                }
-                else if (fiscalSupportType == "45")
-                {
-                    // E45 (Gubernamental): Allow all items (Taxed, Exento, and No Facturable)
-                    // since the government can purchase any item and the E45 schema allows it.
-                }
-                else if (fiscalSupportType == "41")
-                {
-                    // E41 (Comprobante de Compras): exclude Exento and No Facturable.
-                    // - Goods: must have ITBIS tax configured
-                    // - Services: must have ISR tax configured (DGII requires 10% ISR retention on services)
-                    query = query.Where(x =>
-                        !x.ItemTaxes.Any(it =>
-                            it.Tax.TaxType == TaxType.EXENTO ||
-                            it.Tax.TaxType == TaxType.NO_FACTURABLE
-                        ) &&
-                        (
-                            x.ItemType != ItemType.Service ||
-                            x.ItemTaxes.Any(it => it.Tax.TaxType == TaxType.ISR)
-                        )
-                    );
-                }
-                else
-                {
-                    // All other types (31, 32, etc.): exclude Exento and No Facturable
-                    query = query.Where(x =>
-                        !x.ItemTaxes.Any(it =>
-                            it.Tax.TaxType == TaxType.EXENTO ||
-                            it.Tax.TaxType == TaxType.NO_FACTURABLE
-                        )
-                    );
-                }
+            if (fiscalSupportType == "43" || fiscalSupportType == "44")
+            {
+                query = query.Where(x => x.ItemTaxes.Any(it => it.Tax != null && it.Tax.TaxType == TaxType.EXENTO));
+            }
+            else if (fiscalSupportType == "46")
+            {
+                query = query.Where(x => x.ItemTaxes.Any(it => it.Tax != null && it.Tax.TaxType == TaxType.ITBIS && it.Tax.Amount == 0));
+            }
+            else if (fiscalSupportType == "41")
+            {
+                query = query.Where(x =>
+                    !x.ItemTaxes.Any(it => it.Tax != null && (
+                        it.Tax.TaxType == TaxType.EXENTO ||
+                        it.Tax.TaxType == TaxType.NO_FACTURABLE ||
+                        (it.Tax.TaxType == TaxType.ITBIS && it.Tax.Amount == 0)  // ? agregar esto
+                    )) &&
+                    (x.ItemType != ItemType.Service || x.ItemTaxes.Any(it => it.Tax != null && it.Tax.TaxType == TaxType.ISR))
+                );
+            }
+            else if (fiscalSupportType != "45") 
+            {
+                query = query.Where(x => !x.ItemTaxes.Any(it => it.Tax != null && (it.Tax.TaxType == TaxType.EXENTO || it.Tax.TaxType == TaxType.NO_FACTURABLE)));
+            }
 
             return await query.ToListAsync(cancellationToken);
         }
     }
 }
-
-
-
-
-

@@ -20,5 +20,12 @@ namespace SITRA.Core.DTOs.Invoices.SaleInvoices
         public string? Description { get; set; }
         public string? Note { get; set; }
         public List<SaleInvoiceItemDTO> InvoiceItems { get; set; } = [];
+        public double? MontoNoFacturable { get; set; }
+        public double? SaldoAnterior { get; set; }
+        public double? MontoAvancePago { get; set; }
+        public double? MontoPeriodo { get; set; }
+        public string? TipoIngresos { get; set; }
+        public int? IndicadorEnvioDiferido { get; set; }
+        public string? IndicadorMontoGral { get; set; }
     }
 }
