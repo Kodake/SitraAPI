@@ -49,12 +49,13 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
                     },
                     Comprador = new Comprador
                     {
-                        RNCComprador = buyer?.Identification,
+                        RNCComprador = (tipoEcf == "46" || tipoEcf == "47") ? null : buyer?.Identification,
+                        IdentificadorExtranjero = (tipoEcf == "46" || tipoEcf == "47") ? buyer?.Identification : null,
                         RazonSocialComprador = buyer?.Name ?? (tipoEcf == "45" ? "ENTIDAD GUBERNAMENTAL" : "CONSUMIDOR FINAL"),
-                        DireccionComprador = buyer?.Address ?? "N/A",
-                        MunicipioComprador = buyer?.Municipality,
-                        ProvinciaComprador = buyer?.Province,
-                        CorreoComprador = buyer?.Email
+                        DireccionComprador = tipoEcf == "47" ? null : (buyer?.Address ?? "N/A"),
+                        MunicipioComprador = (tipoEcf == "46" || tipoEcf == "47") ? null : buyer?.Municipality,
+                        ProvinciaComprador = (tipoEcf == "46" || tipoEcf == "47") ? null : buyer?.Province,
+                        CorreoComprador = (tipoEcf == "46" || tipoEcf == "47") ? null : buyer?.Email
                     }
                 }
             };
@@ -62,9 +63,15 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
             if ((tipoEcf == "31" || tipoEcf == "41" || tipoEcf == "44" || tipoEcf == "45") && string.IsNullOrEmpty(buyer?.Identification))
                 throw new Exception($"RNC Comprador is mandatory for e-CF type {tipoEcf}.");
 
-            if (tipoEcf == "46" && string.IsNullOrEmpty(buyer?.Name))
-                throw new Exception("Razon Social Comprador is mandatory for E46 (Exportaciones).");
+            if ((tipoEcf == "46" || tipoEcf == "47") && string.IsNullOrEmpty(buyer?.Identification))
+                throw new Exception($"Identificador Extranjero is mandatory for e-CF type {tipoEcf}.");
 
+            if ((tipoEcf == "46" || tipoEcf == "47") && string.IsNullOrEmpty(buyer?.Name))
+                throw new Exception($"Razon Social Comprador is mandatory for e-CF type {tipoEcf}.");
+
+            // =========================
+            // ACUMULADORES
+            // =========================
             decimal montoGravadoI1 = 0, montoGravadoI2 = 0, montoGravadoI3 = 0, montoExento = 0;
             decimal montoNoFacturableTotal = 0;
             decimal totalITBIS1 = 0, totalITBIS2 = 0, totalITBIS3 = 0;
@@ -80,7 +87,7 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
                 var taxes = item.Item?.ItemTaxes ?? [];
                 var (indicador, tasa) = GetIndicadorYtasa(taxes);
 
-                if (tipoEcf == "43" || tipoEcf == "44") { indicador = 4; tasa = 0; }
+                if (tipoEcf == "43" || tipoEcf == "44" || tipoEcf == "47") { indicador = 4; tasa = 0; }
                 if (tipoEcf == "46") { indicador = 3; tasa = 0; }
 
                 if (tipoEcf != "44" && tipoEcf != "45" && tipoEcf != "46" && indicador == 0)
@@ -114,35 +121,52 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
                         break;
                 }
 
-                var montoItbisRetenido = tipoEcf == "41"
+                // Retención ITBIS: solo indicadores 1, 2 y 3
+                var montoItbisRetenido = (tipoEcf == "41" || tipoEcf == "47")
                     ? indicador switch
                     {
                         1 => Round(montoItem * (18m / 100m)),
                         2 => Round(montoItem * (16m / 100m)),
-                        _ => 0m
+                        3 => 0m,
+                        _ => (decimal?)null
                     }
                     : (decimal?)null;
 
+                // Retención ISR: solo servicios en e41/e47
                 var montoIsrRetenido = GetMontoIsrRetenido(taxes, item.Item?.ItemType, montoItem, tipoEcf);
 
+                // Acumular retenciones
                 if (tipoEcf == "41" && montoItbisRetenido.HasValue)
                     totalITBISRetenido += montoItbisRetenido.Value;
 
-                if (tipoEcf == "41" && montoIsrRetenido.HasValue)
+                if ((tipoEcf == "41" || tipoEcf == "47") && montoIsrRetenido.HasValue)
                     totalISRRetenido += montoIsrRetenido.Value;
+
+                bool tieneAlgoQueRetener = montoItbisRetenido.HasValue || montoIsrRetenido.HasValue;
 
                 ecf.Detalles.Items.Add(new Core.DTOs.DGII.Item
                 {
                     NumeroLinea = lineNum++,
                     IndicadorFacturacion = indicador,
+
+                    // e41: Retencion obligatoria en TODAS las líneas aunque esté vacía
+                    // e47: solo cuando hay algo que retener
                     Retencion = tipoEcf == "41"
                         ? new Retencion
                         {
                             IndicadorAgenteRetencionoPercepcion = 1,
-                            MontoITBISRetenido = montoItbisRetenido,
-                            MontoISRRetenido = montoIsrRetenido
+                            MontoITBISRetenido = montoItbisRetenido,  // null si no aplica
+                            MontoISRRetenido = montoIsrRetenido      // null si no es servicio
                         }
-                        : null,
+                        : (tipoEcf == "47" && tieneAlgoQueRetener
+                            ? new Retencion
+                            {
+                                IndicadorAgenteRetencionoPercepcion = 1,
+                                MontoITBISRetenido = montoItbisRetenido,
+                                MontoISRRetenido = null  // e47 no reporta ISR por línea
+                            }
+                            : null),
+
                     NombreItem = item.Item?.Name ?? "Item Generico",
                     IndicadorBienoServicio = (int?)item.Item?.ItemType ?? 1,
                     Cantidad = qty,
@@ -151,6 +175,9 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
                 });
             }
 
+            // =========================
+            // TOTALES
+            // =========================
             var simpleTipos = new HashSet<string> { "43", "44", "47" };
 
             if (simpleTipos.Contains(tipoEcf))
@@ -159,7 +186,15 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
                 {
                     CurrentTipoeCF = tipoEcf,
                     MontoExento = montoExento > 0 ? Round(montoExento) : null,
-                    MontoTotal = Round(montoExento + montoNoFacturableTotal)
+                    MontoTotal = Round(montoExento + montoNoFacturableTotal),
+
+                    // e47 reporta retenciones en totales solo si hay algo retenido
+                    TotalITBISRetenido = tipoEcf == "47" && totalITBISRetenido > 0
+                        ? Round(totalITBISRetenido)
+                        : null,
+                    TotalISRRetencion = tipoEcf == "47" && totalISRRetenido > 0
+                        ? Round(totalISRRetenido)
+                        : null
                 };
             }
             else
@@ -185,12 +220,17 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
                     TotalITBIS2 = (tipoEcf != "46" && usaI2) ? Round(totalITBIS2) : null,
                     TotalITBIS3 = usaI3 ? Round(totalITBIS3) : null,
 
-                    MontoTotal = Round(montoGravadoI1 + montoGravadoI2 + montoGravadoI3 + montoExento + totalITBIS1 + totalITBIS2 + totalITBIS3),
+                    MontoTotal = Round(
+                        montoGravadoI1 + montoGravadoI2 + montoGravadoI3 +
+                        montoExento + totalITBIS1 + totalITBIS2 + totalITBIS3
+                    ),
 
+                    // e41: TotalITBISRetenido siempre presente aunque sea 0
                     TotalITBISRetenido = tipoEcf == "41"
-                        ? Round(totalITBISRetenido)  // siempre incluir para E41, aunque sea 0
+                        ? Round(totalITBISRetenido)
                         : null,
 
+                    // e41: TotalISRRetencion solo si hay retención
                     TotalISRRetencion = tipoEcf == "41" && totalISRRetenido > 0
                         ? Round(totalISRRetenido)
                         : null,
@@ -215,26 +255,40 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
                         ? Round(
                             (decimal)(invoice.SaldoAnterior ?? 0) +
                             (decimal)(invoice.MontoAvancePago ?? 0) +
-                            (montoGravadoI1 + montoGravadoI2 + montoGravadoI3 + montoExento + totalITBIS1 + totalITBIS2 + totalITBIS3)
+                            (montoGravadoI1 + montoGravadoI2 + montoGravadoI3 +
+                             montoExento + totalITBIS1 + totalITBIS2 + totalITBIS3)
                         )
                         : null
-
                 };
             }
 
             return ecf;
         }
 
+        // =========================
+        // HELPERS
+        // =========================
+
         private decimal? GetMontoIsrRetenido(IEnumerable<ItemTaxes> taxes, ItemType? itemType, decimal montoItem, string tipoEcf)
         {
-            if (tipoEcf != "41") return null;
+            if (tipoEcf != "41" && tipoEcf != "47") return null;
+
+            // e47: ISR 27% sobre servicios exentos para no-residentes
+            if (tipoEcf == "47")
+            {
+                if (itemType != ItemType.Service) return null;
+                var isrTax47 = taxes.FirstOrDefault(t => t.Tax.TaxType == TaxType.ISR);
+                return isrTax47 != null
+                    ? Round(montoItem * ((decimal)isrTax47.Tax.Amount / 100m))
+                    : Round(montoItem * (27m / 100m));
+            }
+
+            // e41: ISR 10% solo sobre servicios
             if (itemType != ItemType.Service) return null;
-
             var isrTax = taxes.FirstOrDefault(t => t.Tax.TaxType == TaxType.ISR);
-            if (isrTax != null)
-                return Round(montoItem * ((decimal)isrTax.Tax.Amount / 100m));
-
-            return Round(montoItem * (10m / 100m));
+            return isrTax != null
+                ? Round(montoItem * ((decimal)isrTax.Tax.Amount / 100m))
+                : Round(montoItem * (10m / 100m));
         }
 
         private (int indicador, decimal tasa) GetIndicadorYtasa(IEnumerable<ItemTaxes> taxes)

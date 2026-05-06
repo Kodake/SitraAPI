@@ -106,13 +106,13 @@ namespace SITRA.Core.DTOs.DGII
 
         [XmlElement(ElementName = "IndicadorMontoGravado", Order = 6)]
         public string? IndicadorMontoGral { get; set; }
-        public bool ShouldSerializeIndicadorMontoGral() => TipoeCF != "43" && TipoeCF != "44" && TipoeCF != "46";
+        public bool ShouldSerializeIndicadorMontoGral() => TipoeCF != "43" && TipoeCF != "44" && TipoeCF != "46" && TipoeCF != "47";
 
         [XmlElement(ElementName = "IndicadorServicioTodoIncluido", Order = 7)]
         public int? IndicadorServicioTodoIncluido { get; set; }
         [XmlIgnore]
         public bool IndicadorServicioTodoIncluidoSpecified => IndicadorServicioTodoIncluido.HasValue;
-        public bool ShouldSerializeIndicadorServicioTodoIncluido() => TipoeCF != "43" && TipoeCF != "46";
+        public bool ShouldSerializeIndicadorServicioTodoIncluido() => TipoeCF != "43" && TipoeCF != "46" && TipoeCF != "47";
 
         [XmlElement(ElementName = "TipoIngresos", Order = 8)]
         public string? TipoIngresos { get; set; }
@@ -544,11 +544,15 @@ namespace SITRA.Core.DTOs.DGII
         public decimal? TotalITBISRetenido { get; set; }
         [XmlIgnore]
         public bool TotalITBISRetenidoSpecified => TotalITBISRetenido.HasValue;
+        public bool ShouldSerializeTotalITBISRetenido() => 
+            TotalITBISRetenido.HasValue && (CurrentTipoeCF == "41" || CurrentTipoeCF == "47");
 
         [XmlElement(ElementName = "TotalISRRetencion", Order = 22)]
         public decimal? TotalISRRetencion { get; set; }
         [XmlIgnore]
         public bool TotalISRRetencionSpecified => TotalISRRetencion.HasValue;
+        public bool ShouldSerializeTotalISRRetencion() => 
+            TotalISRRetencion.HasValue && (CurrentTipoeCF == "41" || CurrentTipoeCF == "47");
 
         [XmlElement(ElementName = "TotalITBISPercepcion", Order = 23)]
         public decimal? TotalITBISPercepcion { get; set; }

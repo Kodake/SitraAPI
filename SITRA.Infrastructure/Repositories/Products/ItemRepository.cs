@@ -41,6 +41,15 @@ namespace SITRA.Infrastructure.Repositories.Products
             {
                 query = query.Where(x => x.ItemTaxes.Any(it => it.Tax != null && it.Tax.TaxType == TaxType.EXENTO));
             }
+            else if (fiscalSupportType == "47")
+            {
+                // e47: solo servicios exentos para no-residentes
+                // El mapper aplica ISR 27% por defecto aunque no esté configurado en el ítem
+                query = query.Where(x =>
+                    x.ItemType == ItemType.Service &&
+                    x.ItemTaxes.Any(it => it.Tax != null && it.Tax.TaxType == TaxType.EXENTO)
+                );
+            }
             else if (fiscalSupportType == "46")
             {
                 query = query.Where(x => x.ItemTaxes.Any(it => it.Tax != null && it.Tax.TaxType == TaxType.ITBIS && it.Tax.Amount == 0));
@@ -51,7 +60,7 @@ namespace SITRA.Infrastructure.Repositories.Products
                     !x.ItemTaxes.Any(it => it.Tax != null && (
                         it.Tax.TaxType == TaxType.EXENTO ||
                         it.Tax.TaxType == TaxType.NO_FACTURABLE ||
-                        (it.Tax.TaxType == TaxType.ITBIS && it.Tax.Amount == 0)  // ? agregar esto
+                        (it.Tax.TaxType == TaxType.ITBIS && it.Tax.Amount == 0)
                     )) &&
                     (x.ItemType != ItemType.Service || x.ItemTaxes.Any(it => it.Tax != null && it.Tax.TaxType == TaxType.ISR))
                 );
