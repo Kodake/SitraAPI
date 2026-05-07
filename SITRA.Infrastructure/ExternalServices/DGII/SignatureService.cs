@@ -2,33 +2,27 @@ using System;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Cryptography.Xml;
 using System.Xml;
+using Microsoft.Extensions.Options;
 using XmlElement = System.Xml.XmlElement;
 using SITRA.Core.Interfaces;
 using SITRA.Core.DTOs.DGII;
+using SITRA.Core.Models.Dgii;
 
 namespace SITRA.Infrastructure.ExternalServices.DGII
 {
     public class SignatureService : ISignatureService
     {
-        private string _certificatePath;
-        private string _certificatePassword;
+        private readonly DgiiSettings _settings;
 
-        public SignatureService() 
+        public SignatureService(IOptions<DgiiSettings> options)
         {
-            _certificatePath = string.Empty;
-            _certificatePassword = string.Empty;
+            _settings = options.Value;
         }
 
-        public SignatureService(string certificatePath, string certificatePassword)
+        public string SignXml(string xmlString)
         {
-            _certificatePath = certificatePath;
-            _certificatePassword = certificatePassword;
-        }
-
-        public string SignXml(string xmlString, string certPath = null, string certPassword = null)
-        {
-            string path = certPath ?? _certificatePath;
-            string pass = certPassword ?? _certificatePassword;
+            string path = _settings.CertificatePath;
+            string pass = _settings.CertificatePassword;
 
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.PreserveWhitespace = false; 
@@ -81,9 +75,9 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
             return xmlDoc.OuterXml;
         }
         
-        public string SignAuthenticationSeed(string seedXmlString, string certPath = null, string certPassword = null)
+        public string SignAuthenticationSeed(string seedXmlString)
         {
-            return SignXml(seedXmlString, certPath, certPassword);
+            return SignXml(seedXmlString);
         }
     }
 }

@@ -71,7 +71,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
                 var ecfDocument = _mapperToEcf.MapToDgiiDocument(invoice);
 
                 string seedXml = await _dgiiApiService.GetSemillaAsync();
-                string signedSeed = _signatureService.SignAuthenticationSeed(seedXml, _dgiiSettings.CertificatePath, _dgiiSettings.CertificatePassword);
+                string signedSeed = _signatureService.SignAuthenticationSeed(seedXml);
                 string token = await _dgiiApiService.GetTokenAsync(signedSeed);
 
                 if (!string.IsNullOrEmpty(token))
@@ -79,7 +79,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
                     // E31 and E41 purchase invoices always use the standard eCF channel —
                     // no RFCE / B2C redirect applies to purchase invoices.
                     string xmlSinFirma = _ecfXmlGenerator.GenerateEcfXml(ecfDocument);
-                    string xmlFirmado = _signatureService.SignXml(xmlSinFirma, _dgiiSettings.CertificatePath, _dgiiSettings.CertificatePassword);
+                    string xmlFirmado = _signatureService.SignXml(xmlSinFirma);
                     string securityCode = GetSecurityCodeFromSignedXml(xmlFirmado);
 
                     SaveDocumentXml(

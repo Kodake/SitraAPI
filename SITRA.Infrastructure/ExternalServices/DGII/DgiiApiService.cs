@@ -2,25 +2,28 @@ using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 using SITRA.Core.Interfaces;
+using SITRA.Core.Models.Dgii;
 
 namespace SITRA.Infrastructure.ExternalServices.DGII
 {
     public class DgiiApiService : IDgiiApiService
     {
         private readonly HttpClient _httpClient;
+        private readonly DgiiSettings _settings;
 
-        // DGII Endpoints para Pruebas (v1 OAS3)
-        private const string SemillaUrl = "https://ecf.dgii.gov.do/CerteCF/Autenticacion/api/Autenticacion/Semilla";
-        private const string AutenticacionUrl = "https://ecf.dgii.gov.do/CerteCF/Autenticacion/api/Autenticacion/ValidarSemilla";
-        private const string RecepcionUrl = "https://ecf.dgii.gov.do/CerteCF/Recepcion/api/FacturasElectronicas";
-        private const string ConsultaUrl = "https://ecf.dgii.gov.do/CerteCF/ConsultaResultado/api/Consultas/Estado";
-        private const string RecepcionResumenUrl = "https://fc.dgii.gov.do/CerteCF/RecepcionFC/api/Recepcion/Ecf";
-        private const string AprobacionComercial = "https://ecf.dgii.gov.do/CerteCF/AprobacionComercial/api/AprobacionComercial";
+        private string SemillaUrl => string.IsNullOrEmpty(_settings.SemillaUrl) ? $"{_settings.BaseUrl}/CerteCF/Autenticacion/api/Autenticacion/Semilla" : _settings.SemillaUrl;
+        private string AutenticacionUrl => string.IsNullOrEmpty(_settings.AutenticacionUrl) ? $"{_settings.BaseUrl}/CerteCF/Autenticacion/api/Autenticacion/ValidarSemilla" : _settings.AutenticacionUrl;
+        private string RecepcionUrl => string.IsNullOrEmpty(_settings.RecepcionUrl) ? $"{_settings.BaseUrl}/CerteCF/Recepcion/api/FacturasElectronicas" : _settings.RecepcionUrl;
+        private string ConsultaUrl => string.IsNullOrEmpty(_settings.ConsultaUrl) ? $"{_settings.BaseUrl}/CerteCF/ConsultaResultado/api/Consultas/Estado" : _settings.ConsultaUrl;
+        private string RecepcionResumenUrl => string.IsNullOrEmpty(_settings.RecepcionResumenUrl) ? "https://fc.dgii.gov.do/CerteCF/RecepcionFC/api/Recepcion/Ecf" : _settings.RecepcionResumenUrl;
+        private string AprobacionComercial => string.IsNullOrEmpty(_settings.AprobacionComercialUrl) ? $"{_settings.BaseUrl}/CerteCF/AprobacionComercial/api/AprobacionComercial" : _settings.AprobacionComercialUrl;
 
-        public DgiiApiService(HttpClient httpClient)
+        public DgiiApiService(HttpClient httpClient, IOptions<DgiiSettings> options)
         {
             _httpClient = httpClient;
+            _settings = options.Value;
         }
 
         public async Task<string> GetSemillaAsync()

@@ -12,6 +12,8 @@ namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
 {
     public class CreateSaleInvoiceCommand(CreateSaleInvoiceDTO dto) : CreateCommand<Invoice, CreateSaleInvoiceDTO>(dto), IIdempotentCommand
     {
+        public Func<Invoice, Task<(bool isAccepted, string trackId, string status, string securityCode, string rawResponse)>>? DgiiProcess { get; set; }
+
         public override async Task<CreateSaleInvoiceDTO> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
         {
             // All validations are handled by FluentValidation before this action is executed
@@ -50,6 +52,31 @@ namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
             await CalculateInvoiceTotals(Dto.InvoiceItems, saleInvoice, unitOfWork, currencyRate);
 
             await unitOfWork.SaleInvoiceRepository.CreateAsync(saleInvoice);
+            await AddInvoiceItems(Dto.InvoiceItems, saleInvoice, unitOfWork, mapper, currencyRate);
+
+            // First save to generate IDs and establish relationships
+            await unitOfWork.SaveChangesAsync();
+
+            // Perform DGII Workflow
+            if (DgiiProcess != null && !string.IsNullOrEmpty(saleInvoice.FiscalSupportNumber))
+            {
+                var fullInvoice = await unitOfWork.SaleInvoiceRepository.GetByIdAsync(saleInvoice.Id, cancellationToken);
+                var dgiiResult = await DgiiProcess(fullInvoice!);
+
+                saleInvoice.DgiiTrackId = dgiiResult.trackId;
+                saleInvoice.DgiiStatus = dgiiResult.rawResponse;
+                saleInvoice.SecurityCode = dgiiResult.securityCode;
+
+                unitOfWork.SaleInvoiceRepository.Update(saleInvoice);
+                await unitOfWork.SaveChangesAsync();
+
+                if (!dgiiResult.isAccepted)
+                {
+                    // If rejected by DGII, we skip stock reduction, payments, etc., but keep the invoice record.
+                    Dto.Id = saleInvoice.Id;
+                    return Dto;
+                }
+            }
 
             var payments = Dto.Payments.Select(p => mapper.Map<Payment>(p)).ToList();
 
@@ -88,7 +115,6 @@ namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
                     break;
             }
 
-            await AddInvoiceItems(Dto.InvoiceItems, saleInvoice, unitOfWork, mapper, currencyRate);
             await ReduceStock(Dto, unitOfWork);
             await AddPettyCashMovement(unitOfWork, pettyCash!, saleInvoice);
             await unitOfWork.SaveChangesAsync();

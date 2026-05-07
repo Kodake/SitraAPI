@@ -17,7 +17,7 @@ namespace SITRA.Infrastructure.Persistence.Invoices
             builder.Property(p => p.TotalPrice).HasColumnType("decimal(18,2)").IsRequired();
             builder.Property(p => p.TotalTaxes).HasColumnType("decimal(18,2)").IsRequired();
             builder.Property(p => p.DgiiTrackId).HasMaxLength(100).IsRequired(false);
-            builder.Property(p => p.DgiiStatus).HasMaxLength(50).IsRequired(false);
+            builder.Property(p => p.DgiiStatus).IsRequired(false);
             builder.Property(p => p.SecurityCode).HasMaxLength(250).IsRequired(false);
 
             builder

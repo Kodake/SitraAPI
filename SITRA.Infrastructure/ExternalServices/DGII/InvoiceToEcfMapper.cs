@@ -1,13 +1,22 @@
+using Microsoft.Extensions.Options;
 using SITRA.Core.Entities.Invoices;
 using SITRA.Core.Interfaces;
 using SITRA.Core.DTOs.DGII;
 using SITRA.Core.Entities.Products;
 using SITRA.Core.Enums;
+using SITRA.Core.Models.Dgii;
 
 namespace SITRA.Infrastructure.ExternalServices.DGII
 {
     public class InvoiceToEcfMapper : IInvoiceToEcfMapper
     {
+        private readonly DgiiSettings _settings;
+
+        public InvoiceToEcfMapper(IOptions<DgiiSettings> options)
+        {
+            _settings = options.Value;
+        }
+
         public EcfDocument MapToDgiiDocument(Invoice invoice)
         {
             if (string.IsNullOrEmpty(invoice.FiscalSupportNumber) || invoice.FiscalSupportNumber.Length < 3)
@@ -31,7 +40,7 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
                     {
                         TipoeCF = tipoEcf,
                         ENCF = invoice.FiscalSupportNumber!,
-                        FechaVencimientoSecuencia = "31-12-2028",
+                        FechaVencimientoSecuencia = _settings.DefaultFechaVencimientoSecuencia,
                         IndicadorMontoGral = (tipoEcf is "43" or "44" or "46" or "47") ? null : (invoice.IndicadorMontoGral ?? "0"),
                         IndicadorEnvioDiferido = (invoice.IndicadorEnvioDiferido == 1) ? 1 : (int?)null,
                         TipoIngresos = (invoice.TipoIngresos ?? "01"),
@@ -39,9 +48,9 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
                     },
                     Emisor = new Emisor
                     {
-                        RNCEmisor = biller?.Identification ?? "133556545",
-                        RazonSocial = biller?.Name ?? "SISTRA SRL",
-                        DireccionEmisor = biller?.Address ?? "N/A",
+                        RNCEmisor = biller?.Identification ?? _settings.DefaultRNC,
+                        RazonSocial = biller?.Name ?? _settings.DefaultRazonSocial,
+                        DireccionEmisor = biller?.Address ?? _settings.DefaultDireccion,
                         Municipio = biller?.Municipality,
                         Provincia = biller?.Province,
                         CorreoEmisor = biller?.Email,
@@ -121,7 +130,7 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
                         break;
                 }
 
-                // Retención ITBIS: solo indicadores 1, 2 y 3
+                // Retención ITBIS: solo indicadores 1 y 2
                 var montoItbisRetenido = (tipoEcf == "41" || tipoEcf == "47")
                     ? indicador switch
                     {
@@ -132,7 +141,7 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
                     }
                     : (decimal?)null;
 
-                // Retención ISR: solo servicios en e41/e47
+                // Retención ISR: servicios en e41 (10%) y e47 (27%)
                 var montoIsrRetenido = GetMontoIsrRetenido(taxes, item.Item?.ItemType, montoItem, tipoEcf);
 
                 // Acumular retenciones
@@ -150,20 +159,20 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
                     IndicadorFacturacion = indicador,
 
                     // e41: Retencion obligatoria en TODAS las líneas aunque esté vacía
-                    // e47: solo cuando hay algo que retener
+                    // e47: solo cuando hay algo que retener, e ISR sí se reporta por línea
                     Retencion = tipoEcf == "41"
                         ? new Retencion
                         {
                             IndicadorAgenteRetencionoPercepcion = 1,
-                            MontoITBISRetenido = montoItbisRetenido,  // null si no aplica
-                            MontoISRRetenido = montoIsrRetenido      // null si no es servicio
+                            MontoITBISRetenido = montoItbisRetenido,
+                            MontoISRRetenido = montoIsrRetenido
                         }
                         : (tipoEcf == "47" && tieneAlgoQueRetener
                             ? new Retencion
                             {
                                 IndicadorAgenteRetencionoPercepcion = 1,
                                 MontoITBISRetenido = montoItbisRetenido,
-                                MontoISRRetenido = null  // e47 no reporta ISR por línea
+                                MontoISRRetenido = montoIsrRetenido
                             }
                             : null),
 
