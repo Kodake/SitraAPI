@@ -99,19 +99,20 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
                             ? await _dgiiApiService.SendRfceAsync(xmlFirmado, token)
                             : await _dgiiApiService.SendEcfAsync(xmlFirmado, token);
 
-                        trackId = rawResponse;
+                        trackId = string.Empty;
 
                         try
                         {
                             var jsonDoc = System.Text.Json.JsonDocument.Parse(rawResponse);
                             if (jsonDoc.RootElement.TryGetProperty("trackId", out var trackIdElement))
                             {
-                                trackId = trackIdElement.GetString() ?? rawResponse;
+                                trackId = trackIdElement.GetString() ?? string.Empty;
 
-                                if (Guid.TryParse(trackId, out _))
+                                if (!string.IsNullOrEmpty(trackId) && Guid.TryParse(trackId, out _))
                                 {
                                     try
                                     {
+                                        await Task.Delay(4000); // Wait for DGII processing
                                         var statusResponse = await _dgiiApiService.CheckStatusAsync(trackId, token);
                                         if (!string.IsNullOrEmpty(statusResponse))
                                         {
@@ -126,7 +127,13 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
                                 }
                             }
 
-                            if (jsonDoc.RootElement.TryGetProperty("codigo", out var codigoElement))
+                            if (jsonDoc.RootElement.TryGetProperty("estado", out var estadoElement))
+                            {
+                                status = estadoElement.GetString() ?? "Enviado";
+                                if (status.Contains("Rechazado", StringComparison.OrdinalIgnoreCase))
+                                    isAccepted = false;
+                            }
+                            else if (jsonDoc.RootElement.TryGetProperty("codigo", out var codigoElement))
                             {
                                 int codigoInt = -1;
                                 if (codigoElement.ValueKind == System.Text.Json.JsonValueKind.Number)
@@ -134,33 +141,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
                                 else if (codigoElement.ValueKind == System.Text.Json.JsonValueKind.String)
                                     int.TryParse(codigoElement.GetString(), out codigoInt);
 
-                                var responseCode = (SITRA.Core.Enums.DgiiResponseCode)codigoInt;
-
-                                switch (responseCode)
-                                {
-                                    case SITRA.Core.Enums.DgiiResponseCode.Aceptado:
-                                        isAccepted = true;
-                                        status = "Aceptado";
-                                        break;
-                                    case SITRA.Core.Enums.DgiiResponseCode.AceptadoConObservaciones:
-                                        isAccepted = true;
-                                        status = "Aceptado con Observaciones";
-                                        break;
-                                    case SITRA.Core.Enums.DgiiResponseCode.AceptadoCondicional:
-                                        isAccepted = true;
-                                        status = "Aceptado Condicional";
-                                        break;
-                                    case SITRA.Core.Enums.DgiiResponseCode.Rechazado:
-                                    default:
-                                        isAccepted = false;
-                                        status = "Rechazado";
-                                        break;
-                                }
-                            }
-                            else if (jsonDoc.RootElement.TryGetProperty("estado", out var estadoElement))
-                            {
-                                status = estadoElement.GetString() ?? "Enviado";
-                                if (status.Contains("Rechazado", StringComparison.OrdinalIgnoreCase))
+                                if (codigoInt != 1 && codigoInt != 3 && codigoInt != 4 && codigoInt != 5)
                                     isAccepted = false;
                             }
                         }

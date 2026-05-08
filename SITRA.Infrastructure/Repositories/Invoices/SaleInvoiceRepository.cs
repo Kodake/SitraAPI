@@ -32,7 +32,7 @@ namespace SITRA.Infrastructure.Repositories.Invoices
 
             return await queryable
                 .Where(x => x.InvoiceType == InvoiceType.Sale)
-                .OrderBy(x => x.Id)
+                .OrderByDescending(i => i.CreatedAt)
                 .Paginate(paginationDTO)
                 .ToListAsync(cancellationToken);
         }

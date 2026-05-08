@@ -989,6 +989,9 @@ namespace SITRA.Infrastructure.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("DgiiResponse")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("DgiiStatus")
                         .HasColumnType("nvarchar(max)");
 

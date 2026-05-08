@@ -10,9 +10,9 @@ using SITRA.Core.Interfaces;
 
 namespace SITRA.Core.Mediator.Commands.Invoices.PurchaseInvoices
 {
-    public class CreatePurchaseInvoiceCommand : CreateCommand<Invoice, CreatePurchaseInvoiceDTO>, IIdempotentCommand
+    public class CreatePurchaseInvoiceCommand(CreatePurchaseInvoiceDTO dto) : CreateCommand<Invoice, CreatePurchaseInvoiceDTO>(dto), IIdempotentCommand
     {
-        public CreatePurchaseInvoiceCommand(CreatePurchaseInvoiceDTO dto) : base(dto) { }
+        public Func<Invoice, Task<(bool isAccepted, string trackId, string status, string securityCode, string rawResponse)>>? DgiiProcess { get; set; }
 
         public override async Task<CreatePurchaseInvoiceDTO> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
         {
@@ -46,6 +46,32 @@ namespace SITRA.Core.Mediator.Commands.Invoices.PurchaseInvoices
             await CalculateInvoiceTotals(Dto.InvoiceItems, purchaseInvoice, unitOfWork, currencyRate);
 
             await unitOfWork.PurchaseInvoiceRepository.CreateAsync(purchaseInvoice);
+            await AddInvoiceItems(Dto.InvoiceItems, purchaseInvoice, unitOfWork, mapper, currencyRate);
+
+            // First save to generate IDs and establish relationships
+            await unitOfWork.SaveChangesAsync();
+
+            // Perform DGII Workflow
+            if (DgiiProcess != null && !string.IsNullOrEmpty(purchaseInvoice.FiscalSupportNumber))
+            {
+                var fullInvoice = await unitOfWork.PurchaseInvoiceRepository.GetByIdAsync(purchaseInvoice.Id, cancellationToken);
+                var dgiiResult = await DgiiProcess(fullInvoice!);
+
+                purchaseInvoice.DgiiTrackId = string.IsNullOrEmpty(dgiiResult.trackId) ? null : dgiiResult.trackId;
+                purchaseInvoice.DgiiStatus = dgiiResult.status;
+                purchaseInvoice.DgiiResponse = dgiiResult.rawResponse;
+                purchaseInvoice.SecurityCode = dgiiResult.securityCode;
+
+                unitOfWork.PurchaseInvoiceRepository.Update(purchaseInvoice);
+                await unitOfWork.SaveChangesAsync();
+
+                if (!dgiiResult.isAccepted)
+                {
+                    // If rejected by DGII, we skip stock reduction, payments, etc., but keep the invoice record.
+                    Dto.Id = purchaseInvoice.Id;
+                    return Dto;
+                }
+            }
 
             switch (Dto.ConditionType)
             {
@@ -76,7 +102,6 @@ namespace SITRA.Core.Mediator.Commands.Invoices.PurchaseInvoices
                     break;
             }
 
-            await AddInvoiceItems(Dto.InvoiceItems, purchaseInvoice, unitOfWork, mapper, currencyRate);
             await IncreaseStock(Dto, unitOfWork);
             await AddPettyCashMovement(unitOfWork, pettyCash!, purchaseInvoice);
             await unitOfWork.SaveChangesAsync();

@@ -63,8 +63,9 @@ namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
                 var fullInvoice = await unitOfWork.SaleInvoiceRepository.GetByIdAsync(saleInvoice.Id, cancellationToken);
                 var dgiiResult = await DgiiProcess(fullInvoice!);
 
-                saleInvoice.DgiiTrackId = dgiiResult.trackId;
-                saleInvoice.DgiiStatus = dgiiResult.rawResponse;
+                saleInvoice.DgiiTrackId = string.IsNullOrEmpty(dgiiResult.trackId) ? null : dgiiResult.trackId;
+                saleInvoice.DgiiStatus = dgiiResult.status;
+                saleInvoice.DgiiResponse = dgiiResult.rawResponse;
                 saleInvoice.SecurityCode = dgiiResult.securityCode;
 
                 unitOfWork.SaleInvoiceRepository.Update(saleInvoice);
