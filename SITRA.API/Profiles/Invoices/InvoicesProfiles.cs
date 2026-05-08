@@ -27,7 +27,9 @@ namespace SITRA.API.Profiles.Invoices
                 .ForMember(des => des.CustomerId, opt => opt.MapFrom(src => src.InvoiceBuyer != null ? src.InvoiceBuyer.ContactId : Guid.Empty))
                 .ForMember(des => des.Biller, opt => opt.MapFrom(src => src.InvoiceBiller != null ? src.InvoiceBiller.Biller : null))
                 .ForMember(des => des.BillerId, opt => opt.MapFrom(src => src.InvoiceBiller != null ? src.InvoiceBiller.ContactId : Guid.Empty))
-                .ForMember(des => des.FiscalSupport, opt => opt.MapFrom(src => src.InvoiceFiscalSupport != null ? src.InvoiceFiscalSupport.FiscalSupport : null));
+                .ForMember(des => des.FiscalSupport, opt => opt.MapFrom(src => src.InvoiceFiscalSupport != null ? src.InvoiceFiscalSupport.FiscalSupport : null))
+                .ForMember(des => des.InvoiceItems, opt => opt.MapFrom(src => src.InvoiceItems));
+                
             CreateMap<SaleInvoiceItemDTO, InvoiceItem>();
             CreateMap<Invoice, SaleInvoiceListDTO>()
                 .ForMember(des => des.ContactId, opt => opt.MapFrom(src => src.InvoiceBuyer != null ? src.InvoiceBuyer.ContactId : (Guid?)null))

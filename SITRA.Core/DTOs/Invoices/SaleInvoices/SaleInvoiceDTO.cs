@@ -21,6 +21,7 @@ namespace SITRA.Core.DTOs.Invoices.SaleInvoices
         public ContactDTO? Buyer { get; set; }
         public ContactDTO? Biller { get; set; }
         public FiscalSupportDTO? FiscalSupport { get; set; }
+        public List<SaleInvoiceItemDTO> InvoiceItems { get; set; } = [];
         public DateTimeOffset CreatedAt { get; set; }
     }
 }
