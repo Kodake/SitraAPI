@@ -31,7 +31,7 @@ namespace SITRA.Infrastructure.Repositories.Invoices
             await httpContext.AddPaginationParamsToHeaders(queryable);
 
             return await queryable
-                .Where(x => x.InvoiceType == InvoiceType.Sale)
+                .Where(x => x.InvoiceType == InvoiceType.Sale && x.DgiiStatus == "Aceptado")
                 .OrderByDescending(i => i.CreatedAt)
                 .Paginate(paginationDTO)
                 .ToListAsync(cancellationToken);

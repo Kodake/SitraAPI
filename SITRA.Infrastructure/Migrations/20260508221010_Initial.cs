@@ -43,6 +43,8 @@ namespace SITRA.Infrastructure.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CompanyName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RucNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Province = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Municipality = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IsOwner = table.Column<bool>(type: "bit", nullable: false),
@@ -117,7 +119,8 @@ namespace SITRA.Infrastructure.Migrations
                     IdentificationType = table.Column<int>(type: "int", nullable: true),
                     Identification = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: true),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Province = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: true),
+                    Province = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: true),
+                    Municipality = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: true),
                     Address = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Phone2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -232,6 +235,7 @@ namespace SITRA.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ItemType = table.Column<int>(type: "int", nullable: false),
+                    UnitMeasure = table.Column<int>(type: "int", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Reference = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Barcode = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
@@ -272,6 +276,7 @@ namespace SITRA.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TaxType = table.Column<int>(type: "int", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
@@ -328,23 +333,6 @@ namespace SITRA.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tenants", x => x.TenantId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Units",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    ShortName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Units", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -787,33 +775,6 @@ namespace SITRA.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ItemUnits",
-                columns: table => new
-                {
-                    ItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UnitId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ItemUnits", x => x.ItemId);
-                    table.ForeignKey(
-                        name: "FK_ItemUnits_Items_ItemId",
-                        column: x => x.ItemId,
-                        principalTable: "Items",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ItemUnits_Units_UnitId",
-                        column: x => x.UnitId,
-                        principalTable: "Units",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Invoices",
                 columns: table => new
                 {
@@ -837,6 +798,10 @@ namespace SITRA.Infrastructure.Migrations
                     DueDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    DgiiTrackId = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    DgiiStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DgiiResponse = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityCode = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -1628,16 +1593,6 @@ namespace SITRA.Infrastructure.Migrations
                 column: "TenantId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ItemUnits_TenantId",
-                table: "ItemUnits",
-                column: "TenantId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ItemUnits_UnitId",
-                table: "ItemUnits",
-                column: "UnitId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Models_BrandId",
                 table: "Models",
                 column: "BrandId");
@@ -1887,11 +1842,6 @@ namespace SITRA.Infrastructure.Migrations
                 column: "TenantId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Units_TenantId",
-                table: "Units",
-                column: "TenantId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Warehouses_TenantId",
                 table: "Warehouses",
                 column: "TenantId");
@@ -1964,9 +1914,6 @@ namespace SITRA.Infrastructure.Migrations
                 name: "ItemTaxes");
 
             migrationBuilder.DropTable(
-                name: "ItemUnits");
-
-            migrationBuilder.DropTable(
                 name: "PayableReceipts");
 
             migrationBuilder.DropTable(
@@ -2019,9 +1966,6 @@ namespace SITRA.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Taxes");
-
-            migrationBuilder.DropTable(
-                name: "Units");
 
             migrationBuilder.DropTable(
                 name: "Payables");

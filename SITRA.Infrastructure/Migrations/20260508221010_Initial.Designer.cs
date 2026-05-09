@@ -12,8 +12,8 @@ using SITRA.Infrastructure.Persistence;
 namespace SITRA.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260501032830_AddInvoiceDgiiFields")]
-    partial class AddInvoiceDgiiFields
+    [Migration("20260508221010_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -838,8 +838,8 @@ namespace SITRA.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Province")
-                        .HasMaxLength(2)
-                        .HasColumnType("nvarchar(2)");
+                        .HasMaxLength(6)
+                        .HasColumnType("nvarchar(6)");
 
                     b.Property<Guid>("TenantId")
                         .HasColumnType("uniqueidentifier");
@@ -955,6 +955,9 @@ namespace SITRA.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("TaxType")
+                        .HasColumnType("int");
+
                     b.Property<Guid>("TenantId")
                         .HasColumnType("uniqueidentifier");
 
@@ -989,9 +992,11 @@ namespace SITRA.Infrastructure.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("DgiiResponse")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("DgiiStatus")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DgiiTrackId")
                         .HasMaxLength(100)
@@ -1014,6 +1019,10 @@ namespace SITRA.Infrastructure.Migrations
 
                     b.Property<Guid>("PricingId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("SecurityCode")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<decimal?>("Shipping")
                         .HasColumnType("decimal(18,2)");
