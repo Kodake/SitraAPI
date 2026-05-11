@@ -45,7 +45,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
 
         public async Task<CreateSaleInvoiceDTO> Handle(CreateSaleInvoiceCommand request, CancellationToken cancellationToken)
         {
-            request.DgiiProcess = async (invoice) => 
+            request.DgiiProcess = async (invoice) =>
             {
                 bool isAccepted = true;
                 string trackId = "";

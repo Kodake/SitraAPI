@@ -12,7 +12,7 @@ using SITRA.Infrastructure.Persistence;
 namespace SITRA.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260508221010_Initial")]
+    [Migration("20260510193803_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
