@@ -26,6 +26,7 @@ namespace SITRA.API.Endpoints.Invoices
             group.MapGet("/{id:guid}", GetById).RequireAuthorization();
             group.MapGet("/summary", GetBalance).WithOpenApi().RequireAuthorization();
             group.MapPost("/", Create).DisableAntiforgery().AddEndpointFilter<ValidationFilter<CreateSaleInvoiceDTO>>().WithOpenApi().RequireAuthorization();
+            group.MapPost("/notes", CreateNote).DisableAntiforgery().AddEndpointFilter<ValidationFilter<CreateNoteDTO>>().WithOpenApi().RequireAuthorization();
             group.MapGet("/{invoiceId}/generate-pdf", GeneratePdf).WithOpenApi().RequireAuthorization();
             group.MapGet("/{invoiceId}/generate-receipt-pdf", GenerateReceiptPdf).WithOpenApi().RequireAuthorization();
             return group;
@@ -71,6 +72,20 @@ namespace SITRA.API.Endpoints.Invoices
             return saleDTO == null
                 ? TypedResults.NotFound()
                 : TypedResults.Created(string.Empty, saleDTO);
+        }
+
+        [Idempotent]
+        static async Task<Results<Created<CreateNoteDTO>, NotFound, ValidationProblem>> CreateNote(
+            [FromBody] CreateNoteDTO dto,
+            [FromServices] IMediator mediator,
+            IOutputCacheStore outputCacheStore)
+        {
+            var command = new CreateNoteCommand(dto);
+            var noteDTO = await mediator.Send(command);
+
+            return noteDTO == null
+                ? TypedResults.NotFound()
+                : TypedResults.Created(string.Empty, noteDTO);
         }
 
         static async Task<Results<FileContentHttpResult, NotFound>> GeneratePdf(
