@@ -106,7 +106,8 @@ namespace SITRA.Core.DTOs.DGII
 
         [XmlElement(ElementName = "IndicadorMontoGravado", Order = 6)]
         public string? IndicadorMontoGral { get; set; }
-        public bool ShouldSerializeIndicadorMontoGral() => TipoeCF != "43" && TipoeCF != "44" && TipoeCF != "46" && TipoeCF != "47";
+        // E43/E44/E46/E47 do not use IndicadorMontoGravado; E34 does when MontoGravadoTotal is present
+        public bool ShouldSerializeIndicadorMontoGral() => !string.IsNullOrEmpty(IndicadorMontoGral) && TipoeCF != "43" && TipoeCF != "44" && TipoeCF != "46" && TipoeCF != "47";
 
         [XmlElement(ElementName = "IndicadorServicioTodoIncluido", Order = 7)]
         public int? IndicadorServicioTodoIncluido { get; set; }

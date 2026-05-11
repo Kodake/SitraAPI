@@ -27,6 +27,7 @@ namespace SITRA.API.Endpoints.Invoices
             group.MapGet("/summary", GetBalance).WithOpenApi().RequireAuthorization();
             group.MapPost("/", Create).DisableAntiforgery().AddEndpointFilter<ValidationFilter<CreateSaleInvoiceDTO>>().WithOpenApi().RequireAuthorization();
             group.MapPost("/notes", CreateNote).DisableAntiforgery().AddEndpointFilter<ValidationFilter<CreateNoteDTO>>().WithOpenApi().RequireAuthorization();
+            group.MapPost("/annul", AnnulNcf).DisableAntiforgery().AddEndpointFilter<ValidationFilter<AnnulNcfDTO>>().WithOpenApi().RequireAuthorization();
             group.MapGet("/{invoiceId}/generate-pdf", GeneratePdf).WithOpenApi().RequireAuthorization();
             group.MapGet("/{invoiceId}/generate-receipt-pdf", GenerateReceiptPdf).WithOpenApi().RequireAuthorization();
             return group;
@@ -86,6 +87,15 @@ namespace SITRA.API.Endpoints.Invoices
             return noteDTO == null
                 ? TypedResults.NotFound()
                 : TypedResults.Created(string.Empty, noteDTO);
+        }
+
+        static async Task<Results<Ok<AnnulNcfDTO>, ValidationProblem>> AnnulNcf(
+            [FromBody] AnnulNcfDTO dto,
+            [FromServices] IMediator mediator)
+        {
+            var command = new AnnulNcfCommand(dto);
+            var result = await mediator.Send(command);
+            return TypedResults.Ok(result);
         }
 
         static async Task<Results<FileContentHttpResult, NotFound>> GeneratePdf(

@@ -14,6 +14,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
             services.AddTransient<IRequestHandler<GetAllSaleInvoicesByDateRangeAndBillerQuery, List<SaleInvoiceListDTO>>, QueryHandler<GetAllSaleInvoicesByDateRangeAndBillerQuery, List<SaleInvoiceListDTO>>>();
             // services.AddTransient<IRequestHandler<CreateSaleInvoiceCommand, CreateSaleInvoiceDTO>, CommandHandler<CreateSaleInvoiceCommand, CreateSaleInvoiceDTO>>();
             services.AddTransient<IRequestHandler<CreateNoteCommand, CreateNoteDTO>, CreateNoteCommandHandler>();
+            services.AddTransient<IRequestHandler<AnnulNcfCommand, AnnulNcfDTO>, AnnulNcfCommandHandler>();
             services.AddTransient<IRequestHandler<CreateSaleInvoiceCommand, CreateSaleInvoiceDTO>, CreateSaleInvoiceCommandHandler>();
             services.AddTransient<IRequestHandler<GetSaleInvoicePdfQuery, (byte[] FileBytes, string FileName)?>, QueryHandler<GetSaleInvoicePdfQuery, (byte[] FileBytes, string FileName)?>>();
             services.AddTransient<IRequestHandler<GetSaleInvoiceReceiptPdfQuery, (byte[] FileBytes, string FileName)?>, QueryHandler<GetSaleInvoiceReceiptPdfQuery, (byte[] FileBytes, string FileName)?>>();
