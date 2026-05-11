@@ -61,9 +61,7 @@ namespace SITRA.Core.Entities.Invoices
         [System.ComponentModel.DataAnnotations.Schema.NotMapped]
         public string? IndicadorMontoGral { get; set; }
         // Credit/Debit note reference fields (E33/E34)
-        [System.ComponentModel.DataAnnotations.Schema.NotMapped]
         public string? ModifiedNcfNumber { get; set; }
-        [System.ComponentModel.DataAnnotations.Schema.NotMapped]
         public int? ModificationCode { get; set; }
     }
 }

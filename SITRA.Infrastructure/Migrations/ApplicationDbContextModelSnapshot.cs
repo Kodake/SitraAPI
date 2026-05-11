@@ -1011,6 +1011,12 @@ namespace SITRA.Infrastructure.Migrations
                     b.Property<int>("InvoiceType")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ModificationCode")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ModifiedNcfNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 

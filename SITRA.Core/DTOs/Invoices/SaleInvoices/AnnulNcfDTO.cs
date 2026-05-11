@@ -7,10 +7,14 @@ namespace SITRA.Core.DTOs.Invoices.SaleInvoices
     public class AnnulNcfDTO
     {
         /// <summary>
-        /// The eNCF of the invoice to be annulled (e.g. "E310000000001").
-        /// This value is placed in &lt;InformacionReferencia&gt;&lt;NCFModificado&gt; of the DGII XML.
+        /// The invoice to fetch information from to be annulled.
         /// </summary>
-        public string ModifiedNcfNumber { get; set; } = string.Empty;
+        public Guid InvoiceId { get; set; }
+
+        /// <summary>
+        /// The eNCF of the invoice to be annulled (populated internally via InvoiceId).
+        /// </summary>
+        public string? ModifiedNcfNumber { get; set; }
 
         /// <summary>
         /// The E34 fiscal support sequence to draw from for the new credit note eNCF.

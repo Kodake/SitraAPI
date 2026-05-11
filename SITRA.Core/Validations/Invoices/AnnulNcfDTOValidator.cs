@@ -9,9 +9,9 @@ namespace SITRA.Core.Validations.Invoices
     {
         public AnnulNcfDTOValidator(IUnitOfWork unitOfWork)
         {
-            RuleFor(x => x.ModifiedNcfNumber)
+            RuleFor(x => x.InvoiceId)
                 .NotEmpty().WithMessage(Utilities.RequiredFieldMessage)
-                .WithName("ModifiedNcfNumber");
+                .WithName("InvoiceId");
 
             RuleFor(x => x.FiscalSupportId)
                 .NotEmpty().WithMessage(Utilities.RequiredFieldMessage)
