@@ -15,6 +15,7 @@ x86/
 .vs/
 GeneratedData/
 Documentations/
+Printed Examples/
 *.user
 *.userosscache
 *.sln.docstates

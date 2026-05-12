@@ -60,15 +60,17 @@ namespace SITRA.API.Endpoints.Invoices
 
         static async Task<Results<FileContentHttpResult, NotFound>> GeneratePdf(
             [FromRoute] Guid invoiceId,
-            [FromServices] IMediator mediator)
+            [FromServices] IMediator mediator,
+            [FromServices] Microsoft.Extensions.Options.IOptions<SITRA.Core.Models.Dgii.DgiiSettings> dgiiSettings)
         {
-            var query = new GetPurchaseInvoicePdfQuery(invoiceId);
+            var query = new GetPurchaseInvoicePdfQuery(invoiceId, dgiiSettings.Value);
             var result = await mediator.Send(query);
 
             return result == null
                 ? TypedResults.NotFound()
                 : TypedResults.File(result.Value.FileBytes, "application/pdf", result.Value.FileName);
         }
+
 
         static async Task<Results<FileContentHttpResult, NotFound>> GenerateReportPdf(
             [FromServices] IMediator mediator,
