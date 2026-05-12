@@ -10,8 +10,10 @@ using SITRA.Core.Interfaces;
 
 namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
 {
-    public class CreateSaleInvoiceCommand(CreateSaleInvoiceDTO dto) : CreateCommand<Invoice, CreateSaleInvoiceDTO>(dto), IIdempotentCommand
+    public class CreateSaleInvoiceCommand(CreateSaleInvoiceDTO dto, string? modifiedNcfNumber = null) : CreateCommand<Invoice, CreateSaleInvoiceDTO>(dto), IIdempotentCommand
     {
+        public string? ModifiedNcfNumber { get; } = modifiedNcfNumber;
+
         public Func<Invoice, Task<(bool isAccepted, string trackId, string status, string securityCode, string rawResponse)>>? DgiiProcess { get; set; }
 
         public override async Task<CreateSaleInvoiceDTO> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper, CancellationToken cancellationToken)
@@ -29,6 +31,10 @@ namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
             var saleInvoice = mapper.Map<Invoice>(Dto);
             saleInvoice.InvoiceType = InvoiceType.Sale;
             saleInvoice.Date = DateTimeOffset.Now;
+            saleInvoice.ModifiedNcfNumber = ModifiedNcfNumber;
+            if (!string.IsNullOrEmpty(ModifiedNcfNumber))
+                saleInvoice.ModificationCode = 3; // Default: 1 = Anula el NCF modificado
+
 
             if (Dto.CustomerId != null)
             {
@@ -61,6 +67,9 @@ namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
             if (DgiiProcess != null && !string.IsNullOrEmpty(saleInvoice.FiscalSupportNumber))
             {
                 var fullInvoice = await unitOfWork.SaleInvoiceRepository.GetByIdAsync(saleInvoice.Id, cancellationToken);
+                fullInvoice!.ModifiedNcfNumber = saleInvoice.ModifiedNcfNumber;
+                fullInvoice.ModificationCode = saleInvoice.ModificationCode;
+                
                 var dgiiResult = await DgiiProcess(fullInvoice!);
 
                 saleInvoice.DgiiTrackId = string.IsNullOrEmpty(dgiiResult.trackId) ? null : dgiiResult.trackId;

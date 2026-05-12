@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -113,11 +111,11 @@ namespace SITRA.Core.DTOs.DGII
         public int? IndicadorServicioTodoIncluido { get; set; }
         [XmlIgnore]
         public bool IndicadorServicioTodoIncluidoSpecified => IndicadorServicioTodoIncluido.HasValue;
-        public bool ShouldSerializeIndicadorServicioTodoIncluido() => TipoeCF != "43" && TipoeCF != "46" && TipoeCF != "47";
+        public bool ShouldSerializeIndicadorServicioTodoIncluido() => TipoeCF != "41" && TipoeCF != "43" && TipoeCF != "46" && TipoeCF != "47";
 
         [XmlElement(ElementName = "TipoIngresos", Order = 8)]
         public string? TipoIngresos { get; set; }
-        public bool ShouldSerializeTipoIngresos() => TipoeCF != "41" && TipoeCF != "43" && TipoeCF != "47";
+        public bool ShouldSerializeTipoIngresos() => !string.IsNullOrEmpty(TipoIngresos) && TipoeCF != "41" && TipoeCF != "43" && TipoeCF != "47";
 
         [XmlElement(ElementName = "TipoPago", Order = 9)]
         public string? TipoPago { get; set; }

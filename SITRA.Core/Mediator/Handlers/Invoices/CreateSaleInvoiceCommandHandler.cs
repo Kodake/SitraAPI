@@ -56,6 +56,24 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
                 try
                 {
                     var ecfDocument = _mapperToEcf.MapToDgiiDocument(invoice);
+                    
+                    if (!string.IsNullOrEmpty(invoice.ModifiedNcfNumber))
+                    {
+                        string refDate = DateTimeOffset.Now.ToString("dd-MM-yyyy");
+                        var candidates = await _unitOfWork.SaleInvoiceRepository.GetAllAsync(i => i.FiscalSupportNumber == invoice.ModifiedNcfNumber);
+                        var originalDoc = candidates.FirstOrDefault();
+                        if (originalDoc != null)
+                        {
+                            refDate = originalDoc.Date.ToString("dd-MM-yyyy");
+                        }
+
+                        ecfDocument.InformacionReferencia = new InformacionReferencia
+                        {
+                            NCFModificado = invoice.ModifiedNcfNumber,
+                            CodigoModificacion = invoice.ModificationCode ?? 3,
+                            FechaNCFModificado = refDate
+                        };
+                    }
 
                     string seedXml = await _dgiiApiService.GetSemillaAsync();
                     string signedSeed = _signatureService.SignAuthenticationSeed(seedXml);

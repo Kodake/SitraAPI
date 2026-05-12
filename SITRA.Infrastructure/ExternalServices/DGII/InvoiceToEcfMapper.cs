@@ -41,9 +41,9 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
                         TipoeCF = tipoEcf,
                         ENCF = invoice.FiscalSupportNumber!,
                         FechaVencimientoSecuencia = _settings.DefaultFechaVencimientoSecuencia,
-                        IndicadorMontoGral = (tipoEcf is "43" or "44" or "46" or "47") ? null : (invoice.IndicadorMontoGral ?? "0"),
+                        IndicadorMontoGral = (tipoEcf is "43" or "44" or "46" or "47") ? null : invoice.IndicadorMontoGral,
                         IndicadorEnvioDiferido = (invoice.IndicadorEnvioDiferido == 1) ? 1 : (int?)null,
-                        TipoIngresos = (invoice.TipoIngresos ?? "01"),
+                        TipoIngresos = invoice.TipoIngresos ?? "01",
                         TipoPago = invoice.ConditionType == InvoiceCondition.Spot ? "1" : "2"
                     },
                     Emisor = new Emisor
@@ -208,6 +208,16 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
             }
             else
             {
+                bool tieneMontoGravado = usaI1 || usaI2 || usaI3;
+
+                if (string.IsNullOrEmpty(ecf.Encabezado.IdDoc.IndicadorMontoGral) && (tipoEcf is not "43" and not "44" and not "46" and not "47"))
+                {
+                    // Our line items serialize their BasePrice (tax-excluded), which formally requires "0" per DGII schema definitions.
+                    ecf.Encabezado.IdDoc.IndicadorMontoGral = tieneMontoGravado
+                        ? "0"
+                        : null; 
+                }
+
                 ecf.Encabezado.Totales = new Totales
                 {
                     CurrentTipoeCF = tipoEcf,
@@ -216,7 +226,7 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
                     ITBIS2 = (tipoEcf != "46" && usaI2) ? 16 : null,
                     ITBIS3 = usaI3 ? 0 : null,
 
-                    MontoGravadoTotal = Round(montoGravadoI1 + montoGravadoI2 + montoGravadoI3),
+                    MontoGravadoTotal = tieneMontoGravado ? Round(montoGravadoI1 + montoGravadoI2 + montoGravadoI3) : null,
 
                     MontoGravadoI1 = (tipoEcf != "46" && usaI1) ? Round(montoGravadoI1) : null,
                     MontoGravadoI2 = (tipoEcf != "46" && usaI2) ? Round(montoGravadoI2) : null,
@@ -224,7 +234,7 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
 
                     MontoExento = (tipoEcf == "46") ? null : (montoExento > 0 ? Round(montoExento) : null),
 
-                    TotalITBIS = Round(totalITBIS1 + totalITBIS2 + totalITBIS3),
+                    TotalITBIS = tieneMontoGravado ? Round(totalITBIS1 + totalITBIS2 + totalITBIS3) : null,
                     TotalITBIS1 = (tipoEcf != "46" && usaI1) ? Round(totalITBIS1) : null,
                     TotalITBIS2 = (tipoEcf != "46" && usaI2) ? Round(totalITBIS2) : null,
                     TotalITBIS3 = usaI3 ? Round(totalITBIS3) : null,
@@ -315,7 +325,7 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
                 var rate = (decimal)itbis.Tax.Amount;
                 if (rate == 18) return (1, 18);
                 if (rate == 16) return (2, 16);
-                if (rate == 0) return (3, 0);
+                if (rate == 0) return (4, 0);
             }
 
             if (taxes.Any(t => t.Tax.TaxType == TaxType.EXENTO))

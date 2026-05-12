@@ -42,7 +42,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
 
             // Carry note-specific reference fields through to the entity (NotMapped, used by ECF mapper)
             note.ModifiedNcfNumber = Dto.ModifiedNcfNumber;
-            note.ModificationCode  = Dto.ModificationCode ?? 1; // Default: 1 = Anula el NCF modificado
+            note.ModificationCode  = Dto.ModificationCode ?? 3; // Default: 1 = Anula el NCF modificado
 
             if (Dto.CustomerId != null)
                 note.InvoiceBuyer = new InvoiceBuyer { ContactId = Dto.CustomerId.Value };

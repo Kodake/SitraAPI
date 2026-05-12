@@ -69,11 +69,19 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
                     // ── 2. Inject InformacionReferencia (mandatory for E33 / E34) ────
                     if (!string.IsNullOrEmpty(invoice.ModifiedNcfNumber))
                     {
+                        string refDate = DateTimeOffset.Now.ToString("dd-MM-yyyy");
+                        var candidates = await _unitOfWork.SaleInvoiceRepository.GetAllAsync(i => i.FiscalSupportNumber == invoice.ModifiedNcfNumber);
+                        var originalDoc = candidates.FirstOrDefault();
+                        if (originalDoc != null)
+                        {
+                            refDate = originalDoc.Date.ToString("dd-MM-yyyy");
+                        }
+
                         ecfDocument.InformacionReferencia = new InformacionReferencia
                         {
                             NCFModificado      = invoice.ModifiedNcfNumber,
-                            CodigoModificacion = invoice.ModificationCode ?? 1,
-                            // FechaNCFModificado is optional — populate if you store the original invoice date
+                            CodigoModificacion = invoice.ModificationCode ?? 3,
+                            FechaNCFModificado = refDate
                         };
                     }
 
