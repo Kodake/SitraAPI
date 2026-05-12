@@ -14,6 +14,7 @@ x86/
 # Visual Studio files
 .vs/
 GeneratedData/
+Documentations/
 *.user
 *.userosscache
 *.sln.docstates
@@ -21,8 +22,5 @@ GeneratedData/
 *.pdb
 
 # Others
-Certificacion-eCF-main/
-Certificacion-wpt-main/
 agents
 build_out/
-SITRA.Core/Resources/Documentations/*.crdownload
