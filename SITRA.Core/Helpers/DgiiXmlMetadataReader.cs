@@ -60,6 +60,8 @@ namespace SITRA.Core.Helpers
                 var emisor = encabezado?.Element(ns + "Emisor");
                 var comprador = encabezado?.Element(ns + "Comprador");
                 var totales = encabezado?.Element(ns + "Totales");
+                var infoRef = doc.Descendants(ns + "InformacionReferencia").FirstOrDefault();
+                string? ncfModificado = infoRef?.Element(ns + "NCFModificado")?.Value;
 
                 string? sigValue = doc.Descendants(ds + "SignatureValue").FirstOrDefault()?.Value;
                 if (!string.IsNullOrEmpty(sigValue))
@@ -120,6 +122,7 @@ namespace SITRA.Core.Helpers
                     TipoEcf = idDoc?.Element(ns + "TipoeCF")?.Value ?? string.Empty,
                     FechaVencimientoSecuencia = idDoc?.Element(ns + "FechaVencimientoSecuencia")?.Value,
                     IsRfce = isRfce,
+                    NcfModificado = ncfModificado,
                     Items = items
                 };
             }
