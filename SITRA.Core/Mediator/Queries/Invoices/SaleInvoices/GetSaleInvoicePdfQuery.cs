@@ -11,10 +11,12 @@ namespace SITRA.Core.Mediator.Queries.Invoices.SaleInvoices
     public class GetSaleInvoicePdfQuery : GetByIdQuery<(byte[] FileBytes, string FileName)?>
     {
         private readonly DgiiSettings _dgiiSettings;
+        private readonly SITRA.Core.Interfaces.Services.IDgiiStorageService _dgiiStorageService;
 
-        public GetSaleInvoicePdfQuery(Guid invoiceId, DgiiSettings dgiiSettings) : base(invoiceId) 
+        public GetSaleInvoicePdfQuery(Guid invoiceId, DgiiSettings dgiiSettings, SITRA.Core.Interfaces.Services.IDgiiStorageService dgiiStorageService) : base(invoiceId) 
         {
             _dgiiSettings = dgiiSettings;
+            _dgiiStorageService = dgiiStorageService;
         }
 
         public override async Task<(byte[] FileBytes, string FileName)?> GetData(
@@ -55,7 +57,16 @@ namespace SITRA.Core.Mediator.Queries.Invoices.SaleInvoices
             catch { /* Fallback if identity not configured in unit of work */ }
 
             DgiiPdfMetadata? dgiiMeta = null;
-            if (!string.IsNullOrEmpty(saleInvoice.FiscalSupportNumber))
+            if (!string.IsNullOrEmpty(saleInvoice.XmlUrl))
+            {
+                string? xmlContent = await _dgiiStorageService.ReadDocumentXmlFromUrlAsync(saleInvoice.XmlUrl);
+                if (!string.IsNullOrEmpty(xmlContent))
+                {
+                    dgiiMeta = DgiiXmlMetadataReader.ParseXml(xmlContent);
+                }
+            }
+            
+            if (dgiiMeta == null && !string.IsNullOrEmpty(saleInvoice.FiscalSupportNumber))
             {
                 // Prefer the resolved company RucNumber for the XML directory path retrieval
                 string effectiveRnc = company?.RucNumber ?? _dgiiSettings.DefaultRNC;

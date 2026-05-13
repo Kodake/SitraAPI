@@ -16,6 +16,7 @@ using SITRA.Infrastructure.ExternalServices.DGII;
 using SITRA.Infrastructure.Persistence;
 using SITRA.Infrastructure.Repositories;
 using SITRA.Infrastructure.Services;
+using SITRA.Core.Interfaces.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Serilog
@@ -128,6 +129,7 @@ builder.Services.AddScoped<ITestCasesReader, JsonTestCasesReaderService>();
 builder.Services.AddScoped<ITestCasesReader, TestCasesReaderService>();
 builder.Services.AddScoped<IDgiiTestService, DgiiTestService>();
 builder.Services.AddScoped<IInvoiceToEcfMapper, InvoiceToEcfMapper>();
+builder.Services.AddScoped<IDgiiStorageService, DgiiStorageService>();
 
 builder.Services.AddHttpClient<IDgiiApiService, DgiiApiService>();
 

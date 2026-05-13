@@ -8,6 +8,11 @@ namespace SITRA.Core.Models.Dgii
         public string TestFilePath2 { get; set; } = string.Empty;
         public string SchemasPath { get; set; } = string.Empty;
         public string StoragePath { get; set; } = string.Empty;
+
+        // Azure Storage Settings
+        public bool UseAzureStorage { get; set; } = false;
+        public string AzureContainerName { get; set; } = "dgii-assets";
+        public string Environment { get; set; } = "QA"; // Prefix for blob paths
         
         // Endpoints
         public string BaseUrl { get; set; } = string.Empty;

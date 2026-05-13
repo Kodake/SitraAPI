@@ -9,6 +9,7 @@ using SITRA.Core.DTOs.Invoices.SaleInvoices;
 using SITRA.Core.Interfaces;
 using SITRA.Core.Mediator.Commands.Invoices.SaleInvoices;
 using SITRA.Core.Models.Dgii;
+using SITRA.Core.Interfaces.Services;
 
 namespace SITRA.Core.Mediator.Handlers.Invoices
 {
@@ -21,6 +22,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
         private readonly ISignatureService _signatureService;
         private readonly IEcfXmlGenerator _ecfXmlGenerator;
         private readonly IInvoiceToEcfMapper _mapperToEcf;
+        private readonly IDgiiStorageService _dgiiStorageService;
         private readonly DgiiSettings _dgiiSettings;
 
         public CreateSaleInvoiceCommandHandler(
@@ -31,6 +33,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
             ISignatureService signatureService,
             IEcfXmlGenerator ecfXmlGenerator,
             IInvoiceToEcfMapper mapperToEcf,
+            IDgiiStorageService dgiiStorageService,
             IOptions<DgiiSettings> dgiiSettings)
         {
             _unitOfWork = unitOfWork;
@@ -40,6 +43,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
             _signatureService = signatureService;
             _ecfXmlGenerator = ecfXmlGenerator;
             _mapperToEcf = mapperToEcf;
+            _dgiiStorageService = dgiiStorageService;
             _dgiiSettings = dgiiSettings.Value;
         }
 
@@ -92,7 +96,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
                             string baseEcfXml = _ecfXmlGenerator.GenerateEcfXml(ecfDocument);
                             string signedBaseEcf = _signatureService.SignXml(baseEcfXml);
                             
-                            SaveDocumentXml(signedBaseEcf, ecfDocument.Encabezado!.IdDoc.ENCF, ecfDocument.Encabezado.Emisor.RNCEmisor, "32", _dgiiSettings.StoragePath);
+                            await _dgiiStorageService.SaveDocumentXmlAsync(signedBaseEcf, ecfDocument.Encabezado.Emisor.RNCEmisor, "32", ecfDocument.Encabezado.IdDoc.ENCF + ".xml");
 
                             securityCode = GetSecurityCodeFromSignedXml(signedBaseEcf);
                             var rfceDoc = MapToRfce(ecfDocument, securityCode);
@@ -100,7 +104,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
                             string rfceXmlSinFirma = _ecfXmlGenerator.GenerateRfceXml(rfceDoc);
                             xmlFirmado = _signatureService.SignXml(rfceXmlSinFirma);
 
-                            SaveDocumentXml(xmlFirmado, ecfDocument.Encabezado.IdDoc.ENCF, ecfDocument.Encabezado.Emisor.RNCEmisor, "RFCE", _dgiiSettings.StoragePath);
+                            invoice.XmlUrl = await _dgiiStorageService.SaveDocumentXmlAsync(xmlFirmado, ecfDocument.Encabezado.Emisor.RNCEmisor, "RFCE", ecfDocument.Encabezado.IdDoc.ENCF + "_RFCE.xml");
                             useRfceChannel = true;
                         }
                         else
@@ -110,7 +114,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
                             securityCode = GetSecurityCodeFromSignedXml(xmlFirmado);
 
                             var docType = ecfDocument.Encabezado?.IdDoc?.TipoeCF ?? "UNKNOWN";
-                            SaveDocumentXml(xmlFirmado, ecfDocument.Encabezado?.IdDoc?.ENCF ?? "", ecfDocument.Encabezado?.Emisor?.RNCEmisor ?? "", docType, _dgiiSettings.StoragePath);
+                            invoice.XmlUrl = await _dgiiStorageService.SaveDocumentXmlAsync(xmlFirmado, ecfDocument.Encabezado?.Emisor?.RNCEmisor ?? "", docType, (ecfDocument.Encabezado?.IdDoc?.ENCF ?? "") + ".xml");
                         }
 
                         rawResponse = useRfceChannel

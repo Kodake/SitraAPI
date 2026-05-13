@@ -20,6 +20,7 @@ namespace SITRA.Infrastructure.Persistence.Invoices
             builder.Property(p => p.DgiiStatus).IsRequired(false);
             builder.Property(p => p.DgiiResponse).IsRequired(false);
             builder.Property(p => p.SecurityCode).HasMaxLength(250).IsRequired(false);
+            builder.Property(p => p.XmlUrl).HasMaxLength(1000).IsRequired(false);
 
             builder
                 .HasOne(s => s.Receivable)

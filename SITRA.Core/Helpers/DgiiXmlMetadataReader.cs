@@ -35,6 +35,18 @@ namespace SITRA.Core.Helpers
                 }
 
                 string xml = File.ReadAllText(filePath);
+                return ParseXml(xml);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public static DgiiPdfMetadata? ParseXml(string xml)
+        {
+            try
+            {
                 var doc = XDocument.Parse(xml);
                 
                 var rootNodeName = doc.Root?.Name.LocalName;
@@ -91,7 +103,7 @@ namespace SITRA.Core.Helpers
                     SecurityCode = secCode,
                     SignatureValue = sigValue,
                     FechaFirma = doc.Root?.Element(ns + "FechaHoraFirma")?.Value,
-                    EmisorRnc = emisor?.Element(ns + "RNCEmisor")?.Value ?? ownerRnc,
+                    EmisorRnc = emisor?.Element(ns + "RNCEmisor")?.Value ?? string.Empty,
                     RazonSocialEmisor = emisor?.Element(ns + "RazonSocial")?.Value ?? emisor?.Element(ns + "RazonSocialEmisor")?.Value,
                     DireccionEmisor = emisor?.Element(ns + "DireccionEmisor")?.Value,
                     CompradorRnc = comprador?.Element(ns + "RNCComprador")?.Value ?? comprador?.Element(ns + "IdentificadorExtranjero")?.Value,
@@ -100,12 +112,12 @@ namespace SITRA.Core.Helpers
                     CorreoComprador = comprador?.Element(ns + "CorreoComprador")?.Value,
                     MunicipioComprador = comprador?.Element(ns + "MunicipioComprador")?.Value,
                     ProvinciaComprador = comprador?.Element(ns + "ProvinciaComprador")?.Value,
-                    Encf = idDoc?.Element(ns + "eNCF")?.Value ?? fiscalSupportNumber,
+                    Encf = idDoc?.Element(ns + "eNCF")?.Value ?? string.Empty,
                     MontoTotal = total,
                     MontoGravadoTotal = gravado,
                     TotalItbis = itbis,
                     FechaEmision = emisor?.Element(ns + "FechaEmision")?.Value,
-                    TipoEcf = idDoc?.Element(ns + "TipoeCF")?.Value ?? docType,
+                    TipoEcf = idDoc?.Element(ns + "TipoeCF")?.Value ?? string.Empty,
                     FechaVencimientoSecuencia = idDoc?.Element(ns + "FechaVencimientoSecuencia")?.Value,
                     IsRfce = isRfce,
                     Items = items

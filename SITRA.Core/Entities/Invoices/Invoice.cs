@@ -39,6 +39,7 @@ namespace SITRA.Core.Entities.Invoices
         public string? DgiiStatus { get; set; }
         public string? DgiiResponse { get; set; }
         public string? SecurityCode { get; set; }
+        public string? XmlUrl { get; set; }
         public Guid TenantId { get; set; }
         public Receivable? Receivable { get; set; } = null!;
         public Payable? Payable { get; set; } = null!;
