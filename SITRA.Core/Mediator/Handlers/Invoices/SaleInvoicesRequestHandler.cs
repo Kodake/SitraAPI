@@ -20,6 +20,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
             services.AddTransient<IRequestHandler<GetSaleInvoiceReceiptPdfQuery, (byte[] FileBytes, string FileName)?>, QueryHandler<GetSaleInvoiceReceiptPdfQuery, (byte[] FileBytes, string FileName)?>>();
             services.AddTransient<IRequestHandler<GetSaleInvoiceReportPdfQuery, (byte[] FileBytes, string FileName)?>, QueryHandler<GetSaleInvoiceReportPdfQuery, (byte[] FileBytes, string FileName)?>>();
             services.AddTransient<IRequestHandler<GetSaleInvoicesBalanceQuery, BalanceSummaryDTO>, GetSaleInvoicesBalanceQueryHandler>();
+            services.AddTransient<IRequestHandler<DownloadSaleInvoicePdfQuery, (byte[] FileBytes, string FileName)?>, QueryHandler<DownloadSaleInvoicePdfQuery, (byte[] FileBytes, string FileName)?>>();
 
             return services;
         }

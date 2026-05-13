@@ -30,11 +30,21 @@ namespace SITRA.Core.Mediator.Queries.Invoices.SaleInvoices
             }
 
             var invoiceDocument = new InvoiceReceiptDocument(saleInvoice, user);
-            var filePath = Path.Combine(Path.GetTempPath(), $"Invoice-Receipt_{Id}.pdf");
+            
+            // Derive consistent user-friendly filenames
+            var finalRnc = user.RucNumber ?? "RNC";
+            var sanitizedNcf = saleInvoice.FiscalSupportNumber?.Replace("/", "-") ?? Id.ToString();
+            var fileName = $"Recibo-{finalRnc}{sanitizedNcf}.pdf";
+
+            var filePath = Path.Combine(Path.GetTempPath(), fileName);
             invoiceDocument.GeneratePdf(filePath);
 
             var fileBytes = await File.ReadAllBytesAsync(filePath, cancellationToken);
-            var file = (fileBytes, $"Invoice-Receipt_{Id}.pdf");
+            
+            // Cleanup temporary filesystem pointer
+            if (File.Exists(filePath)) File.Delete(filePath);
+
+            var file = (fileBytes, fileName);
             return file;
         }
     }

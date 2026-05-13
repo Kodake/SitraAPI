@@ -121,7 +121,7 @@ builder.Services.AddScoped<IPlanService, PlanService>();
 
 // DGII Configuration & Services
 builder.Services.Configure<DgiiSettings>(builder.Configuration.GetSection("Dgii"));
-
+// builder.Services.Configure<DgiiTestSettings>(builder.Configuration.GetSection("DgiiTest"));
 builder.Services.AddScoped<ISignatureService, SignatureService>();
 builder.Services.AddScoped<IEcfXmlGenerator, EcfXmlGeneratorService>();
 builder.Services.AddScoped<ITestCasesReader, JsonTestCasesReaderService>();
@@ -146,7 +146,7 @@ builder.Services.AddCors(options =>
         builder.AllowAnyOrigin()
                .AllowAnyMethod()
                .AllowAnyHeader()
-               .WithExposedHeaders("totalcountrecords");
+               .WithExposedHeaders("totalcountrecords", "Content-Disposition");
     });
 });
 

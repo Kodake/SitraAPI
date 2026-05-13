@@ -14,17 +14,40 @@ namespace SITRA.Core.Documents
         private readonly DgiiPdfMetadata? _dgiiMetadata;
         private readonly CompanyMetadata? _company;
         
+        private readonly DgiiSettings? _dgiiSettings;
+        
         // Color definition matching the provided sample's aesthetics
         private const string AccentColor = "#306090"; // Deep Blue
 
-        public InvoiceDocument(Invoice invoice, DgiiPdfMetadata? dgiiMetadata = null, CompanyMetadata? company = null)
+        public InvoiceDocument(Invoice invoice, DgiiPdfMetadata? dgiiMetadata = null, CompanyMetadata? company = null, DgiiSettings? dgiiSettings = null)
         {
             _invoice = invoice;
             _dgiiMetadata = dgiiMetadata;
             _company = company;
+            _dgiiSettings = dgiiSettings;
         }
 
-        public DocumentMetadata GetMetadata() => DocumentMetadata.Default;
+        public DocumentMetadata GetMetadata()
+        {
+            var rnc = _company?.RucNumber ?? _dgiiMetadata?.EmisorRnc ?? "Factura";
+            var ncf = _invoice.FiscalSupportNumber ?? _invoice.Id.ToString();
+            
+            bool isRfce = _dgiiMetadata?.IsRfce == true;
+            if (!isRfce && !string.IsNullOrEmpty(_invoice.FiscalSupportNumber) && 
+                _invoice.FiscalSupportNumber.StartsWith("E32", StringComparison.OrdinalIgnoreCase) && 
+                _invoice.TotalAmount < 250000)
+            {
+                isRfce = true;
+            }
+
+            var suffix = isRfce ? "_RFCE" : "";
+            return new DocumentMetadata
+            {
+                Title = $"{rnc}{ncf}{suffix}",
+                Subject = "Factura Electrónica",
+                Author = _company?.CompanyName ?? "SITRA",
+            };
+        }
 
         public void Compose(IDocumentContainer container)
         {
@@ -71,9 +94,10 @@ namespace SITRA.Core.Documents
                     
                     col.Item().PaddingTop(3).Column(sub =>
                     {
-                        if (!string.IsNullOrEmpty(_company?.Address))
+                        string addr = _company?.Address ?? _dgiiMetadata?.DireccionEmisor;
+                        if (!string.IsNullOrEmpty(addr))
                         {
-                            sub.Item().Text(_company.Address).FontSize(8).FontColor(Colors.Grey.Darken2);
+                            sub.Item().Text(addr).FontSize(8).FontColor(Colors.Grey.Darken2);
                         }
                         
                         string location = string.Join(", ", new[] 
@@ -92,9 +116,10 @@ namespace SITRA.Core.Documents
                             sub.Item().Text($"Tel: {_company.PhoneNumber}").FontSize(8).FontColor(Colors.Grey.Darken2);
                         }
                         
-                        if (!string.IsNullOrEmpty(_company?.Email))
+                        string email = _company?.Email; // Not explicitly in user example for emisor email but kept for company
+                        if (!string.IsNullOrEmpty(email))
                         {
-                            sub.Item().Text($"Email: {_company.Email}").FontSize(8).FontColor(Colors.Grey.Darken2);
+                            sub.Item().Text($"Email: {email}").FontSize(8).FontColor(Colors.Grey.Darken2);
                         }
                     });
                 });
@@ -114,13 +139,15 @@ namespace SITRA.Core.Documents
                         sub.Item().PaddingTop(8).AlignCenter().Text(x => 
                         {
                             x.Span("Fecha Emisión: ").FontSize(8);
-                            x.Span(_invoice.Date.ToString("dd-MM-yyyy")).SemiBold().FontSize(8).FontColor(Colors.Black);
+                            string emission = _dgiiMetadata?.FechaEmision ?? _invoice.Date.ToString("dd-MM-yyyy");
+                            x.Span(emission).SemiBold().FontSize(8).FontColor(Colors.Black);
                         });
 
                         sub.Item().AlignCenter().Text(x => 
                         {
                             x.Span("Fecha Vencimiento: ").FontSize(8);
-                            x.Span(_invoice.DueDate?.ToString("dd-MM-yyyy") ?? "31-12-2028").SemiBold().FontSize(8).FontColor(Colors.Black);
+                            string due = _dgiiMetadata?.FechaVencimientoSecuencia ?? _invoice.DueDate?.ToString("dd-MM-yyyy") ?? "31-12-2028";
+                            x.Span(due).SemiBold().FontSize(8).FontColor(Colors.Black);
                         });
                     });
                 });
@@ -140,6 +167,27 @@ namespace SITRA.Core.Documents
                         col.Item().Text("COMPRADOR").FontSize(8).SemiBold().FontColor(Colors.Grey.Darken2);
                         col.Item().Text(_dgiiMetadata?.RazonSocialComprador ?? _invoice.InvoiceBuyer?.Buyer?.Name ?? "CLIENTE FINAL").SemiBold().FontSize(11).FontColor(Colors.Black);
                         col.Item().Text($"RNC/Cedula: {_dgiiMetadata?.CompradorRnc ?? _invoice.InvoiceBuyer?.Buyer?.Identification ?? "N/A"}").FontSize(9);
+                        
+                        if (!string.IsNullOrEmpty(_dgiiMetadata?.DireccionComprador))
+                        {
+                            col.Item().Text(_dgiiMetadata.DireccionComprador).FontSize(8).FontColor(Colors.Grey.Darken2);
+                        }
+                        
+                        string buyerLocation = string.Join(", ", new[] 
+                        { 
+                            Helpers.LocationMappingHelper.GetMunicipalityName(_dgiiMetadata?.MunicipioComprador), 
+                            Helpers.LocationMappingHelper.GetProvinceName(_dgiiMetadata?.ProvinciaComprador) 
+                        }.Where(s => !string.IsNullOrEmpty(s)));
+                        
+                        if (!string.IsNullOrEmpty(buyerLocation))
+                        {
+                            col.Item().Text(buyerLocation).FontSize(8).FontColor(Colors.Grey.Darken2);
+                        }
+
+                        if (!string.IsNullOrEmpty(_dgiiMetadata?.CorreoComprador))
+                        {
+                            col.Item().Text($"Email: {_dgiiMetadata.CorreoComprador}").FontSize(8).FontColor(Colors.Grey.Darken2);
+                        }
                     });
 
                     // Right: Payment details
@@ -179,16 +227,29 @@ namespace SITRA.Core.Documents
                             c.BorderBottom(1.5f).BorderColor(AccentColor).PaddingVertical(5).DefaultTextStyle(x => x.SemiBold().FontSize(8).FontColor(AccentColor));
                     });
 
-                    foreach (var item in _invoice.InvoiceItems)
+                    if (_dgiiMetadata?.Items != null && _dgiiMetadata.Items.Any())
                     {
-                        table.Cell().Element(RowStyle).Text(item.Qty.ToString("N2"));
-                        table.Cell().Element(RowStyle).Text(item.Item?.Name ?? "N/A");
-                        table.Cell().Element(RowStyle).AlignRight().Text(item.BasePrice.ToString("N2"));
-                        table.Cell().Element(RowStyle).AlignRight().Text((item.BasePrice * item.Qty).ToString("N2")).SemiBold().FontColor(Colors.Black);
-
-                        static IContainer RowStyle(IContainer c) => 
-                            c.BorderBottom(0.5f).BorderColor(Colors.Grey.Lighten2).PaddingVertical(6);
+                        foreach (var item in _dgiiMetadata.Items)
+                        {
+                            table.Cell().Element(RowStyle).Text(item.CantidadItem.ToString("N2"));
+                            table.Cell().Element(RowStyle).Text(item.NombreItem ?? "N/A");
+                            table.Cell().Element(RowStyle).AlignRight().Text(item.PrecioUnitarioItem.ToString("N2"));
+                            table.Cell().Element(RowStyle).AlignRight().Text(item.MontoItem.ToString("N2")).SemiBold().FontColor(Colors.Black);
+                        }
                     }
+                    else
+                    {
+                        foreach (var item in _invoice.InvoiceItems)
+                        {
+                            table.Cell().Element(RowStyle).Text(item.Qty.ToString("N2"));
+                            table.Cell().Element(RowStyle).Text(item.Item?.Name ?? "N/A");
+                            table.Cell().Element(RowStyle).AlignRight().Text(item.BasePrice.ToString("N2"));
+                            table.Cell().Element(RowStyle).AlignRight().Text((item.BasePrice * item.Qty).ToString("N2")).SemiBold().FontColor(Colors.Black);
+                        }
+                    }
+
+                    static IContainer RowStyle(IContainer c) => 
+                        c.BorderBottom(0.5f).BorderColor(Colors.Grey.Lighten2).PaddingVertical(6);
                 });
 
                 // Custom spacer before total section footer block
@@ -204,7 +265,7 @@ namespace SITRA.Core.Documents
                         {
                             try
                             {
-                                string qrUrl = DgiiQrUrlHelper.BuildDgiiQrUrl(_dgiiMetadata);
+                                string qrUrl = DgiiQrUrlHelper.BuildDgiiQrUrl(_dgiiMetadata, _dgiiSettings?.ConsultaTimbreUrl, _dgiiSettings?.ConsultaTimbreFCUrl);
                                 byte[] qrBytes = QrCodeGeneratorService.GenerateQrCodeBytes(qrUrl);
                                 col.Item().Width(100).Height(100).Image(qrBytes, ImageScaling.FitArea);
                                 
@@ -235,9 +296,27 @@ namespace SITRA.Core.Documents
                     {
                         // To reflect the screenshot visual exactly, we create lines with borders
                         
-                        // 1. Calculo de montos
-                        double totalExento = _invoice.InvoiceItems.Where(i => i.Item?.ItemTaxes == null || !i.Item.ItemTaxes.Any()).Sum(i => i.TotalPrice);
-                        double totalGravado = _invoice.TotalAmount - totalExento;
+                        // 1. Calculo de montos de contingencia o fallback
+                        double totalExento = 0;
+                        double totalGravado = 0;
+                        double totalItbis = 0;
+                        double totalGeneral = 0;
+
+                        if (_dgiiMetadata != null)
+                        {
+                            totalGeneral = (double)_dgiiMetadata.MontoTotal;
+                            totalGravado = (double)_dgiiMetadata.MontoGravadoTotal;
+                            totalItbis = (double)_dgiiMetadata.TotalItbis;
+                            totalExento = totalGeneral - totalGravado - totalItbis;
+                            if (totalExento < 0) totalExento = 0;
+                        }
+                        else
+                        {
+                            totalExento = _invoice.InvoiceItems.Where(i => i.Item?.ItemTaxes == null || !i.Item.ItemTaxes.Any()).Sum(i => i.TotalPrice);
+                            totalGeneral = (double)_invoice.TotalPrice;
+                            totalItbis = (double)_invoice.TotalTaxes;
+                            totalGravado = (double)_invoice.TotalAmount - totalExento;
+                        }
 
                         col.Item().Element(TotalLineStyle).Row(r =>
                         {
@@ -254,14 +333,14 @@ namespace SITRA.Core.Documents
                         col.Item().Element(TotalLineStyle).Row(r =>
                         {
                             r.RelativeItem().Text("TOTAL ITBIS").FontSize(8).SemiBold();
-                            r.RelativeItem().AlignRight().Text(_invoice.TotalTaxes.ToString("N2")).SemiBold().FontColor(Colors.Black);
+                            r.RelativeItem().AlignRight().Text(totalItbis.ToString("N2")).SemiBold().FontColor(Colors.Black);
                         });
 
                         // The final Heavy Line for TOTAL GENERAL
                         col.Item().PaddingTop(3).BorderBottom(1.5f).BorderColor(AccentColor).Row(r =>
                         {
                             r.RelativeItem().PaddingBottom(2).Text("TOTAL GENERAL").FontSize(9).SemiBold();
-                            r.RelativeItem().AlignRight().PaddingBottom(2).Text($"{_invoice.TotalPrice:N2}").FontSize(10).SemiBold().FontColor(Colors.Black);
+                            r.RelativeItem().AlignRight().PaddingBottom(2).Text(totalGeneral.ToString("N2")).FontSize(10).SemiBold().FontColor(Colors.Black);
                         });
                         
                         static IContainer TotalLineStyle(IContainer c) => 
@@ -293,6 +372,8 @@ namespace SITRA.Core.Documents
                 "43" => "Gastos Menores Electrónicos",
                 "44" => "Regímenes Especiales Electrónicos",
                 "45" => "Gubernamentales Electrónicos",
+                "46" => "Comprobante de Exportaciones Electrónico",
+                "47" => "Comprobante para Pagos al Exterior Electrónico",
                 _ => "Factura Electrónica"
             };
         }

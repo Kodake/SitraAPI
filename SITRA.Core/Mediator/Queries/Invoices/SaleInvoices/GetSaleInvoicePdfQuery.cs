@@ -57,19 +57,39 @@ namespace SITRA.Core.Mediator.Queries.Invoices.SaleInvoices
             DgiiPdfMetadata? dgiiMeta = null;
             if (!string.IsNullOrEmpty(saleInvoice.FiscalSupportNumber))
             {
+                // Prefer the resolved company RucNumber for the XML directory path retrieval
+                string effectiveRnc = company?.RucNumber ?? _dgiiSettings.DefaultRNC;
+                
                 dgiiMeta = DgiiXmlMetadataReader.TryExtractMetadata(
                     _dgiiSettings.StoragePath,
-                    _dgiiSettings.DefaultRNC,
+                    effectiveRnc,
                     saleInvoice.FiscalSupportNumber
                 );
             }
 
-            var invoiceDocument = new InvoiceDocument(saleInvoice, dgiiMeta, company);
-            var filePath = Path.Combine(Path.GetTempPath(), $"Sale-Invoice_{Id}.pdf");
+            var invoiceDocument = new InvoiceDocument(saleInvoice, dgiiMeta, company, _dgiiSettings);
+            var finalRnc = company?.RucNumber ?? dgiiMeta?.EmisorRnc ?? _dgiiSettings.DefaultRNC;
+            var sanitizedNcf = saleInvoice.FiscalSupportNumber?.Replace("/", "-") ?? Id.ToString();
+            bool isRfce = dgiiMeta?.IsRfce == true;
+            if (!isRfce && !string.IsNullOrEmpty(saleInvoice.FiscalSupportNumber) && 
+                saleInvoice.FiscalSupportNumber.StartsWith("E32", StringComparison.OrdinalIgnoreCase) && 
+                saleInvoice.TotalAmount < 250000)
+            {
+                isRfce = true;
+            }
+
+            var suffix = isRfce ? "_RFCE" : "";
+            var fileName = $"{finalRnc}{sanitizedNcf}{suffix}.pdf";
+
+            var filePath = Path.Combine(Path.GetTempPath(), fileName);
             invoiceDocument.GeneratePdf(filePath);
 
             var fileBytes = await File.ReadAllBytesAsync(filePath, cancellationToken);
-            var file = (fileBytes, $"Sale-Invoice_{Id}.pdf");
+            
+            // Clean up the temporary file so it doesn't pollute temp directory
+            if (File.Exists(filePath)) File.Delete(filePath);
+
+            var file = (fileBytes, fileName);
             return file;
         }
     }

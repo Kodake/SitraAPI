@@ -28,13 +28,18 @@ namespace SITRA.Core.Mediator.Queries.Invoices.SaleInvoices
                 return null;
             }
 
+            var fileName = $"Reporte-Ventas-{From:dd-MM-yyyy}_al_{To:dd-MM-yyyy}.pdf";
+            var filePath = Path.Combine(Path.GetTempPath(), fileName);
+            
             var invoiceDocument = new SaleInvoiceReportDocument(saleInvoices, From, To);
-            var filePath = Path.Combine(Path.GetTempPath(), $"Sales-Report_{Guid.NewGuid()}.pdf");
             invoiceDocument.GeneratePdf(filePath);
 
             var fileBytes = await File.ReadAllBytesAsync(filePath);
-            var file = (fileBytes, $"Sales-Report-{From:dd-MM-yyyy}_to_{To:dd-MM-yyyy}.pdf");
 
+            // Final cleanup trigger
+            if (File.Exists(filePath)) File.Delete(filePath);
+
+            var file = (fileBytes, fileName);
             return file;
         }
     }

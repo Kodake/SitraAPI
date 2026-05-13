@@ -17,6 +17,8 @@ namespace SITRA.Core.Models.Dgii
         public string ConsultaUrl { get; set; } = string.Empty;
         public string RecepcionResumenUrl { get; set; } = string.Empty;
         public string AprobacionComercialUrl { get; set; } = string.Empty;
+        public string ConsultaTimbreUrl { get; set; } = string.Empty;
+        public string ConsultaTimbreFCUrl { get; set; } = string.Empty;
         
         // Defaults
         public string DefaultRNC { get; set; } = string.Empty;

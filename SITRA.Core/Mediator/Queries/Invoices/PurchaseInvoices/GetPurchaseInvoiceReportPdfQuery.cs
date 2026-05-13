@@ -29,13 +29,17 @@ namespace SITRA.Core.Mediator.Queries.Invoices.PurchaseInvoices
                 return null;
             }
 
+            var fileName = $"Reporte-Compras-{From:dd-MM-yyyy}_al_{To:dd-MM-yyyy}.pdf";
+            var filePath = Path.Combine(Path.GetTempPath(), fileName);
+
             var invoiceDocument = new PurchaseInvoiceReportDocument(saleInvoices, From, To);
-            var filePath = Path.Combine(Path.GetTempPath(), $"Purchases-Report_{Guid.NewGuid()}.pdf");
             invoiceDocument.GeneratePdf(filePath);
 
             var fileBytes = await File.ReadAllBytesAsync(filePath);
-            var file = (fileBytes, $"Purchases-Report-{From:dd-MM-yyyy}_to_{To:dd-MM-yyyy}.pdf");
+            
+            if (File.Exists(filePath)) File.Delete(filePath);
 
+            var file = (fileBytes, fileName);
             return file;
         }
     }

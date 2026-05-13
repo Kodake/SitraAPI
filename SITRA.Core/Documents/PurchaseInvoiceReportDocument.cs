@@ -18,6 +18,16 @@ namespace SITRA.Core.Documents
             To = to;
         }
 
+        public override DocumentMetadata GetMetadata()
+        {
+            return new DocumentMetadata
+            {
+                Title = $"Reporte de Compras ({From:dd-MM-yyyy} - {To:dd-MM-yyyy})",
+                Subject = "Reporte de Compras",
+                Author = "SITRA"
+            };
+        }
+
         protected override void BuildHeader(IContainer container)
         {
             container.Component(new ThermalHeaderComponent(null, SITRA.Core.Helpers.Utilities.PurchasesReportTitle));

@@ -57,19 +57,31 @@ namespace SITRA.Core.Mediator.Queries.Invoices.PurchaseInvoices
             DgiiPdfMetadata? dgiiMeta = null;
             if (!string.IsNullOrEmpty(purchaseInvoice.FiscalSupportNumber))
             {
+                // Prefer the resolved company RucNumber for directory retrieval
+                string effectiveRnc = company?.RucNumber ?? _dgiiSettings.DefaultRNC;
+
                 dgiiMeta = DgiiXmlMetadataReader.TryExtractMetadata(
                     _dgiiSettings.StoragePath,
-                    _dgiiSettings.DefaultRNC,
+                    effectiveRnc,
                     purchaseInvoice.FiscalSupportNumber
                 );
             }
 
-            var invoiceDocument = new InvoiceDocument(purchaseInvoice, dgiiMeta, company);
-            var filePath = Path.Combine(Path.GetTempPath(), $"Purchase-Invoice_{Id}.pdf");
+            var invoiceDocument = new InvoiceDocument(purchaseInvoice, dgiiMeta, company, _dgiiSettings);
+            var finalRnc = company?.RucNumber ?? dgiiMeta?.EmisorRnc ?? _dgiiSettings.DefaultRNC;
+            var sanitizedNcf = purchaseInvoice.FiscalSupportNumber?.Replace("/", "-") ?? Id.ToString();
+            var suffix = dgiiMeta?.IsRfce == true ? "_RFCE" : "";
+            var fileName = $"{finalRnc}{sanitizedNcf}{suffix}.pdf";
+
+            var filePath = Path.Combine(Path.GetTempPath(), fileName);
             invoiceDocument.GeneratePdf(filePath);
 
             var fileBytes = await File.ReadAllBytesAsync(filePath, cancellationToken);
-            var file = (fileBytes, $"Purchase-Invoice_{Id}.pdf");
+            
+            // Clean up the temporary file 
+            if (File.Exists(filePath)) File.Delete(filePath);
+
+            var file = (fileBytes, fileName);
             return file;
         }
     }

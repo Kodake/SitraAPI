@@ -6,7 +6,7 @@ namespace SITRA.Core.Helpers
 {
     public static class DgiiQrUrlHelper
     {
-        public static string BuildDgiiQrUrl(DgiiPdfMetadata data)
+        public static string BuildDgiiQrUrl(DgiiPdfMetadata data, string? customUrl = null, string? customFcUrl = null)
         {
             decimal total = data.MontoTotal;
             bool isTipo32 = data.TipoEcf == "32";
@@ -15,9 +15,12 @@ namespace SITRA.Core.Helpers
             string normalizedComprador = NormalizeQrDigits(data.CompradorRnc);
             string normalizedEmisor = NormalizeQrDigits(data.EmisorRnc);
 
+            string resolvedFcUrl = string.IsNullOrEmpty(customFcUrl) ? "https://fc.dgii.gov.do/CerteCF/ConsultaTimbreFC" : customFcUrl;
+            string resolvedUrl = string.IsNullOrEmpty(customUrl) ? "https://ecf.dgii.gov.do/CerteCF/ConsultaTimbre" : customUrl;
+
             string baseUrl = isTipo32 && total <= 250000
-                ? "https://fc.dgii.gov.do/CerteCF/ConsultaTimbreFC"
-                : "https://ecf.dgii.gov.do/CerteCF/ConsultaTimbre";
+                ? resolvedFcUrl
+                : resolvedUrl;
 
             var builder = new UriBuilder(baseUrl);
             var query = HttpUtility.ParseQueryString(string.Empty);

@@ -16,6 +16,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
             services.AddTransient<IRequestHandler<CreatePurchaseInvoiceCommand, CreatePurchaseInvoiceDTO>, CreatePurchaseInvoiceCommandHandler>();
             services.AddTransient<IRequestHandler<GetPurchaseInvoicePdfQuery, (byte[] FileBytes, string FileName)?>, QueryHandler<GetPurchaseInvoicePdfQuery, (byte[] FileBytes, string FileName)?>>();
             services.AddTransient<IRequestHandler<GetPurchaseInvoiceReportPdfQuery, (byte[] FileBytes, string FileName)?>, QueryHandler<GetPurchaseInvoiceReportPdfQuery, (byte[] FileBytes, string FileName)?>>();
+            services.AddTransient<IRequestHandler<DownloadPurchaseInvoicePdfQuery, (byte[] FileBytes, string FileName)?>, QueryHandler<DownloadPurchaseInvoicePdfQuery, (byte[] FileBytes, string FileName)?>>();
 
             return services;
         }
