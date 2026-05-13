@@ -24,6 +24,7 @@ namespace SITRA.Core.Models.Dgii
         public decimal MontoGravadoTotal { get; set; }
         public decimal TotalItbis { get; set; }
         public bool IsRfce { get; set; }
+        public string? NcfModificado { get; set; }
 
         public List<DgiiPdfItemMetadata> Items { get; set; } = new();
     }
