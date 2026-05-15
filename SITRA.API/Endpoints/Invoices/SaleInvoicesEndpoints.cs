@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
+using Microsoft.Extensions.Options;
 using SITRA.API.Attributes;
 using SITRA.API.Filters;
 using SITRA.API.Helpers;
@@ -9,6 +10,7 @@ using SITRA.Core.DTOs;
 using SITRA.Core.DTOs.Invoices.SaleInvoices;
 using SITRA.Core.Mediator.Commands.Invoices.SaleInvoices;
 using SITRA.Core.Mediator.Queries.Invoices.SaleInvoices;
+using SITRA.Core.Models.Dgii;
 
 namespace SITRA.API.Endpoints.Invoices
 {
@@ -85,17 +87,31 @@ namespace SITRA.API.Endpoints.Invoices
             return TypedResults.Ok(result);
         }
 
-        static async Task<Results<FileContentHttpResult, NotFound>> GeneratePdf(
+        static async Task<IResult> GeneratePdf(
             [FromRoute] Guid invoiceId,
             [FromServices] IMediator mediator,
-            [FromServices] Microsoft.Extensions.Options.IOptions<SITRA.Core.Models.Dgii.DgiiSettings> dgiiSettings)
+            [FromServices] IOptions<DgiiSettings> dgiiSettings)
         {
-            var query = new GetSaleInvoicePdfQuery(invoiceId, dgiiSettings.Value);
-            var result = await mediator.Send(query);
+            try
+            {
+                var query = new GetSaleInvoicePdfQuery(
+                    invoiceId,
+                    dgiiSettings.Value);
 
-            return result == null
-                ? TypedResults.NotFound()
-                : TypedResults.File(result.Value.FileBytes, "application/pdf", result.Value.FileName);
+                var result = await mediator.Send(query);
+
+                if (result == null)
+                    return Results.NotFound();
+
+                return Results.File(
+                    result.Value.FileBytes,
+                    "application/pdf",
+                    result.Value.FileName);
+            }
+            catch (OperationCanceledException)
+            {
+                return Results.Empty;
+            }
         }
 
         static async Task<Results<FileContentHttpResult, NotFound>> DownloadPdf(
@@ -110,7 +126,6 @@ namespace SITRA.API.Endpoints.Invoices
                 ? TypedResults.NotFound()
                 : TypedResults.File(result.Value.FileBytes, "application/pdf", result.Value.FileName);
         }
-
 
         static async Task<Results<FileContentHttpResult, NotFound>> GenerateReceiptPdf(
             [FromRoute] Guid invoiceId,

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using QuestPDF.Infrastructure;
 using Serilog;
 using SITRA.API.Extensions;
 using SITRA.Core.Entities.Auths;
@@ -17,6 +18,12 @@ using SITRA.Infrastructure.Persistence;
 using SITRA.Infrastructure.Repositories;
 using SITRA.Infrastructure.Services;
 var builder = WebApplication.CreateBuilder(args);
+
+QuestPDF.Settings.License = LicenseType.Community;
+QuestPDF.Settings.EnableCaching = true;
+
+// Opcional para debugging
+QuestPDF.Settings.EnableDebugging = builder.Environment.IsDevelopment();
 
 // Serilog
 Log.Logger = new LoggerConfiguration()

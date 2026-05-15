@@ -13,7 +13,6 @@ x86/
 
 # Visual Studio files
 .vs/
-GeneratedData/
 Documentations/
 Printed Examples/
 *.user

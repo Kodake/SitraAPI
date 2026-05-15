@@ -142,13 +142,27 @@ namespace SITRA.Core.Documents
                             string emission = _dgiiMetadata?.FechaEmision ?? _invoice.Date.ToString("dd-MM-yyyy");
                             x.Span(emission).SemiBold().FontSize(8).FontColor(Colors.Black);
                         });
+                                                
+                        var shouldShowDueDate =
+                            typeCode is not ("32" or "34");
 
-                        sub.Item().AlignCenter().Text(x =>
+                        if (shouldShowDueDate)
                         {
-                            x.Span("Fecha Vencimiento: ").FontSize(8);
-                            string due = _dgiiMetadata?.FechaVencimientoSecuencia ?? _invoice.DueDate?.ToString("dd-MM-yyyy") ?? "31-12-2028";
-                            x.Span(due).SemiBold().FontSize(8).FontColor(Colors.Black);
-                        });
+                            sub.Item().AlignCenter().Text(x =>
+                            {
+                                x.Span("Fecha Vencimiento: ").FontSize(8);
+
+                                string due =
+                                    _dgiiMetadata?.FechaVencimientoSecuencia
+                                    ?? _invoice.DueDate?.ToString("dd-MM-yyyy")
+                                    ?? "31-12-2028";
+
+                                x.Span(due)
+                                    .SemiBold()
+                                    .FontSize(8)
+                                    .FontColor(Colors.Black);
+                            });
+                        }
 
                         if (typeCode == "33" || typeCode == "34")
                         {

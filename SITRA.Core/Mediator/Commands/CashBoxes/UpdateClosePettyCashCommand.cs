@@ -18,8 +18,6 @@ namespace SITRA.Core.Mediator.Commands.CashBoxes
             IMapper mapper,
             CancellationToken cancellationToken)
         {
-            QuestPDF.Settings.License = LicenseType.Community;
-
             // All validations are handled by FluentValidation before this action is executed
             var user = await unitOfWork.UserService.GetUserAsync();
 
