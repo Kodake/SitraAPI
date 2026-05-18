@@ -4,5 +4,6 @@ namespace SITRA.Core.Interfaces
     {
         string SignXml(string xmlString);
         string SignAuthenticationSeed(string seedXmlString);
+        bool ValidateXmlSignature(string signedXmlString, string caCertPath);
     }
 }

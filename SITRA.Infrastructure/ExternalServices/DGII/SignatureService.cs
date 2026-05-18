@@ -7,6 +7,7 @@ using XmlElement = System.Xml.XmlElement;
 using SITRA.Core.Interfaces;
 using SITRA.Core.DTOs.DGII;
 using SITRA.Core.Models.Dgii;
+using System.Linq;
 
 namespace SITRA.Infrastructure.ExternalServices.DGII
 {
@@ -78,6 +79,50 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
         public string SignAuthenticationSeed(string seedXmlString)
         {
             return SignXml(seedXmlString);
+        }
+
+        public bool ValidateXmlSignature(string signedXmlString, string caCertPath)
+        {
+            try
+            {
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.PreserveWhitespace = true;
+                xmlDoc.LoadXml(signedXmlString);
+
+                XmlNodeList nodeList = xmlDoc.GetElementsByTagName("Signature", "http://www.w3.org/2000/09/xmldsig#");
+                if (nodeList.Count == 0) return false;
+
+                SignedXml signedXml = new SignedXml(xmlDoc);
+                signedXml.LoadXml((XmlElement)nodeList[0]!);
+
+                if (!signedXml.CheckSignature()) return false;
+
+                var nsmgr = new XmlNamespaceManager(xmlDoc.NameTable);
+                nsmgr.AddNamespace("ds", "http://www.w3.org/2000/09/xmldsig#");
+                var certNode = nodeList[0]!.SelectSingleNode(".//ds:X509Certificate", nsmgr);
+
+                if (certNode == null) return false;
+
+                byte[] certBytes = Convert.FromBase64String(certNode.InnerText);
+                using X509Certificate2 signingCert = new X509Certificate2(certBytes);
+                using X509Certificate2 caCert = new X509Certificate2(caCertPath);
+
+                using X509Chain chain = new X509Chain();
+                chain.ChainPolicy.RevocationMode = X509RevocationMode.NoCheck;
+                chain.ChainPolicy.ExtraStore.Add(caCert);
+                chain.ChainPolicy.VerificationFlags = X509VerificationFlags.AllowUnknownCertificateAuthority;
+
+                bool isChainValid = chain.Build(signingCert);
+                bool issuedByCa = chain.ChainElements
+                                       .Cast<X509ChainElement>()
+                                       .Any(x => x.Certificate.Thumbprint == caCert.Thumbprint);
+
+                return isChainValid && issuedByCa;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
