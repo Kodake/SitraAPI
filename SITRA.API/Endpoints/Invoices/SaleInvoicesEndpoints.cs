@@ -93,9 +93,9 @@ namespace SITRA.API.Endpoints.Invoices
             [FromServices] Microsoft.Extensions.Options.IOptions<SITRA.Core.Models.Dgii.DgiiSettings> dgiiSettings,
             [FromServices] SITRA.Core.Interfaces.Services.IDgiiStorageService dgiiStorageService)
         {
-            var query = new GetSaleInvoicePdfQuery(invoiceId, dgiiSettings.Value, dgiiStorageService);
-            var result = await mediator.Send(query);
-
+            try
+            {
+                var query = new GetSaleInvoicePdfQuery(invoiceId, dgiiSettings.Value, dgiiStorageService);
                 var result = await mediator.Send(query);
 
                 if (result == null)

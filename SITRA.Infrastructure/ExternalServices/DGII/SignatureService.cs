@@ -22,7 +22,7 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
 
         public string SignXml(string xmlString)
         {
-            string path = _settings.CertificatePath;
+            string path = ResolvePath(_settings.CertificatePath);
             string pass = _settings.CertificatePassword;
 
             XmlDocument xmlDoc = new XmlDocument();
@@ -124,5 +124,7 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
                 return false;
             }
         }
+        private static string ResolvePath(string path) =>
+            Path.IsPathRooted(path) ? path : Path.Combine(AppContext.BaseDirectory, path);
     }
 }

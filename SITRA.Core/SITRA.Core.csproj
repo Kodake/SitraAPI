@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -17,6 +17,36 @@
     <PackageReference Include="QRCoder" Version="1.8.0" />
     <PackageReference Include="QuestPDF" Version="2024.12.1" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.15.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Certificates -->
+    <Content Include="Resources\Certificates\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+      <Link>Resources\Certificates\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Content>
+
+    <!-- Testcases -->
+    <Content Include="Resources\Testcases\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+      <Link>Resources\Testcases\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Content>
+
+    <!-- Schemas -->
+    <Content Include="Resources\Schemas\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+      <Link>Resources\Schemas\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Content>
+
+    <!-- GeneratedData (output folder, kept empty via .gitkeep) -->
+    <Content Include="Resources\GeneratedData\.gitkeep" Condition="Exists('Resources\GeneratedData\.gitkeep')">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+      <Link>Resources\GeneratedData\.gitkeep</Link>
+    </Content>
   </ItemGroup>
 
 </Project>

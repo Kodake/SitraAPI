@@ -8,6 +8,7 @@ using System.Text;
 using System.Xml.Linq;
 using Microsoft.Extensions.Options;
 using SITRA.Core.Interfaces;
+using SITRA.Core.Interfaces.Services;
 using SITRA.Core.Models.Dgii;
 using SITRA.Core.DTOs.DGII;
 
@@ -20,19 +21,22 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
         private readonly IDgiiApiService _dgiiApiService;
         private readonly ISignatureService _signatureService;
         private readonly DgiiSettings _settings;
+        private readonly IDgiiStorageService _storageService;
 
         public DgiiTestService(
             IEnumerable<ITestCasesReader> testCasesReaders,
             IEcfXmlGenerator ecfXmlGenerator,
             IDgiiApiService dgiiApiService,
             ISignatureService signatureService,
-            IOptions<DgiiSettings> settings)
+            IOptionsSnapshot<DgiiSettings> settings,
+            IDgiiStorageService storageService)
         {
             _testCasesReaders = testCasesReaders;
             _ecfXmlGenerator = ecfXmlGenerator;
             _dgiiApiService = dgiiApiService;
             _signatureService = signatureService;
-            _settings = settings.Value;
+            _settings = settings.Get("DgiiTest");
+            _storageService = storageService;
         }
 
         public async Task<DgiiTestSuiteResult> RunTestsAsync(string? ecfType = null)
@@ -54,9 +58,9 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
         {
             var results = new List<DgiiTestResult>();
 
-            if (!File.Exists(_settings.TestFilePath))
+            if (!File.Exists(ResolvePath(_settings.TestFilePath)))
             {
-                throw new FileNotFoundException($"Test dataset not found at: {_settings.TestFilePath}");
+                throw new FileNotFoundException($"Test dataset not found at: {ResolvePath(_settings.TestFilePath)}");
             }
 
             // Step 1: Authentication
@@ -70,7 +74,7 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
             }
 
             // Step 2: Read Test Cases
-            var filePath = forAcecf ? _settings.TestFilePath2 : _settings.TestFilePath;
+            var filePath = ResolvePath(forAcecf ? _settings.TestFilePath2 : _settings.TestFilePath);
 
             using var stream = File.OpenRead(filePath);
             var extension = Path.GetExtension(filePath).ToLower();
@@ -122,7 +126,7 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
                         string xmlSinFirma = _ecfXmlGenerator.GenerateAcecfXml(acecfDoc);
                         xmlFirmado = _signatureService.SignXml(xmlSinFirma);
 
-                        SaveDocumentXml(xmlFirmado, doc.Encabezado.IdDoc.ENCF, doc.Encabezado.Emisor.RNCEmisor, "ACECF");
+                        await SaveDocumentXmlAsync(xmlFirmado, doc.Encabezado.IdDoc.ENCF, doc.Encabezado.Emisor.RNCEmisor, "ACECF");
                     }
                     else if (forRfce)
                     {
@@ -131,7 +135,7 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
                         string signedBaseEcf = _signatureService.SignXml(baseEcfXml);
 
                         // 2. Save the base e-CF in the "32" folder (always archive individual invoices)
-                        SaveDocumentXml(signedBaseEcf, doc.Encabezado.IdDoc.ENCF, doc.Encabezado.Emisor.RNCEmisor, "32");
+                        await SaveDocumentXmlAsync(signedBaseEcf, doc.Encabezado.IdDoc.ENCF, doc.Encabezado.Emisor.RNCEmisor, "32");
 
                         // 3. Extract the security code and generate RFCE
                         string securityCode = GetSecurityCodeFromSignedXml(signedBaseEcf);
@@ -142,14 +146,14 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
                         xmlFirmado = _signatureService.SignXml(xmlSinFirma);
 
                         // Save the RFCE summary
-                        SaveDocumentXml(xmlFirmado, doc.Encabezado.IdDoc.ENCF, doc.Encabezado.Emisor.RNCEmisor, "RFCE");
+                        await SaveDocumentXmlAsync(xmlFirmado, doc.Encabezado.IdDoc.ENCF, doc.Encabezado.Emisor.RNCEmisor, "RFCE");
                     }
                     else if (doc.Encabezado.IdDoc.TipoeCF == "32" && doc.Encabezado.Totales.MontoTotal < 250000)
                     {
                         // Automatic redirect for B2C < 250k: Save individual E32, then generate and send RFCE instead
                         string baseEcfXml = _ecfXmlGenerator.GenerateEcfXml(doc);
                         string signedBaseEcf = _signatureService.SignXml(baseEcfXml);
-                        SaveDocumentXml(signedBaseEcf, doc.Encabezado.IdDoc.ENCF, doc.Encabezado.Emisor.RNCEmisor, "32");
+                        await SaveDocumentXmlAsync(signedBaseEcf, doc.Encabezado.IdDoc.ENCF, doc.Encabezado.Emisor.RNCEmisor, "32");
 
                         string securityCode = GetSecurityCodeFromSignedXml(signedBaseEcf);
                         var rfceDoc = MapToRfce(doc);
@@ -159,7 +163,7 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
                         xmlFirmado = _signatureService.SignXml(rfceXmlSinFirma);
 
                         // Save and prepare for RFCE sending
-                        SaveDocumentXml(xmlFirmado, doc.Encabezado.IdDoc.ENCF, doc.Encabezado.Emisor.RNCEmisor, "RFCE");
+                        await SaveDocumentXmlAsync(xmlFirmado, doc.Encabezado.IdDoc.ENCF, doc.Encabezado.Emisor.RNCEmisor, "RFCE");
                         useRfceChannel = true;
                     }
                     else
@@ -168,7 +172,7 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
                         string xmlSinFirma = _ecfXmlGenerator.GenerateEcfXml(doc);
                         xmlFirmado = _signatureService.SignXml(xmlSinFirma);
 
-                        SaveDocumentXml(xmlFirmado, doc.Encabezado.IdDoc.ENCF, doc.Encabezado.Emisor.RNCEmisor, doc.Encabezado.IdDoc.TipoeCF);
+                        await SaveDocumentXmlAsync(xmlFirmado, doc.Encabezado.IdDoc.ENCF, doc.Encabezado.Emisor.RNCEmisor, doc.Encabezado.IdDoc.TipoeCF);
                     }
 
                     string rawResponse = useAcecfChannel
@@ -280,49 +284,37 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
             };
         }
 
-        private void SaveDocumentXml(string xml, string encf, string rnc, string docType)
+        private async Task SaveDocumentXmlAsync(string xml, string encf, string rnc, string docType)
         {
             try
             {
-                string baseDir = !string.IsNullOrEmpty(_settings.StoragePath)
-                    ? _settings.StoragePath
-                    : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "DgiiDocuments");
-
-                // Organizar por RNC y Tipo de Documento para mejores prácticas de auditoría
-                string saveDir = Path.Combine(baseDir, rnc, docType);
-
-                if (!Directory.Exists(saveDir))
-                {
-                    Directory.CreateDirectory(saveDir);
-                }
-
-                // Nomenclature: {RNCComprador}{ENCF}_ACECF.xml or {RNCEmisor}{ENCF}_RFCE.xml or {RNCEmisor}{ENCF}.xml
+                // Determine the file name based on doc type
                 string fileName = docType switch
                 {
                     "RFCE" => $"{rnc}{encf}_RFCE.xml",
-                    "ACECF" => $"{xml.Substring(xml.IndexOf("<RNCComprador>") + 14, 9)}{encf}_ACECF.xml", // Quick extraction or pass RNCComprador
+                    "ACECF" => BuildAcecfFileName(xml, encf),
                     _ => $"{rnc}{encf}.xml"
                 };
 
-                // Better way: let's just pass the RNC to the method if it's different.
-                // Actually, I'll just use a more robust way to get it from XML or just simplify.
-                if (docType == "ACECF")
-                {
-                    // Try to find RNCComprador in XML
-                    var docX = XDocument.Parse(xml);
-                    var rncComprador = docX.Descendants("RNCComprador").FirstOrDefault()?.Value;
-                    if (!string.IsNullOrEmpty(rncComprador))
-                    {
-                        fileName = $"{rncComprador}{encf}_ACECF.xml";
-                    }
-                }
-                string filePath = Path.Combine(saveDir, fileName);
-                File.WriteAllText(filePath, xml, new UTF8Encoding(false));
+                await _storageService.SaveDocumentXmlAsync(xml, rnc, docType, fileName);
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Failed to save DGII XML: {ex.Message}");
             }
+        }
+
+        private static string BuildAcecfFileName(string xml, string encf)
+        {
+            try
+            {
+                var docX = XDocument.Parse(xml);
+                var rncComprador = docX.Descendants("RNCComprador").FirstOrDefault()?.Value;
+                if (!string.IsNullOrEmpty(rncComprador))
+                    return $"{rncComprador}{encf}_ACECF.xml";
+            }
+            catch { }
+            return $"{encf}_ACECF.xml";
         }
 
         private static string GetSecurityCodeFromSignedXml(string signedXml)
@@ -406,5 +398,7 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
 
             return rfce;
         }
+        private static string ResolvePath(string path) =>
+            Path.IsPathRooted(path) ? path : Path.Combine(AppContext.BaseDirectory, path);
     }
 }

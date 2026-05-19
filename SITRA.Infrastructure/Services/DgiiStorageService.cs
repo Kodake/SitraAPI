@@ -15,6 +15,7 @@ namespace SITRA.Infrastructure.Services
     {
         private readonly DgiiSettings _settings;
         private readonly string _connectionString;
+        private BlobContainerClient? _containerClient;
 
         public DgiiStorageService(IOptions<DgiiSettings> options, IConfiguration configuration)
         {
@@ -22,18 +23,36 @@ namespace SITRA.Infrastructure.Services
             _connectionString = configuration.GetConnectionString("AzureStorage") ?? string.Empty;
         }
 
+        // Ensures the container exists and returns the client (lazy, idempotent)
+        private async Task<BlobContainerClient> GetContainerAsync()
+        {
+            if (_containerClient is null)
+            {
+                _containerClient = new BlobContainerClient(_connectionString, _settings.AzureContainerName);
+                await _containerClient.CreateIfNotExistsAsync(PublicAccessType.None);
+            }
+            return _containerClient;
+        }
+
+        private async Task<BlobClient> GetBlobClientAsync(string rawPath)
+        {
+            var container = await GetContainerAsync();
+            string blobPath = $"{_settings.Environment}/{rawPath}".Replace("\\", "/");
+            return container.GetBlobClient(blobPath);
+        }
+
         public async Task<byte[]> ReadCertificateAsync()
         {
             if (_settings.UseAzureStorage)
             {
-                var blobClient = GetBlobClient(_settings.CertificatePath);
+                var blobClient = await GetBlobClientAsync(_settings.CertificatePath);
                 using var ms = new MemoryStream();
                 await blobClient.DownloadToAsync(ms);
                 return ms.ToArray();
             }
             else
             {
-                return await File.ReadAllBytesAsync(_settings.CertificatePath);
+                return await File.ReadAllBytesAsync(ResolvePath(_settings.CertificatePath));
             }
         }
 
@@ -41,13 +60,13 @@ namespace SITRA.Infrastructure.Services
         {
             if (_settings.UseAzureStorage)
             {
-                var blobClient = GetBlobClient(relativePath);
+                var blobClient = await GetBlobClientAsync(relativePath);
                 var response = await blobClient.DownloadStreamingAsync();
                 return response.Value.Content;
             }
             else
             {
-                return File.OpenRead(relativePath);
+                return File.OpenRead(ResolvePath(relativePath));
             }
         }
 
@@ -55,7 +74,7 @@ namespace SITRA.Infrastructure.Services
         {
             if (_settings.UseAzureStorage)
             {
-                var blobClient = GetBlobClient($"{_settings.StoragePath}/{rnc}/{docType}/{fileName}");
+                var blobClient = await GetBlobClientAsync($"{_settings.StoragePath}/{rnc}/{docType}/{fileName}");
                 if (!await blobClient.ExistsAsync()) return null;
 
                 var response = await blobClient.DownloadContentAsync();
@@ -63,7 +82,7 @@ namespace SITRA.Infrastructure.Services
             }
             else
             {
-                string filePath = Path.Combine(_settings.StoragePath, rnc, docType, fileName);
+                string filePath = Path.Combine(ResolvePath(_settings.StoragePath), rnc, docType, fileName);
                 if (!File.Exists(filePath)) return null;
                 return await File.ReadAllTextAsync(filePath);
             }
@@ -75,12 +94,12 @@ namespace SITRA.Infrastructure.Services
 
             if (_settings.UseAzureStorage && urlOrPath.StartsWith("http", StringComparison.OrdinalIgnoreCase))
             {
-                // urlOrPath is the absolute blob URI, we need to extract the blob name
-                // e.g. https://account.blob.core.windows.net/container/qa/GeneratedData/123/32/file.xml
+                // urlOrPath is the absolute blob URI — extract the blob name after the container segment
                 Uri uri = new Uri(urlOrPath);
                 string blobName = uri.AbsolutePath.Substring($"/{_settings.AzureContainerName}/".Length);
-                var blobClient = GetBlobClient(blobName.Substring(_settings.Environment.Length + 1)); // adjust prefix if needed
-                
+                // Strip the leading environment prefix (e.g. "QA/") already embedded in the URI
+                var blobClient = await GetBlobClientAsync(blobName.Substring(_settings.Environment.Length + 1));
+
                 if (!await blobClient.ExistsAsync()) return null;
                 var response = await blobClient.DownloadContentAsync();
                 return response.Value.Content.ToString();
@@ -96,16 +115,16 @@ namespace SITRA.Infrastructure.Services
         {
             if (_settings.UseAzureStorage)
             {
-                var blobClient = GetBlobClient($"{_settings.StoragePath}/{rnc}/{docType}/{fileName}");
+                var blobClient = await GetBlobClientAsync($"{_settings.StoragePath}/{rnc}/{docType}/{fileName}");
                 using var ms = new MemoryStream(Encoding.UTF8.GetBytes(xml));
                 await blobClient.UploadAsync(ms, overwrite: true);
                 return blobClient.Uri.ToString();
             }
             else
             {
-                string saveDir = Path.Combine(_settings.StoragePath, rnc, docType);
+                string saveDir = Path.Combine(ResolvePath(_settings.StoragePath), rnc, docType);
                 if (!Directory.Exists(saveDir)) Directory.CreateDirectory(saveDir);
-                
+
                 string filePath = Path.Combine(saveDir, fileName);
                 await File.WriteAllTextAsync(filePath, xml, new UTF8Encoding(false));
                 return filePath;
@@ -116,33 +135,26 @@ namespace SITRA.Infrastructure.Services
         {
             if (_settings.UseAzureStorage)
             {
-                // In Azure Blob Storage, we would list blobs in the SchemasPath directory
-                var containerClient = new BlobContainerClient(_connectionString, _settings.AzureContainerName);
+                var container = await GetContainerAsync();
                 string prefix = $"{_settings.Environment}/{_settings.SchemasPath}/".TrimStart('/');
-                
+
                 var files = new System.Collections.Generic.List<string>();
-                await foreach (var blobItem in containerClient.GetBlobsAsync(prefix: prefix))
+                await foreach (var blobItem in container.GetBlobsAsync(prefix: prefix))
                 {
                     if (blobItem.Name.EndsWith(".xsd", StringComparison.OrdinalIgnoreCase))
-                    {
                         files.Add(blobItem.Name);
-                    }
                 }
                 return files.ToArray();
             }
             else
             {
-                if (!Directory.Exists(_settings.SchemasPath)) return Array.Empty<string>();
-                return Directory.GetFiles(_settings.SchemasPath, "*.xsd");
+                string schemasPath = ResolvePath(_settings.SchemasPath);
+                if (!Directory.Exists(schemasPath)) return Array.Empty<string>();
+                return Directory.GetFiles(schemasPath, "*.xsd");
             }
         }
 
-        private BlobClient GetBlobClient(string rawPath)
-        {
-            var containerClient = new BlobContainerClient(_connectionString, _settings.AzureContainerName);
-            // Prepend the environment folder to separate QA, Prod, etc.
-            string blobPath = $"{_settings.Environment}/{rawPath}".Replace("\\", "/");
-            return containerClient.GetBlobClient(blobPath);
-        }
+        private static string ResolvePath(string path) =>
+            Path.IsPathRooted(path) ? path : Path.Combine(AppContext.BaseDirectory, path);
     }
 }
