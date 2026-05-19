@@ -13,8 +13,6 @@ namespace SITRA.Core.Mediator.Queries.CashBoxes
             IMapper mapper,
             CancellationToken cancellationToken)
         {
-            QuestPDF.Settings.License = LicenseType.Community;
-
             // 1?? Call existing command to get PettyCashDTO
             var pettyCashQuery = new GetPettyCashByUserIdQuery();
             var pettyCashDto = await mediator.Send(pettyCashQuery, cancellationToken);
