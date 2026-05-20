@@ -91,13 +91,19 @@ namespace SITRA.API.Controllers
         }
 
         [HttpPost("/fe/autenticacion/api/validacioncertificado")]
-        public async Task<IActionResult> ValidarSemillaAsync([FromBody] ValidarSemillaRequest request)
+        public async Task<IActionResult> ValidarSemillaAsync(IFormFile xml)
         {
             try
             {
-                if (request == null || string.IsNullOrWhiteSpace(request.SeedXmlSigned))
+                if (xml == null || xml.Length == 0)
                 {
-                    return BadRequest("SeedXmlSigned is required");
+                    return BadRequest("xml file is required");
+                }
+
+                string xmlContent;
+                using (var reader = new StreamReader(xml.OpenReadStream()))
+                {
+                    xmlContent = await reader.ReadToEndAsync();
                 }
 
                 // Obtener ruta del certificado base desde el proyecto
@@ -106,7 +112,7 @@ namespace SITRA.API.Controllers
 
                 if (System.IO.File.Exists(caCertPath))
                 {
-                    bool isValidSignature = _signatureService.ValidateXmlSignature(request.SeedXmlSigned, caCertPath);
+                    bool isValidSignature = _signatureService.ValidateXmlSignature(xmlContent, caCertPath);
 
                     if (!isValidSignature)
                     {
@@ -114,7 +120,7 @@ namespace SITRA.API.Controllers
                     }
                 }
 
-                var result = await _dgiiApiService.GetTokenAsync(request.SeedXmlSigned);
+                var result = await _dgiiApiService.GetTokenAsync(xmlContent);
                 return Ok(new { token = result });
             }
             catch (System.Exception ex)
@@ -126,10 +132,87 @@ namespace SITRA.API.Controllers
                 });
             }
         }
-    }
 
-    public class ValidarSemillaRequest
-    {
-        public string SeedXmlSigned { get; set; } = string.Empty;
+        [HttpPost("/fe/recepcion/api/ecf")]
+        public async Task<IActionResult> RecepcionEcfAsync()
+        {
+            try
+            {
+                string xmlContent;
+
+                // Soporte dual: leer de multipart (Postman/Swagger) o del raw body (DGII Webhook)
+                if (Request.HasFormContentType && Request.Form.Files.Count > 0)
+                {
+                    var xmlFile = Request.Form.Files[0];
+                    using (var reader = new StreamReader(xmlFile.OpenReadStream()))
+                    {
+                        xmlContent = await reader.ReadToEndAsync();
+                    }
+                }
+                else
+                {
+                    using (var reader = new StreamReader(Request.Body))
+                    {
+                        xmlContent = await reader.ReadToEndAsync();
+                    }
+                }
+
+                if (string.IsNullOrWhiteSpace(xmlContent))
+                {
+                    return Content("<Error>XML content is empty</Error>", "text/xml");
+                }
+
+                string rncEmisor = "133556545"; // Debe ser de 9 u 11 dígitos
+                string rncComprador = "133556545"; // Debe ser de 9 u 11 dígitos
+                string eNcf = "E310000000001";
+
+                try
+                {
+                    var doc = System.Xml.Linq.XDocument.Parse(xmlContent);
+                    
+                    // Buscar elementos ignorando el Namespace (para evitar fallos por prefijos)
+                    var emisorNode = doc.Descendants().FirstOrDefault(x => x.Name.LocalName == "RNCEmisor");
+                    var compradorNode = doc.Descendants().FirstOrDefault(x => x.Name.LocalName == "RNCComprador");
+                    var encfNode = doc.Descendants().FirstOrDefault(x => x.Name.LocalName == "eNCF");
+
+                    if (emisorNode != null && !string.IsNullOrWhiteSpace(emisorNode.Value)) rncEmisor = emisorNode.Value;
+                    if (compradorNode != null && !string.IsNullOrWhiteSpace(compradorNode.Value)) rncComprador = compradorNode.Value;
+                    if (encfNode != null && !string.IsNullOrWhiteSpace(encfNode.Value)) eNcf = encfNode.Value;
+                }
+                catch { } // Si falla el parseo, usamos los valores por defecto
+
+                string fechaHora = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss");
+
+                // Construir el ARECF (Acuse de Recibo) SIN el namespace, ya que el XSD de DGII no lo requiere para ARECF
+                string arecfXml = $@"<ARECF>
+  <DetalleAcusedeRecibo>
+    <Version>1.0</Version>
+    <RNCEmisor>{rncComprador}</RNCEmisor>
+    <RNCComprador>{rncEmisor}</RNCComprador>
+    <eNCF>{eNcf}</eNCF>
+    <Estado>0</Estado>
+    <FechaHoraAcuseRecibo>{fechaHora}</FechaHoraAcuseRecibo>
+  </DetalleAcusedeRecibo>
+</ARECF>";
+
+                // Firmar el Acuse de Recibo con tu certificado
+                string signedArecf = _signatureService.SignXml(arecfXml);
+
+                // Asegurar que la declaración XML esté presente al principio (OuterXml a veces la quita)
+                if (!signedArecf.StartsWith("<?xml"))
+                {
+                    signedArecf = $@"<?xml version=""1.0"" encoding=""utf-8""?>" + "\n" + signedArecf;
+                }
+
+                // Retornar el XML firmado
+                return Content(signedArecf, "text/xml");
+            }
+            catch (System.Exception ex)
+            {
+                // En caso de error, devolver siempre XML para que la DGII no falle con "Data at root level is invalid"
+                string errorXml = $"<Error>{ex.Message}</Error>";
+                return Content(errorXml, "text/xml");
+            }
+        }
     }
 }
