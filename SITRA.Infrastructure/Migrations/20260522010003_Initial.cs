@@ -802,7 +802,10 @@ namespace SITRA.Infrastructure.Migrations
                     DgiiStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DgiiResponse = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SecurityCode = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
-                    TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    XmlUrl = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ModifiedNcfNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ModificationCode = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {

@@ -68,6 +68,66 @@ namespace SITRA.Infrastructure.Services
 
             user.TenantId = tenant.TenantId;
 
+            // Create default tax records for the tenant
+            var taxes = new[]
+            {
+                new Tax
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "No Facturable",
+                    Amount = 0,
+                    TaxType = TaxType.NO_FACTURABLE,
+                    IsActive = true,
+                    TenantId = tenant.TenantId,
+                    CreatedAt = DateTimeOffset.UtcNow
+                },
+                new Tax
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "ITBIS 1",
+                    Amount = 18,
+                    TaxType = TaxType.ITBIS,
+                    IsActive = true,
+                    TenantId = tenant.TenantId,
+                    CreatedAt = DateTimeOffset.UtcNow
+                },
+                new Tax
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "ITBIS 2",
+                    Amount = 16,
+                    TaxType = TaxType.ITBIS,
+                    IsActive = true,
+                    TenantId = tenant.TenantId,
+                    CreatedAt = DateTimeOffset.UtcNow
+                },
+                new Tax
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "ITBIS 3",
+                    Amount = 0,
+                    TaxType = TaxType.ITBIS,
+                    IsActive = true,
+                    TenantId = tenant.TenantId,
+                    CreatedAt = DateTimeOffset.UtcNow
+                },
+                new Tax
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Exento",
+                    Amount = 0,
+                    TaxType = TaxType.EXENTO,
+                    IsActive = true,
+                    TenantId = tenant.TenantId,
+                    CreatedAt = DateTimeOffset.UtcNow
+                }
+            };
+
+            foreach (var tax in taxes)
+            {
+                _context.Set<Tax>().Add(tax);
+            }
+
             // Generate Electronic Receipts (e-CFs) for the new tenant
             foreach (var ecfType in Enum.GetValues<SITRA.Core.Enums.EcfType>())
             {

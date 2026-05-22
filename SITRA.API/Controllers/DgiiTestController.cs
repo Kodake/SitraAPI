@@ -28,11 +28,7 @@ namespace SITRA.API.Controllers
             }
             catch (System.Exception ex)
             {
-                return StatusCode(500, new
-                {
-                    Error = ex.Message,
-                    Stack = ex.StackTrace
-                });
+                return StatusCode(500, new { Error = ex.Message, Stack = ex.StackTrace });
             }
         }
 
@@ -46,11 +42,7 @@ namespace SITRA.API.Controllers
             }
             catch (System.Exception ex)
             {
-                return StatusCode(500, new
-                {
-                    Error = ex.Message,
-                    Stack = ex.StackTrace
-                });
+                return StatusCode(500, new { Error = ex.Message, Stack = ex.StackTrace });
             }
         }
 
@@ -64,11 +56,7 @@ namespace SITRA.API.Controllers
             }
             catch (System.Exception ex)
             {
-                return StatusCode(500, new
-                {
-                    Error = ex.Message,
-                    Stack = ex.StackTrace
-                });
+                return StatusCode(500, new { Error = ex.Message, Stack = ex.StackTrace });
             }
         }
 
@@ -82,11 +70,7 @@ namespace SITRA.API.Controllers
             }
             catch (System.Exception ex)
             {
-                return StatusCode(500, new
-                {
-                    Error = ex.Message,
-                    Stack = ex.StackTrace
-                });
+                return StatusCode(500, new { Error = ex.Message, Stack = ex.StackTrace });
             }
         }
 
@@ -95,10 +79,7 @@ namespace SITRA.API.Controllers
         {
             try
             {
-                if (xml == null || xml.Length == 0)
-                {
-                    return BadRequest("xml file is required");
-                }
+                if (xml == null || xml.Length == 0) return BadRequest("xml file is required");
 
                 string xmlContent;
                 using (var reader = new StreamReader(xml.OpenReadStream()))
@@ -106,18 +87,13 @@ namespace SITRA.API.Controllers
                     xmlContent = await reader.ReadToEndAsync();
                 }
 
-                // Obtener ruta del certificado base desde el proyecto
                 string caCertPath = Path.Combine(Directory.GetCurrentDirectory(), "..", "SITRA.Core", "Resources", "DGIIRootCertificateAuthority", "camaracomercio.crt");
                 caCertPath = Path.GetFullPath(caCertPath);
 
                 if (System.IO.File.Exists(caCertPath))
                 {
                     bool isValidSignature = _signatureService.ValidateXmlSignature(xmlContent, caCertPath);
-
-                    if (!isValidSignature)
-                    {
-                        return BadRequest("La firma XML es inválida o el certificado no fue emitido por la Autoridad Certificadora de la Cámara de Comercio.");
-                    }
+                    if (!isValidSignature) return BadRequest("La firma XML es inválida o el certificado no fue emitido por la Autoridad Certificadora de la Cámara de Comercio.");
                 }
 
                 var result = await _dgiiApiService.GetTokenAsync(xmlContent);
@@ -125,11 +101,7 @@ namespace SITRA.API.Controllers
             }
             catch (System.Exception ex)
             {
-                return StatusCode(500, new
-                {
-                    Error = ex.Message,
-                    Stack = ex.StackTrace
-                });
+                return StatusCode(500, new { Error = ex.Message, Stack = ex.StackTrace });
             }
         }
 
@@ -140,7 +112,6 @@ namespace SITRA.API.Controllers
             {
                 string xmlContent;
 
-                // Soporte dual: leer de multipart (Postman/Swagger) o del raw body (DGII Webhook)
                 if (Request.HasFormContentType && Request.Form.Files.Count > 0)
                 {
                     var xmlFile = Request.Form.Files[0];
@@ -162,56 +133,153 @@ namespace SITRA.API.Controllers
                     return Content("<Error>XML content is empty</Error>", "text/xml");
                 }
 
-                string rncEmisor = "133556545"; // Debe ser de 9 u 11 dígitos
-                string rncComprador = "133556545"; // Debe ser de 9 u 11 dígitos
-                string eNcf = "E310000000001";
+                string rncEmisor = string.Empty;
+                string rncComprador = string.Empty;
+                string eNcf = string.Empty;
 
                 try
                 {
                     var doc = System.Xml.Linq.XDocument.Parse(xmlContent);
-                    
-                    // Buscar elementos ignorando el Namespace (para evitar fallos por prefijos)
                     var emisorNode = doc.Descendants().FirstOrDefault(x => x.Name.LocalName == "RNCEmisor");
                     var compradorNode = doc.Descendants().FirstOrDefault(x => x.Name.LocalName == "RNCComprador");
                     var encfNode = doc.Descendants().FirstOrDefault(x => x.Name.LocalName == "eNCF");
 
-                    if (emisorNode != null && !string.IsNullOrWhiteSpace(emisorNode.Value)) rncEmisor = emisorNode.Value;
-                    if (compradorNode != null && !string.IsNullOrWhiteSpace(compradorNode.Value)) rncComprador = compradorNode.Value;
-                    if (encfNode != null && !string.IsNullOrWhiteSpace(encfNode.Value)) eNcf = encfNode.Value;
+                    if (emisorNode != null) rncEmisor = emisorNode.Value;
+                    if (compradorNode != null) rncComprador = compradorNode.Value;
+                    if (encfNode != null) eNcf = encfNode.Value;
                 }
-                catch { } // Si falla el parseo, usamos los valores por defecto
+                catch { }
 
-                string fechaHora = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss");
+                var arecfResponse = new SITRA.Core.DTOs.DGII.ArecfDocumentTest
+                {
+                    Detalle = new SITRA.Core.DTOs.DGII.DetalleAcusedeRecibo
+                    {
+                        Version = "1.0",
+                        RNCEmisor = rncEmisor,
+                        RNCComprador = rncComprador,
+                        ENCF = eNcf,
+                        Estado = 0,
+                        FechaHoraAcuseRecibo = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss")
+                    }
+                };
 
-                // Construir el ARECF (Acuse de Recibo) SIN el namespace, ya que el XSD de DGII no lo requiere para ARECF
-                string arecfXml = $@"<ARECF>
-  <DetalleAcusedeRecibo>
-    <Version>1.0</Version>
-    <RNCEmisor>{rncComprador}</RNCEmisor>
-    <RNCComprador>{rncEmisor}</RNCComprador>
-    <eNCF>{eNcf}</eNCF>
-    <Estado>0</Estado>
-    <FechaHoraAcuseRecibo>{fechaHora}</FechaHoraAcuseRecibo>
-  </DetalleAcusedeRecibo>
-</ARECF>";
+                var emptyNamespaces = new System.Xml.Serialization.XmlSerializerNamespaces(new[] { System.Xml.XmlQualifiedName.Empty });
+                var serializer = new System.Xml.Serialization.XmlSerializer(typeof(SITRA.Core.DTOs.DGII.ArecfDocumentTest));
+                var settings = new System.Xml.XmlWriterSettings { OmitXmlDeclaration = false, Encoding = new System.Text.UTF8Encoding(false), Indent = true };
 
-                // Firmar el Acuse de Recibo con tu certificado
+                string arecfXml;
+                using (var stringWriter = new StringWriter())
+                using (var xmlWriter = System.Xml.XmlWriter.Create(stringWriter, settings))
+                {
+                    serializer.Serialize(xmlWriter, arecfResponse, emptyNamespaces);
+                    arecfXml = stringWriter.ToString();
+                }
+
                 string signedArecf = _signatureService.SignXml(arecfXml);
 
-                // Asegurar que la declaración XML esté presente al principio (OuterXml a veces la quita)
                 if (!signedArecf.StartsWith("<?xml"))
                 {
                     signedArecf = $@"<?xml version=""1.0"" encoding=""utf-8""?>" + "\n" + signedArecf;
                 }
 
-                // Retornar el XML firmado
                 return Content(signedArecf, "text/xml");
             }
             catch (System.Exception ex)
             {
-                // En caso de error, devolver siempre XML para que la DGII no falle con "Data at root level is invalid"
-                string errorXml = $"<Error>{ex.Message}</Error>";
-                return Content(errorXml, "text/xml");
+                return Content($"<Error>{ex.Message}</Error>", "text/xml");
+            }
+        }
+
+        [HttpPost("/fe/aprobacioncomercial/api/ecf")]
+        public async Task<IActionResult> AprobacionComercialEcfAsync()
+        {
+            try
+            {
+                string xmlContent;
+
+                if (Request.HasFormContentType && Request.Form.Files.Count > 0)
+                {
+                    var xmlFile = Request.Form.Files[0];
+                    using (var reader = new StreamReader(xmlFile.OpenReadStream()))
+                    {
+                        xmlContent = await reader.ReadToEndAsync();
+                    }
+                }
+                else
+                {
+                    using (var reader = new StreamReader(Request.Body))
+                    {
+                        xmlContent = await reader.ReadToEndAsync();
+                    }
+                }
+
+                if (string.IsNullOrWhiteSpace(xmlContent))
+                {
+                    return Content("<Error>XML content is empty</Error>", "text/xml");
+                }
+
+                string rncEmisor = string.Empty;
+                string rncComprador = string.Empty;
+                string eNcf = string.Empty;
+                string fechaEmision = string.Empty;
+                string montoTotal = string.Empty;
+
+                try
+                {
+                    var doc = System.Xml.Linq.XDocument.Parse(xmlContent);
+                    var emisorNode = doc.Descendants().FirstOrDefault(x => x.Name.LocalName == "RNCEmisor");
+                    var compradorNode = doc.Descendants().FirstOrDefault(x => x.Name.LocalName == "RNCComprador");
+                    var encfNode = doc.Descendants().FirstOrDefault(x => x.Name.LocalName == "eNCF");
+                    var fechaEmisionNode = doc.Descendants().FirstOrDefault(x => x.Name.LocalName == "FechaEmision");
+                    var montoTotalNode = doc.Descendants().FirstOrDefault(x => x.Name.LocalName == "MontoTotal");
+
+                    if (emisorNode != null) rncEmisor = emisorNode.Value;
+                    if (compradorNode != null) rncComprador = compradorNode.Value;
+                    if (encfNode != null) eNcf = encfNode.Value;
+                    if (fechaEmisionNode != null) fechaEmision = fechaEmisionNode.Value;
+                    if (montoTotalNode != null) montoTotal = montoTotalNode.Value;
+                }
+                catch { }
+
+                var acecfResponse = new SITRA.Core.DTOs.DGII.AcecfDocumentTest
+                {
+                    Detalle = new SITRA.Core.DTOs.DGII.DetalleAprobacionComercialTest
+                    {
+                        Version = "1.0",
+                        RNCEmisor = rncEmisor,
+                        ENCF = eNcf,
+                        FechaEmision = fechaEmision,
+                        MontoTotal = montoTotal,
+                        RNCComprador = rncComprador,
+                        Estado = 1, // 1 = Aceptado, 2 = Rechazado
+                        FechaHoraAprobacionComercial = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss")
+                    }
+                };
+
+                var emptyNamespaces = new System.Xml.Serialization.XmlSerializerNamespaces(new[] { System.Xml.XmlQualifiedName.Empty });
+                var serializer = new System.Xml.Serialization.XmlSerializer(typeof(SITRA.Core.DTOs.DGII.AcecfDocumentTest));
+                var settings = new System.Xml.XmlWriterSettings { OmitXmlDeclaration = false, Encoding = new System.Text.UTF8Encoding(false), Indent = true };
+
+                string acecfXml;
+                using (var stringWriter = new StringWriter())
+                using (var xmlWriter = System.Xml.XmlWriter.Create(stringWriter, settings))
+                {
+                    serializer.Serialize(xmlWriter, acecfResponse, emptyNamespaces);
+                    acecfXml = stringWriter.ToString();
+                }
+
+                string signedAcecf = _signatureService.SignXml(acecfXml);
+
+                if (!signedAcecf.StartsWith("<?xml"))
+                {
+                    signedAcecf = $@"<?xml version=""1.0"" encoding=""utf-8""?>" + "\n" + signedAcecf;
+                }
+
+                return Content(signedAcecf, "text/xml");
+            }
+            catch (System.Exception ex)
+            {
+                return Content($"<Error>{ex.Message}</Error>", "text/xml");
             }
         }
     }

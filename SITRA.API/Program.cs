@@ -128,7 +128,7 @@ builder.Services.AddScoped<ICurrentTenantService, CurrentTenantService>();
 builder.Services.AddScoped<IPlanService, PlanService>();
 
 // DGII Configuration & Services
-builder.Services.Configure<DgiiSettings>(builder.Configuration.GetSection("Dgii"));
+builder.Services.Configure<DgiiSettings>(builder.Configuration.GetSection("DgiiTest")); // Dgii
 builder.Services.Configure<DgiiSettings>("DgiiTest", builder.Configuration.GetSection("DgiiTest"));
 builder.Services.AddScoped<ISignatureService, SignatureService>();
 builder.Services.AddScoped<IEcfXmlGenerator, EcfXmlGeneratorService>();

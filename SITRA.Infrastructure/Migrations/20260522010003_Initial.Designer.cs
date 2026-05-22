@@ -12,7 +12,7 @@ using SITRA.Infrastructure.Persistence;
 namespace SITRA.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260510193803_Initial")]
+    [Migration("20260522010003_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -1014,6 +1014,12 @@ namespace SITRA.Infrastructure.Migrations
                     b.Property<int>("InvoiceType")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ModificationCode")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ModifiedNcfNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
@@ -1050,6 +1056,10 @@ namespace SITRA.Infrastructure.Migrations
 
                     b.Property<Guid>("WarehouseId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("XmlUrl")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.HasKey("Id");
 
