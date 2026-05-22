@@ -49,10 +49,17 @@ namespace SITRA.Core.Mediator.Queries.Invoices.SaleInvoices
                 }
 
                 // For Type 32 (RFCE) invoices, XmlUrl points to the RFCE XML which does NOT
-                // contain FechaHoraFirma. Try the base ECF XML (same URL without _RFCE suffix).
+                // contain FechaHoraFirma. The base ECF lives in a different folder (e.g. /32/ not /RFCE/).
                 if (dgiiMeta != null && string.IsNullOrEmpty(dgiiMeta.FechaFirma) && saleInvoice.XmlUrl.Contains("_RFCE"))
                 {
-                    string baseEcfUrl = saleInvoice.XmlUrl.Replace("_RFCE.xml", ".xml");
+                    // Derive doc-type folder from the fiscal number: "E320000000508" → "32"
+                    string? fiscalNumber = saleInvoice.FiscalSupportNumber;
+                    string docTypeFolder = fiscalNumber?.Length >= 3 ? fiscalNumber.Substring(1, 2) : "32";
+
+                    string baseEcfUrl = saleInvoice.XmlUrl
+                        .Replace("/RFCE/", $"/{docTypeFolder}/")
+                        .Replace("_RFCE.xml", ".xml");
+
                     string? baseXmlContent = await _dgiiStorageService.ReadDocumentXmlFromUrlAsync(baseEcfUrl);
                     if (!string.IsNullOrEmpty(baseXmlContent))
                     {

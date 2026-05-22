@@ -246,58 +246,58 @@
     <value>[InvoiceDocumentDTO] Error loading logo: {0}</value>
   </data>
   <data name="StockReportTitle" xml:space="preserve">
-    <value>INVENTORY REPORT</value>
+    <value>Inventory Report</value>
   </data>
   <data name="SalesReportTitle" xml:space="preserve">
-    <value>SALES REPORT</value>
+    <value>Sales Report</value>
   </data>
   <data name="PurchasesReportTitle" xml:space="preserve">
-    <value>PURCHASES REPORT</value>
+    <value>Purchases Report</value>
   </data>
   <data name="QuotationsTitle" xml:space="preserve">
-    <value>QUOTATION</value>
+    <value>Quotation</value>
   </data>
   <data name="ClosePettyCashTitle" xml:space="preserve">
-    <value>CASH CLOSURE</value>
+    <value>Cash Closure</value>
   </data>
   <data name="InvoiceReceiptTitle" xml:space="preserve">
-    <value>FINAL CONSUMER INVOICE</value>
+    <value>Final Consumer Invoice</value>
   </data>
   <data name="InvoiceTitle" xml:space="preserve">
-    <value>FISCAL CONSUMPTION INVOICE</value>
+    <value>Fiscal Consumption Invoice</value>
   </data>
   <data name="IdentificationLabel" xml:space="preserve">
-    <value>IDENTIFICATION</value>
+    <value>Identification</value>
   </data>
   <data name="DateLabel" xml:space="preserve">
-    <value>DATE</value>
+    <value>Date</value>
   </data>
   <data name="NameLabel" xml:space="preserve">
-    <value>NAME / COMPANY NAME</value>
+    <value>Name / Company Name</value>
   </data>
   <data name="NumberLabel" xml:space="preserve">
-    <value>NUMBER #</value>
+    <value>Number #</value>
   </data>
   <data name="FiscalSupportLabel" xml:space="preserve">
-    <value>FISCAL SUPPORT</value>
+    <value>Fiscal Support</value>
   </data>
   <data name="DueDateLabel" xml:space="preserve">
-    <value>DUE DATE</value>
+    <value>Due Date</value>
   </data>
   <data name="DescriptionLabel" xml:space="preserve">
-    <value>DESCRIPTION</value>
+    <value>Description</value>
   </data>
   <data name="QuantityLabel" xml:space="preserve">
-    <value>QTY.</value>
+    <value>Qty.</value>
   </data>
   <data name="TotalLabel" xml:space="preserve">
-    <value>TOTAL</value>
+    <value>Total</value>
   </data>
   <data name="SubtotalLabel" xml:space="preserve">
-    <value>SUBTOTAL</value>
+    <value>Subtotal</value>
   </data>
   <data name="TaxesLabel" xml:space="preserve">
-    <value>TAXES</value>
+    <value>Taxes</value>
   </data>
   <data name="UserLabel" xml:space="preserve">
     <value>User:</value>
@@ -306,10 +306,10 @@
     <value>Condition:</value>
   </data>
   <data name="SpotConditionLabel" xml:space="preserve">
-    <value>SPOT</value>
+    <value>Spot</value>
   </data>
   <data name="CreditConditionLabel" xml:space="preserve">
-    <value>CREDIT</value>
+    <value>Credit</value>
   </data>
   <data name="InvoiceLabel" xml:space="preserve">
     <value>Invoice:</value>
@@ -333,43 +333,43 @@
     <value>Total</value>
   </data>
   <data name="ItbisLabel" xml:space="preserve">
-    <value>ITBIS:</value>
+    <value>Itbis</value>
   </data>
   <data name="AmountToPayLabel" xml:space="preserve">
     <value>Amount to pay:</value>
   </data>
   <data name="PaymentMethodsLabel" xml:space="preserve">
-    <value>PAYMENT METHODS:</value>
+    <value>Payment Methods:</value>
   </data>
   <data name="PaymentMethodCash" xml:space="preserve">
-    <value>CASH</value>
+    <value>Cash</value>
   </data>
   <data name="PaymentMethodTransfer" xml:space="preserve">
-    <value>TRANSFER</value>
+    <value>Transfer</value>
   </data>
   <data name="PaymentMethodCard" xml:space="preserve">
-    <value>CARD</value>
+    <value>Card</value>
   </data>
   <data name="ReceiptFooterMessage" xml:space="preserve">
     <value>No cash refunds will be made, credit notes will be issued in case of exchange</value>
   </data>
   <data name="AmountReturnedLabel" xml:space="preserve">
-    <value>CHANGE:</value>
+    <value>Change:</value>
   </data>
   <data name="SellerLabel" xml:space="preserve">
-    <value>SELLER:</value>
+    <value>Seller:</value>
   </data>
   <data name="QuotationNumberLabel" xml:space="preserve">
-    <value>QUOTATION NUMBER</value>
+    <value>Quotation Number</value>
   </data>
   <data name="ProductLabel" xml:space="preserve">
-    <value>PRODUCT</value>
+    <value>Product</value>
   </data>
   <data name="FromLabel" xml:space="preserve">
-    <value>FROM:</value>
+    <value>From:</value>
   </data>
   <data name="ToLabel" xml:space="preserve">
-    <value>TO:</value>
+    <value>To:</value>
   </data>
   <data name="CashierLabel" xml:space="preserve">
     <value>Cashier:</value>
@@ -390,31 +390,31 @@
     <value>Withdrawals / Outflows:</value>
   </data>
   <data name="SummaryByMethodLabel" xml:space="preserve">
-    <value>SUMMARY BY METHOD:</value>
+    <value>Summary by Method:</value>
   </data>
   <data name="ExpectedCashLabel" xml:space="preserve">
-    <value>EXPECTED CASH:</value>
+    <value>Expected Cash:</value>
   </data>
   <data name="ClosingAmountLabel" xml:space="preserve">
-    <value>CLOSING AMOUNT:</value>
+    <value>Closing Amount:</value>
   </data>
   <data name="DifferenceLabel" xml:space="preserve">
-    <value>DIFFERENCE:</value>
+    <value>Difference:</value>
   </data>
   <data name="CashierSignatureLabel" xml:space="preserve">
     <value>Cashier's Signature</value>
   </data>
   <data name="LogoNotAvailableLabel" xml:space="preserve">
-    <value>LOGO NOT AVAILABLE</value>
+    <value>Logo Not Available</value>
   </data>
   <data name="ErrorLoadingLogoLabel" xml:space="preserve">
-    <value>ERROR LOADING LOGO</value>
+    <value>Error Loading Logo</value>
   </data>
   <data name="PhoneLabel" xml:space="preserve">
-    <value>PHONE:</value>
+    <value>Phone:</value>
   </data>
   <data name="RncLabel" xml:space="preserve">
-    <value>RNC:</value>
+    <value>Rnc:</value>
   </data>
   <data name="MonthlySalesLimitReachedMessage" xml:space="preserve">
     <value>Monthly sales limit of {0} reached for your plan ({1}). Upgrade your plan to increase limit.</value>
@@ -468,7 +468,7 @@
     <value>Invalid percentage</value>
   </data>
   <data name="InvalidITBISRateMessage" xml:space="preserve">
-    <value>Invalid ITBIS rate</value>
+    <value>Invalid Itbis rate</value>
   </data>
   <data name="InvalidTaxAmountMessage" xml:space="preserve">
     <value>Invalid tax amount</value>

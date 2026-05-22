@@ -35,12 +35,12 @@ namespace SITRA.Core.Documents
                         column.Item().Text($"RNC: {User.RucNumber}");
                 }
 
-                column.Item().PaddingVertical(8).Text("************************************************").AlignCenter();
+                column.Item().PaddingVertical(8).Text("***********************************************************").AlignCenter();
 
                 column.Item().AlignCenter().Text(SITRA.Core.Helpers.Utilities.InvoiceReceiptTitle).SemiBold();
                 column.Item().AlignCenter().Text($"e-NCF: {Invoice.FiscalSupportNumber ?? "-"}").SemiBold();
 
-                column.Item().PaddingVertical(8).Text("************************************************").AlignCenter();
+                column.Item().PaddingVertical(8).Text("***********************************************************").AlignCenter();
             });
         }
 
@@ -155,7 +155,7 @@ namespace SITRA.Core.Documents
                 }
 
                 // Disclaimer
-                column.Item().PaddingTop(15).Text("*Este modelo de RI es exclusivo para fines ilustrativos.").FontSize(7).AlignCenter();
+                // column.Item().PaddingTop(15).Text("*Este modelo de RI es exclusivo para fines ilustrativos.").FontSize(7).AlignCenter();
 
                 // Description
                 if (!string.IsNullOrWhiteSpace(Invoice.Description))
