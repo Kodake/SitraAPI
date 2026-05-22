@@ -26,13 +26,20 @@ namespace SITRA.Infrastructure.Repositories.Invoices
                 .Include(x => x.InvoiceBuyer)
                     .ThenInclude(ib => ib.Buyer)
                 .Include(x => x.InvoiceBiller)
-                    .ThenInclude(ib => ib.Biller);
+                    .ThenInclude(ib => ib.Biller)
+                .Include(x => x.InvoiceFiscalSupport);
 
             await httpContext.AddPaginationParamsToHeaders(queryable);
 
             return await queryable
-                .Where(x => x.InvoiceType == InvoiceType.Sale)
+                .Where(x => x.InvoiceType == InvoiceType.Sale
+                    && x.InvoiceFiscalSupport != null
+                    && x.InvoiceFiscalSupport.EcfType != EcfType.E31
+                    && x.InvoiceFiscalSupport.EcfType != EcfType.E33
+                    && x.InvoiceFiscalSupport.EcfType != EcfType.E34
+                    && x.InvoiceFiscalSupport.EcfType != EcfType.E41)
                 .OrderByDescending(i => i.CreatedAt)
+                .ThenByDescending(i => i.Id)
                 .Paginate(paginationDTO)
                 .ToListAsync(cancellationToken);
         }

@@ -10,6 +10,7 @@ using SITRA.Core.DTOs.Invoices.SaleInvoices;
 using SITRA.Core.Interfaces;
 using SITRA.Core.Mediator.Commands.Invoices.SaleInvoices;
 using SITRA.Core.Models.Dgii;
+using SITRA.Core.Interfaces.Services;
 
 namespace SITRA.Core.Mediator.Handlers.Invoices
 {
@@ -26,6 +27,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
         private readonly ISignatureService _signatureService;
         private readonly IEcfXmlGenerator _ecfXmlGenerator;
         private readonly DgiiSettings _dgiiSettings;
+        private readonly IDgiiStorageService _dgiiStorageService;
 
         public AnnulNcfCommandHandler(
             IUnitOfWork unitOfWork,
@@ -34,7 +36,8 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
             IDgiiApiService dgiiApiService,
             ISignatureService signatureService,
             IEcfXmlGenerator ecfXmlGenerator,
-            IOptions<DgiiSettings> dgiiSettings)
+            IOptions<DgiiSettings> dgiiSettings,
+            IDgiiStorageService dgiiStorageService)
         {
             _unitOfWork = unitOfWork;
             _outputCacheStore = outputCacheStore;
@@ -43,6 +46,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
             _signatureService = signatureService;
             _ecfXmlGenerator = ecfXmlGenerator;
             _dgiiSettings = dgiiSettings.Value;
+            _dgiiStorageService = dgiiStorageService;
         }
 
         public async Task<AnnulNcfDTO> Handle(AnnulNcfCommand request, CancellationToken cancellationToken)
@@ -59,21 +63,19 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
 
                 try
                 {
-                    // ── 1. Locate and read the existing NCF artifact from physical storage ──
+                    // ── 1. Locate and read the existing NCF artifact from storage ──
                     if (string.IsNullOrEmpty(annulInvoice.ModifiedNcfNumber) || annulInvoice.ModifiedNcfNumber.Length < 3)
                         throw new InvalidOperationException($"Reference ModifiedNcfNumber is invalid: '{annulInvoice.ModifiedNcfNumber}'");
 
                     string originalTipoEcf = annulInvoice.ModifiedNcfNumber.Substring(1, 2);
-                    string xmlFilePath = Path.Combine(
-                        _dgiiSettings.StoragePath, 
-                        _dgiiSettings.DefaultRNC, 
-                        originalTipoEcf, 
-                        $"{_dgiiSettings.DefaultRNC}{annulInvoice.ModifiedNcfNumber}.xml");
+                    string fileName = $"{annulInvoice.ModifiedNcfNumber}.xml";
 
-                    if (!File.Exists(xmlFilePath))
-                        throw new FileNotFoundException($"Reference XML document not found on filesystem: {xmlFilePath}");
+                    string? xmlContent = await _dgiiStorageService.ReadDocumentXmlAsync(_dgiiSettings.DefaultRNC, originalTipoEcf, fileName);
 
-                    var origXml = XDocument.Load(xmlFilePath);
+                    if (string.IsNullOrEmpty(xmlContent))
+                        throw new FileNotFoundException($"Reference XML document not found in storage: {fileName}");
+
+                    var origXml = XDocument.Parse(xmlContent);
 
                     // Parsing Helpers
                     decimal Num(string name)
@@ -192,7 +194,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
                         string xmlFirmado = _signatureService.SignXml(xmlSinFirma, certBytes, certPassword);
                         securityCode = GetSecurityCodeFromSignedXml(xmlFirmado);
 
-                        SaveDocumentXml(xmlFirmado, ecfDocument.Encabezado.IdDoc.ENCF, _dgiiSettings.DefaultRNC, "34", _dgiiSettings.StoragePath);
+                        await _dgiiStorageService.SaveDocumentXmlAsync(xmlFirmado, _dgiiSettings.DefaultRNC, "34", $"{ecfDocument.Encabezado.IdDoc.ENCF}.xml");
 
                         rawResponse = await _dgiiApiService.SendEcfAsync(xmlFirmado, token);
 
@@ -241,17 +243,6 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
             return await request.ExecuteAction(_unitOfWork, _outputCacheStore, _mapper, cancellationToken);
         }
 
-        private static void SaveDocumentXml(string xml, string encf, string rnc, string docType, string? storagePath)
-        {
-            try
-            {
-                string baseDir = !string.IsNullOrEmpty(storagePath) ? storagePath : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "DgiiDocuments");
-                string saveDir = Path.Combine(baseDir, rnc, docType);
-                if (!Directory.Exists(saveDir)) Directory.CreateDirectory(saveDir);
-                File.WriteAllText(Path.Combine(saveDir, $"{rnc}{encf}.xml"), xml, new UTF8Encoding(false));
-            }
-            catch { }
-        }
 
         private static string GetSecurityCodeFromSignedXml(string signedXml)
         {

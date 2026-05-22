@@ -54,8 +54,22 @@ namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
             {
                 fiscalSupportDB.IncrementSequence();
                 note.FiscalSupportNumber = fiscalSupportDB.GenerateFiscalSupportNumber();
-                note.InvoiceFiscalSupport = new InvoiceFiscalSupport { FiscalSupportId = fiscalSupportDB.Id };
-                unitOfWork.FiscalSupportRepository.Update(fiscalSupportDB);
+                
+                var ecfTypeKey = note.FiscalSupportNumber?.Length >= 3
+                    ? note.FiscalSupportNumber.Substring(0, 3)
+                    : null;
+                    
+                // Notes only support E33 (Nota de Débito) and E34 (Nota de Crédito)
+                if (Enum.TryParse<EcfType>(ecfTypeKey, ignoreCase: true, out var parsedType)
+                    && (parsedType == EcfType.E33 || parsedType == EcfType.E34))
+                {
+                    note.InvoiceFiscalSupport = new InvoiceFiscalSupport 
+                    { 
+                        FiscalSupportId = fiscalSupportDB.Id,
+                        EcfType = parsedType
+                    };
+                    unitOfWork.FiscalSupportRepository.Update(fiscalSupportDB);
+                }
             }
 
             double currencyRate = currencyDB!.Rate;

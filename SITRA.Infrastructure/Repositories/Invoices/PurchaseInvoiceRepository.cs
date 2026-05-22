@@ -23,13 +23,18 @@ namespace SITRA.Infrastructure.Repositories.Invoices
         {
             var queryable = context.Invoices
                 .Include(x => x.InvoiceBuyer)
-                    .ThenInclude(ib => ib.Buyer);
+                    .ThenInclude(ib => ib.Buyer)
+                .Include(x => x.InvoiceFiscalSupport);
 
             await httpContext.AddPaginationParamsToHeaders(queryable);
 
             return await queryable
-                .Where(x => x.InvoiceType == InvoiceType.Purchase)
-                .OrderBy(x => x.Id)
+                .Where(x => x.InvoiceType == InvoiceType.Purchase
+                    && x.InvoiceFiscalSupport != null
+                    && (x.InvoiceFiscalSupport.EcfType == EcfType.E31
+                        || x.InvoiceFiscalSupport.EcfType == EcfType.E41))
+                .OrderByDescending(x => x.CreatedAt)
+                .ThenByDescending(x => x.Id)
                 .Paginate(paginationDTO)
                 .ToListAsync(cancellationToken);
         }

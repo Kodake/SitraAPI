@@ -41,9 +41,6 @@ namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
             if (fiscalSupport == null)
                 throw new InvalidOperationException($"Fiscal support {Dto.FiscalSupportId} not found.");
 
-            if (fiscalSupport.FiscalSupportType != EcfType.E34)
-                throw new InvalidOperationException("Provided fiscal support must be E34 type (Credit Note).");
-
             fiscalSupport.IncrementSequence();
             string creditNoteNcf = fiscalSupport.GenerateFiscalSupportNumber();
             Dto.CreditNoteNcf = creditNoteNcf;
@@ -82,7 +79,18 @@ namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
             if (originalInvoice.InvoiceBiller != null)
                 annulInvoice.InvoiceBiller = new InvoiceBiller { ContactId = originalInvoice.InvoiceBiller.ContactId };
 
-            annulInvoice.InvoiceFiscalSupport = new InvoiceFiscalSupport { FiscalSupportId = fiscalSupport.Id };
+            var ecfTypeKey = creditNoteNcf?.Length >= 3 ? creditNoteNcf.Substring(0, 3) : null;
+            
+            // Annulments map to Credit Notes (E34) or Debit Notes (E33)
+            if (Enum.TryParse<EcfType>(ecfTypeKey, ignoreCase: true, out var parsedType)
+                && (parsedType == EcfType.E33 || parsedType == EcfType.E34))
+            {
+                annulInvoice.InvoiceFiscalSupport = new InvoiceFiscalSupport 
+                { 
+                    FiscalSupportId = fiscalSupport.Id,
+                    EcfType = parsedType
+                };
+            }
 
             // Save base entities so we have IDs for any downstream tracking
             unitOfWork.FiscalSupportRepository.Update(fiscalSupport);

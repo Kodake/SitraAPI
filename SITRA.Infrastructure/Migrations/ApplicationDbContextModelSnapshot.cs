@@ -1137,6 +1137,9 @@ namespace SITRA.Infrastructure.Migrations
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<int>("EcfType")
+                        .HasColumnType("int");
+
                     b.Property<Guid>("FiscalSupportId")
                         .HasColumnType("uniqueidentifier");
 

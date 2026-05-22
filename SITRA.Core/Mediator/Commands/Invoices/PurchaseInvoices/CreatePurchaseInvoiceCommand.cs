@@ -38,8 +38,17 @@ namespace SITRA.Core.Mediator.Commands.Invoices.PurchaseInvoices
             {
                 fiscalSupportDB.IncrementSequence();
                 purchaseInvoice.FiscalSupportNumber = fiscalSupportDB.GenerateFiscalSupportNumber();
-                purchaseInvoice.InvoiceFiscalSupport = new InvoiceFiscalSupport { FiscalSupportId = fiscalSupportDB.Id };
-                unitOfWork.FiscalSupportRepository.Update(fiscalSupportDB);
+                var ecfTypeKey = purchaseInvoice.FiscalSupportNumber?.Length >= 3
+                    ? purchaseInvoice.FiscalSupportNumber.Substring(0, 3)
+                    : null;
+                // Purchase invoices only support E31 (Crédito Fiscal) and E41 (Compras)
+                var ecfType = Enum.TryParse<EcfType>(ecfTypeKey, ignoreCase: true, out var parsedType)
+                    && (parsedType == EcfType.E31 || parsedType == EcfType.E41)
+                    ? parsedType
+                    : EcfType.E31;
+                purchaseInvoice.InvoiceFiscalSupport = new InvoiceFiscalSupport { FiscalSupportId = fiscalSupportDB.Id, EcfType = ecfType };
+                    unitOfWork.FiscalSupportRepository.Update(fiscalSupportDB);
+                }
             }
 
             double currencyRate = currencyDB!.Rate;

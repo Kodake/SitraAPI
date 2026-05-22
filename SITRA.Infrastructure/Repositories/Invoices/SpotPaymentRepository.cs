@@ -28,7 +28,8 @@ namespace SITRA.Infrastructure.Repositories.Invoices
             await httpContext.AddPaginationParamsToHeaders(queryable);
 
             return await queryable
-                .OrderBy(x => x.Id)
+                .OrderByDescending(x => x.CreatedAt)
+                .ThenByDescending(x => x.Id)
                 .Paginate(paginationDTO)
                 .ToListAsync(cancellationToken);
         }
