@@ -1,10 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SITRA.Core.Interfaces.Services;
 using SITRA.Core.Models.Dgii;
@@ -16,11 +18,19 @@ namespace SITRA.Infrastructure.Services
         private readonly DgiiSettings _settings;
         private readonly string _connectionString;
         private BlobContainerClient? _containerClient;
+        private readonly ILogger<DgiiStorageService> _logger;
 
-        public DgiiStorageService(IOptions<DgiiSettings> options, IConfiguration configuration)
+        // Root blob prefix for schemas — shared across ALL environments
+        private const string SchemasBlobPrefix = "Schemas";
+
+        public DgiiStorageService(
+            IOptions<DgiiSettings> options,
+            IConfiguration configuration,
+            ILogger<DgiiStorageService> logger)
         {
             _settings = options.Value;
             _connectionString = configuration.GetConnectionString("AzureStorage") ?? string.Empty;
+            _logger = logger;
         }
 
         // Ensures the container exists and returns the client (lazy, idempotent)
@@ -158,15 +168,15 @@ namespace SITRA.Infrastructure.Services
             if (_settings.UseAzureStorage)
             {
                 var container = await GetContainerAsync();
-                string prefix = $"{_settings.Environment}/{_settings.SchemasPath}/".TrimStart('/');
+                // Schemas live at the ROOT of the container under 'Schemas/' — shared across all environments
+                string prefix = $"{SchemasBlobPrefix}/";
 
-                var files = new System.Collections.Generic.List<string>();
+                var files = new List<string>();
                 await foreach (var blobItem in container.GetBlobsAsync(prefix: prefix))
                 {
                     if (blobItem.Name.EndsWith(".xsd", StringComparison.OrdinalIgnoreCase))
                     {
-                        string relativePath = blobItem.Name.Substring(_settings.Environment.Length + 1);
-                        files.Add(relativePath);
+                        files.Add(blobItem.Name);
                     }
                 }
                 return files.ToArray();
@@ -176,6 +186,69 @@ namespace SITRA.Infrastructure.Services
                 string schemasPath = ResolvePath(_settings.SchemasPath);
                 if (!Directory.Exists(schemasPath)) return Array.Empty<string>();
                 return Directory.GetFiles(schemasPath, "*.xsd");
+            }
+        }
+
+        public async Task<Stream> ReadSchemaStreamAsync(string schemaFileName)
+        {
+            if (_settings.UseAzureStorage)
+            {
+                var container = await GetContainerAsync();
+                // e.g. "Schemas/e-CF 31 v.1.0.xsd"
+                string blobName = $"{SchemasBlobPrefix}/{schemaFileName}";
+                var blobClient = container.GetBlobClient(blobName);
+                var response = await blobClient.DownloadStreamingAsync();
+                return response.Value.Content;
+            }
+            else
+            {
+                string filePath = Path.Combine(ResolvePath(_settings.SchemasPath), schemaFileName);
+                return File.OpenRead(filePath);
+            }
+        }
+
+        /// <summary>
+        /// Uploads each .xsd file from the local Resources/Schemas directory to the root
+        /// 'Schemas/' folder in dgii-assets blob storage, skipping any that already exist.
+        /// This is a no-op when UseAzureStorage is false.
+        /// </summary>
+        public async Task EnsureSchemasUploadedAsync()
+        {
+            if (!_settings.UseAzureStorage)
+            {
+                _logger.LogDebug("EnsureSchemasUploadedAsync: Azure Storage is disabled, skipping upload.");
+                return;
+            }
+
+            string localSchemasDir = ResolvePath(_settings.SchemasPath);
+            if (!Directory.Exists(localSchemasDir))
+            {
+                _logger.LogWarning("EnsureSchemasUploadedAsync: Local schemas directory not found at '{Path}'. Skipping upload.", localSchemasDir);
+                return;
+            }
+
+            var container = await GetContainerAsync();
+            var localFiles = Directory.GetFiles(localSchemasDir, "*.xsd");
+
+            foreach (var localFile in localFiles)
+            {
+                string fileName = Path.GetFileName(localFile);
+                string blobName = $"{SchemasBlobPrefix}/{fileName}";
+                var blobClient = container.GetBlobClient(blobName);
+
+                if (await blobClient.ExistsAsync())
+                {
+                    _logger.LogDebug("EnsureSchemasUploadedAsync: Schema already exists in blob — skipping '{BlobName}'.", blobName);
+                    continue;
+                }
+
+                _logger.LogInformation("EnsureSchemasUploadedAsync: Uploading schema '{FileName}' to blob '{BlobName}'.", fileName, blobName);
+                using var fileStream = File.OpenRead(localFile);
+                await blobClient.UploadAsync(fileStream, new BlobUploadOptions
+                {
+                    HttpHeaders = new BlobHttpHeaders { ContentType = "application/xml" }
+                });
+                _logger.LogInformation("EnsureSchemasUploadedAsync: Uploaded '{BlobName}' successfully.", blobName);
             }
         }
 

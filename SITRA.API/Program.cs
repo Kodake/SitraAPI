@@ -161,6 +161,21 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+// Ensure DGII XSD schemas are present in blob storage (root 'Schemas/' folder, shared across all environments)
+using (var scope = app.Services.CreateScope())
+{
+    try
+    {
+        var storageService = scope.ServiceProvider.GetRequiredService<IDgiiStorageService>();
+        await storageService.EnsureSchemasUploadedAsync();
+        Log.Information("DGII schemas verified/uploaded to blob storage successfully.");
+    }
+    catch (Exception ex)
+    {
+        Log.Warning(ex, "EnsureSchemasUploadedAsync failed \u2014 schemas may need to be uploaded manually.");
+    }
+}
+
 // Optimize for Production: Apply pending migrations
 if (app.Environment.IsProduction())
 {
