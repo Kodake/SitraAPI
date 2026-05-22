@@ -37,7 +37,9 @@ namespace SITRA.Infrastructure.Repositories.Invoices
                     && x.InvoiceFiscalSupport.EcfType != EcfType.E31
                     && x.InvoiceFiscalSupport.EcfType != EcfType.E33
                     && x.InvoiceFiscalSupport.EcfType != EcfType.E34
-                    && x.InvoiceFiscalSupport.EcfType != EcfType.E41)
+                    && x.InvoiceFiscalSupport.EcfType != EcfType.E41
+                    && !context.Invoices.Any(y => y.ModifiedNcfNumber == x.FiscalSupportNumber && x.FiscalSupportNumber != null && y.DgiiStatus == "Aceptado")
+                    && !(x.ModifiedNcfNumber != null && x.DgiiStatus == "Aceptado"))
                 .OrderByDescending(i => i.CreatedAt)
                 .ThenByDescending(i => i.Id)
                 .Paginate(paginationDTO)

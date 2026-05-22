@@ -31,8 +31,16 @@ namespace SITRA.Infrastructure.Repositories.Invoices
             return await queryable
                 .Where(x => x.InvoiceType == InvoiceType.Purchase
                     && x.InvoiceFiscalSupport != null
-                    && (x.InvoiceFiscalSupport.EcfType == EcfType.E31
-                        || x.InvoiceFiscalSupport.EcfType == EcfType.E41))
+                    && x.InvoiceFiscalSupport.EcfType != EcfType.E32
+                    && x.InvoiceFiscalSupport.EcfType != EcfType.E33
+                    && x.InvoiceFiscalSupport.EcfType != EcfType.E34
+                    && x.InvoiceFiscalSupport.EcfType != EcfType.E43
+                    && x.InvoiceFiscalSupport.EcfType != EcfType.E44
+                    && x.InvoiceFiscalSupport.EcfType != EcfType.E45
+                    && x.InvoiceFiscalSupport.EcfType != EcfType.E46
+                    && x.InvoiceFiscalSupport.EcfType != EcfType.E47
+                    && !context.Invoices.Any(y => y.ModifiedNcfNumber == x.FiscalSupportNumber && x.FiscalSupportNumber != null && y.DgiiStatus == "Aceptado")
+                    && !(x.ModifiedNcfNumber != null && x.DgiiStatus == "Aceptado"))
                 .OrderByDescending(x => x.CreatedAt)
                 .ThenByDescending(x => x.Id)
                 .Paginate(paginationDTO)

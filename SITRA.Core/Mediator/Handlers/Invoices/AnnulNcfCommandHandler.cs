@@ -194,7 +194,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
                         string xmlFirmado = _signatureService.SignXml(xmlSinFirma, certBytes, certPassword);
                         securityCode = GetSecurityCodeFromSignedXml(xmlFirmado);
 
-                        await _dgiiStorageService.SaveDocumentXmlAsync(xmlFirmado, _dgiiSettings.DefaultRNC, "34", $"{ecfDocument.Encabezado.IdDoc.ENCF}.xml");
+                        annulInvoice.XmlUrl = await _dgiiStorageService.SaveDocumentXmlAsync(xmlFirmado, _dgiiSettings.DefaultRNC, "34", $"{ecfDocument.Encabezado.IdDoc.ENCF}.xml");
 
                         rawResponse = await _dgiiApiService.SendEcfAsync(xmlFirmado, token);
 

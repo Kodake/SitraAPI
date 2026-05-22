@@ -1,20 +1,24 @@
 using AutoMapper;
+using QuestPDF.Fluent;
 using SITRA.Core.Documents;
 using SITRA.Core.Entities.Auths;
 using SITRA.Core.Helpers;
 using SITRA.Core.Interfaces;
 using SITRA.Core.Models;
 using SITRA.Core.Models.Dgii;
+using SITRA.Core.Interfaces.Services;
 
 namespace SITRA.Core.Mediator.Queries.Invoices.PurchaseInvoices
 {
     public class GetPurchaseInvoicePdfQuery : GetByIdQuery<(byte[] FileBytes, string FileName)?>
     {
         private readonly DgiiSettings _dgiiSettings;
+        private readonly IDgiiStorageService _dgiiStorageService;
 
-        public GetPurchaseInvoicePdfQuery(Guid invoiceId, DgiiSettings dgiiSettings) : base(invoiceId) 
+        public GetPurchaseInvoicePdfQuery(Guid invoiceId, DgiiSettings dgiiSettings, IDgiiStorageService dgiiStorageService) : base(invoiceId) 
         {
             _dgiiSettings = dgiiSettings;
+            _dgiiStorageService = dgiiStorageService;
         }
 
         public override async Task<(byte[] FileBytes, string FileName)?> GetData(
@@ -22,7 +26,6 @@ namespace SITRA.Core.Mediator.Queries.Invoices.PurchaseInvoices
             IMapper mapper,
             CancellationToken cancellationToken)
         {
-            QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
             var purchaseInvoice = await unitOfWork.PurchaseInvoiceRepository.GetByIdAsync(Id);
 
             if (purchaseInvoice == null)
@@ -55,9 +58,17 @@ namespace SITRA.Core.Mediator.Queries.Invoices.PurchaseInvoices
             catch { /* Fallback */ }
 
             DgiiPdfMetadata? dgiiMeta = null;
-            if (!string.IsNullOrEmpty(purchaseInvoice.FiscalSupportNumber))
+            if (!string.IsNullOrEmpty(purchaseInvoice.XmlUrl))
             {
-                // Prefer the resolved company RucNumber for directory retrieval
+                string? xmlContent = await _dgiiStorageService.ReadDocumentXmlFromUrlAsync(purchaseInvoice.XmlUrl);
+                if (!string.IsNullOrEmpty(xmlContent))
+                {
+                    dgiiMeta = DgiiXmlMetadataReader.ParseXml(xmlContent);
+                }
+            }
+            
+            if (dgiiMeta == null && !string.IsNullOrEmpty(purchaseInvoice.FiscalSupportNumber))
+            {
                 string effectiveRnc = company?.RucNumber ?? _dgiiSettings.DefaultRNC;
 
                 dgiiMeta = DgiiXmlMetadataReader.TryExtractMetadata(
@@ -70,16 +81,13 @@ namespace SITRA.Core.Mediator.Queries.Invoices.PurchaseInvoices
             var invoiceDocument = new InvoiceDocument(purchaseInvoice, dgiiMeta, company, _dgiiSettings);
             var finalRnc = company?.RucNumber ?? dgiiMeta?.EmisorRnc ?? _dgiiSettings.DefaultRNC;
             var sanitizedNcf = purchaseInvoice.FiscalSupportNumber?.Replace("/", "-") ?? Id.ToString();
-            var suffix = dgiiMeta?.IsRfce == true ? "_RFCE" : "";
-            var fileName = $"{finalRnc}{sanitizedNcf}{suffix}.pdf";
+            var fileName = $"{finalRnc}{sanitizedNcf}.pdf";
 
-            var filePath = Path.Combine(Path.GetTempPath(), fileName);
-            invoiceDocument.GeneratePdf(filePath);
+            using var stream = new MemoryStream();
 
-            var fileBytes = await File.ReadAllBytesAsync(filePath, cancellationToken);
-            
-            // Clean up the temporary file 
-            if (File.Exists(filePath)) File.Delete(filePath);
+            invoiceDocument.GeneratePdf(stream);
+
+            var fileBytes = stream.ToArray();
 
             var file = (fileBytes, fileName);
             return file;

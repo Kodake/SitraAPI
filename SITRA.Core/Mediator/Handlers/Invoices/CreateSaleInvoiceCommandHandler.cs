@@ -190,36 +190,6 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
             return dto;
         }
 
-        private static void SaveDocumentXml(string xml, string encf, string rnc, string docType, string? storagePath)
-        {
-            try
-            {
-                string baseDir = !string.IsNullOrEmpty(storagePath)
-                    ? storagePath
-                    : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "DgiiDocuments");
-
-                string saveDir = Path.Combine(baseDir, rnc, docType);
-
-                if (!Directory.Exists(saveDir))
-                {
-                    Directory.CreateDirectory(saveDir);
-                }
-
-                string fileName = docType switch
-                {
-                    "RFCE" => $"{rnc}{encf}_RFCE.xml",
-                    "ACECF" => $"{GetRncCompradorFromXml(xml)}{encf}_ACECF.xml",
-                    _ => $"{rnc}{encf}.xml"
-                };
-
-                string filePath = Path.Combine(saveDir, fileName);
-                File.WriteAllText(filePath, xml, new UTF8Encoding(false));
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Failed to save DGII XML: {ex.Message}");
-            }
-        }
 
         private static string GetRncCompradorFromXml(string xml)
         {

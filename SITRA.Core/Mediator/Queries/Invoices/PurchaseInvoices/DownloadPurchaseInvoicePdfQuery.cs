@@ -4,7 +4,7 @@ namespace SITRA.Core.Mediator.Queries.Invoices.PurchaseInvoices
 {
     public class DownloadPurchaseInvoicePdfQuery : GetPurchaseInvoicePdfQuery
     {
-        public DownloadPurchaseInvoicePdfQuery(Guid invoiceId, DgiiSettings dgiiSettings) 
-            : base(invoiceId, dgiiSettings) { }
+        public DownloadPurchaseInvoicePdfQuery(Guid invoiceId, DgiiSettings dgiiSettings, SITRA.Core.Interfaces.Services.IDgiiStorageService dgiiStorageService) 
+            : base(invoiceId, dgiiSettings, dgiiStorageService) { }
     }
 }

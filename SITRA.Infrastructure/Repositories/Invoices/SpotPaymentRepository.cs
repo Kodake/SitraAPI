@@ -28,6 +28,7 @@ namespace SITRA.Infrastructure.Repositories.Invoices
             await httpContext.AddPaginationParamsToHeaders(queryable);
 
             return await queryable
+                .Where(x => x.Invoice != null && !context.Invoices.Any(y => y.ModifiedNcfNumber == x.Invoice.FiscalSupportNumber && x.Invoice.FiscalSupportNumber != null && y.DgiiStatus == "Aceptado"))
                 .OrderByDescending(x => x.CreatedAt)
                 .ThenByDescending(x => x.Id)
                 .Paginate(paginationDTO)

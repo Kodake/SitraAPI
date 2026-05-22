@@ -47,8 +47,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.PurchaseInvoices
                     ? parsedType
                     : EcfType.E31;
                 purchaseInvoice.InvoiceFiscalSupport = new InvoiceFiscalSupport { FiscalSupportId = fiscalSupportDB.Id, EcfType = ecfType };
-                    unitOfWork.FiscalSupportRepository.Update(fiscalSupportDB);
-                }
+                unitOfWork.FiscalSupportRepository.Update(fiscalSupportDB);
             }
 
             double currencyRate = currencyDB!.Rate;

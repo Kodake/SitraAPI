@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 using SITRA.Core.DTOs.DGII;
 using SITRA.Core.DTOs.Invoices.SaleInvoices;
 using SITRA.Core.Interfaces;
+using SITRA.Core.Interfaces.Services;
 using SITRA.Core.Mediator.Commands.Invoices.SaleInvoices;
 using SITRA.Core.Models.Dgii;
 
@@ -30,6 +31,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
         private readonly IEcfXmlGenerator _ecfXmlGenerator;
         private readonly IInvoiceToEcfMapper _mapperToEcf;
         private readonly DgiiSettings _dgiiSettings;
+        private readonly IDgiiStorageService _dgiiStorageService;
 
         public CreateNoteCommandHandler(
             IUnitOfWork unitOfWork,
@@ -39,7 +41,8 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
             ISignatureService signatureService,
             IEcfXmlGenerator ecfXmlGenerator,
             IInvoiceToEcfMapper mapperToEcf,
-            IOptions<DgiiSettings> dgiiSettings)
+            IOptions<DgiiSettings> dgiiSettings,
+            IDgiiStorageService dgiiStorageService)
         {
             _unitOfWork       = unitOfWork;
             _outputCacheStore = outputCacheStore;
@@ -49,6 +52,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
             _ecfXmlGenerator  = ecfXmlGenerator;
             _mapperToEcf      = mapperToEcf;
             _dgiiSettings     = dgiiSettings.Value;
+            _dgiiStorageService = dgiiStorageService;
         }
 
         public async Task<CreateNoteDTO> Handle(CreateNoteCommand request, CancellationToken cancellationToken)
@@ -101,12 +105,11 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
                         securityCode = GetSecurityCodeFromSignedXml(xmlFirmado);
 
                         var docType = ecfDocument.Encabezado?.IdDoc?.TipoeCF ?? "UNKNOWN";
-                        SaveDocumentXml(
+                        invoice.XmlUrl = await _dgiiStorageService.SaveDocumentXmlAsync(
                             xmlFirmado,
-                            ecfDocument.Encabezado?.IdDoc?.ENCF ?? "",
                             ecfDocument.Encabezado?.Emisor?.RNCEmisor ?? "",
                             docType,
-                            _dgiiSettings.StoragePath);
+                            (ecfDocument.Encabezado?.IdDoc?.ENCF ?? "") + ".xml");
 
                         rawResponse = await _dgiiApiService.SendEcfAsync(xmlFirmado, token);
 
@@ -179,27 +182,6 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
         }
 
         // ── Helpers (identical to CreateSaleInvoiceCommandHandler) ─────────────────
-
-        private static void SaveDocumentXml(string xml, string encf, string rnc, string docType, string? storagePath)
-        {
-            try
-            {
-                string baseDir = !string.IsNullOrEmpty(storagePath)
-                    ? storagePath
-                    : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "DgiiDocuments");
-
-                string saveDir = Path.Combine(baseDir, rnc, docType);
-                if (!Directory.Exists(saveDir)) Directory.CreateDirectory(saveDir);
-
-                string fileName = $"{rnc}{encf}.xml";
-                string filePath = Path.Combine(saveDir, fileName);
-                File.WriteAllText(filePath, xml, new UTF8Encoding(false));
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Failed to save DGII Note XML: {ex.Message}");
-            }
-        }
 
         private static string GetSecurityCodeFromSignedXml(string signedXml)
         {
