@@ -47,6 +47,8 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
 
         public async Task<AnnulNcfDTO> Handle(AnnulNcfCommand request, CancellationToken cancellationToken)
         {
+            var (certBytes, certPassword) = await _unitOfWork.UserRoleService.GetTenantCertificateAsync(cancellationToken);
+
             // Define the external delegation pipeline that interacts with infrastructure (DGII services + Disk IO)
             request.DgiiProcess = async (annulInvoice) =>
             {
@@ -181,13 +183,13 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
 
                     // ── 3. Execute DGII Authentication and Submission flow ────────────────
                     string seedXml = await _dgiiApiService.GetSemillaAsync();
-                    string signedSeed = _signatureService.SignAuthenticationSeed(seedXml);
+                    string signedSeed = _signatureService.SignAuthenticationSeed(seedXml, certBytes, certPassword);
                     string token = await _dgiiApiService.GetTokenAsync(signedSeed);
 
                     if (!string.IsNullOrEmpty(token))
                     {
                         string xmlSinFirma = _ecfXmlGenerator.GenerateEcfXml(ecfDocument);
-                        string xmlFirmado = _signatureService.SignXml(xmlSinFirma);
+                        string xmlFirmado = _signatureService.SignXml(xmlSinFirma, certBytes, certPassword);
                         securityCode = GetSecurityCodeFromSignedXml(xmlFirmado);
 
                         SaveDocumentXml(xmlFirmado, ecfDocument.Encabezado.IdDoc.ENCF, _dgiiSettings.DefaultRNC, "34", _dgiiSettings.StoragePath);

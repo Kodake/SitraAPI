@@ -56,6 +56,28 @@ namespace SITRA.Infrastructure.Services
             }
         }
 
+        public async Task<byte[]> ReadCertificateFromUrlAsync(string url)
+        {
+            if (string.IsNullOrEmpty(url))
+                throw new ArgumentException("Certificate URL is empty.", nameof(url));
+
+            if (url.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+            {
+                Uri uri = new Uri(url);
+                string blobName = uri.AbsolutePath.Substring($"/{_settings.AzureContainerName}/".Length);
+                // Strip the leading environment prefix already embedded in the URI
+                string relativePath = blobName.Substring(_settings.Environment.Length + 1);
+                var blobClient = await GetBlobClientAsync(relativePath);
+                using var ms = new MemoryStream();
+                await blobClient.DownloadToAsync(ms);
+                return ms.ToArray();
+            }
+            else
+            {
+                return await File.ReadAllBytesAsync(ResolvePath(url));
+            }
+        }
+
         public async Task<Stream> ReadFileStreamAsync(string relativePath)
         {
             if (_settings.UseAzureStorage)
@@ -142,7 +164,10 @@ namespace SITRA.Infrastructure.Services
                 await foreach (var blobItem in container.GetBlobsAsync(prefix: prefix))
                 {
                     if (blobItem.Name.EndsWith(".xsd", StringComparison.OrdinalIgnoreCase))
-                        files.Add(blobItem.Name);
+                    {
+                        string relativePath = blobItem.Name.Substring(_settings.Environment.Length + 1);
+                        files.Add(relativePath);
+                    }
                 }
                 return files.ToArray();
             }
@@ -151,6 +176,28 @@ namespace SITRA.Infrastructure.Services
                 string schemasPath = ResolvePath(_settings.SchemasPath);
                 if (!Directory.Exists(schemasPath)) return Array.Empty<string>();
                 return Directory.GetFiles(schemasPath, "*.xsd");
+            }
+        }
+
+        public async Task<string> SaveCertificateAsync(Microsoft.AspNetCore.Http.IFormFile file, string rnc)
+        {
+            string fileName = file.FileName;
+            if (_settings.UseAzureStorage)
+            {
+                var blobClient = await GetBlobClientAsync($"Certificates/{rnc}/{fileName}");
+                using var stream = file.OpenReadStream();
+                await blobClient.UploadAsync(stream, overwrite: true);
+                return blobClient.Uri.ToString();
+            }
+            else
+            {
+                string saveDir = Path.Combine(ResolvePath("Resources/Certificates"), rnc);
+                if (!Directory.Exists(saveDir)) Directory.CreateDirectory(saveDir);
+
+                string filePath = Path.Combine(saveDir, fileName);
+                using var fileStream = new FileStream(filePath, FileMode.Create);
+                await file.CopyToAsync(fileStream);
+                return filePath;
             }
         }
 

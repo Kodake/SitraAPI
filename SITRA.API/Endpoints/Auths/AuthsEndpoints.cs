@@ -30,6 +30,7 @@ namespace SITRA.API.Endpoints
                 .WithOpenApi().RequireAuthorization();
             group.MapPatch("/update-profile", UpdateProfile)
                 .AddEndpointFilter<ValidationFilter<UpdateProfileNameDTO>>()
+                .DisableAntiforgery()
                 .WithOpenApi().RequireAuthorization();
 
             return group;
@@ -99,14 +100,21 @@ namespace SITRA.API.Endpoints
                 : TypedResults.NotFound();
         }
 
-        static async Task<Results<Ok, BadRequest>> UpdateProfile(
-            [FromBody] UpdateProfileNameDTO dto,
+        static async Task<IResult> UpdateProfile(
+            [FromForm] UpdateProfileNameDTO dto,
             [FromServices] IMediator mediator)
         {
-            var command = new UpdateProfileCommand(dto);
-            var success = await mediator.Send(command);
+            try
+            {
+                var command = new UpdateProfileCommand(dto);
+                var success = await mediator.Send(command);
 
-            return success ? TypedResults.Ok() : TypedResults.BadRequest();
+                return success ? TypedResults.Ok() : TypedResults.BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return TypedResults.Problem(ex.ToString());
+            }
         }
     }
 }

@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using SITRA.Core.Interfaces;
+using SITRA.Core.Models.Dgii;
 
 namespace SITRA.API.Controllers
 {
@@ -10,12 +12,14 @@ namespace SITRA.API.Controllers
         private readonly IDgiiTestService _dgiiTestService;
         private readonly IDgiiApiService _dgiiApiService;
         private readonly ISignatureService _signatureService;
+        private readonly DgiiSettings _dgiiSettings;
 
-        public DgiiTestController(IDgiiTestService dgiiTestService, IDgiiApiService dgiiApiService, ISignatureService signatureService)
+        public DgiiTestController(IDgiiTestService dgiiTestService, IDgiiApiService dgiiApiService, ISignatureService signatureService, IOptions<DgiiSettings> dgiiOptions)
         {
             _dgiiTestService = dgiiTestService;
             _dgiiApiService = dgiiApiService;
             _signatureService = signatureService;
+            _dgiiSettings = dgiiOptions.Value;
         }
 
         [HttpPost("run-tests")]
@@ -175,7 +179,8 @@ namespace SITRA.API.Controllers
                     arecfXml = stringWriter.ToString();
                 }
 
-                string signedArecf = _signatureService.SignXml(arecfXml);
+                byte[] certBytes = System.IO.File.ReadAllBytes(_dgiiSettings.CertificatePath);
+                string signedArecf = _signatureService.SignXml(arecfXml, certBytes, _dgiiSettings.CertificatePassword);
 
                 if (!signedArecf.StartsWith("<?xml"))
                 {
@@ -268,7 +273,8 @@ namespace SITRA.API.Controllers
                     acecfXml = stringWriter.ToString();
                 }
 
-                string signedAcecf = _signatureService.SignXml(acecfXml);
+                byte[] certBytes = System.IO.File.ReadAllBytes(_dgiiSettings.CertificatePath);
+                string signedAcecf = _signatureService.SignXml(acecfXml, certBytes, _dgiiSettings.CertificatePassword);
 
                 if (!signedAcecf.StartsWith("<?xml"))
                 {

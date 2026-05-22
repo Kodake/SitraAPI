@@ -20,7 +20,7 @@ namespace SITRA.Core.Mediator.Commands.Auths
             IMapper mapper,
             CancellationToken cancellationToken)
         {
-            return unitOfWork.UserRoleService.UpdateProfileNameAsync(Dto.UserName, cancellationToken);
+            return unitOfWork.UserRoleService.UpdateProfileNameAsync(Dto, cancellationToken);
         }
     }
 }

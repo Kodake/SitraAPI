@@ -43,6 +43,8 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
 
         public async Task<CreatePurchaseInvoiceDTO> Handle(CreatePurchaseInvoiceCommand request, CancellationToken cancellationToken)
         {
+            var (certBytes, certPassword) = await _unitOfWork.UserRoleService.GetTenantCertificateAsync(cancellationToken);
+
             request.DgiiProcess = async (invoice) => 
             {
                 bool isAccepted = true;
@@ -65,14 +67,14 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
                     var ecfDocument = _mapperToEcf.MapToDgiiDocument(invoice);
 
                     string seedXml = await _dgiiApiService.GetSemillaAsync();
-                    string signedSeed = _signatureService.SignAuthenticationSeed(seedXml);
+                    string signedSeed = _signatureService.SignAuthenticationSeed(seedXml, certBytes, certPassword);
                     string token = await _dgiiApiService.GetTokenAsync(signedSeed);
 
                     if (!string.IsNullOrEmpty(token))
                     {
                         // E31 and E41 purchase invoices always use the standard eCF channel
                         string xmlSinFirma = _ecfXmlGenerator.GenerateEcfXml(ecfDocument);
-                        string xmlFirmado = _signatureService.SignXml(xmlSinFirma);
+                        string xmlFirmado = _signatureService.SignXml(xmlSinFirma, certBytes, certPassword);
                         securityCode = GetSecurityCodeFromSignedXml(xmlFirmado);
 
                         SaveDocumentXml(

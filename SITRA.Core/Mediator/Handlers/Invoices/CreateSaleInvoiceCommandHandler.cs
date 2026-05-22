@@ -49,6 +49,8 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
 
         public async Task<CreateSaleInvoiceDTO> Handle(CreateSaleInvoiceCommand request, CancellationToken cancellationToken)
         {
+            var (certBytes, certPassword) = await _unitOfWork.UserRoleService.GetTenantCertificateAsync(cancellationToken);
+
             request.DgiiProcess = async (invoice) =>
             {
                 bool isAccepted = true;
@@ -80,7 +82,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
                     }
 
                     string seedXml = await _dgiiApiService.GetSemillaAsync();
-                    string signedSeed = _signatureService.SignAuthenticationSeed(seedXml);
+                    string signedSeed = _signatureService.SignAuthenticationSeed(seedXml, certBytes, certPassword);
                     string token = await _dgiiApiService.GetTokenAsync(signedSeed);
 
                     if (!string.IsNullOrEmpty(token))
@@ -94,7 +96,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
                         if (isType32 && isAmountLessThan250k)
                         {
                             string baseEcfXml = _ecfXmlGenerator.GenerateEcfXml(ecfDocument);
-                            string signedBaseEcf = _signatureService.SignXml(baseEcfXml);
+                            string signedBaseEcf = _signatureService.SignXml(baseEcfXml, certBytes, certPassword);
                             
                             await _dgiiStorageService.SaveDocumentXmlAsync(signedBaseEcf, ecfDocument.Encabezado.Emisor.RNCEmisor, "32", ecfDocument.Encabezado.IdDoc.ENCF + ".xml");
 
@@ -102,7 +104,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
                             var rfceDoc = MapToRfce(ecfDocument, securityCode);
 
                             string rfceXmlSinFirma = _ecfXmlGenerator.GenerateRfceXml(rfceDoc);
-                            xmlFirmado = _signatureService.SignXml(rfceXmlSinFirma);
+                            xmlFirmado = _signatureService.SignXml(rfceXmlSinFirma, certBytes, certPassword);
 
                             invoice.XmlUrl = await _dgiiStorageService.SaveDocumentXmlAsync(xmlFirmado, ecfDocument.Encabezado.Emisor.RNCEmisor, "RFCE", ecfDocument.Encabezado.IdDoc.ENCF + "_RFCE.xml");
                             useRfceChannel = true;
@@ -110,7 +112,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
                         else
                         {
                             string xmlSinFirma = _ecfXmlGenerator.GenerateEcfXml(ecfDocument);
-                            xmlFirmado = _signatureService.SignXml(xmlSinFirma);
+                            xmlFirmado = _signatureService.SignXml(xmlSinFirma, certBytes, certPassword);
                             securityCode = GetSecurityCodeFromSignedXml(xmlFirmado);
 
                             var docType = ecfDocument.Encabezado?.IdDoc?.TipoeCF ?? "UNKNOWN";

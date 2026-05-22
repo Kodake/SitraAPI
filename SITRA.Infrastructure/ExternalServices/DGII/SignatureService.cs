@@ -20,17 +20,13 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
             _settings = options.Value;
         }
 
-        public string SignXml(string xmlString)
+        public string SignXml(string xmlString, byte[] certBytes, string certPassword)
         {
-            string path = ResolvePath(_settings.CertificatePath);
-            string pass = _settings.CertificatePassword;
-
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.PreserveWhitespace = false; 
             xmlDoc.LoadXml(xmlString);
 
-            byte[] certBytes = System.IO.File.ReadAllBytes(path);
-            var cert = new X509Certificate2(certBytes, pass, X509KeyStorageFlags.Exportable);
+            var cert = new X509Certificate2(certBytes, certPassword, X509KeyStorageFlags.Exportable);
 
             // Create a SignedXml object
             SignedXml signedXml = new SignedXml(xmlDoc);
@@ -76,9 +72,9 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
             return xmlDoc.OuterXml;
         }
         
-        public string SignAuthenticationSeed(string seedXmlString)
+        public string SignAuthenticationSeed(string seedXmlString, byte[] certBytes, string certPassword)
         {
-            return SignXml(seedXmlString);
+            return SignXml(seedXmlString, certBytes, certPassword);
         }
 
         public bool ValidateXmlSignature(string signedXmlString, string caCertPath)

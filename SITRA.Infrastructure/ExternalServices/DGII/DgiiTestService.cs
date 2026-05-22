@@ -65,7 +65,8 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
 
             // Step 1: Authentication
             string seedXml = await _dgiiApiService.GetSemillaAsync();
-            string signedSeed = _signatureService.SignAuthenticationSeed(seedXml);
+            byte[] certBytes = await _storageService.ReadCertificateAsync();
+            string signedSeed = _signatureService.SignAuthenticationSeed(seedXml, certBytes, _settings.CertificatePassword);
             string token = await _dgiiApiService.GetTokenAsync(signedSeed);
 
             if (string.IsNullOrEmpty(token))
@@ -124,7 +125,7 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
                     {
                         var acecfDoc = MapToAcecf(doc);
                         string xmlSinFirma = _ecfXmlGenerator.GenerateAcecfXml(acecfDoc);
-                        xmlFirmado = _signatureService.SignXml(xmlSinFirma);
+                        xmlFirmado = _signatureService.SignXml(xmlSinFirma, certBytes, _settings.CertificatePassword);
 
                         await SaveDocumentXmlAsync(xmlFirmado, doc.Encabezado.IdDoc.ENCF, doc.Encabezado.Emisor.RNCEmisor, "ACECF");
                     }
@@ -132,7 +133,7 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
                     {
                         // 1. Generate and sign the base ECF (Type 32)
                         string baseEcfXml = _ecfXmlGenerator.GenerateEcfXml(doc);
-                        string signedBaseEcf = _signatureService.SignXml(baseEcfXml);
+                        string signedBaseEcf = _signatureService.SignXml(baseEcfXml, certBytes, _settings.CertificatePassword);
 
                         // 2. Save the base e-CF in the "32" folder (always archive individual invoices)
                         await SaveDocumentXmlAsync(signedBaseEcf, doc.Encabezado.IdDoc.ENCF, doc.Encabezado.Emisor.RNCEmisor, "32");
@@ -143,7 +144,7 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
                         rfceDoc.Encabezado.CodigoSeguridadeCF = securityCode;
 
                         string xmlSinFirma = _ecfXmlGenerator.GenerateRfceXml(rfceDoc);
-                        xmlFirmado = _signatureService.SignXml(xmlSinFirma);
+                        xmlFirmado = _signatureService.SignXml(xmlSinFirma, certBytes, _settings.CertificatePassword);
 
                         // Save the RFCE summary
                         await SaveDocumentXmlAsync(xmlFirmado, doc.Encabezado.IdDoc.ENCF, doc.Encabezado.Emisor.RNCEmisor, "RFCE");
@@ -152,7 +153,7 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
                     {
                         // Automatic redirect for B2C < 250k: Save individual E32, then generate and send RFCE instead
                         string baseEcfXml = _ecfXmlGenerator.GenerateEcfXml(doc);
-                        string signedBaseEcf = _signatureService.SignXml(baseEcfXml);
+                        string signedBaseEcf = _signatureService.SignXml(baseEcfXml, certBytes, _settings.CertificatePassword);
                         await SaveDocumentXmlAsync(signedBaseEcf, doc.Encabezado.IdDoc.ENCF, doc.Encabezado.Emisor.RNCEmisor, "32");
 
                         string securityCode = GetSecurityCodeFromSignedXml(signedBaseEcf);
@@ -160,7 +161,7 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
                         rfceDoc.Encabezado.CodigoSeguridadeCF = securityCode;
 
                         string rfceXmlSinFirma = _ecfXmlGenerator.GenerateRfceXml(rfceDoc);
-                        xmlFirmado = _signatureService.SignXml(rfceXmlSinFirma);
+                        xmlFirmado = _signatureService.SignXml(rfceXmlSinFirma, certBytes, _settings.CertificatePassword);
 
                         // Save and prepare for RFCE sending
                         await SaveDocumentXmlAsync(xmlFirmado, doc.Encabezado.IdDoc.ENCF, doc.Encabezado.Emisor.RNCEmisor, "RFCE");
@@ -170,7 +171,7 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
                     {
                         // Standard individual invoice generation
                         string xmlSinFirma = _ecfXmlGenerator.GenerateEcfXml(doc);
-                        xmlFirmado = _signatureService.SignXml(xmlSinFirma);
+                        xmlFirmado = _signatureService.SignXml(xmlSinFirma, certBytes, _settings.CertificatePassword);
 
                         await SaveDocumentXmlAsync(xmlFirmado, doc.Encabezado.IdDoc.ENCF, doc.Encabezado.Emisor.RNCEmisor, doc.Encabezado.IdDoc.TipoeCF);
                     }

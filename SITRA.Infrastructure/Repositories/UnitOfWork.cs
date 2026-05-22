@@ -133,7 +133,9 @@ namespace SITRA.Infrastructure.Repositories
             PermissionClaimService = new PermissionClaimService(userManager, this, permissionClaimLogger);
             AuthenticationService = new AuthenticationService(context, userManager, configuration, this, authLogger);
             UserRegistrationService = new UserRegistrationService(context, userManager, configuration, this, UserService, registrationLogger);
-            UserRoleService = new UserRoleService(context, userManager, httpContextAccessor, roleServiceLogger);
+            var dgiiStorageService = Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<IDgiiStorageService>(serviceProvider);
+            var dataProtectionProvider = Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<Microsoft.AspNetCore.DataProtection.IDataProtectionProvider>(serviceProvider);
+            UserRoleService = new UserRoleService(context, userManager, httpContextAccessor, roleServiceLogger, dgiiStorageService, dataProtectionProvider);
 
             PlanService = new PlanService();
             FileStorageService = new AzureFileService(configuration);

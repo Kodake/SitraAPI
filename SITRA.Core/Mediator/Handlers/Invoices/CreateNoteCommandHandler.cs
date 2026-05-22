@@ -53,6 +53,8 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
 
         public async Task<CreateNoteDTO> Handle(CreateNoteCommand request, CancellationToken cancellationToken)
         {
+            var (certBytes, certPassword) = await _unitOfWork.UserRoleService.GetTenantCertificateAsync(cancellationToken);
+
             request.DgiiProcess = async (invoice) =>
             {
                 bool isAccepted   = true;
@@ -87,14 +89,14 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
 
                     // ── 3. Authenticate with DGII ────────────────────────────────────
                     string seedXml    = await _dgiiApiService.GetSemillaAsync();
-                    string signedSeed = _signatureService.SignAuthenticationSeed(seedXml);
+                    string signedSeed = _signatureService.SignAuthenticationSeed(seedXml, certBytes, certPassword);
                     string token      = await _dgiiApiService.GetTokenAsync(signedSeed);
 
                     if (!string.IsNullOrEmpty(token))
                     {
                         // E33/E34 always go through the standard ECF channel (never RFCE)
                         string xmlSinFirma = _ecfXmlGenerator.GenerateEcfXml(ecfDocument);
-                        string xmlFirmado  = _signatureService.SignXml(xmlSinFirma);
+                        string xmlFirmado  = _signatureService.SignXml(xmlSinFirma, certBytes, certPassword);
 
                         securityCode = GetSecurityCodeFromSignedXml(xmlFirmado);
 
