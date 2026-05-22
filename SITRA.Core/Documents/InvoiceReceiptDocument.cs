@@ -11,141 +11,151 @@ namespace SITRA.Core.Documents
     {
         public Invoice Invoice { get; }
         public User User { get; }
+        private readonly SITRA.Core.Models.Dgii.DgiiPdfMetadata? _dgiiMetadata;
+        private readonly SITRA.Core.Models.Dgii.DgiiSettings? _dgiiSettings;
 
-        public InvoiceReceiptDocument(Invoice invoice, User user)
+        public InvoiceReceiptDocument(Invoice invoice, User user, SITRA.Core.Models.Dgii.DgiiPdfMetadata? dgiiMetadata = null, SITRA.Core.Models.Dgii.DgiiSettings? dgiiSettings = null)
         {
             Invoice = invoice;
             User = user;
+            _dgiiMetadata = dgiiMetadata;
+            _dgiiSettings = dgiiSettings;
         }
 
         protected override void BuildHeader(IContainer container)
         {
-            container.Component(new ThermalHeaderComponent(User, SITRA.Core.Helpers.Utilities.InvoiceReceiptTitle));
+            container.Column(column =>
+            {
+                if (User != null)
+                {
+                    column.Item().Text(User.CompanyName).SemiBold();
+                    if (!string.IsNullOrEmpty(User.Address))
+                        column.Item().Text($"Dirección: {User.Address}");
+                    if (!string.IsNullOrEmpty(User.RucNumber))
+                        column.Item().Text($"RNC: {User.RucNumber}");
+                }
+
+                column.Item().PaddingVertical(8).Text("************************************************").AlignCenter();
+
+                column.Item().AlignCenter().Text(SITRA.Core.Helpers.Utilities.InvoiceReceiptTitle).SemiBold();
+                column.Item().AlignCenter().Text($"e-NCF: {Invoice.FiscalSupportNumber ?? "-"}").SemiBold();
+
+                column.Item().PaddingVertical(8).Text("************************************************").AlignCenter();
+            });
         }
 
         protected override void BuildContent(IContainer container)
         {
             container.Column(column =>
             {
-                // Login/Session Info
-                column.Item().Row(row =>
+
+                // Date
+                column.Item().PaddingBottom(5).Text($"{SITRA.Core.Helpers.Utilities.DateLabel} Emisión: {Invoice.Date.ToString("dd-MM-yyyy")}");
+
+                column.Item().PaddingVertical(5).Text("----------------------------------------------------------------").AlignCenter();
+
+                // Items Table Headers
+                column.Item().PaddingVertical(2).Column(headerCol =>
                 {
-                    row.RelativeItem().Text(SITRA.Core.Helpers.Utilities.UserLabel);
-                    row.RelativeItem().AlignRight().Text(User.UserName);
+                    headerCol.Item().Row(row =>
+                    {
+                        row.ConstantItem(45).Text(SITRA.Core.Helpers.Utilities.QuantityLabel);
+                        row.RelativeItem().Text(SITRA.Core.Helpers.Utilities.DescriptionLabel);
+                        row.ConstantItem(60).AlignRight().Text("Unidad de Medida");
+                    });
+                    
+                    headerCol.Item().Row(row =>
+                    {
+                        row.ConstantItem(45).Text(SITRA.Core.Helpers.Utilities.PriceLabel);
+                        row.RelativeItem().Text(SITRA.Core.Helpers.Utilities.ItbisLabel);
+                        row.ConstantItem(60).AlignRight().Text(SITRA.Core.Helpers.Utilities.ValueLabel);
+                    });
                 });
 
-                column.Item().Row(row =>
-                {
-                    row.RelativeItem().Text(SITRA.Core.Helpers.Utilities.ConditionLabel);
-                    row.RelativeItem().AlignRight().Text(Invoice.ConditionType == InvoiceCondition.Spot ? SITRA.Core.Helpers.Utilities.SpotConditionLabel : SITRA.Core.Helpers.Utilities.CreditConditionLabel);
-                });
-
-                column.Item().PaddingVertical(5).LineHorizontal(0.8f);
-
-                // Invoice Main Details
-                column.Item().Row(row =>
-                {
-                    row.RelativeItem().Text(SITRA.Core.Helpers.Utilities.InvoiceLabel);
-                    row.RelativeItem().AlignRight().Text(Invoice.Id.ToString());
-                });
-
-                column.Item().Row(row =>
-                {
-                    row.RelativeItem().Text(SITRA.Core.Helpers.Utilities.DateLabel);
-                    row.RelativeItem().AlignRight().Text(Invoice.Date.ToString("dd/MM/yyyy"));
-                });
-
-                column.Item().Row(row =>
-                {
-                    row.RelativeItem().Text(SITRA.Core.Helpers.Utilities.FiscalSupportNumberLabel);
-                    row.RelativeItem().AlignRight().Text(Invoice.FiscalSupportNumber ?? "-");
-                });
-
-                column.Item().Row(row =>
-                {
-                    row.RelativeItem().Text(SITRA.Core.Helpers.Utilities.RncCedulaLabel);
-                    row.RelativeItem().AlignRight().Text(Invoice.InvoiceBuyer?.Buyer?.Identification ?? "-");
-                });
-
-                column.Item().Row(row =>
-                {
-                    row.RelativeItem().Text(SITRA.Core.Helpers.Utilities.CustomerLabel);
-                    row.RelativeItem().AlignRight().Text(Invoice.InvoiceBuyer?.Buyer?.Name ?? "-");
-                });
-
-                column.Item().PaddingVertical(5).LineHorizontal(0.8f);
-
-                // Items Table
-                column.Item().Row(row =>
-                {
-                    row.RelativeItem().Text(SITRA.Core.Helpers.Utilities.ItemsLabel);
-                    row.ConstantItem(45).AlignRight().Text(SITRA.Core.Helpers.Utilities.TaxLabelShort);
-                    row.ConstantItem(45).AlignRight().Text(SITRA.Core.Helpers.Utilities.TotalLabelShort);
-                });
-
-                column.Item().PaddingVertical(5).LineHorizontal(0.5f);
+                column.Item().PaddingVertical(5).Text("----------------------------------------------------------------").AlignCenter();
+                column.Item().PaddingVertical(2);
 
                 foreach (var item in Invoice.InvoiceItems)
                 {
                     var taxAmount = item.Item.ItemTaxes.Sum(t => item.Qty * item.BasePrice * t.Tax.Amount / 100);
 
-                    column.Item().Row(row =>
+                    column.Item().PaddingBottom(2).Column(itemCol =>
                     {
-                        row.ConstantItem(20).Text(item.Qty.ToString());
-                        row.RelativeItem().Text(item.Item.Name);
-                        row.ConstantItem(45).AlignRight().Text($"{taxAmount:N2}");
-                        row.ConstantItem(45).AlignRight().Text($"{item.TotalPrice:N2}");
-                    });
+                        itemCol.Item().Row(row =>
+                        {
+                            row.ConstantItem(45).Text(item.Qty.ToString());
+                            row.RelativeItem().Text(item.Item.Name);
+                            // CAJ commented out
+                            // row.ConstantItem(60).AlignRight().Text("CAJ");
+                        });
 
-                    column.Item().PaddingLeft(20).Text($"{item.BasePrice:N2}").Style(ThermalStyles.SmallStyle);
+                        itemCol.Item().Row(row =>
+                        {
+                            row.ConstantItem(45).Text($"{item.BasePrice:N2}");
+                            row.RelativeItem().Text($"{taxAmount:N2}");
+                            row.ConstantItem(60).AlignRight().Text($"{item.TotalPrice:N2}");
+                        });
+                    });
                 }
 
-                column.Item().PaddingVertical(5).LineHorizontal(0.8f);
+                column.Item().PaddingVertical(5).Text("----------------------------------------------------------------").AlignCenter();
 
                 // Totals
                 column.Item().AlignRight().Column(totalCol =>
                 {
                     totalCol.Item().Row(r =>
                     {
-                        r.RelativeItem().Text($"{SITRA.Core.Helpers.Utilities.SubtotalLabel}:");
-                        r.ConstantItem(60).AlignRight().Text($"{Invoice.TotalAmount:N2}");
+                        r.RelativeItem().PaddingRight(5).AlignRight().Text(SITRA.Core.Helpers.Utilities.TaxedSubtotalLabel);
+                        r.ConstantItem(70).AlignRight().Text($"{Invoice.TotalAmount:N2}");
                     });
 
                     totalCol.Item().Row(r =>
                     {
-                        r.RelativeItem().Text(SITRA.Core.Helpers.Utilities.ItbisLabel);
-                        r.ConstantItem(60).AlignRight().Text($"{Invoice.TotalTaxes:N2}");
+                        r.RelativeItem().PaddingRight(5).AlignRight().Text($"Total {SITRA.Core.Helpers.Utilities.ItbisLabel}:");
+                        r.ConstantItem(70).AlignRight().Text($"{Invoice.TotalTaxes:N2}");
                     });
 
                     totalCol.Item().Row(r =>
                     {
-                        r.RelativeItem().Text(SITRA.Core.Helpers.Utilities.AmountToPayLabel).SemiBold();
-                        r.ConstantItem(60).AlignRight().Text($"{Invoice.TotalPrice:N2}").SemiBold();
+                        r.RelativeItem().PaddingRight(5).AlignRight().Text($"{SITRA.Core.Helpers.Utilities.TotalLabel}:");
+                        r.ConstantItem(70).AlignRight().Text($"{Invoice.TotalPrice:N2}");
                     });
                 });
 
-                // Payment Methods
-                if (Invoice.SpotPayment?.Payments != null && Invoice.SpotPayment.Payments.Any())
-                {
-                    column.Item().PaddingTop(5).Text(SITRA.Core.Helpers.Utilities.PaymentMethodsLabel).SemiBold();
-                    foreach (var payment in Invoice.SpotPayment.Payments)
-                    {
-                        column.Item().Row(row =>
-                        {
-                            row.RelativeItem().Text(SITRA.Core.Helpers.Utilities.GetPaymentMethodLabel(payment.PaymentMethod));
-                            row.RelativeItem().AlignRight().Text($"{payment.Amount:N2}");
-                        });
-                    }
+                column.Item().PaddingVertical(5).Text("----------------------------------------------------------------").AlignCenter();
 
-                    if (Invoice.SpotPayment.AmountReturned > 0)
+                // QR Code Section
+                if (_dgiiMetadata != null)
+                {
+                    column.Item().PaddingTop(10).AlignCenter().Column(qrCol =>
                     {
-                        column.Item().PaddingTop(2).Row(row =>
+                        try
                         {
-                            row.RelativeItem().Text(SITRA.Core.Helpers.Utilities.AmountReturnedLabel).SemiBold();
-                            row.RelativeItem().AlignRight().Text($"{Invoice.SpotPayment.AmountReturned:N2}").SemiBold();
-                        });
-                    }
+                            string qrUrl = SITRA.Core.Helpers.DgiiQrUrlHelper.BuildDgiiQrUrl(_dgiiMetadata, _dgiiSettings?.ConsultaTimbreUrl, _dgiiSettings?.ConsultaTimbreFCUrl);
+                            byte[] qrBytes = SITRA.Core.Helpers.QrCodeGeneratorService.GenerateQrCodeBytes(qrUrl);
+                            qrCol.Item().AlignCenter().Width(80).Height(80).Image(qrBytes, ImageScaling.FitArea);
+
+                            qrCol.Item().AlignCenter().Text(x =>
+                            {
+                                x.Span("Código de Seguridad: ").FontSize(8);
+                                x.Span(_dgiiMetadata.SecurityCode ?? "N/A").FontSize(8);
+                            });
+
+                            if (!string.IsNullOrEmpty(_dgiiMetadata.FechaFirma))
+                            {
+                                qrCol.Item().AlignCenter().Text(x =>
+                                {
+                                    x.Span("Fecha Firma: ").FontSize(8);
+                                    x.Span(_dgiiMetadata.FechaFirma).FontSize(8);
+                                });
+                            }
+                        }
+                        catch { }
+                    });
                 }
+
+                // Disclaimer
+                column.Item().PaddingTop(15).Text("*Este modelo de RI es exclusivo para fines ilustrativos.").FontSize(7).AlignCenter();
 
                 // Description
                 if (!string.IsNullOrWhiteSpace(Invoice.Description))

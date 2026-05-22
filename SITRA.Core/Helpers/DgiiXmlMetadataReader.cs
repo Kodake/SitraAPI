@@ -100,11 +100,11 @@ namespace SITRA.Core.Helpers
                     });
                 }
 
-                return new DgiiPdfMetadata
+                var meta = new DgiiPdfMetadata
                 {
                     SecurityCode = secCode,
                     SignatureValue = sigValue,
-                    FechaFirma = doc.Root?.Element(ns + "FechaHoraFirma")?.Value,
+                    FechaFirma = doc.Descendants().FirstOrDefault(x => x.Name.LocalName == "FechaHoraFirma")?.Value,
                     EmisorRnc = emisor?.Element(ns + "RNCEmisor")?.Value ?? string.Empty,
                     RazonSocialEmisor = emisor?.Element(ns + "RazonSocial")?.Value ?? emisor?.Element(ns + "RazonSocialEmisor")?.Value,
                     DireccionEmisor = emisor?.Element(ns + "DireccionEmisor")?.Value,
@@ -125,6 +125,8 @@ namespace SITRA.Core.Helpers
                     NcfModificado = ncfModificado,
                     Items = items
                 };
+
+                return meta;
             }
             catch (Exception)
             {

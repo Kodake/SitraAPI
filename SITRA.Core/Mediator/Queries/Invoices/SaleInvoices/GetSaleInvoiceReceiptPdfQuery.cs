@@ -7,7 +7,17 @@ namespace SITRA.Core.Mediator.Queries.Invoices.SaleInvoices
     public class GetSaleInvoiceReceiptPdfQuery : GetByIdQuery<(byte[] FileBytes, string FileName)?>
 
     {
-        public GetSaleInvoiceReceiptPdfQuery(Guid invoiceId) : base(invoiceId) { }
+        private readonly SITRA.Core.Models.Dgii.DgiiSettings _dgiiSettings;
+        private readonly SITRA.Core.Interfaces.Services.IDgiiStorageService _dgiiStorageService;
+
+        public GetSaleInvoiceReceiptPdfQuery(
+            Guid invoiceId, 
+            SITRA.Core.Models.Dgii.DgiiSettings dgiiSettings, 
+            SITRA.Core.Interfaces.Services.IDgiiStorageService dgiiStorageService) : base(invoiceId) 
+        { 
+            _dgiiSettings = dgiiSettings;
+            _dgiiStorageService = dgiiStorageService;
+        }
 
         public override async Task<(byte[] FileBytes, string FileName)?> GetData(
             IUnitOfWork unitOfWork,
@@ -29,7 +39,33 @@ namespace SITRA.Core.Mediator.Queries.Invoices.SaleInvoices
                 return null;
             }
 
-            var invoiceDocument = new InvoiceReceiptDocument(saleInvoice, user);
+            SITRA.Core.Models.Dgii.DgiiPdfMetadata? dgiiMeta = null;
+            if (!string.IsNullOrEmpty(saleInvoice.XmlUrl))
+            {
+                string? xmlContent = await _dgiiStorageService.ReadDocumentXmlFromUrlAsync(saleInvoice.XmlUrl);
+                if (!string.IsNullOrEmpty(xmlContent))
+                {
+                    dgiiMeta = SITRA.Core.Helpers.DgiiXmlMetadataReader.ParseXml(xmlContent);
+                }
+
+                // For Type 32 (RFCE) invoices, XmlUrl points to the RFCE XML which does NOT
+                // contain FechaHoraFirma. Try the base ECF XML (same URL without _RFCE suffix).
+                if (dgiiMeta != null && string.IsNullOrEmpty(dgiiMeta.FechaFirma) && saleInvoice.XmlUrl.Contains("_RFCE"))
+                {
+                    string baseEcfUrl = saleInvoice.XmlUrl.Replace("_RFCE.xml", ".xml");
+                    string? baseXmlContent = await _dgiiStorageService.ReadDocumentXmlFromUrlAsync(baseEcfUrl);
+                    if (!string.IsNullOrEmpty(baseXmlContent))
+                    {
+                        var baseMeta = SITRA.Core.Helpers.DgiiXmlMetadataReader.ParseXml(baseXmlContent);
+                        if (baseMeta != null && !string.IsNullOrEmpty(baseMeta.FechaFirma))
+                        {
+                            dgiiMeta.FechaFirma = baseMeta.FechaFirma;
+                        }
+                    }
+                }
+            }
+
+            var invoiceDocument = new InvoiceReceiptDocument(saleInvoice, user, dgiiMeta, _dgiiSettings);
             
             // Derive consistent user-friendly filenames
             var finalRnc = user.RucNumber ?? "RNC";

@@ -95,7 +95,10 @@ namespace SITRA.Core.Helpers
         public static string QuantityLabel => _resourceManager.GetString("QuantityLabel")!;
         public static string TotalLabel => _resourceManager.GetString("TotalLabel")!;
         public static string SubtotalLabel => _resourceManager.GetString("SubtotalLabel")!;
+        public static string TaxedSubtotalLabel => _resourceManager.GetString("TaxedSubtotalLabel")!;
         public static string TaxesLabel => _resourceManager.GetString("TaxesLabel")!;
+        public static string PriceLabel => _resourceManager.GetString("PriceLabel")!;
+        public static string ValueLabel => _resourceManager.GetString("ValueLabel")!;
         public static string UserLabel => _resourceManager.GetString("UserLabel")!;
         public static string ConditionLabel => _resourceManager.GetString("ConditionLabel")!;
         public static string SpotConditionLabel => _resourceManager.GetString("SpotConditionLabel")!;

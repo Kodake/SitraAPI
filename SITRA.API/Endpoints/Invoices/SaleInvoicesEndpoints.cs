@@ -128,9 +128,11 @@ namespace SITRA.API.Endpoints.Invoices
 
         static async Task<Results<FileContentHttpResult, NotFound>> GenerateReceiptPdf(
             [FromRoute] Guid invoiceId,
-            [FromServices] IMediator mediator)
+            [FromServices] IMediator mediator,
+            [FromServices] Microsoft.Extensions.Options.IOptions<SITRA.Core.Models.Dgii.DgiiSettings> dgiiSettings,
+            [FromServices] SITRA.Core.Interfaces.Services.IDgiiStorageService dgiiStorageService)
         {
-            var query = new GetSaleInvoiceReceiptPdfQuery(invoiceId);
+            var query = new GetSaleInvoiceReceiptPdfQuery(invoiceId, dgiiSettings.Value, dgiiStorageService);
             var result = await mediator.Send(query);
 
             return result == null

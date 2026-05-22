@@ -473,4 +473,13 @@
   <data name="InvalidTaxAmountMessage" xml:space="preserve">
     <value>Invalid tax amount</value>
   </data>
+  <data name="PriceLabel" xml:space="preserve">
+    <value>Price</value>
+  </data>
+  <data name="ValueLabel" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="TaxedSubtotalLabel" xml:space="preserve">
+    <value>Taxed Subtotal:</value>
+  </data>
 </root>

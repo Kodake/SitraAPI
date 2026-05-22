@@ -35,7 +35,7 @@ namespace SITRA.Core.Helpers
             query["ENCF"] = encf;
             query["FechaEmision"] = NormalizeQrDate(data.FechaEmision);
             query["MontoTotal"] = total.ToString("F2", System.Globalization.CultureInfo.InvariantCulture);
-            query["FechaFirma"] = NormalizeQrDateTime(data.FechaFirma);
+            query["FechaHoraFirma"] = NormalizeQrDateTime(data.FechaFirma);
             query["CodigoSeguridad"] = (data.SecurityCode ?? "").Trim();
 
             builder.Query = query.ToString();
