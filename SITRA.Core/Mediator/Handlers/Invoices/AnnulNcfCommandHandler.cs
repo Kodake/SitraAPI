@@ -142,7 +142,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
                                 ENCF = annulInvoice.FiscalSupportNumber ?? string.Empty,
                                 IndicadorNotaCredito = 0,
                                 IndicadorMontoGral = "0",
-                                TipoIngresos = "01",
+                                TipoIngresos = (originalTipoEcf == "41" || originalTipoEcf == "43" || originalTipoEcf == "47") ? null : "01",
                                 TipoPago = "1"
                             },
                             Emisor = new Emisor

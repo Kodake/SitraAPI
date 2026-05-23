@@ -43,7 +43,12 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
                         FechaVencimientoSecuencia = _settings.DefaultFechaVencimientoSecuencia,
                         IndicadorMontoGral = (tipoEcf is "43" or "44" or "46" or "47") ? null : invoice.IndicadorMontoGral,
                         IndicadorEnvioDiferido = (invoice.IndicadorEnvioDiferido == 1) ? 1 : (int?)null,
-                        TipoIngresos = invoice.TipoIngresos ?? "01",
+                        TipoIngresos = ((tipoEcf == "33" || tipoEcf == "34") && !string.IsNullOrEmpty(invoice.ModifiedNcfNumber) &&
+                                        (invoice.ModifiedNcfNumber.StartsWith("E41", StringComparison.OrdinalIgnoreCase) || 
+                                         invoice.ModifiedNcfNumber.StartsWith("E43", StringComparison.OrdinalIgnoreCase) || 
+                                         invoice.ModifiedNcfNumber.StartsWith("E47", StringComparison.OrdinalIgnoreCase)))
+                                        ? null
+                                        : (invoice.TipoIngresos ?? "01"),
                         TipoPago = invoice.ConditionType == InvoiceCondition.Spot ? "1" : "2"
                     },
                     Emisor = new Emisor
