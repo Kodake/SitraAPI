@@ -269,6 +269,7 @@ namespace SITRA.Core.Helpers
                 PaymentMethod.Cash => _resourceManager.GetString("PaymentMethodCash")!,
                 PaymentMethod.Transfer => _resourceManager.GetString("PaymentMethodTransfer")!,
                 PaymentMethod.Card => _resourceManager.GetString("PaymentMethodCard")!,
+                PaymentMethod.CreditNote => _resourceManager.GetString("PaymentMethodCreditNote")!,
                 _ => method.ToString()
             };
         }

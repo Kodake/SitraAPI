@@ -350,6 +350,9 @@
   <data name="PaymentMethodCard" xml:space="preserve">
     <value>Tarjeta</value>
   </data>
+  <data name="PaymentMethodCreditNote" xml:space="preserve">
+    <value>Nota de Crédito</value>
+  </data>
   <data name="ReceiptFooterMessage" xml:space="preserve">
     <value>No hacemos devoluciones en efectivo, serán emitidas notas de crédito en caso de cambio</value>
   </data>

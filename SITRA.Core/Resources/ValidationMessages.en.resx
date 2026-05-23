@@ -350,6 +350,9 @@
   <data name="PaymentMethodCard" xml:space="preserve">
     <value>Card</value>
   </data>
+  <data name="PaymentMethodCreditNote" xml:space="preserve">
+    <value>Credit Note</value>
+  </data>
   <data name="ReceiptFooterMessage" xml:space="preserve">
     <value>No cash refunds will be made, credit notes will be issued in case of exchange</value>
   </data>
