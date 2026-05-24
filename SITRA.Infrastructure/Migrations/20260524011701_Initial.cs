@@ -49,6 +49,8 @@ namespace SITRA.Infrastructure.Migrations
                     TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IsOwner = table.Column<bool>(type: "bit", nullable: false),
                     Language = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CertificatePassword = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CertificateUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ParentUserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -1002,6 +1004,7 @@ namespace SITRA.Infrastructure.Migrations
                 {
                     InvoiceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FiscalSupportId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EcfType = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)

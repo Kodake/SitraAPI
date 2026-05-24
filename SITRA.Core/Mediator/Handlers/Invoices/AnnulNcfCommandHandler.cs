@@ -232,8 +232,8 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
                 catch (Exception ex)
                 {
                     status = "Error";
-                    rawResponse = ex.Message;
-                    System.Diagnostics.Debug.WriteLine($"Annul Delegate System Error: {ex.Message}");
+                    // Save the full stack trace into the database to pinpoint the exact crash line in production
+                    rawResponse = ex.ToString();
                 }
 
                 return (trackId, status, securityCode, rawResponse);

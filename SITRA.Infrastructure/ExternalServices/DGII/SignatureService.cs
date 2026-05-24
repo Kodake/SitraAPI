@@ -26,20 +26,48 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
             xmlDoc.PreserveWhitespace = false; 
             xmlDoc.LoadXml(xmlString);
 
-            var cert = new X509Certificate2(certBytes, certPassword, X509KeyStorageFlags.Exportable);
+            // BouncyCastle Implementation to COMPLETELY bypass Windows Keystore / Azure App Service Sandbox
+            using var ms = new System.IO.MemoryStream(certBytes);
+            var store = new Org.BouncyCastle.Pkcs.Pkcs12StoreBuilder().Build();
+            store.Load(ms, certPassword.ToCharArray());
+
+            string alias = null;
+            foreach (string n in store.Aliases)
+            {
+                if (store.IsKeyEntry(n))
+                {
+                    alias = n;
+                    break;
+                }
+            }
+
+            if (alias == null) throw new System.Exception("No private key found in certificate.");
+
+            var keyParams = store.GetKey(alias).Key as Org.BouncyCastle.Crypto.Parameters.RsaPrivateCrtKeyParameters;
+            if (keyParams == null) throw new System.Exception("Private key is not RSA.");
+
+            var rsaParams = new System.Security.Cryptography.RSAParameters
+            {
+                Modulus = keyParams.Modulus.ToByteArrayUnsigned(),
+                Exponent = keyParams.PublicExponent.ToByteArrayUnsigned(),
+                P = keyParams.P.ToByteArrayUnsigned(),
+                Q = keyParams.Q.ToByteArrayUnsigned(),
+                DP = keyParams.DP.ToByteArrayUnsigned(),
+                DQ = keyParams.DQ.ToByteArrayUnsigned(),
+                InverseQ = keyParams.QInv.ToByteArrayUnsigned(),
+                D = keyParams.Exponent.ToByteArrayUnsigned()
+            };
+
+            var rsa = System.Security.Cryptography.RSA.Create();
+            rsa.ImportParameters(rsaParams);
+
+            // Extract the public certificate to safely create an X509Certificate2 (bypassing private key disk errors)
+            var bcCert = store.GetCertificate(alias).Certificate;
+            var cert = new System.Security.Cryptography.X509Certificates.X509Certificate2(bcCert.GetEncoded());
 
             // Create a SignedXml object
             SignedXml signedXml = new SignedXml(xmlDoc);
-
-            // Assign the private key to the SignedXml object
-            // To completely bypass IIS "Keyset does not exist" we detach the key from Windows CNG store:
-            using System.Security.Cryptography.RSA rsaOriginal = cert.GetRSAPrivateKey();
-            System.Security.Cryptography.RSAParameters rsaParams = rsaOriginal.ExportParameters(true);
-            
-            System.Security.Cryptography.RSA detachedRsa = System.Security.Cryptography.RSA.Create();
-            detachedRsa.ImportParameters(rsaParams);
-            
-            signedXml.SigningKey = detachedRsa;
+            signedXml.SigningKey = rsa;
             
             // As required by DGII documentation (SHA-256)
             signedXml.SignedInfo.SignatureMethod = "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256";

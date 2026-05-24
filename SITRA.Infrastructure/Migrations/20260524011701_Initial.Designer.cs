@@ -12,8 +12,8 @@ using SITRA.Infrastructure.Persistence;
 namespace SITRA.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260522163530_AddedEcfTypeForInvoiceFiscalSupportsTable")]
-    partial class AddedEcfTypeForInvoiceFiscalSupportsTable
+    [Migration("20260524011701_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

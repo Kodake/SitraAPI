@@ -171,7 +171,8 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
                     System.Diagnostics.Debug.WriteLine($"DGII Note Flow Error: {ex.Message}");
                     isAccepted  = false;
                     status      = "Error";
-                    rawResponse = ex.Message;
+                    // Save the full stack trace into the database to pinpoint the exact crash line in production
+                    rawResponse = ex.ToString();
                 }
 
                 return (isAccepted, trackId, status, securityCode, rawResponse);
