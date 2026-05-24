@@ -1,6 +1,7 @@
 using AutoMapper;
 using SITRA.Core.DTOs.Invoices.PurchaseInvoices;
 using SITRA.Core.DTOs.Invoices.SaleInvoices;
+using SITRA.Core.DTOs.Invoices.LogInvoices;
 using SITRA.Core.Entities.Invoices;
 
 namespace SITRA.API.Profiles.Invoices
@@ -9,6 +10,9 @@ namespace SITRA.API.Profiles.Invoices
     {
         public InvoicesProfiles()
         {
+            // Log Invoices
+            CreateMap<Invoice, LogInvoiceListDTO>();
+
             // Sale Invoices
             CreateMap<CreateSaleInvoiceDTO, Invoice>()
                 .ForMember(des => des.Pricing, opt => opt.Ignore())

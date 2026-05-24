@@ -48,6 +48,7 @@ namespace SITRA.Infrastructure.Repositories
         public IExpenseRepository ExpenseRepository { get; }
         public ISaleInvoiceRepository SaleInvoiceRepository { get; }
         public IPurchaseInvoiceRepository PurchaseInvoiceRepository { get; }
+        public ILogInvoiceRepository LogInvoiceRepository { get; }
         public IQuotationRepository QuotationRepository { get; }
         public ISpotPaymentRepository SpotPaymentRepository { get; }
         public IPaymentRepository PaymentRepository { get; }
@@ -104,6 +105,7 @@ namespace SITRA.Infrastructure.Repositories
             ExpenseRepository = new ExpenseRepository(context, httpContextAccessor);
             SaleInvoiceRepository = new SaleInvoiceRepository(context, httpContextAccessor);
             PurchaseInvoiceRepository = new PurchaseInvoiceRepository(context, httpContextAccessor);
+            LogInvoiceRepository = new LogInvoiceRepository(context, httpContextAccessor);
             QuotationRepository = new QuotationRepository(context, httpContextAccessor);
             SpotPaymentRepository = new SpotPaymentRepository(context, httpContextAccessor);
             PaymentRepository = new PaymentRepository(context, httpContextAccessor);

@@ -11,6 +11,7 @@ using SITRA.Infrastructure.Persistence;
 using SITRA.Core.Entities.Products;
 using SITRA.Core.Enums;
 using SITRA.Core.Entities.Finances;
+using SITRA.Core.DTOs.AdministrativeTools.Roles;
 
 namespace SITRA.Infrastructure.Services
 {
@@ -226,7 +227,7 @@ namespace SITRA.Infrastructure.Services
                 // 2. Sync and Link Permissions
                 var config = _configuration
                     .GetSection("PermissionManagement")
-                    .Get<Core.DTOs.AdministrativeTools.PermissionManagementConfigDTO>();
+                    .Get<PermissionManagementConfigDTO>();
 
                 if (config != null)
                 {

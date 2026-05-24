@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.Extensions.Configuration;
-using SITRA.Core.DTOs.AdministrativeTools;
+using SITRA.Core.DTOs.AdministrativeTools.Roles;
 
 namespace SITRA.Core.Mediator.Queries.AdministrativeTools.Roles
 {

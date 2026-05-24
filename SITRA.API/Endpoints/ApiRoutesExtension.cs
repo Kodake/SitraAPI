@@ -41,6 +41,7 @@ public static class ApiRouteExtensions
         apiGroup.MapGroup("/transfers").MapTransfers();
         apiGroup.MapGroup("/saleInvoices").MapSaleInvoices();
         apiGroup.MapGroup("/purchaseInvoices").MapPurchaseInvoices();
+        apiGroup.MapGroup("logInvoices").MapLogInvoices();
         apiGroup.MapGroup("/quotations").MapQuotations();
         apiGroup.MapGroup("/spotPayments").MapSpotPayments();
         apiGroup.MapGroup("/spotPayables").MapSpotPayables();

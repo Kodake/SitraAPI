@@ -1,4 +1,4 @@
-namespace SITRA.Core.DTOs.AdministrativeTools
+namespace SITRA.Core.DTOs.AdministrativeTools.Roles
 {
     public class PermissionManagementConfigDTO
     {

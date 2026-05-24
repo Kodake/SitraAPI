@@ -1,7 +1,7 @@
 using MediatR;
 using SITRA.Core.Interfaces;
 using SITRA.Core.Mediator.Commands.AdministrativeTools.Roles;
-using SITRA.Core.DTOs.AdministrativeTools;
+using SITRA.Core.DTOs.AdministrativeTools.Roles;
 
 namespace SITRA.Core.Mediator.Handlers.AdministrativeTools.Roles
 {

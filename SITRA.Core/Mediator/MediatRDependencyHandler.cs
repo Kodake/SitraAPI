@@ -51,6 +51,7 @@ namespace SITRA.Core.Mediator
             services.AddQuotationsServices();
             services.AddSaleInvoicesServices();
             services.AddPurchaseInvoicesServices();
+            services.AddLogInvoicesInvoicesServices();
             services.AddCashBoxServices();
             services.AddAppointmentServices();
             services.AddAuthServices();

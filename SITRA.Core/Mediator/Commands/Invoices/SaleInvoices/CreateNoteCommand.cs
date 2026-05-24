@@ -37,7 +37,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
 
             // Map base invoice
             var note = mapper.Map<Invoice>(Dto);
-            note.InvoiceType = InvoiceType.Sale;
+            note.InvoiceType = InvoiceType.DebitNote;
             note.Date = DateTimeOffset.Now;
 
             // Carry note-specific reference fields through to the entity (NotMapped, used by ECF mapper)

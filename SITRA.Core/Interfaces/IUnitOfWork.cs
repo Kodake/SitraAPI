@@ -27,6 +27,7 @@ namespace SITRA.Core.Interfaces
         ISaleInvoiceRepository SaleInvoiceRepository { get; }
         IPurchaseInvoiceRepository PurchaseInvoiceRepository { get; }
         ISpotPaymentRepository SpotPaymentRepository { get; }
+        ILogInvoiceRepository LogInvoiceRepository { get; }
         IPaymentRepository PaymentRepository { get; }
         ISpotPayableRepository SpotPayableRepository { get; }
         IQuotationRepository QuotationRepository { get; }

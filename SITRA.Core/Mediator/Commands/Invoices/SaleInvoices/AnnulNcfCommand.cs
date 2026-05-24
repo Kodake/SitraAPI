@@ -50,7 +50,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
             {
                 Id = Guid.NewGuid(),
                 TenantId = originalInvoice.TenantId,
-                InvoiceType = InvoiceType.Sale,
+                InvoiceType = InvoiceType.CreditNote,
                 Date = DateTimeOffset.Now,
                 DueDate = DateTimeOffset.Now,
                 PricingId = originalInvoice.PricingId,
