@@ -1,6 +1,8 @@
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
 using SITRA.Core.Entities.Auths;
+using System.IO;
+using System;
 
 namespace SITRA.Core.Documents.Components
 {
@@ -19,40 +21,16 @@ namespace SITRA.Core.Documents.Components
         {
             container.Column(column =>
             {
-                // Logo section
-                //var logoPath = Path.Combine(AppContext.BaseDirectory, "Resources", "logo-black.png");
-
-                //try
-                //{
-                //    if (File.Exists(logoPath))
-                //    {
-                //        column.Item()
-                //              .AlignCenter()
-                //              .MaxHeight(1.5f, Unit.Centimetre)
-                //              .Width(100)
-                //              .Image(logoPath)
-                //              .FitWidth();
-
-                //        column.Item().Text(" ");
-                //    }
-                //    else
-                //    {
-                //        column.Item()
-                //              .AlignCenter()
-                //              .Text(SITRA.Core.Helpers.Utilities.LogoNotAvailableLabel)
-                //              .Style(ThermalStyles.SubtitleStyle);
-                //    }
-                //}
-                //catch (Exception ex)
-                //{
-                //    column.Item()
-                //          .AlignCenter()
-                //          .Text(SITRA.Core.Helpers.Utilities.ErrorLoadingLogoLabel)
-                //          .Style(ThermalStyles.SubtitleStyle);
-
-                //    // Using localized message for internal logging
-                //    Console.WriteLine(Utilities.InvoiceDocumentErrorLoadingLogo(ex.Message));
-                //}
+                string logoPath = Path.Combine(AppContext.BaseDirectory, "Resources", "logo-black.png");
+                if (File.Exists(logoPath))
+                {
+                    column.Item()
+                          .AlignCenter()
+                          .PaddingBottom(5)
+                          .MaxHeight(1.5f, Unit.Centimetre)
+                          .Width(100)
+                          .Image(logoPath, ImageScaling.FitArea);
+                }
 
                 // Company Info
                 if (_companyUser != null)

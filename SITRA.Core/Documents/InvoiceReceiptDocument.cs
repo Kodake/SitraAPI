@@ -4,6 +4,8 @@ using SITRA.Core.Documents.Components;
 using SITRA.Core.Entities.Auths;
 using SITRA.Core.Entities.Invoices;
 using SITRA.Core.Enums;
+using System;
+using System.IO;
 
 namespace SITRA.Core.Documents
 {
@@ -26,13 +28,19 @@ namespace SITRA.Core.Documents
         {
             container.Column(column =>
             {
+                string logoPath = Path.Combine(AppContext.BaseDirectory, "Resources", "logo-black.png");
+                if (File.Exists(logoPath))
+                {
+                    column.Item().AlignCenter().PaddingBottom(10).Height(60).Image(logoPath, ImageScaling.FitArea);
+                }
+
                 if (User != null)
                 {
-                    column.Item().Text(User.CompanyName).SemiBold();
+                    column.Item().AlignCenter().Text(User.CompanyName).SemiBold();
                     if (!string.IsNullOrEmpty(User.Address))
-                        column.Item().Text($"Dirección: {User.Address}");
+                        column.Item().AlignCenter().Text($"Dirección: {User.Address}");
                     if (!string.IsNullOrEmpty(User.RucNumber))
-                        column.Item().Text($"RNC: {User.RucNumber}");
+                        column.Item().AlignCenter().Text($"RNC: {User.RucNumber}");
                 }
 
                 column.Item().PaddingVertical(8).Text("***********************************************************").AlignCenter();
