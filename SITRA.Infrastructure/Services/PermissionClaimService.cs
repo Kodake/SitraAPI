@@ -31,7 +31,7 @@ namespace SITRA.Infrastructure.Services
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                _logger.LogError("User {UserId} not found when adding permission claims.", userId);
+                _logger.LogError(SITRA.Core.Helpers.Utilities.UserNotFoundAddingClaimsMessage(userId));
                 return;
             }
 
@@ -65,7 +65,7 @@ namespace SITRA.Infrastructure.Services
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                _logger.LogError("User {UserId} not found when removing permission claims.", userId);
+                _logger.LogError(SITRA.Core.Helpers.Utilities.UserNotFoundRemovingClaimsMessage(userId));
                 return;
             }
 

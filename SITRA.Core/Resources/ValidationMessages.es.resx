@@ -485,4 +485,34 @@
   <data name="TaxedSubtotalLabel" xml:space="preserve">
     <value>Subtotal Gravado:</value>
   </data>
+  <data name="PettyCashValidationFailedMessage" xml:space="preserve">
+    <value>Validación de caja chica fallida.</value>
+  </data>
+  <data name="CertificateValidationFailedMessage" xml:space="preserve">
+    <value>Validación de certificado fallida.</value>
+  </data>
+  <data name="NoAuthenticatedUserMessage" xml:space="preserve">
+    <value>No hay un usuario autenticado.</value>
+  </data>
+  <data name="UserNotFoundMessage" xml:space="preserve">
+    <value>Usuario no encontrado.</value>
+  </data>
+  <data name="NoCertificateUrlConfiguredMessage" xml:space="preserve">
+    <value>No se ha configurado una URL de certificado para este tenant. Por favor, suba un certificado en su perfil.</value>
+  </data>
+  <data name="NoCertificatePasswordConfiguredMessage" xml:space="preserve">
+    <value>No se ha configurado una contraseña de certificado para este tenant. Por favor, establezca una contraseña de certificado en su perfil.</value>
+  </data>
+  <data name="CurrentUserNotFoundMessage" xml:space="preserve">
+    <value>Usuario actual no encontrado.</value>
+  </data>
+  <data name="UserNotFoundAddingClaimsMessage" xml:space="preserve">
+    <value>Usuario {0} no encontrado al agregar claims de permisos.</value>
+  </data>
+  <data name="UserNotFoundRemovingClaimsMessage" xml:space="preserve">
+    <value>Usuario {0} no encontrado al remover claims de permisos.</value>
+  </data>
+  <data name="CertificateUrlEmptyMessage" xml:space="preserve">
+    <value>La URL del certificado está vacía.</value>
+  </data>
 </root>

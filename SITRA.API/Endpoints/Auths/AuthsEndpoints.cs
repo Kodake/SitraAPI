@@ -23,6 +23,8 @@ namespace SITRA.API.Endpoints
                 .WithOpenApi();
             group.MapGet("/validate-opened-petty-cash", ValidateOpenedPettyCashEndpoint)
                 .WithOpenApi().RequireAuthorization();
+            group.MapGet("/validate-uploaded-certificate", ValidateUploadedCertificateRncEndpoint)
+                .WithOpenApi().RequireAuthorization();
             group.MapPatch("/change-language", ChangeLanguage)
                 .AddEndpointFilter<ValidationFilter<ChangeLanguageDTO>>()
                 .WithOpenApi().RequireAuthorization();
@@ -73,7 +75,21 @@ namespace SITRA.API.Endpoints
 
             if (!success)
             {
-                return TypedResults.BadRequest(errorMessage ?? "Validación de caja chica fallida.");
+                return TypedResults.BadRequest(errorMessage ?? SITRA.Core.Helpers.Utilities.PettyCashValidationFailedMessage);
+            }
+
+            return TypedResults.Ok();
+        }
+
+        static async Task<Results<Ok, BadRequest<string>>> ValidateUploadedCertificateRncEndpoint(
+            [FromServices] IMediator mediator)
+        {
+            var query = new ValidateUploadedCertificateRncQuery();
+            var (success, errorMessage) = await mediator.Send(query);
+
+            if (!success)
+            {
+                return TypedResults.BadRequest(errorMessage ?? SITRA.Core.Helpers.Utilities.CertificateValidationFailedMessage);
             }
 
             return TypedResults.Ok();

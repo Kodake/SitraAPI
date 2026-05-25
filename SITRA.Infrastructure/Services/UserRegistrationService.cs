@@ -293,7 +293,7 @@ namespace SITRA.Infrastructure.Services
             {
                 return new RegistrationDTO
                 {
-                    IdentityResult = IdentityResult.Failed(new IdentityError { Description = "Current user not found." })
+                    IdentityResult = IdentityResult.Failed(new IdentityError { Description = SITRA.Core.Helpers.Utilities.CurrentUserNotFoundMessage })
                 };
             }
 
@@ -321,7 +321,7 @@ namespace SITRA.Infrastructure.Services
             {
                 return new RegistrationDTO
                 {
-                    IdentityResult = IdentityResult.Failed(new IdentityError { Description = "Role not found." })
+                    IdentityResult = IdentityResult.Failed(new IdentityError { Description = SITRA.Core.Helpers.Utilities.RoleNotFoundMessage })
                 };
             }
 

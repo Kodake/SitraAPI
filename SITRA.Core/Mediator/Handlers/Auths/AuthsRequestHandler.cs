@@ -16,6 +16,7 @@ namespace SITRA.Core.Mediator.Handlers.Auths
             services.AddTransient<IRequestHandler<ChangeLanguageCommand, bool>, AuthCommandHandler<ChangeLanguageCommand, bool>>();
             services.AddTransient<IRequestHandler<CreateAssociatedUserCommand, IdentityResult>, AuthCommandHandler<CreateAssociatedUserCommand, IdentityResult>>();
             services.AddTransient<IRequestHandler<ValidateOpenedPettyCashQuery, (bool Success, string? ErrorMessage)>, AuthQueryHandler<ValidateOpenedPettyCashQuery, (bool Success, string? ErrorMessage)>>();
+            services.AddTransient<IRequestHandler<ValidateUploadedCertificateRncQuery, (bool Success, string? ErrorMessage)>, AuthQueryHandler<ValidateUploadedCertificateRncQuery, (bool Success, string? ErrorMessage)>>();
             services.AddTransient<IRequestHandler<UpdateAssociatedUserRoleCommand, IdentityResult>, AuthCommandHandler<UpdateAssociatedUserRoleCommand, IdentityResult>>();
             services.AddTransient<IRequestHandler<GetUserQuery, UserDTO?>, AuthQueryHandler<GetUserQuery, UserDTO?>>();
             services.AddTransient<IRequestHandler<UpdateProfileCommand, bool>, AuthCommandHandler<UpdateProfileCommand, bool>>();

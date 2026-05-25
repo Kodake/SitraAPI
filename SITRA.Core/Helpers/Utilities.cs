@@ -63,6 +63,26 @@ namespace SITRA.Core.Helpers
         public static string OneOrMoreServicesInvalidMessage => _resourceManager.GetString("OneOrMoreServicesInvalidMessage")!;
         public static string ContactNotFoundOrInvalidMessage => _resourceManager.GetString("ContactNotFoundOrInvalidMessage")!;
         public static string NoSigningKeysFoundMessage => _resourceManager.GetString("NoSigningKeysFoundMessage")!;
+        public static string PettyCashValidationFailedMessage => _resourceManager.GetString("PettyCashValidationFailedMessage")!;
+        public static string CertificateValidationFailedMessage => _resourceManager.GetString("CertificateValidationFailedMessage")!;
+        public static string NoAuthenticatedUserMessage => _resourceManager.GetString("NoAuthenticatedUserMessage")!;
+        public static string UserNotFoundMessage => _resourceManager.GetString("UserNotFoundMessage")!;
+        public static string NoCertificateUrlConfiguredMessage => _resourceManager.GetString("NoCertificateUrlConfiguredMessage")!;
+        public static string NoCertificatePasswordConfiguredMessage => _resourceManager.GetString("NoCertificatePasswordConfiguredMessage")!;
+        public static string CurrentUserNotFoundMessage => _resourceManager.GetString("CurrentUserNotFoundMessage")!;
+        public static string CertificateUrlEmptyMessage => _resourceManager.GetString("CertificateUrlEmptyMessage")!;
+
+        public static string UserNotFoundAddingClaimsMessage(string userId)
+        {
+            var message = _resourceManager.GetString("UserNotFoundAddingClaimsMessage");
+            return string.Format(message!, userId);
+        }
+
+        public static string UserNotFoundRemovingClaimsMessage(string userId)
+        {
+            var message = _resourceManager.GetString("UserNotFoundRemovingClaimsMessage");
+            return string.Format(message!, userId);
+        }
 
         // Role and Permission validation messages
         public static string RoleNameRequiredMessage => _resourceManager.GetString("RoleNameRequiredMessage")!;

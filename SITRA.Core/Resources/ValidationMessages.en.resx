@@ -485,4 +485,34 @@
   <data name="TaxedSubtotalLabel" xml:space="preserve">
     <value>Taxed Subtotal:</value>
   </data>
+  <data name="PettyCashValidationFailedMessage" xml:space="preserve">
+    <value>Petty cash validation failed.</value>
+  </data>
+  <data name="CertificateValidationFailedMessage" xml:space="preserve">
+    <value>Certificate validation failed.</value>
+  </data>
+  <data name="NoAuthenticatedUserMessage" xml:space="preserve">
+    <value>No authenticated user.</value>
+  </data>
+  <data name="UserNotFoundMessage" xml:space="preserve">
+    <value>User not found.</value>
+  </data>
+  <data name="NoCertificateUrlConfiguredMessage" xml:space="preserve">
+    <value>No certificate URL is configured for this tenant. Please upload a certificate in your profile.</value>
+  </data>
+  <data name="NoCertificatePasswordConfiguredMessage" xml:space="preserve">
+    <value>No certificate password is configured for this tenant. Please set a certificate password in your profile.</value>
+  </data>
+  <data name="CurrentUserNotFoundMessage" xml:space="preserve">
+    <value>Current user not found.</value>
+  </data>
+  <data name="UserNotFoundAddingClaimsMessage" xml:space="preserve">
+    <value>User {0} not found when adding permission claims.</value>
+  </data>
+  <data name="UserNotFoundRemovingClaimsMessage" xml:space="preserve">
+    <value>User {0} not found when removing permission claims.</value>
+  </data>
+  <data name="CertificateUrlEmptyMessage" xml:space="preserve">
+    <value>Certificate URL is empty.</value>
+  </data>
 </root>

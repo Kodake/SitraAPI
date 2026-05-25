@@ -69,7 +69,7 @@ namespace SITRA.Infrastructure.Services
         public async Task<byte[]> ReadCertificateFromUrlAsync(string url)
         {
             if (string.IsNullOrEmpty(url))
-                throw new ArgumentException("Certificate URL is empty.", nameof(url));
+                throw new ArgumentException(SITRA.Core.Helpers.Utilities.CertificateUrlEmptyMessage, nameof(url));
 
             if (url.StartsWith("http", StringComparison.OrdinalIgnoreCase))
             {

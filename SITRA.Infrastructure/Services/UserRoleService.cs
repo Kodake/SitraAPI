@@ -127,11 +127,11 @@ namespace SITRA.Infrastructure.Services
         public async Task<(byte[] CertBytes, string CertPassword)> GetTenantCertificateAsync(CancellationToken cancellationToken)
         {
             var userId = HttpContext.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value
-                ?? throw new InvalidOperationException("No authenticated user.");
+                ?? throw new InvalidOperationException(SITRA.Core.Helpers.Utilities.NoAuthenticatedUserMessage);
 
             // Walk up to the owner: if this user is a sub-user, use their ParentUserId
             var user = await _userManager.FindByIdAsync(userId)
-                ?? throw new InvalidOperationException("User not found.");
+                ?? throw new InvalidOperationException(SITRA.Core.Helpers.Utilities.UserNotFoundMessage);
 
             var ownerUser = user.IsOwner
                 ? user
@@ -141,10 +141,10 @@ namespace SITRA.Infrastructure.Services
                 ?? user;
 
             if (string.IsNullOrEmpty(ownerUser.CertificateUrl))
-                throw new InvalidOperationException("No certificate URL is configured for this tenant. Please upload a certificate in your profile.");
+                throw new InvalidOperationException(SITRA.Core.Helpers.Utilities.NoCertificateUrlConfiguredMessage);
 
             if (string.IsNullOrEmpty(ownerUser.CertificatePassword))
-                throw new InvalidOperationException("No certificate password is configured for this tenant. Please set a certificate password in your profile.");
+                throw new InvalidOperationException(SITRA.Core.Helpers.Utilities.NoCertificatePasswordConfiguredMessage);
 
             var certBytes = await _dgiiStorageService.ReadCertificateFromUrlAsync(ownerUser.CertificateUrl);
             var certPassword = _protector.Unprotect(ownerUser.CertificatePassword);
