@@ -133,7 +133,8 @@ namespace SITRA.Infrastructure.Repositories
             // Services — no inter-service dependencies, all are peers
             UserService = new UserService(context, httpContextAccessor, userManager);
             PermissionClaimService = new PermissionClaimService(userManager, this, permissionClaimLogger);
-            AuthenticationService = new AuthenticationService(context, userManager, configuration, this, authLogger);
+            var emailService = Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<SITRA.Core.Interfaces.Services.IEmailService>(serviceProvider);
+            AuthenticationService = new AuthenticationService(context, userManager, configuration, this, authLogger, emailService);
             UserRegistrationService = new UserRegistrationService(context, userManager, configuration, this, UserService, registrationLogger);
             var dgiiStorageService = Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<IDgiiStorageService>(serviceProvider);
             var dataProtectionProvider = Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<Microsoft.AspNetCore.DataProtection.IDataProtectionProvider>(serviceProvider);

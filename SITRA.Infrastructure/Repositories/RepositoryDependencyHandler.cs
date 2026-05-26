@@ -29,6 +29,7 @@ namespace SITRA.Infrastructure.Repositories
 
             services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<SITRA.Core.Interfaces.Services.IEmailService, SITRA.Infrastructure.Services.EmailService>();
 
             return services;
         }

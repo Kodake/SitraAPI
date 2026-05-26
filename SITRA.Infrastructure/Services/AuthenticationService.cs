@@ -22,6 +22,7 @@ namespace SITRA.Infrastructure.Services
         private readonly IConfiguration _configuration;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<AuthenticationService> _logger;
+        private readonly IEmailService _emailService;
 
         private const string PermissionClaimType = "Permission";
 
@@ -30,13 +31,15 @@ namespace SITRA.Infrastructure.Services
             UserManager<User> userManager,
             IConfiguration configuration,
             IUnitOfWork unitOfWork,
-            ILogger<AuthenticationService> logger)
+            ILogger<AuthenticationService> logger,
+            IEmailService emailService)
         {
             _context = context;
             _userManager = userManager;
             _configuration = configuration;
             _unitOfWork = unitOfWork;
             _logger = logger;
+            _emailService = emailService;
         }
 
         public async Task<TokenResponseDTO?> LoginAsync(CreateLoginUserDTO dto, CancellationToken cancellationToken)
@@ -178,6 +181,45 @@ namespace SITRA.Infrastructure.Services
                 Expire = expire,
                 IsAuthenticated = true
             };
+        }
+
+        public async Task<bool> ForgotPasswordAsync(string email, CancellationToken cancellationToken)
+        {
+            var user = await _userManager.Users
+                .IgnoreQueryFilters()
+                .FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
+                
+            if (user == null)
+            {
+                // Return true even if user doesn't exist to prevent email enumeration
+                return true;
+            }
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            
+            // Generate a fake link for now. 
+            // In a real app, this would be your frontend URL + /reset-password?token=...&email=...
+            var resetLink = $"http://localhost:3000/reset-password?token={Uri.EscapeDataString(token)}&email={Uri.EscapeDataString(email)}";
+            
+            var body = $"Please reset your SITRA POS password by clicking here: {resetLink}";
+            await _emailService.SendEmailAsync(user.Email!, "SITRA POS - Password Reset", body, cancellationToken);
+            
+            return true;
+        }
+
+        public async Task<bool> ResetPasswordAsync(string email, string token, string newPassword, CancellationToken cancellationToken)
+        {
+            var user = await _userManager.Users
+                .IgnoreQueryFilters()
+                .FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
+                
+            if (user == null)
+            {
+                return false;
+            }
+
+            var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
+            return result.Succeeded;
         }
     }
 }

@@ -20,6 +20,8 @@ namespace SITRA.Core.Mediator.Handlers.Auths
             services.AddTransient<IRequestHandler<UpdateAssociatedUserRoleCommand, IdentityResult>, AuthCommandHandler<UpdateAssociatedUserRoleCommand, IdentityResult>>();
             services.AddTransient<IRequestHandler<GetUserQuery, UserDTO?>, AuthQueryHandler<GetUserQuery, UserDTO?>>();
             services.AddTransient<IRequestHandler<UpdateProfileCommand, bool>, AuthCommandHandler<UpdateProfileCommand, bool>>();
+            services.AddTransient<IRequestHandler<ForgotPasswordCommand, bool>, AuthCommandHandler<ForgotPasswordCommand, bool>>();
+            services.AddTransient<IRequestHandler<ResetPasswordCommand, bool>, AuthCommandHandler<ResetPasswordCommand, bool>>();
             return services;
         }
     }

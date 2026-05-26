@@ -35,6 +35,13 @@ namespace SITRA.API.Endpoints
                 .DisableAntiforgery()
                 .WithOpenApi().RequireAuthorization();
 
+            group.MapPost("/forgot-password", ForgotPassword)
+                .DisableAntiforgery()
+                .WithOpenApi().AllowAnonymous();
+            group.MapPost("/reset-password", ResetPassword)
+                .DisableAntiforgery()
+                .WithOpenApi().AllowAnonymous();
+
             return group;
         }
 
@@ -65,6 +72,30 @@ namespace SITRA.API.Endpoints
             }
 
             return TypedResults.Ok(response);
+        }
+
+        static async Task<Results<Ok, BadRequest>> ForgotPassword(
+            [FromBody] ForgotPasswordDTO dto,
+            [FromServices] IMediator mediator)
+        {
+            var command = new ForgotPasswordCommand(dto);
+            await mediator.Send(command);
+            
+            // Always return OK to prevent email enumeration attacks
+            return TypedResults.Ok();
+        }
+
+        static async Task<Results<Ok, BadRequest>> ResetPassword(
+            [FromBody] ResetPasswordDTO dto,
+            [FromServices] IMediator mediator)
+        {
+            var command = new ResetPasswordCommand(dto);
+            var success = await mediator.Send(command);
+            
+            if (!success)
+                return TypedResults.BadRequest();
+
+            return TypedResults.Ok();
         }
 
         static async Task<Results<Ok, BadRequest<string>>> ValidateOpenedPettyCashEndpoint(
