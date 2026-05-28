@@ -29,7 +29,7 @@ namespace SITRA.Core.Documents.Components
                           .PaddingBottom(5)
                           .MaxHeight(1.5f, Unit.Centimetre)
                           .Width(100)
-                          .Image(logoPath, ImageScaling.FitArea);
+                          .Image(logoPath).FitArea();
                 }
 
                 // Company Info

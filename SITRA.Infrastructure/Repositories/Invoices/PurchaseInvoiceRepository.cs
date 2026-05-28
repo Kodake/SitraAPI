@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using SITRA.Core.DTOs;
+using SITRA.Core.DTOs.Invoices.PurchaseInvoices;
 using SITRA.Core.Entities.Invoices;
 using SITRA.Core.Enums;
 using SITRA.Core.Helpers;
@@ -127,6 +128,29 @@ namespace SITRA.Infrastructure.Repositories.Invoices
                     x.CreatedAt >= from &&
                     x.CreatedAt <= to
                 ).ToListAsync(cancellationToken);
+        }
+
+        public async Task<PurchaseBalanceSummaryDTO> GetBalanceAsync(DateTimeOffset from, DateTimeOffset to, CancellationToken cancellationToken = default)
+        {
+            to = to.Date.AddDays(1).AddTicks(-1);
+
+            var spotPurchases = await context.SpotPayments
+                .Include(sp => sp.Invoice)
+                .Where(sp => sp.Invoice.InvoiceType == InvoiceType.Purchase && sp.Invoice.CreatedAt >= from && sp.Invoice.CreatedAt <= to && sp.IsActive)
+                .SumAsync(sp => sp.Invoice.TotalPrice, cancellationToken);
+
+            var payablesPayments = await context.PayableReceipts
+                .Where(pr => pr.CreatedAt >= from && pr.CreatedAt <= to && pr.IsActive)
+                .SumAsync(pr => pr.Amount, cancellationToken);
+
+            var totalOutflow = spotPurchases + payablesPayments;
+
+            return new PurchaseBalanceSummaryDTO
+            {
+                SpotPurchases = spotPurchases,
+                PayablesPayments = payablesPayments,
+                TotalOutflow = totalOutflow
+            };
         }
     }
 }

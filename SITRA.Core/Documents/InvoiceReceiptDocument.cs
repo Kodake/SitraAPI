@@ -31,7 +31,7 @@ namespace SITRA.Core.Documents
                 string logoPath = Path.Combine(AppContext.BaseDirectory, "Resources", "logo-black.png");
                 if (File.Exists(logoPath))
                 {
-                    column.Item().AlignCenter().PaddingBottom(10).Height(60).Image(logoPath, ImageScaling.FitArea);
+                    column.Item().AlignCenter().PaddingBottom(10).Height(60).Image(logoPath).FitArea();
                 }
 
                 if (User != null)
@@ -141,7 +141,7 @@ namespace SITRA.Core.Documents
                         {
                             string qrUrl = SITRA.Core.Helpers.DgiiQrUrlHelper.BuildDgiiQrUrl(_dgiiMetadata, _dgiiSettings?.ConsultaTimbreUrl, _dgiiSettings?.ConsultaTimbreFCUrl);
                             byte[] qrBytes = SITRA.Core.Helpers.QrCodeGeneratorService.GenerateQrCodeBytes(qrUrl);
-                            qrCol.Item().AlignCenter().Width(80).Height(80).Image(qrBytes, ImageScaling.FitArea);
+                            qrCol.Item().AlignCenter().Width(80).Height(80).Image(qrBytes).FitArea();
 
                             qrCol.Item().AlignCenter().Text(x =>
                             {

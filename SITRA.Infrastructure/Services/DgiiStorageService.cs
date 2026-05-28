@@ -172,7 +172,7 @@ namespace SITRA.Infrastructure.Services
                 string prefix = $"{SchemasBlobPrefix}/";
 
                 var files = new List<string>();
-                await foreach (var blobItem in container.GetBlobsAsync(prefix: prefix))
+                await foreach (var blobItem in container.GetBlobsAsync(BlobTraits.None, BlobStates.None, prefix, default))
                 {
                     if (blobItem.Name.EndsWith(".xsd", StringComparison.OrdinalIgnoreCase))
                     {

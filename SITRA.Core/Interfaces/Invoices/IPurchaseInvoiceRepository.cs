@@ -1,4 +1,5 @@
 using SITRA.Core.DTOs;
+using SITRA.Core.DTOs.Invoices.PurchaseInvoices;
 using SITRA.Core.Entities.Invoices;
 using SITRA.Core.Interfaces.Generics;
 
@@ -14,5 +15,6 @@ namespace SITRA.Core.Interfaces.Invoices
         Task<double> Last30DaysPurchasesAsync(CancellationToken cancellationToken = default);
         Task<List<Invoice>> GetPurchasesByDateRangeAsync(DateTime from, DateTime to, PaginationDTO paginationDTO, CancellationToken cancellationToken = default);
         Task<List<Invoice>> GetPurchasesReportByDateRangeAsync(DateTime from, DateTime to, CancellationToken cancellationToken = default);
+        Task<PurchaseBalanceSummaryDTO> GetBalanceAsync(DateTimeOffset from, DateTimeOffset to, CancellationToken cancellationToken = default);
     }
 }

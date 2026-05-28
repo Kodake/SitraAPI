@@ -20,6 +20,8 @@ namespace SITRA.API.Endpoints.Invoices
                 .AddPaginationParamsOpenAPI().RequireAuthorization();
             group.MapGet("/purchases-range", GetAllByDateRange).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("purchaseInvoices-get"))
                 .AddPaginationParamsOpenAPI().RequireAuthorization();
+            group.MapGet("/purchases-with-balance", GetAllWithBalance).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("purchaseInvoices-get"))
+                .AddPaginationParamsOpenAPI().RequireAuthorization();
             group.MapGet("/purchases-report", GenerateReportPdf).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("purchaseInvoices-get")).RequireAuthorization();
             group.MapGet("/{id:guid}", GetById).RequireAuthorization();
             group.MapPost("/", Create).DisableAntiforgery().AddEndpointFilter<ValidationFilter<CreatePurchaseInvoiceDTO>>().WithOpenApi().RequireAuthorization();
@@ -119,6 +121,17 @@ namespace SITRA.API.Endpoints.Invoices
             PaginationDTO pagination)
         {
             var query = new GetAllPurchaseInvoicesByDateRangeQuery(from, to, pagination);
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
+        }
+
+        static async Task<Ok<PurchaseInvoiceWithBalanceDTO>> GetAllWithBalance(
+            [FromServices] IMediator mediator,
+            DateTime from,
+            DateTime to,
+            PaginationDTO pagination)
+        {
+            var query = new GetPurchaseInvoicesWithBalanceQuery(from, to, pagination);
             var dto = await mediator.Send(query);
             return TypedResults.Ok(dto);
         }

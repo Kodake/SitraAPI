@@ -18,7 +18,7 @@ namespace SITRA.Infrastructure.Repositories.Invoices
             httpContext = httpContextAccessor.HttpContext!;
         }
 
-        public async new Task<List<Invoice>> GetAllAsync(PaginationDTO paginationDTO, string? dgiiStatus = null, CancellationToken cancellationToken = default)
+        public async Task<List<Invoice>> GetAllAsync(PaginationDTO paginationDTO, string? dgiiStatus = null, CancellationToken cancellationToken = default)
         {
             var queryable = context.Invoices.AsQueryable();
 

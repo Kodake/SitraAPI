@@ -79,7 +79,7 @@ namespace SITRA.Core.Documents
                     string logoPath = Path.Combine(AppContext.BaseDirectory, "Resources", "logo-black.png");
                     if (File.Exists(logoPath))
                     {
-                        col.Item().Height(60).Image(logoPath, ImageScaling.FitArea);
+                        col.Item().Height(60).Image(logoPath).FitArea();
                     }
                     else
                     {
@@ -293,7 +293,7 @@ namespace SITRA.Core.Documents
                             {
                                 string qrUrl = DgiiQrUrlHelper.BuildDgiiQrUrl(_dgiiMetadata, _dgiiSettings?.ConsultaTimbreUrl, _dgiiSettings?.ConsultaTimbreFCUrl);
                                 byte[] qrBytes = QrCodeGeneratorService.GenerateQrCodeBytes(qrUrl);
-                                col.Item().Width(100).Height(100).Image(qrBytes, ImageScaling.FitArea);
+                                col.Item().Width(100).Height(100).Image(qrBytes).FitArea();
 
                                 col.Item().PaddingTop(5).Text(x =>
                                 {

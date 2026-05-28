@@ -6,6 +6,6 @@ namespace SITRA.Core.Interfaces.Invoices
 {
     public interface ILogInvoiceRepository : IRepositoryBase<Invoice>
     {
-        new Task<List<Invoice>> GetAllAsync(PaginationDTO paginationDTO, string? dgiiStatus = null, CancellationToken cancellationToken = default);
+        Task<List<Invoice>> GetAllAsync(PaginationDTO paginationDTO, string? dgiiStatus = null, CancellationToken cancellationToken = default);
     }
 }

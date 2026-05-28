@@ -27,11 +27,10 @@ namespace SITRA.Tests
                 Age = 30
             };
 
-            var next = new Mock<RequestHandlerDelegate<string>>();
-            next.Setup(n => n()).ReturnsAsync("Success");
-
+            RequestHandlerDelegate<string> next = delegate { return Task.FromResult("Success"); };
+            
             // Act
-            await behavior.Handle(command, next.Object, CancellationToken.None);
+            await behavior.Handle(command, next, CancellationToken.None);
 
             // Assert
             Assert.Equal("John Doe", command.Name);
@@ -50,11 +49,10 @@ namespace SITRA.Tests
                 Description = null
             };
 
-            var next = new Mock<RequestHandlerDelegate<string>>();
-            next.Setup(n => n()).ReturnsAsync("Success");
-
+            RequestHandlerDelegate<string> next = delegate { return Task.FromResult("Success"); };
+            
             // Act
-            await behavior.Handle(command, next.Object, CancellationToken.None);
+            await behavior.Handle(command, next, CancellationToken.None);
 
             // Assert
             Assert.Equal("Test", command.Name);
@@ -71,11 +69,10 @@ namespace SITRA.Tests
                 Description = "<b>Bold</b> Text"
             };
 
-            var next = new Mock<RequestHandlerDelegate<string>>();
-            next.Setup(n => n()).ReturnsAsync("Success");
-
+            RequestHandlerDelegate<string> next = delegate { return Task.FromResult("Success"); };
+            
             // Act
-            await behavior.Handle(command, next.Object, CancellationToken.None);
+            await behavior.Handle(command, next, CancellationToken.None);
 
             // Assert
             Assert.Equal("alert('xss') John", command.Name); // Strips <script> and </script>, leaving "alert('xss') John"
