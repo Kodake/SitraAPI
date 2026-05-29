@@ -14,7 +14,7 @@ namespace SITRA.Core.Mediator.Queries.Warehouses.Transfers
             IMapper mapper,
             CancellationToken cancellationToken)
         {
-            var transfers = await unitOfWork.TransferRepository.GetAllAsync(Pagination);
+            var transfers = await unitOfWork.TransferRepository.GetReadOnlyAsync(Pagination);
             return mapper.Map<List<TransferListDTO>>(transfers);
         }
     }

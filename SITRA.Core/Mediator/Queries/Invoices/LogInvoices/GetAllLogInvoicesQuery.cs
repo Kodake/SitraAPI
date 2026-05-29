@@ -21,7 +21,7 @@ namespace SITRA.Core.Mediator.Queries.Invoices.LogInvoices
             CancellationToken cancellationToken)
         {
             var statusString = Status?.ToDatabaseString();
-            var logInvoices = await unitOfWork.LogInvoiceRepository.GetAllAsync(Pagination, statusString, cancellationToken);
+            var logInvoices = await unitOfWork.LogInvoiceRepository.GetReadOnlyAsync(Pagination, statusString, cancellationToken);
             return mapper.Map<List<LogInvoiceListDTO>>(logInvoices);
         }
     }

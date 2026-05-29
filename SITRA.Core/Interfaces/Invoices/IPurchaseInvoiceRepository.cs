@@ -8,6 +8,7 @@ namespace SITRA.Core.Interfaces.Invoices
     public interface IPurchaseInvoiceRepository : IRepositoryBase<Invoice>
     {
         new Task<List<Invoice>> GetAllAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default);
+        new Task<List<Invoice>> GetReadOnlyAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default);
         new Task<Invoice?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
         Task AddInvoiceItem(InvoiceItem item, CancellationToken cancellationToken = default);
         Task<List<InvoiceItem>> GetItemsByInvoiceId(Guid invoiceId, CancellationToken cancellationToken = default);

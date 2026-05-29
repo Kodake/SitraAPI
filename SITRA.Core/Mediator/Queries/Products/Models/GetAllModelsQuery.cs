@@ -14,7 +14,7 @@ namespace SITRA.Core.Mediator.Queries.Products.Models
             IMapper mapper,
             CancellationToken cancellationToken)
         {
-            var models = await unitOfWork.ModelRepository.GetAllAsync(Pagination);
+            var models = await unitOfWork.ModelRepository.GetReadOnlyAsync(Pagination);
             return mapper.Map<List<ModelListDTO>>(models);
         }
     }

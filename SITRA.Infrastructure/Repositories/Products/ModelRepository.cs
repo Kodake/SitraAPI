@@ -33,6 +33,21 @@ namespace SITRA.Infrastructure.Repositories.Products
             return subCategories;
         }
 
+        public async new Task<List<Model>> GetReadOnlyAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
+        {
+            var queryable = context.Models.AsNoTracking()
+                .OrderBy(x => x.Name);
+
+            await httpContext.AddPaginationParamsToHeaders(queryable);
+
+            var subCategories = await queryable
+                .Paginate(paginationDTO)
+                .Include(p => p.Brand)
+                .ToListAsync(cancellationToken);
+
+            return subCategories;
+        }
+
         public async new Task<Model?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await context.Models

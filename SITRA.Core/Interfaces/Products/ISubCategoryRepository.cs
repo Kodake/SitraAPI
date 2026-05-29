@@ -7,6 +7,7 @@ namespace SITRA.Core.Interfaces.Products
     public interface ISubCategoryRepository : IRepositoryBase<SubCategory>
     {
         new Task<List<SubCategory>> GetAllAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default);
+        new Task<List<SubCategory>> GetReadOnlyAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default);
         new Task<SubCategory?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
         Task<List<SubCategory>> GetByCategoryId(Guid categoryId, CancellationToken cancellationToken = default);
         Task<bool> Exists(Guid id, string name, CancellationToken cancellationToken = default);

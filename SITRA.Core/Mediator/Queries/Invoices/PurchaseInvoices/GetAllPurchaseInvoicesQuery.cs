@@ -14,7 +14,7 @@ namespace SITRA.Core.Mediator.Queries.Invoices.PurchaseInvoices
             IMapper mapper,
             CancellationToken cancellationToken)
         {
-            var saleInvoices = await unitOfWork.PurchaseInvoiceRepository.GetAllAsync(Pagination);
+            var saleInvoices = await unitOfWork.PurchaseInvoiceRepository.GetReadOnlyAsync(Pagination);
             return mapper.Map<List<PurchaseInvoiceListDTO>>(saleInvoices);
         }
     }

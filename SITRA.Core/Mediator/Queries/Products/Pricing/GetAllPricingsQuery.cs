@@ -14,7 +14,7 @@ namespace SITRA.Core.Mediator.Queries.Products.Pricings
             IMapper mapper,
             CancellationToken cancellationToken)
         {
-            var pricings = await unitOfWork.PricingRepository.GetAllAsync(Pagination);
+            var pricings = await unitOfWork.PricingRepository.GetReadOnlyAsync(Pagination);
             return mapper.Map<List<PricingListDTO>>(pricings);
         }
     }

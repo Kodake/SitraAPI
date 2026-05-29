@@ -14,7 +14,7 @@ namespace SITRA.Core.Mediator.Queries.Products.Combos
             IMapper mapper,
             CancellationToken cancellationToken)
         {
-            var combos = await unitOfWork.ComboRepository.GetAllAsync(Pagination);
+            var combos = await unitOfWork.ComboRepository.GetReadOnlyAsync(Pagination);
             return mapper.Map<List<ComboListDTO>>(combos);
         }
     }

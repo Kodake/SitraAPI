@@ -7,6 +7,7 @@ namespace SITRA.Core.Interfaces.Invoices
     public interface IQuotationRepository : IRepositoryBase<Quotation>
     {
         new Task<List<Quotation>> GetAllAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default);
+        new Task<List<Quotation>> GetReadOnlyAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default);
         new Task<Quotation?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
     }
 }

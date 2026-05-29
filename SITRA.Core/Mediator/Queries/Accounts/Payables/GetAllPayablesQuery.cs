@@ -12,7 +12,7 @@ namespace SITRA.Core.Mediator.Queries.Accounts.Payables
             IMapper mapper,
             CancellationToken cancellationToken)
         {
-            var payables = await unitOfWork.PayableRepository.GetAllAsync(Pagination);
+            var payables = await unitOfWork.PayableRepository.GetReadOnlyAsync(Pagination);
             return mapper.Map<List<PayableListDTO>>(payables);
         }
     }

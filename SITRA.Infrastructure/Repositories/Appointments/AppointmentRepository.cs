@@ -34,6 +34,22 @@ namespace SITRA.Infrastructure.Repositories.Appointments
             return items;
         }
 
+        public async new Task<List<Appointment>> GetReadOnlyAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
+        {
+            var queryable = context.Appointments.AsNoTracking()
+                .OrderBy(x => x.Description);
+
+            await httpContext.AddPaginationParamsToHeaders(queryable);
+
+            var items = await queryable
+                .Paginate(paginationDTO)
+                .Include(p => p.Contact)
+                .Include(p => p.AppointmentItems)
+                .ToListAsync(cancellationToken);
+
+            return items;
+        }
+
         public async Task<bool> ExistsAtDateTime(DateTimeOffset scheduledAt, Guid? excludeId = null, CancellationToken cancellationToken = default)
         {
             return await context.Appointments.AnyAsync(a =>

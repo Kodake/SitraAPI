@@ -30,6 +30,21 @@ namespace SITRA.Infrastructure.Repositories.CashBoxes
                 .ToListAsync(cancellationToken);
         }
 
+        public async Task<List<PettyCashMovement>> GetReadOnlyAsync(PaginationDTO paginationDTO, Guid pettyCashId, CancellationToken cancellationToken = default)
+        {
+            var queryable = context.PettyCashMovements.AsNoTracking()
+                .Include(x => x.Invoice)
+                .Include(x => x.PettyCash)
+                .Where(x => x.PettyCashId == pettyCashId && x.Type == MovementType.Income);
+
+            await httpContext.AddPaginationParamsToHeaders(queryable);
+
+            return await queryable
+                .OrderBy(x => x.Id)
+                .Paginate(paginationDTO)
+                .ToListAsync(cancellationToken);
+        }
+
         public async Task<List<PettyCashMovement>> GetAllWithdrawalsAsync(PaginationDTO paginationDTO, Guid pettyCashId, CancellationToken cancellationToken = default)
         {
             var queryable = context.PettyCashMovements

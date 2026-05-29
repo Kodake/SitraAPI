@@ -14,7 +14,7 @@ namespace SITRA.Core.Mediator.Queries.CashBoxes
             IMapper mapper,
             CancellationToken cancellationToken)
         {
-            var pettyCashMovements = await unitOfWork.PettyCashMovementRepository.GetAllAsync(Pagination, PettyCashId);
+            var pettyCashMovements = await unitOfWork.PettyCashMovementRepository.GetReadOnlyAsync(Pagination, PettyCashId);
             return mapper.Map<List<PettyCashMovementListDTO>>(pettyCashMovements);
         }
     }

@@ -35,5 +35,23 @@ namespace SITRA.Infrastructure.Repositories.Invoices
                 .Paginate(paginationDTO)
                 .ToListAsync(cancellationToken);
         }
+
+        public async Task<List<Invoice>> GetReadOnlyAsync(PaginationDTO paginationDTO, string? dgiiStatus = null, CancellationToken cancellationToken = default)
+        {
+            var queryable = context.Invoices.AsNoTracking().AsQueryable();
+
+            if (!string.IsNullOrEmpty(dgiiStatus))
+            {
+                queryable = queryable.Where(i => i.DgiiStatus == dgiiStatus);
+            }
+
+            await httpContext.AddPaginationParamsToHeaders(queryable);
+
+            return await queryable
+                .OrderByDescending(i => i.CreatedAt)
+                .ThenByDescending(i => i.Id)
+                .Paginate(paginationDTO)
+                .ToListAsync(cancellationToken);
+        }
     }
 }

@@ -14,7 +14,7 @@ namespace SITRA.Core.Mediator.Queries.AdministrativeTools.FiscalSupports
             IMapper mapper,
             CancellationToken cancellationToken)
         {
-            var fiscalSupports = await unitOfWork.FiscalSupportRepository.GetAllAsync(Pagination);
+            var fiscalSupports = await unitOfWork.FiscalSupportRepository.GetReadOnlyAsync(Pagination);
             return mapper.Map<List<FiscalSupportListDTO>>(fiscalSupports);
         }
     }

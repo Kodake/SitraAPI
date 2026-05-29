@@ -19,7 +19,7 @@ namespace SITRA.Core.Mediator.Queries.Wizard
             var warehouses = await unitOfWork.WarehouseRepository.GetAll(StatusType.Activated);
 
             // 4. Product (Item)
-            var products = await unitOfWork.ProductRepository.GetAllAsync(new PaginationDTO { RecordsPerPage = 1 });
+            var products = await unitOfWork.ProductRepository.GetReadOnlyAsync(new PaginationDTO { RecordsPerPage = 1 });
 
             // 5. Pricing
             var pricingName = Enum.GetName(typeof(PricingName), PricingName.Principal)?.ToUpper() ?? "PRINCIPAL";

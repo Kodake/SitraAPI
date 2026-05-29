@@ -9,6 +9,7 @@ namespace SITRA.Core.Interfaces.Products
     {
         new Task<Item?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
         new Task<List<Item>> GetAllAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default);
+        new Task<List<Item>> GetReadOnlyAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default);
         Task<List<Item>> GetAll(StatusType status, CancellationToken cancellationToken = default);
         new Task ActivateAsync(Guid id, CancellationToken cancellationToken = default);
         new Task DeactivateAsync(Guid id, CancellationToken cancellationToken = default);

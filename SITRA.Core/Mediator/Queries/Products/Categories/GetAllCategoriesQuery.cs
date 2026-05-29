@@ -14,7 +14,7 @@ namespace SITRA.Core.Mediator.Queries.Products.Categories
             IMapper mapper,
             CancellationToken cancellationToken)
         {
-            var categories = await unitOfWork.CategoryRepository.GetAllAsync(Pagination);
+            var categories = await unitOfWork.CategoryRepository.GetReadOnlyAsync(Pagination);
             return mapper.Map<List<CategoryListDTO>>(categories);
         }
     }

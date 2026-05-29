@@ -14,7 +14,7 @@ namespace SITRA.Core.Mediator.Queries.Appointments.Appointments
             IMapper mapper,
             CancellationToken cancellationToken)
         {
-            var appointments = await unitOfWork.AppointmentRepository.GetAllAsync(Pagination);
+            var appointments = await unitOfWork.AppointmentRepository.GetReadOnlyAsync(Pagination);
             return mapper.Map<List<AppointmentListDTO>>(appointments);
         }
     }

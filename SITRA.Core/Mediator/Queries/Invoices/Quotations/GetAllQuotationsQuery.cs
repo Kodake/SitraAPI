@@ -14,7 +14,7 @@ namespace SITRA.Core.Mediator.Queries.Invoices.Quotations
             IMapper mapper,
             CancellationToken cancellationToken)
         {
-            var quotations = await unitOfWork.QuotationRepository.GetAllAsync(Pagination);
+            var quotations = await unitOfWork.QuotationRepository.GetReadOnlyAsync(Pagination);
             return mapper.Map<List<QuotationListDTO>>(quotations);
         }
     }

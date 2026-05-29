@@ -14,7 +14,7 @@ namespace SITRA.Core.Mediator.Queries.AdministrativeTools.Roles
             IMapper mapper,
             CancellationToken cancellationToken)
         {
-            var roles = await unitOfWork.RoleRepository.GetAllAsync(Pagination);
+            var roles = await unitOfWork.RoleRepository.GetReadOnlyAsync(Pagination);
             return mapper.Map<List<RoleListDTO>>(roles);
         }
     }

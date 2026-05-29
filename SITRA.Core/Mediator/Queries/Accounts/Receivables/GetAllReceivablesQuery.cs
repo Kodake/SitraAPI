@@ -14,7 +14,7 @@ namespace SITRA.Core.Mediator.Queries.Receivables
             IMapper mapper,
             CancellationToken cancellationToken)
         {
-            var receivables = await unitOfWork.ReceivableRepository.GetAllAsync(Pagination);
+            var receivables = await unitOfWork.ReceivableRepository.GetReadOnlyAsync(Pagination);
             return mapper.Map<List<ReceivableListDTO>>(receivables);
         }
     }

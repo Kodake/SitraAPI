@@ -38,6 +38,25 @@ namespace SITRA.Infrastructure.Repositories.Invoices
                 .ToListAsync(cancellationToken);
         }
 
+        public async new Task<List<Quotation>> GetReadOnlyAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
+        {
+            var queryable = context.Quotations.AsNoTracking()
+                .Include(x => x.Invoice)
+                    .ThenInclude(i => i.InvoiceBuyer)
+                .Include(x => x.Invoice)
+                    .ThenInclude(i => i.InvoiceBiller)
+                        .ThenInclude(ib => ib.Biller)
+                .Include(x => x.Buyer);
+
+            await httpContext.AddPaginationParamsToHeaders(queryable);
+
+            return await queryable
+                .Where(x => x.Invoice.InvoiceType == InvoiceType.Quotation)
+                .OrderBy(x => x.Id)
+                .Paginate(paginationDTO)
+                .ToListAsync(cancellationToken);
+        }
+
         public async new Task<Quotation?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await context.Quotations

@@ -12,7 +12,7 @@ namespace SITRA.Core.Mediator.Queries.Finances.Expenses
             IMapper mapper,
             CancellationToken cancellationToken)
         {
-            var currencies = await unitOfWork.ExpenseRepository.GetAllAsync(Pagination);
+            var currencies = await unitOfWork.ExpenseRepository.GetReadOnlyAsync(Pagination);
             return mapper.Map<List<ExpenseListDTO>>(currencies);
         }
     }

@@ -14,7 +14,7 @@ namespace SITRA.Core.Mediator.Queries.Invoices.SpotPayments
             IMapper mapper,
             CancellationToken cancellationToken)
         {
-            var spotPayments = await unitOfWork.SpotPaymentRepository.GetAllAsync(Pagination);
+            var spotPayments = await unitOfWork.SpotPaymentRepository.GetReadOnlyAsync(Pagination);
             return mapper.Map<List<SpotPaymentListDTO>>(spotPayments);
         }
     }

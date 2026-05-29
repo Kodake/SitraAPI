@@ -14,7 +14,7 @@ namespace SITRA.Core.Mediator.Queries.Finances.Taxes
             IMapper mapper,
             CancellationToken cancellationToken)
         {
-            var taxes = await unitOfWork.TaxRepository.GetAllAsync(Pagination);
+            var taxes = await unitOfWork.TaxRepository.GetReadOnlyAsync(Pagination);
             return mapper.Map<List<TaxListDTO>>(taxes);
         }
     }

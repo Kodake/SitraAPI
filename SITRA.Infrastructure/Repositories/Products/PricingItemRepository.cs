@@ -34,6 +34,22 @@ namespace SITRA.Infrastructure.Repositories.Products
             return items;
         }
 
+        public async Task<List<PricingItem>> GetReadOnlyAsync(PaginationDTO paginationDTO, Guid itemId, CancellationToken cancellationToken = default)
+        {
+            var queryable = context.PricingItems.AsNoTracking()
+                .Where(x => x.ItemId == itemId)
+                .OrderBy(x => x.IsPrincipal);
+
+            await httpContext.AddPaginationParamsToHeaders(queryable);
+
+            var items = await queryable
+                .Paginate(paginationDTO)
+                .Include(p => p.Pricing)
+                .ToListAsync(cancellationToken);
+
+            return items;
+        }
+
         public async Task<PricingItem?> GetPricingItemByItemIdAndPricingId(Guid itemId, Guid pricingId, CancellationToken cancellationToken = default)
         {
             return await context.PricingItems.FirstOrDefaultAsync(pi => pi.ItemId == itemId && pi.PricingId == pricingId, cancellationToken);

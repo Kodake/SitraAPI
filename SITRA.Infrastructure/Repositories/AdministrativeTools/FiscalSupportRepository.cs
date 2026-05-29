@@ -32,6 +32,19 @@ namespace SITRA.Infrastructure.Repositories.AdministrativeTools
                 .ToListAsync(cancellationToken);
         }
 
+        public async new Task<List<FiscalSupport>> GetReadOnlyAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
+        {
+            var queryable = context.FiscalSupports.AsNoTracking()
+                .AsQueryable();
+
+            await httpContext.AddPaginationParamsToHeaders(queryable);
+
+            return await queryable
+                .OrderBy(x => x.Id)
+                .Paginate(paginationDTO)
+                .ToListAsync(cancellationToken);
+        }
+
         public async Task<List<FiscalSupport>> GetAll(StatusType status, CancellationToken cancellationToken = default)
         {
             IQueryable<FiscalSupport> query = context.FiscalSupports.AsQueryable();

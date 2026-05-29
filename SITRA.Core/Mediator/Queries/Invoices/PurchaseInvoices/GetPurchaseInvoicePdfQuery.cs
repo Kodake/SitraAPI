@@ -37,7 +37,7 @@ namespace SITRA.Core.Mediator.Queries.Invoices.PurchaseInvoices
             CompanyMetadata? company = null;
             try 
             {
-                var ownerCandidates = await unitOfWork.Repository<User>().GetAllAsync(u => u.TenantId == purchaseInvoice.TenantId && u.IsOwner, cancellationToken);
+                var ownerCandidates = await unitOfWork.Repository<User>().GetReadOnlyAsync(u => u.TenantId == purchaseInvoice.TenantId && u.IsOwner, cancellationToken);
                 var owner = ownerCandidates.FirstOrDefault();
                 if (owner != null)
                 {

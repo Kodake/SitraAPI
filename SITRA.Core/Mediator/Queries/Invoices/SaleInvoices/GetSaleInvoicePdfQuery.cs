@@ -38,7 +38,7 @@ namespace SITRA.Core.Mediator.Queries.Invoices.SaleInvoices
             {
                 var ownerCandidates =
                     await unitOfWork.Repository<User>()
-                        .GetAllAsync(
+                        .GetReadOnlyAsync(
                             u => u.TenantId == saleInvoice.TenantId && u.IsOwner,
                             cancellationToken);
 

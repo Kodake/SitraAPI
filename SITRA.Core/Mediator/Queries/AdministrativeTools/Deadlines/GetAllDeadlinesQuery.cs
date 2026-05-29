@@ -14,7 +14,7 @@ namespace SITRA.Core.Mediator.Queries.AdministrativeTools.Deadlines
             IMapper mapper,
             CancellationToken cancellationToken)
         {
-            var deadlines = await unitOfWork.DeadlineRepository.GetAllAsync(Pagination);
+            var deadlines = await unitOfWork.DeadlineRepository.GetReadOnlyAsync(Pagination);
             return mapper.Map<List<DeadlineListDTO>>(deadlines);
         }
     }
