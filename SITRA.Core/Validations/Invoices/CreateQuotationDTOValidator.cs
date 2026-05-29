@@ -1,4 +1,5 @@
 using FluentValidation;
+using Microsoft.AspNetCore.Http;
 using SITRA.Core.DTOs.Invoices.SaleInvoices;
 using SITRA.Core.Enums;
 using SITRA.Core.Helpers;
@@ -8,24 +9,37 @@ namespace SITRA.Core.Validations.Invoices
 {
     public class CreateQuotationDTOValidator : AbstractValidator<CreateQuotationDTO>
     {
-        public CreateQuotationDTOValidator(IUnitOfWork unitOfWork)
+        public CreateQuotationDTOValidator(IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
         {
+            var routeId = httpContextAccessor.HttpContext?.Request.RouteValues["id"];
+            var id = Guid.Empty;
+
+            if (routeId is string valorString)
+            {
+                Guid.TryParse(valorString, out id);
+            }
+
             RuleFor(x => x.PricingId)
                 .MustAsync(async (id, _) => await unitOfWork.PricingRepository.ExistsAsync(id))
                 .WithMessage(x => string.Format(Utilities.NotExistsWith, x.PricingId));
 
             RuleFor(x => x.BillerId)
-                .MustAsync(async (id, _) => await unitOfWork.ContactRepository.ExistsAsync(id!.Value))
-                .When(x => x.BillerId.HasValue)
+                .MustAsync(async (billerId, _) => await unitOfWork.ContactRepository.ExistsAsync(billerId!.Value))
+                .When(x => x.BillerId.HasValue && x.BillerId.Value != Guid.Empty)
                 .WithMessage(x => string.Format(Utilities.NotExistsWith, x.BillerId));
 
             RuleFor(x => x.CustomerId)
-                .MustAsync(async (id, _) => await unitOfWork.ContactRepository.ExistsAsync(id!.Value))
-                .When(x => x.CustomerId.HasValue)
+                .MustAsync(async (customerId, _) => await unitOfWork.ContactRepository.ExistsAsync(customerId!.Value))
+                .When(x => x.CustomerId.HasValue && x.CustomerId.Value != Guid.Empty)
                 .WithMessage(x => string.Format(Utilities.NotExistsWith, x.CustomerId));
 
             RuleFor(x => x.QuotationNumber)
-                .NotEmpty().WithMessage(Utilities.RequiredFieldMessage);
+                .NotEmpty().WithMessage(Utilities.RequiredFieldMessage)
+                .MustAsync(async (quotationNumber, _) =>
+                {
+                    var exists = await unitOfWork.QuotationRepository.ExistsAsync(id, quotationNumber);
+                    return !exists;
+                }).WithMessage(x => string.Format(Utilities.NameAlreadyExistsWith, x.QuotationNumber));
 
             RuleFor(x => x.CurrencyId)
                 .MustAsync(async (id, _) => await unitOfWork.CurrencyRepository.ExistsAsync(id))

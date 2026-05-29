@@ -9,5 +9,6 @@ namespace SITRA.Core.Interfaces.Invoices
         new Task<List<Quotation>> GetAllAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default);
         new Task<List<Quotation>> GetReadOnlyAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default);
         new Task<Quotation?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+        Task<bool> ExistsAsync(Guid id, string quotationNumber, CancellationToken cancellationToken = default);
     }
 }

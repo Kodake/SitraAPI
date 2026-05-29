@@ -70,6 +70,11 @@ namespace SITRA.Infrastructure.Repositories.Invoices
                 .Include(x => x.Buyer)
                 .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
+
+        public async Task<bool> ExistsAsync(Guid id, string quotationNumber, CancellationToken cancellationToken = default)
+        {
+            return await context.Quotations.AnyAsync(x => x.Id != id && x.QuotationNumber.ToLower() == quotationNumber.ToLower(), cancellationToken);
+        }
     }
 }
 
