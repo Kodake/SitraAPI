@@ -150,7 +150,7 @@
     <value>No se permiten {PropertyName} duplicados con el valor {0}</value>
   </data>
   <data name="NotExistsWith" xml:space="preserve">
-    <value>No existe {PropertyName} con el valor {0}</value>
+    <value>No existe {PropertyName} con el valor {PropertyValue}</value>
   </data>
   <data name="OneOrMoreServicesInvalidMessage" xml:space="preserve">
     <value>Uno o más servicios seleccionados no existen o no son válidos</value>

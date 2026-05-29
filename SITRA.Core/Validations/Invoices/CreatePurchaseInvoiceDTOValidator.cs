@@ -52,12 +52,12 @@ namespace SITRA.Core.Validations.Invoices
             // Pricing existence validation
             RuleFor(x => x.PricingId)
                 .MustAsync(async (id, _) => await unitOfWork.PricingRepository.ExistsAsync(id))
-                .WithMessage(x => string.Format(Utilities.NotExistsWith, x.PricingId));
+                .WithMessage(Utilities.NotExistsWith);
 
             // Supplier existence validation
             RuleFor(x => x.SupplierId)
                 .MustAsync(async (id, _) => await unitOfWork.ContactRepository.ExistsAsync(id))
-                .WithMessage(x => string.Format(Utilities.NotExistsWith, x.SupplierId));
+                .WithMessage(Utilities.NotExistsWith);
 
             // Currency existence validation
             RuleFor(x => x.CurrencyId)

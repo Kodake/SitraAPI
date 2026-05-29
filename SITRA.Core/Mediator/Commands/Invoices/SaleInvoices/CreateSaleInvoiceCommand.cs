@@ -36,12 +36,12 @@ namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
                 saleInvoice.ModificationCode = 3; // Default: 1 = Anula el NCF modificado
 
 
-            if (Dto.CustomerId != null)
+            if (Dto.CustomerId.HasValue && Dto.CustomerId.Value != Guid.Empty)
             {
                 saleInvoice.InvoiceBuyer = new InvoiceBuyer { ContactId = Dto.CustomerId.Value };
             }
 
-            if (Dto.BillerId != null)
+            if (Dto.BillerId.HasValue && Dto.BillerId.Value != Guid.Empty)
             {
                 saleInvoice.InvoiceBiller = new InvoiceBiller { ContactId = Dto.BillerId.Value };
             }
@@ -107,7 +107,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
                     var accountsReceivable = new Receivable
                     {
                         Invoice = saleInvoice,
-                        ContactId = Dto.CustomerId,
+                        ContactId = Dto.CustomerId == Guid.Empty ? null : Dto.CustomerId,
                         TotalAmountDue = saleInvoice.TotalPrice,
                         TotalOutstanding = 0,
                         Status = AccountStatus.PendingReceivable,

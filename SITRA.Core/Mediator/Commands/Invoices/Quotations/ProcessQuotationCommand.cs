@@ -30,12 +30,12 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
             var saleInvoice = mapper.Map<Invoice>(Dto);
             saleInvoice.Date = DateTimeOffset.Now;
             saleInvoice.InvoiceType = InvoiceType.Sale;
-            if (Dto.CustomerId != null)
+            if (Dto.CustomerId.HasValue && Dto.CustomerId.Value != Guid.Empty)
             {
                 saleInvoice.InvoiceBuyer = new InvoiceBuyer { ContactId = Dto.CustomerId.Value };
             }
 
-            if (Dto.BillerId != null)
+            if (Dto.BillerId.HasValue && Dto.BillerId.Value != Guid.Empty)
             {
                 saleInvoice.InvoiceBiller = new InvoiceBiller { ContactId = Dto.BillerId.Value };
             }
@@ -62,7 +62,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
                     {
                         Invoice = saleInvoice,
 
-                        ContactId = Dto.CustomerId,
+                        ContactId = Dto.CustomerId == Guid.Empty ? null : Dto.CustomerId,
                         TotalAmountDue = saleInvoice.TotalPrice,
                         TotalOutstanding = 0,
                         Status = AccountStatus.PendingReceivable,

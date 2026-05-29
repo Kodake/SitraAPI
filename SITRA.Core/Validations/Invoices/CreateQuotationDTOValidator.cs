@@ -21,17 +21,17 @@ namespace SITRA.Core.Validations.Invoices
 
             RuleFor(x => x.PricingId)
                 .MustAsync(async (id, _) => await unitOfWork.PricingRepository.ExistsAsync(id))
-                .WithMessage(x => string.Format(Utilities.NotExistsWith, x.PricingId));
+                .WithMessage(Utilities.NotExistsWith);
 
             RuleFor(x => x.BillerId)
                 .MustAsync(async (billerId, _) => await unitOfWork.ContactRepository.ExistsAsync(billerId!.Value))
                 .When(x => x.BillerId.HasValue && x.BillerId.Value != Guid.Empty)
-                .WithMessage(x => string.Format(Utilities.NotExistsWith, x.BillerId));
+                .WithMessage(Utilities.NotExistsWith);
 
             RuleFor(x => x.CustomerId)
                 .MustAsync(async (customerId, _) => await unitOfWork.ContactRepository.ExistsAsync(customerId!.Value))
                 .When(x => x.CustomerId.HasValue && x.CustomerId.Value != Guid.Empty)
-                .WithMessage(x => string.Format(Utilities.NotExistsWith, x.CustomerId));
+                .WithMessage(Utilities.NotExistsWith);
 
             RuleFor(x => x.QuotationNumber)
                 .NotEmpty().WithMessage(Utilities.RequiredFieldMessage)
@@ -43,7 +43,7 @@ namespace SITRA.Core.Validations.Invoices
 
             RuleFor(x => x.CurrencyId)
                 .MustAsync(async (id, _) => await unitOfWork.CurrencyRepository.ExistsAsync(id))
-                .WithMessage(x => string.Format(Utilities.NotExistsWith, x.CurrencyId));
+                .WithMessage(Utilities.NotExistsWith);
 
             // Quotation items validation - each item must exist
             RuleForEach(x => x.InvoiceItems)

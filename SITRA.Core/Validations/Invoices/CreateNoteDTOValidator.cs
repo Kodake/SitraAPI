@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using SITRA.Core.DTOs.Invoices.SaleInvoices;
 using SITRA.Core.Entities.Tenants;
 using SITRA.Core.Enums;
@@ -195,12 +195,13 @@ namespace SITRA.Core.Validations.Invoices
             // Existing validations
             RuleFor(x => x.PricingId)
                 .MustAsync(async (id, _) => await unitOfWork.PricingRepository.ExistsAsync(id))
-                .WithMessage(x => string.Format(Utilities.NotExistsWith, x.PricingId));
+                .WithMessage(Utilities.NotExistsWith);
 
             RuleFor(x => x.CustomerId)
                 .MustAsync(async (id, _) =>
                     !id.HasValue || await unitOfWork.ContactRepository.ExistsAsync(id.Value))
-                .WithMessage(x => string.Format(Utilities.NotExistsWith, x.CustomerId));
+                .WithMessage(Utilities.NotExistsWith)
+                .When(x => x.CustomerId.HasValue && x.CustomerId.Value != Guid.Empty);
 
             RuleFor(x => x.FiscalSupportId)
                 .MustAsync(async (id, _) =>

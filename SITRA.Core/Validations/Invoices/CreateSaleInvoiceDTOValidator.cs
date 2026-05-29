@@ -199,17 +199,17 @@ namespace SITRA.Core.Validations.Invoices
             // Existing validations
             RuleFor(x => x.PricingId)
                 .MustAsync(async (id, _) => await unitOfWork.PricingRepository.ExistsAsync(id))
-                .WithMessage(x => string.Format(Utilities.NotExistsWith, x.PricingId));
+                .WithMessage(Utilities.NotExistsWith);
 
             RuleFor(x => x.BillerId)
                 .MustAsync(async (id, _) => await unitOfWork.ContactRepository.ExistsAsync(id!.Value))
-                .WithMessage(x => string.Format(Utilities.NotExistsWith, x.BillerId))
-                .When(x => x.BillerId.HasValue);
+                .WithMessage(Utilities.NotExistsWith)
+                .When(x => x.BillerId.HasValue && x.BillerId.Value != Guid.Empty);
 
             RuleFor(x => x.CustomerId)
-                .MustAsync(async (id, _) =>
-                    !id.HasValue || await unitOfWork.ContactRepository.ExistsAsync(id.Value))
-                .WithMessage(x => string.Format(Utilities.NotExistsWith, x.CustomerId));
+                .MustAsync(async (id, _) => await unitOfWork.ContactRepository.ExistsAsync(id!.Value))
+                .WithMessage(Utilities.NotExistsWith)
+                .When(x => x.CustomerId.HasValue && x.CustomerId.Value != Guid.Empty);
 
             RuleFor(x => x.FiscalSupportId)
                 .MustAsync(async (id, _) =>
