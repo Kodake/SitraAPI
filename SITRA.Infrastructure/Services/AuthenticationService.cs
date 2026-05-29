@@ -139,29 +139,37 @@ namespace SITRA.Infrastructure.Services
 
                 if (claimsChanged)
                 {
-                    if (permissionClaims.Any())
+                    try
                     {
-                        var removeResult = await _userManager.RemoveClaimsAsync(user, permissionClaims);
-                        if (!removeResult.Succeeded)
+                        if (permissionClaims.Any())
                         {
-                            _logger.LogError(Utilities.FailedToUpdateUserClaimsMessage(
-                                string.Join(", ", removeResult.Errors.Select(e => e.Description))));
+                            var removeResult = await _userManager.RemoveClaimsAsync(user, permissionClaims);
+                            if (!removeResult.Succeeded)
+                            {
+                                _logger.LogError(Utilities.FailedToUpdateUserClaimsMessage(
+                                    string.Join(", ", removeResult.Errors.Select(e => e.Description))));
+                            }
+                        }
+
+                        permissionClaims = distinctPermissionKeys
+                            .Select(pk => new Claim(PermissionClaimType, pk ?? string.Empty))
+                            .ToList();
+
+                        if (permissionClaims.Any())
+                        {
+                            var addClaimsResult = await _userManager.AddClaimsAsync(user, permissionClaims);
+
+                            if (!addClaimsResult.Succeeded)
+                            {
+                                _logger.LogError(Utilities.FailedToUpdateUserClaimsMessage(
+                                    string.Join(", ", addClaimsResult.Errors.Select(e => e.Description))));
+                            }
                         }
                     }
-
-                    permissionClaims = distinctPermissionKeys
-                        .Select(pk => new Claim(PermissionClaimType, pk ?? string.Empty))
-                        .ToList();
-
-                    if (permissionClaims.Any())
+                    catch (DbUpdateException ex)
                     {
-                        var addClaimsResult = await _userManager.AddClaimsAsync(user, permissionClaims);
-
-                        if (!addClaimsResult.Succeeded)
-                        {
-                            _logger.LogError(Utilities.FailedToUpdateUserClaimsMessage(
-                                string.Join(", ", addClaimsResult.Errors.Select(e => e.Description))));
-                        }
+                        _logger.LogWarning(ex, "Concurrency or DB update exception while updating claims for user {Email}. Another request likely updated them simultaneously.", user.Email);
+                        // We safely ignore this because the concurrent thread has successfully updated the claims.
                     }
                 }
             }
