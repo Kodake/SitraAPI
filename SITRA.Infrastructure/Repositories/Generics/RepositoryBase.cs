@@ -86,5 +86,24 @@ namespace SITRA.Infrastructure.Repositories.Generics
         {
             return await context.Set<T>().CountAsync(filter, cancellationToken);
         }
+        public async Task<List<T>> GetReadOnlyAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
+        {
+            var queryable = context.Set<T>().AsNoTracking().AsQueryable();
+
+            if (httpContext != null)
+            {
+                await httpContext.AddPaginationParamsToHeaders(queryable);
+            }
+
+            return await queryable
+                .OrderBy(x => EF.Property<Guid>(x, "Id"))
+                .Paginate(paginationDTO)
+                .ToListAsync(cancellationToken);
+        }
+
+        public async Task<List<T>> GetReadOnlyAsync(Expression<Func<T, bool>> filter, CancellationToken cancellationToken = default)
+        {
+            return await context.Set<T>().AsNoTracking().Where(filter).ToListAsync(cancellationToken);
+        }
     }
 }
