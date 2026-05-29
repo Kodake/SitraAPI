@@ -41,30 +41,38 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
 
             unitOfWork.SaleInvoiceRepository.Update(saleInvoice);
 
-            quotation.ContactId = Dto.CustomerId != Guid.Empty ? Dto.CustomerId : null;
+            quotation.ContactId = Dto.CustomerId.HasValue && Dto.CustomerId.Value != Guid.Empty ? Dto.CustomerId.Value : null;
 
-            if (Dto.CustomerId != Guid.Empty)
+            if (Dto.CustomerId.HasValue && Dto.CustomerId.Value != Guid.Empty)
             {
                 if (saleInvoice.InvoiceBuyer == null)
                 {
-                    saleInvoice.InvoiceBuyer = new InvoiceBuyer { ContactId = Dto.CustomerId };
+                    saleInvoice.InvoiceBuyer = new InvoiceBuyer { ContactId = Dto.CustomerId.Value };
                 }
                 else
                 {
-                    saleInvoice.InvoiceBuyer.ContactId = Dto.CustomerId;
+                    saleInvoice.InvoiceBuyer.ContactId = Dto.CustomerId.Value;
                 }
             }
+            else
+            {
+                saleInvoice.InvoiceBuyer = null;
+            }
 
-            if (Dto.BillerId != Guid.Empty)
+            if (Dto.BillerId.HasValue && Dto.BillerId.Value != Guid.Empty)
             {
                 if (saleInvoice.InvoiceBiller == null)
                 {
-                    saleInvoice.InvoiceBiller = new InvoiceBiller { ContactId = Dto.BillerId };
+                    saleInvoice.InvoiceBiller = new InvoiceBiller { ContactId = Dto.BillerId.Value };
                 }
                 else
                 {
-                    saleInvoice.InvoiceBiller.ContactId = Dto.BillerId;
+                    saleInvoice.InvoiceBiller.ContactId = Dto.BillerId.Value;
                 }
+            }
+            else
+            {
+                saleInvoice.InvoiceBiller = null;
             }
 
             unitOfWork.QuotationRepository.Update(quotation);

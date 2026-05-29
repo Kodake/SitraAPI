@@ -15,11 +15,13 @@ namespace SITRA.Core.Validations.Invoices
                 .WithMessage(x => string.Format(Utilities.NotExistsWith, x.PricingId));
 
             RuleFor(x => x.BillerId)
-                .MustAsync(async (id, _) => await unitOfWork.ContactRepository.ExistsAsync(id))
+                .MustAsync(async (id, _) => await unitOfWork.ContactRepository.ExistsAsync(id!.Value))
+                .When(x => x.BillerId.HasValue)
                 .WithMessage(x => string.Format(Utilities.NotExistsWith, x.BillerId));
 
             RuleFor(x => x.CustomerId)
-                .MustAsync(async (id, _) => await unitOfWork.ContactRepository.ExistsAsync(id))
+                .MustAsync(async (id, _) => await unitOfWork.ContactRepository.ExistsAsync(id!.Value))
+                .When(x => x.CustomerId.HasValue)
                 .WithMessage(x => string.Format(Utilities.NotExistsWith, x.CustomerId));
 
             RuleFor(x => x.QuotationNumber)

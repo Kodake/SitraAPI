@@ -19,14 +19,14 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
             var saleInvoice = mapper.Map<Invoice>(Dto);
             saleInvoice.Date = DateTimeOffset.Now;
             saleInvoice.InvoiceType = InvoiceType.Quotation;
-            if (Dto.CustomerId != Guid.Empty)
+            if (Dto.CustomerId.HasValue && Dto.CustomerId.Value != Guid.Empty)
             {
-                saleInvoice.InvoiceBuyer = new InvoiceBuyer { ContactId = Dto.CustomerId };
+                saleInvoice.InvoiceBuyer = new InvoiceBuyer { ContactId = Dto.CustomerId.Value };
             }
 
-            if (Dto.BillerId != Guid.Empty)
+            if (Dto.BillerId.HasValue && Dto.BillerId.Value != Guid.Empty)
             {
-                saleInvoice.InvoiceBiller = new InvoiceBiller { ContactId = Dto.BillerId };
+                saleInvoice.InvoiceBiller = new InvoiceBiller { ContactId = Dto.BillerId.Value };
             }
 
             double currencyRate = currencyDB!.Rate;
@@ -37,7 +37,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
             var quotation = new Quotation
             {
                 Invoice = saleInvoice,
-                ContactId = Dto.CustomerId != Guid.Empty ? Dto.CustomerId : null,
+                ContactId = Dto.CustomerId.HasValue && Dto.CustomerId.Value != Guid.Empty ? Dto.CustomerId.Value : null,
                 QuotationNumber = Dto.QuotationNumber,
             };
 
