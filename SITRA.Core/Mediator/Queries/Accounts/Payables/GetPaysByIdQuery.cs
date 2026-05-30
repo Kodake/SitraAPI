@@ -1,20 +1,35 @@
-using AutoMapper;
+using SITRA.Core.Interfaces.Services.Accounts;
+using MediatR;
 using SITRA.Core.DTOs.Accounts.Payables;
-using SITRA.Core.Interfaces;
+using AutoMapper;
 
 namespace SITRA.Core.Mediator.Queries.Accounts.Payables
 {
-    public class GetPaysByIdQuery : GetByIdQuery<PayableDTO>
+    public class GetPaysByIdQuery : IRequest<PayableDTO>
     {
-        public GetPaysByIdQuery(Guid id) : base(id) { }
+        public Guid Id { get; set; }
 
-        public override async Task<PayableDTO> GetData(
-            IUnitOfWork unitOfWork,
-            IMapper mapper,
-            CancellationToken cancellationToken)
+        public GetPaysByIdQuery(Guid id)
         {
-            var payable = await unitOfWork.PayableRepository.GetPaysByIdAsync(Id);
-            return mapper.Map<PayableDTO>(payable);
+            Id = id;
+        }
+    }
+
+    public class GetPaysByIdQueryHandler : IRequestHandler<GetPaysByIdQuery, PayableDTO>
+    {
+        private readonly IPayableService _payableService;
+        private readonly IMapper _mapper;
+
+        public GetPaysByIdQueryHandler(IPayableService payableService, IMapper mapper)
+        {
+            _payableService = payableService;
+            _mapper = mapper;
+        }
+
+        public async Task<PayableDTO> Handle(GetPaysByIdQuery request, CancellationToken cancellationToken)
+        {
+            var payable = await _payableService.GetPaysByIdAsync(request.Id, cancellationToken);
+            return _mapper.Map<PayableDTO>(payable);
         }
     }
 }

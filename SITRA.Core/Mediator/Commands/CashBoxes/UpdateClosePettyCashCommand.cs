@@ -6,37 +6,73 @@ using SITRA.Core.DTOs.CashBoxes;
 using SITRA.Core.Entities.CashBoxes;
 using SITRA.Core.Enums;
 using SITRA.Core.Interfaces;
+using SITRA.Core.Interfaces.Services;
+using SITRA.Core.Interfaces.Services.AdministrativeTools;
+using SITRA.Core.Interfaces.Services.Auths;
+using SITRA.Core.Interfaces.Services.CashBoxes;
+using SITRA.Core.Interfaces.Services.Dashboards;
+using SITRA.Core.Interfaces.Services.Finances;
+using SITRA.Core.Interfaces.Services.Invoices;
+using SITRA.Core.Interfaces.Services.Products;
+using SITRA.Core.Interfaces.Services.Storage;
+using SITRA.Core.Interfaces.Services.Messaging;
+using MediatR;
 
 namespace SITRA.Core.Mediator.Commands.CashBoxes
 {
-    public class UpdateClosePettyCashCommand(Guid id, CreateClosePettyCashDTO dto)
-        : UpdateFileCommand<PettyCash, CreateClosePettyCashDTO>(id, dto)
+    public class UpdateClosePettyCashCommand : IRequest<(byte[] FileBytes, string FileName)?>
     {
-        public override async Task<(byte[] FileBytes, string FileName)?> ExecuteAction(
+        public Guid Id { get; set; }
+        public CreateClosePettyCashDTO Dto { get; set; }
+
+        public UpdateClosePettyCashCommand(Guid id, CreateClosePettyCashDTO dto)
+        {
+            Id = id;
+            Dto = dto;
+        }
+    }
+
+    public class UpdateClosePettyCashCommandHandler : IRequestHandler<UpdateClosePettyCashCommand, (byte[] FileBytes, string FileName)?>
+    {
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IOutputCacheStore _outputCacheStore;
+        private readonly IMapper _mapper;
+        private readonly IPettyCashService _pettyCashService;
+
+        public UpdateClosePettyCashCommandHandler(
             IUnitOfWork unitOfWork,
             IOutputCacheStore outputCacheStore,
             IMapper mapper,
+            IPettyCashService pettyCashService)
+        {
+            _unitOfWork = unitOfWork;
+            _outputCacheStore = outputCacheStore;
+            _mapper = mapper;
+            _pettyCashService = pettyCashService;
+        }
+
+        public async Task<(byte[] FileBytes, string FileName)?> Handle(
+            UpdateClosePettyCashCommand request,
             CancellationToken cancellationToken)
         {
             // All validations are handled by FluentValidation before this action is executed
-            var user = await unitOfWork.UserService.GetUserAsync();
+            var user = await _unitOfWork.UserService.GetUserAsync();
 
             // ?? Get the current open petty cash
-            var pettyCashDB = await unitOfWork.PettyCashRepository.GetOpenPettyCashByUserIdAsync(user!.Id);
+            var pettyCashDB = await _unitOfWork.PettyCashRepository.GetOpenPettyCashByUserIdAsync(user!.Id);
 
             // ?? Update fields
-            pettyCashDB.Comments = Dto.Comments;
+            pettyCashDB.Comments = request.Dto.Comments;
             pettyCashDB.ClosingDate = DateTimeOffset.UtcNow;
             pettyCashDB.Status = PettyCashStatus.Closed;
 
             // ?? Compute movement totals
-            var paymentMethods = await unitOfWork.PettyCashMovementRepository
-                .GetPaymentMethodSumsAsync(pettyCashDB.Id);
-            var totalWithdrawals = await unitOfWork.PettyCashMovementRepository
-                .GetTotalWithdrawalsAsync(pettyCashDB.Id);
+            var paymentMethods = await _pettyCashService
+                .GetPaymentMethodSumsAsync(pettyCashDB.Id, cancellationToken);
+            var totalWithdrawals = await _pettyCashService.GetTotalWithdrawalsAsync(pettyCashDB.Id, cancellationToken);
 
             // ?? Map to DTO
-            var pettyCashDto = mapper.Map<PettyCashDTO>(pettyCashDB);
+            var pettyCashDto = _mapper.Map<PettyCashDTO>(pettyCashDB);
 
             pettyCashDto.PaymentMethods = paymentMethods
                 .Where(kvp => kvp.Key is PaymentMethod)
@@ -59,9 +95,9 @@ namespace SITRA.Core.Mediator.Commands.CashBoxes
             pettyCashDB.ClosingAmount = pettyCashDto.ClosingAmount;
 
             // ?? Save updates
-            unitOfWork.PettyCashRepository.Update(pettyCashDB);
-            await unitOfWork.SaveChangesAsync();
-            await outputCacheStore.EvictByTagAsync("pettyCashes-get", cancellationToken);
+            _unitOfWork.PettyCashRepository.Update(pettyCashDB);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            await _outputCacheStore.EvictByTagAsync("pettyCashes-get", cancellationToken);
 
             // ?? Generate PDF and return it
             var pdfDoc = new ClosePettyCashDocument(pettyCashDto);

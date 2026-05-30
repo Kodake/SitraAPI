@@ -9,7 +9,6 @@ namespace SITRA.Core.Interfaces.AdministrativeTools
     {
         new Task<List<FiscalSupport>> GetAllAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default);
         new Task<List<FiscalSupport>> GetReadOnlyAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default);
-        Task<List<FiscalSupport>> GetAll(StatusType status, CancellationToken cancellationToken = default);
         Task<FiscalSupport?> GetByIdAsync(Guid? id, CancellationToken cancellationToken = default);
         Task<FiscalSupport?> GetByDocumentTypeAsync(
             EcfType supportType,
@@ -19,3 +18,4 @@ namespace SITRA.Core.Interfaces.AdministrativeTools
         Task<bool> SetDefault(Guid id, CancellationToken cancellationToken = default);
     }
 }
+

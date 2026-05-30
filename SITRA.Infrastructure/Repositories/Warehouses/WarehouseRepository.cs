@@ -62,11 +62,6 @@ namespace SITRA.Infrastructure.Repositories.Warehouses
             return await context.Warehouses.AnyAsync(x => x.Id != id && x.Name == name, cancellationToken);
         }
 
-        public async Task<int> TotalWarehousesAddedAsync(CancellationToken cancellationToken = default)
-        {
-            return await context.Warehouses.CountAsync(x => x.IsActive, cancellationToken);
-        }
-
         public async Task<bool> SetDefault(Guid id, CancellationToken cancellationToken = default)
         {
             var warehouse = await context.Warehouses.FindAsync(new object[] { id }, cancellationToken);

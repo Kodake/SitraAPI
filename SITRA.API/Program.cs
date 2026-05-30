@@ -18,6 +18,33 @@ using SITRA.Infrastructure.Persistence;
 using SITRA.Infrastructure.Repositories;
 using SITRA.Infrastructure.Services;
 using SITRA.Core.Interfaces.Services;
+using SITRA.Core.Interfaces.Services.AdministrativeTools;
+using SITRA.Infrastructure.Services.AdministrativeTools;
+using SITRA.Core.Interfaces.Services.Auths;
+using SITRA.Infrastructure.Services.Auths;
+using SITRA.Core.Interfaces.Services.CashBoxes;
+using SITRA.Infrastructure.Services.CashBoxes;
+using SITRA.Core.Interfaces.Services.Dashboards;
+using SITRA.Infrastructure.Services.Dashboards;
+using SITRA.Core.Interfaces.Services.Finances;
+using SITRA.Infrastructure.Services.Finances;
+using SITRA.Core.Interfaces.Services.Invoices;
+using SITRA.Infrastructure.Services.Invoices;
+using SITRA.Core.Interfaces.Services.Messaging;
+using SITRA.Infrastructure.Services.Messaging;
+using SITRA.Core.Interfaces.Services.Products;
+using SITRA.Core.Interfaces.Services.Finances;
+using SITRA.Infrastructure.Services.Finances;
+using SITRA.Core.Interfaces.Services.Appointments;
+using SITRA.Infrastructure.Services.Appointments;
+using SITRA.Core.Interfaces.Services.AdministrativeTools;
+using SITRA.Infrastructure.Services.AdministrativeTools;
+using SITRA.Core.Interfaces.Services.Accounts;
+using SITRA.Infrastructure.Services.Accounts;
+using SITRA.Infrastructure.Services.Products;
+using SITRA.Infrastructure.Services.Products;
+using SITRA.Core.Interfaces.Services.Storage;
+using SITRA.Infrastructure.Services.Storage;
 var builder = WebApplication.CreateBuilder(args);
 
 QuestPDF.Settings.License = LicenseType.Community;
@@ -130,6 +157,25 @@ builder.Services.AddMemoryCache();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICurrentTenantService, CurrentTenantService>();
 builder.Services.AddScoped<IPlanService, PlanService>();
+builder.Services.AddScoped<IFinanceService, FinanceService>();
+builder.Services.AddScoped<IPettyCashService, PettyCashService>();
+builder.Services.AddScoped<IDashboardService, DashboardService>();
+builder.Services.AddScoped<IInvoiceService, InvoiceService>();
+builder.Services.AddScoped<IItemService, ItemService>();
+builder.Services.AddScoped<ICurrencyService, CurrencyService>();
+builder.Services.AddScoped<IExpenseService, ExpenseService>();
+builder.Services.AddScoped<ITaxService, TaxService>();
+builder.Services.AddScoped<IAppointmentService, AppointmentService>();
+builder.Services.AddScoped<IDeadlineService, DeadlineService>();
+builder.Services.AddScoped<IFiscalSupportService, FiscalSupportService>();
+builder.Services.AddScoped<IPayableService, PayableService>();
+builder.Services.AddScoped<IReceivableService, ReceivableService>();
+builder.Services.AddScoped<IBrandService, BrandService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IPricingService, PricingService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IComboService, ComboService>();
+builder.Services.AddScoped<IServiceService, ServiceService>();
 
 // DGII Configuration & Services
 builder.Services.Configure<DgiiSettings>(builder.Configuration.GetSection("DgiiTest")); // Dgii
@@ -248,3 +294,4 @@ app.MapApiRoutes();
 app.MapControllers();
 
 app.Run();
+

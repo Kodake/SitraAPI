@@ -6,7 +6,7 @@ namespace SITRA.Core.Interfaces.AdministrativeTools
 {
     public interface IDeadlineRepository : IRepositoryBase<Deadline>
     {
-        Task<List<Deadline>> GetAll(StatusType status, CancellationToken cancellationToken = default);
         Task<bool> Exists(Guid id, long days, CancellationToken cancellationToken = default);
     }
 }
+

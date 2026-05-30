@@ -9,7 +9,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
         public static IServiceCollection AddSpotPaymentsServices(this IServiceCollection services)
         {
             services.AddTransient<IRequestHandler<GetSpotPaymentByIdQuery, SpotPaymentDTO>, QueryHandler<GetSpotPaymentByIdQuery, SpotPaymentDTO>>();
-            services.AddTransient<IRequestHandler<GetAllSpotPaymentsQuery, List<SpotPaymentListDTO>>, QueryHandler<GetAllSpotPaymentsQuery, List<SpotPaymentListDTO>>>();
+            services.AddTransient<IRequestHandler<GetAllSpotPaymentsQuery, List<SpotPaymentListDTO>>, GetAllSpotPaymentsQueryHandler>();
             return services;
         }
     }

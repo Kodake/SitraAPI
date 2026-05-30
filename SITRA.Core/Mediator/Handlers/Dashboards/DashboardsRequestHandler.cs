@@ -8,7 +8,7 @@ namespace SITRA.Core.Mediator.Handlers.Dashboards
     {
         public static IServiceCollection AddDashboardServices(this IServiceCollection services)
         {
-            services.AddTransient<IRequestHandler<GetAllDashboardsQuery, DashboardDTO>, QueryHandler<GetAllDashboardsQuery, DashboardDTO>>();
+            services.AddTransient<IRequestHandler<GetAllDashboardsQuery, DashboardDTO>, GetAllDashboardsQueryHandler>();
 
             return services;
         }

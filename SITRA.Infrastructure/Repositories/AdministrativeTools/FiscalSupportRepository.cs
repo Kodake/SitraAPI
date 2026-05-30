@@ -45,25 +45,7 @@ namespace SITRA.Infrastructure.Repositories.AdministrativeTools
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<List<FiscalSupport>> GetAll(StatusType status, CancellationToken cancellationToken = default)
-        {
-            IQueryable<FiscalSupport> query = context.FiscalSupports.AsQueryable();
 
-            switch (status)
-            {
-                case StatusType.Activated:
-                    query = query.Where(u => u.IsActive);
-                    break;
-                case StatusType.Deactivated:
-                    query = query.Where(u => !u.IsActive);
-                    break;
-                case StatusType.All:
-                default:
-                    break;
-            }
-
-            return await query.OrderBy(u => u.Id).ToListAsync(cancellationToken);
-        }
 
         public async Task<FiscalSupport?> GetByIdAsync(Guid? id, CancellationToken cancellationToken = default)
         {
@@ -109,6 +91,7 @@ namespace SITRA.Infrastructure.Repositories.AdministrativeTools
         }
     }
 }
+
 
 
 

@@ -1,3 +1,17 @@
+using SITRA.Core.Interfaces.Services.Messaging;
+using SITRA.Infrastructure.Services.Messaging;
+using SITRA.Core.Interfaces.Services.AdministrativeTools;
+using SITRA.Core.Interfaces.Services.Auths;
+using SITRA.Core.Interfaces.Services.CashBoxes;
+using SITRA.Core.Interfaces.Services.Dashboards;
+using SITRA.Core.Interfaces.Services.Finances;
+using SITRA.Core.Interfaces.Services.Invoices;
+using SITRA.Core.Interfaces.Services.Products;
+using SITRA.Core.Interfaces.Services.Storage;
+using SITRA.Core.Interfaces.Services.Messaging;
+using SITRA.Infrastructure.Services.Auths;
+using SITRA.Infrastructure.Services.AdministrativeTools;
+using SITRA.Infrastructure.Services.Storage;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -133,7 +147,7 @@ namespace SITRA.Infrastructure.Repositories
             // Services — no inter-service dependencies, all are peers
             UserService = new UserService(context, httpContextAccessor, userManager);
             PermissionClaimService = new PermissionClaimService(userManager, this, permissionClaimLogger);
-            var emailService = Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<SITRA.Core.Interfaces.Services.IEmailService>(serviceProvider);
+            var emailService = Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<SITRA.Core.Interfaces.Services.Messaging.IEmailService>(serviceProvider);
             AuthenticationService = new AuthenticationService(context, userManager, configuration, this, authLogger, emailService);
             UserRegistrationService = new UserRegistrationService(context, userManager, configuration, this, UserService, registrationLogger);
             var dgiiStorageService = Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<IDgiiStorageService>(serviceProvider);

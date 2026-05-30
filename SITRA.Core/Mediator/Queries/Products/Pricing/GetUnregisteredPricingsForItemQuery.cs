@@ -1,20 +1,35 @@
-using AutoMapper;
+using SITRA.Core.Interfaces.Services.Products;
+using MediatR;
 using SITRA.Core.DTOs.Products.Pricings;
-using SITRA.Core.Interfaces;
+using AutoMapper;
 
 namespace SITRA.Core.Mediator.Queries.Products.Pricings
 {
-    public class GetUnregisteredPricingsForItemQuery : GetAllByIdQuery<PricingListDTO>
+    public class GetUnregisteredPricingsForItemQuery : IRequest<IEnumerable<PricingListDTO>>
     {
-        public GetUnregisteredPricingsForItemQuery(Guid id) : base(id) { }
+        public Guid Id { get; set; }
 
-        public override async Task<IEnumerable<PricingListDTO>> GetData(
-            IUnitOfWork unitOfWork,
-            IMapper mapper,
-            CancellationToken cancellationToken)
+        public GetUnregisteredPricingsForItemQuery(Guid id)
         {
-            var pricings = await unitOfWork.PricingRepository.GetUnregisteredPricingsForItem(Id);
-            return mapper.Map<IEnumerable<PricingListDTO>>(pricings);
+            Id = id;
+        }
+    }
+
+    public class GetUnregisteredPricingsForItemQueryHandler : IRequestHandler<GetUnregisteredPricingsForItemQuery, IEnumerable<PricingListDTO>>
+    {
+        private readonly IPricingService _pricingService;
+        private readonly IMapper _mapper;
+
+        public GetUnregisteredPricingsForItemQueryHandler(IPricingService pricingService, IMapper mapper)
+        {
+            _pricingService = pricingService;
+            _mapper = mapper;
+        }
+
+        public async Task<IEnumerable<PricingListDTO>> Handle(GetUnregisteredPricingsForItemQuery request, CancellationToken cancellationToken)
+        {
+            var pricings = await _pricingService.GetUnregisteredPricingsForItemAsync(request.Id, cancellationToken);
+            return _mapper.Map<IEnumerable<PricingListDTO>>(pricings);
         }
     }
 }

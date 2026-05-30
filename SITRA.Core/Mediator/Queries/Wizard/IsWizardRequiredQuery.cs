@@ -3,6 +3,7 @@ using SITRA.Core.DTOs;
 using SITRA.Core.Enums;
 using SITRA.Core.Interfaces;
 
+
 namespace SITRA.Core.Mediator.Queries.Wizard
 {
     public class IsWizardRequiredQuery : IQuery<bool>
@@ -13,7 +14,7 @@ namespace SITRA.Core.Mediator.Queries.Wizard
             var currencies = await unitOfWork.CurrencyRepository.GetCurrencies();
 
             // 2. Tax
-            var taxes = await unitOfWork.TaxRepository.GetAll(StatusType.Activated);
+            var taxes = await unitOfWork.TaxRepository.GetAllAsync(u => u.IsActive, cancellationToken);
 
             // 3. Warehouse
             var warehouses = await unitOfWork.WarehouseRepository.GetAll(StatusType.Activated);

@@ -1,3 +1,5 @@
+using SITRA.Core.Interfaces.Services.Messaging;
+using SITRA.Infrastructure.Services.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using SITRA.Core.Interfaces;
 using SITRA.Core.Interfaces.Generics;
@@ -29,7 +31,7 @@ namespace SITRA.Infrastructure.Repositories
 
             services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<SITRA.Core.Interfaces.Services.IEmailService, SITRA.Infrastructure.Services.EmailService>();
+            services.AddScoped<SITRA.Core.Interfaces.Services.Messaging.IEmailService, SITRA.Infrastructure.Services.Messaging.EmailService>();
 
             return services;
         }

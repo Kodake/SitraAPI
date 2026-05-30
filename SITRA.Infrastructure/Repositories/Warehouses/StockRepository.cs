@@ -81,11 +81,6 @@ namespace SITRA.Infrastructure.Repositories.Warehouses
                 .FirstOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<double> TotalProductsInStockAsync(CancellationToken cancellationToken = default)
-        {
-            return await context.Stocks
-                .CountAsync(x => x.Qty > 0, cancellationToken);
-        }
     }
 }
 

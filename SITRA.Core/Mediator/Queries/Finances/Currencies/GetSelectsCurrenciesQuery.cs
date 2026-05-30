@@ -1,21 +1,36 @@
-using AutoMapper;
+using SITRA.Core.Interfaces.Services.Finances;
+using MediatR;
 using SITRA.Core.DTOs.Finances.Currencies;
 using SITRA.Core.Enums;
-using SITRA.Core.Interfaces;
+using AutoMapper;
 
 namespace SITRA.Core.Mediator.Queries.Finances.Currencies
 {
-    public class GetSelectsCurrenciesQuery : GetSelectsQuery<CurrencyListDTO>
+    public class GetSelectsCurrenciesQuery : IRequest<List<CurrencyListDTO>>
     {
-        public GetSelectsCurrenciesQuery(StatusType status = StatusType.All) : base(status) { }
+        public StatusType Status { get; set; }
 
-        public override async Task<List<CurrencyListDTO>> GetData(
-            IUnitOfWork unitOfWork,
-            IMapper mapper,
-            CancellationToken cancellationToken)
+        public GetSelectsCurrenciesQuery(StatusType status)
         {
-            var currencies = await unitOfWork.CurrencyRepository.GetCurrencies();
-            return mapper.Map<List<CurrencyListDTO>>(currencies);
+            Status = status;
+        }
+    }
+
+    public class GetSelectsCurrenciesQueryHandler : IRequestHandler<GetSelectsCurrenciesQuery, List<CurrencyListDTO>>
+    {
+        private readonly ICurrencyService _currencyService;
+        private readonly IMapper _mapper;
+
+        public GetSelectsCurrenciesQueryHandler(ICurrencyService currencyService, IMapper mapper)
+        {
+            _currencyService = currencyService;
+            _mapper = mapper;
+        }
+
+        public async Task<List<CurrencyListDTO>> Handle(GetSelectsCurrenciesQuery request, CancellationToken cancellationToken)
+        {
+            var currencies = await _currencyService.GetAllAsync(request.Status, cancellationToken);
+            return _mapper.Map<List<CurrencyListDTO>>(currencies);
         }
     }
 }

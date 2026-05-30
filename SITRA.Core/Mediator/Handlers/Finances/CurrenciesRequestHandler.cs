@@ -12,7 +12,7 @@ namespace SITRA.Core.Mediator.Handlers.Finances
             services.AddTransient<IRequestHandler<ActivateCurrencyCommand, bool>, ToggleCommandHandler<ActivateCurrencyCommand>>();
             services.AddTransient<IRequestHandler<DeactivateCurrencyCommand, bool>, ToggleCommandHandler<DeactivateCurrencyCommand>>();
             services.AddTransient<IRequestHandler<GetCurrencyByIdQuery, CurrencyDTO>, QueryHandler<GetCurrencyByIdQuery, CurrencyDTO>>();
-            services.AddTransient<IRequestHandler<GetSelectsCurrenciesQuery, List<CurrencyListDTO>>, QueryHandler<GetSelectsCurrenciesQuery, List<CurrencyListDTO>>>();
+            services.AddTransient<IRequestHandler<GetSelectsCurrenciesQuery, List<CurrencyListDTO>>, GetSelectsCurrenciesQueryHandler>();
             services.AddTransient<IRequestHandler<GetAllCurrenciesQuery, List<CurrencyListDTO>>, QueryHandler<GetAllCurrenciesQuery, List<CurrencyListDTO>>>();
             services.AddTransient<IRequestHandler<CreateCurrencyCommand, CreateCurrencyDTO>, CreateCommandHandler<Entities.Finances.Currency, CreateCurrencyDTO>>();
             services.AddTransient<IRequestHandler<UpdateCurrencyCommand, bool>, UpdateCommandHandler<Entities.Finances.Currency, CreateCurrencyDTO>>();

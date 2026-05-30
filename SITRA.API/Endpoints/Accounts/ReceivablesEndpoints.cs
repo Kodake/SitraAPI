@@ -8,6 +8,7 @@ using SITRA.Core.DTOs;
 using SITRA.Core.DTOs.Accounts.PaymentReceipts;
 using SITRA.Core.DTOs.Accounts.Receivables;
 using SITRA.Core.Mediator.Commands.Accounts.Receivables;
+using SITRA.Core.Mediator.Queries.Accounts.Receivables;
 using SITRA.Core.Mediator.Queries.Receivables;
 
 namespace SITRA.API.Endpoints
@@ -79,4 +80,6 @@ namespace SITRA.API.Endpoints
         }
     }
 }
+
+
 

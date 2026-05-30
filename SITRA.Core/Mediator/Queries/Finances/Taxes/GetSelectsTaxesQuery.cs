@@ -1,21 +1,36 @@
-using AutoMapper;
+using SITRA.Core.Interfaces.Services.Finances;
+using MediatR;
 using SITRA.Core.DTOs.Finances.Taxes;
 using SITRA.Core.Enums;
-using SITRA.Core.Interfaces;
+using AutoMapper;
 
 namespace SITRA.Core.Mediator.Queries.Finances.Taxes
 {
-    public class GetSelectsTaxesQuery : GetSelectsQuery<TaxListDTO>
+    public class GetSelectsTaxesQuery : IRequest<List<TaxListDTO>>
     {
-        public GetSelectsTaxesQuery(StatusType status) : base(status) { }
+        public StatusType Status { get; set; }
 
-        public override async Task<List<TaxListDTO>> GetData(
-            IUnitOfWork unitOfWork,
-            IMapper mapper,
-            CancellationToken cancellationToken)
+        public GetSelectsTaxesQuery(StatusType status)
         {
-            var taxes = await unitOfWork.TaxRepository.GetAll(Status);
-            return mapper.Map<List<TaxListDTO>>(taxes);
+            Status = status;
+        }
+    }
+
+    public class GetSelectsTaxesQueryHandler : IRequestHandler<GetSelectsTaxesQuery, List<TaxListDTO>>
+    {
+        private readonly ITaxService _taxService;
+        private readonly IMapper _mapper;
+
+        public GetSelectsTaxesQueryHandler(ITaxService taxService, IMapper mapper)
+        {
+            _taxService = taxService;
+            _mapper = mapper;
+        }
+
+        public async Task<List<TaxListDTO>> Handle(GetSelectsTaxesQuery request, CancellationToken cancellationToken)
+        {
+            var taxes = await _taxService.GetAllAsync(request.Status, cancellationToken);
+            return _mapper.Map<List<TaxListDTO>>(taxes);
         }
     }
 }

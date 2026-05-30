@@ -57,39 +57,7 @@ namespace SITRA.Infrastructure.Repositories.Products
             return items;
         }
 
-        public async Task<List<Item>> GetAll(StatusType status, CancellationToken cancellationToken = default)
-        {
-            IQueryable<Item> query = context.Items
-                .Where(u => u.ItemType == ItemType.Product);
 
-            switch (status)
-            {
-                case StatusType.Activated:
-                    query = query.Where(u => u.IsActive);
-                    break;
-                case StatusType.Deactivated:
-                    query = query.Where(u => !u.IsActive);
-                    break;
-                case StatusType.All:
-                default:
-                    break;
-            }
-
-            return await query.OrderBy(u => u.Id).ToListAsync(cancellationToken);
-        }
-
-        public async Task<IEnumerable<Item>> GetAll(CancellationToken cancellationToken = default)
-        {
-            return await context.Items
-                .Where(p => p.Stocks.Any(x => x.Item.ItemType == ItemType.Product))
-                .Select(p => new Item
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    Reference = p.Reference,
-                    Barcode = p.Barcode,
-                }).ToListAsync(cancellationToken);
-        }
 
         public async new Task<Item?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {

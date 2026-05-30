@@ -10,7 +10,6 @@ namespace SITRA.Core.Interfaces.Warehouses
         Task<IEnumerable<Warehouse>> GetStockWarehouseByProductId(Guid id, CancellationToken cancellationToken = default);
         Task<IEnumerable<Warehouse>> GetUnregisteredWarehouseById(Guid id, CancellationToken cancellationToken = default);
         Task<bool> Exists(Guid id, string code, CancellationToken cancellationToken = default);
-        Task<int> TotalWarehousesAddedAsync(CancellationToken cancellationToken = default);
         Task<bool> SetDefault(Guid id, CancellationToken cancellationToken = default);
     }
 }

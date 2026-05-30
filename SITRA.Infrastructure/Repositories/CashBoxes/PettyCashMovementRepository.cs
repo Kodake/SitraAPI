@@ -59,12 +59,7 @@ namespace SITRA.Infrastructure.Repositories.CashBoxes
                 .ToListAsync(cancellationToken);
         }
 
-        public async Task<double> GetTotalWithdrawalsAsync(Guid pettyCashId, CancellationToken cancellationToken = default)
-        {
-            return await context.PettyCashMovements
-                .Where(x => x.PettyCashId == pettyCashId && x.Type == MovementType.CashWithdrawals)
-                .SumAsync(x => x.Amount, cancellationToken);
-        }
+
 
         public async Task<double> GetTotalAmountPaidAsync(Guid pettyCashId, CancellationToken cancellationToken = default)
         {
@@ -77,60 +72,6 @@ namespace SITRA.Infrastructure.Repositories.CashBoxes
                 .SumAsync(x => x.Amount, cancellationToken);
         }
 
-        public async Task<Dictionary<object, double>> GetPaymentMethodSumsAsync(Guid pettyCashId, CancellationToken cancellationToken = default)
-        {
-            var payments = await context.PettyCashMovements
-                .Include(x => x.Invoice)
-                .Where(m => m.PettyCashId == pettyCashId &&
-                            m.Invoice != null &&
-                            m.Invoice.SpotPayment != null)
-                .SelectMany(m => m.Invoice!.SpotPayment!.Payments)
-                .GroupBy(p => p.PaymentMethod)
-                .Select(g => new
-                {
-                    PaymentMethod = g.Key,
-                    TotalAmount = g.Sum(p => p.Amount)
-                })
-                .ToListAsync(cancellationToken);
-
-            var allMethods = Enum.GetValues(typeof(PaymentMethod)).Cast<PaymentMethod>();
-
-            var result = allMethods.ToDictionary(
-                method => (object)method,
-                method => payments.FirstOrDefault(p => p.PaymentMethod == method)?.TotalAmount ?? 0
-            );
-
-            result["Total"] = result.Values.Sum();
-
-            return result;
-        }
-
-        public async Task<List<PaymentMethodAmountListDTO>> GetPaymentMethodAmountListAsync(Guid pettyCashId, CancellationToken cancellationToken = default)
-        {
-            var payments = await context.PettyCashMovements
-                .Include(x => x.Invoice)
-                .Where(m => m.PettyCashId == pettyCashId &&
-                            m.Invoice != null &&
-                            m.Invoice.SpotPayment != null)
-                .SelectMany(m => m.Invoice!.SpotPayment!.Payments)
-                .GroupBy(p => p.PaymentMethod)
-                .Select(g => new
-                {
-                    PaymentMethod = g.Key,
-                    TotalAmount = g.Sum(p => p.Amount)
-                })
-                .ToListAsync(cancellationToken);
-
-            var allMethods = Enum.GetValues(typeof(PaymentMethod)).Cast<PaymentMethod>();
-
-            var result = allMethods.Select(method => new PaymentMethodAmountListDTO
-            {
-                MethodType = method,
-                Amount = payments.FirstOrDefault(p => p.PaymentMethod == method)?.TotalAmount ?? 0
-            }).ToList();
-
-            return result;
-        }
     }
 }
 

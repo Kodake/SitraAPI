@@ -18,39 +18,7 @@ namespace SITRA.Infrastructure.Repositories.Invoices
             httpContext = httpContextAccessor.HttpContext!;
         }
 
-        public async new Task<List<SpotPayment>> GetAllAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
-        {
-            var queryable = context.SpotPayments
-                .Include(x => x.Payments)
-                .Include(x => x.Invoice)
-                .Include(x => x.Buyer);
 
-            await httpContext.AddPaginationParamsToHeaders(queryable);
-
-            return await queryable
-                .Where(x => x.Invoice != null && !context.Invoices.Any(y => y.ModifiedNcfNumber == x.Invoice.FiscalSupportNumber && x.Invoice.FiscalSupportNumber != null && y.DgiiStatus == "Aceptado"))
-                .OrderByDescending(x => x.CreatedAt)
-                .ThenByDescending(x => x.Id)
-                .Paginate(paginationDTO)
-                .ToListAsync(cancellationToken);
-        }
-
-        public async new Task<List<SpotPayment>> GetReadOnlyAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
-        {
-            var queryable = context.SpotPayments.AsNoTracking()
-                .Include(x => x.Payments)
-                .Include(x => x.Invoice)
-                .Include(x => x.Buyer);
-
-            await httpContext.AddPaginationParamsToHeaders(queryable);
-
-            return await queryable
-                .Where(x => x.Invoice != null && !context.Invoices.Any(y => y.ModifiedNcfNumber == x.Invoice.FiscalSupportNumber && x.Invoice.FiscalSupportNumber != null && y.DgiiStatus == "Aceptado"))
-                .OrderByDescending(x => x.CreatedAt)
-                .ThenByDescending(x => x.Id)
-                .Paginate(paginationDTO)
-                .ToListAsync(cancellationToken);
-        }
 
         public async new Task<SpotPayment?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {

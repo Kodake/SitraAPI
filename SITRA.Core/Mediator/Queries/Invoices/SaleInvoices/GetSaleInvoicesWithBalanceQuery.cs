@@ -3,6 +3,16 @@ using MediatR;
 using SITRA.Core.DTOs;
 using SITRA.Core.DTOs.Invoices.SaleInvoices;
 using SITRA.Core.Interfaces;
+using SITRA.Core.Interfaces.Services;
+using SITRA.Core.Interfaces.Services.AdministrativeTools;
+using SITRA.Core.Interfaces.Services.Auths;
+using SITRA.Core.Interfaces.Services.CashBoxes;
+using SITRA.Core.Interfaces.Services.Dashboards;
+using SITRA.Core.Interfaces.Services.Finances;
+using SITRA.Core.Interfaces.Services.Invoices;
+using SITRA.Core.Interfaces.Services.Products;
+using SITRA.Core.Interfaces.Services.Storage;
+using SITRA.Core.Interfaces.Services.Messaging;
 
 namespace SITRA.Core.Mediator.Queries.Invoices.SaleInvoices
 {
@@ -24,17 +34,19 @@ namespace SITRA.Core.Mediator.Queries.Invoices.SaleInvoices
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IFinanceService _financeService;
 
-        public GetSaleInvoicesWithBalanceQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
+        public GetSaleInvoicesWithBalanceQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, IFinanceService financeService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _financeService = financeService;
         }
 
         public async Task<SaleInvoiceWithBalanceDTO> Handle(GetSaleInvoicesWithBalanceQuery request, CancellationToken cancellationToken)
         {
-            var invoices = await _unitOfWork.SaleInvoiceRepository.GetSalesByDateRangeAsync(request.From, request.To, request.Pagination);
-            var balance = await _unitOfWork.SaleInvoiceRepository.GetBalanceAsync(request.From, request.To);
+            var invoices = await _unitOfWork.SaleInvoiceRepository.GetSalesByDateRangeAsync(request.From, request.To, request.Pagination, cancellationToken);
+            var balance = await _financeService.GetSaleBalanceAsync(request.From, request.To, cancellationToken);
 
             return new SaleInvoiceWithBalanceDTO
             {

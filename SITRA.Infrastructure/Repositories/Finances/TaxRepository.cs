@@ -13,27 +13,10 @@ namespace SITRA.Infrastructure.Repositories.Finances
         public TaxRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
             : base(context, httpContextAccessor) { }
 
-        public async Task<List<Tax>> GetAll(StatusType status, CancellationToken cancellationToken = default)
-        {
-            IQueryable<Tax> query = context.Taxes.AsQueryable();
 
-            switch (status)
-            {
-                case StatusType.Activated:
-                    query = query.Where(u => u.IsActive);
-                    break;
-                case StatusType.Deactivated:
-                    query = query.Where(u => !u.IsActive);
-                    break;
-                case StatusType.All:
-                default:
-                    break;
-            }
-
-            return await query.OrderBy(u => u.Id).ToListAsync(cancellationToken);
-        }
     }
 }
+
 
 
 

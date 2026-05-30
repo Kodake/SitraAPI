@@ -1,21 +1,36 @@
-using AutoMapper;
+using SITRA.Core.Interfaces.Services.AdministrativeTools;
+using MediatR;
 using SITRA.Core.DTOs.AdministrativeTools.Deadlines;
 using SITRA.Core.Enums;
-using SITRA.Core.Interfaces;
+using AutoMapper;
 
 namespace SITRA.Core.Mediator.Queries.AdministrativeTools.Deadlines
 {
-    public class GetSelectsDeadlinesQuery : GetSelectsQuery<DeadlineListDTO>
+    public class GetSelectsDeadlinesQuery : IRequest<List<DeadlineListDTO>>
     {
-        public GetSelectsDeadlinesQuery(StatusType status = StatusType.All) : base(status) { }
+        public StatusType Status { get; set; }
 
-        public override async Task<List<DeadlineListDTO>> GetData(
-            IUnitOfWork unitOfWork,
-            IMapper mapper,
-            CancellationToken cancellationToken)
+        public GetSelectsDeadlinesQuery(StatusType status)
         {
-            var deadlines = await unitOfWork.DeadlineRepository.GetAll(Status);
-            return mapper.Map<List<DeadlineListDTO>>(deadlines);
+            Status = status;
+        }
+    }
+
+    public class GetSelectsDeadlinesQueryHandler : IRequestHandler<GetSelectsDeadlinesQuery, List<DeadlineListDTO>>
+    {
+        private readonly IDeadlineService _service;
+        private readonly IMapper _mapper;
+
+        public GetSelectsDeadlinesQueryHandler(IDeadlineService service, IMapper mapper)
+        {
+            _service = service;
+            _mapper = mapper;
+        }
+
+        public async Task<List<DeadlineListDTO>> Handle(GetSelectsDeadlinesQuery request, CancellationToken cancellationToken)
+        {
+            var items = await _service.GetAllAsync(request.Status, cancellationToken);
+            return _mapper.Map<List<DeadlineListDTO>>(items);
         }
     }
 }

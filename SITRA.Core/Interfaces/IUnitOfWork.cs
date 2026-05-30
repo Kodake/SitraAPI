@@ -1,3 +1,12 @@
+using SITRA.Core.Interfaces.Services.AdministrativeTools;
+using SITRA.Core.Interfaces.Services.Auths;
+using SITRA.Core.Interfaces.Services.CashBoxes;
+using SITRA.Core.Interfaces.Services.Dashboards;
+using SITRA.Core.Interfaces.Services.Finances;
+using SITRA.Core.Interfaces.Services.Invoices;
+using SITRA.Core.Interfaces.Services.Products;
+using SITRA.Core.Interfaces.Services.Storage;
+using SITRA.Core.Interfaces.Services.Messaging;
 using SITRA.Core.Interfaces.Accounts;
 using SITRA.Core.Interfaces.AdministrativeTools;
 using SITRA.Core.Interfaces.Appointments;
@@ -8,6 +17,15 @@ using SITRA.Core.Interfaces.Generics;
 using SITRA.Core.Interfaces.Invoices;
 using SITRA.Core.Interfaces.Products;
 using SITRA.Core.Interfaces.Services;
+using SITRA.Core.Interfaces.Services.AdministrativeTools;
+using SITRA.Core.Interfaces.Services.Auths;
+using SITRA.Core.Interfaces.Services.CashBoxes;
+using SITRA.Core.Interfaces.Services.Dashboards;
+using SITRA.Core.Interfaces.Services.Finances;
+using SITRA.Core.Interfaces.Services.Invoices;
+using SITRA.Core.Interfaces.Services.Products;
+using SITRA.Core.Interfaces.Services.Storage;
+using SITRA.Core.Interfaces.Services.Messaging;
 using SITRA.Core.Interfaces.Warehouses;
 namespace SITRA.Core.Interfaces
 {

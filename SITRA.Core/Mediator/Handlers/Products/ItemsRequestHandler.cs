@@ -8,7 +8,7 @@ namespace SITRA.Core.Mediator.Handlers.Products
     {
         public static IServiceCollection AddItemsServices(this IServiceCollection services)
         {
-            services.AddTransient<IRequestHandler<GetItemsByPricingIdAndWarehouseIdQuery, List<ItemListDTO>>, QueryHandler<GetItemsByPricingIdAndWarehouseIdQuery, List<ItemListDTO>>>();
+            services.AddTransient<IRequestHandler<GetItemsByPricingIdAndWarehouseIdQuery, List<ItemListDTO>>, GetItemsByPricingIdAndWarehouseIdQueryHandler>();
             return services;
         }
     }

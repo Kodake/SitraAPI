@@ -38,3 +38,4 @@ namespace SITRA.Infrastructure.Repositories.AdministrativeTools
         }
     }
 }
+

@@ -10,7 +10,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
         public static IServiceCollection AddSaleInvoicesServices(this IServiceCollection services)
         {
             services.AddTransient<IRequestHandler<GetSaleInvoiceByIdQuery, SaleInvoiceDTO>, QueryHandler<GetSaleInvoiceByIdQuery, SaleInvoiceDTO>>();
-            services.AddTransient<IRequestHandler<GetAllSaleInvoicesQuery, List<SaleInvoiceListDTO>>, QueryHandler<GetAllSaleInvoicesQuery, List<SaleInvoiceListDTO>>>();
+            services.AddTransient<IRequestHandler<GetAllSaleInvoicesQuery, List<SaleInvoiceListDTO>>, GetAllSaleInvoicesQueryHandler>();
             services.AddTransient<IRequestHandler<GetAllSaleInvoicesByDateRangeAndBillerQuery, List<SaleInvoiceListDTO>>, QueryHandler<GetAllSaleInvoicesByDateRangeAndBillerQuery, List<SaleInvoiceListDTO>>>();
             // services.AddTransient<IRequestHandler<CreateSaleInvoiceCommand, CreateSaleInvoiceDTO>, CommandHandler<CreateSaleInvoiceCommand, CreateSaleInvoiceDTO>>();
             services.AddTransient<IRequestHandler<CreateNoteCommand, CreateNoteDTO>, CreateNoteCommandHandler>();

@@ -8,12 +8,12 @@ namespace SITRA.Core.Mediator.Queries.Invoices.SaleInvoices
 
     {
         private readonly SITRA.Core.Models.Dgii.DgiiSettings _dgiiSettings;
-        private readonly SITRA.Core.Interfaces.Services.IDgiiStorageService _dgiiStorageService;
+        private readonly SITRA.Core.Interfaces.Services.Storage.IDgiiStorageService _dgiiStorageService;
 
         public GetSaleInvoiceReceiptPdfQuery(
             Guid invoiceId, 
             SITRA.Core.Models.Dgii.DgiiSettings dgiiSettings, 
-            SITRA.Core.Interfaces.Services.IDgiiStorageService dgiiStorageService) : base(invoiceId) 
+            SITRA.Core.Interfaces.Services.Storage.IDgiiStorageService dgiiStorageService) : base(invoiceId) 
         { 
             _dgiiSettings = dgiiSettings;
             _dgiiStorageService = dgiiStorageService;

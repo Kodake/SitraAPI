@@ -12,7 +12,7 @@ namespace SITRA.Core.Mediator.Handlers.Products
             services.AddTransient<IRequestHandler<ActivateServiceCommand, bool>, ToggleCommandHandler<ActivateServiceCommand>>();
             services.AddTransient<IRequestHandler<DeactivateServiceCommand, bool>, ToggleCommandHandler<DeactivateServiceCommand>>();
             services.AddTransient<IRequestHandler<GetServiceByIdQuery, ServiceDTO>, QueryHandler<GetServiceByIdQuery, ServiceDTO>>();
-            services.AddTransient<IRequestHandler<GetSelectsServicesQuery, List<ServiceListDTO>>, QueryHandler<GetSelectsServicesQuery, List<ServiceListDTO>>>();
+            services.AddTransient<IRequestHandler<GetSelectsServicesQuery, List<ServiceListDTO>>, GetSelectsServicesQueryHandler>();
             services.AddTransient<IRequestHandler<GetAllServicesQuery, List<ServiceListDTO>>, QueryHandler<GetAllServicesQuery, List<ServiceListDTO>>>();
             services.AddTransient<IRequestHandler<CreateServiceCommand, CreateServiceDTO>, CreateCommandHandler<Entities.Products.Item, CreateServiceDTO>>();
             services.AddTransient<IRequestHandler<UpdateServiceCommand, bool>, UpdateCommandHandler<Entities.Products.Item, CreateServiceDTO>>();

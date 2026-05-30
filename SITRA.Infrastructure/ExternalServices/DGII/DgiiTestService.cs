@@ -1,3 +1,4 @@
+using SITRA.Core.Interfaces.Services.Storage;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -403,3 +404,4 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
             Path.IsPathRooted(path) ? path : Path.Combine(AppContext.BaseDirectory, path);
     }
 }
+

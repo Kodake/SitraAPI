@@ -13,7 +13,7 @@ namespace SITRA.Core.Mediator.Handlers.AdministrativeTools
             services.AddTransient<IRequestHandler<DeactivateDeadlineCommand, bool>, ToggleCommandHandler<DeactivateDeadlineCommand>>();
             services.AddTransient<IRequestHandler<GetAllDeadlinesQuery, List<DeadlineListDTO>>, QueryHandler<GetAllDeadlinesQuery, List<DeadlineListDTO>>>();
             services.AddTransient<IRequestHandler<GetDeadlineByIdQuery, DeadlineDTO>, QueryHandler<GetDeadlineByIdQuery, DeadlineDTO>>();
-            services.AddTransient<IRequestHandler<GetSelectsDeadlinesQuery, List<DeadlineListDTO>>, QueryHandler<GetSelectsDeadlinesQuery, List<DeadlineListDTO>>>();
+            services.AddTransient<IRequestHandler<GetSelectsDeadlinesQuery, List<DeadlineListDTO>>, GetSelectsDeadlinesQueryHandler>();
             services.AddTransient<IRequestHandler<CreateDeadlineCommand, CreateDeadlineDTO>, CreateCommandHandler<Entities.AdministrativeTools.Deadline, CreateDeadlineDTO>>();
             services.AddTransient<IRequestHandler<UpdateDeadlineCommand, bool>, UpdateCommandHandler<Entities.AdministrativeTools.Deadline, CreateDeadlineDTO>>();
 

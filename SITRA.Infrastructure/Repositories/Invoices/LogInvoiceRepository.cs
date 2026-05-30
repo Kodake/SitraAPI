@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using SITRA.Core.DTOs;
 using SITRA.Core.Entities.Invoices;
+using SITRA.Core.Enums;
 using SITRA.Core.Helpers;
 using SITRA.Core.Interfaces.Invoices;
 using SITRA.Infrastructure.Persistence;
@@ -48,6 +49,7 @@ namespace SITRA.Infrastructure.Repositories.Invoices
             await httpContext.AddPaginationParamsToHeaders(queryable);
 
             return await queryable
+                .Where(i => i.InvoiceType != InvoiceType.Quotation)
                 .OrderByDescending(i => i.CreatedAt)
                 .ThenByDescending(i => i.Id)
                 .Paginate(paginationDTO)

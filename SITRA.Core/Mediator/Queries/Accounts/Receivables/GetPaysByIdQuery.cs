@@ -1,20 +1,35 @@
-using AutoMapper;
+using SITRA.Core.Interfaces.Services.Accounts;
+using MediatR;
 using SITRA.Core.DTOs.Accounts.Receivables;
-using SITRA.Core.Interfaces;
+using AutoMapper;
 
-namespace SITRA.Core.Mediator.Queries.Receivables
+namespace SITRA.Core.Mediator.Queries.Accounts.Receivables
 {
-    public class GetPaysByIdQuery : GetByIdQuery<ReceivableDTO>
+    public class GetPaysByIdQuery : IRequest<ReceivableDTO>
     {
-        public GetPaysByIdQuery(Guid id) : base(id) { }
+        public Guid Id { get; set; }
 
-        public override async Task<ReceivableDTO> GetData(
-            IUnitOfWork unitOfWork,
-            IMapper mapper,
-            CancellationToken cancellationToken)
+        public GetPaysByIdQuery(Guid id)
         {
-            var receivable = await unitOfWork.ReceivableRepository.GetPaysByIdAsync(Id);
-            return mapper.Map<ReceivableDTO>(receivable);
+            Id = id;
+        }
+    }
+
+    public class GetPaysByIdQueryHandler : IRequestHandler<GetPaysByIdQuery, ReceivableDTO>
+    {
+        private readonly IReceivableService _receivableService;
+        private readonly IMapper _mapper;
+
+        public GetPaysByIdQueryHandler(IReceivableService receivableService, IMapper mapper)
+        {
+            _receivableService = receivableService;
+            _mapper = mapper;
+        }
+
+        public async Task<ReceivableDTO> Handle(GetPaysByIdQuery request, CancellationToken cancellationToken)
+        {
+            var receivable = await _receivableService.GetPaysByIdAsync(request.Id, cancellationToken);
+            return _mapper.Map<ReceivableDTO>(receivable);
         }
     }
 }

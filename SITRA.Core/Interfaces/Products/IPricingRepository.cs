@@ -7,8 +7,6 @@ namespace SITRA.Core.Interfaces.Products
     {
         Task<List<Pricing>> GetAll(CancellationToken cancellationToken = default);
         Task<Pricing?> GetPricingByName(string? name, CancellationToken cancellationToken = default);
-        Task<IEnumerable<Pricing>> GetUnregisteredPricingsForItem(Guid itemId, CancellationToken cancellationToken = default);
         Task<bool> Exists(Guid id, string name, CancellationToken cancellationToken = default);
-        Task<bool> SetDefault(Guid id, CancellationToken cancellationToken = default);
     }
 }

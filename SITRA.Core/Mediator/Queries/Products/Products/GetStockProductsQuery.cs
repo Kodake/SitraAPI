@@ -1,21 +1,30 @@
-using AutoMapper;
+using SITRA.Core.Interfaces.Services.Products;
+using MediatR;
 using SITRA.Core.DTOs.Products.Products;
 using SITRA.Core.Enums;
-using SITRA.Core.Interfaces;
+using AutoMapper;
 
 namespace SITRA.Core.Mediator.Queries.Products.Products
 {
-    public class GetStockProductsQuery : GetSelectsQuery<ProductListDTO>
+    public class GetStockProductsQuery : IRequest<List<ProductListDTO>>
     {
-        public GetStockProductsQuery(StatusType status = StatusType.All) : base(status) { }
+    }
 
-        public override async Task<List<ProductListDTO>> GetData(
-            IUnitOfWork unitOfWork,
-            IMapper mapper,
-            CancellationToken cancellationToken)
+    public class GetStockProductsQueryHandler : IRequestHandler<GetStockProductsQuery, List<ProductListDTO>>
+    {
+        private readonly IProductService _productService;
+        private readonly IMapper _mapper;
+
+        public GetStockProductsQueryHandler(IProductService productService, IMapper mapper)
         {
-            var products = await unitOfWork.ProductRepository.GetAll();
-            return mapper.Map<List<ProductListDTO>>(products);
+            _productService = productService;
+            _mapper = mapper;
+        }
+
+        public async Task<List<ProductListDTO>> Handle(GetStockProductsQuery request, CancellationToken cancellationToken)
+        {
+            var products = await _productService.GetStockProductsAsync(cancellationToken);
+            return _mapper.Map<List<ProductListDTO>>(products);
         }
     }
 }

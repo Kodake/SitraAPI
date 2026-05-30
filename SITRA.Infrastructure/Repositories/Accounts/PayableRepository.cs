@@ -55,18 +55,10 @@ namespace SITRA.Infrastructure.Repositories.Accounts
                 .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
 
-        public async Task<Payable?> GetPaysByIdAsync(Guid id, CancellationToken cancellationToken = default)
-        {
-            return await context.Payables
-                .Include(x => x.Invoice)
-                .Include(x => x.Supplier)
-                .Include(x => x.PayableReceipts
-                    .Where(x => x.IsActive)
-                    .OrderByDescending(p => p.Id))
-                .FirstOrDefaultAsync(x => x.Id == id && x.Status == AccountStatus.Paid, cancellationToken);
-        }
+
     }
 }
+
 
 
 

@@ -44,10 +44,6 @@ namespace SITRA.Infrastructure.Repositories.Contacts
             return await context.Contacts.AnyAsync(x => x.Id == id, cancellationToken);
         }
 
-        public async Task<int> TotalContactsAddedAsync(CancellationToken cancellationToken = default)
-        {
-            return await context.Contacts.CountAsync(x => x.IsActive, cancellationToken);
-        }
     }
 }
 

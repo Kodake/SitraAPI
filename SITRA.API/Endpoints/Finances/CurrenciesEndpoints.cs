@@ -5,6 +5,7 @@ using SITRA.API.Filters;
 using SITRA.API.Helpers;
 using SITRA.Core.DTOs;
 using SITRA.Core.DTOs.Finances.Currencies;
+using SITRA.Core.Enums;
 using SITRA.Core.Mediator.Commands.Finances.Currencies;
 using SITRA.Core.Mediator.Queries.Finances.Currencies;
 
@@ -42,7 +43,7 @@ namespace SITRA.API.Endpoints
         static async Task<Ok<List<CurrencyListDTO>>> GetSelects(
             [FromServices] IMediator mediator)
         {
-            var query = new GetSelectsCurrenciesQuery();
+            var query = new GetSelectsCurrenciesQuery(StatusType.Activated);
             var dto = await mediator.Send(query);
             return TypedResults.Ok(dto);
         }
@@ -103,4 +104,6 @@ namespace SITRA.API.Endpoints
         }
     }
 }
+
+
 

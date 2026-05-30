@@ -20,61 +20,7 @@ namespace SITRA.Infrastructure.Repositories.Invoices
             httpContext = httpContextAccessor.HttpContext!;
         }
 
-        public async new Task<List<Invoice>> GetAllAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
-        {
-            var queryable = context.Invoices
-                .Include(x => x.InvoiceBuyer)
-                    .ThenInclude(ib => ib.Buyer)
-                .Include(x => x.InvoiceFiscalSupport);
 
-            await httpContext.AddPaginationParamsToHeaders(queryable);
-
-            return await queryable
-                .Where(x => x.InvoiceType == InvoiceType.Purchase
-                    && x.InvoiceFiscalSupport != null
-                    && x.InvoiceFiscalSupport.EcfType != EcfType.E32
-                    && x.InvoiceFiscalSupport.EcfType != EcfType.E33
-                    && x.InvoiceFiscalSupport.EcfType != EcfType.E34
-                    && x.InvoiceFiscalSupport.EcfType != EcfType.E43
-                    && x.InvoiceFiscalSupport.EcfType != EcfType.E44
-                    && x.InvoiceFiscalSupport.EcfType != EcfType.E45
-                    && x.InvoiceFiscalSupport.EcfType != EcfType.E46
-                    && x.InvoiceFiscalSupport.EcfType != EcfType.E47
-                    && !context.Invoices.Any(y => y.ModifiedNcfNumber == x.FiscalSupportNumber && x.FiscalSupportNumber != null && y.DgiiStatus == "Aceptado")
-                    && !(x.ModifiedNcfNumber != null && x.DgiiStatus == "Aceptado"))
-                .OrderByDescending(x => x.CreatedAt)
-                .ThenByDescending(x => x.Id)
-                .Paginate(paginationDTO)
-                .ToListAsync(cancellationToken);
-        }
-
-        public async new Task<List<Invoice>> GetReadOnlyAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
-        {
-            var queryable = context.Invoices.AsNoTracking()
-                .Include(x => x.InvoiceBuyer)
-                    .ThenInclude(ib => ib.Buyer)
-                .Include(x => x.InvoiceFiscalSupport);
-
-            await httpContext.AddPaginationParamsToHeaders(queryable);
-
-            return await queryable
-                .Where(x => x.InvoiceType == InvoiceType.Purchase
-                    && x.InvoiceFiscalSupport != null
-                    && x.InvoiceFiscalSupport.EcfType != EcfType.E32
-                    && x.InvoiceFiscalSupport.EcfType != EcfType.E33
-                    && x.InvoiceFiscalSupport.EcfType != EcfType.E34
-                    && x.InvoiceFiscalSupport.EcfType != EcfType.E43
-                    && x.InvoiceFiscalSupport.EcfType != EcfType.E44
-                    && x.InvoiceFiscalSupport.EcfType != EcfType.E45
-                    && x.InvoiceFiscalSupport.EcfType != EcfType.E46
-                    && x.InvoiceFiscalSupport.EcfType != EcfType.E47
-                    && !context.Invoices.Any(y => y.ModifiedNcfNumber == x.FiscalSupportNumber && x.FiscalSupportNumber != null && y.DgiiStatus == "Aceptado")
-                    && !(x.ModifiedNcfNumber != null && x.DgiiStatus == "Aceptado"))
-                .OrderByDescending(x => x.CreatedAt)
-                .ThenByDescending(x => x.Id)
-                .Paginate(paginationDTO)
-                .ToListAsync(cancellationToken);
-        }
 
         public async new Task<Invoice?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
@@ -118,12 +64,7 @@ namespace SITRA.Infrastructure.Repositories.Invoices
             }
         }
 
-        public async Task<double> Last30DaysPurchasesAsync(CancellationToken cancellationToken = default)
-        {
-            return await context.Invoices
-                .Where(i => i.InvoiceType == InvoiceType.Purchase && i.CreatedAt >= DateTimeOffset.UtcNow.AddDays((double)TimeElapsed.Last30Days))
-                .SumAsync(i => i.TotalPrice, cancellationToken);
-        }
+
 
         public async Task<List<Invoice>> GetPurchasesByDateRangeAsync(DateTime from, DateTime to, PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
         {
@@ -158,28 +99,6 @@ namespace SITRA.Infrastructure.Repositories.Invoices
                 ).ToListAsync(cancellationToken);
         }
 
-        public async Task<PurchaseBalanceSummaryDTO> GetBalanceAsync(DateTimeOffset from, DateTimeOffset to, CancellationToken cancellationToken = default)
-        {
-            to = to.Date.AddDays(1).AddTicks(-1);
-
-            var spotPurchases = await context.SpotPayments
-                .Include(sp => sp.Invoice)
-                .Where(sp => sp.Invoice.InvoiceType == InvoiceType.Purchase && sp.Invoice.CreatedAt >= from && sp.Invoice.CreatedAt <= to && sp.IsActive)
-                .SumAsync(sp => sp.Invoice.TotalPrice, cancellationToken);
-
-            var payablesPayments = await context.PayableReceipts
-                .Where(pr => pr.CreatedAt >= from && pr.CreatedAt <= to && pr.IsActive)
-                .SumAsync(pr => pr.Amount, cancellationToken);
-
-            var totalOutflow = spotPurchases + payablesPayments;
-
-            return new PurchaseBalanceSummaryDTO
-            {
-                SpotPurchases = spotPurchases,
-                PayablesPayments = payablesPayments,
-                TotalOutflow = totalOutflow
-            };
-        }
     }
 }
 

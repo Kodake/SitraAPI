@@ -12,8 +12,8 @@ namespace SITRA.Core.Mediator.Handlers.Products
             services.AddTransient<IRequestHandler<ActivateProductCommand, bool>, ToggleCommandHandler<ActivateProductCommand>>();
             services.AddTransient<IRequestHandler<DeactivateProductCommand, bool>, ToggleCommandHandler<DeactivateProductCommand>>();
             services.AddTransient<IRequestHandler<GetProductByIdQuery, ProductDTO>, QueryHandler<GetProductByIdQuery, ProductDTO>>();
-            services.AddTransient<IRequestHandler<GetSelectsProductsQuery, List<ProductListDTO>>, QueryHandler<GetSelectsProductsQuery, List<ProductListDTO>>>();
-            services.AddTransient<IRequestHandler<GetStockProductsQuery, List<ProductListDTO>>, QueryHandler<GetStockProductsQuery, List<ProductListDTO>>>();
+            services.AddTransient<IRequestHandler<GetSelectsProductsQuery, List<ProductListDTO>>, GetSelectsProductsQueryHandler>();
+            services.AddTransient<IRequestHandler<GetStockProductsQuery, List<ProductListDTO>>, GetStockProductsQueryHandler>();
             services.AddTransient<IRequestHandler<GetAllProductsQuery, List<ProductListDTO>>, QueryHandler<GetAllProductsQuery, List<ProductListDTO>>>();
             services.AddTransient<IRequestHandler<CreateProductCommand, CreateProductDTO>, CreateCommandHandler<Entities.Products.Item, CreateProductDTO>>();
             services.AddTransient<IRequestHandler<UpdateProductCommand, bool>, UpdateCommandHandler<Entities.Products.Item, CreateProductDTO>>();
