@@ -28,6 +28,7 @@ namespace SITRA.API.Endpoints
                 .AddEndpointFilter<ValidationFilter<CreateContactDTO>>()
                 .WithOpenApi().RequireAuthorization();
             group.MapPatch("/{id:guid}/activate", Activate).RequireAuthorization();
+            group.MapPatch("/{id:guid}/set-default", SetDefault).RequireAuthorization();
             group.MapDelete("/{id:guid}/deactivate", Deactivate).RequireAuthorization();
             return group;
         }
@@ -111,6 +112,15 @@ namespace SITRA.API.Endpoints
             IOutputCacheStore outputCacheStore)
         {
             var command = new DeactivateContactCommand(id);
+            var success = await mediator.Send(command);
+            return success ? TypedResults.Ok() : TypedResults.NotFound();
+        }
+
+        static async Task<Results<NotFound, Ok>> SetDefault(
+            [FromRoute] Guid id,
+            [FromServices] IMediator mediator)
+        {
+            var command = new SetDefaultContactCommand(id);
             var success = await mediator.Send(command);
             return success ? TypedResults.Ok() : TypedResults.NotFound();
         }

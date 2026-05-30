@@ -10,5 +10,6 @@ namespace SITRA.Core.Interfaces.Contacts
         Task<List<Contact>> GetBillers(CancellationToken cancellationToken = default);
         Task<bool> Exists(Guid id, string code, CancellationToken cancellationToken = default);
         Task<bool> Exists(Guid id, CancellationToken cancellationToken = default);
+        Task<bool> SetDefault(Guid id, CancellationToken cancellationToken = default);
     }
 }

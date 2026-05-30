@@ -44,6 +44,22 @@ namespace SITRA.Infrastructure.Repositories.Contacts
             return await context.Contacts.AnyAsync(x => x.Id == id, cancellationToken);
         }
 
+        public async Task<bool> SetDefault(Guid id, CancellationToken cancellationToken = default)
+        {
+            var contact = await context.Contacts.FindAsync(new object[] { id }, cancellationToken);
+            if (contact == null) return false;
+
+            var defaults = await context.Contacts
+                .Where(x => x.IsDefault && x.Id != id)
+                .ToListAsync(cancellationToken);
+
+            foreach (var c in defaults)
+                c.IsDefault = false;
+
+            contact.IsDefault = true;
+            return true;
+        }
+
     }
 }
 

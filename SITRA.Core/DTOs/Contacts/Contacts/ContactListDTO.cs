@@ -10,6 +10,7 @@ namespace SITRA.Core.DTOs.Contacts.Contacts
         public string Name { get; set; } = string.Empty;
         public string? Province { get; set; }
         public string? Municipality { get; set; }
+        public bool IsDefault { get; set; }
         public bool IsActive { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }

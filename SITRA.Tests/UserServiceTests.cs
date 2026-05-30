@@ -17,6 +17,8 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Xunit.Abstractions;
 using SITRA.Infrastructure.Repositories;
 using SITRA.Core.Interfaces.AdministrativeTools;
+using SITRA.Core.Interfaces.Services.AdministrativeTools;
+using SITRA.Infrastructure.Services.Auths;
 
 namespace SITRA.Tests
 {
@@ -124,7 +126,7 @@ namespace SITRA.Tests
                 .Build();
 
             var mockCurrentTenantService = new Mock<ICurrentTenantService>();
-            mockCurrentTenantService.Setup(x => x.TenantId).Returns(Guid.NewGuid());
+            mockCurrentTenantService.Setup(x => x.TenantId).Returns((Guid?)Guid.NewGuid());
 
             mockUserManager.Setup(x => x.CreateAsync(It.IsAny<User>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Success);
             mockUserManager.Setup(x => x.AddClaimsAsync(It.IsAny<User>(), It.IsAny<IEnumerable<System.Security.Claims.Claim>>())).ReturnsAsync(IdentityResult.Success);
@@ -178,7 +180,7 @@ namespace SITRA.Tests
 
             var mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
             var mockCurrentTenantService = new Mock<ICurrentTenantService>();
-            mockCurrentTenantService.Setup(x => x.TenantId).Returns(tenantId);
+            mockCurrentTenantService.Setup(x => x.TenantId).Returns((Guid?)tenantId);
 
             var myConfiguration = new Dictionary<string, string?>
             {
@@ -273,7 +275,7 @@ namespace SITRA.Tests
             var mockConfiguration = new Mock<IConfiguration>();
 
             var mockCurrentTenantService = new Mock<ICurrentTenantService>();
-            mockCurrentTenantService.Setup(x => x.TenantId).Returns(tenantId);
+            mockCurrentTenantService.Setup(x => x.TenantId).Returns((Guid?)tenantId);
 
             var context = new ApplicationDbContext(options, mockCurrentTenantService.Object);
             var setupUserStore = new UserStore<User>(context);

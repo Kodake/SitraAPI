@@ -1,12 +1,4 @@
-using SITRA.Core.Interfaces.Services.AdministrativeTools;
 using SITRA.Core.Interfaces.Services.Auths;
-using SITRA.Core.Interfaces.Services.CashBoxes;
-using SITRA.Core.Interfaces.Services.Dashboards;
-using SITRA.Core.Interfaces.Services.Finances;
-using SITRA.Core.Interfaces.Services.Invoices;
-using SITRA.Core.Interfaces.Services.Products;
-using SITRA.Core.Interfaces.Services.Storage;
-using SITRA.Core.Interfaces.Services.Messaging;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -15,12 +7,13 @@ using SITRA.Core.DTOs.Auths;
 using SITRA.Core.Entities.Auths;
 using SITRA.Core.Entities.AdministrativeTools;
 using SITRA.Core.Interfaces;
-using SITRA.Core.Interfaces.Services;
 using SITRA.Infrastructure.Persistence;
 using SITRA.Core.Entities.Products;
 using SITRA.Core.Enums;
 using SITRA.Core.Entities.Finances;
 using SITRA.Core.DTOs.AdministrativeTools.Roles;
+using SITRA.Core.Entities.Warehouses;
+using SITRA.Core.Entities.Contacts;
 
 namespace SITRA.Infrastructure.Services.Auths
 {
@@ -178,9 +171,34 @@ namespace SITRA.Infrastructure.Services.Auths
 
             await _context.Set<Pricing>().AddAsync(pricing);
 
+            var warehouse = new Warehouse
+            {
+                TenantId = tenant.TenantId,
+                Name = "TIENDA PRINCIPAL",
+                Address = "N/A",
+                IsDefault = true
+            };
+            
+            await _context.Set<Warehouse>().AddAsync(warehouse);
+
+            var contact = new Contact
+            {
+                TenantId = tenant.TenantId,
+                Name = "CONSUMIDOR FINAL",
+                Identification = "00000000000",
+                ContactType = ContactType.Customer,
+                IdentificationType = IdentificationType.Cedula,
+                Province = "010000",
+                Municipality = "010101",
+                Address = "N/A",
+                IsDefault = true
+            };
+
+            await _context.Set<Contact>().AddAsync(contact);
+
             foreach (var currencyType in Enum.GetValues<CurrencyType>())
             {
-                var currency = new Currency
+                var loopCurrency = new Currency
                 {
                     TenantId = tenant.TenantId,
                     Name = currencyType switch
@@ -210,7 +228,7 @@ namespace SITRA.Infrastructure.Services.Auths
                     IsDefault = currencyType == CurrencyType.DOP
                 };
 
-                await _context.Set<Currency>().AddAsync(currency);
+                await _context.Set<Currency>().AddAsync(loopCurrency);
             }
 
             await _context.SaveChangesAsync(cancellationToken);

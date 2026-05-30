@@ -18,6 +18,7 @@ namespace SITRA.Core.Entities.Contacts
         public string? Phone { get; set; }
         public string? Phone2 { get; set; }
         public string? Email { get; set; }
+        public bool IsDefault { get; set; }
         public bool IsActive { get; set; } = true;
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }
