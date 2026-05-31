@@ -2,6 +2,7 @@ using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using SITRA.Core.Entities.Invoices;
+using SITRA.Core.Enums;
 using SITRA.Core.Models;
 
 namespace SITRA.Core.Documents
@@ -139,8 +140,9 @@ namespace SITRA.Core.Documents
                     table.ColumnsDefinition(columns =>
                     {
                         columns.RelativeColumn(1.5f); // FECHA
-                        columns.RelativeColumn(3); // CLIENTE
+                        columns.RelativeColumn(2.5f); // CLIENTE
                         columns.RelativeColumn(2); // NCF
+                        columns.RelativeColumn(1.5f); // COND
                         columns.RelativeColumn(1.5f); // TOTAL
                     });
 
@@ -149,6 +151,7 @@ namespace SITRA.Core.Documents
                         header.Cell().Element(HeaderStyle).Text("FECHA");
                         header.Cell().Element(HeaderStyle).Text("CLIENTE");
                         header.Cell().Element(HeaderStyle).Text("NCF");
+                        header.Cell().Element(HeaderStyle).Text("COND.");
                         header.Cell().Element(HeaderStyle).AlignRight().Text("TOTAL");
 
                         static IContainer HeaderStyle(IContainer c) =>
@@ -157,9 +160,12 @@ namespace SITRA.Core.Documents
 
                     foreach (var item in _invoices.OrderBy(i => i.CreatedAt))
                     {
+                        string conditionStr = item.ConditionType == InvoiceCondition.Spot ? "Contado" : "Crédito";
+
                         table.Cell().Element(RowStyle).Text(item.CreatedAt.ToString("dd-MM-yyyy"));
                         table.Cell().Element(RowStyle).Text(item.InvoiceBuyer?.Buyer?.Name ?? "N/A");
                         table.Cell().Element(RowStyle).Text(item.FiscalSupportNumber ?? "N/A");
+                        table.Cell().Element(RowStyle).Text(conditionStr);
                         table.Cell().Element(RowStyle).AlignRight().Text(item.TotalPrice.ToString("N2")).SemiBold().FontColor(Colors.Black);
                     }
 
@@ -180,6 +186,9 @@ namespace SITRA.Core.Documents
                         double totalSub = _invoices.Sum(x => (double)x.TotalAmount);
                         double totalTaxes = _invoices.Sum(x => (double)x.TotalTaxes);
                         double totalGeneral = _invoices.Sum(x => (double)x.TotalPrice);
+                        
+                        double totalContado = _invoices.Where(x => x.ConditionType == InvoiceCondition.Spot).Sum(x => (double)x.TotalPrice);
+                        double totalCredito = _invoices.Where(x => x.ConditionType == InvoiceCondition.Credit).Sum(x => (double)x.TotalPrice);
 
                         col.Item().Element(TotalLineStyle).Row(r =>
                         {
@@ -191,6 +200,18 @@ namespace SITRA.Core.Documents
                         {
                             r.RelativeItem().Text("TOTAL IMPUESTOS").FontSize(8).SemiBold();
                             r.RelativeItem().AlignRight().Text(totalTaxes.ToString("N2")).SemiBold().FontColor(Colors.Black);
+                        });
+
+                        col.Item().PaddingTop(5).Element(TotalLineStyle).Row(r =>
+                        {
+                            r.RelativeItem().Text("TOTAL CONTADO").FontSize(8).SemiBold();
+                            r.RelativeItem().AlignRight().Text(totalContado.ToString("N2")).SemiBold().FontColor(Colors.Black);
+                        });
+
+                        col.Item().Element(TotalLineStyle).Row(r =>
+                        {
+                            r.RelativeItem().Text("TOTAL CRÉDITO").FontSize(8).SemiBold();
+                            r.RelativeItem().AlignRight().Text(totalCredito.ToString("N2")).SemiBold().FontColor(Colors.Black);
                         });
 
                         // The final Heavy Line for TOTAL GENERAL
