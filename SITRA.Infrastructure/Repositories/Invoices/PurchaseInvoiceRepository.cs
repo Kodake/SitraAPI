@@ -76,7 +76,8 @@ namespace SITRA.Infrastructure.Repositories.Invoices
                 .Where(x =>
                     x.InvoiceType == InvoiceType.Purchase &&
                     x.CreatedAt >= from &&
-                    x.CreatedAt <= to
+                    x.CreatedAt <= to &&
+                    (x.SpotPayable != null || x.Payable != null)
                 );
 
             await httpContext.AddPaginationParamsToHeaders(queryable);
@@ -92,10 +93,13 @@ namespace SITRA.Infrastructure.Repositories.Invoices
             to = to.Date.AddDays(1).AddTicks(-1);
 
             return await context.Invoices
+                .Include(x => x.InvoiceBuyer)
+                    .ThenInclude(ib => ib.Buyer)
                 .Where(x =>
                     x.InvoiceType == InvoiceType.Purchase &&
                     x.CreatedAt >= from &&
-                    x.CreatedAt <= to
+                    x.CreatedAt <= to &&
+                    (x.SpotPayable != null || x.Payable != null)
                 ).ToListAsync(cancellationToken);
         }
 
