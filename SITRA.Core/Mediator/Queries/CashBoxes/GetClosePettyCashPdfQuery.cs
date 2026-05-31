@@ -24,12 +24,9 @@ namespace SITRA.Core.Mediator.Queries.CashBoxes
             var closePettyCashDoc = new SITRA.Core.Documents.ClosePettyCashDocument(pettyCashDto);
 
             var fileName = $"ClosePettyCash_{DateTimeOffset.UtcNow:yyyyMMdd_HHmmss}.pdf";
-            var filePath = Path.Combine(Path.GetTempPath(), fileName);
+            
+            var fileBytes = closePettyCashDoc.GenerateToBytes();
 
-            closePettyCashDoc.GeneratePdf(filePath);
-
-            // 3?? Read file and return as bytes
-            var fileBytes = await File.ReadAllBytesAsync(filePath, cancellationToken);
             var file = (fileBytes, fileName);
 
             return file;

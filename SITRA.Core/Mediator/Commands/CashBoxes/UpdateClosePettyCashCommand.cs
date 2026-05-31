@@ -17,6 +17,7 @@ using SITRA.Core.Interfaces.Services.Products;
 using SITRA.Core.Interfaces.Services.Storage;
 using SITRA.Core.Interfaces.Services.Messaging;
 using MediatR;
+using System.IO;
 
 namespace SITRA.Core.Mediator.Commands.CashBoxes
 {
@@ -102,13 +103,10 @@ namespace SITRA.Core.Mediator.Commands.CashBoxes
             // ?? Generate PDF and return it
             var pdfDoc = new ClosePettyCashDocument(pettyCashDto);
             var fileName = $"ClosePettyCash_{DateTimeOffset.UtcNow:yyyyMMdd_HHmmss}.pdf";
-            var filePath = Path.Combine(Path.GetTempPath(), fileName);
 
-            pdfDoc.GeneratePdf(filePath);
-            var fileBytes = await File.ReadAllBytesAsync(filePath, cancellationToken);
+            var fileBytes = pdfDoc.GenerateToBytes();
 
             return (fileBytes, fileName);
         }
     }
 }
-
