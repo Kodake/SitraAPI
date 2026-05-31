@@ -83,16 +83,27 @@ namespace SITRA.API.Endpoints.Invoices
                 : TypedResults.Created(string.Empty, saleDTO);
         }
 
-        static async Task<Results<FileContentHttpResult, NotFound>> GeneratePdf(
+        static async Task<IResult> GeneratePdf(
             [FromRoute] Guid invoiceId,
             [FromServices] IMediator mediator)
         {
-            var query = new GetQuotationPdfQuery(invoiceId);
-            var result = await mediator.Send(query);
+            try
+            {
+                var query = new GetQuotationPdfQuery(invoiceId);
+                var result = await mediator.Send(query);
 
-            return result == null
-                ? TypedResults.NotFound()
-                : TypedResults.File(result.Value.FileBytes, "application/pdf", result.Value.FileName);
+                if (result == null)
+                    return Results.NotFound();
+
+                return Results.File(
+                    result.Value.FileBytes,
+                    "application/pdf",
+                    result.Value.FileName);
+            }
+            catch (OperationCanceledException)
+            {
+                return Results.Empty;
+            }
         }
     }
 }

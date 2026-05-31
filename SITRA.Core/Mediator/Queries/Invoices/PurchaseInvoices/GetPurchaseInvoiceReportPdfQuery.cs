@@ -1,6 +1,10 @@
 using AutoMapper;
+using QuestPDF.Fluent;
 using SITRA.Core.Documents;
+using SITRA.Core.Entities.Auths;
+using SITRA.Core.Helpers;
 using SITRA.Core.Interfaces;
+using SITRA.Core.Models;
 
 namespace SITRA.Core.Mediator.Queries.Invoices.PurchaseInvoices
 {
@@ -24,20 +28,51 @@ namespace SITRA.Core.Mediator.Queries.Invoices.PurchaseInvoices
 
             var saleInvoices = await unitOfWork.PurchaseInvoiceRepository.GetPurchasesReportByDateRangeAsync(From, To);
 
-            if (saleInvoices == null)
+            if (saleInvoices == null || !saleInvoices.Any())
             {
                 return null;
             }
 
-            var fileName = $"Reporte-Compras-{From:dd-MM-yyyy}_al_{To:dd-MM-yyyy}.pdf";
-            var filePath = Path.Combine(Path.GetTempPath(), fileName);
+            CompanyMetadata? company = null;
 
-            var invoiceDocument = new PurchaseInvoiceReportDocument(saleInvoices, From, To);
-            invoiceDocument.GeneratePdf(filePath);
+            try
+            {
+                var firstInvoice = saleInvoices.First();
+                var ownerCandidates = await unitOfWork.Repository<User>()
+                    .GetReadOnlyAsync(
+                        u => u.TenantId == firstInvoice.TenantId && u.IsOwner,
+                        cancellationToken);
 
-            var fileBytes = await File.ReadAllBytesAsync(filePath);
+                var owner = ownerCandidates.FirstOrDefault();
+
+                if (owner != null)
+                {
+                    company = new CompanyMetadata
+                    {
+                        CompanyName = owner.CompanyName,
+                        RucNumber = owner.RucNumber,
+                        Address = owner.Address,
+                        ProvinceCode = owner.Province,
+                        MunicipalityCode = owner.Municipality,
+                        PhoneNumber = owner.PhoneNumber,
+                        Email = owner.Email,
+                        ResolvedProvince = LocationMappingHelper.GetProvinceName(owner.Province),
+                        ResolvedMunicipality = LocationMappingHelper.GetMunicipalityName(owner.Municipality)
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+
+            var fileName = $"Purchase_{From:yyyy-MM-dd}_{To:yyyy-MM-dd}.pdf";
+
+            var invoiceDocument = new PurchaseInvoiceReportDocument(saleInvoices, From, To, company);
             
-            if (File.Exists(filePath)) File.Delete(filePath);
+            using var stream = new MemoryStream();
+            invoiceDocument.GeneratePdf(stream);
+            var fileBytes = stream.ToArray();
 
             var file = (fileBytes, fileName);
             return file;
