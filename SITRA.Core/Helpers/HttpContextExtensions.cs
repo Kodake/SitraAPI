@@ -11,7 +11,7 @@ namespace SITRA.Core.Helpers
             if (httpContext is null) { throw new ArgumentNullException(nameof(httpContext)); }
 
             double totalRecords = await queryable.CountAsync();
-            httpContext.Response.Headers.Append("totalCountRecords", totalRecords.ToString());
+            httpContext.Response.Headers.Append("totalcountrecords", totalRecords.ToString());
         }
     }
 }

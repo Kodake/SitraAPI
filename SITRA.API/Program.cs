@@ -206,7 +206,7 @@ builder.Services.AddCors(options =>
         builder.WithOrigins(allowedOrigins)
                .AllowAnyMethod()
                .AllowAnyHeader()
-               .WithExposedHeaders("totalcountrecords", "Content-Disposition");
+               .WithExposedHeaders("totalCountRecords", "totalcountrecords", "Content-Disposition");
     });
 });
 
