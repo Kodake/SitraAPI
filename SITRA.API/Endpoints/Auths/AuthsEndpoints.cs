@@ -98,7 +98,7 @@ namespace SITRA.API.Endpoints
             return TypedResults.Ok();
         }
 
-        static async Task<Results<Ok, BadRequest<string>>> ValidateOpenedPettyCashEndpoint(
+        static async Task<IResult> ValidateOpenedPettyCashEndpoint(
             [FromServices] IMediator mediator)
         {
             var query = new ValidateOpenedPettyCashQuery();
@@ -106,13 +106,13 @@ namespace SITRA.API.Endpoints
 
             if (!success)
             {
-                return TypedResults.BadRequest(errorMessage ?? SITRA.Core.Helpers.Utilities.PettyCashValidationFailedMessage);
+                return TypedResults.Ok(new { success = false, message = errorMessage ?? SITRA.Core.Helpers.Utilities.PettyCashValidationFailedMessage });
             }
 
-            return TypedResults.Ok();
+            return TypedResults.Ok(new { success = true, message = "Success" });
         }
 
-        static async Task<Results<Ok, BadRequest<string>>> ValidateUploadedCertificateRncEndpoint(
+        static async Task<IResult> ValidateUploadedCertificateRncEndpoint(
             [FromServices] IMediator mediator)
         {
             var query = new ValidateUploadedCertificateRncQuery();
@@ -120,10 +120,10 @@ namespace SITRA.API.Endpoints
 
             if (!success)
             {
-                return TypedResults.BadRequest(errorMessage ?? SITRA.Core.Helpers.Utilities.CertificateValidationFailedMessage);
+                return TypedResults.Ok(new { success = false, message = errorMessage ?? SITRA.Core.Helpers.Utilities.CertificateValidationFailedMessage });
             }
 
-            return TypedResults.Ok();
+            return TypedResults.Ok(new { success = true, message = "Success" });
         }
 
         static async Task<Results<Ok, BadRequest>> ChangeLanguage(
