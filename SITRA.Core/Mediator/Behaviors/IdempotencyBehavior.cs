@@ -46,7 +46,7 @@ namespace SITRA.Core.Mediator.Behaviors
             {
                 // Return stored response
                 // We need to deserialize the response body to TResponse.
-                // Note: TResponse might be complex or just a primitive/MediatR Unit.
+                // Note: TResponse might be complex or just a primitive/Mediator Unit.
                 if (typeof(TResponse) == typeof(Unit))
                 {
                     return (TResponse)(object)Unit.Value;

@@ -24,7 +24,7 @@ using SITRA.Core.Interfaces.Services.Messaging;
 namespace SITRA.Core.Mediator.Handlers.Invoices
 {
     /// <summary>
-    /// Handler for AnnulNcfCommand, providing external API execution context for the MediatR pipeline.
+    /// Handler for AnnulNcfCommand, providing external API execution context for the Mediator pipeline.
     /// Integrates physical disk file parsing and outbound DGII signing/transmitting dependencies which are kept out of the pure command.
     /// </summary>
     public class AnnulNcfCommandHandler : IRequestHandler<AnnulNcfCommand, AnnulNcfDTO>
