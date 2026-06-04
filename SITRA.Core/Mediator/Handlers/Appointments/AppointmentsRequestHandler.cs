@@ -1,4 +1,4 @@
-using MediatR;
+using Mediator;
 using SITRA.Core.DTOs.Appointments.Appointments;
 using SITRA.Core.Mediator.Commands.Appointments.Appointments;
 using SITRA.Core.Mediator.Queries.Appointments.Appointments;

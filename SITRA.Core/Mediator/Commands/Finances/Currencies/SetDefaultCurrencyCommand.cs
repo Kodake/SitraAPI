@@ -1,4 +1,4 @@
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.OutputCaching;
 using SITRA.Core.Interfaces;
 
@@ -17,7 +17,7 @@ namespace SITRA.Core.Mediator.Commands.Finances.Currencies
             _outputCacheStore = outputCacheStore;
         }
 
-        public async Task<bool> Handle(
+        public async ValueTask<bool> Handle(
             SetDefaultCurrencyCommand request,
             CancellationToken cancellationToken)
         {

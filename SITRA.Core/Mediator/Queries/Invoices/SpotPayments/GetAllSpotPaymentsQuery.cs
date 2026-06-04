@@ -1,4 +1,4 @@
-using MediatR;
+using Mediator;
 using AutoMapper;
 using SITRA.Core.DTOs;
 using SITRA.Core.DTOs.Invoices.SpotPayments;
@@ -26,7 +26,7 @@ namespace SITRA.Core.Mediator.Queries.Invoices.SpotPayments
             _mapper = mapper;
         }
 
-        public async Task<List<SpotPaymentListDTO>> Handle(GetAllSpotPaymentsQuery request, CancellationToken cancellationToken)
+        public async ValueTask<List<SpotPaymentListDTO>> Handle(GetAllSpotPaymentsQuery request, CancellationToken cancellationToken)
         {
             var spotPayments = await _invoiceService.GetValidSpotPaymentsAsync(request.Pagination, cancellationToken);
             return _mapper.Map<List<SpotPaymentListDTO>>(spotPayments);

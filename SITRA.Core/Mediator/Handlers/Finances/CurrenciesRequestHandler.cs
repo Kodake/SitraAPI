@@ -1,4 +1,4 @@
-using MediatR;
+using Mediator;
 using SITRA.Core.DTOs.Finances.Currencies;
 using SITRA.Core.Mediator.Commands.Finances.Currencies;
 using SITRA.Core.Mediator.Queries.Finances.Currencies;

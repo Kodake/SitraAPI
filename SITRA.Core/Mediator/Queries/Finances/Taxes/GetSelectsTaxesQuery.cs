@@ -1,5 +1,5 @@
 using SITRA.Core.Interfaces.Services.Finances;
-using MediatR;
+using Mediator;
 using SITRA.Core.DTOs.Finances.Taxes;
 using SITRA.Core.Enums;
 using AutoMapper;
@@ -27,7 +27,7 @@ namespace SITRA.Core.Mediator.Queries.Finances.Taxes
             _mapper = mapper;
         }
 
-        public async Task<List<TaxListDTO>> Handle(GetSelectsTaxesQuery request, CancellationToken cancellationToken)
+        public async ValueTask<List<TaxListDTO>> Handle(GetSelectsTaxesQuery request, CancellationToken cancellationToken)
         {
             var taxes = await _taxService.GetAllAsync(request.Status, cancellationToken);
             return _mapper.Map<List<TaxListDTO>>(taxes);

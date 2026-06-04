@@ -1,4 +1,4 @@
-using MediatR;
+using Mediator;
 using SITRA.Core.DTOs.Wizard;
 using SITRA.Core.Mediator.Commands.Wizard;
 using SITRA.Core.Mediator.Queries.Wizard;

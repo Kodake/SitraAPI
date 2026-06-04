@@ -1,12 +1,12 @@
 using AutoMapper;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.OutputCaching;
 using SITRA.Core.Interfaces;
 using SITRA.Core.Mediator.Commands;
 
 namespace SITRA.Core.Mediator.Handlers
 {
-    public class UpdateCommandHandler<TEntity, TDto> : IRequestHandler<UpdateCommand<TEntity, TDto>, bool>
+    public abstract class UpdateCommandHandler<TEntity, TDto> : IRequestHandler<UpdateCommand<TEntity, TDto>, bool>
         where TEntity : class
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -20,7 +20,7 @@ namespace SITRA.Core.Mediator.Handlers
             _mapper = mapper;
         }
 
-        public async Task<bool> Handle(UpdateCommand<TEntity, TDto> request, CancellationToken cancellationToken)
+        public async ValueTask<bool> Handle(UpdateCommand<TEntity, TDto> request, CancellationToken cancellationToken)
         {
             return await request.ExecuteAction(_unitOfWork, _outputCacheStore, _mapper, cancellationToken);
         }

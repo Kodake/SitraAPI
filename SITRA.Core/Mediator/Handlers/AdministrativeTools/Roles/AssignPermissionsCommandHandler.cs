@@ -1,4 +1,4 @@
-using MediatR;
+using Mediator;
 using SITRA.Core.Interfaces;
 using SITRA.Core.Mediator.Commands.AdministrativeTools.Roles;
 using SITRA.Core.DTOs.AdministrativeTools.Roles;
@@ -16,7 +16,7 @@ namespace SITRA.Core.Mediator.Handlers.AdministrativeTools.Roles
             _configuration = configuration;
         }
 
-        public async Task<bool> Handle(AssignPermissionsCommand request, CancellationToken cancellationToken)
+        public async ValueTask<bool> Handle(AssignPermissionsCommand request, CancellationToken cancellationToken)
         {
             // 1. Find the custom role in the business repository
             var customRole = await _unitOfWork.RoleRepository.GetByIdAsync(request.DTO.RoleId, cancellationToken);

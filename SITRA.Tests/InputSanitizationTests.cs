@@ -1,4 +1,4 @@
-using MediatR;
+using Mediator;
 using Moq;
 using SITRA.Core.Mediator.Behaviors;
 using Xunit;
@@ -27,7 +27,7 @@ namespace SITRA.Tests
                 Age = 30
             };
 
-            RequestHandlerDelegate<string> next = delegate { return Task.FromResult("Success"); };
+            MessageHandlerDelegate<TestCommand, string> next = (req, ct) => ValueTask.FromResult("Success");
             
             // Act
             await behavior.Handle(command, next, CancellationToken.None);
@@ -49,7 +49,7 @@ namespace SITRA.Tests
                 Description = null
             };
 
-            RequestHandlerDelegate<string> next = delegate { return Task.FromResult("Success"); };
+            MessageHandlerDelegate<TestCommand, string> next = (req, ct) => ValueTask.FromResult("Success");
             
             // Act
             await behavior.Handle(command, next, CancellationToken.None);
@@ -69,7 +69,7 @@ namespace SITRA.Tests
                 Description = "<b>Bold</b> Text"
             };
 
-            RequestHandlerDelegate<string> next = delegate { return Task.FromResult("Success"); };
+            MessageHandlerDelegate<TestCommand, string> next = (req, ct) => ValueTask.FromResult("Success");
             
             // Act
             await behavior.Handle(command, next, CancellationToken.None);

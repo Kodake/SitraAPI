@@ -1,4 +1,4 @@
-using MediatR;
+using Mediator;
 using SITRA.Core.DTOs.Warehouses.Stocks;
 using SITRA.Core.Mediator.Commands.Warehouses.Stocks;
 using SITRA.Core.Mediator.Queries.Warehouses.Stocks;

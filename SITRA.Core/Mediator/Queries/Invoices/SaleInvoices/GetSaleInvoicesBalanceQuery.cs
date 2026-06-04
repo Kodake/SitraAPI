@@ -1,4 +1,4 @@
-using MediatR;
+using Mediator;
 using SITRA.Core.DTOs.Invoices.SaleInvoices;
 using SITRA.Core.Interfaces;
 using SITRA.Core.Interfaces.Services;
@@ -35,7 +35,7 @@ namespace SITRA.Core.Mediator.Queries.Invoices.SaleInvoices
             _financeService = financeService;
         }
 
-        public async Task<BalanceSummaryDTO> Handle(GetSaleInvoicesBalanceQuery request, CancellationToken cancellationToken)
+        public async ValueTask<BalanceSummaryDTO> Handle(GetSaleInvoicesBalanceQuery request, CancellationToken cancellationToken)
         {
             return await _financeService.GetSaleBalanceAsync(request.From, request.To, cancellationToken);
         }

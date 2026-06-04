@@ -1,4 +1,4 @@
-using MediatR;
+using Mediator;
 using SITRA.Core.DTOs.Products.PricingItems;
 using SITRA.Core.Mediator.Commands.Products.PricingItems;
 using SITRA.Core.Mediator.Queries.Products.PricingItems;

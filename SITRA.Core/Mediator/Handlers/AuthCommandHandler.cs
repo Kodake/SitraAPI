@@ -1,12 +1,12 @@
 using AutoMapper;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.OutputCaching;
 using SITRA.Core.Interfaces;
 using SITRA.Core.Mediator.Commands;
 
 namespace SITRA.Core.Mediator.Handlers
 {
-    public class AuthCommandHandler<TCommand, TResult> : IRequestHandler<TCommand, TResult>
+    public abstract class AuthCommandHandler<TCommand, TResult> : IRequestHandler<TCommand, TResult>
         where TCommand : AuthCommand<TResult>
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -20,9 +20,9 @@ namespace SITRA.Core.Mediator.Handlers
             _mapper = mapper;
         }
 
-        public Task<TResult> Handle(TCommand request, CancellationToken cancellationToken)
+        public ValueTask<TResult> Handle(TCommand request, CancellationToken cancellationToken)
         {
-            return request.ExecuteAction(_unitOfWork, _outputCacheStore, _mapper, cancellationToken);
+            return new ValueTask<TResult>(request.ExecuteAction(_unitOfWork, _outputCacheStore, _mapper, cancellationToken));
         }
     }
 }

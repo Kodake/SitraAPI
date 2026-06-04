@@ -1,4 +1,4 @@
-using MediatR;
+using Mediator;
 using SITRA.Core.Entities.AdministrativeTools;
 using SITRA.Core.Helpers;
 using SITRA.Core.Interfaces;
@@ -18,18 +18,18 @@ namespace SITRA.Core.Mediator.Behaviors
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+        public async ValueTask<TResponse> Handle(TRequest request, MessageHandlerDelegate<TRequest, TResponse> next, CancellationToken cancellationToken)
         {
             // Only apply to commands marked with IIdempotentCommand
             if (request is not IIdempotentCommand)
             {
-                return await next();
+                return await next(request, cancellationToken);
             }
 
             var httpContext = _httpContextAccessor.HttpContext;
             if (httpContext == null)
             {
-                return await next();
+                return await next(request, cancellationToken);
             }
 
             // Check for Idempotency Key
@@ -59,7 +59,7 @@ namespace SITRA.Core.Mediator.Behaviors
             }
 
             // Execute Operation
-            var response = await next();
+            var response = await next(request, cancellationToken);
 
             // Store Result
             var idempotentRequest = new IdempotentRequest

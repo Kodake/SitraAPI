@@ -1,5 +1,5 @@
 using SITRA.Core.Interfaces.Services.Products;
-using MediatR;
+using Mediator;
 using SITRA.Core.DTOs.Products.Pricings;
 using AutoMapper;
 
@@ -26,7 +26,7 @@ namespace SITRA.Core.Mediator.Queries.Products.Pricings
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<PricingListDTO>> Handle(GetUnregisteredPricingsForItemQuery request, CancellationToken cancellationToken)
+        public async ValueTask<IEnumerable<PricingListDTO>> Handle(GetUnregisteredPricingsForItemQuery request, CancellationToken cancellationToken)
         {
             var pricings = await _pricingService.GetUnregisteredPricingsForItemAsync(request.Id, cancellationToken);
             return _mapper.Map<IEnumerable<PricingListDTO>>(pricings);

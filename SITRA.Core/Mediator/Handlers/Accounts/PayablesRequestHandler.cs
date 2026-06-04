@@ -1,4 +1,4 @@
-using MediatR;
+using Mediator;
 using SITRA.Core.DTOs.Accounts.PayableReceipts;
 using SITRA.Core.DTOs.Accounts.Payables;
 using SITRA.Core.Mediator.Commands.Accounts.Payables;

@@ -1,15 +1,15 @@
-using MediatR;
+using Mediator;
 using System.Reflection;
 
 namespace SITRA.Core.Mediator.Behaviors
 {
     public class InputSanitizationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-        where TRequest : notnull
+        where TRequest : IMessage
     {
-        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+        public async ValueTask<TResponse> Handle(TRequest request, MessageHandlerDelegate<TRequest, TResponse> next, CancellationToken cancellationToken)
         {
             SanitizeInput(request);
-            return await next();
+            return await next(request, cancellationToken);
         }
 
         private void SanitizeInput(TRequest request)

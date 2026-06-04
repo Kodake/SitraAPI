@@ -1,5 +1,5 @@
 using AutoMapper;
-using MediatR;
+using Mediator;
 using QuestPDF.Infrastructure;
 
 namespace SITRA.Core.Mediator.Queries.CashBoxes
@@ -30,6 +30,23 @@ namespace SITRA.Core.Mediator.Queries.CashBoxes
             var file = (fileBytes, fileName);
 
             return file;
+        }
+    }
+
+    public class GetClosePettyCashPdfQueryHandler : IRequestHandler<GetClosePettyCashPdfQuery, (byte[] FileBytes, string FileName)?>
+    {
+        private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
+
+        public GetClosePettyCashPdfQueryHandler(IMediator mediator, IMapper mapper)
+        {
+            _mediator = mediator;
+            _mapper = mapper;
+        }
+
+        public async ValueTask<(byte[] FileBytes, string FileName)?> Handle(GetClosePettyCashPdfQuery request, CancellationToken cancellationToken)
+        {
+            return await request.GetData(_mediator, _mapper, cancellationToken);
         }
     }
 }

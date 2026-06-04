@@ -1,4 +1,4 @@
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.OutputCaching;
 using SITRA.Core.Interfaces;
 

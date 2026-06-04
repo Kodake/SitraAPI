@@ -1,4 +1,4 @@
-using MediatR;
+using Mediator;
 using SITRA.Core.DTOs.Invoices.SaleInvoices;
 using SITRA.Core.Mediator.Commands.Invoices.SaleInvoices;
 using SITRA.Core.Mediator.Queries.Invoices.SaleInvoices;

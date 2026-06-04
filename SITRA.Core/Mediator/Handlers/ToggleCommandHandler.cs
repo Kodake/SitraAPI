@@ -1,11 +1,11 @@
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.OutputCaching;
 using SITRA.Core.Interfaces;
 using SITRA.Core.Mediator.Commands;
 
 namespace SITRA.Core.Mediator.Handlers
 {
-    public class ToggleCommandHandler<TCommand> : IRequestHandler<TCommand, bool>
+    public abstract class ToggleCommandHandler<TCommand> : IRequestHandler<TCommand, bool>
         where TCommand : ToggleCommand
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -17,7 +17,7 @@ namespace SITRA.Core.Mediator.Handlers
             _outputCacheStore = outputCacheStore;
         }
 
-        public async Task<bool> Handle(TCommand request, CancellationToken cancellationToken)
+        public async ValueTask<bool> Handle(TCommand request, CancellationToken cancellationToken)
         {
             return await request.ExecuteAction(_unitOfWork, _outputCacheStore, cancellationToken);
         }

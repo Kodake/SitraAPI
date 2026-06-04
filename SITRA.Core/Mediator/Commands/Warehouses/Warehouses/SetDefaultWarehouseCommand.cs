@@ -1,4 +1,4 @@
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.OutputCaching;
 using SITRA.Core.Interfaces;
 
@@ -19,7 +19,7 @@ namespace SITRA.Core.Mediator.Commands.Warehouses.Warehouses
             _outputCacheStore = outputCacheStore;
         }
 
-        public async Task<bool> Handle(
+        public async ValueTask<bool> Handle(
             SetDefaultWarehouseCommand request,
             CancellationToken cancellationToken)
         {

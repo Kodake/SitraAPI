@@ -237,6 +237,9 @@ namespace SITRA.Tests
                 services.AddSingleton(new Mock<ISignatureService>().Object);
                 services.AddSingleton(new Mock<IDgiiApiService>().Object);
                 services.AddSingleton(Microsoft.Extensions.Options.Options.Create(new SITRA.Core.Models.Dgii.DgiiSettings()));
+                services.AddSingleton(new Mock<SITRA.Core.Interfaces.Services.Messaging.IEmailService>().Object);
+                services.AddSingleton(new Mock<SITRA.Core.Interfaces.Services.Storage.IDgiiStorageService>().Object);
+                services.AddSingleton(new Mock<Microsoft.AspNetCore.DataProtection.IDataProtectionProvider>().Object);
                 var serviceProvider = services.BuildServiceProvider();
 
                 var unitOfWork = new UnitOfWork(testContext, mockHttpContextAccessor.Object, userManager, roleManager, configuration, mockLogger.Object, mockPermClaimLogger.Object, mockAuthLogger.Object, mockRegLogger.Object, mockRoleServiceLogger.Object, serviceProvider);
@@ -335,6 +338,9 @@ namespace SITRA.Tests
                 services.AddSingleton(new Mock<ISignatureService>().Object);
                 services.AddSingleton(new Mock<IDgiiApiService>().Object);
                 services.AddSingleton(Microsoft.Extensions.Options.Options.Create(new SITRA.Core.Models.Dgii.DgiiSettings()));
+                services.AddSingleton(new Mock<SITRA.Core.Interfaces.Services.Messaging.IEmailService>().Object);
+                services.AddSingleton(new Mock<SITRA.Core.Interfaces.Services.Storage.IDgiiStorageService>().Object);
+                services.AddSingleton(new Mock<Microsoft.AspNetCore.DataProtection.IDataProtectionProvider>().Object);
                 var serviceProvider = services.BuildServiceProvider();
 
                 var unitOfWork = new UnitOfWork(testContext, mockHttpContextAccessor.Object, userManager, roleManager, mockConfiguration.Object, mockLogger.Object, mockPermClaimLogger.Object, mockAuthLogger.Object, mockRegLogger.Object, mockRoleServiceLogger.Object, serviceProvider);

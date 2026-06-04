@@ -1,4 +1,4 @@
-using MediatR;
+using Mediator;
 using AutoMapper;
 using SITRA.Core.DTOs.Products.Items;
 using SITRA.Core.Interfaces;
@@ -30,7 +30,7 @@ namespace SITRA.Core.Mediator.Queries.Products.Items
             _mapper = mapper;
         }
 
-        public async Task<List<ItemListDTO>> Handle(GetItemsByPricingIdAndWarehouseIdQuery request, CancellationToken cancellationToken)
+        public async ValueTask<List<ItemListDTO>> Handle(GetItemsByPricingIdAndWarehouseIdQuery request, CancellationToken cancellationToken)
         {
             var items = await _itemService.GetValidItemsForPricingAndWarehouseAsync(request.PricingId, request.WarehouseId, request.FiscalSupportType, cancellationToken);
             var itemsDTO = _mapper.Map<List<ItemListDTO>>(items);

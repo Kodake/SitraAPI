@@ -1,4 +1,4 @@
-using MediatR;
+using Mediator;
 using SITRA.Core.DTOs.Invoices.SpotPayables;
 using SITRA.Core.Mediator.Queries.Invoices.SpotPayables;
 

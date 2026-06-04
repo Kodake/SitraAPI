@@ -1,5 +1,5 @@
 using AutoMapper;
-using MediatR;
+using Mediator;
 using SITRA.Core.DTOs;
 using SITRA.Core.DTOs.Invoices.SaleInvoices;
 using SITRA.Core.Interfaces.Services;
@@ -35,7 +35,7 @@ namespace SITRA.Core.Mediator.Queries.Invoices.SaleInvoices
             _mapper = mapper;
         }
 
-        public async Task<List<SaleInvoiceListDTO>> Handle(GetAllSaleInvoicesQuery request, CancellationToken cancellationToken)
+        public async ValueTask<List<SaleInvoiceListDTO>> Handle(GetAllSaleInvoicesQuery request, CancellationToken cancellationToken)
         {
             var saleInvoices = await _invoiceService.GetValidSaleInvoicesAsync(request.Pagination, cancellationToken);
             return _mapper.Map<List<SaleInvoiceListDTO>>(saleInvoices);

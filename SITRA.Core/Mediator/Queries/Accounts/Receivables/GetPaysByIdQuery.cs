@@ -1,5 +1,5 @@
 using SITRA.Core.Interfaces.Services.Accounts;
-using MediatR;
+using Mediator;
 using SITRA.Core.DTOs.Accounts.Receivables;
 using AutoMapper;
 
@@ -26,7 +26,7 @@ namespace SITRA.Core.Mediator.Queries.Accounts.Receivables
             _mapper = mapper;
         }
 
-        public async Task<ReceivableDTO> Handle(GetPaysByIdQuery request, CancellationToken cancellationToken)
+        public async ValueTask<ReceivableDTO> Handle(GetPaysByIdQuery request, CancellationToken cancellationToken)
         {
             var receivable = await _receivableService.GetPaysByIdAsync(request.Id, cancellationToken);
             return _mapper.Map<ReceivableDTO>(receivable);

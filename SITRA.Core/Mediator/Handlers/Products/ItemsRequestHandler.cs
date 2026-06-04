@@ -1,4 +1,4 @@
-using MediatR;
+using Mediator;
 using SITRA.Core.DTOs.Products.Items;
 using SITRA.Core.Mediator.Queries.Products.Items;
 

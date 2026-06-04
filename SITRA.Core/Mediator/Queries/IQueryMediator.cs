@@ -1,5 +1,5 @@
 using AutoMapper;
-using MediatR;
+using Mediator;
 
 namespace SITRA.Core.Mediator.Queries
 {

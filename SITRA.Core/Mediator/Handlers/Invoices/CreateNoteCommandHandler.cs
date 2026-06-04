@@ -1,7 +1,7 @@
 using System.Text;
 using System.Xml.Linq;
 using AutoMapper;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Extensions.Options;
 using SITRA.Core.DTOs.DGII;
@@ -64,7 +64,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
             _dgiiStorageService = dgiiStorageService;
         }
 
-        public async Task<CreateNoteDTO> Handle(CreateNoteCommand request, CancellationToken cancellationToken)
+        public async ValueTask<CreateNoteDTO> Handle(CreateNoteCommand request, CancellationToken cancellationToken)
         {
             var (certBytes, certPassword) = await _unitOfWork.UserRoleService.GetTenantCertificateAsync(cancellationToken);
 

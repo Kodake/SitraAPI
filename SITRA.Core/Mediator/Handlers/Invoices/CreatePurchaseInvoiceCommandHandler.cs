@@ -1,6 +1,6 @@
 using System.Text;
 using AutoMapper;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Extensions.Options;
 using SITRA.Core.DTOs.Invoices.PurchaseInvoices;
@@ -54,7 +54,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
             _dgiiStorageService = dgiiStorageService;
         }
 
-        public async Task<CreatePurchaseInvoiceDTO> Handle(CreatePurchaseInvoiceCommand request, CancellationToken cancellationToken)
+        public async ValueTask<CreatePurchaseInvoiceDTO> Handle(CreatePurchaseInvoiceCommand request, CancellationToken cancellationToken)
         {
             var (certBytes, certPassword) = await _unitOfWork.UserRoleService.GetTenantCertificateAsync(cancellationToken);
 

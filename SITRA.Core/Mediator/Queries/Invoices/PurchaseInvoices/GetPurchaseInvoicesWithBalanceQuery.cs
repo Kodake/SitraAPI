@@ -1,5 +1,5 @@
 using AutoMapper;
-using MediatR;
+using Mediator;
 using SITRA.Core.DTOs;
 using SITRA.Core.DTOs.Invoices.PurchaseInvoices;
 using SITRA.Core.Interfaces;
@@ -43,7 +43,7 @@ namespace SITRA.Core.Mediator.Queries.Invoices.PurchaseInvoices
             _financeService = financeService;
         }
 
-        public async Task<PurchaseInvoiceWithBalanceDTO> Handle(GetPurchaseInvoicesWithBalanceQuery request, CancellationToken cancellationToken)
+        public async ValueTask<PurchaseInvoiceWithBalanceDTO> Handle(GetPurchaseInvoicesWithBalanceQuery request, CancellationToken cancellationToken)
         {
             var invoices = await _unitOfWork.PurchaseInvoiceRepository
                 .GetPurchasesByDateRangeAsync(request.From, request.To, request.Pagination, cancellationToken);

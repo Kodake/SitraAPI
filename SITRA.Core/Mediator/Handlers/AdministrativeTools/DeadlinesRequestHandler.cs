@@ -1,4 +1,4 @@
-using MediatR;
+using Mediator;
 using SITRA.Core.DTOs.AdministrativeTools.Deadlines;
 using SITRA.Core.Mediator.Commands.AdministrativeTools.Deadlines;
 using SITRA.Core.Mediator.Queries.AdministrativeTools.Deadlines;

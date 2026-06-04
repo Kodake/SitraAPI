@@ -2,7 +2,7 @@ using System.Globalization;
 using System.Text;
 using System.Xml.Linq;
 using AutoMapper;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Extensions.Options;
 using SITRA.Core.DTOs.DGII;
@@ -58,7 +58,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
             _dgiiStorageService = dgiiStorageService;
         }
 
-        public async Task<AnnulNcfDTO> Handle(AnnulNcfCommand request, CancellationToken cancellationToken)
+        public async ValueTask<AnnulNcfDTO> Handle(AnnulNcfCommand request, CancellationToken cancellationToken)
         {
             var (certBytes, certPassword) = await _unitOfWork.UserRoleService.GetTenantCertificateAsync(cancellationToken);
 

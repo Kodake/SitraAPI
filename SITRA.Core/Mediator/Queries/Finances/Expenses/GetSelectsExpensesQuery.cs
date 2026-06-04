@@ -1,5 +1,5 @@
 using SITRA.Core.Interfaces.Services.Finances;
-using MediatR;
+using Mediator;
 using SITRA.Core.DTOs.Finances.Expenses;
 using SITRA.Core.Enums;
 using AutoMapper;
@@ -27,7 +27,7 @@ namespace SITRA.Core.Mediator.Queries.Finances.Expenses
             _mapper = mapper;
         }
 
-        public async Task<List<ExpenseListDTO>> Handle(GetSelectsExpensesQuery request, CancellationToken cancellationToken)
+        public async ValueTask<List<ExpenseListDTO>> Handle(GetSelectsExpensesQuery request, CancellationToken cancellationToken)
         {
             var expenses = await _expenseService.GetAllAsync(request.Status, cancellationToken);
             return _mapper.Map<List<ExpenseListDTO>>(expenses);

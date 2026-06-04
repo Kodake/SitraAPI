@@ -1,4 +1,4 @@
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SITRA.Core.DTOs.Auths;
@@ -17,7 +17,7 @@ namespace SITRA.Core.Mediator.Queries.Tenants
             _userManager = userManager;
         }
 
-        public async Task<UserDTO?> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
+        public async ValueTask<UserDTO?> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
         {
             var user = await _userManager.Users
                 .Include(u => u.TenantRoleUsers)

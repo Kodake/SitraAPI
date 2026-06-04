@@ -1,4 +1,4 @@
-using MediatR;
+using Mediator;
 using SITRA.Core.DTOs.Dashboards;
 using SITRA.Core.Mediator.Queries.Dashboards;
 

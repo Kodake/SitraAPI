@@ -1,5 +1,5 @@
 using AutoMapper;
-using MediatR;
+using Mediator;
 using SITRA.Core.Interfaces;
 using SITRA.Core.Mediator.Queries.Wizard;
 
@@ -16,7 +16,7 @@ namespace SITRA.Core.Mediator.Handlers.Wizard
             _mapper = mapper;
         }
 
-        public async Task<bool> Handle(IsWizardRequiredQuery request, CancellationToken cancellationToken)
+        public async ValueTask<bool> Handle(IsWizardRequiredQuery request, CancellationToken cancellationToken)
         {
             return await request.GetData(_unitOfWork, _mapper, cancellationToken);
         }

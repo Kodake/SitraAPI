@@ -1,11 +1,11 @@
 using AutoMapper;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.OutputCaching;
 using SITRA.Core.Interfaces;
 
 namespace SITRA.Core.Mediator.Commands
 {
-    public class ProcessCommandHandler<TEntity, TDto>
+    public abstract class ProcessCommandHandler<TEntity, TDto>
         : IRequestHandler<ProcessCommand<TEntity, TDto>, TDto>
         where TEntity : class
     {
@@ -23,7 +23,7 @@ namespace SITRA.Core.Mediator.Commands
             _mapper = mapper;
         }
 
-        public async Task<TDto> Handle(
+        public async ValueTask<TDto> Handle(
             ProcessCommand<TEntity, TDto> request,
             CancellationToken cancellationToken)
         {

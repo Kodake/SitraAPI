@@ -1,5 +1,5 @@
 using SITRA.Core.Interfaces.Services.Appointments;
-using MediatR;
+using Mediator;
 using SITRA.Core.DTOs.Appointments.Appointments;
 using SITRA.Core.Enums;
 using AutoMapper;
@@ -27,7 +27,7 @@ namespace SITRA.Core.Mediator.Queries.Appointments
             _mapper = mapper;
         }
 
-        public async Task<List<AppointmentListDTO>> Handle(GetSelectsAppointmentsQuery request, CancellationToken cancellationToken)
+        public async ValueTask<List<AppointmentListDTO>> Handle(GetSelectsAppointmentsQuery request, CancellationToken cancellationToken)
         {
             var appointments = await _appointmentService.GetAllAsync(request.Status, cancellationToken);
             return _mapper.Map<List<AppointmentListDTO>>(appointments);

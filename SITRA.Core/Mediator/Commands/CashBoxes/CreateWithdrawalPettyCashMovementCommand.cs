@@ -1,5 +1,5 @@
 using AutoMapper;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.OutputCaching;
 using SITRA.Core.DTOs.CashBoxes;
 using SITRA.Core.Entities.CashBoxes;
@@ -46,7 +46,7 @@ namespace SITRA.Core.Mediator.Commands.CashBoxes
             _pettyCashService = pettyCashService;
         }
 
-        public async Task<CreateWithdrawalPettyCashMovementDTO> Handle(CreateWithdrawalPettyCashMovementCommand request, CancellationToken cancellationToken)
+        public async ValueTask<CreateWithdrawalPettyCashMovementDTO> Handle(CreateWithdrawalPettyCashMovementCommand request, CancellationToken cancellationToken)
         {
             // All validations are handled by FluentValidation
             // These calls are now safe because validation ensures they exist

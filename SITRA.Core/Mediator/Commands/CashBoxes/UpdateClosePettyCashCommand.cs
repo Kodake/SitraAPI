@@ -16,7 +16,7 @@ using SITRA.Core.Interfaces.Services.Invoices;
 using SITRA.Core.Interfaces.Services.Products;
 using SITRA.Core.Interfaces.Services.Storage;
 using SITRA.Core.Interfaces.Services.Messaging;
-using MediatR;
+using Mediator;
 using System.IO;
 
 namespace SITRA.Core.Mediator.Commands.CashBoxes
@@ -52,7 +52,7 @@ namespace SITRA.Core.Mediator.Commands.CashBoxes
             _pettyCashService = pettyCashService;
         }
 
-        public async Task<(byte[] FileBytes, string FileName)?> Handle(
+        public async ValueTask<(byte[] FileBytes, string FileName)?> Handle(
             UpdateClosePettyCashCommand request,
             CancellationToken cancellationToken)
         {

@@ -1,4 +1,4 @@
-using MediatR;
+using Mediator;
 using SITRA.Core.DTOs.CashBoxes;
 using SITRA.Core.Mediator.Commands.CashBoxes;
 using SITRA.Core.Mediator.Queries.CashBoxes;

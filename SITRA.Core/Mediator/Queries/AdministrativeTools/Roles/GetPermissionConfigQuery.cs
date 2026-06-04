@@ -1,4 +1,4 @@
-using MediatR;
+using Mediator;
 using Microsoft.Extensions.Configuration;
 using SITRA.Core.DTOs.AdministrativeTools.Roles;
 
@@ -15,10 +15,10 @@ namespace SITRA.Core.Mediator.Queries.AdministrativeTools.Roles
             _configuration = configuration;
         }
 
-        public Task<PermissionManagementConfigDTO> Handle(GetPermissionConfigQuery request, CancellationToken cancellationToken)
+        public ValueTask<PermissionManagementConfigDTO> Handle(GetPermissionConfigQuery request, CancellationToken cancellationToken)
         {
             var config = _configuration.GetSection("PermissionManagement").Get<PermissionManagementConfigDTO>();
-            return Task.FromResult(config ?? new PermissionManagementConfigDTO());
+            return ValueTask.FromResult(config ?? new PermissionManagementConfigDTO());
         }
     }
 }

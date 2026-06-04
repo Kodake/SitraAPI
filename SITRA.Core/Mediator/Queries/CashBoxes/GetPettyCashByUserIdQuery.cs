@@ -12,7 +12,7 @@ using SITRA.Core.Interfaces.Services.Invoices;
 using SITRA.Core.Interfaces.Services.Products;
 using SITRA.Core.Interfaces.Services.Storage;
 using SITRA.Core.Interfaces.Services.Messaging;
-using MediatR;
+using Mediator;
 
 namespace SITRA.Core.Mediator.Queries.CashBoxes
 {
@@ -33,7 +33,7 @@ namespace SITRA.Core.Mediator.Queries.CashBoxes
             _pettyCashService = pettyCashService;
         }
 
-        public async Task<PettyCashDTO?> Handle(GetPettyCashByUserIdQuery request, CancellationToken cancellationToken)
+        public async ValueTask<PettyCashDTO?> Handle(GetPettyCashByUserIdQuery request, CancellationToken cancellationToken)
         {
             var user = await _unitOfWork.UserService.GetUserAsync();
             if (user == null)

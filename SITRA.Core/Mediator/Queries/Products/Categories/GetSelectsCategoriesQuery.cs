@@ -1,5 +1,5 @@
 using SITRA.Core.Interfaces.Services.Products;
-using MediatR;
+using Mediator;
 using SITRA.Core.DTOs.Products.Categories;
 using SITRA.Core.Enums;
 using AutoMapper;
@@ -27,7 +27,7 @@ namespace SITRA.Core.Mediator.Queries.Products.Categories
             _mapper = mapper;
         }
 
-        public async Task<List<CategoryListDTO>> Handle(GetSelectsCategoriesQuery request, CancellationToken cancellationToken)
+        public async ValueTask<List<CategoryListDTO>> Handle(GetSelectsCategoriesQuery request, CancellationToken cancellationToken)
         {
             var categories = await _categoryService.GetAllAsync(request.Status, cancellationToken);
             return _mapper.Map<List<CategoryListDTO>>(categories);

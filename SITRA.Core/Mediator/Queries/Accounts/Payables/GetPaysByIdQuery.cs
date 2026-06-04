@@ -1,5 +1,5 @@
 using SITRA.Core.Interfaces.Services.Accounts;
-using MediatR;
+using Mediator;
 using SITRA.Core.DTOs.Accounts.Payables;
 using AutoMapper;
 
@@ -26,7 +26,7 @@ namespace SITRA.Core.Mediator.Queries.Accounts.Payables
             _mapper = mapper;
         }
 
-        public async Task<PayableDTO> Handle(GetPaysByIdQuery request, CancellationToken cancellationToken)
+        public async ValueTask<PayableDTO> Handle(GetPaysByIdQuery request, CancellationToken cancellationToken)
         {
             var payable = await _payableService.GetPaysByIdAsync(request.Id, cancellationToken);
             return _mapper.Map<PayableDTO>(payable);

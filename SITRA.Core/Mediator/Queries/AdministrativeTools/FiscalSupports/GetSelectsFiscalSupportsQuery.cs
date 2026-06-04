@@ -1,5 +1,5 @@
 using SITRA.Core.Interfaces.Services.AdministrativeTools;
-using MediatR;
+using Mediator;
 using SITRA.Core.DTOs.AdministrativeTools.FiscalSupports;
 using SITRA.Core.Enums;
 using AutoMapper;
@@ -27,7 +27,7 @@ namespace SITRA.Core.Mediator.Queries.AdministrativeTools.FiscalSupports
             _mapper = mapper;
         }
 
-        public async Task<List<FiscalSupportListDTO>> Handle(GetSelectsFiscalSupportsQuery request, CancellationToken cancellationToken)
+        public async ValueTask<List<FiscalSupportListDTO>> Handle(GetSelectsFiscalSupportsQuery request, CancellationToken cancellationToken)
         {
             var items = await _service.GetAllAsync(request.Status, cancellationToken);
             return _mapper.Map<List<FiscalSupportListDTO>>(items);

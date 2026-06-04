@@ -6,7 +6,7 @@ using SITRA.Core.Mediator.Commands.Wizard;
 
 namespace SITRA.Core.Mediator.Handlers.Wizard
 {
-    public class CreateWizardCommandHandler : MediatR.IRequestHandler<CreateWizardCommand, WizardDTO>
+    public class CreateWizardCommandHandler : global::Mediator.IRequestHandler<CreateWizardCommand, WizardDTO>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IOutputCacheStore _outputCacheStore;
@@ -19,7 +19,7 @@ namespace SITRA.Core.Mediator.Handlers.Wizard
             _mapper = mapper;
         }
 
-        public async Task<WizardDTO> Handle(CreateWizardCommand request, CancellationToken cancellationToken)
+        public async ValueTask<WizardDTO> Handle(CreateWizardCommand request, CancellationToken cancellationToken)
         {
             return await request.ExecuteAction(_unitOfWork, _outputCacheStore, _mapper, cancellationToken);
         }

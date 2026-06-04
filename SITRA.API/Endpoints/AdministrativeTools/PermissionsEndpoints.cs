@@ -1,4 +1,4 @@
-using MediatR;
+using Mediator;
 using SITRA.Core.Mediator.Queries.AdministrativeTools.Roles;
 
 namespace SITRA.API.Endpoints.AdministrativeTools

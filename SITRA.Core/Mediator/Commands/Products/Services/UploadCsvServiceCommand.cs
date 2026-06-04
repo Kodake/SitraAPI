@@ -1,6 +1,6 @@
 using AutoMapper;
 using FluentValidation;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.OutputCaching;
 using SITRA.Core.DTOs;
 using SITRA.Core.DTOs.Products.Services;
@@ -36,7 +36,7 @@ namespace SITRA.Core.Mediator.Commands.Products.Services
                 _configuration = configuration;
             }
 
-            public async Task<bool> Handle(UploadCsvServiceCommand request, CancellationToken cancellationToken)
+            public async ValueTask<bool> Handle(UploadCsvServiceCommand request, CancellationToken cancellationToken)
             {
                 try
                 {

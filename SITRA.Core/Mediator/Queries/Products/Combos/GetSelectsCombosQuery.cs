@@ -1,5 +1,5 @@
 using SITRA.Core.Interfaces.Services.Products;
-using MediatR;
+using Mediator;
 using SITRA.Core.DTOs.Products.Combos;
 using SITRA.Core.Enums;
 using AutoMapper;
@@ -27,7 +27,7 @@ namespace SITRA.Core.Mediator.Queries.Products.Combos
             _mapper = mapper;
         }
 
-        public async Task<List<ComboListDTO>> Handle(GetSelectsCombosQuery request, CancellationToken cancellationToken)
+        public async ValueTask<List<ComboListDTO>> Handle(GetSelectsCombosQuery request, CancellationToken cancellationToken)
         {
             var combos = await _comboService.GetAllAsync(request.Status, cancellationToken);
             return _mapper.Map<List<ComboListDTO>>(combos);

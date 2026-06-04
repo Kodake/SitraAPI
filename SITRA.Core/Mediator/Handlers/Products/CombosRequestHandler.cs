@@ -1,4 +1,4 @@
-using MediatR;
+using Mediator;
 using SITRA.Core.DTOs.Products.Combos;
 using SITRA.Core.Mediator.Commands.Products.Combos;
 using SITRA.Core.Mediator.Queries.Products.Combos;

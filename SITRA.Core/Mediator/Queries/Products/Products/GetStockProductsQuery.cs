@@ -1,5 +1,5 @@
 using SITRA.Core.Interfaces.Services.Products;
-using MediatR;
+using Mediator;
 using SITRA.Core.DTOs.Products.Products;
 using SITRA.Core.Enums;
 using AutoMapper;
@@ -21,7 +21,7 @@ namespace SITRA.Core.Mediator.Queries.Products.Products
             _mapper = mapper;
         }
 
-        public async Task<List<ProductListDTO>> Handle(GetStockProductsQuery request, CancellationToken cancellationToken)
+        public async ValueTask<List<ProductListDTO>> Handle(GetStockProductsQuery request, CancellationToken cancellationToken)
         {
             var products = await _productService.GetStockProductsAsync(cancellationToken);
             return _mapper.Map<List<ProductListDTO>>(products);

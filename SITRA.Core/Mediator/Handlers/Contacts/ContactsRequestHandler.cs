@@ -1,4 +1,4 @@
-using MediatR;
+using Mediator;
 using SITRA.Core.DTOs.Contacts.Contacts;
 using SITRA.Core.Mediator.Commands.Contacts;
 using SITRA.Core.Mediator.Queries.Contacts;

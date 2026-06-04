@@ -1,4 +1,4 @@
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.OutputCaching;
 using SITRA.Core.Interfaces;
 using SITRA.Core.Interfaces.Services.Products;
@@ -23,7 +23,7 @@ namespace SITRA.Core.Mediator.Commands.Products.Pricings
             _outputCacheStore = outputCacheStore;
         }
 
-        public async Task<bool> Handle(
+        public async ValueTask<bool> Handle(
             SetDefaultPricingCommand request,
             CancellationToken cancellationToken)
         {

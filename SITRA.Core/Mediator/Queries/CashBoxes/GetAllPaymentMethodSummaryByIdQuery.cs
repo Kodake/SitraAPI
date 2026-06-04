@@ -10,7 +10,7 @@ using SITRA.Core.Interfaces.Services.Invoices;
 using SITRA.Core.Interfaces.Services.Products;
 using SITRA.Core.Interfaces.Services.Storage;
 using SITRA.Core.Interfaces.Services.Messaging;
-using MediatR;
+using Mediator;
 
 namespace SITRA.Core.Mediator.Queries.CashBoxes
 {
@@ -30,7 +30,7 @@ namespace SITRA.Core.Mediator.Queries.CashBoxes
             _pettyCashService = pettyCashService;
         }
 
-        public async Task<List<PaymentMethodAmountListDTO>> Handle(GetAllPaymentMethodSummaryByIdQuery request, CancellationToken cancellationToken)
+        public async ValueTask<List<PaymentMethodAmountListDTO>> Handle(GetAllPaymentMethodSummaryByIdQuery request, CancellationToken cancellationToken)
         {
             var paymentMethodAmounts = await _pettyCashService.GetPaymentMethodAmountListAsync(request.PettyCashId, cancellationToken);
             return _mapper.Map<List<PaymentMethodAmountListDTO>>(paymentMethodAmounts);

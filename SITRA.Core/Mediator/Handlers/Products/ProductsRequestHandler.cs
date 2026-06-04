@@ -1,4 +1,4 @@
-using MediatR;
+using Mediator;
 using SITRA.Core.DTOs.Products.Products;
 using SITRA.Core.Mediator.Commands.Products.Products;
 using SITRA.Core.Mediator.Queries.Products.Products;

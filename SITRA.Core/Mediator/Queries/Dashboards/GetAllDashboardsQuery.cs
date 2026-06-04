@@ -1,4 +1,4 @@
-using MediatR;
+using Mediator;
 using SITRA.Core.DTOs.Dashboards;
 using SITRA.Core.Interfaces.Services;
 using SITRA.Core.Interfaces.Services.AdministrativeTools;
@@ -26,7 +26,7 @@ namespace SITRA.Core.Mediator.Queries.Dashboards
             _dashboardService = dashboardService;
         }
 
-        public async Task<DashboardDTO> Handle(GetAllDashboardsQuery request, CancellationToken cancellationToken)
+        public async ValueTask<DashboardDTO> Handle(GetAllDashboardsQuery request, CancellationToken cancellationToken)
         {
             return await _dashboardService.GetDashboardSummaryAsync(cancellationToken);
         }

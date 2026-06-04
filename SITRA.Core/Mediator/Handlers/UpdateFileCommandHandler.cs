@@ -1,12 +1,12 @@
 using AutoMapper;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.OutputCaching;
 using SITRA.Core.Interfaces;
 using SITRA.Core.Mediator.Commands;
 
 namespace SITRA.Core.Mediator.Handlers
 {
-    public class UpdateFileCommandHandler<TEntity, TDto>
+    public abstract class UpdateFileCommandHandler<TEntity, TDto>
         : IRequestHandler<UpdateFileCommand<TEntity, TDto>, (byte[] FileBytes, string FileName)?>
         where TEntity : class
     {
@@ -24,7 +24,7 @@ namespace SITRA.Core.Mediator.Handlers
             _mapper = mapper;
         }
 
-        public async Task<(byte[] FileBytes, string FileName)?> Handle(
+        public async ValueTask<(byte[] FileBytes, string FileName)?> Handle(
             UpdateFileCommand<TEntity, TDto> request,
             CancellationToken cancellationToken)
         {

@@ -1,4 +1,4 @@
-using MediatR;
+using Mediator;
 using SITRA.Core.DTOs.AdministrativeTools.Roles;
 using SITRA.Core.Entities.AdministrativeTools;
 using SITRA.Core.Mediator.Commands.AdministrativeTools.Roles;

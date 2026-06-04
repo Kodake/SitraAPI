@@ -7,7 +7,7 @@ using SITRA.Core.Interfaces.Services.Invoices;
 using SITRA.Core.Interfaces.Services.Products;
 using SITRA.Core.Interfaces.Services.Storage;
 using SITRA.Core.Interfaces.Services.Messaging;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using SITRA.API.Filters;

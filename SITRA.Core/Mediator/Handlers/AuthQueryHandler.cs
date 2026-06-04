@@ -1,11 +1,11 @@
 using AutoMapper;
-using MediatR;
+using Mediator;
 using SITRA.Core.Interfaces;
 using SITRA.Core.Mediator.Queries;
 
 namespace SITRA.Core.Mediator.Handlers
 {
-    public class AuthQueryHandler<TQuery, TResult> : IRequestHandler<TQuery, TResult>
+    public abstract class AuthQueryHandler<TQuery, TResult> : IRequestHandler<TQuery, TResult>
         where TQuery : AuthQuery<TResult>
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -17,9 +17,9 @@ namespace SITRA.Core.Mediator.Handlers
             _mapper = mapper;
         }
 
-        public Task<TResult> Handle(TQuery request, CancellationToken cancellationToken)
+        public ValueTask<TResult> Handle(TQuery request, CancellationToken cancellationToken)
         {
-            return request.ExecuteAction(_unitOfWork, _mapper, cancellationToken);
+            return new ValueTask<TResult>(request.ExecuteAction(_unitOfWork, _mapper, cancellationToken));
         }
     }
 }

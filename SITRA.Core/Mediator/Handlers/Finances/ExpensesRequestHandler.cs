@@ -1,4 +1,4 @@
-using MediatR;
+using Mediator;
 using SITRA.Core.DTOs.Finances.Expenses;
 using SITRA.Core.Mediator.Commands.Finances.Expenses;
 using SITRA.Core.Mediator.Queries.Finances.Expenses;

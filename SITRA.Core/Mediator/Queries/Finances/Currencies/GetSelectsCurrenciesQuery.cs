@@ -1,5 +1,5 @@
 using SITRA.Core.Interfaces.Services.Finances;
-using MediatR;
+using Mediator;
 using SITRA.Core.DTOs.Finances.Currencies;
 using SITRA.Core.Enums;
 using AutoMapper;
@@ -27,7 +27,7 @@ namespace SITRA.Core.Mediator.Queries.Finances.Currencies
             _mapper = mapper;
         }
 
-        public async Task<List<CurrencyListDTO>> Handle(GetSelectsCurrenciesQuery request, CancellationToken cancellationToken)
+        public async ValueTask<List<CurrencyListDTO>> Handle(GetSelectsCurrenciesQuery request, CancellationToken cancellationToken)
         {
             var currencies = await _currencyService.GetAllAsync(request.Status, cancellationToken);
             return _mapper.Map<List<CurrencyListDTO>>(currencies);
