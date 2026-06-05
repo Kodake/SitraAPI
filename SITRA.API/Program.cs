@@ -45,7 +45,20 @@ using SITRA.Infrastructure.Services.Products;
 using SITRA.Infrastructure.Services.Products;
 using SITRA.Core.Interfaces.Services.Storage;
 using SITRA.Infrastructure.Services.Storage;
+using Azure.Identity;
 var builder = WebApplication.CreateBuilder(args);
+
+// Azure Key Vault — load secrets in non-Development environments
+if (!builder.Environment.IsDevelopment())
+{
+    var keyVaultUrl = builder.Configuration["KeyVault:Url"];
+    if (!string.IsNullOrEmpty(keyVaultUrl))
+    {
+        builder.Configuration.AddAzureKeyVault(
+            new Uri(keyVaultUrl),
+            new DefaultAzureCredential());
+    }
+}
 
 QuestPDF.Settings.License = LicenseType.Community;
 QuestPDF.Settings.EnableCaching = true;
@@ -133,13 +146,10 @@ builder.Services.AddAuthentication(options =>
         OnMessageReceived = context =>
         {
             var authHeader = context.Request.Headers["Authorization"].ToString();
-            Console.WriteLine($"[DEBUG] Auth Header='{authHeader}'");
-            // If we manually extract token here, let's see what happens
             if (authHeader.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
             {
                 context.Token = authHeader.Substring("Bearer ".Length).Trim();
             }
-            Console.WriteLine($"[DEBUG] context.Token='{context.Token}'");
             return Task.CompletedTask;
         }
     };
