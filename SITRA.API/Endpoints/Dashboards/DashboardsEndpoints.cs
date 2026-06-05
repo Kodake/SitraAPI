@@ -15,6 +15,7 @@ namespace SITRA.API.Endpoints
             group.MapGet("/overall-report", GetOverallReport).RequireAuthorization();
             group.MapGet("/cash-flow", GetCashFlowReport).RequireAuthorization();
             group.MapGet("/top-sales", GetTopSales).RequireAuthorization();
+            group.MapGet("/top-customers", GetTopCustomers).RequireAuthorization();
             return group;
         }
 
@@ -50,6 +51,16 @@ namespace SITRA.API.Endpoints
         static async Task<Ok<List<TopSaleDTO>>> GetTopSales([FromQuery] int? month, [FromQuery] int? year, [FromServices] IMediator mediator)
         {
             var query = new GetTopSalesQuery { 
+                Month = month ?? DateTime.UtcNow.Month, 
+                Year = year ?? DateTime.UtcNow.Year 
+            };
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
+        }
+
+        static async Task<Ok<List<TopCustomerDTO>>> GetTopCustomers([FromQuery] int? month, [FromQuery] int? year, [FromServices] IMediator mediator)
+        {
+            var query = new GetTopCustomersQuery { 
                 Month = month ?? DateTime.UtcNow.Month, 
                 Year = year ?? DateTime.UtcNow.Year 
             };

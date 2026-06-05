@@ -171,5 +171,30 @@ namespace SITRA.Infrastructure.Services.Dashboards
 
             return topSales;
         }
+
+        public async Task<List<TopCustomerDTO>> GetTopCustomersAsync(int month, int year, CancellationToken cancellationToken = default)
+        {
+            var topCustomers = await _context.InvoiceBuyers
+                .Include(ib => ib.Invoice)
+                .Include(ib => ib.Buyer)
+                .Where(ib => ib.Invoice.InvoiceType == InvoiceType.Sale && ib.Invoice.CreatedAt.Month == month && ib.Invoice.CreatedAt.Year == year)
+                .GroupBy(ib => new { ib.ContactId, ib.Buyer.Name, ib.Buyer.Phone })
+                .Select(g => new TopCustomerDTO
+                {
+                    Name = g.Key.Name,
+                    Phone = g.Key.Phone ?? "",
+                    Amount = g.Sum(x => x.Invoice.TotalAmount)
+                })
+                .OrderByDescending(x => x.Amount)
+                .Take(5)
+                .ToListAsync(cancellationToken);
+
+            for (int i = 0; i < topCustomers.Count; i++)
+            {
+                topCustomers[i].Sl = (i + 1).ToString().PadLeft(2, '0');
+            }
+
+            return topCustomers;
+        }
     }
 }

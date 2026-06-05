@@ -53,4 +53,18 @@ namespace SITRA.Core.Mediator.Queries.Dashboards
         public async ValueTask<List<TopSaleDTO>> Handle(GetTopSalesQuery request, CancellationToken cancellationToken)
             => await _dashboardService.GetTopSalesAsync(request.Month, request.Year, cancellationToken);
     }
+
+    public class GetTopCustomersQuery : IRequest<List<TopCustomerDTO>>
+    {
+        public int Month { get; set; }
+        public int Year { get; set; }
+    }
+
+    public class GetTopCustomersQueryHandler : IRequestHandler<GetTopCustomersQuery, List<TopCustomerDTO>>
+    {
+        private readonly IDashboardService _dashboardService;
+        public GetTopCustomersQueryHandler(IDashboardService dashboardService) => _dashboardService = dashboardService;
+        public async ValueTask<List<TopCustomerDTO>> Handle(GetTopCustomersQuery request, CancellationToken cancellationToken)
+            => await _dashboardService.GetTopCustomersAsync(request.Month, request.Year, cancellationToken);
+    }
 }

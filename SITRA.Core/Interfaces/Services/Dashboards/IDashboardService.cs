@@ -1,5 +1,7 @@
 using SITRA.Core.DTOs.Dashboards;
 
+using SITRA.Core.DTOs.Dashboards;
+
 namespace SITRA.Core.Interfaces.Services.Dashboards
 {
     public interface IDashboardService
@@ -9,5 +11,6 @@ namespace SITRA.Core.Interfaces.Services.Dashboards
         Task<OverallReportDTO> GetOverallReportAsync(CancellationToken cancellationToken = default);
         Task<CashFlowReportDTO> GetCashFlowReportAsync(int year, CancellationToken cancellationToken = default);
         Task<List<TopSaleDTO>> GetTopSalesAsync(int month, int year, CancellationToken cancellationToken = default);
+        Task<List<TopCustomerDTO>> GetTopCustomersAsync(int month, int year, CancellationToken cancellationToken = default);
     }
 }
