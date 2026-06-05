@@ -107,12 +107,18 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 // DbContext
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
+builder.Services.AddScoped<SITRA.Infrastructure.Persistence.Interceptors.AuditInterceptor>();
+
+builder.Services.AddDbContext<ApplicationDbContext>((sp, options) =>
+{
+    var auditInterceptor = sp.GetRequiredService<SITRA.Infrastructure.Persistence.Interceptors.AuditInterceptor>();
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
         sqlOptions => sqlOptions.EnableRetryOnFailure(
             maxRetryCount: 3,
             maxRetryDelay: TimeSpan.FromSeconds(5),
-            errorNumbersToAdd: null)));
+            errorNumbersToAdd: null))
+        .AddInterceptors(auditInterceptor);
+});
 
 // Identity
 builder.Services.AddIdentity<User, IdentityRole>()

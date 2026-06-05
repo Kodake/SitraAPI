@@ -161,6 +161,7 @@ namespace SITRA.Infrastructure.Persistence
             // Audits ? schema audits
             // ===============================
             modelBuilder.Entity<IdempotentRequest>().ToTable("IdempotentRequests", "audits");
+            modelBuilder.Entity<AuditLog>().ToTable("AuditLogs", "audits");
 
             modelBuilder.Entity<User>()
                 .Property(u => u.Language)
@@ -170,6 +171,7 @@ namespace SITRA.Infrastructure.Persistence
 
         #region DbSets
         public virtual DbSet<IdempotentRequest> IdempotentRequests { get; set; }
+        public virtual DbSet<AuditLog> AuditLogs { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Role> TenantRoles { get; set; }
         public virtual DbSet<Permission> TenantPermissions { get; set; }
