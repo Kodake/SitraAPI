@@ -26,23 +26,23 @@ namespace SITRA.API.ExceptionHandlers
                 BadHttpRequestException or JsonException => new ProblemDetails
                 {
                     Status = StatusCodes.Status400BadRequest,
-                    Title = "Invalid Request Body",
-                    Detail = "The request body is missing, invalid, or cannot be deserialized. Please check your JSON syntax.",
+                    Title = SITRA.Core.Helpers.Utilities.InvalidRequestBodyTitleMessage,
+                    Detail = SITRA.Core.Helpers.Utilities.InvalidRequestBodyDetailMessage,
                     Instance = httpContext.Request.Path
                 },
 
                 UnauthorizedAccessException => new ProblemDetails
                 {
                     Status = StatusCodes.Status401Unauthorized,
-                    Title = "Unauthorized",
-                    Detail = "You are not authorized to perform this action.",
+                    Title = SITRA.Core.Helpers.Utilities.UnauthorizedTitleMessage,
+                    Detail = SITRA.Core.Helpers.Utilities.UnauthorizedDetailMessage,
                     Instance = httpContext.Request.Path
                 },
 
                 ValidationException validationEx => new ProblemDetails
                 {
                     Status = StatusCodes.Status422UnprocessableEntity,
-                    Title = "Validation Error",
+                    Title = SITRA.Core.Helpers.Utilities.ValidationErrorTitleMessage,
                     Detail = string.Join("; ", validationEx.Errors.Select(e => e.ErrorMessage)),
                     Instance = httpContext.Request.Path
                 },
@@ -50,10 +50,10 @@ namespace SITRA.API.ExceptionHandlers
                 _ => new ProblemDetails
                 {
                     Status = StatusCodes.Status500InternalServerError,
-                    Title = "Internal Server Error",
+                    Title = SITRA.Core.Helpers.Utilities.InternalServerErrorTitleMessage,
                     Detail = _env.IsDevelopment()
                         ? exception.Message
-                        : "An unexpected error occurred. Please try again later.",
+                        : SITRA.Core.Helpers.Utilities.InternalServerErrorDetailMessage,
                     Instance = httpContext.Request.Path
                 }
             };

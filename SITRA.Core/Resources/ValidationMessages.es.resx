@@ -515,4 +515,31 @@
   <data name="CertificateUrlEmptyMessage" xml:space="preserve">
     <value>La URL del certificado está vacía.</value>
   </data>
+  <data name="NoEntityToValidateMessage" xml:space="preserve">
+    <value>No se encontró ninguna entidad para validar.</value>
+  </data>
+  <data name="IdempotencyKeyDescriptionMessage" xml:space="preserve">
+    <value>Clave única para garantizar la idempotencia de la operación.</value>
+  </data>
+  <data name="InvalidRequestBodyTitleMessage" xml:space="preserve">
+    <value>Cuerpo de solicitud inválido</value>
+  </data>
+  <data name="InvalidRequestBodyDetailMessage" xml:space="preserve">
+    <value>El cuerpo de la solicitud falta, es inválido o no se puede deserializar. Por favor verifique la sintaxis JSON.</value>
+  </data>
+  <data name="UnauthorizedTitleMessage" xml:space="preserve">
+    <value>No autorizado</value>
+  </data>
+  <data name="UnauthorizedDetailMessage" xml:space="preserve">
+    <value>No está autorizado para realizar esta acción.</value>
+  </data>
+  <data name="ValidationErrorTitleMessage" xml:space="preserve">
+    <value>Error de validación</value>
+  </data>
+  <data name="InternalServerErrorTitleMessage" xml:space="preserve">
+    <value>Error interno del servidor</value>
+  </data>
+  <data name="InternalServerErrorDetailMessage" xml:space="preserve">
+    <value>Ocurrió un error inesperado. Por favor, inténtelo de nuevo más tarde.</value>
+  </data>
 </root>

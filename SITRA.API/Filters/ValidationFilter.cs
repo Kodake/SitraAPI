@@ -17,7 +17,7 @@ namespace SITRA.API.Filters
 
             if (toValidate is null)
             {
-                return TypedResults.Problem("No entity to validate found.");
+                return TypedResults.Problem(SITRA.Core.Helpers.Utilities.NoEntityToValidateMessage);
             }
 
             var validationResult = await validator.ValidateAsync(toValidate);

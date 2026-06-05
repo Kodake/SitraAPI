@@ -304,5 +304,16 @@ namespace SITRA.Core.Helpers
             var message = _resourceManager.GetString("InvalidTaxAmountMessage");
             return string.Format(message!, dTO.Amount);
         }
+
+        // New exception handling and filter messages
+        public static string NoEntityToValidateMessage => _resourceManager.GetString("NoEntityToValidateMessage")!;
+        public static string IdempotencyKeyDescriptionMessage => _resourceManager.GetString("IdempotencyKeyDescriptionMessage")!;
+        public static string InvalidRequestBodyTitleMessage => _resourceManager.GetString("InvalidRequestBodyTitleMessage")!;
+        public static string InvalidRequestBodyDetailMessage => _resourceManager.GetString("InvalidRequestBodyDetailMessage")!;
+        public static string UnauthorizedTitleMessage => _resourceManager.GetString("UnauthorizedTitleMessage")!;
+        public static string UnauthorizedDetailMessage => _resourceManager.GetString("UnauthorizedDetailMessage")!;
+        public static string ValidationErrorTitleMessage => _resourceManager.GetString("ValidationErrorTitleMessage")!;
+        public static string InternalServerErrorTitleMessage => _resourceManager.GetString("InternalServerErrorTitleMessage")!;
+        public static string InternalServerErrorDetailMessage => _resourceManager.GetString("InternalServerErrorDetailMessage")!;
     }
 }

@@ -28,7 +28,7 @@ namespace SITRA.API.Filters
                             Type = "string",
                             Format = "uuid"
                         },
-                        Description = "Unique key to ensure idempotency of the operation."
+                        Description = SITRA.Core.Helpers.Utilities.IdempotencyKeyDescriptionMessage
                     });
                 }
             }
