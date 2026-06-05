@@ -106,7 +106,7 @@ namespace SITRA.API.Endpoints
 
             if (!success)
             {
-                return TypedResults.Ok(new { success = false, message = errorMessage ?? SITRA.Core.Helpers.Utilities.PettyCashValidationFailedMessage });
+                return TypedResults.BadRequest(new { success = false, message = errorMessage ?? SITRA.Core.Helpers.Utilities.PettyCashValidationFailedMessage });
             }
 
             return TypedResults.Ok(new { success = true, message = "Success" });
@@ -120,7 +120,7 @@ namespace SITRA.API.Endpoints
 
             if (!success)
             {
-                return TypedResults.Ok(new { success = false, message = errorMessage ?? SITRA.Core.Helpers.Utilities.CertificateValidationFailedMessage });
+                return TypedResults.BadRequest(new { success = false, message = errorMessage ?? SITRA.Core.Helpers.Utilities.CertificateValidationFailedMessage });
             }
 
             return TypedResults.Ok(new { success = true, message = "Success" });
@@ -149,8 +149,11 @@ namespace SITRA.API.Endpoints
 
         static async Task<IResult> UpdateProfile(
             [FromForm] UpdateProfileNameDTO dto,
-            [FromServices] IMediator mediator)
+            [FromServices] IMediator mediator,
+            [FromServices] ILoggerFactory loggerFactory,
+            [FromServices] IWebHostEnvironment env)
         {
+            var logger = loggerFactory.CreateLogger("AuthsEndpoints");
             try
             {
                 var command = new UpdateProfileCommand(dto);
@@ -160,7 +163,13 @@ namespace SITRA.API.Endpoints
             }
             catch (Exception ex)
             {
-                return TypedResults.Problem(ex.ToString());
+                logger.LogError(ex, "Error updating profile");
+                return TypedResults.Problem(
+                    detail: env.IsDevelopment()
+                        ? ex.Message
+                        : "An error occurred while updating the profile.",
+                    statusCode: StatusCodes.Status500InternalServerError
+                );
             }
         }
     }

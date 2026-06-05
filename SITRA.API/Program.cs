@@ -150,7 +150,10 @@ builder.Services.RegisterRequestHandlers();
 builder.Services.RegisterRepositories();
 
 // Explicitly load AutoMapper for the API and Core assemblies to avoid AppDomain crashes
-builder.Services.AddAutoMapper(config => { }, typeof(Program).Assembly);
+builder.Services.AddAutoMapper(config =>
+{
+    config.AddMaps(typeof(Program).Assembly);
+});
 builder.Services.AddValidatorsFromAssemblyContaining<CreateProductDTOValidator>();
 builder.Services.AddOutputCache();
 builder.Services.AddMemoryCache();
