@@ -57,5 +57,119 @@ namespace SITRA.Infrastructure.Services.Dashboards
                 Last30DaysPurchases = last30DaysPurchases
             };
         }
+
+        public async Task<StockAnalysisDTO> GetStockAnalysisAsync(int year, CancellationToken cancellationToken = default)
+        {
+            var months = new List<string> { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+            var purchasedStock = new List<double>(new double[12]);
+            var soldStock = new List<double>(new double[12]);
+
+            var invoices = await _context.Invoices
+                .Include(i => i.InvoiceItems)
+                .Where(i => i.CreatedAt.Year == year)
+                .ToListAsync(cancellationToken);
+
+            foreach (var inv in invoices)
+            {
+                int monthIndex = inv.CreatedAt.Month - 1;
+                double totalQty = inv.InvoiceItems.Sum(x => x.Qty);
+
+                if (inv.InvoiceType == InvoiceType.Purchase)
+                    purchasedStock[monthIndex] += totalQty;
+                else if (inv.InvoiceType == InvoiceType.Sale)
+                    soldStock[monthIndex] += totalQty;
+            }
+
+            return new StockAnalysisDTO
+            {
+                Months = months,
+                PurchasedStock = purchasedStock,
+                SoldStock = soldStock
+            };
+        }
+
+        public async Task<OverallReportDTO> GetOverallReportAsync(CancellationToken cancellationToken = default)
+        {
+            var sales = await _context.Invoices
+                .Where(i => i.InvoiceType == InvoiceType.Sale)
+                .SumAsync(i => i.TotalPrice, cancellationToken);
+
+            var purchases = await _context.Invoices
+                .Where(i => i.InvoiceType == InvoiceType.Purchase)
+                .SumAsync(i => i.TotalPrice, cancellationToken);
+
+            var expenses = await _context.Expenses
+                .SumAsync(e => e.Amount, cancellationToken);
+
+            return new OverallReportDTO
+            {
+                Sales = sales,
+                Purchase = purchases,
+                Expense = expenses,
+                GrossProfit = sales - purchases
+            };
+        }
+
+        public async Task<CashFlowReportDTO> GetCashFlowReportAsync(int year, CancellationToken cancellationToken = default)
+        {
+            var months = new List<string> { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+            var incomes = new List<double>(new double[12]);
+            var expenses = new List<double>(new double[12]);
+
+            var invoices = await _context.Invoices
+                .Where(i => i.CreatedAt.Year == year)
+                .ToListAsync(cancellationToken);
+
+            var dbExpenses = await _context.Expenses
+                .Where(e => e.CreatedAt.Year == year)
+                .ToListAsync(cancellationToken);
+
+            foreach (var inv in invoices)
+            {
+                int monthIndex = inv.CreatedAt.Month - 1;
+                if (inv.InvoiceType == InvoiceType.Sale)
+                    incomes[monthIndex] += inv.TotalPrice;
+                else if (inv.InvoiceType == InvoiceType.Purchase)
+                    expenses[monthIndex] += inv.TotalPrice;
+            }
+
+            foreach (var exp in dbExpenses)
+            {
+                int monthIndex = exp.CreatedAt.Month - 1;
+                expenses[monthIndex] += exp.Amount;
+            }
+
+            return new CashFlowReportDTO
+            {
+                Months = months,
+                Income = incomes,
+                Expenses = expenses
+            };
+        }
+
+        public async Task<List<TopSaleDTO>> GetTopSalesAsync(int month, int year, CancellationToken cancellationToken = default)
+        {
+            var topSales = await _context.InvoiceItems
+                .Include(ii => ii.Invoice)
+                .Include(ii => ii.Item)
+                .Where(ii => ii.Invoice.InvoiceType == InvoiceType.Sale && ii.Invoice.CreatedAt.Month == month && ii.Invoice.CreatedAt.Year == year)
+                .GroupBy(ii => new { ii.ItemId, ii.Item.Name })
+                .Select(g => new TopSaleDTO
+                {
+                    Name = g.Key.Name,
+                    Quantity = (int)g.Sum(x => x.Qty),
+                    Batch = "[B-" + g.Key.ItemId.ToString().PadLeft(4, '0') + "]"
+                })
+                .OrderByDescending(x => x.Quantity)
+                .Take(5)
+                .ToListAsync(cancellationToken);
+
+            for (int i = 0; i < topSales.Count; i++)
+            {
+                topSales[i].Sl = (i + 1).ToString().PadLeft(2, '0');
+            }
+
+            return topSales;
+        }
     }
 }

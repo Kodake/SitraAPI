@@ -11,8 +11,10 @@ namespace SITRA.API.Endpoints
         public static RouteGroupBuilder MapDashboards(this RouteGroupBuilder group)
         {
             group.MapGet("/", GetAll).RequireAuthorization();
-            //.CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("dashboards-get"))
-            //.AddPaginationParamsOpenAPI();
+            group.MapGet("/stock-analysis", GetStockAnalysis).RequireAuthorization();
+            group.MapGet("/overall-report", GetOverallReport).RequireAuthorization();
+            group.MapGet("/cash-flow", GetCashFlowReport).RequireAuthorization();
+            group.MapGet("/top-sales", GetTopSales).RequireAuthorization();
             return group;
         }
 
@@ -22,6 +24,37 @@ namespace SITRA.API.Endpoints
             var query = new GetAllDashboardsQuery();
             var dto = await mediator.Send(query);
             return dto == null ? TypedResults.NotFound() : TypedResults.Ok(dto);
+        }
+
+        static async Task<Ok<StockAnalysisDTO>> GetStockAnalysis([FromQuery] int? year, [FromServices] IMediator mediator)
+        {
+            var query = new GetStockAnalysisQuery { Year = year ?? DateTime.UtcNow.Year };
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
+        }
+
+        static async Task<Ok<OverallReportDTO>> GetOverallReport([FromServices] IMediator mediator)
+        {
+            var query = new GetOverallReportQuery();
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
+        }
+
+        static async Task<Ok<CashFlowReportDTO>> GetCashFlowReport([FromQuery] int? year, [FromServices] IMediator mediator)
+        {
+            var query = new GetCashFlowReportQuery { Year = year ?? DateTime.UtcNow.Year };
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
+        }
+
+        static async Task<Ok<List<TopSaleDTO>>> GetTopSales([FromQuery] int? month, [FromQuery] int? year, [FromServices] IMediator mediator)
+        {
+            var query = new GetTopSalesQuery { 
+                Month = month ?? DateTime.UtcNow.Month, 
+                Year = year ?? DateTime.UtcNow.Year 
+            };
+            var dto = await mediator.Send(query);
+            return TypedResults.Ok(dto);
         }
     }
 }
