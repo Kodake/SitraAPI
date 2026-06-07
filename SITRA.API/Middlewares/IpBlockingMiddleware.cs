@@ -28,12 +28,12 @@ namespace SITRA.API.Middlewares
             var blockedKey = $"BLOCKED_{ipAddress}";
             if (_cache.TryGetValue(blockedKey, out int currentTier))
             {
-                _logger.LogWarning($"Blocked IP {ipAddress} attempted to access.");
+                _logger.LogWarning(string.Format(SITRA.Core.Helpers.Utilities.LogBlockedIpAttemptMessage, ipAddress));
                 context.Response.StatusCode = StatusCodes.Status403Forbidden;
                 
                 string userMessage = currentTier >= 3 
-                    ? "Your IP has been permanently blocked due to multiple failed login attempts. Please contact the system administrator to unlock your access."
-                    : "Your IP has been temporarily blocked due to multiple failed login attempts.";
+                    ? SITRA.Core.Helpers.Utilities.IpPermanentlyBlockedMessage
+                    : SITRA.Core.Helpers.Utilities.IpTemporarilyBlockedMessage;
 
                 await context.Response.WriteAsync(userMessage);
                 return;
@@ -56,7 +56,7 @@ namespace SITRA.API.Middlewares
                 attempts++;
                 _cache.Set(attemptsKey, attempts);
 
-                _logger.LogWarning($"IP {ipAddress} failed authentication. Attempt {attempts}/4 before next block tier.");
+                _logger.LogWarning(string.Format(SITRA.Core.Helpers.Utilities.LogFailedAuthenticationAttemptMessage, ipAddress, attempts));
 
                 if (attempts >= 4)
                 {
@@ -73,20 +73,20 @@ namespace SITRA.API.Middlewares
                     if (tier == 1)
                     {
                         blockDuration = TimeSpan.FromMinutes(1);
-                        blockMessage = "for 1 minute";
+                        blockMessage = SITRA.Core.Helpers.Utilities.LogBlockDurationOneMinute;
                     }
                     else if (tier == 2)
                     {
                         blockDuration = TimeSpan.FromMinutes(5);
-                        blockMessage = "for 5 minutes";
+                        blockMessage = SITRA.Core.Helpers.Utilities.LogBlockDurationFiveMinutes;
                     }
                     else
                     {
                         blockDuration = TimeSpan.FromDays(36500); // 100 years = permanently
-                        blockMessage = "permanently";
+                        blockMessage = SITRA.Core.Helpers.Utilities.LogBlockDurationPermanently;
                     }
 
-                    _logger.LogError($"Blocking IP {ipAddress} {blockMessage} due to excessive failed attempts.");
+                    _logger.LogError(string.Format(SITRA.Core.Helpers.Utilities.LogBlockingIpMessage, ipAddress, blockMessage));
                     
                     var blockOptions = new MemoryCacheEntryOptions
                     {

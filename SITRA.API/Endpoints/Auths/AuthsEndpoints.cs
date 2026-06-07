@@ -59,7 +59,7 @@ namespace SITRA.API.Endpoints
             return TypedResults.Created();
         }
 
-        static async Task<Results<Ok<TokenResponseDTO>, BadRequest, ValidationProblem>> Login(
+        static async Task<Results<Ok<TokenResponseDTO>, UnauthorizedHttpResult, ValidationProblem>> Login(
             [FromBody] CreateLoginUserDTO dto,
             [FromServices] IMediator mediator)
         {
@@ -68,7 +68,7 @@ namespace SITRA.API.Endpoints
 
             if (response == null)
             {
-                return TypedResults.BadRequest();
+                return TypedResults.Unauthorized();
             }
 
             return TypedResults.Ok(response);

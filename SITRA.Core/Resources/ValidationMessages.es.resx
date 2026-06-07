@@ -542,4 +542,28 @@
   <data name="InternalServerErrorDetailMessage" xml:space="preserve">
     <value>Ocurrió un error inesperado. Por favor, inténtelo de nuevo más tarde.</value>
   </data>
+  <data name="IpPermanentlyBlockedMessage" xml:space="preserve">
+    <value>Su IP ha sido bloqueada permanentemente debido a múltiples intentos fallidos de inicio de sesión. Por favor, póngase en contacto con el administrador del sistema para desbloquear su acceso.</value>
+  </data>
+  <data name="IpTemporarilyBlockedMessage" xml:space="preserve">
+    <value>Su IP ha sido bloqueada temporalmente debido a múltiples intentos fallidos de inicio de sesión.</value>
+  </data>
+  <data name="LogBlockedIpAttemptMessage" xml:space="preserve">
+    <value>La IP bloqueada {0} intentó acceder.</value>
+  </data>
+  <data name="LogFailedAuthenticationAttemptMessage" xml:space="preserve">
+    <value>La IP {0} falló la autenticación. Intento {1}/4 antes del próximo nivel de bloqueo.</value>
+  </data>
+  <data name="LogBlockingIpMessage" xml:space="preserve">
+    <value>Bloqueando la IP {0} {1} debido a excesivos intentos fallidos.</value>
+  </data>
+  <data name="LogBlockDurationOneMinute" xml:space="preserve">
+    <value>por 1 minuto</value>
+  </data>
+  <data name="LogBlockDurationFiveMinutes" xml:space="preserve">
+    <value>por 5 minutos</value>
+  </data>
+  <data name="LogBlockDurationPermanently" xml:space="preserve">
+    <value>permanentemente</value>
+  </data>
 </root>

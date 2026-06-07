@@ -59,6 +59,28 @@ namespace SITRA.Infrastructure.Services.Auths
 
             if (user == null) return null;
 
+            if (await _userManager.IsLockedOutAsync(user))
+            {
+                _logger.LogWarning($"User {user.Email} is locked out due to multiple failed login attempts.");
+                return null;
+            }
+
+            var isPasswordValid = await _userManager.CheckPasswordAsync(user, dto.Password);
+            if (!isPasswordValid)
+            {
+                await _userManager.AccessFailedAsync(user);
+                
+                if (await _userManager.IsLockedOutAsync(user))
+                {
+                    _logger.LogWarning($"User {user.Email} has been locked out after multiple failed login attempts.");
+                }
+                
+                return null;
+            }
+
+            // Reset failed count on successful login
+            await _userManager.ResetAccessFailedCountAsync(user);
+
             if (user.TenantId == Guid.Empty)
             {
                 _logger.LogWarning(Utilities.UserEmptyTenantIdMessage(user.Email!));

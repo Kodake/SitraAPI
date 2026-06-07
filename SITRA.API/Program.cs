@@ -121,7 +121,13 @@ builder.Services.AddDbContext<ApplicationDbContext>((sp, options) =>
 });
 
 // Identity
-builder.Services.AddIdentity<User, IdentityRole>()
+builder.Services.AddIdentity<User, IdentityRole>(options =>
+{
+    // User Lockout Configuration
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+    options.Lockout.MaxFailedAccessAttempts = 4;
+    options.Lockout.AllowedForNewUsers = true;
+})
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
@@ -300,6 +306,9 @@ app.Use(async (context, next) =>
 app.UseCors("AllowSpecific");
 
 app.UseOutputCache();
+
+// IP Blocking Middleware - placed before Authentication to catch 401 responses
+app.UseMiddleware<SITRA.API.Middlewares.IpBlockingMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();

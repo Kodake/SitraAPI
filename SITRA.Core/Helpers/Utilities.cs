@@ -315,5 +315,17 @@ namespace SITRA.Core.Helpers
         public static string ValidationErrorTitleMessage => _resourceManager.GetString("ValidationErrorTitleMessage")!;
         public static string InternalServerErrorTitleMessage => _resourceManager.GetString("InternalServerErrorTitleMessage")!;
         public static string InternalServerErrorDetailMessage => _resourceManager.GetString("InternalServerErrorDetailMessage")!;
+        
+        // IP Blocking Messages
+        public static string IpPermanentlyBlockedMessage => _resourceManager.GetString("IpPermanentlyBlockedMessage")!;
+        public static string IpTemporarilyBlockedMessage => _resourceManager.GetString("IpTemporarilyBlockedMessage")!;
+        
+        // IP Blocking Logger Messages
+        public static string LogBlockedIpAttemptMessage => _resourceManager.GetString("LogBlockedIpAttemptMessage")!;
+        public static string LogFailedAuthenticationAttemptMessage => _resourceManager.GetString("LogFailedAuthenticationAttemptMessage")!;
+        public static string LogBlockingIpMessage => _resourceManager.GetString("LogBlockingIpMessage")!;
+        public static string LogBlockDurationOneMinute => _resourceManager.GetString("LogBlockDurationOneMinute")!;
+        public static string LogBlockDurationFiveMinutes => _resourceManager.GetString("LogBlockDurationFiveMinutes")!;
+        public static string LogBlockDurationPermanently => _resourceManager.GetString("LogBlockDurationPermanently")!;
     }
 }

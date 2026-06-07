@@ -44,7 +44,7 @@ namespace SITRA.Tests
                 return Task.CompletedTask;
             };
 
-            var middleware = new IpBlockingMiddleware(next, _cache, _loggerMock.Object, GetConfig());
+            var middleware = new IpBlockingMiddleware(next, _cache, _loggerMock.Object);
 
             // Act: 10 Failed Requests
             for (int i = 0; i < 5; i++)
@@ -65,7 +65,7 @@ namespace SITRA.Tests
                 return Task.CompletedTask;
             };
 
-            var checkMiddleware = new IpBlockingMiddleware(nextCheck, _cache, _loggerMock.Object, GetConfig());
+            var checkMiddleware = new IpBlockingMiddleware(nextCheck, _cache, _loggerMock.Object);
             var checkContext = new DefaultHttpContext();
             checkContext.Connection.RemoteIpAddress = ipAddress;
 
@@ -87,7 +87,7 @@ namespace SITRA.Tests
                 return Task.CompletedTask;
             };
 
-            var middleware = new IpBlockingMiddleware(next, _cache, _loggerMock.Object, GetConfig());
+            var middleware = new IpBlockingMiddleware(next, _cache, _loggerMock.Object);
 
             // Act: 4 Failed Requests (Threshold is 5)
             for (int i = 0; i < 4; i++)
@@ -105,7 +105,7 @@ namespace SITRA.Tests
                 return Task.CompletedTask;
             };
 
-            var checkMiddleware = new IpBlockingMiddleware(nextCheck, _cache, _loggerMock.Object, GetConfig());
+            var checkMiddleware = new IpBlockingMiddleware(nextCheck, _cache, _loggerMock.Object);
             var checkContext = new DefaultHttpContext();
             checkContext.Connection.RemoteIpAddress = ipAddress;
 
@@ -127,7 +127,7 @@ namespace SITRA.Tests
                 return Task.CompletedTask;
             };
 
-            var middleware = new IpBlockingMiddleware(next, _cache, _loggerMock.Object, GetConfig());
+            var middleware = new IpBlockingMiddleware(next, _cache, _loggerMock.Object);
 
             // Act: 20 Success Requests
             for (int i = 0; i < 20; i++)
@@ -145,7 +145,7 @@ namespace SITRA.Tests
                 return Task.CompletedTask;
             };
 
-            var checkMiddleware = new IpBlockingMiddleware(nextCheck, _cache, _loggerMock.Object, GetConfig());
+            var checkMiddleware = new IpBlockingMiddleware(nextCheck, _cache, _loggerMock.Object);
             var checkContext = new DefaultHttpContext();
             checkContext.Connection.RemoteIpAddress = ipAddress;
 

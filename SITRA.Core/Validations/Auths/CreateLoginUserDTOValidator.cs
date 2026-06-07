@@ -21,19 +21,6 @@ namespace SITRA.Core.Validations.Auths
 
             RuleFor(x => x.Password)
                 .NotEmpty().WithMessage(Utilities.RequiredFieldMessage);
-
-            RuleFor(x => x)
-                .MustAsync(async (dto, cancellationToken) =>
-                {
-                    var user = await _userManager.Users
-                        .IgnoreQueryFilters()
-                        .FirstOrDefaultAsync(u => u.Email == dto.Email);
-                    if (user == null) return false;
-
-                    var result = await _userManager.CheckPasswordAsync(user, dto.Password);
-                    return result;
-                })
-                .WithMessage(Utilities.InvalidCredentialsMessage);
         }
     }
 }
