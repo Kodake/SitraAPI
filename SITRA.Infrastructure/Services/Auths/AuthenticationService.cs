@@ -8,6 +8,7 @@ using SITRA.Core.Interfaces.Services.Products;
 using SITRA.Core.Interfaces.Services.Storage;
 using SITRA.Core.Interfaces.Services.Messaging;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -32,6 +33,7 @@ namespace SITRA.Infrastructure.Services.Auths
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<AuthenticationService> _logger;
         private readonly IEmailService _emailService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         private const string PermissionClaimType = "Permission";
 
@@ -41,7 +43,8 @@ namespace SITRA.Infrastructure.Services.Auths
             IConfiguration configuration,
             IUnitOfWork unitOfWork,
             ILogger<AuthenticationService> logger,
-            IEmailService emailService)
+            IEmailService emailService,
+            IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _userManager = userManager;
@@ -49,6 +52,7 @@ namespace SITRA.Infrastructure.Services.Auths
             _unitOfWork = unitOfWork;
             _logger = logger;
             _emailService = emailService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<TokenResponseDTO?> LoginAsync(CreateLoginUserDTO dto, CancellationToken cancellationToken)
@@ -68,6 +72,11 @@ namespace SITRA.Infrastructure.Services.Auths
             var isPasswordValid = await _userManager.CheckPasswordAsync(user, dto.Password);
             if (!isPasswordValid)
             {
+                if (user.IsOwner && _httpContextAccessor.HttpContext != null)
+                {
+                    _httpContextAccessor.HttpContext.Items["IsOwnerLoginAttempt"] = true;
+                }
+
                 await _userManager.AccessFailedAsync(user);
                 
                 if (await _userManager.IsLockedOutAsync(user))

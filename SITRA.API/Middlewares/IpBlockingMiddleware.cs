@@ -60,9 +60,17 @@ namespace SITRA.API.Middlewares
 
                 if (attempts >= 4)
                 {
+                    bool isOwnerAttempt = context.Items.TryGetValue("IsOwnerLoginAttempt", out var isOwnerVal) && isOwnerVal is bool b && b;
+
                     var tier = _cache.GetOrCreate(tierKey, entry => 0);
                     tier++;
                     
+                    if (isOwnerAttempt && tier >= 3)
+                    {
+                        tier = 2;
+                        _logger.LogInformation($"IP {ipAddress} reached tier 3, but is capped at tier 2 because the attempt was for an owner account.");
+                    }
+
                     // Keep tier memory valid as long as we want to remember the user's history
                     var tierOptions = new MemoryCacheEntryOptions { SlidingExpiration = TimeSpan.FromDays(1) };
                     _cache.Set(tierKey, tier, tierOptions);
