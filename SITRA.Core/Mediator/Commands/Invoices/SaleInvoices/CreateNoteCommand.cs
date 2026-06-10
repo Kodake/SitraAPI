@@ -59,9 +59,10 @@ namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
                     ? note.FiscalSupportNumber.Substring(0, 3)
                     : null;
                     
-                // Notes only support E33 (Nota de Débito) and E34 (Nota de Crédito)
+                // Notes support E33 (Nota de Débito), E34 (Nota de Crédito), B03, B04
                 if (Enum.TryParse<EcfType>(ecfTypeKey, ignoreCase: true, out var parsedType)
-                    && (parsedType == EcfType.E33 || parsedType == EcfType.E34))
+                    && (parsedType == EcfType.E33 || parsedType == EcfType.E34
+                     || parsedType == EcfType.B03 || parsedType == EcfType.B04))
                 {
                     note.InvoiceFiscalSupport = new InvoiceFiscalSupport 
                     { 

@@ -674,6 +674,9 @@ namespace SITRA.Infrastructure.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsElectronicTransmitter")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsOwner")
                         .HasColumnType("bit");
 

@@ -282,6 +282,22 @@ namespace SITRA.Core.Helpers
             return string.Format(message!, supportType);
         }
 
+        /// <summary>
+        /// Returns true if the EcfType belongs to the electronic (e-CF) series (values >= 31).
+        /// Traditional NCF B-types have values < 31.
+        /// </summary>
+        public static bool IsElectronicType(EcfType type) => (int)type >= 31;
+
+        /// <summary>
+        /// Returns the two-digit blob storage folder code for a given fiscal support type.
+        /// E.g., B01 → "01", E31 → "31".
+        /// </summary>
+        public static string GetBlobFolderCode(EcfType type)
+        {
+            int code = (int)type;
+            return code.ToString("D2");
+        }
+
         public static string GetPaymentMethodLabel(PaymentMethod method)
         {
             return method switch

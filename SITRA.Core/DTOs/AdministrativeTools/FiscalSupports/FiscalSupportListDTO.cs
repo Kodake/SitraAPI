@@ -13,6 +13,7 @@ namespace SITRA.Core.DTOs.AdministrativeTools.FiscalSupports
         public long FinalSequence { get; set; }
         public bool IsDefault { get; set; }
         public bool IsActive { get; set; } = true;
+        public bool IsElectronic { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }
     }

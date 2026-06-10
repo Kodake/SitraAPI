@@ -41,9 +41,10 @@ namespace SITRA.Core.Mediator.Commands.Invoices.PurchaseInvoices
                 var ecfTypeKey = purchaseInvoice.FiscalSupportNumber?.Length >= 3
                     ? purchaseInvoice.FiscalSupportNumber.Substring(0, 3)
                     : null;
-                // Purchase invoices only support E31 (Crédito Fiscal) and E41 (Compras)
+                // Purchase invoices support E31 (Crédito Fiscal), E41 (Compras), B01, B11
                 var ecfType = Enum.TryParse<EcfType>(ecfTypeKey, ignoreCase: true, out var parsedType)
-                    && (parsedType == EcfType.E31 || parsedType == EcfType.E41)
+                    && (parsedType == EcfType.E31 || parsedType == EcfType.E41
+                     || parsedType == EcfType.B01 || parsedType == EcfType.B11)
                     ? parsedType
                     : EcfType.E31;
                 purchaseInvoice.InvoiceFiscalSupport = new InvoiceFiscalSupport { FiscalSupportId = fiscalSupportDB.Id, EcfType = ecfType };

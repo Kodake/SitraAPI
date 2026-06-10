@@ -13,5 +13,6 @@ namespace SITRA.Core.DTOs.Auths
         public string? CompanyName { get; set; }
         public string? ParentUserId { get; set; }
         public string? RoleId { get; set; }
+        public bool IsElectronicTransmitter { get; set; }
     }
 }

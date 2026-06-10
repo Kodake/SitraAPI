@@ -15,12 +15,13 @@ namespace SITRA.Core.Entities.AdministrativeTools
         public long SpaceNumber { get; private set; }
         public bool IsDefault { get; set; }
         public bool IsActive { get; set; } = true;
+        public bool IsElectronic => (int)FiscalSupportType >= 31;
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }
         public Guid TenantId { get; set; }
         public void InitializeDefaults()
         {
-            SpaceNumber = 10;
+            SpaceNumber = IsElectronic ? 10 : 8;
             Symbol = "0";
         }
         public void IncrementSequence()

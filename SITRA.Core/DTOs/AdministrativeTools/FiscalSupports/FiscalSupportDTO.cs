@@ -12,6 +12,7 @@ namespace SITRA.Core.DTOs.AdministrativeTools.FiscalSupports
         public long InitialSequence { get; set; }
         public long FinalSequence { get; set; }
         public string FiscalSupportNumber { get; set; } = string.Empty;
+        public bool IsElectronic { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }
     }

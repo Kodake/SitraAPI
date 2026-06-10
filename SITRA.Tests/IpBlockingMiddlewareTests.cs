@@ -89,8 +89,8 @@ namespace SITRA.Tests
 
             var middleware = new IpBlockingMiddleware(next, _cache, _loggerMock.Object);
 
-            // Act: 4 Failed Requests (Threshold is 5)
-            for (int i = 0; i < 4; i++)
+            // Act: 3 Failed Requests (Threshold is 4)
+            for (int i = 0; i < 3; i++)
             {
                 var context = new DefaultHttpContext();
                 context.Connection.RemoteIpAddress = ipAddress;

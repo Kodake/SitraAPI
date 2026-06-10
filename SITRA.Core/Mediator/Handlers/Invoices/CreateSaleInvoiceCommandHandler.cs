@@ -58,143 +58,149 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
 
         public async ValueTask<CreateSaleInvoiceDTO> Handle(CreateSaleInvoiceCommand request, CancellationToken cancellationToken)
         {
-            var (certBytes, certPassword) = await _unitOfWork.UserRoleService.GetTenantCertificateAsync(cancellationToken);
+            // Only electronic transmitters go through the DGII workflow
+            var isElectronic = await _unitOfWork.UserRoleService.IsElectronicTransmitterAsync(cancellationToken);
 
-            request.DgiiProcess = async (invoice) =>
+            if (isElectronic)
             {
-                bool isAccepted = true;
-                string trackId = "";
-                string status = "Enviado";
-                string securityCode = "000000";
-                string rawResponse = "";
+                var (certBytes, certPassword) = await _unitOfWork.UserRoleService.GetTenantCertificateAsync(cancellationToken);
 
-                try
+                request.DgiiProcess = async (invoice) =>
                 {
-                    var ecfDocument = _mapperToEcf.MapToDgiiDocument(invoice);
-                    
-                    if (!string.IsNullOrEmpty(invoice.ModifiedNcfNumber))
+                    bool isAccepted = true;
+                    string trackId = "";
+                    string status = "Enviado";
+                    string securityCode = "000000";
+                    string rawResponse = "";
+
+                    try
                     {
-                        string refDate = DateTimeOffset.Now.ToString("dd-MM-yyyy");
-                        var candidates = await _unitOfWork.SaleInvoiceRepository.GetAllAsync(i => i.FiscalSupportNumber == invoice.ModifiedNcfNumber);
-                        var originalDoc = candidates.FirstOrDefault();
-                        if (originalDoc != null)
+                        var ecfDocument = _mapperToEcf.MapToDgiiDocument(invoice);
+                        
+                        if (!string.IsNullOrEmpty(invoice.ModifiedNcfNumber))
                         {
-                            refDate = originalDoc.Date.ToString("dd-MM-yyyy");
-                        }
-
-                        ecfDocument.InformacionReferencia = new InformacionReferencia
-                        {
-                            NCFModificado = invoice.ModifiedNcfNumber,
-                            CodigoModificacion = invoice.ModificationCode ?? 3,
-                            FechaNCFModificado = refDate
-                        };
-                    }
-
-                    string seedXml = await _dgiiApiService.GetSemillaAsync();
-                    string signedSeed = _signatureService.SignAuthenticationSeed(seedXml, certBytes, certPassword);
-                    string token = await _dgiiApiService.GetTokenAsync(signedSeed);
-
-                    if (!string.IsNullOrEmpty(token))
-                    {
-                        string xmlFirmado = string.Empty;
-                        bool useRfceChannel = false;
-
-                        bool isType32 = ecfDocument.Encabezado?.IdDoc?.TipoeCF == "32";
-                        bool isAmountLessThan250k = ecfDocument.Encabezado?.Totales?.MontoTotal < 250000;
-
-                        if (isType32 && isAmountLessThan250k)
-                        {
-                            string baseEcfXml = _ecfXmlGenerator.GenerateEcfXml(ecfDocument);
-                            string signedBaseEcf = _signatureService.SignXml(baseEcfXml, certBytes, certPassword);
-                            
-                            await _dgiiStorageService.SaveDocumentXmlAsync(signedBaseEcf, ecfDocument.Encabezado.Emisor.RNCEmisor, "32", ecfDocument.Encabezado.IdDoc.ENCF + ".xml");
-
-                            securityCode = GetSecurityCodeFromSignedXml(signedBaseEcf);
-                            var rfceDoc = MapToRfce(ecfDocument, securityCode);
-
-                            string rfceXmlSinFirma = _ecfXmlGenerator.GenerateRfceXml(rfceDoc);
-                            xmlFirmado = _signatureService.SignXml(rfceXmlSinFirma, certBytes, certPassword);
-
-                            invoice.XmlUrl = await _dgiiStorageService.SaveDocumentXmlAsync(xmlFirmado, ecfDocument.Encabezado.Emisor.RNCEmisor, "RFCE", ecfDocument.Encabezado.IdDoc.ENCF + "_RFCE.xml");
-                            useRfceChannel = true;
-                        }
-                        else
-                        {
-                            string xmlSinFirma = _ecfXmlGenerator.GenerateEcfXml(ecfDocument);
-                            xmlFirmado = _signatureService.SignXml(xmlSinFirma, certBytes, certPassword);
-                            securityCode = GetSecurityCodeFromSignedXml(xmlFirmado);
-
-                            var docType = ecfDocument.Encabezado?.IdDoc?.TipoeCF ?? "UNKNOWN";
-                            invoice.XmlUrl = await _dgiiStorageService.SaveDocumentXmlAsync(xmlFirmado, ecfDocument.Encabezado?.Emisor?.RNCEmisor ?? "", docType, (ecfDocument.Encabezado?.IdDoc?.ENCF ?? "") + ".xml");
-                        }
-
-                        rawResponse = useRfceChannel
-                            ? await _dgiiApiService.SendRfceAsync(xmlFirmado, token)
-                            : await _dgiiApiService.SendEcfAsync(xmlFirmado, token);
-
-                        trackId = string.Empty;
-
-                        try
-                        {
-                            var jsonDoc = System.Text.Json.JsonDocument.Parse(rawResponse);
-                            if (jsonDoc.RootElement.TryGetProperty("trackId", out var trackIdElement))
+                            string refDate = DateTimeOffset.Now.ToString("dd-MM-yyyy");
+                            var candidates = await _unitOfWork.SaleInvoiceRepository.GetAllAsync(i => i.FiscalSupportNumber == invoice.ModifiedNcfNumber);
+                            var originalDoc = candidates.FirstOrDefault();
+                            if (originalDoc != null)
                             {
-                                trackId = trackIdElement.GetString() ?? string.Empty;
+                                refDate = originalDoc.Date.ToString("dd-MM-yyyy");
+                            }
 
-                                if (!string.IsNullOrEmpty(trackId) && Guid.TryParse(trackId, out _))
+                            ecfDocument.InformacionReferencia = new InformacionReferencia
+                            {
+                                NCFModificado = invoice.ModifiedNcfNumber,
+                                CodigoModificacion = invoice.ModificationCode ?? 3,
+                                FechaNCFModificado = refDate
+                            };
+                        }
+
+                        string seedXml = await _dgiiApiService.GetSemillaAsync();
+                        string signedSeed = _signatureService.SignAuthenticationSeed(seedXml, certBytes, certPassword);
+                        string token = await _dgiiApiService.GetTokenAsync(signedSeed);
+
+                        if (!string.IsNullOrEmpty(token))
+                        {
+                            string xmlFirmado = string.Empty;
+                            bool useRfceChannel = false;
+
+                            bool isType32 = ecfDocument.Encabezado?.IdDoc?.TipoeCF == "32";
+                            bool isAmountLessThan250k = ecfDocument.Encabezado?.Totales?.MontoTotal < 250000;
+
+                            if (isType32 && isAmountLessThan250k)
+                            {
+                                string baseEcfXml = _ecfXmlGenerator.GenerateEcfXml(ecfDocument);
+                                string signedBaseEcf = _signatureService.SignXml(baseEcfXml, certBytes, certPassword);
+                                
+                                await _dgiiStorageService.SaveDocumentXmlAsync(signedBaseEcf, ecfDocument.Encabezado.Emisor.RNCEmisor, "32", ecfDocument.Encabezado.IdDoc.ENCF + ".xml");
+
+                                securityCode = GetSecurityCodeFromSignedXml(signedBaseEcf);
+                                var rfceDoc = MapToRfce(ecfDocument, securityCode);
+
+                                string rfceXmlSinFirma = _ecfXmlGenerator.GenerateRfceXml(rfceDoc);
+                                xmlFirmado = _signatureService.SignXml(rfceXmlSinFirma, certBytes, certPassword);
+
+                                invoice.XmlUrl = await _dgiiStorageService.SaveDocumentXmlAsync(xmlFirmado, ecfDocument.Encabezado.Emisor.RNCEmisor, "RFCE", ecfDocument.Encabezado.IdDoc.ENCF + "_RFCE.xml");
+                                useRfceChannel = true;
+                            }
+                            else
+                            {
+                                string xmlSinFirma = _ecfXmlGenerator.GenerateEcfXml(ecfDocument);
+                                xmlFirmado = _signatureService.SignXml(xmlSinFirma, certBytes, certPassword);
+                                securityCode = GetSecurityCodeFromSignedXml(xmlFirmado);
+
+                                var docType = ecfDocument.Encabezado?.IdDoc?.TipoeCF ?? "UNKNOWN";
+                                invoice.XmlUrl = await _dgiiStorageService.SaveDocumentXmlAsync(xmlFirmado, ecfDocument.Encabezado?.Emisor?.RNCEmisor ?? "", docType, (ecfDocument.Encabezado?.IdDoc?.ENCF ?? "") + ".xml");
+                            }
+
+                            rawResponse = useRfceChannel
+                                ? await _dgiiApiService.SendRfceAsync(xmlFirmado, token)
+                                : await _dgiiApiService.SendEcfAsync(xmlFirmado, token);
+
+                            trackId = string.Empty;
+
+                            try
+                            {
+                                var jsonDoc = System.Text.Json.JsonDocument.Parse(rawResponse);
+                                if (jsonDoc.RootElement.TryGetProperty("trackId", out var trackIdElement))
                                 {
-                                    try
+                                    trackId = trackIdElement.GetString() ?? string.Empty;
+
+                                    if (!string.IsNullOrEmpty(trackId) && Guid.TryParse(trackId, out _))
                                     {
-                                        await Task.Delay(4000); // Wait for DGII processing
-                                        var statusResponse = await _dgiiApiService.CheckStatusAsync(trackId, token);
-                                        if (!string.IsNullOrEmpty(statusResponse))
+                                        try
                                         {
-                                            rawResponse = statusResponse; // Save the detailed response
-                                            jsonDoc = System.Text.Json.JsonDocument.Parse(statusResponse);
+                                            await Task.Delay(4000); // Wait for DGII processing
+                                            var statusResponse = await _dgiiApiService.CheckStatusAsync(trackId, token);
+                                            if (!string.IsNullOrEmpty(statusResponse))
+                                            {
+                                                rawResponse = statusResponse; // Save the detailed response
+                                                jsonDoc = System.Text.Json.JsonDocument.Parse(statusResponse);
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            System.Diagnostics.Debug.WriteLine($"Error checking trackId status: {ex.Message}");
                                         }
                                     }
-                                    catch (Exception ex)
-                                    {
-                                        System.Diagnostics.Debug.WriteLine($"Error checking trackId status: {ex.Message}");
-                                    }
+                                }
+
+                                if (jsonDoc.RootElement.TryGetProperty("estado", out var estadoElement))
+                                {
+                                    status = estadoElement.GetString() ?? "Enviado";
+                                    if (status.Contains("Rechazado", StringComparison.OrdinalIgnoreCase))
+                                        isAccepted = false;
+                                }
+                                else if (jsonDoc.RootElement.TryGetProperty("codigo", out var codigoElement))
+                                {
+                                    int codigoInt = -1;
+                                    if (codigoElement.ValueKind == System.Text.Json.JsonValueKind.Number)
+                                        codigoInt = codigoElement.GetInt32();
+                                    else if (codigoElement.ValueKind == System.Text.Json.JsonValueKind.String)
+                                        int.TryParse(codigoElement.GetString(), out codigoInt);
+
+                                    if (codigoInt != 1 && codigoInt != 3 && codigoInt != 4 && codigoInt != 5)
+                                        isAccepted = false;
                                 }
                             }
-
-                            if (jsonDoc.RootElement.TryGetProperty("estado", out var estadoElement))
+                            catch
                             {
-                                status = estadoElement.GetString() ?? "Enviado";
-                                if (status.Contains("Rechazado", StringComparison.OrdinalIgnoreCase))
-                                    isAccepted = false;
+                                // If parsing fails, we assume it went through but could not be parsed
                             }
-                            else if (jsonDoc.RootElement.TryGetProperty("codigo", out var codigoElement))
-                            {
-                                int codigoInt = -1;
-                                if (codigoElement.ValueKind == System.Text.Json.JsonValueKind.Number)
-                                    codigoInt = codigoElement.GetInt32();
-                                else if (codigoElement.ValueKind == System.Text.Json.JsonValueKind.String)
-                                    int.TryParse(codigoElement.GetString(), out codigoInt);
-
-                                if (codigoInt != 1 && codigoInt != 3 && codigoInt != 4 && codigoInt != 5)
-                                    isAccepted = false;
-                            }
-                        }
-                        catch
-                        {
-                            // If parsing fails, we assume it went through but could not be parsed
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine($"DGII Flow Error: {ex.Message}");
-                    isAccepted = false;
-                    status = "Error";
-                    // Save the full stack trace into the database to pinpoint the exact crash line in production
-                    rawResponse = ex.ToString();
-                }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"DGII Flow Error: {ex.Message}");
+                        isAccepted = false;
+                        status = "Error";
+                        // Save the full stack trace into the database to pinpoint the exact crash line in production
+                        rawResponse = ex.ToString();
+                    }
 
-                return (isAccepted, trackId, status, securityCode, rawResponse);
-            };
+                    return (isAccepted, trackId, status, securityCode, rawResponse);
+                };
+            }
 
             var dto = await request.ExecuteAction(_unitOfWork, _outputCacheStore, _mapper, cancellationToken);
             return dto;

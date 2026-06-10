@@ -16,6 +16,8 @@ namespace SITRA.Core.Mediator.Queries.Auths
             if (user == null)
                 return null;
 
+            var isElectronicTransmitter = await unitOfWork.UserRoleService.IsElectronicTransmitterAsync(cancellationToken);
+
             var dto = new UserDTO
             {
                 Id = user.Id,
@@ -28,7 +30,8 @@ namespace SITRA.Core.Mediator.Queries.Auths
                 PhoneNumber = user.PhoneNumber!,
                 CompanyName = user.CompanyName,
                 ParentUserId = user.ParentUserId,
-                RoleId = user.TenantRoleUsers.FirstOrDefault()?.RoleId.ToString()
+                RoleId = user.TenantRoleUsers.FirstOrDefault()?.RoleId.ToString(),
+                IsElectronicTransmitter = isElectronicTransmitter
             };
 
             return dto;

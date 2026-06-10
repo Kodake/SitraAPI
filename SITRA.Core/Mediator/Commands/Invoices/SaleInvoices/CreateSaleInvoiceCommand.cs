@@ -53,12 +53,16 @@ namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
                 var ecfTypeKey = saleInvoice.FiscalSupportNumber?.Length >= 3
                     ? saleInvoice.FiscalSupportNumber.Substring(0, 3)
                     : null;
-                // Sale invoices exclude E31 (Crédito Fiscal), E33 (Nota de Débito), E34 (Nota de Crédito) and E41 (Compras)
+                // Sale invoices exclude credit fiscal (E31/B01), debit notes (E33/B03), credit notes (E34/B04) and purchases (E41/B11)
                 if (Enum.TryParse<EcfType>(ecfTypeKey, ignoreCase: true, out var parsedType)
                     && parsedType != EcfType.E31
                     && parsedType != EcfType.E33
                     && parsedType != EcfType.E34
-                    && parsedType != EcfType.E41)
+                    && parsedType != EcfType.E41
+                    && parsedType != EcfType.B01
+                    && parsedType != EcfType.B03
+                    && parsedType != EcfType.B04
+                    && parsedType != EcfType.B11)
                 {
                     saleInvoice.InvoiceFiscalSupport = new InvoiceFiscalSupport { FiscalSupportId = fiscalSupportDB.Id, EcfType = parsedType };
                     unitOfWork.FiscalSupportRepository.Update(fiscalSupportDB);

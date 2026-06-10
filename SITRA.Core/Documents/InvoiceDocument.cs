@@ -392,6 +392,7 @@ namespace SITRA.Core.Documents
         {
             return typeCode switch
             {
+                // Electrónicos (e-CF)
                 "31" => "Factura de Crédito Fiscal Electrónica",
                 "32" => "Factura de Consumo Electrónica",
                 "33" => "Nota de Débito Electrónica",
@@ -402,7 +403,19 @@ namespace SITRA.Core.Documents
                 "45" => "Gubernamentales Electrónicos",
                 "46" => "Comprobante de Exportaciones Electrónico",
                 "47" => "Comprobante para Pagos al Exterior Electrónico",
-                _ => "Factura Electrónica"
+                // Tradicionales (NCF tipo B)
+                "01" => "Factura de Crédito Fiscal",
+                "02" => "Factura de Consumo",
+                "03" => "Nota de Débito",
+                "04" => "Nota de Crédito",
+                "11" => "Comprobante de Compras",
+                "12" => "Registro Único de Ingresos",
+                "13" => "Comprobante para Gastos Menores",
+                "14" => "Comprobante para Regímenes Especiales",
+                "15" => "Comprobante Gubernamental",
+                "16" => "Comprobante para Exportaciones",
+                "17" => "Comprobante para Pagos al Exterior",
+                _ => "Factura"
             };
         }
 

@@ -5,14 +5,15 @@
 namespace SITRA.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class AddedIsDefaultForContactsTable : Migration
+    public partial class AddIsElectronicTransmitter : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<bool>(
-                name: "IsDefault",
-                table: "Contacts",
+                name: "IsElectronicTransmitter",
+                schema: "auths",
+                table: "AspNetUsers",
                 type: "bit",
                 nullable: false,
                 defaultValue: false);
@@ -22,8 +23,9 @@ namespace SITRA.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "IsDefault",
-                table: "Contacts");
+                name: "IsElectronicTransmitter",
+                schema: "auths",
+                table: "AspNetUsers");
         }
     }
 }

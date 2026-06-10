@@ -129,6 +129,59 @@ namespace SITRA.Infrastructure.Services.Auths
                 user.CertificatePassword = _protector.Protect(dto.CertificatePassword);
             }
 
+            if (!string.IsNullOrEmpty(user.CertificateUrl) && !string.IsNullOrEmpty(user.CertificatePassword))
+            {
+                if (!user.IsElectronicTransmitter)
+                {
+                    user.IsElectronicTransmitter = true;
+
+                    // Seed electronic fiscal supports (E-types) if they don't already exist for this tenant
+                    var hasElectronic = await _context.Set<FiscalSupport>()
+                        .AnyAsync(fs => fs.TenantId == user.TenantId && (int)fs.FiscalSupportType >= 31, cancellationToken);
+
+                    if (!hasElectronic)
+                    {
+                        foreach (var ecfType in Enum.GetValues<SITRA.Core.Enums.EcfType>())
+                        {
+                            if (!SITRA.Core.Helpers.Utilities.IsElectronicType(ecfType))
+                            {
+                                continue;
+                            }
+
+                            var fiscalSupport = new FiscalSupport
+                            {
+                                Id = Guid.NewGuid(),
+                                TenantId = user.TenantId,
+                                FiscalSupportType = ecfType,
+                                Name = ecfType switch
+                                {
+                                    SITRA.Core.Enums.EcfType.E31 => "Factura de Crédito Fiscal Electrónica",
+                                    SITRA.Core.Enums.EcfType.E32 => "Factura de Consumo Electrónica",
+                                    SITRA.Core.Enums.EcfType.E33 => "Nota de Débito Electrónica",
+                                    SITRA.Core.Enums.EcfType.E34 => "Nota de Crédito Electrónica",
+                                    SITRA.Core.Enums.EcfType.E41 => "Comprobante Electrónico de Compras",
+                                    SITRA.Core.Enums.EcfType.E43 => "Comprobante Electrónico para Gastos Menores",
+                                    SITRA.Core.Enums.EcfType.E44 => "Comprobante Electrónico para Regímenes Especiales",
+                                    SITRA.Core.Enums.EcfType.E45 => "Comprobante Electrónico Gubernamental",
+                                    SITRA.Core.Enums.EcfType.E46 => "Comprobante Electrónico para Exportaciones",
+                                    SITRA.Core.Enums.EcfType.E47 => "Comprobante Electrónico para Pagos al Exterior",
+                                    _ => Enum.GetName(ecfType) ?? string.Empty
+                                },
+                                InitialSequence = 0,
+                                FinalSequence = ecfType == SITRA.Core.Enums.EcfType.E32 ? 50000000 : 10000000,
+                                IsActive = true,
+                                IsDefault = false
+                            };
+
+                            fiscalSupport.InitializeDefaults();
+                            _context.Set<FiscalSupport>().Add(fiscalSupport);
+                        }
+
+                        await _context.SaveChangesAsync(cancellationToken);
+                    }
+                }
+            }
+
             var result = await _userManager.UpdateAsync(user);
             return result.Succeeded;
         }
@@ -159,6 +212,25 @@ namespace SITRA.Infrastructure.Services.Auths
             var certPassword = _protector.Unprotect(ownerUser.CertificatePassword);
 
             return (certBytes, certPassword);
+        }
+
+        public async Task<bool> IsElectronicTransmitterAsync(CancellationToken cancellationToken)
+        {
+            var userId = HttpContext.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId)) return false;
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return false;
+
+            // If sub-user, check the owner's flag
+            var ownerUser = user.IsOwner
+                ? user
+                : (user.ParentUserId is not null
+                    ? await _userManager.FindByIdAsync(user.ParentUserId)
+                    : null)
+                ?? user;
+
+            return ownerUser.IsElectronicTransmitter;
         }
     }
 }

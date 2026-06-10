@@ -14,6 +14,7 @@ namespace SITRA.Core.Entities.Auths
         public string? Address { get; set; }
         public Guid TenantId { get; set; }
         public bool IsOwner { get; set; }
+        public bool IsElectronicTransmitter { get; set; } = false;
         public Language Language { get; set; } = Language.ES;
         public string? CertificatePassword { get; set; }
         public string? CertificateUrl { get; set; }

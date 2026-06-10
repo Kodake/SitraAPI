@@ -12,8 +12,8 @@ using SITRA.Infrastructure.Persistence;
 namespace SITRA.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260605044505_AddAuditLogs")]
-    partial class AddAuditLogs
+    [Migration("20260608160428_AddIsElectronicTransmitter")]
+    partial class AddIsElectronicTransmitter
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -675,6 +675,9 @@ namespace SITRA.Infrastructure.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsElectronicTransmitter")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsOwner")

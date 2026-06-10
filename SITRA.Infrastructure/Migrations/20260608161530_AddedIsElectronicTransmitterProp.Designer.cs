@@ -12,8 +12,8 @@ using SITRA.Infrastructure.Persistence;
 namespace SITRA.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260530012356_AddedIsDefaultForContactsTable")]
-    partial class AddedIsDefaultForContactsTable
+    [Migration("20260608161530_AddedIsElectronicTransmitterProp")]
+    partial class AddedIsElectronicTransmitterProp
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -319,6 +319,43 @@ namespace SITRA.Infrastructure.Migrations
                     b.HasIndex("TenantId");
 
                     b.ToTable("Receivables");
+                });
+
+            modelBuilder.Entity("SITRA.Core.Entities.AdministrativeTools.AuditLog", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AffectedColumns")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NewValues")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OldValues")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PrimaryKey")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TableName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AuditLogs", "audits");
                 });
 
             modelBuilder.Entity("SITRA.Core.Entities.AdministrativeTools.Deadline", b =>
@@ -638,6 +675,9 @@ namespace SITRA.Infrastructure.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsElectronicTransmitter")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsOwner")

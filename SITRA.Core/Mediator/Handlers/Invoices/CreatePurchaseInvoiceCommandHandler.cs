@@ -56,109 +56,115 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
 
         public async ValueTask<CreatePurchaseInvoiceDTO> Handle(CreatePurchaseInvoiceCommand request, CancellationToken cancellationToken)
         {
-            var (certBytes, certPassword) = await _unitOfWork.UserRoleService.GetTenantCertificateAsync(cancellationToken);
+            // Only electronic transmitters go through the DGII workflow
+            var isElectronic = await _unitOfWork.UserRoleService.IsElectronicTransmitterAsync(cancellationToken);
 
-            request.DgiiProcess = async (invoice) => 
+            if (isElectronic)
             {
-                bool isAccepted = true;
-                string trackId = "";
-                string status = "Enviado";
-                string securityCode = "000000";
-                string rawResponse = "";
+                var (certBytes, certPassword) = await _unitOfWork.UserRoleService.GetTenantCertificateAsync(cancellationToken);
 
-                try
+                request.DgiiProcess = async (invoice) => 
                 {
-                    // Only process E41 fiscal documents (or E31)
-                    string tipoEcf = invoice.FiscalSupportNumber?.Length >= 3
-                        ? invoice.FiscalSupportNumber.Substring(1, 2)
-                        : string.Empty;
+                    bool isAccepted = true;
+                    string trackId = "";
+                    string status = "Enviado";
+                    string securityCode = "000000";
+                    string rawResponse = "";
 
-                    var validPurchaseTypes = new HashSet<string> { "31", "41" };
-                    if (!validPurchaseTypes.Contains(tipoEcf))
-                        return (isAccepted, trackId, status, securityCode, rawResponse);
-
-                    var ecfDocument = _mapperToEcf.MapToDgiiDocument(invoice);
-
-                    string seedXml = await _dgiiApiService.GetSemillaAsync();
-                    string signedSeed = _signatureService.SignAuthenticationSeed(seedXml, certBytes, certPassword);
-                    string token = await _dgiiApiService.GetTokenAsync(signedSeed);
-
-                    if (!string.IsNullOrEmpty(token))
+                    try
                     {
-                        // E31 and E41 purchase invoices always use the standard eCF channel
-                        string xmlSinFirma = _ecfXmlGenerator.GenerateEcfXml(ecfDocument);
-                        string xmlFirmado = _signatureService.SignXml(xmlSinFirma, certBytes, certPassword);
-                        securityCode = GetSecurityCodeFromSignedXml(xmlFirmado);
+                        // Only process E41 fiscal documents (or E31)
+                        string tipoEcf = invoice.FiscalSupportNumber?.Length >= 3
+                            ? invoice.FiscalSupportNumber.Substring(1, 2)
+                            : string.Empty;
 
-                        invoice.XmlUrl = await _dgiiStorageService.SaveDocumentXmlAsync(
-                            xmlFirmado,
-                            ecfDocument.Encabezado?.Emisor?.RNCEmisor ?? "",
-                            tipoEcf,
-                            (ecfDocument.Encabezado?.IdDoc?.ENCF ?? "") + ".xml");
+                        var validPurchaseTypes = new HashSet<string> { "31", "41" };
+                        if (!validPurchaseTypes.Contains(tipoEcf))
+                            return (isAccepted, trackId, status, securityCode, rawResponse);
 
-                        rawResponse = await _dgiiApiService.SendEcfAsync(xmlFirmado, token);
+                        var ecfDocument = _mapperToEcf.MapToDgiiDocument(invoice);
 
-                        try
+                        string seedXml = await _dgiiApiService.GetSemillaAsync();
+                        string signedSeed = _signatureService.SignAuthenticationSeed(seedXml, certBytes, certPassword);
+                        string token = await _dgiiApiService.GetTokenAsync(signedSeed);
+
+                        if (!string.IsNullOrEmpty(token))
                         {
-                            var jsonDoc = System.Text.Json.JsonDocument.Parse(rawResponse);
-                            if (jsonDoc.RootElement.TryGetProperty("trackId", out var trackIdElement))
-                            {
-                                trackId = trackIdElement.GetString() ?? string.Empty;
+                            // E31 and E41 purchase invoices always use the standard eCF channel
+                            string xmlSinFirma = _ecfXmlGenerator.GenerateEcfXml(ecfDocument);
+                            string xmlFirmado = _signatureService.SignXml(xmlSinFirma, certBytes, certPassword);
+                            securityCode = GetSecurityCodeFromSignedXml(xmlFirmado);
 
-                                if (!string.IsNullOrEmpty(trackId) && Guid.TryParse(trackId, out _))
+                            invoice.XmlUrl = await _dgiiStorageService.SaveDocumentXmlAsync(
+                                xmlFirmado,
+                                ecfDocument.Encabezado?.Emisor?.RNCEmisor ?? "",
+                                tipoEcf,
+                                (ecfDocument.Encabezado?.IdDoc?.ENCF ?? "") + ".xml");
+
+                            rawResponse = await _dgiiApiService.SendEcfAsync(xmlFirmado, token);
+
+                            try
+                            {
+                                var jsonDoc = System.Text.Json.JsonDocument.Parse(rawResponse);
+                                if (jsonDoc.RootElement.TryGetProperty("trackId", out var trackIdElement))
                                 {
-                                    try
+                                    trackId = trackIdElement.GetString() ?? string.Empty;
+
+                                    if (!string.IsNullOrEmpty(trackId) && Guid.TryParse(trackId, out _))
                                     {
-                                        await Task.Delay(4000); // Wait for DGII processing
-                                        var statusResponse = await _dgiiApiService.CheckStatusAsync(trackId, token);
-                                        if (!string.IsNullOrEmpty(statusResponse))
+                                        try
                                         {
-                                            rawResponse = statusResponse; // Save the detailed response
-                                            jsonDoc = System.Text.Json.JsonDocument.Parse(statusResponse);
+                                            await Task.Delay(4000); // Wait for DGII processing
+                                            var statusResponse = await _dgiiApiService.CheckStatusAsync(trackId, token);
+                                            if (!string.IsNullOrEmpty(statusResponse))
+                                            {
+                                                rawResponse = statusResponse; // Save the detailed response
+                                                jsonDoc = System.Text.Json.JsonDocument.Parse(statusResponse);
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            System.Diagnostics.Debug.WriteLine($"Error checking purchase trackId status: {ex.Message}");
                                         }
                                     }
-                                    catch (Exception ex)
-                                    {
-                                        System.Diagnostics.Debug.WriteLine($"Error checking purchase trackId status: {ex.Message}");
-                                    }
+                                }
+                                
+                                if (jsonDoc.RootElement.TryGetProperty("estado", out var estadoElement))
+                                {
+                                    status = estadoElement.GetString() ?? "Enviado";
+                                    if (status.Contains("Rechazado", StringComparison.OrdinalIgnoreCase))
+                                        isAccepted = false;
+                                }
+                                else if (jsonDoc.RootElement.TryGetProperty("codigo", out var codigoElement))
+                                {
+                                    int codigoInt = -1;
+                                    if (codigoElement.ValueKind == System.Text.Json.JsonValueKind.Number)
+                                        codigoInt = codigoElement.GetInt32();
+                                    else if (codigoElement.ValueKind == System.Text.Json.JsonValueKind.String)
+                                        int.TryParse(codigoElement.GetString(), out codigoInt);
+
+                                    if (codigoInt != 1 && codigoInt != 3 && codigoInt != 4 && codigoInt != 5)
+                                        isAccepted = false;
                                 }
                             }
-                            
-                            if (jsonDoc.RootElement.TryGetProperty("estado", out var estadoElement))
+                            catch
                             {
-                                status = estadoElement.GetString() ?? "Enviado";
-                                if (status.Contains("Rechazado", StringComparison.OrdinalIgnoreCase))
-                                    isAccepted = false;
+                                // If JSON parsing fails, keep default values
                             }
-                            else if (jsonDoc.RootElement.TryGetProperty("codigo", out var codigoElement))
-                            {
-                                int codigoInt = -1;
-                                if (codigoElement.ValueKind == System.Text.Json.JsonValueKind.Number)
-                                    codigoInt = codigoElement.GetInt32();
-                                else if (codigoElement.ValueKind == System.Text.Json.JsonValueKind.String)
-                                    int.TryParse(codigoElement.GetString(), out codigoInt);
-
-                                if (codigoInt != 1 && codigoInt != 3 && codigoInt != 4 && codigoInt != 5)
-                                    isAccepted = false;
-                            }
-                        }
-                        catch
-                        {
-                            // If JSON parsing fails, keep default values
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine($"DGII Purchase Flow Error: {ex.Message}");
-                    isAccepted = false;
-                    status = "Error";
-                    // Save the full stack trace into the database to pinpoint the exact crash line in production
-                    rawResponse = ex.ToString();
-                }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"DGII Purchase Flow Error: {ex.Message}");
+                        isAccepted = false;
+                        status = "Error";
+                        // Save the full stack trace into the database to pinpoint the exact crash line in production
+                        rawResponse = ex.ToString();
+                    }
 
-                return (isAccepted, trackId, status, securityCode, rawResponse);
-            };
+                    return (isAccepted, trackId, status, securityCode, rawResponse);
+                };
+            }
 
             var dto = await request.ExecuteAction(_unitOfWork, _outputCacheStore, _mapper, cancellationToken);
             return dto;

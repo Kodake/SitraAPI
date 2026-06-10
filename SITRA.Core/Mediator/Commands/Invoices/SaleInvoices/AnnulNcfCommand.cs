@@ -81,9 +81,10 @@ namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
 
             var ecfTypeKey = creditNoteNcf?.Length >= 3 ? creditNoteNcf.Substring(0, 3) : null;
             
-            // Annulments map to Credit Notes (E34) or Debit Notes (E33)
+            // Annulments map to Credit Notes (E34/B04) or Debit Notes (E33/B03)
             if (Enum.TryParse<EcfType>(ecfTypeKey, ignoreCase: true, out var parsedType)
-                && (parsedType == EcfType.E33 || parsedType == EcfType.E34))
+                && (parsedType == EcfType.E33 || parsedType == EcfType.E34
+                 || parsedType == EcfType.B03 || parsedType == EcfType.B04))
             {
                 annulInvoice.InvoiceFiscalSupport = new InvoiceFiscalSupport 
                 { 

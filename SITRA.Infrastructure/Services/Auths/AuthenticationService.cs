@@ -115,6 +115,19 @@ namespace SITRA.Infrastructure.Services.Auths
             var audience = _configuration["Jwt:Audience"];
             var expire = DateTimeOffset.UtcNow.AddHours(12);
 
+            bool isElectronicTransmitter = false;
+            if (user.IsOwner)
+            {
+                isElectronicTransmitter = user.IsElectronicTransmitter;
+            }
+            else
+            {
+                var ownerUser = await _context.Users
+                    .IgnoreQueryFilters()
+                    .FirstOrDefaultAsync(u => u.TenantId == user.TenantId && u.IsOwner, cancellationToken);
+                isElectronicTransmitter = ownerUser?.IsElectronicTransmitter ?? false;
+            }
+
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id?.ToString() ?? string.Empty),
@@ -129,6 +142,7 @@ namespace SITRA.Infrastructure.Services.Auths
                 new Claim("municipality", user.Municipality ?? string.Empty),
                 new Claim("companyName", user.CompanyName ?? string.Empty),
                 new Claim("phoneNumber", user.PhoneNumber ?? string.Empty),
+                new Claim("isElectronicTransmitter", isElectronicTransmitter.ToString().ToLower()),
             };
 
             var userClaims = await _userManager.GetClaimsAsync(user);

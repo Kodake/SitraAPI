@@ -26,6 +26,12 @@ namespace SITRA.Core.Mediator.Queries.Auths
                 return (false, Utilities.UserNotAuthMessage);
             }
 
+            var isElectronic = await unitOfWork.UserRoleService.IsElectronicTransmitterAsync(cancellationToken);
+            if (!isElectronic)
+            {
+                return (true, null);
+            }
+
             // Resolve the owner user if the current user is a sub-user.
             User ownerUser = user;
             if (!user.IsOwner && !string.IsNullOrEmpty(user.ParentUserId))

@@ -43,10 +43,10 @@ namespace SITRA.Core.Documents
                         column.Item().AlignCenter().Text($"RNC: {User.RucNumber}");
                 }
 
-                column.Item().PaddingVertical(8).Text("***********************************************************").AlignCenter();
-
                 column.Item().AlignCenter().Text(SITRA.Core.Helpers.Utilities.InvoiceReceiptTitle).SemiBold();
-                column.Item().AlignCenter().Text($"e-NCF: {Invoice.FiscalSupportNumber ?? "-"}").SemiBold();
+
+                string ncfLabel = (User != null && User.IsElectronicTransmitter) ? "e-NCF" : "NCF";
+                column.Item().AlignCenter().Text($"{ncfLabel}: {Invoice.FiscalSupportNumber ?? "-"}").SemiBold();
 
                 column.Item().PaddingVertical(8).Text("***********************************************************").AlignCenter();
             });

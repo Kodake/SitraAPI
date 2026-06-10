@@ -47,6 +47,10 @@ namespace SITRA.Infrastructure.Services.Invoices
                     && x.InvoiceFiscalSupport.EcfType != EcfType.E33
                     && x.InvoiceFiscalSupport.EcfType != EcfType.E34
                     && x.InvoiceFiscalSupport.EcfType != EcfType.E41
+                    && x.InvoiceFiscalSupport.EcfType != EcfType.B01
+                    && x.InvoiceFiscalSupport.EcfType != EcfType.B03
+                    && x.InvoiceFiscalSupport.EcfType != EcfType.B04
+                    && x.InvoiceFiscalSupport.EcfType != EcfType.B11
                     && !_context.Invoices.Any(y => y.ModifiedNcfNumber == x.FiscalSupportNumber && x.FiscalSupportNumber != null && y.DgiiStatus == "Aceptado")
                     && !(x.ModifiedNcfNumber != null && x.DgiiStatus == "Aceptado"))
                 .OrderByDescending(i => i.CreatedAt)
@@ -75,6 +79,14 @@ namespace SITRA.Infrastructure.Services.Invoices
                     && x.InvoiceFiscalSupport.EcfType != EcfType.E45
                     && x.InvoiceFiscalSupport.EcfType != EcfType.E46
                     && x.InvoiceFiscalSupport.EcfType != EcfType.E47
+                    && x.InvoiceFiscalSupport.EcfType != EcfType.B02
+                    && x.InvoiceFiscalSupport.EcfType != EcfType.B03
+                    && x.InvoiceFiscalSupport.EcfType != EcfType.B04
+                    && x.InvoiceFiscalSupport.EcfType != EcfType.B13
+                    && x.InvoiceFiscalSupport.EcfType != EcfType.B14
+                    && x.InvoiceFiscalSupport.EcfType != EcfType.B15
+                    && x.InvoiceFiscalSupport.EcfType != EcfType.B16
+                    && x.InvoiceFiscalSupport.EcfType != EcfType.B17
                     && !_context.Invoices.Any(y => y.ModifiedNcfNumber == x.FiscalSupportNumber && x.FiscalSupportNumber != null && y.DgiiStatus == "Aceptado")
                     && !(x.ModifiedNcfNumber != null && x.DgiiStatus == "Aceptado"))
                 .OrderByDescending(x => x.CreatedAt)

@@ -131,9 +131,14 @@ namespace SITRA.Infrastructure.Services.Auths
                 _context.Set<Tax>().Add(tax);
             }
 
-            // Generate Electronic Receipts (e-CFs) for the new tenant
+            // Generate Receipts (B-types or E-types) for the new tenant based on user.IsElectronicTransmitter
             foreach (var ecfType in Enum.GetValues<SITRA.Core.Enums.EcfType>())
             {
+                bool isElectronicType = SITRA.Core.Helpers.Utilities.IsElectronicType(ecfType);
+                if (user.IsElectronicTransmitter != isElectronicType)
+                {
+                    continue;
+                }
                 var fiscalSupport = new FiscalSupport
                 {
                     Id = Guid.NewGuid(),
@@ -141,6 +146,18 @@ namespace SITRA.Infrastructure.Services.Auths
                     FiscalSupportType = ecfType,
                     Name = ecfType switch
                     {
+                        SITRA.Core.Enums.EcfType.B01 => "Factura de Crédito Fiscal",
+                        SITRA.Core.Enums.EcfType.B02 => "Factura de Consumo",
+                        SITRA.Core.Enums.EcfType.B03 => "Nota de Débito",
+                        SITRA.Core.Enums.EcfType.B04 => "Nota de Crédito",
+                        SITRA.Core.Enums.EcfType.B11 => "Comprobante de Compras",
+                        SITRA.Core.Enums.EcfType.B12 => "Registro Único de Ingresos",
+                        SITRA.Core.Enums.EcfType.B13 => "Comprobante para Gastos Menores",
+                        SITRA.Core.Enums.EcfType.B14 => "Comprobante para Regímenes Especiales",
+                        SITRA.Core.Enums.EcfType.B15 => "Comprobante Gubernamental",
+                        SITRA.Core.Enums.EcfType.B16 => "Comprobante para Exportaciones",
+                        SITRA.Core.Enums.EcfType.B17 => "Comprobante para Pagos al Exterior",
+
                         SITRA.Core.Enums.EcfType.E31 => "Factura de Crédito Fiscal Electrónica",
                         SITRA.Core.Enums.EcfType.E32 => "Factura de Consumo Electrónica",
                         SITRA.Core.Enums.EcfType.E33 => "Nota de Débito Electrónica",
@@ -154,7 +171,7 @@ namespace SITRA.Infrastructure.Services.Auths
                         _ => Enum.GetName(ecfType) ?? string.Empty
                     },
                     InitialSequence = 0,
-                    FinalSequence = ecfType == SITRA.Core.Enums.EcfType.E32 ? 50000000 : 10000000,
+                    FinalSequence = (ecfType == SITRA.Core.Enums.EcfType.B02 || ecfType == SITRA.Core.Enums.EcfType.E32) ? 50000000 : 10000000,
                     IsActive = true,
                     IsDefault = false
                 };
