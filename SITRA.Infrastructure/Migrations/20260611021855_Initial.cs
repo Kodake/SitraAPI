@@ -48,6 +48,7 @@ namespace SITRA.Infrastructure.Migrations
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TenantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IsOwner = table.Column<bool>(type: "bit", nullable: false),
+                    IsElectronicTransmitter = table.Column<bool>(type: "bit", nullable: false),
                     Language = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CertificatePassword = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CertificateUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -525,6 +526,31 @@ namespace SITRA.Infrastructure.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RefreshTokens",
+                schema: "auths",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Token = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Expires = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Revoked = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ReplacedByToken = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RefreshTokens", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RefreshTokens_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalSchema: "auths",
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -1755,6 +1781,12 @@ namespace SITRA.Infrastructure.Migrations
                 column: "TenantId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_RefreshTokens_UserId",
+                schema: "auths",
+                table: "RefreshTokens",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SpotPayables_ContactId",
                 table: "SpotPayables",
                 column: "ContactId");
@@ -1958,6 +1990,10 @@ namespace SITRA.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "PricingItems");
+
+            migrationBuilder.DropTable(
+                name: "RefreshTokens",
+                schema: "auths");
 
             migrationBuilder.DropTable(
                 name: "SpotPayables");
