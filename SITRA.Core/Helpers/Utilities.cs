@@ -343,5 +343,12 @@ namespace SITRA.Core.Helpers
         public static string LogBlockDurationOneMinute => _resourceManager.GetString("LogBlockDurationOneMinute")!;
         public static string LogBlockDurationFiveMinutes => _resourceManager.GetString("LogBlockDurationFiveMinutes")!;
         public static string LogBlockDurationPermanently => _resourceManager.GetString("LogBlockDurationPermanently")!;
+
+        // Certificate Validation Messages
+        public static string CertificatePasswordRequiredMessage => _resourceManager.GetString("CertificatePasswordRequiredMessage")!;
+        public static string CertificateExpiredMessage => _resourceManager.GetString("CertificateExpiredMessage")!;
+        public static string CertificateNotYetValidMessage => _resourceManager.GetString("CertificateNotYetValidMessage")!;
+        public static string CertificatePasswordIncorrectMessage => _resourceManager.GetString("CertificatePasswordIncorrectMessage")!;
+        public static string CertificateInvalidFormatMessage => _resourceManager.GetString("CertificateInvalidFormatMessage")!;
     }
 }

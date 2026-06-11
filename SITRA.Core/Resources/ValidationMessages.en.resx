@@ -566,4 +566,19 @@
   <data name="LogBlockDurationPermanently" xml:space="preserve">
     <value>permanently</value>
   </data>
+  <data name="CertificatePasswordRequiredMessage" xml:space="preserve">
+    <value>Certificate password is required when uploading a certificate.</value>
+  </data>
+  <data name="CertificateExpiredMessage" xml:space="preserve">
+    <value>The uploaded certificate has expired.</value>
+  </data>
+  <data name="CertificateNotYetValidMessage" xml:space="preserve">
+    <value>The uploaded certificate is not yet valid.</value>
+  </data>
+  <data name="CertificatePasswordIncorrectMessage" xml:space="preserve">
+    <value>The password provided for the certificate is incorrect.</value>
+  </data>
+  <data name="CertificateInvalidFormatMessage" xml:space="preserve">
+    <value>Invalid certificate file format or corrupted file.</value>
+  </data>
 </root>
