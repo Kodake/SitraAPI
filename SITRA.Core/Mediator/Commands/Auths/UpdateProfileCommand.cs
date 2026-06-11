@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.OutputCaching;
+using SITRA.Core.DTOs;
 using SITRA.Core.DTOs.Auths;
 using SITRA.Core.Interfaces;
 

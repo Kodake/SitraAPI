@@ -995,6 +995,11 @@ namespace SITRA.Core.Mediator.Handlers
         public RegisterUserCommandHandler(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper) : base(unitOfWork, outputCacheStore, mapper) { }
     }
 
+    public class RefreshTokenCommandHandler : AuthCommandHandler<RefreshTokenCommand, TokenResponseDTO?>
+    {
+        public RefreshTokenCommandHandler(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper) : base(unitOfWork, outputCacheStore, mapper) { }
+    }
+
     public class ResetPasswordCommandHandler : AuthCommandHandler<ResetPasswordCommand, bool>
     {
         public ResetPasswordCommandHandler(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper) : base(unitOfWork, outputCacheStore, mapper) { }

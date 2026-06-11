@@ -22,6 +22,7 @@ namespace SITRA.Core.Entities.Auths
         public virtual User? ParentUser { get; set; }
         public virtual ICollection<User> SubUsers { get; set; } = new List<User>();
         public virtual ICollection<TenantRoleUser> TenantRoleUsers { get; set; } = new List<TenantRoleUser>();
+        public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
     }
 }
 

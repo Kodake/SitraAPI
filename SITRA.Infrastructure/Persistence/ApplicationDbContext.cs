@@ -156,6 +156,7 @@ namespace SITRA.Infrastructure.Persistence
             modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("AspNetRoleClaims", "auths");
             modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("AspNetUserLogins", "auths");
             modelBuilder.Entity<IdentityUserToken<string>>().ToTable("AspNetUserTokens", "auths");
+            modelBuilder.Entity<RefreshToken>().ToTable("RefreshTokens", "auths").HasKey(t => t.Id);
 
             // ===============================
             // Audits ? schema audits
@@ -172,6 +173,7 @@ namespace SITRA.Infrastructure.Persistence
         #region DbSets
         public virtual DbSet<IdempotentRequest> IdempotentRequests { get; set; }
         public virtual DbSet<AuditLog> AuditLogs { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Role> TenantRoles { get; set; }
         public virtual DbSet<Permission> TenantPermissions { get; set; }

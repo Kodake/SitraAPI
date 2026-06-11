@@ -12,6 +12,7 @@ namespace SITRA.Core.Mediator.Handlers.Auths
         public static IServiceCollection AddAuthServices(this IServiceCollection services)
         {
             services.AddTransient<IRequestHandler<LoginUserCommand, TokenResponseDTO?>, AuthCommandHandler<LoginUserCommand, TokenResponseDTO?>>();
+            services.AddTransient<IRequestHandler<RefreshTokenCommand, TokenResponseDTO?>, AuthCommandHandler<RefreshTokenCommand, TokenResponseDTO?>>();
             services.AddTransient<IRequestHandler<RegisterUserCommand, IdentityResult>, AuthCommandHandler<RegisterUserCommand, IdentityResult>>();
             services.AddTransient<IRequestHandler<ChangeLanguageCommand, bool>, AuthCommandHandler<ChangeLanguageCommand, bool>>();
             services.AddTransient<IRequestHandler<CreateAssociatedUserCommand, IdentityResult>, AuthCommandHandler<CreateAssociatedUserCommand, IdentityResult>>();

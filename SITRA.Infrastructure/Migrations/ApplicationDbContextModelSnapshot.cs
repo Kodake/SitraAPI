@@ -643,6 +643,39 @@ namespace SITRA.Infrastructure.Migrations
                     b.ToTable("AppointmentItems");
                 });
 
+            modelBuilder.Entity("SITRA.Core.Entities.Auths.RefreshToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Expires")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ReplacedByToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("Revoked")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RefreshTokens", "auths");
+                });
+
             modelBuilder.Entity("SITRA.Core.Entities.Auths.User", b =>
                 {
                     b.Property<string>("Id")
@@ -2184,6 +2217,17 @@ namespace SITRA.Infrastructure.Migrations
                     b.Navigation("Item");
                 });
 
+            modelBuilder.Entity("SITRA.Core.Entities.Auths.RefreshToken", b =>
+                {
+                    b.HasOne("SITRA.Core.Entities.Auths.User", "User")
+                        .WithMany("RefreshTokens")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("SITRA.Core.Entities.Auths.User", b =>
                 {
                     b.HasOne("SITRA.Core.Entities.Auths.User", "ParentUser")
@@ -2627,6 +2671,8 @@ namespace SITRA.Infrastructure.Migrations
 
             modelBuilder.Entity("SITRA.Core.Entities.Auths.User", b =>
                 {
+                    b.Navigation("RefreshTokens");
+
                     b.Navigation("SubUsers");
 
                     b.Navigation("TenantRoleUsers");

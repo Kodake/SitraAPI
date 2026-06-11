@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using SITRA.Core.DTOs;
 using SITRA.Core.DTOs.Auths;
 using SITRA.Core.Entities.Auths;
 using SITRA.Core.Entities.AdministrativeTools;
@@ -29,6 +30,7 @@ namespace SITRA.Infrastructure.Services.Auths
         private readonly ILogger<UserRoleService> _logger;
         private readonly IDgiiStorageService _dgiiStorageService;
         private readonly IDataProtector _protector;
+        private readonly IAuthenticationService _authenticationService;
 
         private HttpContext HttpContext => _httpContextAccessor.HttpContext
             ?? throw new InvalidOperationException("HttpContext is not available.");
@@ -39,7 +41,8 @@ namespace SITRA.Infrastructure.Services.Auths
             IHttpContextAccessor httpContextAccessor,
             ILogger<UserRoleService> logger,
             IDgiiStorageService dgiiStorageService,
-            IDataProtectionProvider dataProtectionProvider)
+            IDataProtectionProvider dataProtectionProvider,
+            IAuthenticationService authenticationService)
         {
             _context = context;
             _userManager = userManager;
@@ -47,6 +50,7 @@ namespace SITRA.Infrastructure.Services.Auths
             _logger = logger;
             _dgiiStorageService = dgiiStorageService;
             _protector = dataProtectionProvider.CreateProtector("CertificatePassword");
+            _authenticationService = authenticationService;
         }
 
         public async Task<IdentityResult> UpdateUserRoleAsync(string userId, UpdateUserRoleDTO dto, CancellationToken cancellationToken)

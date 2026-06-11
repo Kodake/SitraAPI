@@ -1,5 +1,6 @@
 using SITRA.Core.Interfaces.Services.AdministrativeTools;
 using SITRA.Core.Interfaces.Services.Auths;
+using System.Security.Cryptography;
 using SITRA.Core.Interfaces.Services.CashBoxes;
 using SITRA.Core.Interfaces.Services.Dashboards;
 using SITRA.Core.Interfaces.Services.Finances;
@@ -237,11 +238,28 @@ namespace SITRA.Infrastructure.Services.Auths
                 expires: expire.DateTime,
                 signingCredentials: creds);
 
+            // Generate Refresh Token
+            var refreshTokenString = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
+            var refreshTokenExpiration = DateTime.UtcNow.AddDays(7);
+
+            var refreshToken = new RefreshToken
+            {
+                Token = refreshTokenString,
+                UserId = user.Id,
+                Expires = refreshTokenExpiration,
+                Created = DateTime.UtcNow
+            };
+
+            _context.RefreshTokens.Add(refreshToken);
+            await _context.SaveChangesAsync(cancellationToken);
+
             return new TokenResponseDTO
             {
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
                 Expire = expire,
-                IsAuthenticated = true
+                IsAuthenticated = true,
+                RefreshToken = refreshTokenString,
+                RefreshTokenExpiration = refreshTokenExpiration
             };
         }
 
@@ -282,6 +300,205 @@ namespace SITRA.Infrastructure.Services.Auths
 
             var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
             return result.Succeeded;
+        }
+
+        public async Task<TokenResponseDTO?> RefreshTokenAsync(string expiredToken, string refreshToken, CancellationToken cancellationToken)
+        {
+            var principal = GetPrincipalFromExpiredToken(expiredToken);
+            if (principal == null) return null;
+
+            var userId = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value 
+                ?? principal.FindFirst("sub")?.Value;
+            if (string.IsNullOrEmpty(userId)) return null;
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return null;
+
+            var storedToken = await _context.RefreshTokens
+                .FirstOrDefaultAsync(t => t.Token == refreshToken && t.UserId == user.Id, cancellationToken);
+
+            if (storedToken == null || !storedToken.IsActive)
+            {
+                if (storedToken != null && storedToken.IsRevoked)
+                {
+                    await RevokeTokenFamilyAsync(storedToken.UserId, cancellationToken);
+                }
+                return null;
+            }
+
+            var newRefreshTokenString = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
+            storedToken.Revoked = DateTime.UtcNow;
+            storedToken.ReplacedByToken = newRefreshTokenString;
+
+            var newRefreshTokenExpiration = DateTime.UtcNow.AddDays(7);
+            var newRefreshToken = new RefreshToken
+            {
+                Token = newRefreshTokenString,
+                UserId = user.Id,
+                Expires = newRefreshTokenExpiration,
+                Created = DateTime.UtcNow
+            };
+
+            _context.RefreshTokens.Add(newRefreshToken);
+            await _context.SaveChangesAsync(cancellationToken);
+
+            var keys = Keys.GetAllKeys(_configuration).ToList();
+            var signingKey = keys.FirstOrDefault()
+                ?? throw new InvalidOperationException(Utilities.NoSigningKeysFoundMessage);
+
+            var creds = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
+            var issuer = _configuration["Authentication:Schemes:Bearer:Issuer"] 
+                ?? _configuration["Authentication:Schemes:Bearer:ValidIssuer"] 
+                ?? _configuration["Jwt:Issuer"];
+            var audience = _configuration["Jwt:Audience"];
+            var expire = DateTimeOffset.UtcNow.AddHours(12);
+
+            var claims = principal.Claims.ToList();
+            var jtiClaim = claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Jti);
+            if (jtiClaim != null) claims.Remove(jtiClaim);
+            claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
+
+            var token = new JwtSecurityToken(
+                issuer: issuer,
+                audience: audience,
+                claims: claims,
+                expires: expire.DateTime,
+                signingCredentials: creds);
+
+            return new TokenResponseDTO
+            {
+                Token = new JwtSecurityTokenHandler().WriteToken(token),
+                Expire = expire,
+                IsAuthenticated = true,
+                RefreshToken = newRefreshTokenString,
+                RefreshTokenExpiration = newRefreshTokenExpiration
+            };
+        }
+
+        private ClaimsPrincipal? GetPrincipalFromExpiredToken(string token)
+        {
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateAudience = false,
+                ValidateIssuer = false,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKeys = Keys.GetAllKeys(_configuration),
+                ValidateLifetime = false
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            try
+            {
+                var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
+                if (securityToken is not JwtSecurityToken jwtSecurityToken || 
+                    !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    return null;
+                }
+                return principal;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error validating/parsing expired JWT token during refresh");
+                return null;
+            }
+        }
+
+        public async Task<TokenResponseDTO?> GenerateTokenForUserAsync(string userId, CancellationToken cancellationToken)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return null;
+
+            var keys = Keys.GetAllKeys(_configuration).ToList();
+            var signingKey = keys.FirstOrDefault()
+                ?? throw new InvalidOperationException(Utilities.NoSigningKeysFoundMessage);
+
+            var creds = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
+            var issuer = _configuration["Authentication:Schemes:Bearer:Issuer"] 
+                ?? _configuration["Authentication:Schemes:Bearer:ValidIssuer"] 
+                ?? _configuration["Jwt:Issuer"];
+            var audience = _configuration["Jwt:Audience"];
+            var expire = DateTimeOffset.UtcNow.AddHours(12);
+
+            bool isElectronicTransmitter = false;
+            if (user.IsOwner)
+            {
+                isElectronicTransmitter = user.IsElectronicTransmitter;
+            }
+            else
+            {
+                var ownerUser = await _context.Users
+                    .IgnoreQueryFilters()
+                    .FirstOrDefaultAsync(u => u.TenantId == user.TenantId && u.IsOwner, cancellationToken);
+                isElectronicTransmitter = ownerUser?.IsElectronicTransmitter ?? false;
+            }
+
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id?.ToString() ?? string.Empty),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email ?? string.Empty),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim("userName", user.UserName ?? string.Empty),
+                new Claim("tenantId", user.TenantId.ToString()),
+                new Claim("language", user.Language.ToString()),
+                new Claim("email", user.Email ?? string.Empty),
+                new Claim("address", user.Address ?? string.Empty),
+                new Claim("province", user.Province ?? string.Empty),
+                new Claim("municipality", user.Municipality ?? string.Empty),
+                new Claim("companyName", user.CompanyName ?? string.Empty),
+                new Claim("phoneNumber", user.PhoneNumber ?? string.Empty),
+                new Claim("isElectronicTransmitter", isElectronicTransmitter.ToString().ToLower()),
+            };
+
+            var userClaims = await _userManager.GetClaimsAsync(user);
+            var permissionClaims = userClaims.Where(c => c.Type == PermissionClaimType).ToList();
+            claims.AddRange(permissionClaims);
+
+            var token = new JwtSecurityToken(
+                issuer: issuer,
+                audience: audience,
+                claims: claims,
+                expires: expire.DateTime,
+                signingCredentials: creds);
+
+            // Generate Refresh Token
+            var refreshTokenString = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
+            var refreshTokenExpiration = DateTime.UtcNow.AddDays(7);
+
+            var refreshToken = new RefreshToken
+            {
+                Token = refreshTokenString,
+                UserId = user.Id,
+                Expires = refreshTokenExpiration,
+                Created = DateTime.UtcNow
+            };
+
+            _context.RefreshTokens.Add(refreshToken);
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return new TokenResponseDTO
+            {
+                Token = new JwtSecurityTokenHandler().WriteToken(token),
+                Expire = expire,
+                IsAuthenticated = true,
+                RefreshToken = refreshTokenString,
+                RefreshTokenExpiration = refreshTokenExpiration
+            };
+        }
+
+        private async Task RevokeTokenFamilyAsync(string userId, CancellationToken cancellationToken)
+        {
+            _logger.LogWarning($"Potential refresh token reuse detected for user {userId}! Revoking all refresh tokens for this user.");
+            var tokens = await _context.RefreshTokens
+                .Where(t => t.UserId == userId && t.Revoked == null)
+                .ToListAsync(cancellationToken);
+
+            foreach (var token in tokens)
+            {
+                token.Revoked = DateTime.UtcNow;
+            }
+
+            await _context.SaveChangesAsync(cancellationToken);
         }
     }
 }

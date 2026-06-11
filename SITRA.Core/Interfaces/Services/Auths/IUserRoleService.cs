@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using SITRA.Core.DTOs;
 using SITRA.Core.DTOs.Auths;
 using SITRA.Core.Enums;
 

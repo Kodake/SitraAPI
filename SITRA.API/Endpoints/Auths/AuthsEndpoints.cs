@@ -1,13 +1,16 @@
 using Mediator;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SITRA.API.Attributes;
+using SITRA.API.Extensions;
 using SITRA.API.Filters;
 using SITRA.Core.DTOs;
 using SITRA.Core.DTOs.Auths;
 using SITRA.Core.Mediator.Commands.Auths;
 using SITRA.Core.Mediator.Queries.Auths;
+using System;
 
 namespace SITRA.API.Endpoints
 {
@@ -20,6 +23,8 @@ namespace SITRA.API.Endpoints
                 .WithOpenApi();
             group.MapPost("/login", Login).DisableAntiforgery()
                 .AddEndpointFilter<ValidationFilter<CreateLoginUserDTO>>()
+                .WithOpenApi();
+            group.MapPost("/refresh", Refresh).DisableAntiforgery()
                 .WithOpenApi();
             group.MapGet("/validate-opened-petty-cash", ValidateOpenedPettyCashEndpoint)
                 .WithOpenApi().RequireAuthorization();
@@ -61,6 +66,7 @@ namespace SITRA.API.Endpoints
 
         static async Task<Results<Ok<TokenResponseDTO>, UnauthorizedHttpResult, ValidationProblem>> Login(
             [FromBody] CreateLoginUserDTO dto,
+            HttpContext httpContext,
             [FromServices] IMediator mediator)
         {
             var command = new LoginUserCommand(dto);
@@ -70,6 +76,41 @@ namespace SITRA.API.Endpoints
             {
                 return TypedResults.Unauthorized();
             }
+
+            if (!string.IsNullOrEmpty(response.RefreshToken))
+            {
+                httpContext.AppendRefreshTokenCookie(response.RefreshToken, response.RefreshTokenExpiration);
+            }
+
+            response.RefreshToken = null;
+
+            return TypedResults.Ok(response);
+        }
+
+        static async Task<Results<Ok<TokenResponseDTO>, UnauthorizedHttpResult>> Refresh(
+            HttpContext httpContext,
+            [FromServices] IMediator mediator)
+        {
+            var (expiredJwt, refreshToken) = httpContext.GetRefreshTokens();
+            if (string.IsNullOrEmpty(expiredJwt) || string.IsNullOrEmpty(refreshToken))
+            {
+                return TypedResults.Unauthorized();
+            }
+
+            var command = new RefreshTokenCommand(expiredJwt, refreshToken);
+            var response = await mediator.Send(command);
+
+            if (response == null)
+            {
+                return TypedResults.Unauthorized();
+            }
+
+            if (!string.IsNullOrEmpty(response.RefreshToken))
+            {
+                httpContext.AppendRefreshTokenCookie(response.RefreshToken, response.RefreshTokenExpiration);
+            }
+
+            response.RefreshToken = null;
 
             return TypedResults.Ok(response);
         }
@@ -149,6 +190,7 @@ namespace SITRA.API.Endpoints
 
         static async Task<IResult> UpdateProfile(
             [FromForm] UpdateProfileNameDTO dto,
+            HttpContext httpContext,
             [FromServices] IMediator mediator,
             [FromServices] ILoggerFactory loggerFactory,
             [FromServices] IWebHostEnvironment env)
@@ -157,9 +199,12 @@ namespace SITRA.API.Endpoints
             try
             {
                 var command = new UpdateProfileCommand(dto);
-                var success = await mediator.Send(command);
+                var response = await mediator.Send(command);
 
-                return success ? TypedResults.Ok() : TypedResults.BadRequest();
+                if (response == false)
+                    return TypedResults.BadRequest();
+
+                return TypedResults.Ok();
             }
             catch (Exception ex)
             {

@@ -355,5 +355,107 @@ namespace SITRA.Tests
                 Assert.NotNull(result.Token);
             }
         }
+
+        [Fact]
+        public async Task TestRealDbUpdateProfile()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseSqlServer("Server=.;Database=SITRA;Integrated Security=True;TrustServerCertificate=True")
+                .Options;
+
+            var mockTenantService = new Mock<ICurrentTenantService>();
+            var mockHttpContextAccessor = new Mock<IHttpContextAccessor>();
+            var httpContext = new DefaultHttpContext();
+            
+            // Log in as sitra@gmail.com: we need their UserId
+            using (var context = new ApplicationDbContext(options, mockTenantService.Object))
+            {
+                var user = await context.Users.IgnoreQueryFilters().FirstOrDefaultAsync(u => u.Email == "SITRA@GMAIL.COM");
+                if (user == null) throw new Exception("User not found");
+
+                var claims = new[] { new Claim(ClaimTypes.NameIdentifier, user.Id) };
+                var identity = new ClaimsIdentity(claims, "Test");
+                httpContext.User = new ClaimsPrincipal(identity);
+            }
+
+            mockHttpContextAccessor.Setup(x => x.HttpContext).Returns(httpContext);
+
+            var services = new ServiceCollection();
+            services.AddLogging();
+            services.AddLocalization();
+            
+            // Add DataProtection
+            services.AddDataProtection();
+            
+            // Mock dependency services
+            services.AddSingleton(new Mock<IInvoiceToEcfMapper>().Object);
+            services.AddSingleton(new Mock<IEcfXmlGenerator>().Object);
+            services.AddSingleton(new Mock<ISignatureService>().Object);
+            services.AddSingleton(new Mock<IDgiiApiService>().Object);
+            services.AddSingleton(Microsoft.Extensions.Options.Options.Create(new SITRA.Core.Models.Dgii.DgiiSettings { UseAzureStorage = true }));
+            services.AddSingleton(new Mock<SITRA.Core.Interfaces.Services.Messaging.IEmailService>().Object);
+            services.AddSingleton(new Mock<SITRA.Core.Interfaces.Services.Storage.IDgiiStorageService>().Object);
+
+            var serviceProvider = services.BuildServiceProvider();
+
+            var configuration = new ConfigurationBuilder()
+                .AddInMemoryCollection(new Dictionary<string, string?>
+                {
+                    {"Jwt:Audience", "test-audience"},
+                    {"Authentication:Schemes:Bearer:Issuer", "test-issuer"},
+                    {"Jwt:Key", "ThisIsATestKeyThatIsLongEnoughToBeAKey!!!"},
+                    {"ConnectionStrings:AzureStorage", "DefaultEndpointsProtocol=https;AccountName=test;AccountKey=test;EndpointSuffix=core.windows.net"}
+                })
+                .Build();
+
+            using (var context = new ApplicationDbContext(options, mockTenantService.Object))
+            {
+                var userStore = new UserStore<User>(context);
+                var userManager = new UserManager<User>(userStore, null!, new PasswordHasher<User>(), null!, null!, null!, null!, null!, null!);
+                
+                var roleStore = new RoleStore<IdentityRole>(context);
+                var roleManager = new RoleManager<IdentityRole>(roleStore, null!, null!, null!, null!);
+
+                var unitOfWork = new UnitOfWork(
+                    context, 
+                    mockHttpContextAccessor.Object, 
+                    userManager, 
+                    roleManager, 
+                    configuration, 
+                    new Mock<ILogger<UserService>>().Object, 
+                    new Mock<ILogger<PermissionClaimService>>().Object, 
+                    new Mock<ILogger<AuthenticationService>>().Object, 
+                    new Mock<ILogger<UserRegistrationService>>().Object, 
+                    new Mock<ILogger<UserRoleService>>().Object, 
+                    serviceProvider);
+
+                var dto = new UpdateProfileNameDTO
+                {
+                    UserName = "SITRA",
+                    Address = "13 DE SEPTIEMBRE",
+                    Province = "010000",
+                    Municipality = "010101",
+                    PhoneNumber = "8091414151"
+                };
+
+                try
+                {
+                    _output.WriteLine("Calling UpdateProfileNameAsync...");
+                    var result = await unitOfWork.UserRoleService.UpdateProfileNameAsync(dto, CancellationToken.None);
+                    _output.WriteLine("Success: " + (result != null));
+                }
+                catch (Exception ex)
+                {
+                    _output.WriteLine("EXCEPTION THROWS:");
+                    _output.WriteLine(ex.ToString());
+                    if (ex.InnerException != null)
+                    {
+                        _output.WriteLine("INNER EXCEPTION:");
+                        _output.WriteLine(ex.InnerException.ToString());
+                    }
+                    throw;
+                }
+            }
+        }
     }
 }
