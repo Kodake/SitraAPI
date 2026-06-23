@@ -21,8 +21,15 @@ namespace SITRA.Infrastructure.Services.Products
 
         public async Task<List<SubCategory>> GetAllAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
         {
-            var queryable = _context.SubCategories.AsNoTracking()
-                .OrderBy(x => x.Name);
+            var queryable = _context.SubCategories.AsNoTracking();
+
+            if (!string.IsNullOrEmpty(paginationDTO.SearchTerm))
+            {
+                var searchTerm = paginationDTO.SearchTerm.ToLower();
+                queryable = queryable.Where(x => x.Name != null && x.Name.ToLower().Contains(searchTerm));
+            }
+
+            queryable = queryable.OrderBy(x => x.Name);
 
             if (_httpContext != null)
             {

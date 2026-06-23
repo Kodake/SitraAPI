@@ -12,7 +12,7 @@ namespace SITRA.Core.Mediator.Handlers.Products
             services.AddTransient<IRequestHandler<GetPricingByIdQuery, PricingDTO>, QueryHandler<GetPricingByIdQuery, PricingDTO>>();
             services.AddTransient<IRequestHandler<GetUnregisteredPricingsForItemQuery, IEnumerable<PricingListDTO>>, GetUnregisteredPricingsForItemQueryHandler>();
             services.AddTransient<IRequestHandler<GetSelectsPricingsQuery, List<PricingListDTO>>, QueryHandler<GetSelectsPricingsQuery, List<PricingListDTO>>>();
-            services.AddTransient<IRequestHandler<GetAllPricingsQuery, List<PricingListDTO>>, QueryHandler<GetAllPricingsQuery, List<PricingListDTO>>>();
+            services.AddTransient<IRequestHandler<GetAllPricingsQuery, List<PricingListDTO>>, GetAllPricingsQueryHandler>();
             services.AddTransient<IRequestHandler<CreatePricingCommand, CreatePricingDTO>, CreateCommandHandler<Entities.Products.Pricing, CreatePricingDTO>>();
             services.AddTransient<IRequestHandler<UpdatePricingCommand, bool>, UpdateCommandHandler<Entities.Products.Pricing, CreatePricingDTO>>();
 

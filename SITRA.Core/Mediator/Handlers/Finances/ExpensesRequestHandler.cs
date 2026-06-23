@@ -12,7 +12,7 @@ namespace SITRA.Core.Mediator.Handlers.Finances
             services.AddTransient<IRequestHandler<ActivateExpenseCommand, bool>, ToggleCommandHandler<ActivateExpenseCommand>>();
             services.AddTransient<IRequestHandler<DeactivateExpenseCommand, bool>, ToggleCommandHandler<DeactivateExpenseCommand>>();
             services.AddTransient<IRequestHandler<GetExpenseByIdQuery, ExpenseDTO>, QueryHandler<GetExpenseByIdQuery, ExpenseDTO>>();
-            services.AddTransient<IRequestHandler<GetAllExpensesQuery, List<ExpenseListDTO>>, QueryHandler<GetAllExpensesQuery, List<ExpenseListDTO>>>();
+            services.AddTransient<IRequestHandler<GetAllExpensesQuery, List<ExpenseListDTO>>, GetAllExpensesQueryHandler>();
             services.AddTransient<IRequestHandler<CreateExpenseCommand, CreateExpenseDTO>, CreateCommandHandler<Entities.Finances.Expense, CreateExpenseDTO>>();
             services.AddTransient<IRequestHandler<UpdateExpenseCommand, bool>, UpdateCommandHandler<Entities.Finances.Expense, CreateExpenseDTO>>();
 

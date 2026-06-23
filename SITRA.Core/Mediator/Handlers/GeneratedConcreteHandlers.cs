@@ -572,39 +572,25 @@ namespace SITRA.Core.Mediator.Handlers
 
 
 
-    public class GetAllBrandsQueryHandler : QueryHandler<GetAllBrandsQuery, List<BrandListDTO>>
-    {
-        public GetAllBrandsQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
-    }
 
     public class GetAllByIdQueryHandler : QueryHandler<GetAllByIdQuery<object>, IEnumerable<object>>
     {
         public GetAllByIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
     }
 
-    public class GetAllCategoriesQueryHandler : QueryHandler<GetAllCategoriesQuery, List<CategoryListDTO>>
-    {
-        public GetAllCategoriesQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
-    }
 
 
 
 
 
-    public class GetAllCurrenciesQueryHandler : QueryHandler<GetAllCurrenciesQuery, List<CurrencyListDTO>>
-    {
-        public GetAllCurrenciesQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
-    }
+
 
     public class GetAllDeadlinesQueryHandler : QueryHandler<GetAllDeadlinesQuery, List<DeadlineListDTO>>
     {
         public GetAllDeadlinesQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
     }
 
-    public class GetAllExpensesQueryHandler : QueryHandler<GetAllExpensesQuery, List<ExpenseListDTO>>
-    {
-        public GetAllExpensesQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
-    }
+
 
 
 
@@ -632,10 +618,7 @@ namespace SITRA.Core.Mediator.Handlers
         public GetAllPricingItemsByIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
     }
 
-    public class GetAllPricingsQueryHandler : QueryHandler<GetAllPricingsQuery, List<PricingListDTO>>
-    {
-        public GetAllPricingsQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
-    }
+
 
 
 
@@ -673,10 +656,7 @@ namespace SITRA.Core.Mediator.Handlers
 
 
 
-    public class GetAllTaxesQueryHandler : QueryHandler<GetAllTaxesQuery, List<TaxListDTO>>
-    {
-        public GetAllTaxesQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
-    }
+
 
     public class GetAllTenantUsersQueryHandler : QueryHandler<GetAllTenantUsersQuery, List<UserDTO>>
     {

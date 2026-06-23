@@ -27,6 +27,7 @@ namespace SITRA.Infrastructure.Repositories.Products
         {
             return await context.Pricings.AnyAsync(x => x.Id != id && x.Name == name, cancellationToken);
         }
+
     }
 }
 

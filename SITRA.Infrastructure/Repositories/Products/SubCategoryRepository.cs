@@ -36,6 +36,7 @@ namespace SITRA.Infrastructure.Repositories.Products
         {
             return await context.SubCategories.AnyAsync(x => x.Id != id && x.Name == name, cancellationToken);
         }
+
     }
 }
 

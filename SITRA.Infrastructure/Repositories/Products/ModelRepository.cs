@@ -36,6 +36,7 @@ namespace SITRA.Infrastructure.Repositories.Products
             context.Models
                 .Where(x => x.BrandId == brandId)
                 .ToListAsync(cancellationToken);
+
     }
 }
 

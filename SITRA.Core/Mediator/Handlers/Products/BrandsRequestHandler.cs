@@ -13,7 +13,7 @@ namespace SITRA.Core.Mediator.Handlers.Products
             services.AddTransient<IRequestHandler<DeactivateBrandCommand, bool>, ToggleCommandHandler<DeactivateBrandCommand>>();
             services.AddTransient<IRequestHandler<GetBrandByIdQuery, BrandDTO>, QueryHandler<GetBrandByIdQuery, BrandDTO>>();
             services.AddTransient<IRequestHandler<GetSelectsBrandsQuery, List<BrandListDTO>>, GetSelectsBrandsQueryHandler>();
-            services.AddTransient<IRequestHandler<GetAllBrandsQuery, List<BrandListDTO>>, QueryHandler<GetAllBrandsQuery, List<BrandListDTO>>>();
+            services.AddTransient<IRequestHandler<GetAllBrandsQuery, List<BrandListDTO>>, GetAllBrandsQueryHandler>();
             services.AddTransient<IRequestHandler<CreateBrandCommand, CreateBrandDTO>, CreateCommandHandler<Entities.Products.Brand, CreateBrandDTO>>();
             services.AddTransient<IRequestHandler<UpdateBrandCommand, bool>, UpdateCommandHandler<Entities.Products.Brand, CreateBrandDTO>>();
 
