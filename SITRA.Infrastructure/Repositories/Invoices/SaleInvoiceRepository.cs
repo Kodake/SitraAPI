@@ -71,48 +71,6 @@ namespace SITRA.Infrastructure.Repositories.Invoices
         }
 
 
-
-        public async Task<List<Invoice>> GetSalesByDateRangeAsync(DateTime from, DateTime to, PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
-        {
-            to = to.Date.AddDays(1).AddTicks(-1);
-
-            var queryable = context.Invoices
-                .Include(x => x.InvoiceBuyer)
-                    .ThenInclude(ib => ib.Buyer)
-                .Include(x => x.InvoiceBiller)
-                    .ThenInclude(ib => ib.Biller)
-                .Where(x =>
-                    x.InvoiceType == InvoiceType.Sale &&
-                    x.CreatedAt >= from &&
-                    x.CreatedAt <= to &&
-                    (x.SpotPayment != null || x.Receivable != null)
-                );
-
-            await httpContext.AddPaginationParamsToHeaders(queryable);
-
-            return await queryable
-                .OrderBy(x => x.Id)
-                .Paginate(paginationDTO)
-                .ToListAsync(cancellationToken);
-        }
-
-        public async Task<List<Invoice>> GetSalesReportByDateRangeAsync(DateTime from, DateTime to, CancellationToken cancellationToken = default)
-        {
-            to = to.Date.AddDays(1).AddTicks(-1);
-
-            return await context.Invoices
-                .Include(x => x.InvoiceBuyer)
-                    .ThenInclude(ib => ib.Buyer)
-                .Include(x => x.InvoiceBiller)
-                    .ThenInclude(ib => ib.Biller)
-                .Where(x =>
-                    x.InvoiceType == InvoiceType.Sale &&
-                    x.CreatedAt >= from &&
-                    x.CreatedAt <= to &&
-                    (x.SpotPayment != null || x.Receivable != null)
-                ).ToListAsync(cancellationToken);
-        }
-
     }
 }
 

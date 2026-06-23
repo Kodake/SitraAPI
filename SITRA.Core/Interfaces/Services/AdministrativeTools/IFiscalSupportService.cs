@@ -6,5 +6,6 @@ namespace SITRA.Core.Interfaces.Services.AdministrativeTools
     public interface IFiscalSupportService
     {
         Task<List<FiscalSupport>> GetAllAsync(StatusType status, CancellationToken cancellationToken = default);
+        Task<List<FiscalSupport>> GetPaginatedAsync(SITRA.Core.DTOs.PaginationDTO paginationDTO, CancellationToken cancellationToken = default);
     }
 }

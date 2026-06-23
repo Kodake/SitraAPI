@@ -12,7 +12,7 @@ namespace SITRA.Core.Mediator.Handlers.Accounts
         public static IServiceCollection AddReceivableServices(this IServiceCollection services)
         {
             services.AddTransient<IRequestHandler<DeactivateReceivableCommand, bool>, ToggleCommandHandler<DeactivateReceivableCommand>>();
-            services.AddTransient<IRequestHandler<GetAllReceivablesQuery, List<ReceivableListDTO>>, QueryHandler<GetAllReceivablesQuery, List<ReceivableListDTO>>>();
+
             services.AddTransient<IRequestHandler<GetAllReceivablesByIdQuery, ReceivableDTO>, QueryHandler<GetAllReceivablesByIdQuery, ReceivableDTO>>();
             services.AddTransient<IRequestHandler<GetPaysByIdQuery, ReceivableDTO>, GetPaysByIdQueryHandler>();
             services.AddTransient<IRequestHandler<CreatePaymentReceiptCommand, CreatePaymentReceiptDTO>, CreateCommandHandler<Entities.Accounts.PaymentReceipt, CreatePaymentReceiptDTO>>();

@@ -18,39 +18,6 @@ namespace SITRA.Infrastructure.Repositories.AdministrativeTools
             httpContext = httpContextAccessor.HttpContext!;
         }
 
-        public async new Task<List<Role>> GetAllAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
-        {
-            var queryable = context.Set<Role>()
-                .Include(r => r.RolePermissions)
-                    .ThenInclude(rp => rp.Permission)
-                .Where(r => !r.IsSystemRole)
-                .OrderBy(x => x.Name);
-
-            await httpContext.AddPaginationParamsToHeaders(queryable);
-
-            var items = await queryable
-                .Paginate(paginationDTO)
-                .ToListAsync(cancellationToken);
-
-            return items;
-        }
-
-        public async new Task<List<Role>> GetReadOnlyAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
-        {
-            var queryable = context.Set<Role>()
-                .Include(r => r.RolePermissions)
-                    .ThenInclude(rp => rp.Permission)
-                .Where(r => !r.IsSystemRole)
-                .OrderBy(x => x.Name);
-
-            await httpContext.AddPaginationParamsToHeaders(queryable);
-
-            var items = await queryable
-                .Paginate(paginationDTO)
-                .ToListAsync(cancellationToken);
-
-            return items;
-        }
 
         public async Task<List<Role>> GetAll(
             bool? hasPermissions = null,

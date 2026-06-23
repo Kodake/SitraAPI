@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using SITRA.Core.DTOs;
+using SITRA.Core.Helpers;
 using SITRA.Core.Entities.Contacts;
 using SITRA.Core.Enums;
 using SITRA.Core.Interfaces.Contacts;
@@ -10,8 +12,15 @@ namespace SITRA.Infrastructure.Repositories.Contacts
 {
     public class ContactRepository : RepositoryBase<Contact>, IContactRepository
     {
+        private new readonly HttpContext httpContext;
+
         public ContactRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
-            : base(context, httpContextAccessor) { }
+            : base(context, httpContextAccessor) 
+        { 
+            httpContext = httpContextAccessor.HttpContext!;
+        }
+
+
 
         public async Task<List<Contact>> GetSuppliers(CancellationToken cancellationToken = default)
         {

@@ -12,7 +12,7 @@ namespace SITRA.Core.Mediator.Handlers.AdministrativeTools
         {
             services.AddTransient<IRequestHandler<ActivateFiscalSupportCommand, bool>, ToggleCommandHandler<ActivateFiscalSupportCommand>>();
             services.AddTransient<IRequestHandler<DeactivateFiscalSupportCommand, bool>, ToggleCommandHandler<DeactivateFiscalSupportCommand>>();
-            services.AddTransient<IRequestHandler<GetAllFiscalSupportsQuery, List<FiscalSupportListDTO>>, QueryHandler<GetAllFiscalSupportsQuery, List<FiscalSupportListDTO>>>();
+
             services.AddTransient<IRequestHandler<GetFiscalSupportByIdQuery, FiscalSupportDTO>, QueryHandler<GetFiscalSupportByIdQuery, FiscalSupportDTO>>();
             services.AddTransient<IRequestHandler<GetDocumentsByTypeQuery, FiscalSupportDTO?>, QueryHandler<GetDocumentsByTypeQuery, FiscalSupportDTO?>>();
             services.AddTransient<IRequestHandler<GetSelectsFiscalSupportsQuery, List<FiscalSupportListDTO>>, GetSelectsFiscalSupportsQueryHandler>();

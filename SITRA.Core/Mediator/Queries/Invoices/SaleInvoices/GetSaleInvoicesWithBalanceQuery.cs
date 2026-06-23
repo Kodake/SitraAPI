@@ -32,20 +32,20 @@ namespace SITRA.Core.Mediator.Queries.Invoices.SaleInvoices
 
     public class GetSaleInvoicesWithBalanceQueryHandler : IRequestHandler<GetSaleInvoicesWithBalanceQuery, SaleInvoiceWithBalanceDTO>
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly ISaleInvoiceService _saleInvoiceService;
         private readonly IMapper _mapper;
         private readonly IFinanceService _financeService;
 
-        public GetSaleInvoicesWithBalanceQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, IFinanceService financeService)
+        public GetSaleInvoicesWithBalanceQueryHandler(ISaleInvoiceService saleInvoiceService, IMapper mapper, IFinanceService financeService)
         {
-            _unitOfWork = unitOfWork;
+            _saleInvoiceService = saleInvoiceService;
             _mapper = mapper;
             _financeService = financeService;
         }
 
         public async ValueTask<SaleInvoiceWithBalanceDTO> Handle(GetSaleInvoicesWithBalanceQuery request, CancellationToken cancellationToken)
         {
-            var invoices = await _unitOfWork.SaleInvoiceRepository.GetSalesByDateRangeAsync(request.From, request.To, request.Pagination, cancellationToken);
+            var invoices = await _saleInvoiceService.GetSalesByDateRangeAsync(request.From, request.To, request.Pagination, cancellationToken);
             var balance = await _financeService.GetSaleBalanceAsync(request.From, request.To, cancellationToken);
 
             return new SaleInvoiceWithBalanceDTO

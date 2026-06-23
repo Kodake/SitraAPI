@@ -65,10 +65,20 @@ namespace SITRA.Infrastructure.Services.Auths
                 .Include(u => u.TenantRoleUsers)
                 .Where(u => u.ParentUserId != null);
 
+            if (!string.IsNullOrEmpty(paginationDTO.SearchTerm))
+            {
+                var searchTerm = paginationDTO.SearchTerm.ToLower();
+                queryable = queryable.Where(u => 
+                    (u.UserName != null && u.UserName.ToLower().Contains(searchTerm)) ||
+                    (u.Email != null && u.Email.ToLower().Contains(searchTerm))
+                );
+            }
+
+            queryable = queryable.OrderBy(u => u.UserName);
+
             await httpContext.AddPaginationParamsToHeaders(queryable);
 
             return await queryable
-                .OrderBy(u => u.UserName)
                 .Paginate(paginationDTO)
                 .ToListAsync(cancellationToken);
         }

@@ -23,15 +23,19 @@ namespace SITRA.Core.DTOs
             }
         }
 
+        public string? SearchTerm { get; set; }
+
         public static ValueTask<PaginationDTO> BindAsync(HttpContext context)
         {
             var page = context.ExtractDefaultValue(nameof(Page), initialPage);
             var recordsPerPage = context.ExtractDefaultValue(nameof(RecordsPerPage), initialRecordsPerPage);
+            var searchTerm = context.Request.Query["searchTerm"].ToString();
 
             var resultado = new PaginationDTO
             {
                 Page = page,
-                RecordsPerPage = recordsPerPage
+                RecordsPerPage = recordsPerPage,
+                SearchTerm = searchTerm
             };
 
             return ValueTask.FromResult(resultado);

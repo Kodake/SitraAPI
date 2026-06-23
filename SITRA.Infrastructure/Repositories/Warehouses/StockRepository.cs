@@ -18,42 +18,24 @@ namespace SITRA.Infrastructure.Repositories.Warehouses
             httpContext = httpContextAccessor.HttpContext!;
         }
 
-        public async new Task<List<Stock>> GetAllAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
-        {
-            var queryable = context.Stocks
-                .AsQueryable()
-                .Include(p => p.Item)
-                .Include(p => p.Warehouse);
 
-            await httpContext.AddPaginationParamsToHeaders(queryable);
-
-            return await queryable
-                .OrderBy(x => x.Item.Name)
-                .Paginate(paginationDTO)
-                .ToListAsync(cancellationToken);
-        }
-
-        public async new Task<List<Stock>> GetReadOnlyAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
-        {
-            var queryable = context.Stocks.AsNoTracking()
-                .Include(p => p.Item)
-                .Include(p => p.Warehouse);
-
-            await httpContext.AddPaginationParamsToHeaders(queryable);
-
-            return await queryable
-                .OrderBy(x => x.Item.Name)
-                .Paginate(paginationDTO)
-                .ToListAsync(cancellationToken);
-        }
 
         public async Task<List<Stock>> GetAllByWarehouseIdsAsync(List<Guid> warehouseIds, PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
         {
-            var queryable = context.Stocks
+            IQueryable<Stock> queryable = context.Stocks
                 .AsQueryable()
                 .Where(s => warehouseIds.Contains(s.WarehouseId))
                 .Include(p => p.Item)
                 .Include(p => p.Warehouse);
+
+            if (!string.IsNullOrEmpty(paginationDTO.SearchTerm))
+            {
+                var searchTerm = paginationDTO.SearchTerm.ToLower();
+                queryable = queryable.Where(x => 
+                    (x.Item != null && x.Item.Name.ToLower().Contains(searchTerm)) ||
+                    (x.Warehouse != null && x.Warehouse.Name.ToLower().Contains(searchTerm))
+                );
+            }
 
             await httpContext.AddPaginationParamsToHeaders(queryable);
 

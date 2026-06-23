@@ -1,19 +1,36 @@
 using AutoMapper;
+using Mediator;
 using SITRA.Core.DTOs;
 using SITRA.Core.DTOs.Accounts.Payables;
-using SITRA.Core.Interfaces;
+using SITRA.Core.Interfaces.Services.Accounts;
 
 namespace SITRA.Core.Mediator.Queries.Accounts.Payables
 {
-    public class GetAllPayablesQuery(PaginationDTO pagination) : GetAllQuery<PayableListDTO>(pagination)
+    public class GetAllPayablesQuery : IRequest<List<PayableListDTO>>
     {
-        public override async Task<List<PayableListDTO>> GetData(
-            IUnitOfWork unitOfWork,
-            IMapper mapper,
-            CancellationToken cancellationToken)
+        public PaginationDTO Pagination { get; set; }
+
+        public GetAllPayablesQuery(PaginationDTO pagination)
         {
-            var payables = await unitOfWork.PayableRepository.GetReadOnlyAsync(Pagination);
-            return mapper.Map<List<PayableListDTO>>(payables);
+            Pagination = pagination;
+        }
+    }
+
+    public class GetAllPayablesQueryHandler : IRequestHandler<GetAllPayablesQuery, List<PayableListDTO>>
+    {
+        private readonly IPayableService _payableService;
+        private readonly IMapper _mapper;
+
+        public GetAllPayablesQueryHandler(IPayableService payableService, IMapper mapper)
+        {
+            _payableService = payableService;
+            _mapper = mapper;
+        }
+
+        public async ValueTask<List<PayableListDTO>> Handle(GetAllPayablesQuery request, CancellationToken cancellationToken)
+        {
+            var payables = await _payableService.GetPaginatedAsync(request.Pagination, cancellationToken);
+            return _mapper.Map<List<PayableListDTO>>(payables);
         }
     }
 }

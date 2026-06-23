@@ -12,7 +12,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
         public static IServiceCollection AddQuotationsServices(this IServiceCollection services)
         {
             services.AddTransient<IRequestHandler<GetQuotationByIdQuery, QuotationDTO>, QueryHandler<GetQuotationByIdQuery, QuotationDTO>>();
-            services.AddTransient<IRequestHandler<GetAllQuotationsQuery, List<QuotationListDTO>>, QueryHandler<GetAllQuotationsQuery, List<QuotationListDTO>>>();
+
             services.AddTransient<IRequestHandler<CreateQuotationCommand, CreateQuotationDTO>, CreateCommandHandler<Entities.Invoices.Quotation, CreateQuotationDTO>>();
             services.AddTransient<IRequestHandler<UpdateQuotationCommand, bool>, UpdateCommandHandler<Entities.Invoices.Quotation, CreateQuotationDTO>>();
             services.AddTransient<IRequestHandler<ProcessQuotationCommand, CreateSaleInvoiceDTO>,

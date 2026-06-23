@@ -1,3 +1,4 @@
+using SITRA.Core.DTOs;
 using SITRA.Core.Entities.Contacts;
 using SITRA.Core.Interfaces.Generics;
 

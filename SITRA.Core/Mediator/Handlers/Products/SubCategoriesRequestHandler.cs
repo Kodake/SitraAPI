@@ -13,7 +13,7 @@ namespace SITRA.Core.Mediator.Handlers.Products
             services.AddTransient<IRequestHandler<DeactivateSubCategoryCommand, bool>, ToggleCommandHandler<DeactivateSubCategoryCommand>>();
             services.AddTransient<IRequestHandler<GetSubCategoryByIdQuery, SubCategoryDTO>, QueryHandler<GetSubCategoryByIdQuery, SubCategoryDTO>>();
             services.AddTransient<IRequestHandler<GetSubCategoriesByCategoryIdQuery, List<SubCategoryListDTO>>, QueryHandler<GetSubCategoriesByCategoryIdQuery, List<SubCategoryListDTO>>>();
-            services.AddTransient<IRequestHandler<GetAllSubCategoriesQuery, List<SubCategoryListDTO>>, QueryHandler<GetAllSubCategoriesQuery, List<SubCategoryListDTO>>>();
+
             services.AddTransient<IRequestHandler<CreateSubCategoryCommand, CreateSubCategoryDTO>, CreateCommandHandler<Entities.Products.SubCategory, CreateSubCategoryDTO>>();
             services.AddTransient<IRequestHandler<UpdateSubCategoryCommand, bool>, UpdateCommandHandler<Entities.Products.SubCategory, CreateSubCategoryDTO>>();
 

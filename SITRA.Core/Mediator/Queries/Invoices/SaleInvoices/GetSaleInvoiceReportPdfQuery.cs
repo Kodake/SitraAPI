@@ -1,31 +1,42 @@
 using AutoMapper;
+using Mediator;
 using QuestPDF.Fluent;
 using SITRA.Core.Documents;
 using SITRA.Core.Entities.Auths;
 using SITRA.Core.Helpers;
 using SITRA.Core.Interfaces;
+using SITRA.Core.Interfaces.Services.Invoices;
 using SITRA.Core.Models;
 
 namespace SITRA.Core.Mediator.Queries.Invoices.SaleInvoices
 {
-    public class GetSaleInvoiceReportPdfQuery : IQuery<(byte[] FileBytes, string FileName)?>
+    public class GetSaleInvoiceReportPdfQuery : IRequest<(byte[] FileBytes, string FileName)?>
     {
-        public DateTime From { get; }
-        public DateTime To { get; }
+        public DateTime From { get; set; }
+        public DateTime To { get; set; }
         public GetSaleInvoiceReportPdfQuery(DateTime from, DateTime to)
         {
             To = to;
             From = from;
         }
+    }
 
-        public async Task<(byte[] FileBytes, string FileName)?> GetData(
-        IUnitOfWork unitOfWork,
-        IMapper mapper,
-        CancellationToken cancellationToken)
+    public class GetSaleInvoiceReportPdfQueryHandler : IRequestHandler<GetSaleInvoiceReportPdfQuery, (byte[] FileBytes, string FileName)?>
+    {
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly ISaleInvoiceService _saleInvoiceService;
+
+        public GetSaleInvoiceReportPdfQueryHandler(IUnitOfWork unitOfWork, ISaleInvoiceService saleInvoiceService)
+        {
+            _unitOfWork = unitOfWork;
+            _saleInvoiceService = saleInvoiceService;
+        }
+
+        public async ValueTask<(byte[] FileBytes, string FileName)?> Handle(GetSaleInvoiceReportPdfQuery request, CancellationToken cancellationToken)
         {
             QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
 
-            var saleInvoices = await unitOfWork.SaleInvoiceRepository.GetSalesReportByDateRangeAsync(From, To);
+            var saleInvoices = await _saleInvoiceService.GetSalesReportByDateRangeAsync(request.From, request.To, cancellationToken);
 
             if (saleInvoices == null || !saleInvoices.Any())
             {
@@ -37,7 +48,7 @@ namespace SITRA.Core.Mediator.Queries.Invoices.SaleInvoices
             try
             {
                 var firstInvoice = saleInvoices.First();
-                var ownerCandidates = await unitOfWork.Repository<User>()
+                var ownerCandidates = await _unitOfWork.Repository<User>()
                     .GetReadOnlyAsync(
                         u => u.TenantId == firstInvoice.TenantId && u.IsOwner,
                         cancellationToken);
@@ -65,9 +76,9 @@ namespace SITRA.Core.Mediator.Queries.Invoices.SaleInvoices
                 Console.WriteLine(ex);
             }
 
-            var fileName = $"Sale_{From:yyyy-MM-dd}_{To:yyyy-MM-dd}.pdf";
+            var fileName = $"Sale_{request.From:yyyy-MM-dd}_{request.To:yyyy-MM-dd}.pdf";
             
-            var invoiceDocument = new SaleInvoiceReportDocument(saleInvoices, From, To, company);
+            var invoiceDocument = new SaleInvoiceReportDocument(saleInvoices, request.From, request.To, company);
             
             using var stream = new MemoryStream();
             invoiceDocument.GeneratePdf(stream);

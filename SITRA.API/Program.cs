@@ -41,10 +41,13 @@ using SITRA.Core.Interfaces.Services.AdministrativeTools;
 using SITRA.Infrastructure.Services.AdministrativeTools;
 using SITRA.Core.Interfaces.Services.Accounts;
 using SITRA.Infrastructure.Services.Accounts;
-using SITRA.Infrastructure.Services.Products;
+using SITRA.Core.Interfaces.Services.Contacts;
+using SITRA.Infrastructure.Services.Contacts;
 using SITRA.Infrastructure.Services.Products;
 using SITRA.Core.Interfaces.Services.Storage;
 using SITRA.Infrastructure.Services.Storage;
+using SITRA.Core.Interfaces.Services.Warehouses;
+using SITRA.Infrastructure.Services.Warehouses;
 using Azure.Identity;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -201,6 +204,15 @@ builder.Services.AddScoped<IPricingService, PricingService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IComboService, ComboService>();
 builder.Services.AddScoped<IServiceService, ServiceService>();
+builder.Services.AddScoped<IContactService, ContactService>();
+builder.Services.AddScoped<IWarehouseService, WarehouseService>();
+builder.Services.AddScoped<IStockService, StockService>();
+builder.Services.AddScoped<ISaleInvoiceService, SaleInvoiceService>();
+builder.Services.AddScoped<IQuotationService, QuotationService>();
+builder.Services.AddScoped<IModelService, ModelService>();
+builder.Services.AddScoped<ISubCategoryService, SubCategoryService>();
+builder.Services.AddScoped<ITransferService, TransferService>();
+builder.Services.AddScoped<IRoleService, RoleService>();
 
 // DGII Configuration & Services
 builder.Services.Configure<DgiiSettings>(builder.Configuration.GetSection("DgiiTest")); // Dgii

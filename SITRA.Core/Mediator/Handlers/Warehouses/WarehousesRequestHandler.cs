@@ -17,7 +17,7 @@ namespace SITRA.Core.Mediator.Handlers.Warehouses
             services.AddTransient<IRequestHandler<GetWarehousesByIdQuery, WarehouseDTO>, QueryHandler<GetWarehousesByIdQuery, WarehouseDTO>>();
             services.AddTransient<IRequestHandler<GetUnregisteredWarehouseByIdQuery, List<WarehouseListDTO>>, QueryHandler<GetUnregisteredWarehouseByIdQuery, List<WarehouseListDTO>>>();
             services.AddTransient<IRequestHandler<GetSelectsWarehousesQuery, List<WarehouseListDTO>>, QueryHandler<GetSelectsWarehousesQuery, List<WarehouseListDTO>>>();
-            services.AddTransient<IRequestHandler<GetAllWarehousesQuery, List<WarehouseListDTO>>, QueryHandler<GetAllWarehousesQuery, List<WarehouseListDTO>>>();
+
             return services;
         }
     }

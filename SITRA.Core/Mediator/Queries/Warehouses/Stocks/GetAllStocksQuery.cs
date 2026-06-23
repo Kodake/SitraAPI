@@ -1,21 +1,36 @@
 using AutoMapper;
+using Mediator;
 using SITRA.Core.DTOs;
 using SITRA.Core.DTOs.Warehouses.Stocks;
-using SITRA.Core.Interfaces;
+using SITRA.Core.Interfaces.Services.Warehouses;
 
 namespace SITRA.Core.Mediator.Queries.Warehouses.Stocks
 {
-    public class GetAllStocksQuery : GetAllQuery<StockListDTO>
+    public class GetAllStocksQuery : IRequest<List<StockListDTO>>
     {
-        public GetAllStocksQuery(PaginationDTO pagination) : base(pagination) { }
+        public PaginationDTO Pagination { get; set; }
 
-        public override async Task<List<StockListDTO>> GetData(
-            IUnitOfWork unitOfWork,
-            IMapper mapper,
-            CancellationToken cancellationToken)
+        public GetAllStocksQuery(PaginationDTO pagination)
         {
-            var stocks = await unitOfWork.StockRepository.GetReadOnlyAsync(Pagination);
-            return mapper.Map<List<StockListDTO>>(stocks);
+            Pagination = pagination;
+        }
+    }
+
+    public class GetAllStocksQueryHandler : IRequestHandler<GetAllStocksQuery, List<StockListDTO>>
+    {
+        private readonly IStockService _stockService;
+        private readonly IMapper _mapper;
+
+        public GetAllStocksQueryHandler(IStockService stockService, IMapper mapper)
+        {
+            _stockService = stockService;
+            _mapper = mapper;
+        }
+
+        public async ValueTask<List<StockListDTO>> Handle(GetAllStocksQuery request, CancellationToken cancellationToken)
+        {
+            var stocks = await _stockService.GetPaginatedAsync(request.Pagination, cancellationToken);
+            return _mapper.Map<List<StockListDTO>>(stocks);
         }
     }
 }

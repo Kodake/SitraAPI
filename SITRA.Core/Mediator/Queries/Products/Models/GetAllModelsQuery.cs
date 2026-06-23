@@ -1,21 +1,35 @@
 using AutoMapper;
+using Mediator;
 using SITRA.Core.DTOs;
 using SITRA.Core.DTOs.Products.Models;
-using SITRA.Core.Interfaces;
+using SITRA.Core.Interfaces.Services.Products;
 
 namespace SITRA.Core.Mediator.Queries.Products.Models
 {
-    public class GetAllModelsQuery : GetAllQuery<ModelListDTO>
+    public class GetAllModelsQuery : IRequest<List<ModelListDTO>>
     {
-        public GetAllModelsQuery(PaginationDTO pagination) : base(pagination) { }
-
-        public override async Task<List<ModelListDTO>> GetData(
-            IUnitOfWork unitOfWork,
-            IMapper mapper,
-            CancellationToken cancellationToken)
+        public PaginationDTO Pagination { get; set; }
+        public GetAllModelsQuery(PaginationDTO pagination)
         {
-            var models = await unitOfWork.ModelRepository.GetReadOnlyAsync(Pagination);
-            return mapper.Map<List<ModelListDTO>>(models);
+            Pagination = pagination;
+        }
+    }
+
+    public class GetAllModelsQueryHandler : IRequestHandler<GetAllModelsQuery, List<ModelListDTO>>
+    {
+        private readonly IModelService _modelService;
+        private readonly IMapper _mapper;
+
+        public GetAllModelsQueryHandler(IModelService modelService, IMapper mapper)
+        {
+            _modelService = modelService;
+            _mapper = mapper;
+        }
+
+        public async ValueTask<List<ModelListDTO>> Handle(GetAllModelsQuery request, CancellationToken cancellationToken)
+        {
+            var models = await _modelService.GetAllAsync(request.Pagination, cancellationToken);
+            return _mapper.Map<List<ModelListDTO>>(models);
         }
     }
 }

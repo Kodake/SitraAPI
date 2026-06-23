@@ -18,35 +18,7 @@ namespace SITRA.Infrastructure.Repositories.Products
             httpContext = httpContextAccessor.HttpContext!;
         }
 
-        public async new Task<List<SubCategory>> GetAllAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
-        {
-            var queryable = context.SubCategories
-                .OrderBy(x => x.Name);
 
-            await httpContext.AddPaginationParamsToHeaders(queryable);
-
-            var subCategories = await queryable
-                .Paginate(paginationDTO)
-                .Include(p => p.Category)
-                .ToListAsync(cancellationToken);
-
-            return subCategories;
-        }
-
-        public async new Task<List<SubCategory>> GetReadOnlyAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
-        {
-            var queryable = context.SubCategories.AsNoTracking()
-                .OrderBy(x => x.Name);
-
-            await httpContext.AddPaginationParamsToHeaders(queryable);
-
-            var subCategories = await queryable
-                .Paginate(paginationDTO)
-                .Include(p => p.Category)
-                .ToListAsync(cancellationToken);
-
-            return subCategories;
-        }
 
         public async new Task<SubCategory?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {

@@ -31,18 +31,29 @@ namespace SITRA.Infrastructure.Services.Invoices
 
         public async Task<List<Invoice>> GetValidSaleInvoicesAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
         {
-            var queryable = _context.Invoices.AsNoTracking()
+            IQueryable<Invoice> queryable = _context.Invoices
+                .Where(x => x.InvoiceType == InvoiceType.Sale)
                 .Include(x => x.InvoiceBuyer)
                     .ThenInclude(ib => ib.Buyer)
                 .Include(x => x.InvoiceBiller)
                     .ThenInclude(ib => ib.Biller)
                 .Include(x => x.InvoiceFiscalSupport);
 
+            if (!string.IsNullOrEmpty(paginationDTO.SearchTerm))
+            {
+                var searchTerm = paginationDTO.SearchTerm.ToLower();
+                queryable = queryable.Where(x => 
+                    (x.FiscalSupportNumber != null && x.FiscalSupportNumber.ToLower().Contains(searchTerm)) ||
+                    (x.ModifiedNcfNumber != null && x.ModifiedNcfNumber.ToLower().Contains(searchTerm)) ||
+                    (x.InvoiceBuyer != null && x.InvoiceBuyer.Buyer.Name.ToLower().Contains(searchTerm)) ||
+                    (x.InvoiceBiller != null && x.InvoiceBiller.Biller.Name.ToLower().Contains(searchTerm))
+                );
+            }
+
             await _httpContext.AddPaginationParamsToHeaders(queryable);
 
             return await queryable
-                .Where(x => x.InvoiceType == InvoiceType.Sale
-                    && x.InvoiceFiscalSupport != null
+                .Where(x => x.InvoiceFiscalSupport != null
                     && x.InvoiceFiscalSupport.EcfType != EcfType.E31
                     && x.InvoiceFiscalSupport.EcfType != EcfType.E33
                     && x.InvoiceFiscalSupport.EcfType != EcfType.E34
@@ -61,10 +72,22 @@ namespace SITRA.Infrastructure.Services.Invoices
 
         public async Task<List<Invoice>> GetValidPurchaseInvoicesAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
         {
-            var queryable = _context.Invoices.AsNoTracking()
+            IQueryable<Invoice> queryable = _context.Invoices.AsNoTracking()
+                .Where(x => x.InvoiceType == InvoiceType.Purchase)
                 .Include(x => x.InvoiceBuyer)
                     .ThenInclude(ib => ib.Buyer)
                 .Include(x => x.InvoiceFiscalSupport);
+
+            if (!string.IsNullOrEmpty(paginationDTO.SearchTerm))
+            {
+                var searchTerm = paginationDTO.SearchTerm.ToLower();
+                queryable = queryable.Where(x => 
+                    (x.FiscalSupportNumber != null && x.FiscalSupportNumber.ToLower().Contains(searchTerm)) ||
+                    (x.ModifiedNcfNumber != null && x.ModifiedNcfNumber.ToLower().Contains(searchTerm)) ||
+                    (x.InvoiceBuyer != null && x.InvoiceBuyer.Buyer.Name.ToLower().Contains(searchTerm)) ||
+                    (x.InvoiceBiller != null && x.InvoiceBiller.Biller.Name.ToLower().Contains(searchTerm))
+                );
+            }
 
             await _httpContext.AddPaginationParamsToHeaders(queryable);
 
@@ -96,9 +119,18 @@ namespace SITRA.Infrastructure.Services.Invoices
         }
         public async Task<List<SpotPayable>> GetValidSpotPayablesAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
         {
-            var queryable = _context.SpotPayables.AsNoTracking()
+            IQueryable<SpotPayable> queryable = _context.SpotPayables
                 .Include(x => x.Invoice)
                 .Include(x => x.Supplier);
+
+            if (!string.IsNullOrEmpty(paginationDTO.SearchTerm))
+            {
+                var searchTerm = paginationDTO.SearchTerm.ToLower();
+                queryable = queryable.Where(x => 
+                    (x.Invoice != null && x.Invoice.FiscalSupportNumber != null && x.Invoice.FiscalSupportNumber.ToLower().Contains(searchTerm)) ||
+                    (x.Supplier != null && x.Supplier.Name.ToLower().Contains(searchTerm))
+                );
+            }
 
             await _httpContext.AddPaginationParamsToHeaders(queryable);
 
@@ -112,10 +144,19 @@ namespace SITRA.Infrastructure.Services.Invoices
 
         public async Task<List<SpotPayment>> GetValidSpotPaymentsAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
         {
-            var queryable = _context.SpotPayments.AsNoTracking()
+            IQueryable<SpotPayment> queryable = _context.SpotPayments
                 .Include(x => x.Payments)
                 .Include(x => x.Invoice)
                 .Include(x => x.Buyer);
+
+            if (!string.IsNullOrEmpty(paginationDTO.SearchTerm))
+            {
+                var searchTerm = paginationDTO.SearchTerm.ToLower();
+                queryable = queryable.Where(x => 
+                    (x.Invoice != null && x.Invoice.FiscalSupportNumber != null && x.Invoice.FiscalSupportNumber.ToLower().Contains(searchTerm)) ||
+                    (x.Buyer != null && x.Buyer.Name.ToLower().Contains(searchTerm))
+                );
+            }
 
             await _httpContext.AddPaginationParamsToHeaders(queryable);
 

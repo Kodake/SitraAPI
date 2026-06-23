@@ -570,10 +570,7 @@ namespace SITRA.Core.Mediator.Handlers
         public ForgotPasswordCommandHandler(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper) : base(unitOfWork, outputCacheStore, mapper) { }
     }
 
-    public class GetAllAppointmentsQueryHandler : QueryHandler<GetAllAppointmentsQuery, List<AppointmentListDTO>>
-    {
-        public GetAllAppointmentsQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
-    }
+
 
     public class GetAllBrandsQueryHandler : QueryHandler<GetAllBrandsQuery, List<BrandListDTO>>
     {
@@ -590,15 +587,9 @@ namespace SITRA.Core.Mediator.Handlers
         public GetAllCategoriesQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
     }
 
-    public class GetAllCombosQueryHandler : QueryHandler<GetAllCombosQuery, List<ComboListDTO>>
-    {
-        public GetAllCombosQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
-    }
 
-    public class GetAllContactsQueryHandler : QueryHandler<GetAllContactsQuery, List<ContactListDTO>>
-    {
-        public GetAllContactsQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
-    }
+
+
 
     public class GetAllCurrenciesQueryHandler : QueryHandler<GetAllCurrenciesQuery, List<CurrencyListDTO>>
     {
@@ -615,30 +606,21 @@ namespace SITRA.Core.Mediator.Handlers
         public GetAllExpensesQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
     }
 
-    public class GetAllFiscalSupportsQueryHandler : QueryHandler<GetAllFiscalSupportsQuery, List<FiscalSupportListDTO>>
-    {
-        public GetAllFiscalSupportsQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
-    }
+
 
     public class GetAllLogInvoicesQueryHandler : QueryHandler<GetAllLogInvoicesQuery, List<LogInvoiceListDTO>>
     {
         public GetAllLogInvoicesQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
     }
 
-    public class GetAllModelsQueryHandler : QueryHandler<GetAllModelsQuery, List<ModelListDTO>>
-    {
-        public GetAllModelsQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
-    }
+
 
     public class GetAllPayablesByIdQueryHandler : QueryHandler<GetAllPayablesByIdQuery, PayableDTO>
     {
         public GetAllPayablesByIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
     }
 
-    public class GetAllPayablesQueryHandler : QueryHandler<GetAllPayablesQuery, List<PayableListDTO>>
-    {
-        public GetAllPayablesQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
-    }
+
 
     public class GetAllPettyCashMovementsByIdQueryHandler : QueryHandler<GetAllPettyCashMovementsByIdQuery, List<PettyCashMovementListDTO>>
     {
@@ -655,10 +637,7 @@ namespace SITRA.Core.Mediator.Handlers
         public GetAllPricingsQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
     }
 
-    public class GetAllProductsQueryHandler : QueryHandler<GetAllProductsQuery, List<ProductListDTO>>
-    {
-        public GetAllProductsQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
-    }
+
 
     public class GetAllPurchaseInvoicesByDateRangeQueryHandler : QueryHandler<GetAllPurchaseInvoicesByDateRangeQuery, List<PurchaseInvoiceListDTO>>
     {
@@ -670,50 +649,29 @@ namespace SITRA.Core.Mediator.Handlers
         public GetAllQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
     }
 
-    public class GetAllQuotationsQueryHandler : QueryHandler<GetAllQuotationsQuery, List<QuotationListDTO>>
-    {
-        public GetAllQuotationsQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
-    }
+
 
     public class GetAllReceivablesByIdQueryHandler : QueryHandler<GetAllReceivablesByIdQuery, ReceivableDTO>
     {
         public GetAllReceivablesByIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
     }
 
-    public class GetAllReceivablesQueryHandler : QueryHandler<GetAllReceivablesQuery, List<ReceivableListDTO>>
-    {
-        public GetAllReceivablesQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
-    }
 
-    public class GetAllRolesQueryHandler : QueryHandler<GetAllRolesQuery, List<RoleListDTO>>
-    {
-        public GetAllRolesQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
-    }
 
-    public class GetAllSaleInvoicesByDateRangeAndBillerQueryHandler : QueryHandler<GetAllSaleInvoicesByDateRangeAndBillerQuery, List<SaleInvoiceListDTO>>
-    {
-        public GetAllSaleInvoicesByDateRangeAndBillerQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
-    }
 
-    public class GetAllServicesQueryHandler : QueryHandler<GetAllServicesQuery, List<ServiceListDTO>>
-    {
-        public GetAllServicesQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
-    }
+
+
+
+
 
     public class GetAllStocksByWarehouseIdsQueryHandler : QueryHandler<GetAllStocksByWarehouseIdsQuery, List<StockListDTO>>
     {
         public GetAllStocksByWarehouseIdsQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
     }
 
-    public class GetAllStocksQueryHandler : QueryHandler<GetAllStocksQuery, List<StockListDTO>>
-    {
-        public GetAllStocksQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
-    }
 
-    public class GetAllSubCategoriesQueryHandler : QueryHandler<GetAllSubCategoriesQuery, List<SubCategoryListDTO>>
-    {
-        public GetAllSubCategoriesQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
-    }
+
+
 
     public class GetAllTaxesQueryHandler : QueryHandler<GetAllTaxesQuery, List<TaxListDTO>>
     {
@@ -725,15 +683,9 @@ namespace SITRA.Core.Mediator.Handlers
         public GetAllTenantUsersQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
     }
 
-    public class GetAllTransfersQueryHandler : QueryHandler<GetAllTransfersQuery, List<TransferListDTO>>
-    {
-        public GetAllTransfersQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
-    }
 
-    public class GetAllWarehousesQueryHandler : QueryHandler<GetAllWarehousesQuery, List<WarehouseListDTO>>
-    {
-        public GetAllWarehousesQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
-    }
+
+
 
     public class GetAllWithdrawalPettyCashMovementsByIdQueryHandler : QueryHandler<GetAllWithdrawalPettyCashMovementsByIdQuery, List<WithdrawalPettyCashMovementListDTO>>
     {
@@ -868,11 +820,6 @@ namespace SITRA.Core.Mediator.Handlers
     public class GetSaleInvoiceReceiptPdfQueryHandler : QueryHandler<GetSaleInvoiceReceiptPdfQuery, (byte[] FileBytes, string FileName)?>
     {
         public GetSaleInvoiceReceiptPdfQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
-    }
-
-    public class GetSaleInvoiceReportPdfQueryHandler : QueryHandler<GetSaleInvoiceReportPdfQuery, (byte[] FileBytes, string FileName)?>
-    {
-        public GetSaleInvoiceReportPdfQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
     }
 
     public class GetSelectsBillersQueryHandler : QueryHandler<GetSelectsBillersQuery, List<ContactListDTO>>

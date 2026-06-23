@@ -21,39 +21,7 @@ namespace SITRA.Infrastructure.Repositories.AdministrativeTools
             httpContext = httpContextAccessor.HttpContext!;
         }
 
-        public async new Task<List<FiscalSupport>> GetAllAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
-        {
-            var owner = await context.Set<User>().AsNoTracking().FirstOrDefaultAsync(u => u.IsOwner, cancellationToken);
-            var isElectronic = owner?.IsElectronicTransmitter ?? false;
 
-            var queryable = context.FiscalSupports
-                .Where(x => isElectronic ? (int)x.FiscalSupportType >= 31 : (int)x.FiscalSupportType < 31)
-                .AsQueryable();
-
-            await httpContext.AddPaginationParamsToHeaders(queryable);
-
-            return await queryable
-                .OrderBy(x => x.Id)
-                .Paginate(paginationDTO)
-                .ToListAsync(cancellationToken);
-        }
-
-        public async new Task<List<FiscalSupport>> GetReadOnlyAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
-        {
-            var owner = await context.Set<User>().AsNoTracking().FirstOrDefaultAsync(u => u.IsOwner, cancellationToken);
-            var isElectronic = owner?.IsElectronicTransmitter ?? false;
-
-            var queryable = context.FiscalSupports.AsNoTracking()
-                .Where(x => isElectronic ? (int)x.FiscalSupportType >= 31 : (int)x.FiscalSupportType < 31)
-                .AsQueryable();
-
-            await httpContext.AddPaginationParamsToHeaders(queryable);
-
-            return await queryable
-                .OrderBy(x => x.Id)
-                .Paginate(paginationDTO)
-                .ToListAsync(cancellationToken);
-        }
 
         public async new Task<List<FiscalSupport>> GetAllAsync(Expression<Func<FiscalSupport, bool>> filter, CancellationToken cancellationToken = default)
         {

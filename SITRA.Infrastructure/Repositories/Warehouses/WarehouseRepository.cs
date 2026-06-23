@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using SITRA.Core.DTOs;
+using SITRA.Core.Helpers;
 using SITRA.Core.Entities.Warehouses;
 using SITRA.Core.Enums;
 using SITRA.Core.Interfaces.Warehouses;
@@ -10,8 +12,15 @@ namespace SITRA.Infrastructure.Repositories.Warehouses
 {
     public class WarehouseRepository : RepositoryBase<Warehouse>, IWarehouseRepository
     {
+        private new readonly HttpContext httpContext;
+
         public WarehouseRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
-            : base(context, httpContextAccessor) { }
+            : base(context, httpContextAccessor) 
+        {
+            httpContext = httpContextAccessor.HttpContext!;
+        }
+
+
 
         public async Task<List<Warehouse>> GetAll(StatusType status, CancellationToken cancellationToken = default)
         {

@@ -1,21 +1,36 @@
 using AutoMapper;
+using Mediator;
 using SITRA.Core.DTOs;
 using SITRA.Core.DTOs.Accounts.Receivables;
-using SITRA.Core.Interfaces;
+using SITRA.Core.Interfaces.Services.Accounts;
 
 namespace SITRA.Core.Mediator.Queries.Receivables
 {
-    public class GetAllReceivablesQuery : GetAllQuery<ReceivableListDTO>
+    public class GetAllReceivablesQuery : IRequest<List<ReceivableListDTO>>
     {
-        public GetAllReceivablesQuery(PaginationDTO pagination) : base(pagination) { }
+        public PaginationDTO Pagination { get; set; }
 
-        public override async Task<List<ReceivableListDTO>> GetData(
-            IUnitOfWork unitOfWork,
-            IMapper mapper,
-            CancellationToken cancellationToken)
+        public GetAllReceivablesQuery(PaginationDTO pagination)
         {
-            var receivables = await unitOfWork.ReceivableRepository.GetReadOnlyAsync(Pagination);
-            return mapper.Map<List<ReceivableListDTO>>(receivables);
+            Pagination = pagination;
+        }
+    }
+
+    public class GetAllReceivablesQueryHandler : IRequestHandler<GetAllReceivablesQuery, List<ReceivableListDTO>>
+    {
+        private readonly IReceivableService _receivableService;
+        private readonly IMapper _mapper;
+
+        public GetAllReceivablesQueryHandler(IReceivableService receivableService, IMapper mapper)
+        {
+            _receivableService = receivableService;
+            _mapper = mapper;
+        }
+
+        public async ValueTask<List<ReceivableListDTO>> Handle(GetAllReceivablesQuery request, CancellationToken cancellationToken)
+        {
+            var receivables = await _receivableService.GetPaginatedAsync(request.Pagination, cancellationToken);
+            return _mapper.Map<List<ReceivableListDTO>>(receivables);
         }
     }
 }

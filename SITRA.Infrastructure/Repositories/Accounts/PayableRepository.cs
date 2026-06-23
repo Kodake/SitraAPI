@@ -14,35 +14,6 @@ namespace SITRA.Infrastructure.Repositories.Accounts
     {
         private new readonly HttpContext httpContext = httpContextAccessor.HttpContext!;
 
-        public async new Task<List<Payable>> GetAllAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
-        {
-            var queryable = context.Payables
-                .Include(x => x.PayableReceipts)
-                .Include(x => x.Invoice)
-                .Include(x => x.Supplier);
-
-            await httpContext.AddPaginationParamsToHeaders(queryable);
-
-            return await queryable
-                .OrderBy(x => x.Id)
-                .Paginate(paginationDTO)
-                .ToListAsync(cancellationToken);
-        }
-
-        public async new Task<List<Payable>> GetReadOnlyAsync(PaginationDTO paginationDTO, CancellationToken cancellationToken = default)
-        {
-            var queryable = context.Payables.AsNoTracking()
-                .Include(x => x.PayableReceipts)
-                .Include(x => x.Invoice)
-                .Include(x => x.Supplier);
-
-            await httpContext.AddPaginationParamsToHeaders(queryable);
-
-            return await queryable
-                .OrderBy(x => x.Id)
-                .Paginate(paginationDTO)
-                .ToListAsync(cancellationToken);
-        }
 
         public async Task<Payable?> GetAllByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
