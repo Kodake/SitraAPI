@@ -17,6 +17,8 @@ namespace SITRA.API.Middlewares
 
         public async Task InvokeAsync(HttpContext context)
         {
+            string? language = null;
+
             if (context.User.Identity?.IsAuthenticated == true)
             {
                 var userId = context.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
@@ -31,17 +33,48 @@ namespace SITRA.API.Middlewares
                         var user = await userManager.FindByIdAsync(userId);
                         if (user != null)
                         {
-                            var culture = new CultureInfo(user.Language.ToString());
-                            CultureInfo.CurrentCulture = culture;
-                            CultureInfo.CurrentUICulture = culture;
-
-                            _logger.LogDebug($"Set culture to {user.Language} for user {userId}");
+                            language = user.Language.ToString();
+                            _logger.LogDebug($"Set culture to {user.Language} from user profile {userId}");
                         }
                     }
                     catch (Exception ex)
                     {
-                        _logger.LogError(ex, $"Error setting culture for user {userId}");
+                        _logger.LogError(ex, $"Error getting culture for user {userId}");
                     }
+                }
+            }
+
+            if (string.IsNullOrEmpty(language))
+            {
+                var acceptLanguage = context.Request.Headers["Accept-Language"].ToString();
+                if (!string.IsNullOrEmpty(acceptLanguage))
+                {
+                    var preferredLanguage = acceptLanguage.Split(',').FirstOrDefault()?.Split(';').FirstOrDefault()?.Trim();
+                    if (!string.IsNullOrEmpty(preferredLanguage))
+                    {
+                        if (preferredLanguage.Equals("es", StringComparison.OrdinalIgnoreCase) || preferredLanguage.StartsWith("es-", StringComparison.OrdinalIgnoreCase))
+                        {
+                            language = "es";
+                        }
+                        else if (preferredLanguage.Equals("en", StringComparison.OrdinalIgnoreCase) || preferredLanguage.StartsWith("en-", StringComparison.OrdinalIgnoreCase))
+                        {
+                            language = "en";
+                        }
+                    }
+                }
+            }
+
+            if (!string.IsNullOrEmpty(language))
+            {
+                try
+                {
+                    var culture = new CultureInfo(language);
+                    CultureInfo.CurrentCulture = culture;
+                    CultureInfo.CurrentUICulture = culture;
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, $"Error setting culture to {language}");
                 }
             }
 

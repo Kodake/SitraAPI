@@ -64,7 +64,7 @@ namespace SITRA.API.Endpoints
             return TypedResults.Created();
         }
 
-        static async Task<Results<Ok<TokenResponseDTO>, UnauthorizedHttpResult, ValidationProblem>> Login(
+        static async Task<Results<Ok<TokenResponseDTO>, ProblemHttpResult, ValidationProblem>> Login(
             [FromBody] CreateLoginUserDTO dto,
             HttpContext httpContext,
             [FromServices] IMediator mediator)
@@ -74,7 +74,10 @@ namespace SITRA.API.Endpoints
 
             if (response == null)
             {
-                return TypedResults.Unauthorized();
+                return TypedResults.Problem(
+                    detail: SITRA.Core.Helpers.Utilities.InvalidCredentialsMessage,
+                    statusCode: StatusCodes.Status401Unauthorized
+                );
             }
 
             if (!string.IsNullOrEmpty(response.RefreshToken))
