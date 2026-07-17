@@ -117,6 +117,7 @@ namespace SITRA.Infrastructure.Services.Auths
             var expire = DateTimeOffset.UtcNow.AddHours(12);
 
             bool isElectronicTransmitter = false;
+            string? companyLogoUrl = user.CompanyLogoUrl;
             if (user.IsOwner)
             {
                 isElectronicTransmitter = user.IsElectronicTransmitter;
@@ -127,6 +128,10 @@ namespace SITRA.Infrastructure.Services.Auths
                     .IgnoreQueryFilters()
                     .FirstOrDefaultAsync(u => u.TenantId == user.TenantId && u.IsOwner, cancellationToken);
                 isElectronicTransmitter = ownerUser?.IsElectronicTransmitter ?? false;
+                if (string.IsNullOrEmpty(companyLogoUrl) && ownerUser != null)
+                {
+                    companyLogoUrl = ownerUser.CompanyLogoUrl;
+                }
             }
 
             var claims = new List<Claim>
@@ -144,6 +149,7 @@ namespace SITRA.Infrastructure.Services.Auths
                 new Claim("companyName", user.CompanyName ?? string.Empty),
                 new Claim("phoneNumber", user.PhoneNumber ?? string.Empty),
                 new Claim("isElectronicTransmitter", isElectronicTransmitter.ToString().ToLower()),
+                new Claim("companyLogoUrl", companyLogoUrl ?? string.Empty),
             };
 
             var userClaims = await _userManager.GetClaimsAsync(user);
