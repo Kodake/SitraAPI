@@ -27,6 +27,7 @@ namespace SITRA.API.Endpoints.Invoices
             group.MapPost("/", Create).DisableAntiforgery().AddEndpointFilter<ValidationFilter<CreatePurchaseInvoiceDTO>>().WithOpenApi().RequireAuthorization();
             group.MapGet("/{invoiceId}/generate-pdf", GeneratePdf).WithOpenApi().RequireAuthorization();
             group.MapGet("/{invoiceId}/download", DownloadPdf).WithOpenApi().RequireAuthorization();
+            group.MapGet("/{invoiceId}/generate-receipt-pdf", GenerateReceiptPdf).WithOpenApi().RequireAuthorization();
             return group;
         }
 
@@ -93,6 +94,20 @@ namespace SITRA.API.Endpoints.Invoices
             [FromServices] SITRA.Core.Interfaces.Services.Storage.IDgiiStorageService dgiiStorageService)
         {
             var query = new DownloadPurchaseInvoicePdfQuery(invoiceId, dgiiSettings.Value, dgiiStorageService);
+            var result = await mediator.Send(query);
+
+            return result == null
+                ? TypedResults.NotFound()
+                : TypedResults.File(result.Value.FileBytes, "application/pdf", result.Value.FileName);
+        }
+
+        static async Task<Results<FileContentHttpResult, NotFound>> GenerateReceiptPdf(
+            [FromRoute] Guid invoiceId,
+            [FromServices] IMediator mediator,
+            [FromServices] Microsoft.Extensions.Options.IOptions<SITRA.Core.Models.Dgii.DgiiSettings> dgiiSettings,
+            [FromServices] SITRA.Core.Interfaces.Services.Storage.IDgiiStorageService dgiiStorageService)
+        {
+            var query = new GetPurchaseInvoiceReceiptPdfQuery(invoiceId, dgiiSettings.Value, dgiiStorageService);
             var result = await mediator.Send(query);
 
             return result == null

@@ -767,6 +767,11 @@ namespace SITRA.Core.Mediator.Handlers
         public GetPurchaseInvoicePdfQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
     }
 
+    public class GetPurchaseInvoiceReceiptPdfQueryHandler : QueryHandler<GetPurchaseInvoiceReceiptPdfQuery, (byte[] FileBytes, string FileName)?>
+    {
+        public GetPurchaseInvoiceReceiptPdfQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
+    }
+
     public class GetPurchaseInvoiceReportPdfQueryHandler : QueryHandler<GetPurchaseInvoiceReportPdfQuery, (byte[] FileBytes, string FileName)?>
     {
         public GetPurchaseInvoiceReportPdfQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
