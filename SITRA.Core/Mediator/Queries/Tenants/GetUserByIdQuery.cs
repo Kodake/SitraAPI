@@ -33,7 +33,8 @@ namespace SITRA.Core.Mediator.Queries.Tenants
                 CompanyName = user.CompanyName,
                 ParentUserId = user.ParentUserId,
                 RoleId = user.TenantRoleUsers.FirstOrDefault()?.RoleId.ToString(),
-                IsElectronicTransmitter = user.IsElectronicTransmitter
+                IsElectronicTransmitter = user.IsElectronicTransmitter,
+                CompanyLogoUrl = user.CompanyLogoUrl
             };
 
             return dto;

@@ -283,6 +283,30 @@ namespace SITRA.Infrastructure.Services.Storage
             }
         }
 
+        public async Task<string> SaveCompanyLogoAsync(Microsoft.AspNetCore.Http.IFormFile file, string rnc)
+        {
+            var extension = Path.GetExtension(file.FileName); // e.g., .png or .jpeg
+            string fileName = $"{rnc}-logo{extension}";
+            
+            if (_settings.UseAzureStorage)
+            {
+                var blobClient = await GetBlobClientAsync($"Logos/Logo/{rnc}/{fileName}");
+                using var stream = file.OpenReadStream();
+                await blobClient.UploadAsync(stream, overwrite: true);
+                return blobClient.Uri.ToString();
+            }
+            else
+            {
+                string saveDir = Path.Combine(ResolvePath("Resources/Logos/Logo"), rnc);
+                if (!Directory.Exists(saveDir)) Directory.CreateDirectory(saveDir);
+
+                string filePath = Path.Combine(saveDir, fileName);
+                using var fileStream = new FileStream(filePath, FileMode.Create);
+                await file.CopyToAsync(fileStream);
+                return filePath;
+            }
+        }
+
         private static string ResolvePath(string path) =>
             Path.IsPathRooted(path) ? path : Path.Combine(AppContext.BaseDirectory, path);
     }

@@ -18,5 +18,6 @@ namespace SITRA.Core.Interfaces.Services.Storage
         /// <summary>Uploads any locally-embedded XSD schemas to the root 'Schemas/' folder in blob storage if they do not already exist. No-op when Azure Storage is disabled.</summary>
         Task EnsureSchemasUploadedAsync();
         Task<string> SaveCertificateAsync(Microsoft.AspNetCore.Http.IFormFile file, string rnc);
+        Task<string> SaveCompanyLogoAsync(Microsoft.AspNetCore.Http.IFormFile file, string rnc);
     }
 }

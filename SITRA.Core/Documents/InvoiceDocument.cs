@@ -76,14 +76,10 @@ namespace SITRA.Core.Documents
                 // Left Side: Logo and Company Details
                 row.RelativeItem().Column(col =>
                 {
-                    string logoPath = Path.Combine(AppContext.BaseDirectory, "Resources", "logo-black.png");
-                    if (File.Exists(logoPath))
+                    byte[]? logoBytes = _company != null ? SITRA.Core.Helpers.Utilities.GetCompanyLogoBytes(_company.CompanyLogoUrl) : null;
+                    if (logoBytes != null)
                     {
-                        col.Item().Height(60).Image(logoPath).FitArea();
-                    }
-                    else
-                    {
-                        col.Item().Height(60).Placeholder(); // Just placeholder height if no logo
+                        col.Item().Height(60).Image(logoBytes).FitArea();
                     }
 
                     string companyName = _company?.CompanyName ?? _dgiiMetadata?.RazonSocialEmisor ?? "MI EMPRESA";

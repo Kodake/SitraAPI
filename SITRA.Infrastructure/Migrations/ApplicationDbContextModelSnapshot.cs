@@ -693,6 +693,9 @@ namespace SITRA.Infrastructure.Migrations
                     b.Property<string>("CertificateUrl")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CompanyLogoUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CompanyName")
                         .HasColumnType("nvarchar(max)");
 

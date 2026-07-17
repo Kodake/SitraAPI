@@ -11,5 +11,6 @@ namespace SITRA.Core.DTOs.Auths
         public string? PhoneNumber { get; set; }
         public IFormFile? Certificate { get; set; }
         public string? CertificatePassword { get; set; }
+        public IFormFile? CompanyLogo { get; set; }
     }
 }

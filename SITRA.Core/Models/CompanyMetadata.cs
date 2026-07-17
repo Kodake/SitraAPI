@@ -13,5 +13,6 @@ namespace SITRA.Core.Models
         // Computed resolved display values
         public string? ResolvedProvince { get; set; }
         public string? ResolvedMunicipality { get; set; }
+        public string? CompanyLogoUrl { get; set; }
     }
 }

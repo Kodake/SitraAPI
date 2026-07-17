@@ -67,7 +67,8 @@ namespace SITRA.Core.Mediator.Queries.Invoices.SaleInvoices
                         PhoneNumber = owner.PhoneNumber,
                         Email = owner.Email,
                         ResolvedProvince = LocationMappingHelper.GetProvinceName(owner.Province),
-                        ResolvedMunicipality = LocationMappingHelper.GetMunicipalityName(owner.Municipality)
+                        ResolvedMunicipality = LocationMappingHelper.GetMunicipalityName(owner.Municipality),
+                        CompanyLogoUrl = owner.CompanyLogoUrl
                     };
                 }
             }

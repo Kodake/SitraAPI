@@ -128,6 +128,12 @@ namespace SITRA.Infrastructure.Services.Auths
                 user.CertificateUrl = await _dgiiStorageService.SaveCertificateAsync(dto.Certificate, rnc);
             }
 
+            if (dto.CompanyLogo != null)
+            {
+                string rnc = !string.IsNullOrEmpty(user.RucNumber) ? user.RucNumber : "unknown";
+                user.CompanyLogoUrl = await _dgiiStorageService.SaveCompanyLogoAsync(dto.CompanyLogo, rnc);
+            }
+
             if (!string.IsNullOrEmpty(dto.CertificatePassword))
             {
                 user.CertificatePassword = _protector.Protect(dto.CertificatePassword);

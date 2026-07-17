@@ -21,15 +21,15 @@ namespace SITRA.Core.Documents.Components
         {
             container.Column(column =>
             {
-                string logoPath = Path.Combine(AppContext.BaseDirectory, "Resources", "logo-black.png");
-                if (File.Exists(logoPath))
+                byte[]? logoBytes = _companyUser != null ? SITRA.Core.Helpers.Utilities.GetCompanyLogoBytes(_companyUser.CompanyLogoUrl) : null;
+                if (logoBytes != null)
                 {
                     column.Item()
                           .AlignCenter()
                           .PaddingBottom(5)
                           .MaxHeight(1.5f, Unit.Centimetre)
                           .Width(100)
-                          .Image(logoPath).FitArea();
+                          .Image(logoBytes).FitArea();
                 }
 
                 // Company Info

@@ -28,10 +28,10 @@ namespace SITRA.Core.Documents
         {
             container.Column(column =>
             {
-                string logoPath = Path.Combine(AppContext.BaseDirectory, "Resources", "logo-black.png");
-                if (File.Exists(logoPath))
+                byte[]? logoBytes = User != null ? SITRA.Core.Helpers.Utilities.GetCompanyLogoBytes(User.CompanyLogoUrl) : null;
+                if (logoBytes != null)
                 {
-                    column.Item().AlignCenter().PaddingBottom(10).Height(60).Image(logoPath).FitArea();
+                    column.Item().AlignCenter().PaddingBottom(10).Height(60).Image(logoBytes).FitArea();
                 }
 
                 if (User != null)

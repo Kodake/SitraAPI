@@ -350,5 +350,34 @@ namespace SITRA.Core.Helpers
         public static string CertificateNotYetValidMessage => _resourceManager.GetString("CertificateNotYetValidMessage")!;
         public static string CertificatePasswordIncorrectMessage => _resourceManager.GetString("CertificatePasswordIncorrectMessage")!;
         public static string CertificateInvalidFormatMessage => _resourceManager.GetString("CertificateInvalidFormatMessage")!;
+
+        public static byte[]? GetCompanyLogoBytes(string? logoUrl)
+        {
+            if (string.IsNullOrEmpty(logoUrl))
+                return null;
+
+            try
+            {
+                if (logoUrl.StartsWith("http://", System.StringComparison.OrdinalIgnoreCase) || 
+                    logoUrl.StartsWith("https://", System.StringComparison.OrdinalIgnoreCase))
+                {
+                    using var httpClient = new System.Net.Http.HttpClient();
+                    return httpClient.GetByteArrayAsync(logoUrl).GetAwaiter().GetResult();
+                }
+                else
+                {
+                    string path = System.IO.Path.IsPathRooted(logoUrl) ? logoUrl : System.IO.Path.Combine(System.AppContext.BaseDirectory, logoUrl);
+                    if (System.IO.File.Exists(path))
+                    {
+                        return System.IO.File.ReadAllBytes(path);
+                    }
+                }
+            }
+            catch
+            {
+                // Fallback to null on failure
+            }
+            return null;
+        }
     }
 }

@@ -21,13 +21,13 @@ namespace SITRA.Core.Documents
         {
             container.Column(column =>
             {
-                string logoPath = Path.Combine(AppContext.BaseDirectory, "Resources", "logo-black.png");
-                if (File.Exists(logoPath))
+                var user = PettyCash.User;
+                byte[]? logoBytes = user != null ? SITRA.Core.Helpers.Utilities.GetCompanyLogoBytes(user.CompanyLogoUrl) : null;
+                if (logoBytes != null)
                 {
-                    column.Item().AlignCenter().PaddingBottom(10).Height(60).Image(logoPath).FitArea();
+                    column.Item().AlignCenter().PaddingBottom(10).Height(60).Image(logoBytes).FitArea();
                 }
 
-                var user = PettyCash.User;
                 if (user != null)
                 {
                     column.Item().AlignCenter().Text(user.CompanyName ?? "Mi Empresa").SemiBold();

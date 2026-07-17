@@ -11,6 +11,7 @@ namespace SITRA.Core.DTOs.Auths
         public string Province { get; set; } = null!;
         public string Municipality { get; set; } = null!;
         public string? CompanyName { get; set; }
+        public string? CompanyLogoUrl { get; set; }
         public string? ParentUserId { get; set; }
         public string? RoleId { get; set; }
         public bool IsElectronicTransmitter { get; set; }
