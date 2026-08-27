@@ -1,37 +1,38 @@
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using SITRA.API.Attributes;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace SITRA.API.Filters
+namespace SITRA.API.Filters;
+
+public class IdempotencyOperationFilter : IOperationFilter
 {
-    public class IdempotencyOperationFilter : IOperationFilter
+    public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
-        public void Apply(OpenApiOperation operation, OperationFilterContext context)
+        var idempotentAttribute = context.MethodInfo?.GetCustomAttributes(true)
+            .OfType<IdempotentAttribute>()
+            .FirstOrDefault();
+
+        if (idempotentAttribute != null)
         {
-            var idempotentAttribute = context.MethodInfo?.GetCustomAttributes(true)
-                .OfType<IdempotentAttribute>()
-                .FirstOrDefault();
+            operation.Parameters ??= new List<IOpenApiParameter>();
 
-            if (idempotentAttribute != null)
+            if (!operation.Parameters.Any(p => p.Name == "X-Idempotency-Key"))
             {
-                operation.Parameters ??= new List<OpenApiParameter>();
-
-                if (!operation.Parameters.Any(p => p.Name == "X-Idempotency-Key"))
+                operation.Parameters.Add(new OpenApiParameter
                 {
-                    operation.Parameters.Add(new OpenApiParameter
+                    Name = "X-Idempotency-Key",
+                    In = ParameterLocation.Header,
+                    Required = true,
+                    Schema = new OpenApiSchema
                     {
-                        Name = "X-Idempotency-Key",
-                        In = ParameterLocation.Header,
-                        Required = true,
-                        Schema = new OpenApiSchema
-                        {
-                            Type = "string",
-                            Format = "uuid"
-                        },
-                        Description = SITRA.Core.Helpers.Utilities.IdempotencyKeyDescriptionMessage
-                    });
-                }
+                        Type = JsonSchemaType.String,
+                        Format = "uuid"
+                    },
+                    Description = SITRA.Core.Helpers.Utilities.IdempotencyKeyDescriptionMessage
+                });
             }
         }
     }
 }
+
+

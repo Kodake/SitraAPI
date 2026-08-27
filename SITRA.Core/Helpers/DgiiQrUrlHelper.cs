@@ -9,8 +9,8 @@ namespace SITRA.Core.Helpers
         public static string BuildDgiiQrUrl(DgiiPdfMetadata data, string? customUrl = null, string? customFcUrl = null)
         {
             decimal total = data.MontoTotal;
-            bool isTipo32 = data.TipoEcf == "32";
             string encf = (data.Encf ?? "").Trim().ToUpper();
+            bool isTipo32 = data.TipoEcf == "32" || encf.StartsWith("E32");
             bool isTipo43 = data.TipoEcf == "43" || encf.StartsWith("E43");
             string normalizedComprador = NormalizeQrDigits(data.CompradorRnc);
             string normalizedEmisor = NormalizeQrDigits(data.EmisorRnc);
@@ -22,23 +22,26 @@ namespace SITRA.Core.Helpers
                 ? resolvedFcUrl
                 : resolvedUrl;
 
-            var builder = new UriBuilder(baseUrl);
-            var query = HttpUtility.ParseQueryString(string.Empty);
-            
-            query["RncEmisor"] = normalizedEmisor;
+            var queryParts = new List<string>();
+            queryParts.Add($"rncemisor={normalizedEmisor}");
             
             if (!isTipo43 || !string.IsNullOrEmpty(normalizedComprador))
             {
-                query["RncComprador"] = normalizedComprador;
+                queryParts.Add($"rnccomprador={normalizedComprador}");
             }
             
-            query["ENCF"] = encf;
-            query["FechaEmision"] = NormalizeQrDate(data.FechaEmision);
-            query["MontoTotal"] = total.ToString("F2", System.Globalization.CultureInfo.InvariantCulture);
-            query["FechaHoraFirma"] = NormalizeQrDateTime(data.FechaFirma);
-            query["CodigoSeguridad"] = (data.SecurityCode ?? "").Trim();
+            queryParts.Add($"encf={encf}");
+            queryParts.Add($"fechaemision={NormalizeQrDate(data.FechaEmision)}");
+            queryParts.Add($"montototal={total.ToString("F2", System.Globalization.CultureInfo.InvariantCulture)}");
+            
+            string fechaFirma = NormalizeQrDateTime(data.FechaFirma);
+            string fechaFirmaEncoded = fechaFirma.Replace(" ", "%20");
+            queryParts.Add($"fechafirma={fechaFirmaEncoded}");
+            
+            queryParts.Add($"codigoseguridad={(data.SecurityCode ?? "").Trim()}");
 
-            builder.Query = query.ToString();
+            var builder = new UriBuilder(baseUrl);
+            builder.Query = string.Join("&", queryParts);
             return builder.ToString();
         }
 

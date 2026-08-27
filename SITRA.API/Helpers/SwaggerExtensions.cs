@@ -1,5 +1,5 @@
-using Microsoft.OpenApi.Any;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
+using System.Text.Json.Nodes;
 
 namespace SITRA.API.Helpers
 {
@@ -16,8 +16,8 @@ namespace SITRA.API.Helpers
                     In = ParameterLocation.Query,
                     Schema = new OpenApiSchema
                     {
-                        Type = "integer",
-                        Default = new OpenApiInteger(1)
+                        Type = JsonSchemaType.Integer,
+                        Default = JsonValue.Create(1)
                     }
                 });
 
@@ -27,8 +27,8 @@ namespace SITRA.API.Helpers
                     In = ParameterLocation.Query,
                     Schema = new OpenApiSchema
                     {
-                        Type = "integer",
-                        Default = new OpenApiInteger(10)
+                        Type = JsonSchemaType.Integer,
+                        Default = JsonValue.Create(10)
                     }
                 });
                 return opt;

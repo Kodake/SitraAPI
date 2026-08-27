@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace SITRA.API.Helpers
@@ -13,19 +13,16 @@ namespace SITRA.API.Helpers
                 return;
             }
 
-            operation.Security = new List<OpenApiSecurityRequirement>{new OpenApiSecurityRequirement
+            operation.Security = new List<OpenApiSecurityRequirement>
             {
+                new OpenApiSecurityRequirement
                 {
-                    new OpenApiSecurityScheme
                     {
-                        Reference = new OpenApiReference
-                        {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer"
-                        }
-                    }, new string[]{ }
+                        new OpenApiSecuritySchemeReference("Bearer"),
+                        new List<string>()
+                    }
                 }
-            }};
+            };
         }
     }
 }

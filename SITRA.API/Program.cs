@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using QuestPDF.Infrastructure;
 using Serilog;
 using SITRA.API.Extensions;
@@ -33,12 +33,8 @@ using SITRA.Infrastructure.Services.Invoices;
 using SITRA.Core.Interfaces.Services.Messaging;
 using SITRA.Infrastructure.Services.Messaging;
 using SITRA.Core.Interfaces.Services.Products;
-using SITRA.Core.Interfaces.Services.Finances;
-using SITRA.Infrastructure.Services.Finances;
 using SITRA.Core.Interfaces.Services.Appointments;
 using SITRA.Infrastructure.Services.Appointments;
-using SITRA.Core.Interfaces.Services.AdministrativeTools;
-using SITRA.Infrastructure.Services.AdministrativeTools;
 using SITRA.Core.Interfaces.Services.Accounts;
 using SITRA.Infrastructure.Services.Accounts;
 using SITRA.Core.Interfaces.Services.Contacts;
@@ -92,18 +88,11 @@ builder.Services.AddSwaggerGen(c =>
         Type = SecuritySchemeType.Http,
         Scheme = "bearer"
     });
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    c.AddSecurityRequirement(doc => new OpenApiSecurityRequirement
     {
         {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            new string[] {}
+            new OpenApiSecuritySchemeReference("Bearer"),
+            new List<string>()
         }
     });
     c.OperationFilter<SITRA.API.Filters.IdempotencyOperationFilter>();
