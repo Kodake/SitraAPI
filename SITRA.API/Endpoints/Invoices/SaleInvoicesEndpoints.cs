@@ -11,6 +11,7 @@ using SITRA.Core.DTOs.Invoices.SaleInvoices;
 using SITRA.Core.Mediator.Commands.Invoices.SaleInvoices;
 using SITRA.Core.Mediator.Queries.Invoices.SaleInvoices;
 using SITRA.Core.Models.Dgii;
+using SITRA.Core.Enums;
 
 namespace SITRA.API.Endpoints.Invoices
 {
@@ -28,6 +29,7 @@ namespace SITRA.API.Endpoints.Invoices
             group.MapGet("/{id:guid}", GetById).RequireAuthorization();
             group.MapGet("/summary", GetBalance).WithOpenApi().RequireAuthorization();
             group.MapPost("/", Create).DisableAntiforgery().AddEndpointFilter<ValidationFilter<CreateSaleInvoiceDTO>>().WithOpenApi().RequireAuthorization();
+            group.MapPost("/with-item", CreateWithProductOrService).DisableAntiforgery().AddEndpointFilter<ValidationFilter<CreateSaleInvoiceWithItemDTO>>().WithOpenApi().RequireAuthorization();
             group.MapPost("/annul", AnnulNcf).DisableAntiforgery().AddEndpointFilter<ValidationFilter<AnnulNcfDTO>>().WithOpenApi().RequireAuthorization();
             group.MapGet("/{invoiceId}/generate-pdf", GeneratePdf).WithOpenApi().RequireAuthorization();
             group.MapGet("/{invoiceId}/download", DownloadPdf).WithOpenApi().RequireAuthorization();
@@ -71,6 +73,21 @@ namespace SITRA.API.Endpoints.Invoices
             [FromQuery] string? modifiedNcfNumber = null)
         {
             var command = new CreateSaleInvoiceCommand(dto, modifiedNcfNumber);
+            var saleDTO = await mediator.Send(command);
+
+            return saleDTO == null
+                ? TypedResults.NotFound()
+                : TypedResults.Created(string.Empty, saleDTO);
+        }
+
+        [Idempotent]
+        static async Task<Results<Created<CreateSaleInvoiceWithItemDTO>, NotFound, ValidationProblem>> CreateWithProductOrService(
+            [FromBody] CreateSaleInvoiceWithItemDTO dto,
+            [FromServices] IMediator mediator,
+            IOutputCacheStore outputCacheStore,
+            [FromQuery] string? modifiedNcfNumber = null)
+        {
+            var command = new CreateSaleInvoiceWithItemCommand(dto, modifiedNcfNumber);
             var saleDTO = await mediator.Send(command);
 
             return saleDTO == null

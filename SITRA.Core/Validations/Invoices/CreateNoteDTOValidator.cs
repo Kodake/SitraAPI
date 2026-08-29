@@ -49,17 +49,17 @@ namespace SITRA.Core.Validations.Invoices
                 })
                 .WithMessage((dto) =>
                 {
-                    // Re-fetch logic to format message properly might be expensive or redundant, 
-                    // but needed for context in message builder if we don't store state.
-                    // Ideally we could use context to pass data but for now we re-fetch.
                     var user = unitOfWork.UserService.GetUserAsync().Result;
                     if (user != null)
                     {
                         var tenant = unitOfWork.Repository<Tenant>().GetByIdAsync(user.TenantId).Result;
-                        var monthlySalesLimit = unitOfWork.PlanService.GetMaxMonthlySales(tenant!.Plan);
-                        return Utilities.MonthlySalesLimitReachedMessage(monthlySalesLimit ?? 0, tenant.Plan.ToString());
+                        if (tenant != null)
+                        {
+                            var monthlySalesLimit = unitOfWork.PlanService.GetMaxMonthlySales(tenant.Plan);
+                            return Utilities.MonthlySalesLimitReachedMessage(monthlySalesLimit ?? 0, tenant.Plan.ToString());
+                        }
                     }
-                    return "Limit reached";
+                    return Utilities.MonthlySalesLimitReachedMessage(0, string.Empty);
                 })
                 .WithName("PlanLimit");
 

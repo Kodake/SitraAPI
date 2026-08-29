@@ -71,6 +71,7 @@ namespace SITRA.Core.Helpers
         public static string NoCertificatePasswordConfiguredMessage => _resourceManager.GetString("NoCertificatePasswordConfiguredMessage")!;
         public static string CurrentUserNotFoundMessage => _resourceManager.GetString("CurrentUserNotFoundMessage")!;
         public static string CertificateUrlEmptyMessage => _resourceManager.GetString("CertificateUrlEmptyMessage")!;
+        public static string TaxNotFoundMessage => _resourceManager.GetString("TaxNotFoundMessage")!;
 
         public static string UserNotFoundAddingClaimsMessage(string userId)
         {

@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using SITRA.Core.Enums;
 
 namespace SITRA.Core.DTOs.Products.Services
@@ -7,6 +8,8 @@ namespace SITRA.Core.DTOs.Products.Services
         public string Name { get; set; } = string.Empty;
         public string? Reference { get; set; }
         public string? Description { get; set; }
+
+        [JsonIgnore]
         public IFormFile? ImageUrl { get; set; }
         public double InitialCost { get; set; } = 0;
         public double BasePrice { get; set; }

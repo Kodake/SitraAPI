@@ -8,6 +8,9 @@ namespace SITRA.Core.DTOs.Invoices.SaleInvoices
         public Guid ItemId { get; set; }
         public ItemType ItemType { get; set; }
         public double Qty { get; set; }
+        public string? ItemName { get; set; }
+        public double? ItemBasePrice { get; set; }
+        public List<Guid>? TaxIds { get; set; }
         public ICollection<ItemTaxes> ItemTaxes { get; set; } = [];
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }

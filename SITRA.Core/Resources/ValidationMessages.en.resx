@@ -474,7 +474,10 @@
     <value>Invalid Itbis rate</value>
   </data>
   <data name="InvalidTaxAmountMessage" xml:space="preserve">
-    <value>Invalid tax amount</value>
+    <value>The tax amount must be between 0 and 100</value>
+  </data>
+  <data name="TaxNotFoundMessage" xml:space="preserve">
+    <value>Tax not found for the specified TaxId.</value>
   </data>
   <data name="PriceLabel" xml:space="preserve">
     <value>Price</value>

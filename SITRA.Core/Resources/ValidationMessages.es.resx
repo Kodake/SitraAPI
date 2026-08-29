@@ -476,6 +476,9 @@
   <data name="InvalidTaxAmountMessage" xml:space="preserve">
     <value>El monto del impuesto debe estar entre 0 y 100</value>
   </data>
+  <data name="TaxNotFoundMessage" xml:space="preserve">
+    <value>Impuesto no encontrado para el TaxId especificado.</value>
+  </data>
   <data name="PriceLabel" xml:space="preserve">
     <value>Precio</value>
   </data>
