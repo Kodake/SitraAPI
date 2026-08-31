@@ -23,8 +23,6 @@ namespace SITRA.Core.Entities.Contacts
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }
         public Guid TenantId { get; set; }
-        public ICollection<InvoiceBiller> InvoiceBillers { get; set; } = new HashSet<InvoiceBiller>();
-        public ICollection<InvoiceBuyer> InvoiceBuyers { get; set; } = new HashSet<InvoiceBuyer>();
         public ICollection<Appointment> Appointments { get; set; } = new HashSet<Appointment>();
     }
 }

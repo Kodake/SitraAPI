@@ -13,9 +13,7 @@ namespace SITRA.API.Profiles.Products
         public ServicesProfile()
         {
             CreateMap<CreateServiceDTO, Item>()
-                .ForMember(des => des.ItemTaxes, opt => opt.MapFrom(src => src.TaxIds.Select(id => new ItemTaxes { TaxId = id }).ToList()))
-                .ForMember(des => des.ItemCategory, opt => opt.MapFrom(src => src.CategoryId.HasValue ? new ItemCategory { CategoryId = src.CategoryId.Value } : null))
-                .ForMember(des => des.ItemSubCategory, opt => opt.MapFrom(src => src.SubCategoryId.HasValue ? new ItemSubCategory { SubCategoryId = src.SubCategoryId.Value } : null));
+                .ForMember(des => des.ItemTaxes, opt => opt.MapFrom(src => src.TaxIds.Select(id => new ItemTaxes { TaxId = id }).ToList()));
             CreateMap<CreateServiceCsvDTO, Item>();
 
             CreateMap<ServiceDTO, Item>();
@@ -36,20 +34,18 @@ namespace SITRA.API.Profiles.Products
                     Name = pt.Tax.Name,
                     Amount = pt.Tax.Amount
                 }).ToList()))
-                .ForMember(des => des.Category, opt => opt.MapFrom(src => src.ItemCategory != null ? new CategoryDTO
+                .ForMember(des => des.Category, opt => opt.MapFrom(src => src.Category != null ? new CategoryDTO
                 {
-                    Id = src.ItemCategory.Category.Id,
-                    Name = src.ItemCategory.Category.Name,
-                    Description = src.ItemCategory.Category.Description
+                    Id = src.Category.Id,
+                    Name = src.Category.Name,
+                    Description = src.Category.Description
                 } : null))
-                .ForMember(des => des.CategoryId, opt => opt.MapFrom(src => src.ItemCategory != null ? src.ItemCategory.Category.Id : (Guid?)null))
-                .ForMember(des => des.SubCategory, opt => opt.MapFrom(src => src.ItemSubCategory != null ? new SubCategoryDTO
+                .ForMember(des => des.SubCategory, opt => opt.MapFrom(src => src.SubCategory != null ? new SubCategoryDTO
                 {
-                    Id = src.ItemSubCategory.SubCategory.Id,
-                    Name = src.ItemSubCategory.SubCategory.Name,
-                    Description = src.ItemSubCategory.SubCategory.Description
+                    Id = src.SubCategory.Id,
+                    Name = src.SubCategory.Name,
+                    Description = src.SubCategory.Description
                 } : null))
-                .ForMember(des => des.SubCategoryId, opt => opt.MapFrom(src => src.ItemSubCategory != null ? src.ItemSubCategory.SubCategory.Id : (Guid?)null))
                 .ForMember(des => des.BasePrice, opt => opt.MapFrom(src =>
                     src.PricingItems.FirstOrDefault(p => p.IsPrincipal)!.BasePrice))
                 .ForMember(des => des.Percentage, opt => opt.MapFrom(src =>

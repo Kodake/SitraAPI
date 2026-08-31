@@ -251,7 +251,7 @@ namespace SITRA.Infrastructure.Services.Auths
             var refreshToken = new RefreshToken
             {
                 Token = refreshTokenString,
-                UserId = user.Id,
+                UserId = user.Id!,
                 Expires = refreshTokenExpiration,
                 Created = DateTime.UtcNow
             };
@@ -474,7 +474,7 @@ namespace SITRA.Infrastructure.Services.Auths
             var refreshToken = new RefreshToken
             {
                 Token = refreshTokenString,
-                UserId = user.Id,
+                UserId = user.Id!,
                 Expires = refreshTokenExpiration,
                 Created = DateTime.UtcNow
             };

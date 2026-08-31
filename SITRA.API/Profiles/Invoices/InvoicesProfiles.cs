@@ -27,17 +27,17 @@ namespace SITRA.API.Profiles.Invoices
                 .ForMember(des => des.Warehouse, opt => opt.Ignore());
 
             CreateMap<Invoice, SaleInvoiceDTO>()
-                .ForMember(des => des.Buyer, opt => opt.MapFrom(src => src.InvoiceBuyer != null ? src.InvoiceBuyer.Buyer : null))
-                .ForMember(des => des.CustomerId, opt => opt.MapFrom(src => src.InvoiceBuyer != null ? src.InvoiceBuyer.ContactId : Guid.Empty))
-                .ForMember(des => des.Biller, opt => opt.MapFrom(src => src.InvoiceBiller != null ? src.InvoiceBiller.Biller : null))
-                .ForMember(des => des.BillerId, opt => opt.MapFrom(src => src.InvoiceBiller != null ? src.InvoiceBiller.ContactId : Guid.Empty))
-                .ForMember(des => des.FiscalSupport, opt => opt.MapFrom(src => src.InvoiceFiscalSupport != null ? src.InvoiceFiscalSupport.FiscalSupport : null))
+                .ForMember(des => des.Buyer, opt => opt.MapFrom(src => src.Buyer))
+                .ForMember(des => des.CustomerId, opt => opt.MapFrom(src => src.BuyerId ?? Guid.Empty))
+                .ForMember(des => des.Biller, opt => opt.MapFrom(src => src.Biller))
+                .ForMember(des => des.BillerId, opt => opt.MapFrom(src => src.BillerId ?? Guid.Empty))
+                .ForMember(des => des.FiscalSupport, opt => opt.MapFrom(src => src.FiscalSupport))
                 .ForMember(des => des.InvoiceItems, opt => opt.MapFrom(src => src.InvoiceItems));
                 
             CreateMap<SaleInvoiceItemDTO, InvoiceItem>();
             CreateMap<Invoice, SaleInvoiceListDTO>()
-                .ForMember(des => des.ContactId, opt => opt.MapFrom(src => src.InvoiceBuyer != null ? src.InvoiceBuyer.ContactId : (Guid?)null))
-                .ForMember(des => des.Buyer, opt => opt.MapFrom(src => src.InvoiceBuyer != null ? src.InvoiceBuyer.Buyer : null));
+                .ForMember(des => des.ContactId, opt => opt.MapFrom(src => src.BuyerId))
+                .ForMember(des => des.Buyer, opt => opt.MapFrom(src => src.Buyer));
 
 
             CreateMap<SaleInvoiceItemDTO, InvoiceItem>()
@@ -49,20 +49,19 @@ namespace SITRA.API.Profiles.Invoices
 
             // Purchase Invoices
             CreateMap<CreatePurchaseInvoiceDTO, Invoice>()
-                .ForMember(des => des.InvoiceBuyer, opt => opt.Ignore())
                 .ForMember(des => des.Pricing, opt => opt.Ignore())
                 .ForMember(des => des.Payable, opt => opt.Ignore())
                 .ForMember(des => des.Receivable, opt => opt.Ignore())
                 .ForMember(des => des.Warehouse, opt => opt.Ignore());
 
             CreateMap<Invoice, PurchaseInvoiceDTO>()
-                .ForMember(des => des.Supplier, opt => opt.MapFrom(src => src.InvoiceBuyer != null ? src.InvoiceBuyer.Buyer : null))
-                .ForMember(des => des.SupplierId, opt => opt.MapFrom(src => src.InvoiceBuyer != null ? src.InvoiceBuyer.ContactId : Guid.Empty))
-                .ForMember(des => des.FiscalSupport, opt => opt.MapFrom(src => src.InvoiceFiscalSupport != null ? src.InvoiceFiscalSupport.FiscalSupport : null));
+                .ForMember(des => des.Supplier, opt => opt.MapFrom(src => src.Buyer))
+                .ForMember(des => des.SupplierId, opt => opt.MapFrom(src => src.BuyerId ?? Guid.Empty))
+                .ForMember(des => des.FiscalSupport, opt => opt.MapFrom(src => src.FiscalSupport));
             CreateMap<PurchaseInvoiceItemDTO, InvoiceItem>();
             CreateMap<Invoice, PurchaseInvoiceListDTO>()
-                .ForMember(des => des.SupplierId, opt => opt.MapFrom(src => src.InvoiceBuyer != null ? src.InvoiceBuyer.ContactId : (Guid?)null))
-                .ForMember(des => des.Supplier, opt => opt.MapFrom(src => src.InvoiceBuyer != null ? src.InvoiceBuyer.Buyer : null));
+                .ForMember(des => des.SupplierId, opt => opt.MapFrom(src => src.BuyerId))
+                .ForMember(des => des.Supplier, opt => opt.MapFrom(src => src.Buyer));
 
             CreateMap<PurchaseInvoiceItemDTO, InvoiceItem>()
                 .ForMember(des => des.Item, opt => opt.Ignore());

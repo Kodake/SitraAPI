@@ -29,8 +29,8 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
 
         private EcfDocument BuildEcfDocument(Invoice invoice, string tipoEcf)
         {
-            var biller = invoice.InvoiceBiller?.Biller;
-            var buyer = invoice.InvoiceBuyer?.Buyer;
+            var biller = invoice.Biller;
+            var buyer = invoice.Buyer;
 
             var ecf = new EcfDocument
             {

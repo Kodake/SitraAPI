@@ -14,10 +14,14 @@ namespace SITRA.Core.Entities.Products
         public string? Barcode { get; set; }
         public string? Description { get; set; }
         public string? ImageUrl { get; set; }
-        public ItemBrand? ItemBrand { get; set; }
-        public ItemModel? ItemModel { get; set; }
-        public ItemCategory? ItemCategory { get; set; }
-        public ItemSubCategory? ItemSubCategory { get; set; }
+        public Guid? BrandId { get; set; }
+        public Brand? Brand { get; set; }
+        public Guid? ModelId { get; set; }
+        public Model? Model { get; set; }
+        public Guid? CategoryId { get; set; }
+        public Category? Category { get; set; }
+        public Guid? SubCategoryId { get; set; }
+        public SubCategory? SubCategory { get; set; }
         public bool IsActive { get; set; } = true;
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }

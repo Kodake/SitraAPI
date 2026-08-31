@@ -159,7 +159,7 @@ namespace SITRA.Core.Documents
                         string conditionStr = item.ConditionType == InvoiceCondition.Spot ? "Contado" : "Crédito";
 
                         table.Cell().Element(RowStyle).Text(item.CreatedAt.ToString("dd-MM-yyyy"));
-                        table.Cell().Element(RowStyle).Text(item.InvoiceBiller?.Biller?.Name ?? "N/A");
+                        table.Cell().Element(RowStyle).Text(item.Biller?.Name ?? item.Buyer?.Name ?? "N/A");
                         table.Cell().Element(RowStyle).Text(item.FiscalSupportNumber ?? "N/A");
                         table.Cell().Element(RowStyle).Text(conditionStr);
                         table.Cell().Element(RowStyle).AlignRight().Text(item.TotalPrice.ToString("N2")).SemiBold().FontColor(Colors.Black);

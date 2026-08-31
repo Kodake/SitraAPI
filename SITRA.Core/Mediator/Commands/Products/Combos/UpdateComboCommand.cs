@@ -33,10 +33,10 @@ namespace SITRA.Core.Mediator.Commands.Products.Combos
                 ParentItemId = comboDB.Id
             }).ToList();
 
-            comboDB.ItemBrand = Dto.BrandId.HasValue ? new ItemBrand { BrandId = Dto.BrandId.Value, ItemId = comboDB.Id } : null;
-            comboDB.ItemModel = Dto.ModelId.HasValue ? new ItemModel { ModelId = Dto.ModelId.Value, ItemId = comboDB.Id } : null;
-            comboDB.ItemCategory = Dto.CategoryId.HasValue ? new ItemCategory { CategoryId = Dto.CategoryId.Value, ItemId = comboDB.Id } : null;
-            comboDB.ItemSubCategory = Dto.SubCategoryId.HasValue ? new ItemSubCategory { SubCategoryId = Dto.SubCategoryId.Value, ItemId = comboDB.Id } : null;
+            comboDB.BrandId = Dto.BrandId;
+            comboDB.ModelId = Dto.ModelId;
+            comboDB.CategoryId = Dto.CategoryId;
+            comboDB.SubCategoryId = Dto.SubCategoryId;
 
             var principalPricingItem = comboDB.PricingItems.FirstOrDefault(x => x.IsPrincipal);
             if (principalPricingItem != null)

@@ -45,10 +45,10 @@ namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
             note.ModificationCode  = Dto.ModificationCode ?? 3; // Default: 1 = Anula el NCF modificado
 
             if (Dto.CustomerId.HasValue && Dto.CustomerId.Value != Guid.Empty)
-                note.InvoiceBuyer = new InvoiceBuyer { ContactId = Dto.CustomerId.Value };
+                note.BuyerId = Dto.CustomerId.Value;
 
             if (Dto.BillerId.HasValue && Dto.BillerId.Value != Guid.Empty)
-                note.InvoiceBiller = new InvoiceBiller { ContactId = Dto.BillerId.Value };
+                note.BillerId = Dto.BillerId.Value;
 
             if (fiscalSupportDB != null)
             {
@@ -64,11 +64,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
                     && (parsedType == EcfType.E33 || parsedType == EcfType.E34
                      || parsedType == EcfType.B03 || parsedType == EcfType.B04))
                 {
-                    note.InvoiceFiscalSupport = new InvoiceFiscalSupport 
-                    { 
-                        FiscalSupportId = fiscalSupportDB.Id,
-                        EcfType = parsedType
-                    };
+                    note.FiscalSupportId = fiscalSupportDB.Id;
                     unitOfWork.FiscalSupportRepository.Update(fiscalSupportDB);
                 }
             }

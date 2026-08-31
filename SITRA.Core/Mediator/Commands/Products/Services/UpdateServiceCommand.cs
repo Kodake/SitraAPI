@@ -43,8 +43,8 @@ namespace SITRA.Core.Mediator.Commands.Products.Services
                 ItemId = serviceDB.Id
             }).ToList();
 
-            serviceDB.ItemCategory = Dto.CategoryId.HasValue ? new ItemCategory { CategoryId = Dto.CategoryId.Value, ItemId = serviceDB.Id } : null;
-            serviceDB.ItemSubCategory = Dto.SubCategoryId.HasValue ? new ItemSubCategory { SubCategoryId = Dto.SubCategoryId.Value, ItemId = serviceDB.Id } : null;
+            serviceDB.CategoryId = Dto.CategoryId;
+            serviceDB.SubCategoryId = Dto.SubCategoryId;
 
             var principalPricingItem = serviceDB.PricingItems.FirstOrDefault(x => x.IsPrincipal);
             if (principalPricingItem != null)

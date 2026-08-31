@@ -31,7 +31,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.PurchaseInvoices
             purchaseInvoice.Date = DateTimeOffset.Now;
             if (Dto.SupplierId != Guid.Empty)
             {
-                purchaseInvoice.InvoiceBuyer = new InvoiceBuyer { ContactId = Dto.SupplierId };
+                purchaseInvoice.BuyerId = Dto.SupplierId;
             }
 
             if (fiscalSupportDB != null)
@@ -47,7 +47,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.PurchaseInvoices
                      || parsedType == EcfType.B01 || parsedType == EcfType.B11)
                     ? parsedType
                     : EcfType.E31;
-                purchaseInvoice.InvoiceFiscalSupport = new InvoiceFiscalSupport { FiscalSupportId = fiscalSupportDB.Id, EcfType = ecfType };
+                purchaseInvoice.FiscalSupportId = fiscalSupportDB.Id;
                 unitOfWork.FiscalSupportRepository.Update(fiscalSupportDB);
             }
 

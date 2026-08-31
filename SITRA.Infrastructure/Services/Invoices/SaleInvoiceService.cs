@@ -28,10 +28,8 @@ namespace SITRA.Infrastructure.Services.Invoices
             to = to.Date.AddDays(1).AddTicks(-1);
 
             var queryable = _context.Invoices.AsNoTracking()
-                .Include(x => x.InvoiceBuyer)
-                    .ThenInclude(ib => ib.Buyer)
-                .Include(x => x.InvoiceBiller)
-                    .ThenInclude(ib => ib.Biller)
+                .Include(x => x.Buyer)
+                .Include(x => x.Biller)
                 .Where(x =>
                     x.InvoiceType == InvoiceType.Sale &&
                     x.CreatedAt >= from &&
@@ -45,8 +43,8 @@ namespace SITRA.Infrastructure.Services.Invoices
                 queryable = queryable.Where(x => 
                     (x.FiscalSupportNumber != null && x.FiscalSupportNumber.ToLower().Contains(searchTerm)) ||
                     (x.ModifiedNcfNumber != null && x.ModifiedNcfNumber.ToLower().Contains(searchTerm)) ||
-                    (x.InvoiceBuyer != null && x.InvoiceBuyer.Buyer.Name.ToLower().Contains(searchTerm)) ||
-                    (x.InvoiceBiller != null && x.InvoiceBiller.Biller.Name.ToLower().Contains(searchTerm))
+                    (x.Buyer != null && x.Buyer.Name.ToLower().Contains(searchTerm)) ||
+                    (x.Biller != null && x.Biller.Name.ToLower().Contains(searchTerm))
                 );
             }
 
@@ -66,10 +64,8 @@ namespace SITRA.Infrastructure.Services.Invoices
             to = to.Date.AddDays(1).AddTicks(-1);
 
             return await _context.Invoices.AsNoTracking()
-                .Include(x => x.InvoiceBuyer)
-                    .ThenInclude(ib => ib.Buyer)
-                .Include(x => x.InvoiceBiller)
-                    .ThenInclude(ib => ib.Biller)
+                .Include(x => x.Buyer)
+                .Include(x => x.Biller)
                 .Where(x =>
                     x.InvoiceType == InvoiceType.Sale &&
                     x.CreatedAt >= from &&

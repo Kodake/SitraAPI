@@ -21,12 +21,12 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
             saleInvoice.InvoiceType = InvoiceType.Quotation;
             if (Dto.CustomerId.HasValue && Dto.CustomerId.Value != Guid.Empty)
             {
-                saleInvoice.InvoiceBuyer = new InvoiceBuyer { ContactId = Dto.CustomerId.Value };
+                saleInvoice.BuyerId = Dto.CustomerId.Value;
             }
 
             if (Dto.BillerId.HasValue && Dto.BillerId.Value != Guid.Empty)
             {
-                saleInvoice.InvoiceBiller = new InvoiceBiller { ContactId = Dto.BillerId.Value };
+                saleInvoice.BillerId = Dto.BillerId.Value;
             }
 
             double currencyRate = currencyDB!.Rate;

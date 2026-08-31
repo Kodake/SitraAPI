@@ -32,19 +32,19 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
             saleInvoice.InvoiceType = InvoiceType.Sale;
             if (Dto.CustomerId.HasValue && Dto.CustomerId.Value != Guid.Empty)
             {
-                saleInvoice.InvoiceBuyer = new InvoiceBuyer { ContactId = Dto.CustomerId.Value };
+                saleInvoice.BuyerId = Dto.CustomerId.Value;
             }
 
             if (Dto.BillerId.HasValue && Dto.BillerId.Value != Guid.Empty)
             {
-                saleInvoice.InvoiceBiller = new InvoiceBiller { ContactId = Dto.BillerId.Value };
+                saleInvoice.BillerId = Dto.BillerId.Value;
             }
 
             if (fiscalSupportDB != null)
             {
                 fiscalSupportDB.IncrementSequence();
                 saleInvoice.FiscalSupportNumber = fiscalSupportDB.GenerateFiscalSupportNumber();
-                saleInvoice.InvoiceFiscalSupport = new InvoiceFiscalSupport { FiscalSupportId = fiscalSupportDB.Id };
+                saleInvoice.FiscalSupportId = fiscalSupportDB.Id;
                 unitOfWork.FiscalSupportRepository.Update(fiscalSupportDB);
             }
 

@@ -25,12 +25,9 @@ namespace SITRA.Infrastructure.Repositories.Invoices
         public async new Task<Invoice?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await context.Invoices
-                .Include(i => i.InvoiceBuyer)
-                    .ThenInclude(ib => ib.Buyer)
-                .Include(i => i.InvoiceBiller)
-                    .ThenInclude(ib => ib.Biller)
-                .Include(i => i.InvoiceFiscalSupport)
-                    .ThenInclude(ifs => ifs.FiscalSupport)
+                .Include(i => i.Buyer)
+                .Include(i => i.Biller)
+                .Include(i => i.FiscalSupport)
                 .Include(i => i.Pricing)
                 .Include(i => i.Warehouse)
                 .Include(i => i.InvoiceItems)
@@ -71,8 +68,7 @@ namespace SITRA.Infrastructure.Repositories.Invoices
             to = to.Date.AddDays(1).AddTicks(-1);
 
             var queryable = context.Invoices
-                .Include(x => x.InvoiceBuyer)
-                    .ThenInclude(ib => ib.Buyer)
+                .Include(x => x.Buyer)
                 .Where(x =>
                     x.InvoiceType == InvoiceType.Purchase &&
                     x.CreatedAt >= from &&
@@ -93,8 +89,7 @@ namespace SITRA.Infrastructure.Repositories.Invoices
             to = to.Date.AddDays(1).AddTicks(-1);
 
             return await context.Invoices
-                .Include(x => x.InvoiceBuyer)
-                    .ThenInclude(ib => ib.Buyer)
+                .Include(x => x.Buyer)
                 .Where(x =>
                     x.InvoiceType == InvoiceType.Purchase &&
                     x.CreatedAt >= from &&

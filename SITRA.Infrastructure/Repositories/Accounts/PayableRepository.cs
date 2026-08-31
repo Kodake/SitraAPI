@@ -19,9 +19,8 @@ namespace SITRA.Infrastructure.Repositories.Accounts
         {
             return await context.Payables
                 .Include(x => x.Invoice)
+                    .ThenInclude(i => i!.Biller)
                 .Include(x => x.Supplier)
-                .Include(x => x.Invoice.InvoiceBiller)
-                    .ThenInclude(ib => ib.Biller)
                 .Include(x => x.PayableReceipts.OrderByDescending(p => p.Id))
                 .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }

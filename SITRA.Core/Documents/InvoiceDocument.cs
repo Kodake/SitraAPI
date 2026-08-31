@@ -185,8 +185,8 @@ namespace SITRA.Core.Documents
                     row.RelativeItem().Column(col =>
                     {
                         col.Item().Text("COMPRADOR").FontSize(8).SemiBold().FontColor(Colors.Grey.Darken2);
-                        col.Item().Text(_dgiiMetadata?.RazonSocialComprador ?? _invoice.InvoiceBuyer?.Buyer?.Name ?? "CLIENTE FINAL").SemiBold().FontSize(11).FontColor(Colors.Black);
-                        col.Item().Text($"RNC/Cedula: {_dgiiMetadata?.CompradorRnc ?? _invoice.InvoiceBuyer?.Buyer?.Identification ?? "N/A"}").FontSize(9);
+                        col.Item().Text(_dgiiMetadata?.RazonSocialComprador ?? _invoice.Buyer?.Name ?? "CLIENTE FINAL").SemiBold().FontSize(11).FontColor(Colors.Black);
+                        col.Item().Text($"RNC/Cedula: {_dgiiMetadata?.CompradorRnc ?? _invoice.Buyer?.Identification ?? "N/A"}").FontSize(9);
 
                         if (!string.IsNullOrEmpty(_dgiiMetadata?.DireccionComprador))
                         {

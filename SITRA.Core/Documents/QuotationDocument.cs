@@ -145,8 +145,8 @@ namespace SITRA.Core.Documents
                     row.RelativeItem().Column(col =>
                     {
                         col.Item().Text("CLIENTE").FontSize(8).SemiBold().FontColor(Colors.Grey.Darken2);
-                        col.Item().Text(_invoice.InvoiceBuyer?.Buyer?.Name ?? "CLIENTE FINAL").SemiBold().FontSize(11).FontColor(Colors.Black);
-                        col.Item().Text($"RNC/Cédula: {_invoice.InvoiceBuyer?.Buyer?.Identification ?? "N/A"}").FontSize(9);
+                        col.Item().Text(_invoice.Buyer?.Name ?? "CLIENTE FINAL").SemiBold().FontSize(11).FontColor(Colors.Black);
+                        col.Item().Text($"RNC/Cédula: {_invoice.Buyer?.Identification ?? "N/A"}").FontSize(9);
                     });
 
                     // Right: Payment details

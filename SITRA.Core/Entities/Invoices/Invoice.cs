@@ -1,4 +1,6 @@
 using SITRA.Core.Entities.Accounts;
+using SITRA.Core.Entities.AdministrativeTools;
+using SITRA.Core.Entities.Contacts;
 using SITRA.Core.Entities.Finances;
 using SITRA.Core.Entities.Products;
 using SITRA.Core.Entities.Warehouses;
@@ -13,9 +15,12 @@ namespace SITRA.Core.Entities.Invoices
         public DateTimeOffset Date { get; set; }
         public Guid PricingId { get; set; }
         public Pricing Pricing { get; set; } = null!;
-        public virtual InvoiceBiller? InvoiceBiller { get; set; }
-        public virtual InvoiceBuyer? InvoiceBuyer { get; set; }
-        public virtual InvoiceFiscalSupport? InvoiceFiscalSupport { get; set; }
+        public Guid? BillerId { get; set; }
+        public virtual Contact? Biller { get; set; }
+        public Guid? BuyerId { get; set; }
+        public virtual Contact? Buyer { get; set; }
+        public Guid? FiscalSupportId { get; set; }
+        public virtual FiscalSupport? FiscalSupport { get; set; }
         public string? FiscalSupportNumber { get; set; } = null!;
         public Guid CurrencyId { get; set; }
         public Currency Currency { get; set; } = null!;

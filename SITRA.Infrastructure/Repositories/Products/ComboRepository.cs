@@ -24,14 +24,10 @@ namespace SITRA.Infrastructure.Repositories.Products
         public async new Task<Item?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await context.Items
-                .Include(p => p.ItemBrand)
-                    .ThenInclude(ib => ib.Brand)
-                .Include(p => p.ItemModel)
-                    .ThenInclude(im => im.Model)
-                .Include(p => p.ItemCategory)
-                    .ThenInclude(ic => ic.Category)
-                .Include(p => p.ItemSubCategory)
-                    .ThenInclude(isc => isc.SubCategory)
+                .Include(p => p.Brand)
+                .Include(p => p.Model)
+                .Include(p => p.Category)
+                .Include(p => p.SubCategory)
                 .Include(p => p.PricingItems)
                     .ThenInclude(p => p.Pricing)
                 .Include(p => p.ItemTaxes)

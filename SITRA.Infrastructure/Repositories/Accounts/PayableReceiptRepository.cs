@@ -14,8 +14,7 @@ namespace SITRA.Infrastructure.Repositories.Accounts
             return await context.PayableReceipts
                 .Include(p => p.Payable)
                     .ThenInclude(x => x.Invoice)
-                    .ThenInclude(x => x.InvoiceBuyer)
-                        .ThenInclude(ib => ib.Buyer)
+                    .ThenInclude(x => x.Buyer)
                 .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
     }

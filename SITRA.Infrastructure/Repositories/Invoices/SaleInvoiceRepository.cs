@@ -25,10 +25,8 @@ namespace SITRA.Infrastructure.Repositories.Invoices
         public async new Task<Invoice?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await context.Invoices
-                .Include(i => i.InvoiceBuyer)
-                    .ThenInclude(ib => ib.Buyer)
-                .Include(i => i.InvoiceBiller)
-                    .ThenInclude(ib => ib.Biller)
+                .Include(i => i.Buyer)
+                .Include(i => i.Biller)
                 .Include(i => i.Pricing)
                 .Include(i => i.Warehouse)
                 .Include(i => i.Quotation)

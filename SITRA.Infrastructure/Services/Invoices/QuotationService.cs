@@ -24,12 +24,11 @@ namespace SITRA.Infrastructure.Services.Invoices
         {
             var queryable = _context.Quotations.AsNoTracking()
                 .Include(x => x.Invoice)
-                    .ThenInclude(i => i.InvoiceBuyer)
+                    .ThenInclude(i => i!.Buyer)
                 .Include(x => x.Invoice)
-                    .ThenInclude(i => i.InvoiceBiller)
-                        .ThenInclude(ib => ib.Biller)
+                    .ThenInclude(i => i!.Biller)
                 .Include(x => x.Buyer)
-                .Where(x => x.Invoice.InvoiceType == InvoiceType.Quotation);
+                .Where(x => x.Invoice != null && x.Invoice.InvoiceType == InvoiceType.Quotation);
 
             if (!string.IsNullOrEmpty(paginationDTO.SearchTerm))
             {
@@ -46,7 +45,7 @@ namespace SITRA.Infrastructure.Services.Invoices
             }
 
             return await queryable
-                .Where(x => x.Invoice.InvoiceType == InvoiceType.Quotation)
+                .Where(x => x.Invoice != null && x.Invoice.InvoiceType == InvoiceType.Quotation)
                 .OrderBy(x => x.Id)
                 .Paginate(paginationDTO)
                 .ToListAsync(cancellationToken);

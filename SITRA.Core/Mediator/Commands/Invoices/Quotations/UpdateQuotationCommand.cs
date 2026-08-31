@@ -43,37 +43,8 @@ namespace SITRA.Core.Mediator.Commands.Invoices.Quotations
 
             quotation.ContactId = Dto.CustomerId.HasValue && Dto.CustomerId.Value != Guid.Empty ? Dto.CustomerId.Value : null;
 
-            if (Dto.CustomerId.HasValue && Dto.CustomerId.Value != Guid.Empty)
-            {
-                if (saleInvoice.InvoiceBuyer == null)
-                {
-                    saleInvoice.InvoiceBuyer = new InvoiceBuyer { ContactId = Dto.CustomerId.Value };
-                }
-                else
-                {
-                    saleInvoice.InvoiceBuyer.ContactId = Dto.CustomerId.Value;
-                }
-            }
-            else
-            {
-                saleInvoice.InvoiceBuyer = null;
-            }
-
-            if (Dto.BillerId.HasValue && Dto.BillerId.Value != Guid.Empty)
-            {
-                if (saleInvoice.InvoiceBiller == null)
-                {
-                    saleInvoice.InvoiceBiller = new InvoiceBiller { ContactId = Dto.BillerId.Value };
-                }
-                else
-                {
-                    saleInvoice.InvoiceBiller.ContactId = Dto.BillerId.Value;
-                }
-            }
-            else
-            {
-                saleInvoice.InvoiceBiller = null;
-            }
+            saleInvoice.BuyerId = (Dto.CustomerId.HasValue && Dto.CustomerId.Value != Guid.Empty) ? Dto.CustomerId.Value : null;
+            saleInvoice.BillerId = (Dto.BillerId.HasValue && Dto.BillerId.Value != Guid.Empty) ? Dto.BillerId.Value : null;
 
             unitOfWork.QuotationRepository.Update(quotation);
 

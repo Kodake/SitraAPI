@@ -73,11 +73,8 @@ namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
             };
 
             // Connect derived references from original
-            if (originalInvoice.InvoiceBuyer != null)
-                annulInvoice.InvoiceBuyer = new InvoiceBuyer { ContactId = originalInvoice.InvoiceBuyer.ContactId };
-            
-            if (originalInvoice.InvoiceBiller != null)
-                annulInvoice.InvoiceBiller = new InvoiceBiller { ContactId = originalInvoice.InvoiceBiller.ContactId };
+            annulInvoice.BuyerId = originalInvoice.BuyerId;
+            annulInvoice.BillerId = originalInvoice.BillerId;
 
             var ecfTypeKey = creditNoteNcf?.Length >= 3 ? creditNoteNcf.Substring(0, 3) : null;
             
@@ -86,11 +83,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
                 && (parsedType == EcfType.E33 || parsedType == EcfType.E34
                  || parsedType == EcfType.B03 || parsedType == EcfType.B04))
             {
-                annulInvoice.InvoiceFiscalSupport = new InvoiceFiscalSupport 
-                { 
-                    FiscalSupportId = fiscalSupport.Id,
-                    EcfType = parsedType
-                };
+                annulInvoice.FiscalSupportId = fiscalSupport.Id;
             }
 
             // Save base entities so we have IDs for any downstream tracking

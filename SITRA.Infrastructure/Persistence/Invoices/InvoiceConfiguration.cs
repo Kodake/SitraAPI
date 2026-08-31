@@ -37,6 +37,11 @@ namespace SITRA.Infrastructure.Persistence.Invoices
                 .WithOne(r => r.Invoice)
                 .HasForeignKey<Quotation>(r => r.InvoiceId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(i => i.Biller).WithMany().HasForeignKey(i => i.BillerId).OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne(i => i.Buyer).WithMany().HasForeignKey(i => i.BuyerId).OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne(i => i.FiscalSupport).WithMany().HasForeignKey(i => i.FiscalSupportId).OnDelete(DeleteBehavior.NoAction);
+
             builder.HasIndex(x => x.TenantId);
         }
     }

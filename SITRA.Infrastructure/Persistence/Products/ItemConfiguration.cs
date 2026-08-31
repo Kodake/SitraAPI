@@ -15,6 +15,11 @@ public class ItemConfiguration : IEntityTypeConfiguration<Item>
         builder.Property(p => p.ImageUrl).IsUnicode().IsRequired(false);
         builder.Property(p => p.UnitMeasure).HasConversion<int>().IsRequired(false);
 
+        builder.HasOne(i => i.Brand).WithMany().HasForeignKey(i => i.BrandId).OnDelete(DeleteBehavior.SetNull);
+        builder.HasOne(i => i.Model).WithMany().HasForeignKey(i => i.ModelId).OnDelete(DeleteBehavior.SetNull);
+        builder.HasOne(i => i.Category).WithMany().HasForeignKey(i => i.CategoryId).OnDelete(DeleteBehavior.SetNull);
+        builder.HasOne(i => i.SubCategory).WithMany().HasForeignKey(i => i.SubCategoryId).OnDelete(DeleteBehavior.SetNull);
+
         builder.HasIndex(x => x.TenantId);
     }
 }

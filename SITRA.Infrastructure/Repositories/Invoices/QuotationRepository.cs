@@ -25,12 +25,11 @@ namespace SITRA.Infrastructure.Repositories.Invoices
         {
             return await context.Quotations
                 .Include(x => x.Invoice)
-                    .ThenInclude(x => x.InvoiceItems)
+                    .ThenInclude(x => x!.InvoiceItems)
                 .Include(x => x.Invoice)
-                    .ThenInclude(x => x.InvoiceBuyer)
+                    .ThenInclude(x => x!.Buyer)
                 .Include(x => x.Invoice)
-                    .ThenInclude(x => x.InvoiceBiller)
-                        .ThenInclude(ib => ib.Biller)
+                    .ThenInclude(x => x!.Biller)
                 .Include(x => x.Buyer)
                 .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
