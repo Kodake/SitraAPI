@@ -86,9 +86,10 @@ builder.Services.AddSwaggerGen(c =>
         Name = "Authorization",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.Http,
-        Scheme = "bearer"
+        Scheme = "bearer",
+        BearerFormat = "JWT"
     });
-    c.AddSecurityRequirement(doc => new OpenApiSecurityRequirement
+    c.AddSecurityRequirement(_ => new OpenApiSecurityRequirement
     {
         {
             new OpenApiSecuritySchemeReference("Bearer"),
@@ -285,8 +286,41 @@ app.UseExceptionHandler(); // Add this line to use the exception handler
 
 if (app.Environment.IsDevelopment())
 {
+    // Patch OpenAPI version for Swagger UI compatibility:
+    // Microsoft.OpenApi v2 outputs "3.0.4" which the bundled Swagger UI doesn't recognise yet.
+    app.Use(async (context, next) =>
+    {
+        if (context.Request.Path.StartsWithSegments("/swagger/v1/swagger.json", StringComparison.OrdinalIgnoreCase)
+            || context.Request.Path.StartsWithSegments("/swagger/v1/swagger.yaml", StringComparison.OrdinalIgnoreCase))
+        {
+            var originalBody = context.Response.Body;
+            using var buffer = new MemoryStream();
+            context.Response.Body = buffer;
+
+            await next();
+
+            buffer.Seek(0, SeekOrigin.Begin);
+            var body = await new StreamReader(buffer).ReadToEndAsync();
+            body = body.Replace("\"openapi\": \"3.0.4\"", "\"openapi\": \"3.0.3\"")
+                       .Replace("\"openapi\":\"3.0.4\"", "\"openapi\":\"3.0.3\"")
+                       .Replace("openapi: 3.0.4", "openapi: 3.0.3");
+
+            context.Response.Body = originalBody;
+            context.Response.ContentLength = System.Text.Encoding.UTF8.GetByteCount(body);
+            await context.Response.WriteAsync(body);
+        }
+        else
+        {
+            await next();
+        }
+    });
+
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "SITRA API v1");
+        c.RoutePrefix = "swagger";
+    });
 }
 else
 {
