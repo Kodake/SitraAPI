@@ -54,7 +54,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SITRA.Core\SITRA.Core.csproj" />
+    <ProjectReference Include="..\SITRA.Domain\SITRA.Domain.csproj" />
+    <ProjectReference Include="..\SITRA.Application\SITRA.Application.csproj" />
     <ProjectReference Include="..\SITRA.Infrastructure\SITRA.Infrastructure.csproj" />
   </ItemGroup>
 

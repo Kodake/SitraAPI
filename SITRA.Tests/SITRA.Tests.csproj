@@ -27,8 +27,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SITRA.Domain\SITRA.Domain.csproj" />
     <ProjectReference Include="..\SITRA.API\SITRA.API.csproj" />
-    <ProjectReference Include="..\SITRA.Core\SITRA.Core.csproj" />
+    <ProjectReference Include="..\SITRA.Application\SITRA.Application.csproj" />
     <ProjectReference Include="..\SITRA.Infrastructure\SITRA.Infrastructure.csproj" />
   </ItemGroup>
 
