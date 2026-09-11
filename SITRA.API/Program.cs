@@ -47,6 +47,9 @@ using SITRA.Infrastructure.Services.Warehouses;
 using Azure.Identity;
 var builder = WebApplication.CreateBuilder(args);
 
+// Suppress Server header to prevent fingerprinting
+builder.WebHost.ConfigureKestrel(options => options.AddServerHeader = false);
+
 // Azure Key Vault — load secrets in non-Development environments
 if (!builder.Environment.IsDevelopment())
 {
@@ -334,7 +337,9 @@ app.Use(async (context, next) =>
 {
     context.Response.Headers.Append("X-Content-Type-Options", "nosniff");
     context.Response.Headers.Append("X-Frame-Options", "DENY");
-    context.Response.Headers.Append("X-XSS-Protection", "1; mode=block");
+    context.Response.Headers.Append("Referrer-Policy", "strict-origin-when-cross-origin");
+    context.Response.Headers.Append("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+    context.Response.Headers.Append("Content-Security-Policy", "default-src 'none'; frame-ancestors 'none';");
     await next();
 });
 
