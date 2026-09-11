@@ -1,4 +1,4 @@
-using Mediator;
+﻿using Mediator;
 using SITRA.Core.DTOs.Invoices.Quotations;
 using SITRA.Core.DTOs.Invoices.SaleInvoices;
 using SITRA.Core.Mediator.Commands;
@@ -14,6 +14,7 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
             services.AddTransient<IRequestHandler<GetQuotationByIdQuery, QuotationDTO>, QueryHandler<GetQuotationByIdQuery, QuotationDTO>>();
 
             services.AddTransient<IRequestHandler<CreateQuotationCommand, CreateQuotationDTO>, CreateCommandHandler<Entities.Invoices.Quotation, CreateQuotationDTO>>();
+            services.AddTransient<IRequestHandler<CreateQuotationWithItemCommand, CreateQuotationWithItemDTO>, CreateQuotationWithItemCommandHandler>();
             services.AddTransient<IRequestHandler<UpdateQuotationCommand, bool>, UpdateCommandHandler<Entities.Invoices.Quotation, CreateQuotationDTO>>();
             services.AddTransient<IRequestHandler<ProcessQuotationCommand, CreateSaleInvoiceDTO>,
                 ProcessCommandHandler<Entities.Invoices.Quotation, CreateSaleInvoiceDTO>>();
@@ -23,4 +24,3 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
         }
     }
 }
-

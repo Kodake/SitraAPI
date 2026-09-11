@@ -21,6 +21,7 @@ namespace SITRA.API.Endpoints.Invoices
                 .AddPaginationParamsOpenAPI().RequireAuthorization();
             group.MapGet("/{id:guid}", GetById).RequireAuthorization();
             group.MapPost("/", Create).DisableAntiforgery().AddEndpointFilter<ValidationFilter<CreateQuotationDTO>>().WithOpenApi().RequireAuthorization();
+            group.MapPost("/with-item", CreateWithProductOrService).DisableAntiforgery().AddEndpointFilter<ValidationFilter<CreateQuotationWithItemDTO>>().WithOpenApi().RequireAuthorization();
             group.MapPost("/{id:guid}/process", Process).DisableAntiforgery().AddEndpointFilter<ValidationFilter<CreateSaleInvoiceDTO>>().WithOpenApi().RequireAuthorization();
             group.MapPut("/{id:guid}", Update).DisableAntiforgery().AddEndpointFilter<ValidationFilter<CreateQuotationDTO>>().WithOpenApi().RequireAuthorization();
             group.MapGet("/{invoiceId}/generate-pdf", GeneratePdf).WithOpenApi().RequireAuthorization();
@@ -43,6 +44,17 @@ namespace SITRA.API.Endpoints.Invoices
             var query = new GetQuotationByIdQuery(id);
             var dto = await mediator.Send(query);
             return dto == null ? TypedResults.NotFound() : TypedResults.Ok(dto);
+        }
+
+        [Idempotent]
+        static async Task<Results<Created, NotFound, ValidationProblem>> CreateWithProductOrService(
+            [FromBody] CreateQuotationWithItemDTO dto,
+            [FromServices] IMediator mediator,
+            IOutputCacheStore outputCacheStore)
+        {
+            var command = new CreateQuotationWithItemCommand(dto);
+            var quotationDTO = await mediator.Send(command);
+            return quotationDTO == null ? TypedResults.NotFound() : TypedResults.Created();
         }
 
         [Idempotent]
