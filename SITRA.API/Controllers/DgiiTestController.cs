@@ -1,7 +1,13 @@
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using SITRA.Core.Entities.Auths;
 using SITRA.Core.Interfaces;
+using SITRA.Core.Interfaces.Services.Storage;
 using SITRA.Core.Models.Dgii;
+using SITRA.Infrastructure.Persistence;
 
 namespace SITRA.API.Controllers
 {
@@ -12,13 +18,29 @@ namespace SITRA.API.Controllers
         private readonly IDgiiTestService _dgiiTestService;
         private readonly IDgiiApiService _dgiiApiService;
         private readonly ISignatureService _signatureService;
+        private readonly IDgiiStorageService _storageService;
+        private readonly IDataProtectionProvider _dataProtectionProvider;
+        private readonly ApplicationDbContext _dbContext;
+        private readonly ILogger<DgiiTestController> _logger;
         private readonly DgiiSettings _dgiiSettings;
 
-        public DgiiTestController(IDgiiTestService dgiiTestService, IDgiiApiService dgiiApiService, ISignatureService signatureService, IOptions<DgiiSettings> dgiiOptions)
+        public DgiiTestController(
+            IDgiiTestService dgiiTestService,
+            IDgiiApiService dgiiApiService,
+            ISignatureService signatureService,
+            IDgiiStorageService storageService,
+            IDataProtectionProvider dataProtectionProvider,
+            ApplicationDbContext dbContext,
+            ILogger<DgiiTestController> logger,
+            IOptions<DgiiSettings> dgiiOptions)
         {
             _dgiiTestService = dgiiTestService;
             _dgiiApiService = dgiiApiService;
             _signatureService = signatureService;
+            _storageService = storageService;
+            _dataProtectionProvider = dataProtectionProvider;
+            _dbContext = dbContext;
+            _logger = logger;
             _dgiiSettings = dgiiOptions.Value;
         }
 
@@ -109,12 +131,87 @@ namespace SITRA.API.Controllers
             }
         }
 
+        private async Task<(byte[] CertBytes, string CertPassword, string Rnc)> GetCertificateCredentialsAsync(string? rncComprador = null)
+        {
+            string configuredPassword = !string.IsNullOrEmpty(_dgiiSettings.CertificatePassword) ? _dgiiSettings.CertificatePassword : string.Empty;
+
+            User? user = null;
+            if (!string.IsNullOrEmpty(rncComprador))
+            {
+                user = await _dbContext.Users.IgnoreQueryFilters()
+                    .FirstOrDefaultAsync(u => u.RucNumber == rncComprador && !string.IsNullOrEmpty(u.CertificateUrl));
+            }
+
+            if (user == null)
+            {
+                user = await _dbContext.Users.IgnoreQueryFilters()
+                    .FirstOrDefaultAsync(u => u.UserName == "QA2@GMAIL.COM" && !string.IsNullOrEmpty(u.CertificateUrl))
+                    ?? await _dbContext.Users.IgnoreQueryFilters()
+                    .FirstOrDefaultAsync(u => !string.IsNullOrEmpty(u.CertificateUrl));
+            }
+
+            if (user != null && !string.IsNullOrEmpty(user.CertificateUrl))
+            {
+                string password = configuredPassword;
+                if (string.IsNullOrEmpty(password) && !string.IsNullOrEmpty(user.CertificatePassword))
+                {
+                    try
+                    {
+                        var protector = _dataProtectionProvider.CreateProtector("CertificatePassword");
+                        password = protector.Unprotect(user.CertificatePassword);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogWarning(ex, "Failed to unprotect password for user {User}. Using settings password.", user.UserName);
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(password))
+                {
+                    try
+                    {
+                        byte[] bytes = await _storageService.ReadCertificateFromUrlAsync(user.CertificateUrl);
+                        string rnc = user.RucNumber ?? _dgiiSettings.DefaultRNC ?? "133002868";
+                        _logger.LogInformation("Successfully loaded certificate for user {User} (RNC: {RNC}) from URL", user.UserName, rnc);
+                        return (bytes, password, rnc);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogWarning(ex, "Failed to download certificate from URL. Trying local files.");
+                    }
+                }
+            }
+
+            // Fallback to local files
+            string[] possiblePaths =
+            [
+                _dgiiSettings.CertificatePath,
+                Path.Combine(AppContext.BaseDirectory, _dgiiSettings.CertificatePath),
+                Path.Combine(AppContext.BaseDirectory, "Resources", "Certificates", "20260714-1752000-H80L156Y1.p12"),
+                Path.Combine(Directory.GetCurrentDirectory(), "Resources", "Certificates", "20260714-1752000-H80L156Y1.p12"),
+                Path.Combine(Directory.GetCurrentDirectory(), "..", "SITRA.Application", "Resources", "Certificates", "20260714-1752000-H80L156Y1.p12")
+            ];
+
+            foreach (var path in possiblePaths)
+            {
+                if (!string.IsNullOrEmpty(path) && System.IO.File.Exists(path))
+                {
+                    byte[] bytes = await System.IO.File.ReadAllBytesAsync(path);
+                    string rnc = user?.RucNumber ?? _dgiiSettings.DefaultRNC ?? "133002868";
+                    _logger.LogInformation("Loaded local certificate from {Path} with RNC {RNC}", path, rnc);
+                    return (bytes, configuredPassword, rnc);
+                }
+            }
+
+            throw new InvalidOperationException($"No digital certificate found for reception.");
+        }
+
         [HttpPost("/fe/recepcion/api/ecf")]
         public async Task<IActionResult> RecepcionEcfAsync()
         {
             try
             {
-                string xmlContent;
+                string xmlContent = string.Empty;
 
                 if (Request.HasFormContentType && Request.Form.Files.Count > 0)
                 {
@@ -134,7 +231,8 @@ namespace SITRA.API.Controllers
 
                 if (string.IsNullOrWhiteSpace(xmlContent))
                 {
-                    return Content("<Error>XML content is empty</Error>", "text/xml");
+                    _logger.LogWarning("RecepcionEcfAsync: Received empty XML content.");
+                    return BadRequest("XML content is empty");
                 }
 
                 string rncEmisor = string.Empty;
@@ -152,7 +250,17 @@ namespace SITRA.API.Controllers
                     if (compradorNode != null) rncComprador = compradorNode.Value;
                     if (encfNode != null) eNcf = encfNode.Value;
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "RecepcionEcfAsync: Error parsing incoming XML.");
+                }
+
+                var (certBytes, certPassword, ownerRnc) = await GetCertificateCredentialsAsync(rncComprador);
+
+                if (string.IsNullOrEmpty(rncComprador))
+                {
+                    rncComprador = ownerRnc;
+                }
 
                 var arecfResponse = new SITRA.Core.DTOs.DGII.ArecfDocumentTest
                 {
@@ -172,26 +280,33 @@ namespace SITRA.API.Controllers
                 var settings = new System.Xml.XmlWriterSettings { OmitXmlDeclaration = false, Encoding = new System.Text.UTF8Encoding(false), Indent = true };
 
                 string arecfXml;
-                using (var stringWriter = new StringWriter())
+                using (var stringWriter = new Utf8StringWriter())
                 using (var xmlWriter = System.Xml.XmlWriter.Create(stringWriter, settings))
                 {
                     serializer.Serialize(xmlWriter, arecfResponse, emptyNamespaces);
                     arecfXml = stringWriter.ToString();
                 }
 
-                byte[] certBytes = System.IO.File.ReadAllBytes(_dgiiSettings.CertificatePath);
-                string signedArecf = _signatureService.SignXml(arecfXml, certBytes, _dgiiSettings.CertificatePassword);
+                string signedArecf = _signatureService.SignXml(arecfXml, certBytes, certPassword);
 
-                if (!signedArecf.StartsWith("<?xml"))
+                if (signedArecf.StartsWith("<?xml", StringComparison.OrdinalIgnoreCase))
                 {
-                    signedArecf = $@"<?xml version=""1.0"" encoding=""utf-8""?>" + "\n" + signedArecf;
+                    int endDecl = signedArecf.IndexOf("?>");
+                    if (endDecl != -1)
+                    {
+                        signedArecf = signedArecf.Substring(endDecl + 2).TrimStart();
+                    }
                 }
+                signedArecf = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" + signedArecf;
+
+                _logger.LogInformation("RecepcionEcfAsync: Successfully generated signed ARECF for eNCF: {eNCF}, RNCEmisor: {RNCEmisor}, RNCComprador: {RNCComprador}", eNcf, rncEmisor, rncComprador);
 
                 return Content(signedArecf, "text/xml");
             }
             catch (System.Exception ex)
             {
-                return Content($"<Error>{ex.Message}</Error>", "text/xml");
+                _logger.LogError(ex, "RecepcionEcfAsync: Exception occurred.");
+                return StatusCode(500, ex.Message);
             }
         }
 
@@ -200,28 +315,34 @@ namespace SITRA.API.Controllers
         {
             try
             {
-                string xmlContent;
+                string xmlContent = string.Empty;
 
-                if (Request.HasFormContentType && Request.Form.Files.Count > 0)
+                if (Request.HasFormContentType)
                 {
-                    var xmlFile = Request.Form.Files[0];
-                    using (var reader = new StreamReader(xmlFile.OpenReadStream()))
+                    if (Request.Form.Files.Count > 0)
                     {
+                        var xmlFile = Request.Form.Files[0];
+                        using var reader = new StreamReader(xmlFile.OpenReadStream());
                         xmlContent = await reader.ReadToEndAsync();
+                    }
+                    else if (Request.Form.TryGetValue("xml", out var formXml))
+                    {
+                        xmlContent = formXml.ToString();
                     }
                 }
                 else
                 {
-                    using (var reader = new StreamReader(Request.Body))
-                    {
-                        xmlContent = await reader.ReadToEndAsync();
-                    }
+                    using var reader = new StreamReader(Request.Body);
+                    xmlContent = await reader.ReadToEndAsync();
                 }
 
                 if (string.IsNullOrWhiteSpace(xmlContent))
                 {
-                    return Content("<Error>XML content is empty</Error>", "text/xml");
+                    _logger.LogWarning("AprobacionComercialEcfAsync: Received empty XML content.");
+                    return BadRequest("XML content is empty");
                 }
+
+                _logger.LogInformation("AprobacionComercialEcfAsync: Received payload (length: {length}):\n{xmlContent}", xmlContent.Length, xmlContent);
 
                 string rncEmisor = string.Empty;
                 string rncComprador = string.Empty;
@@ -244,7 +365,40 @@ namespace SITRA.API.Controllers
                     if (fechaEmisionNode != null) fechaEmision = fechaEmisionNode.Value;
                     if (montoTotalNode != null) montoTotal = montoTotalNode.Value;
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "AprobacionComercialEcfAsync: Error parsing incoming XML.");
+                }
+
+                var (certBytes, certPassword, ownerRnc) = await GetCertificateCredentialsAsync(rncComprador);
+
+                if (string.IsNullOrEmpty(rncComprador))
+                {
+                    rncComprador = ownerRnc;
+                }
+
+                if (string.IsNullOrEmpty(rncEmisor))
+                {
+                    rncEmisor = ownerRnc;
+                }
+
+                if (decimal.TryParse(montoTotal, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out var parsedMonto))
+                {
+                    montoTotal = parsedMonto.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture);
+                }
+                else
+                {
+                    montoTotal = "0.00";
+                }
+
+                if (DateTime.TryParse(fechaEmision, out var parsedFecha))
+                {
+                    fechaEmision = parsedFecha.ToString("dd-MM-yyyy");
+                }
+                else if (string.IsNullOrEmpty(fechaEmision))
+                {
+                    fechaEmision = DateTime.Now.ToString("dd-MM-yyyy");
+                }
 
                 var acecfResponse = new SITRA.Core.DTOs.DGII.AcecfDocumentTest
                 {
@@ -266,27 +420,39 @@ namespace SITRA.API.Controllers
                 var settings = new System.Xml.XmlWriterSettings { OmitXmlDeclaration = false, Encoding = new System.Text.UTF8Encoding(false), Indent = true };
 
                 string acecfXml;
-                using (var stringWriter = new StringWriter())
+                using (var stringWriter = new Utf8StringWriter())
                 using (var xmlWriter = System.Xml.XmlWriter.Create(stringWriter, settings))
                 {
                     serializer.Serialize(xmlWriter, acecfResponse, emptyNamespaces);
                     acecfXml = stringWriter.ToString();
                 }
 
-                byte[] certBytes = System.IO.File.ReadAllBytes(_dgiiSettings.CertificatePath);
-                string signedAcecf = _signatureService.SignXml(acecfXml, certBytes, _dgiiSettings.CertificatePassword);
+                string signedAcecf = _signatureService.SignXml(acecfXml, certBytes, certPassword);
 
-                if (!signedAcecf.StartsWith("<?xml"))
+                if (signedAcecf.StartsWith("<?xml", StringComparison.OrdinalIgnoreCase))
                 {
-                    signedAcecf = $@"<?xml version=""1.0"" encoding=""utf-8""?>" + "\n" + signedAcecf;
+                    int endDecl = signedAcecf.IndexOf("?>");
+                    if (endDecl != -1)
+                    {
+                        signedAcecf = signedAcecf.Substring(endDecl + 2).TrimStart();
+                    }
                 }
+                signedAcecf = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" + signedAcecf;
+
+                _logger.LogInformation("AprobacionComercialEcfAsync: Successfully generated signed ACECF for eNCF: {eNCF}, RNCEmisor: {RNCEmisor}, RNCComprador: {RNCComprador}", eNcf, rncEmisor, rncComprador);
 
                 return Content(signedAcecf, "text/xml");
             }
             catch (System.Exception ex)
             {
-                return Content($"<Error>{ex.Message}</Error>", "text/xml");
+                _logger.LogError(ex, "AprobacionComercialEcfAsync: Exception occurred.");
+                return StatusCode(500, ex.Message);
             }
+        }
+
+        private sealed class Utf8StringWriter : StringWriter
+        {
+            public override System.Text.Encoding Encoding => new System.Text.UTF8Encoding(false);
         }
     }
 }
