@@ -192,7 +192,10 @@ namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
                     case ItemType.Combo:
                         var combo = await unitOfWork.ComboRepository.GetByIdAsync(itemDTO.ItemId);
 
-                        var comboBasePrice = combo!.PricingItems.First(x => x.ItemId == itemDTO.ItemId).BasePrice / currencyRate;
+                        var comboPricing = combo!.PricingItems.FirstOrDefault(x => x.PricingId == saleInvoice.PricingId)
+                                           ?? combo.PricingItems.FirstOrDefault(x => x.ItemId == itemDTO.ItemId)
+                                           ?? combo.PricingItems.First();
+                        var comboBasePrice = comboPricing.BasePrice / currencyRate;
                         var comboTaxAmount = combo.ItemTaxes.Sum(x => x?.Tax?.Amount) ?? 0;
 
                         totalQtyItems += itemDTO.Qty;
@@ -236,7 +239,7 @@ namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
                 saleInvoiceItem.InvoiceId = saleInvoice.Id;
                 saleInvoiceItem.Invoice = saleInvoice;
 
-                var (basePrice, taxAmount) = await GetItemPricingAndTax(itemDTO, unitOfWork, currencyRate);
+                var (basePrice, taxAmount) = await GetItemPricingAndTax(itemDTO, unitOfWork, currencyRate, saleInvoice.PricingId);
 
                 saleInvoiceItem.TotalAmount = basePrice * itemDTO.Qty;
                 saleInvoiceItem.TotalTaxes = basePrice * taxAmount / 100 * itemDTO.Qty;
@@ -268,15 +271,21 @@ namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
                 {
                     var combo = await unitOfWork.ComboRepository.GetByIdAsync(item.ItemId);
 
-                    foreach (var comboItem in combo!.ComboItems)
+                    if (combo?.ComboItems != null)
                     {
-                        var stock = await unitOfWork.StockRepository
-                            .GetByItemIdAndWarehouseId(comboItem.ChildItemId, dto.WarehouseId);
+                        foreach (var comboItem in combo.ComboItems)
+                        {
+                            var stock = await unitOfWork.StockRepository
+                                .GetByItemIdAndWarehouseId(comboItem.ChildItemId, dto.WarehouseId);
 
-                        if (!stockAdjustments.ContainsKey(stock!.Id))
-                            stockAdjustments[stock.Id] = 0;
+                            if (stock != null)
+                            {
+                                if (!stockAdjustments.ContainsKey(stock.Id))
+                                    stockAdjustments[stock.Id] = 0;
 
-                        stockAdjustments[stock.Id] -= comboItem.Qty * item.Qty;
+                                stockAdjustments[stock.Id] -= comboItem.Qty * item.Qty;
+                            }
+                        }
                     }
                 }
             }
@@ -317,11 +326,16 @@ namespace SITRA.Core.Mediator.Commands.Invoices.SaleInvoices
         private static async Task<(double basePrice, double taxAmount)> GetItemPricingAndTax(
             SaleInvoiceItemDTO itemDTO,
             IUnitOfWork unitOfWork,
-            double currencyRate)
+            double currencyRate,
+            Guid? pricingId = null)
         {
             var item = await unitOfWork.ItemRepository.GetByIdAsync(itemDTO.ItemId);
 
-            var basePrice = item!.PricingItems.First(x => x.ItemId == itemDTO.ItemId).BasePrice / currencyRate;
+            var pricing = (pricingId.HasValue ? item!.PricingItems.FirstOrDefault(x => x.PricingId == pricingId.Value) : null)
+                          ?? item!.PricingItems.FirstOrDefault(x => x.ItemId == itemDTO.ItemId)
+                          ?? item.PricingItems.First();
+
+            var basePrice = pricing.BasePrice / currencyRate;
             var taxAmount = item.ItemTaxes.Sum(x => x?.Tax?.Amount) ?? 0;
 
             return (basePrice, taxAmount);

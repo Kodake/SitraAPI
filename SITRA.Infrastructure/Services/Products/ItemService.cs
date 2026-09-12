@@ -39,7 +39,7 @@ namespace SITRA.Infrastructure.Services.Products
                     .ThenInclude(ci => ci.ChildItem)
                         .ThenInclude(child => child.PricingItems)
                 .Where(x => x.PricingItems.Any(pi => pi.PricingId == pricingId) &&
-                           (x.ItemType == ItemType.Service || x.Stocks.Any(s => s.WarehouseId == warehouseId)));
+                           (x.ItemType == ItemType.Service || x.ItemType == ItemType.Combo || x.Stocks.Any(s => s.WarehouseId == warehouseId)));
 
             if (fiscalSupportType == "43" || fiscalSupportType == "44")
             {

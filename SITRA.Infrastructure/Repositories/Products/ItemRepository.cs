@@ -20,6 +20,18 @@ namespace SITRA.Infrastructure.Repositories.Products
                 .AnyAsync(i => i.Id == id && i.ItemType == itemType, cancellationToken);
         }
 
+        public async new Task<Item?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            return await context.Items
+                .Include(p => p.PricingItems)
+                    .ThenInclude(p => p.Pricing)
+                .Include(p => p.ItemTaxes)
+                    .ThenInclude(pt => pt.Tax)
+                .Include(p => p.ComboItems)
+                    .ThenInclude(ci => ci.ChildItem)
+                .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
+        }
+
 
     }
 }

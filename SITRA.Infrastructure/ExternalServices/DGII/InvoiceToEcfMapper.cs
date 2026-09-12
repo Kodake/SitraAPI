@@ -182,7 +182,7 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
                             : null),
 
                     NombreItem = item.Item?.Name ?? "Item Generico",
-                    IndicadorBienoServicio = (int?)item.Item?.ItemType ?? 1,
+                    IndicadorBienoServicio = item.Item?.ItemType == ItemType.Service ? 2 : 1,
                     Cantidad = qty,
                     PrecioUnitario = price,
                     MontoItem = montoItem
