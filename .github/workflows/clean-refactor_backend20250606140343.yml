@@ -44,6 +44,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: .net-app
+          path: myapp
       
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -51,5 +52,5 @@ jobs:
         with:
           app-name: 'BackEnd20250606140343'
           slot-name: 'Production'
-          package: .
+          package: myapp
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_13E51F75876B4D4D8F6515EDE3B040CB }}
