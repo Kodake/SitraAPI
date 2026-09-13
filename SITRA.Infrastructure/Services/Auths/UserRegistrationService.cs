@@ -241,6 +241,28 @@ namespace SITRA.Infrastructure.Services.Auths
                         _ => Enum.GetName(currencyType) ?? string.Empty
                     },
                     Code = currencyType.ToString(),
+                    Symbol = currencyType switch
+                    {
+                        CurrencyType.DOP => "RD$",
+                        CurrencyType.BRL => "R$",
+                        CurrencyType.CAD => "C$",
+                        CurrencyType.CHF => "CHF",
+                        CurrencyType.CHY => "¥",
+                        CurrencyType.XDR => "SDR",
+                        CurrencyType.DKK => "kr",
+                        CurrencyType.EUR => "€",
+                        CurrencyType.GBP => "£",
+                        CurrencyType.JPY => "¥",
+                        CurrencyType.NOK => "kr",
+                        CurrencyType.SCP => "£",
+                        CurrencyType.SEK => "kr",
+                        CurrencyType.USD => "$",
+                        CurrencyType.VEF => "Bs.",
+                        CurrencyType.HTG => "G",
+                        CurrencyType.MXN => "$",
+                        CurrencyType.COP => "$",
+                        _ => string.Empty
+                    },
                     Rate = 1.00,
                     IsDefault = currencyType == CurrencyType.DOP
                 };
