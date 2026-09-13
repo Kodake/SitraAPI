@@ -584,4 +584,10 @@
   <data name="CertificateInvalidFormatMessage" xml:space="preserve">
     <value>Invalid certificate file format or corrupted file.</value>
   </data>
+  <data name="CurrencyCodeCannotBeModifiedMessage" xml:space="preserve">
+    <value>Currency code cannot be modified.</value>
+  </data>
+  <data name="CurrencyNameCannotBeModifiedMessage" xml:space="preserve">
+    <value>Currency name cannot be modified.</value>
+  </data>
 </root>

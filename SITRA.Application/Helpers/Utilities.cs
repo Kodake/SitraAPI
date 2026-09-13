@@ -352,6 +352,10 @@ namespace SITRA.Core.Helpers
         public static string CertificatePasswordIncorrectMessage => _resourceManager.GetString("CertificatePasswordIncorrectMessage")!;
         public static string CertificateInvalidFormatMessage => _resourceManager.GetString("CertificateInvalidFormatMessage")!;
 
+        // Currency Validation Messages
+        public static string CurrencyCodeCannotBeModifiedMessage => _resourceManager.GetString("CurrencyCodeCannotBeModifiedMessage")!;
+        public static string CurrencyNameCannotBeModifiedMessage => _resourceManager.GetString("CurrencyNameCannotBeModifiedMessage")!;
+
         public static byte[]? GetCompanyLogoBytes(string? logoUrl)
         {
             if (string.IsNullOrEmpty(logoUrl))

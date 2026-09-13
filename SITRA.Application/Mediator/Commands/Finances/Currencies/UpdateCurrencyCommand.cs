@@ -16,7 +16,9 @@ namespace SITRA.Core.Mediator.Commands.Finances.Currencies
 
             if (currencyDB == null) return false;
 
-            mapper.Map(Dto, currencyDB);
+            currencyDB.Symbol = Dto.Symbol;
+            currencyDB.Rate = Dto.Rate;
+
             unitOfWork.CurrencyRepository.Update(currencyDB);
             await unitOfWork.SaveChangesAsync();
             await outputCacheStore.EvictByTagAsync("currencies-get", default);
