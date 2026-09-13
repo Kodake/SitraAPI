@@ -69,25 +69,36 @@ namespace SITRA.API.Endpoints
             HttpContext httpContext,
             [FromServices] IMediator mediator)
         {
-            var command = new LoginUserCommand(dto);
-            var response = await mediator.Send(command);
+            try
+            {
+                var command = new LoginUserCommand(dto);
+                var response = await mediator.Send(command);
 
-            if (response == null)
+                if (response == null)
+                {
+                    return TypedResults.Problem(
+                        detail: SITRA.Core.Helpers.Utilities.InvalidCredentialsMessage,
+                        statusCode: StatusCodes.Status401Unauthorized
+                    );
+                }
+
+                if (!string.IsNullOrEmpty(response.RefreshToken))
+                {
+                    httpContext.AppendRefreshTokenCookie(response.RefreshToken, response.RefreshTokenExpiration);
+                }
+
+                response.RefreshToken = null;
+
+                return TypedResults.Ok(response);
+            }
+            catch (SITRA.Core.Exceptions.AccountLockedOutException ex)
             {
                 return TypedResults.Problem(
-                    detail: SITRA.Core.Helpers.Utilities.InvalidCredentialsMessage,
-                    statusCode: StatusCodes.Status401Unauthorized
+                    title: "AccountDisabled",
+                    detail: ex.Message,
+                    statusCode: StatusCodes.Status403Forbidden
                 );
             }
-
-            if (!string.IsNullOrEmpty(response.RefreshToken))
-            {
-                httpContext.AppendRefreshTokenCookie(response.RefreshToken, response.RefreshTokenExpiration);
-            }
-
-            response.RefreshToken = null;
-
-            return TypedResults.Ok(response);
         }
 
         static async Task<Results<Ok<TokenResponseDTO>, UnauthorizedHttpResult>> Refresh(

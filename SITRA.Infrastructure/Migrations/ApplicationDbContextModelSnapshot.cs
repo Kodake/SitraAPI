@@ -1740,6 +1740,12 @@ namespace SITRA.Infrastructure.Migrations
                     b.Property<int>("Plan")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("SubscriptionEndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("SubscriptionStartDate")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("TenantId");
 
                     b.ToTable("Tenants");

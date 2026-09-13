@@ -44,6 +44,8 @@ using SITRA.Core.Interfaces.Services.Storage;
 using SITRA.Infrastructure.Services.Storage;
 using SITRA.Core.Interfaces.Services.Warehouses;
 using SITRA.Infrastructure.Services.Warehouses;
+using SITRA.Core.Interfaces.Services.Admin;
+using SITRA.Infrastructure.Services.Admin;
 using Azure.Identity;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -198,6 +200,7 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IComboService, ComboService>();
 builder.Services.AddScoped<IServiceService, ServiceService>();
 builder.Services.AddScoped<IContactService, ContactService>();
+builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IWarehouseService, WarehouseService>();
 builder.Services.AddScoped<IStockService, StockService>();
 builder.Services.AddScoped<ISaleInvoiceService, SaleInvoiceService>();

@@ -1,4 +1,5 @@
 using SITRA.API.Endpoints;
+using SITRA.API.Endpoints.Admin;
 using SITRA.API.Endpoints.AdministrativeTools;
 using SITRA.API.Endpoints.Auths;
 using SITRA.API.Endpoints.CashBoxes;
@@ -14,6 +15,7 @@ public static class ApiRouteExtensions
         var identityGroup = apiGroup.MapGroup("/identity");
         identityGroup.MapAuths();
         apiGroup.MapGroup("/users").MapTenantUsers();
+        apiGroup.MapGroup("/admin").MapAdminEndpoints();
         apiGroup.MapGroup("/roles").MapRoles();
         apiGroup.MapGroup("/permissions").MapPermissions();
         apiGroup.MapGroup("/dashboards").MapDashboards();

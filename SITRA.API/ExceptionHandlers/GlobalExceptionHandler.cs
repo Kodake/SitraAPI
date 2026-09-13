@@ -47,6 +47,14 @@ namespace SITRA.API.ExceptionHandlers
                     Instance = httpContext.Request.Path
                 },
 
+                SITRA.Core.Exceptions.AccountLockedOutException lockedEx => new ProblemDetails
+                {
+                    Status = StatusCodes.Status403Forbidden,
+                    Title = "AccountDisabled",
+                    Detail = lockedEx.Message,
+                    Instance = httpContext.Request.Path
+                },
+
                 _ => new ProblemDetails
                 {
                     Status = StatusCodes.Status500InternalServerError,
