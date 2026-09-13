@@ -73,10 +73,10 @@ namespace SITRA.Infrastructure.Services.Auths
                 _logger.LogWarning($"Login rejected: User {user.Email} is locked out / disabled.");
                 if (user.LockoutEnd.HasValue && user.LockoutEnd.Value >= DateTimeOffset.UtcNow.AddYears(10))
                 {
-                    throw new AccountLockedOutException("Su cuenta ha sido desactivada por el administrador. Por favor comuníquese con SISTRA SRL para reactivar su suscripción.");
+                    throw new AccountLockedOutException(Utilities.AccountDisabledByAdminMessage);
                 }
 
-                throw new AccountLockedOutException("Su cuenta se encuentra bloqueada temporalmente. Por favor intente más tarde o comuníquese con el administrador.");
+                throw new AccountLockedOutException(Utilities.AccountTemporarilyBlockedMessage);
             }
 
             // 🔒 2. Check if Tenant membership / subscription has expired (except SuperAdmin)
@@ -89,7 +89,7 @@ namespace SITRA.Infrastructure.Services.Auths
                 if (tenant != null && tenant.SubscriptionEndDate.HasValue && tenant.SubscriptionEndDate.Value.Date < DateTime.UtcNow.Date)
                 {
                     _logger.LogWarning($"Login rejected: User {user.Email} tenant subscription expired on {tenant.SubscriptionEndDate.Value:yyyy-MM-dd}.");
-                    throw new AccountLockedOutException($"Su membresía de SISTRA ha expirado (venció el {tenant.SubscriptionEndDate.Value:dd/MM/yyyy}). Por favor comuníquese con el administrador para renovar su plan.");
+                    throw new AccountLockedOutException(Utilities.SubscriptionExpiredMessage(tenant.SubscriptionEndDate.Value.ToString("dd/MM/yyyy")));
                 }
             }
 
@@ -106,7 +106,7 @@ namespace SITRA.Infrastructure.Services.Auths
                 if (await _userManager.IsLockedOutAsync(user))
                 {
                     _logger.LogWarning($"User {user.Email} has been locked out after multiple failed login attempts.");
-                    throw new AccountLockedOutException("Su cuenta ha sido bloqueada temporalmente por múltiples intentos fallidos de inicio de sesión. Por favor intente más tarde.");
+                    throw new AccountLockedOutException(Utilities.AccountLockedFailedAttemptsMessage);
                 }
                 
                 return null;

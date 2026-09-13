@@ -590,4 +590,19 @@
   <data name="CurrencyNameCannotBeModifiedMessage" xml:space="preserve">
     <value>El nombre de la moneda no puede ser modificado.</value>
   </data>
+  <data name="AccountDisabledByAdminMessage" xml:space="preserve">
+    <value>Su cuenta ha sido desactivada por el administrador. Por favor comuníquese con SISTRA SRL para reactivar su suscripción.</value>
+  </data>
+  <data name="AccountTemporarilyBlockedMessage" xml:space="preserve">
+    <value>Su cuenta se encuentra bloqueada temporalmente. Por favor intente más tarde o comuníquese con el administrador.</value>
+  </data>
+  <data name="SubscriptionExpiredMessage" xml:space="preserve">
+    <value>Su membresía de SISTRA ha expirado (venció el {0}). Por favor comuníquese con el administrador para renovar su plan.</value>
+  </data>
+  <data name="AccountLockedFailedAttemptsMessage" xml:space="preserve">
+    <value>Su cuenta ha sido bloqueada temporalmente por múltiples intentos fallidos de inicio de sesión. Por favor intente más tarde.</value>
+  </data>
+  <data name="CannotDisableSuperAdminMessage" xml:space="preserve">
+    <value>No es posible deshabilitar al usuario SuperAdmin SISTRA SRL.</value>
+  </data>
 </root>

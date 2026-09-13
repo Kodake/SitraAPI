@@ -6,6 +6,7 @@ using SITRA.Core.DTOs.Admin;
 using SITRA.Core.Entities.Auths;
 using SITRA.Core.Entities.Tenants;
 using SITRA.Core.Enums;
+using SITRA.Core.Helpers;
 using SITRA.Core.Interfaces.Services.Admin;
 using SITRA.Infrastructure.Persistence;
 
@@ -354,7 +355,7 @@ namespace SITRA.Infrastructure.Services.Admin
             if (isSuperAdmin && !dto.IsActive)
             {
                 _logger.LogWarning("Admin update: Attempted to disable SuperAdmin SISTRA SRL user.");
-                throw new InvalidOperationException("No es posible deshabilitar al usuario SuperAdmin SISTRA SRL.");
+                throw new InvalidOperationException(Utilities.CannotDisableSuperAdminMessage);
             }
 
             // Update Lockout status

@@ -356,6 +356,17 @@ namespace SITRA.Core.Helpers
         public static string CurrencyCodeCannotBeModifiedMessage => _resourceManager.GetString("CurrencyCodeCannotBeModifiedMessage")!;
         public static string CurrencyNameCannotBeModifiedMessage => _resourceManager.GetString("CurrencyNameCannotBeModifiedMessage")!;
 
+        // Admin & Lockout Messages
+        public static string AccountDisabledByAdminMessage => _resourceManager.GetString("AccountDisabledByAdminMessage")!;
+        public static string AccountTemporarilyBlockedMessage => _resourceManager.GetString("AccountTemporarilyBlockedMessage")!;
+        public static string SubscriptionExpiredMessage(string date)
+        {
+            var message = _resourceManager.GetString("SubscriptionExpiredMessage");
+            return string.Format(message!, date);
+        }
+        public static string AccountLockedFailedAttemptsMessage => _resourceManager.GetString("AccountLockedFailedAttemptsMessage")!;
+        public static string CannotDisableSuperAdminMessage => _resourceManager.GetString("CannotDisableSuperAdminMessage")!;
+
         public static byte[]? GetCompanyLogoBytes(string? logoUrl)
         {
             if (string.IsNullOrEmpty(logoUrl))
