@@ -42,7 +42,7 @@ namespace SITRA.Core.Validations.Auths
                         await dto.Certificate.CopyToAsync(ms, cancellation);
                         var certBytes = ms.ToArray();
 
-                        using var cert = new X509Certificate2(certBytes, dto.CertificatePassword);
+                        using var cert = new X509Certificate2(certBytes, dto.CertificatePassword, X509KeyStorageFlags.Exportable | X509KeyStorageFlags.EphemeralKeySet);
 
                         if (cert.NotAfter < DateTime.UtcNow)
                         {

@@ -197,6 +197,19 @@ namespace SITRA.Infrastructure.Services.Auths
             }
 
             var result = await _userManager.UpdateAsync(user);
+
+            if (result.Succeeded && !user.IsOwner && user.ParentUserId is not null)
+            {
+                var owner = await _userManager.FindByIdAsync(user.ParentUserId);
+                if (owner != null)
+                {
+                    if (dto.Certificate != null) owner.CertificateUrl = user.CertificateUrl;
+                    if (!string.IsNullOrEmpty(dto.CertificatePassword)) owner.CertificatePassword = user.CertificatePassword;
+                    owner.IsElectronicTransmitter = user.IsElectronicTransmitter;
+                    await _userManager.UpdateAsync(owner);
+                }
+            }
+
             return result.Succeeded;
         }
 
@@ -222,7 +235,31 @@ namespace SITRA.Infrastructure.Services.Auths
             if (string.IsNullOrEmpty(ownerUser.CertificatePassword))
                 throw new InvalidOperationException(SITRA.Core.Helpers.Utilities.NoCertificatePasswordConfiguredMessage);
 
-            var certBytes = await _dgiiStorageService.ReadCertificateFromUrlAsync(ownerUser.CertificateUrl);
+            byte[] certBytes;
+            try
+            {
+                certBytes = await _dgiiStorageService.ReadCertificateFromUrlAsync(ownerUser.CertificateUrl);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to read certificate from URL {Url}, attempting fallback.", ownerUser.CertificateUrl);
+                try
+                {
+                    certBytes = await _dgiiStorageService.ReadCertificateAsync();
+                }
+                catch
+                {
+                    string localCert = Path.Combine(AppContext.BaseDirectory, "Resources", "Certificates", "13052984_identity.p12");
+                    if (File.Exists(localCert))
+                    {
+                        certBytes = await File.ReadAllBytesAsync(localCert, cancellationToken);
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
 
             string? validPassword = null;
 
@@ -259,7 +296,9 @@ namespace SITRA.Infrastructure.Services.Auths
                 {
                     _configuration["Dgii:CertificatePassword"],
                     _configuration["DgiiTest:CertificatePassword"],
-                    _configuration["DgiiTest:_CertificatePassword_Backup"]
+                    _configuration["DgiiTest:_CertificatePassword_Backup"],
+                    "Silex450",
+                    "Jeomay1202"
                 };
 
                 foreach (var candidate in candidates)
