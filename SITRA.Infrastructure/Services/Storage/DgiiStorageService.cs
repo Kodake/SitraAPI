@@ -82,11 +82,13 @@ namespace SITRA.Infrastructure.Services.Storage
 
             if (url.StartsWith("http", StringComparison.OrdinalIgnoreCase))
             {
+                var container = await GetContainerAsync();
                 Uri uri = new Uri(url);
-                string blobName = uri.AbsolutePath.Substring($"/{_settings.AzureContainerName}/".Length);
-                // Strip the leading environment prefix already embedded in the URI
-                string relativePath = blobName.Substring(_settings.Environment.Length + 1);
-                var blobClient = await GetBlobClientAsync(relativePath);
+                string containerPrefix = $"/{_settings.AzureContainerName}/";
+                string blobName = uri.AbsolutePath.StartsWith(containerPrefix, StringComparison.OrdinalIgnoreCase)
+                    ? uri.AbsolutePath.Substring(containerPrefix.Length)
+                    : uri.AbsolutePath.TrimStart('/');
+                var blobClient = container.GetBlobClient(blobName);
                 using var ms = new MemoryStream();
                 await blobClient.DownloadToAsync(ms);
                 return ms.ToArray();
@@ -135,11 +137,13 @@ namespace SITRA.Infrastructure.Services.Storage
 
             if (_settings.UseAzureStorage && urlOrPath.StartsWith("http", StringComparison.OrdinalIgnoreCase))
             {
-                // urlOrPath is the absolute blob URI — extract the blob name after the container segment
+                var container = await GetContainerAsync();
                 Uri uri = new Uri(urlOrPath);
-                string blobName = uri.AbsolutePath.Substring($"/{_settings.AzureContainerName}/".Length);
-                // Strip the leading environment prefix (e.g. "QA/") already embedded in the URI
-                var blobClient = await GetBlobClientAsync(blobName.Substring(_settings.Environment.Length + 1));
+                string containerPrefix = $"/{_settings.AzureContainerName}/";
+                string blobName = uri.AbsolutePath.StartsWith(containerPrefix, StringComparison.OrdinalIgnoreCase)
+                    ? uri.AbsolutePath.Substring(containerPrefix.Length)
+                    : uri.AbsolutePath.TrimStart('/');
+                var blobClient = container.GetBlobClient(blobName);
 
                 if (!await blobClient.ExistsAsync()) return null;
                 var response = await blobClient.DownloadContentAsync();
