@@ -12,6 +12,7 @@ namespace SITRA.Core.DTOs.Invoices.SaleInvoices
         public Guid? BillerId { get; set; }
         public DocumentType? DocumentType { get; set; }
         public Guid? FiscalSupportId { get; set; }
+        public string? FiscalSupportType { get; set; }
         public double? Shipping { get; set; }
         public double? Discount { get; set; }
         public InvoiceCondition ConditionType { get; set; }

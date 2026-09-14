@@ -60,7 +60,7 @@ namespace SITRA.API.ExceptionHandlers
                     Status = StatusCodes.Status500InternalServerError,
                     Title = SITRA.Core.Helpers.Utilities.InternalServerErrorTitleMessage,
                     Detail = _env.IsDevelopment()
-                        ? exception.Message
+                        ? (exception.InnerException != null ? $"{exception.Message} --> InnerException: {exception.InnerException.Message}" : exception.Message)
                         : SITRA.Core.Helpers.Utilities.InternalServerErrorDetailMessage,
                     Instance = httpContext.Request.Path
                 }

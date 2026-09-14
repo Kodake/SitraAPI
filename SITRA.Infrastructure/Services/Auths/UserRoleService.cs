@@ -18,6 +18,7 @@ using SITRA.Core.Entities.Auths;
 using SITRA.Core.Entities.AdministrativeTools;
 using SITRA.Core.Interfaces.Services;
 using SITRA.Infrastructure.Persistence;
+using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
 
 namespace SITRA.Infrastructure.Services.Auths
@@ -31,6 +32,7 @@ namespace SITRA.Infrastructure.Services.Auths
         private readonly IDgiiStorageService _dgiiStorageService;
         private readonly IDataProtector _protector;
         private readonly IAuthenticationService _authenticationService;
+        private readonly IConfiguration _configuration;
 
         private HttpContext HttpContext => _httpContextAccessor.HttpContext
             ?? throw new InvalidOperationException("HttpContext is not available.");
@@ -42,7 +44,8 @@ namespace SITRA.Infrastructure.Services.Auths
             ILogger<UserRoleService> logger,
             IDgiiStorageService dgiiStorageService,
             IDataProtectionProvider dataProtectionProvider,
-            IAuthenticationService authenticationService)
+            IAuthenticationService authenticationService,
+            IConfiguration configuration)
         {
             _context = context;
             _userManager = userManager;
@@ -51,6 +54,7 @@ namespace SITRA.Infrastructure.Services.Auths
             _dgiiStorageService = dgiiStorageService;
             _protector = dataProtectionProvider.CreateProtector("CertificatePassword");
             _authenticationService = authenticationService;
+            _configuration = configuration;
         }
 
         public async Task<IdentityResult> UpdateUserRoleAsync(string userId, UpdateUserRoleDTO dto, CancellationToken cancellationToken)
@@ -219,9 +223,87 @@ namespace SITRA.Infrastructure.Services.Auths
                 throw new InvalidOperationException(SITRA.Core.Helpers.Utilities.NoCertificatePasswordConfiguredMessage);
 
             var certBytes = await _dgiiStorageService.ReadCertificateFromUrlAsync(ownerUser.CertificateUrl);
-            var certPassword = _protector.Unprotect(ownerUser.CertificatePassword);
 
-            return (certBytes, certPassword);
+            string? validPassword = null;
+
+            // 1. Try protector unprotect
+            try
+            {
+                var decrypted = _protector.Unprotect(ownerUser.CertificatePassword);
+                if (IsValidCertificatePassword(certBytes, decrypted))
+                {
+                    validPassword = decrypted;
+                }
+            }
+            catch (System.Security.Cryptography.CryptographicException)
+            {
+                // Decryption failed (e.g., cross-environment DPAPI keys)
+            }
+
+            // 2. Try raw string if it was plaintext
+            if (validPassword == null && IsValidCertificatePassword(certBytes, ownerUser.CertificatePassword))
+            {
+                validPassword = ownerUser.CertificatePassword;
+                try
+                {
+                    ownerUser.CertificatePassword = _protector.Protect(validPassword);
+                    await _userManager.UpdateAsync(ownerUser);
+                }
+                catch { }
+            }
+
+            // 3. Try appsettings fallback / backup if configured
+            if (validPassword == null)
+            {
+                var candidates = new[]
+                {
+                    _configuration["Dgii:CertificatePassword"],
+                    _configuration["DgiiTest:CertificatePassword"],
+                    _configuration["DgiiTest:_CertificatePassword_Backup"]
+                };
+
+                foreach (var candidate in candidates)
+                {
+                    if (!string.IsNullOrEmpty(candidate) && IsValidCertificatePassword(certBytes, candidate))
+                    {
+                        validPassword = candidate;
+                        try
+                        {
+                            ownerUser.CertificatePassword = _protector.Protect(validPassword);
+                            await _userManager.UpdateAsync(ownerUser);
+                        }
+                        catch { }
+                        break;
+                    }
+                }
+            }
+
+            if (validPassword == null)
+            {
+                throw new InvalidOperationException("La clave del certificado digital no pudo ser descifrada en este entorno o es incorrecta. Por favor, actualice la contraseña del certificado en Configuración -> Perfil.");
+            }
+
+            return (certBytes, validPassword);
+        }
+
+        private static bool IsValidCertificatePassword(byte[] certBytes, string? password)
+        {
+            if (string.IsNullOrEmpty(password) || certBytes == null || certBytes.Length == 0)
+                return false;
+
+            try
+            {
+                using var cert = new System.Security.Cryptography.X509Certificates.X509Certificate2(
+                    certBytes,
+                    password,
+                    System.Security.Cryptography.X509Certificates.X509KeyStorageFlags.Exportable |
+                    System.Security.Cryptography.X509Certificates.X509KeyStorageFlags.EphemeralKeySet);
+                return cert != null;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public async Task<bool> IsElectronicTransmitterAsync(CancellationToken cancellationToken)
