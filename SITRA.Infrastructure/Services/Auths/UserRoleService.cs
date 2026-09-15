@@ -332,12 +332,10 @@ namespace SITRA.Infrastructure.Services.Auths
 
             try
             {
-                using var cert = new System.Security.Cryptography.X509Certificates.X509Certificate2(
-                    certBytes,
-                    password,
-                    System.Security.Cryptography.X509Certificates.X509KeyStorageFlags.Exportable |
-                    System.Security.Cryptography.X509Certificates.X509KeyStorageFlags.EphemeralKeySet);
-                return cert != null;
+                using var ms = new System.IO.MemoryStream(certBytes);
+                var store = new Org.BouncyCastle.Pkcs.Pkcs12StoreBuilder().Build();
+                store.Load(ms, password.ToCharArray());
+                return true;
             }
             catch
             {

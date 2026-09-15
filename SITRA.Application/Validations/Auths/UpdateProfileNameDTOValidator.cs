@@ -1,10 +1,12 @@
 using FluentValidation;
+using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Pkcs;
+using Org.BouncyCastle.Security;
 using SITRA.Core.DTOs.Auths;
 using SITRA.Core.Helpers;
 using System;
 using System.IO;
 using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace SITRA.Core.Validations.Auths
@@ -42,25 +44,54 @@ namespace SITRA.Core.Validations.Auths
                         await dto.Certificate.CopyToAsync(ms, cancellation);
                         var certBytes = ms.ToArray();
 
-                        using var cert = new X509Certificate2(certBytes, dto.CertificatePassword, X509KeyStorageFlags.Exportable | X509KeyStorageFlags.EphemeralKeySet);
+                        using var certMs = new MemoryStream(certBytes);
+                        var store = new Pkcs12StoreBuilder().Build();
+                        store.Load(certMs, dto.CertificatePassword.ToCharArray());
 
-                        if (cert.NotAfter < DateTime.UtcNow)
+                        DateTime? notAfter = null;
+                        DateTime? notBefore = null;
+
+                        foreach (string alias in store.Aliases)
+                        {
+                            var entry = store.GetCertificate(alias);
+                            if (entry?.Certificate != null)
+                            {
+                                notAfter = entry.Certificate.NotAfter;
+                                notBefore = entry.Certificate.NotBefore;
+                                break;
+                            }
+                        }
+
+                        if (notAfter.HasValue && notAfter.Value < DateTime.UtcNow)
                         {
                             context.AddFailure("Certificate", Utilities.CertificateExpiredMessage);
                         }
 
-                        if (cert.NotBefore > DateTime.UtcNow)
+                        if (notBefore.HasValue && notBefore.Value > DateTime.UtcNow)
                         {
                             context.AddFailure("Certificate", Utilities.CertificateNotYetValidMessage);
                         }
                     }
-                    catch (CryptographicException)
+                    catch (InvalidCipherTextException)
                     {
                         context.AddFailure("CertificatePassword", Utilities.CertificatePasswordIncorrectMessage);
                     }
-                    catch (Exception)
+                    catch (IOException ex) when (ex.Message.Contains("MAC invalid", StringComparison.OrdinalIgnoreCase) ||
+                                                 ex.Message.Contains("password", StringComparison.OrdinalIgnoreCase))
                     {
-                        context.AddFailure("Certificate", Utilities.CertificateInvalidFormatMessage);
+                        context.AddFailure("CertificatePassword", Utilities.CertificatePasswordIncorrectMessage);
+                    }
+                    catch (Exception ex)
+                    {
+                        if (ex.Message.Contains("password", StringComparison.OrdinalIgnoreCase) ||
+                            ex.Message.Contains("MAC", StringComparison.OrdinalIgnoreCase))
+                        {
+                            context.AddFailure("CertificatePassword", Utilities.CertificatePasswordIncorrectMessage);
+                        }
+                        else
+                        {
+                            context.AddFailure("Certificate", Utilities.CertificateInvalidFormatMessage);
+                        }
                     }
                 }
             });
