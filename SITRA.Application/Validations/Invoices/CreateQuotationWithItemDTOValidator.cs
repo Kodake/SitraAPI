@@ -29,10 +29,33 @@ namespace SITRA.Core.Validations.Invoices
                 .WithMessage(Utilities.RequiredFieldMessage)
                 .When(x => x.InvoiceItems == null || x.InvoiceItems.Count == 0);
 
+            RuleFor(x => x.ItemName)
+                .MinimumLength(2)
+                .WithMessage(Utilities.MinimunLengthMessage)
+                .MaximumLength(500)
+                .WithMessage(Utilities.MaximunLengthMessage)
+                .When(x => !string.IsNullOrEmpty(x.ItemName));
+
             RuleFor(x => x.ItemBasePrice)
                 .GreaterThan(0)
                 .WithMessage(Utilities.GreatherThanZero)
-                .When(x => x.InvoiceItems == null || x.InvoiceItems.Count == 0);
+                .When(x => (x.InvoiceItems == null || x.InvoiceItems.Count == 0) || x.ItemBasePrice > 0);
+
+            RuleForEach(x => x.InvoiceItems)
+                .ChildRules(item =>
+                {
+                    item.RuleFor(i => i.ItemName)
+                        .MinimumLength(2)
+                        .WithMessage(Utilities.MinimunLengthMessage)
+                        .MaximumLength(500)
+                        .WithMessage(Utilities.MaximunLengthMessage)
+                        .When(i => !string.IsNullOrEmpty(i.ItemName));
+
+                    item.RuleFor(i => i.ItemBasePrice)
+                        .GreaterThan(0)
+                        .WithMessage(Utilities.GreatherThanZero)
+                        .When(i => i.ItemBasePrice.HasValue && i.ItemBasePrice.Value > 0);
+                });
 
             RuleForEach(x => x.TaxIds)
                 .MustAsync(async (taxId, cancellation) =>
