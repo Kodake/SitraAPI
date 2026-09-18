@@ -85,6 +85,11 @@ namespace SITRA.API.Endpoints.Invoices
             {
                 return Results.Empty;
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[PurchaseInvoicesEndpoints.GeneratePdf ERROR] InvoiceId: {invoiceId} - Exception: {ex}");
+                return Results.Problem(detail: ex.Message, statusCode: 500);
+            }
         }
 
         static async Task<Results<FileContentHttpResult, NotFound>> DownloadPdf(

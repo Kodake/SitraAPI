@@ -67,14 +67,23 @@ namespace SITRA.Core.Mediator.Queries.Invoices.PurchaseInvoices
             }
             catch { /* Fallback */ }
 
+            QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+
             DgiiPdfMetadata? dgiiMeta = null;
-            if (!string.IsNullOrEmpty(purchaseInvoice.XmlUrl))
+            try
             {
-                string? xmlContent = await _dgiiStorageService.ReadDocumentXmlFromUrlAsync(purchaseInvoice.XmlUrl);
-                if (!string.IsNullOrEmpty(xmlContent))
+                if (!string.IsNullOrEmpty(purchaseInvoice.XmlUrl))
                 {
-                    dgiiMeta = DgiiXmlMetadataReader.ParseXml(xmlContent);
+                    string? xmlContent = await _dgiiStorageService.ReadDocumentXmlFromUrlAsync(purchaseInvoice.XmlUrl);
+                    if (!string.IsNullOrEmpty(xmlContent))
+                    {
+                        dgiiMeta = DgiiXmlMetadataReader.ParseXml(xmlContent);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[GetPurchaseInvoicePdfQuery] XML extraction error: {ex}");
             }
             
             if (dgiiMeta == null && !string.IsNullOrEmpty(purchaseInvoice.FiscalSupportNumber))
@@ -90,7 +99,13 @@ namespace SITRA.Core.Mediator.Queries.Invoices.PurchaseInvoices
 
             var invoiceDocument = new InvoiceDocument(purchaseInvoice, dgiiMeta, company, _dgiiSettings);
             var finalRnc = company?.RucNumber ?? dgiiMeta?.EmisorRnc ?? _dgiiSettings.DefaultRNC;
-            var sanitizedNcf = purchaseInvoice.FiscalSupportNumber?.Replace("/", "-") ?? Id.ToString();
+
+            var invalidChars = Path.GetInvalidFileNameChars();
+            var sanitizedNcf = new string(
+                (purchaseInvoice.FiscalSupportNumber ?? Id.ToString())
+                .Select(ch => invalidChars.Contains(ch) ? '-' : ch)
+                .ToArray());
+
             var fileName = $"{finalRnc}{sanitizedNcf}.pdf";
 
             using var stream = new MemoryStream();

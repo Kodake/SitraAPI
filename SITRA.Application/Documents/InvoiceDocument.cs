@@ -77,13 +77,17 @@ namespace SITRA.Core.Documents
                 row.RelativeItem().Column(col =>
                 {
                     byte[]? logoBytes = _company != null ? SITRA.Core.Helpers.Utilities.GetCompanyLogoBytes(_company.CompanyLogoUrl) : null;
-                    if (logoBytes != null)
+                    if (logoBytes != null && logoBytes.Length > 0)
                     {
-                        col.Item().Height(60).Image(logoBytes).FitArea();
+                        try
+                        {
+                            col.Item().Height(60).Image(logoBytes).FitArea();
+                        }
+                        catch { }
                     }
 
-                    string companyName = _company?.CompanyName ?? _dgiiMetadata?.RazonSocialEmisor ?? "MI EMPRESA";
-                    string rncNumber = _company?.RucNumber ?? _dgiiMetadata?.EmisorRnc ?? "N/A";
+                    string companyName = _company?.CompanyName ?? _dgiiMetadata?.RazonSocialEmisor ?? _invoice.Biller?.Name ?? "MI EMPRESA";
+                    string rncNumber = _company?.RucNumber ?? _dgiiMetadata?.EmisorRnc ?? _invoice.Biller?.Identification ?? "N/A";
 
                     col.Item().PaddingTop(5).Text(companyName).FontSize(13).SemiBold().FontColor(Colors.Black);
                     col.Item().PaddingTop(1).Text($"RNC: {rncNumber}").FontSize(10).SemiBold().FontColor(Colors.Black);
@@ -184,9 +188,16 @@ namespace SITRA.Core.Documents
                     // Left: Comprador
                     row.RelativeItem().Column(col =>
                     {
+                        string buyerName = _dgiiMetadata?.RazonSocialComprador 
+                            ?? _invoice.Buyer?.Name 
+                            ?? (_invoice.InvoiceType == Enums.InvoiceType.Purchase ? (_company?.CompanyName ?? "MI EMPRESA") : "CLIENTE FINAL");
+                        string buyerRnc = _dgiiMetadata?.CompradorRnc 
+                            ?? _invoice.Buyer?.Identification 
+                            ?? (_invoice.InvoiceType == Enums.InvoiceType.Purchase ? (_company?.RucNumber ?? "N/A") : "N/A");
+
                         col.Item().Text("COMPRADOR").FontSize(8).SemiBold().FontColor(Colors.Grey.Darken2);
-                        col.Item().Text(_dgiiMetadata?.RazonSocialComprador ?? _invoice.Buyer?.Name ?? "CLIENTE FINAL").SemiBold().FontSize(11).FontColor(Colors.Black);
-                        col.Item().Text($"RNC/Cedula: {_dgiiMetadata?.CompradorRnc ?? _invoice.Buyer?.Identification ?? "N/A"}").FontSize(9);
+                        col.Item().Text(buyerName).SemiBold().FontSize(11).FontColor(Colors.Black);
+                        col.Item().Text($"RNC/Cedula: {buyerRnc}").FontSize(9);
 
                         if (!string.IsNullOrEmpty(_dgiiMetadata?.DireccionComprador))
                         {
@@ -259,7 +270,7 @@ namespace SITRA.Core.Documents
                             table.Cell().Element(RowStyle).AlignRight().Text(item.MontoItem.ToString("N2")).SemiBold().FontColor(Colors.Black);
                         }
                     }
-                    else
+                    else if (_invoice.InvoiceItems != null && _invoice.InvoiceItems.Any())
                     {
                         foreach (var item in _invoice.InvoiceItems)
                         {
@@ -268,6 +279,13 @@ namespace SITRA.Core.Documents
                             table.Cell().Element(RowStyle).AlignRight().Text(item.BasePrice.ToString("N2"));
                             table.Cell().Element(RowStyle).AlignRight().Text((item.BasePrice * item.Qty).ToString("N2")).SemiBold().FontColor(Colors.Black);
                         }
+                    }
+                    else
+                    {
+                        table.Cell().Element(RowStyle).Text("1.00");
+                        table.Cell().Element(RowStyle).Text(_invoice.Description ?? "Factura General");
+                        table.Cell().Element(RowStyle).AlignRight().Text(_invoice.TotalAmount.ToString("N2"));
+                        table.Cell().Element(RowStyle).AlignRight().Text(_invoice.TotalAmount.ToString("N2")).SemiBold().FontColor(Colors.Black);
                     }
 
                     static IContainer RowStyle(IContainer c) =>
@@ -289,7 +307,10 @@ namespace SITRA.Core.Documents
                             {
                                 string qrUrl = DgiiQrUrlHelper.BuildDgiiQrUrl(_dgiiMetadata, _dgiiSettings?.ConsultaTimbreUrl, _dgiiSettings?.ConsultaTimbreFCUrl);
                                 byte[] qrBytes = QrCodeGeneratorService.GenerateQrCodeBytes(qrUrl);
-                                col.Item().Width(100).Height(100).Image(qrBytes).FitArea();
+                                if (qrBytes != null && qrBytes.Length > 0)
+                                {
+                                    col.Item().Width(100).Height(100).Image(qrBytes).FitArea();
+                                }
 
                                 col.Item().PaddingTop(5).Text(x =>
                                 {
@@ -336,7 +357,9 @@ namespace SITRA.Core.Documents
                         }
                         else
                         {
-                            totalExento = _invoice.InvoiceItems.Where(i => i.Item?.ItemTaxes == null || !i.Item.ItemTaxes.Any()).Sum(i => i.TotalPrice);
+                            totalExento = _invoice.InvoiceItems != null && _invoice.InvoiceItems.Any()
+                                ? _invoice.InvoiceItems.Where(i => i.Item?.ItemTaxes == null || !i.Item.ItemTaxes.Any()).Sum(i => i.TotalPrice)
+                                : 0;
                             totalGeneral = (double)_invoice.TotalPrice;
                             totalItbis = (double)_invoice.TotalTaxes;
                             totalGravado = (double)_invoice.TotalAmount - totalExento;

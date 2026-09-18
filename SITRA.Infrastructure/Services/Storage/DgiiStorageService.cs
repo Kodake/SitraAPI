@@ -47,6 +47,10 @@ namespace SITRA.Infrastructure.Services.Storage
         {
             if (_containerClient is null)
             {
+                if (string.IsNullOrWhiteSpace(_connectionString))
+                {
+                    throw new InvalidOperationException("AzureStorage connection string is not configured.");
+                }
                 _containerClient = new BlobContainerClient(_connectionString, _settings.AzureContainerName);
                 await _containerClient.CreateIfNotExistsAsync(PublicAccessType.None);
             }
@@ -117,11 +121,19 @@ namespace SITRA.Infrastructure.Services.Storage
         {
             if (_settings.UseAzureStorage)
             {
-                var blobClient = await GetBlobClientAsync($"{_settings.StoragePath}/{rnc}/{docType}/{fileName}");
-                if (!await blobClient.ExistsAsync()) return null;
+                try
+                {
+                    var blobClient = await GetBlobClientAsync($"{_settings.StoragePath}/{rnc}/{docType}/{fileName}");
+                    if (!await blobClient.ExistsAsync()) return null;
 
-                var response = await blobClient.DownloadContentAsync();
-                return response.Value.Content.ToString();
+                    var response = await blobClient.DownloadContentAsync();
+                    return response.Value.Content.ToString();
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning(ex, "Failed to read document XML from Azure for {Rnc}/{DocType}/{FileName}", rnc, docType, fileName);
+                    return null;
+                }
             }
             else
             {
@@ -135,24 +147,63 @@ namespace SITRA.Infrastructure.Services.Storage
         {
             if (string.IsNullOrEmpty(urlOrPath)) return null;
 
-            if (_settings.UseAzureStorage && urlOrPath.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+            try
             {
-                var container = await GetContainerAsync();
-                Uri uri = new Uri(urlOrPath);
-                string containerPrefix = $"/{_settings.AzureContainerName}/";
-                string blobName = uri.AbsolutePath.StartsWith(containerPrefix, StringComparison.OrdinalIgnoreCase)
-                    ? uri.AbsolutePath.Substring(containerPrefix.Length)
-                    : uri.AbsolutePath.TrimStart('/');
-                var blobClient = container.GetBlobClient(blobName);
+                if (urlOrPath.StartsWith("http://", StringComparison.OrdinalIgnoreCase) || 
+                    urlOrPath.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+                {
+                    // 1. Try Azure BlobClient if configured
+                    if (_settings.UseAzureStorage && !string.IsNullOrWhiteSpace(_connectionString))
+                    {
+                        try
+                        {
+                            var container = await GetContainerAsync();
+                            Uri uri = new Uri(urlOrPath);
+                            string containerPrefix = $"/{_settings.AzureContainerName}/";
+                            string blobName = uri.AbsolutePath.StartsWith(containerPrefix, StringComparison.OrdinalIgnoreCase)
+                                ? uri.AbsolutePath.Substring(containerPrefix.Length)
+                                : uri.AbsolutePath.TrimStart('/');
+                            var blobClient = container.GetBlobClient(blobName);
 
-                if (!await blobClient.ExistsAsync()) return null;
-                var response = await blobClient.DownloadContentAsync();
-                return response.Value.Content.ToString();
+                            if (await blobClient.ExistsAsync())
+                            {
+                                var response = await blobClient.DownloadContentAsync();
+                                return response.Value.Content.ToString();
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogWarning(ex, "Failed to read blob via Azure SDK for {Url}, attempting HTTP fallback.", urlOrPath);
+                        }
+                    }
+
+                    // 2. Direct HTTP GET fallback (for accessible/public blob URLs)
+                    try
+                    {
+                        using var httpClient = new HttpClient { Timeout = TimeSpan.FromSeconds(10) };
+                        var res = await httpClient.GetAsync(urlOrPath);
+                        if (res.IsSuccessStatusCode)
+                        {
+                            return await res.Content.ReadAsStringAsync();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogWarning(ex, "Failed to fetch XML via HTTP GET from {Url}", urlOrPath);
+                    }
+
+                    return null;
+                }
+                else
+                {
+                    if (!File.Exists(urlOrPath)) return null;
+                    return await File.ReadAllTextAsync(urlOrPath);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                if (!File.Exists(urlOrPath)) return null;
-                return await File.ReadAllTextAsync(urlOrPath);
+                _logger.LogError(ex, "Unexpected error reading document XML from {UrlOrPath}", urlOrPath);
+                return null;
             }
         }
 
