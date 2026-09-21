@@ -18,6 +18,14 @@ namespace SITRA.Core.Mediator.Commands.Products.Combos
 
             var comboSaved = await unitOfWork.ComboRepository.CreateAsync(combo);
 
+            if (Dto.ImageUrl is not null)
+            {
+                string rnc = await SITRA.Core.Helpers.TenantFiscalSupportHelper.GetCurrentTenantRncAsync(
+                    unitOfWork, unitOfWork.HttpContextAccessor, cancellationToken);
+                var url = await unitOfWork.DgiiStorageService.SaveItemPictureAsync(Dto.ImageUrl, rnc, comboSaved.Id);
+                comboSaved.ImageUrl = url;
+            }
+
             var pricing = await unitOfWork.PricingRepository.GetPricingByName(Enum.GetName(PricingName.Principal));
             if (pricing == null)
             {

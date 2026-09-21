@@ -19,5 +19,7 @@ namespace SITRA.Core.Interfaces.Services.Storage
         Task EnsureSchemasUploadedAsync();
         Task<string> SaveCertificateAsync(Microsoft.AspNetCore.Http.IFormFile file, string rnc);
         Task<string> SaveCompanyLogoAsync(Microsoft.AspNetCore.Http.IFormFile file, string rnc);
+        Task<string> SaveItemPictureAsync(Microsoft.AspNetCore.Http.IFormFile file, string rnc, System.Guid? itemId = null);
+        Task DeleteItemPictureAsync(string? url);
     }
 }

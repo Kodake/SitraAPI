@@ -14,6 +14,7 @@ public class ProductListDTO
     public double BasePrice { get; set; }
     public double Percentage { get; set; }
     public double TotalPrice { get; set; }
+    public string? ImageUrl { get; set; }
     public bool IsActive { get; set; }
     public List<TaxDTO> Taxes { get; set; } = [];
     [JsonIgnore]

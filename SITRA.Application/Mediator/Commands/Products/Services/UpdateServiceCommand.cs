@@ -28,10 +28,17 @@ namespace SITRA.Core.Mediator.Commands.Products.Services
 
             if (Dto.ImageUrl is not null)
             {
-                var newUrl = await unitOfWork.FileStorageService.UpdateAsync(
-                    currentImageUrl,
-                    container,
-                    Dto.ImageUrl
+                if (!string.IsNullOrEmpty(currentImageUrl))
+                {
+                    await unitOfWork.DgiiStorageService.DeleteItemPictureAsync(currentImageUrl);
+                }
+
+                string rnc = await SITRA.Core.Helpers.TenantFiscalSupportHelper.GetCurrentTenantRncAsync(
+                    unitOfWork, unitOfWork.HttpContextAccessor, cancellationToken);
+                var newUrl = await unitOfWork.DgiiStorageService.SaveItemPictureAsync(
+                    Dto.ImageUrl,
+                    rnc,
+                    serviceDB.Id
                 );
 
                 serviceDB.ImageUrl = newUrl;

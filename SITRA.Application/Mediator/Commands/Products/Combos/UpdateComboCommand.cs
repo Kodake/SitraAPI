@@ -18,7 +18,29 @@ namespace SITRA.Core.Mediator.Commands.Products.Combos
                 return false;
             }
 
+            var currentImageUrl = comboDB.ImageUrl;
+
             mapper.Map(Dto, comboDB);
+
+            comboDB.ImageUrl = currentImageUrl;
+
+            if (Dto.ImageUrl is not null)
+            {
+                if (!string.IsNullOrEmpty(currentImageUrl))
+                {
+                    await unitOfWork.DgiiStorageService.DeleteItemPictureAsync(currentImageUrl);
+                }
+
+                string rnc = await SITRA.Core.Helpers.TenantFiscalSupportHelper.GetCurrentTenantRncAsync(
+                    unitOfWork, unitOfWork.HttpContextAccessor, cancellationToken);
+                var newUrl = await unitOfWork.DgiiStorageService.SaveItemPictureAsync(
+                    Dto.ImageUrl,
+                    rnc,
+                    comboDB.Id
+                );
+
+                comboDB.ImageUrl = newUrl;
+            }
 
             comboDB.ItemTaxes = Dto.TaxIds.Select(taxId => new ItemTaxes
             {

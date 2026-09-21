@@ -362,6 +362,69 @@ namespace SITRA.Infrastructure.Services.Storage
             }
         }
 
+        public async Task<string> SaveItemPictureAsync(Microsoft.AspNetCore.Http.IFormFile file, string rnc, Guid? itemId = null)
+        {
+            var extension = Path.GetExtension(file.FileName);
+            string fileId = itemId.HasValue ? $"{itemId.Value}_{Guid.NewGuid():N}" : Guid.NewGuid().ToString("N");
+            string fileName = $"{fileId}{extension}";
+
+            if (_settings.UseAzureStorage)
+            {
+                var blobClient = await GetBlobClientAsync($"Items/{rnc}/{fileName}");
+                using var stream = file.OpenReadStream();
+                var headers = new Azure.Storage.Blobs.Models.BlobHttpHeaders
+                {
+                    ContentType = string.IsNullOrWhiteSpace(file.ContentType) ? "image/jpeg" : file.ContentType
+                };
+                await blobClient.UploadAsync(stream, new Azure.Storage.Blobs.Models.BlobUploadOptions { HttpHeaders = headers });
+                return blobClient.Uri.ToString();
+            }
+            else
+            {
+                string saveDir = Path.Combine(ResolvePath("Resources/Items"), rnc);
+                if (!Directory.Exists(saveDir)) Directory.CreateDirectory(saveDir);
+
+                string filePath = Path.Combine(saveDir, fileName);
+                using var fileStream = new FileStream(filePath, FileMode.Create);
+                await file.CopyToAsync(fileStream);
+                return filePath;
+            }
+        }
+
+        public async Task DeleteItemPictureAsync(string? url)
+        {
+            if (string.IsNullOrWhiteSpace(url)) return;
+
+            try
+            {
+                if (_settings.UseAzureStorage)
+                {
+                    if (url.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var container = await GetContainerAsync();
+                        Uri uri = new Uri(url);
+                        string containerPrefix = $"/{_settings.AzureContainerName}/";
+                        string blobName = uri.AbsolutePath.StartsWith(containerPrefix, StringComparison.OrdinalIgnoreCase)
+                            ? uri.AbsolutePath.Substring(containerPrefix.Length)
+                            : uri.AbsolutePath.TrimStart('/');
+                        var blobClient = container.GetBlobClient(blobName);
+                        await blobClient.DeleteIfExistsAsync();
+                    }
+                }
+                else
+                {
+                    if (File.Exists(url))
+                    {
+                        File.Delete(url);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to delete item picture: {Url}", url);
+            }
+        }
+
         private static string ResolvePath(string path) =>
             Path.IsPathRooted(path) ? path : Path.Combine(AppContext.BaseDirectory, path);
     }

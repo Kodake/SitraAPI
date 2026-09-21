@@ -17,13 +17,16 @@ namespace SITRA.Core.Mediator.Commands.Products.Products
         {
             var product = mapper.Map<Item>(Dto);
             product.ItemType = ItemType.Product;
-            if (Dto.ImageUrl is not null)
-            {
-                var url = await unitOfWork.FileStorageService.SaveAsync(container, Dto.ImageUrl);
-                product.ImageUrl = url;
-            }
 
             var productSaved = await unitOfWork.ProductRepository.CreateAsync(product);
+
+            if (Dto.ImageUrl is not null)
+            {
+                string rnc = await SITRA.Core.Helpers.TenantFiscalSupportHelper.GetCurrentTenantRncAsync(
+                    unitOfWork, unitOfWork.HttpContextAccessor, cancellationToken);
+                var url = await unitOfWork.DgiiStorageService.SaveItemPictureAsync(Dto.ImageUrl, rnc, productSaved.Id);
+                productSaved.ImageUrl = url;
+            }
 
             var pricing = await unitOfWork.PricingRepository.GetPricingByName(Enum.GetName(PricingName.Principal));
             if (pricing == null)

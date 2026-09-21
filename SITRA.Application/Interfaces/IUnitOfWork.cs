@@ -75,6 +75,8 @@ namespace SITRA.Core.Interfaces
         IPermissionClaimService PermissionClaimService { get; }
         IPlanService PlanService { get; }
         IFileStorageService FileStorageService { get; }
+        IDgiiStorageService DgiiStorageService { get; }
+        Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor { get; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

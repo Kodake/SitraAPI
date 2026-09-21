@@ -93,6 +93,8 @@ namespace SITRA.Infrastructure.Repositories
         public IPermissionClaimService PermissionClaimService { get; }
         public IPlanService PlanService { get; }
         public IFileStorageService FileStorageService { get; }
+        public IDgiiStorageService DgiiStorageService { get; }
+        public IHttpContextAccessor HttpContextAccessor => _httpContextAccessor;
 
         public UnitOfWork(
             ApplicationDbContext context,
@@ -156,6 +158,7 @@ namespace SITRA.Infrastructure.Repositories
 
             PlanService = new PlanService();
             FileStorageService = new AzureFileService(configuration);
+            DgiiStorageService = dgiiStorageService;
 
             _context = context;
             _httpContextAccessor = httpContextAccessor;

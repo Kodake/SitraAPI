@@ -9,6 +9,7 @@ namespace SITRA.Core.DTOs.Products.Combos
         public string? Reference { get; set; }
         public string? Barcode { get; set; }
         public string? Description { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
         public IFormFile? ImageUrl { get; set; }
         public double InitialCost { get; set; }
         public double BasePrice { get; set; }

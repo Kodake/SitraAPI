@@ -20,10 +20,10 @@ namespace SITRA.API.Endpoints.Products
             group.MapGet("/selects", GetSelects).CacheOutput(c => c.Expire(TimeSpan.FromSeconds(60)).Tag("services-get")).RequireAuthorization();
             group.MapGet("/{id:guid}", GetById).RequireAuthorization();
             group.MapPost("/", Create).DisableAntiforgery()
-                .AddEndpointFilter<ValidationFilter<CreateServiceDTO>>()
                 .WithOpenApi().RequireAuthorization();
             group.MapPut("/{id:guid}", Update).DisableAntiforgery()
-                .AddEndpointFilter<ValidationFilter<CreateServiceDTO>>()
+                .WithOpenApi().RequireAuthorization();
+            group.MapPost("/{id:guid}/picture", UploadPicture).DisableAntiforgery()
                 .WithOpenApi().RequireAuthorization();
             group.MapPatch("/{id:guid}/activate", Activate).RequireAuthorization();
             group.MapDelete("/{id:guid}/deactivate", Deactivate).RequireAuthorization();
@@ -59,23 +59,114 @@ namespace SITRA.API.Endpoints.Products
             return dto == null ? TypedResults.NotFound() : TypedResults.Ok(dto);
         }
 
-        static async Task<Results<Created, NotFound, ValidationProblem>> Create(
-            [FromBody] CreateServiceDTO dto,
-            [FromServices] IMediator mediator)
+        static async Task<IResult> Create(
+            HttpContext httpContext,
+            [FromServices] IMediator mediator,
+            [FromServices] FluentValidation.IValidator<CreateServiceDTO> validator)
         {
+            CreateServiceDTO? dto;
+            if (httpContext.Request.HasFormContentType)
+            {
+                var form = await httpContext.Request.ReadFormAsync();
+                dto = FormToServiceDTO(form);
+            }
+            else
+            {
+                dto = await httpContext.Request.ReadFromJsonAsync<CreateServiceDTO>();
+            }
+
+            if (dto == null)
+                return TypedResults.Problem("Invalid service payload.");
+
+            var validation = await validator.ValidateAsync(dto);
+            if (!validation.IsValid)
+                return TypedResults.ValidationProblem(validation.ToDictionary());
+
             var command = new CreateServiceCommand(dto);
             var serviceDTO = await mediator.Send(command);
             return serviceDTO == null ? TypedResults.NotFound() : TypedResults.Created();
         }
 
-        static async Task<Results<Ok, NotFound, ValidationProblem>> Update(
+        static async Task<IResult> Update(
             Guid id,
-            [FromBody] CreateServiceDTO dto,
-            [FromServices] IMediator mediator)
+            HttpContext httpContext,
+            [FromServices] IMediator mediator,
+            [FromServices] FluentValidation.IValidator<CreateServiceDTO> validator)
         {
+            CreateServiceDTO? dto;
+            if (httpContext.Request.HasFormContentType)
+            {
+                var form = await httpContext.Request.ReadFormAsync();
+                dto = FormToServiceDTO(form);
+            }
+            else
+            {
+                dto = await httpContext.Request.ReadFromJsonAsync<CreateServiceDTO>();
+            }
+
+            if (dto == null)
+                return TypedResults.Problem("Invalid service payload.");
+
+            var validation = await validator.ValidateAsync(dto);
+            if (!validation.IsValid)
+                return TypedResults.ValidationProblem(validation.ToDictionary());
+
             var command = new UpdateServiceCommand(id, dto);
             var success = await mediator.Send(command, default);
             return success ? TypedResults.Ok() : TypedResults.NotFound();
+        }
+
+        static async Task<IResult> UploadPicture(
+            Guid id,
+            IFormFile file,
+            [FromServices] SITRA.Core.Interfaces.IUnitOfWork unitOfWork,
+            CancellationToken cancellationToken)
+        {
+            if (file == null || file.Length == 0)
+                return TypedResults.BadRequest("No file provided.");
+
+            var service = await unitOfWork.ServiceRepository.GetByIdAsync(id);
+            if (service == null)
+                return TypedResults.NotFound();
+
+            if (!string.IsNullOrEmpty(service.ImageUrl))
+            {
+                await unitOfWork.DgiiStorageService.DeleteItemPictureAsync(service.ImageUrl);
+            }
+
+            string rnc = await SITRA.Core.Helpers.TenantFiscalSupportHelper.GetCurrentTenantRncAsync(
+                unitOfWork, unitOfWork.HttpContextAccessor, cancellationToken);
+            var url = await unitOfWork.DgiiStorageService.SaveItemPictureAsync(file, rnc, id);
+            service.ImageUrl = url;
+            unitOfWork.ServiceRepository.Update(service);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
+
+            return TypedResults.Ok(new { imageUrl = url });
+        }
+
+        private static CreateServiceDTO FormToServiceDTO(IFormCollection form)
+        {
+            var taxIds = form["taxIds"].Select(t => Guid.TryParse(t, out var g) ? g : Guid.Empty)
+                .Where(g => g != Guid.Empty).ToList();
+            if (!taxIds.Any() && form.ContainsKey("taxIds[]"))
+            {
+                taxIds = form["taxIds[]"].Select(t => Guid.TryParse(t, out var g) ? g : Guid.Empty)
+                    .Where(g => g != Guid.Empty).ToList();
+            }
+
+            return new CreateServiceDTO
+            {
+                Name = form["name"].ToString(),
+                Reference = string.IsNullOrWhiteSpace(form["reference"]) ? null : form["reference"].ToString(),
+                Description = string.IsNullOrWhiteSpace(form["description"]) ? null : form["description"].ToString(),
+                InitialCost = double.TryParse(form["initialCost"], System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out var ic) ? ic : 0,
+                BasePrice = double.TryParse(form["basePrice"], System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out var bp) ? bp : 0,
+                UnitMeasure = Enum.TryParse<UnitMeasure>(form["unitMeasure"], out var um) ? um : default,
+                CategoryId = Guid.TryParse(form["categoryId"], out var ci) ? ci : null,
+                SubCategoryId = Guid.TryParse(form["subCategoryId"], out var sci) ? sci : null,
+                TaxIds = taxIds,
+                ImageUrl = form.Files["imageUrl"] ?? form.Files["image"] ?? form.Files["file"] ?? form.Files.FirstOrDefault()
+            };
         }
 
         static async Task<Results<NotFound, Ok>> Activate(
