@@ -92,18 +92,34 @@ namespace SITRA.API.Endpoints.Invoices
             }
         }
 
-        static async Task<Results<FileContentHttpResult, NotFound>> DownloadPdf(
+        static async Task<IResult> DownloadPdf(
             [FromRoute] Guid invoiceId,
             [FromServices] IMediator mediator,
             [FromServices] Microsoft.Extensions.Options.IOptions<SITRA.Core.Models.Dgii.DgiiSettings> dgiiSettings,
             [FromServices] SITRA.Core.Interfaces.Services.Storage.IDgiiStorageService dgiiStorageService)
         {
-            var query = new DownloadPurchaseInvoicePdfQuery(invoiceId, dgiiSettings.Value, dgiiStorageService);
-            var result = await mediator.Send(query);
+            try
+            {
+                var query = new GetPurchaseInvoicePdfQuery(invoiceId, dgiiSettings.Value, dgiiStorageService);
+                var result = await mediator.Send(query);
 
-            return result == null
-                ? TypedResults.NotFound()
-                : TypedResults.File(result.Value.FileBytes, "application/pdf", result.Value.FileName);
+                if (result == null)
+                    return Results.NotFound();
+
+                return Results.File(
+                    result.Value.FileBytes,
+                    "application/pdf",
+                    result.Value.FileName);
+            }
+            catch (OperationCanceledException)
+            {
+                return Results.Empty;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[PurchaseInvoicesEndpoints.DownloadPdf ERROR] InvoiceId: {invoiceId} - Exception: {ex}");
+                return Results.Problem(detail: ex.Message, statusCode: 500);
+            }
         }
 
         static async Task<Results<FileContentHttpResult, NotFound>> GenerateReceiptPdf(

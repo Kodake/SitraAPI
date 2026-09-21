@@ -17,12 +17,12 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
             services.AddTransient<IRequestHandler<AnnulNcfCommand, AnnulNcfDTO>, AnnulNcfCommandHandler>();
             services.AddTransient<IRequestHandler<CreateSaleInvoiceCommand, CreateSaleInvoiceDTO>, CreateSaleInvoiceCommandHandler>();
             services.AddTransient<IRequestHandler<CreateSaleInvoiceWithItemCommand, CreateSaleInvoiceWithItemDTO>, CreateSaleInvoiceWithItemCommandHandler>();
-            services.AddTransient<IRequestHandler<GetSaleInvoicePdfQuery, (byte[] FileBytes, string FileName)?>, QueryHandler<GetSaleInvoicePdfQuery, (byte[] FileBytes, string FileName)?>>();
-            services.AddTransient<IRequestHandler<GetSaleInvoiceReceiptPdfQuery, (byte[] FileBytes, string FileName)?>, QueryHandler<GetSaleInvoiceReceiptPdfQuery, (byte[] FileBytes, string FileName)?>>();
+            services.AddTransient<IRequestHandler<GetSaleInvoicePdfQuery, (byte[] FileBytes, string FileName)?>, GetSaleInvoicePdfQueryHandler>();
+            services.AddTransient<IRequestHandler<GetSaleInvoiceReceiptPdfQuery, (byte[] FileBytes, string FileName)?>, GetSaleInvoiceReceiptPdfQueryHandler>();
 
             services.AddTransient<IRequestHandler<GetSaleInvoicesBalanceQuery, BalanceSummaryDTO>, GetSaleInvoicesBalanceQueryHandler>();
             services.AddTransient<IRequestHandler<GetSaleInvoicesWithBalanceQuery, SaleInvoiceWithBalanceDTO>, GetSaleInvoicesWithBalanceQueryHandler>();
-            services.AddTransient<IRequestHandler<DownloadSaleInvoicePdfQuery, (byte[] FileBytes, string FileName)?>, QueryHandler<DownloadSaleInvoicePdfQuery, (byte[] FileBytes, string FileName)?>>();
+            services.AddTransient<IRequestHandler<DownloadSaleInvoicePdfQuery, (byte[] FileBytes, string FileName)?>, DownloadSaleInvoicePdfQueryHandler>();
 
             return services;
         }

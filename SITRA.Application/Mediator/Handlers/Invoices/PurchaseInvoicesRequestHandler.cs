@@ -11,13 +11,13 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
         {
             services.AddTransient<IRequestHandler<GetPurchaseInvoiceByIdQuery, PurchaseInvoiceDTO>, QueryHandler<GetPurchaseInvoiceByIdQuery, PurchaseInvoiceDTO>>();
             services.AddTransient<IRequestHandler<GetAllPurchaseInvoicesQuery, List<PurchaseInvoiceListDTO>>, GetAllPurchaseInvoicesQueryHandler>();
-            services.AddTransient<IRequestHandler<GetAllPurchaseInvoicesByDateRangeQuery, List<PurchaseInvoiceListDTO>>, QueryHandler<GetAllPurchaseInvoicesByDateRangeQuery, List<PurchaseInvoiceListDTO>>>();
+            services.AddTransient<IRequestHandler<GetAllPurchaseInvoicesByDateRangeQuery, List<PurchaseInvoiceListDTO>>, GetAllPurchaseInvoicesByDateRangeQueryHandler>();
             // services.AddTransient<IRequestHandler<CreatePurchaseInvoiceCommand, CreatePurchaseInvoiceDTO>, CreateCommandHandler<Entities.Invoices.Invoice, CreatePurchaseInvoiceDTO>>();
             services.AddTransient<IRequestHandler<CreatePurchaseInvoiceCommand, CreatePurchaseInvoiceDTO>, CreatePurchaseInvoiceCommandHandler>();
-            services.AddTransient<IRequestHandler<GetPurchaseInvoicePdfQuery, (byte[] FileBytes, string FileName)?>, QueryHandler<GetPurchaseInvoicePdfQuery, (byte[] FileBytes, string FileName)?>>();
-            services.AddTransient<IRequestHandler<GetPurchaseInvoiceReceiptPdfQuery, (byte[] FileBytes, string FileName)?>, QueryHandler<GetPurchaseInvoiceReceiptPdfQuery, (byte[] FileBytes, string FileName)?>>();
-            services.AddTransient<IRequestHandler<GetPurchaseInvoiceReportPdfQuery, (byte[] FileBytes, string FileName)?>, QueryHandler<GetPurchaseInvoiceReportPdfQuery, (byte[] FileBytes, string FileName)?>>();
-            services.AddTransient<IRequestHandler<DownloadPurchaseInvoicePdfQuery, (byte[] FileBytes, string FileName)?>, QueryHandler<DownloadPurchaseInvoicePdfQuery, (byte[] FileBytes, string FileName)?>>();
+            services.AddTransient<IRequestHandler<GetPurchaseInvoicePdfQuery, (byte[] FileBytes, string FileName)?>, GetPurchaseInvoicePdfQueryHandler>();
+            services.AddTransient<IRequestHandler<GetPurchaseInvoiceReceiptPdfQuery, (byte[] FileBytes, string FileName)?>, GetPurchaseInvoiceReceiptPdfQueryHandler>();
+            services.AddTransient<IRequestHandler<GetPurchaseInvoiceReportPdfQuery, (byte[] FileBytes, string FileName)?>, GetPurchaseInvoiceReportPdfQueryHandler>();
+            services.AddTransient<IRequestHandler<DownloadPurchaseInvoicePdfQuery, (byte[] FileBytes, string FileName)?>, DownloadPurchaseInvoicePdfQueryHandler>();
             services.AddTransient<IRequestHandler<GetPurchaseInvoicesWithBalanceQuery, PurchaseInvoiceWithBalanceDTO>, GetPurchaseInvoicesWithBalanceQueryHandler>();
 
             return services;

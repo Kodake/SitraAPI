@@ -570,8 +570,15 @@ namespace SITRA.Core.Mediator.Handlers
         public ForgotPasswordCommandHandler(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, IMapper mapper) : base(unitOfWork, outputCacheStore, mapper) { }
     }
 
+    public class DownloadPurchaseInvoicePdfQueryHandler : QueryHandler<DownloadPurchaseInvoicePdfQuery, (byte[] FileBytes, string FileName)?>
+    {
+        public DownloadPurchaseInvoicePdfQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
+    }
 
-
+    public class DownloadSaleInvoicePdfQueryHandler : QueryHandler<DownloadSaleInvoicePdfQuery, (byte[] FileBytes, string FileName)?>
+    {
+        public DownloadSaleInvoicePdfQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper) { }
+    }
 
     public class GetAllByIdQueryHandler : QueryHandler<GetAllByIdQuery<object>, IEnumerable<object>>
     {
