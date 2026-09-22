@@ -28,6 +28,9 @@ namespace SITRA.Core.Validations.Products
             RuleFor(x => x.UnitMeasure)
                 .IsInEnum().WithMessage(Utilities.InvalidEnumValueMessage);
 
+            RuleFor(x => x.ImageUrl)
+                .ValidImage(required: false);
+
             // Validate warehouse exists if WarehouseId is provided
             RuleFor(x => x.WarehouseId)
                 .MustAsync(async (warehouseId, cancellation) =>

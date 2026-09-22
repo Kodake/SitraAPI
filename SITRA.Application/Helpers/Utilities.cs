@@ -12,6 +12,7 @@ namespace SITRA.Core.Helpers
         public static string RequiredFieldMessage => _resourceManager.GetString("RequiredFieldMessage")!;
         public static string MinimunLengthMessage => _resourceManager.GetString("MinimunLengthMessage")!;
         public static string MaximunLengthMessage => _resourceManager.GetString("MaximunLengthMessage")!;
+        public static string ImageMaxSizeMessage => _resourceManager.GetString("ImageMaxSizeMessage")!;
         public static string FirstCharUpperMessage => _resourceManager.GetString("FirstCharUpperMessage")!;
         public static string EmailMessage => _resourceManager.GetString("EmailMessage")!;
         public static string EmailAlreadyExistsMessage(string email)

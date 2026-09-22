@@ -605,4 +605,7 @@
   <data name="CannotDisableSuperAdminMessage" xml:space="preserve">
     <value>No es posible deshabilitar al usuario SuperAdmin SISTRA SRL.</value>
   </data>
+  <data name="ImageMaxSizeMessage" xml:space="preserve">
+    <value>La imagen no debe superar los 300 KB.</value>
+  </data>
 </root>

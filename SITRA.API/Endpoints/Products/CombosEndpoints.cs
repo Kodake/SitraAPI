@@ -107,13 +107,16 @@ namespace SITRA.API.Endpoints
 
         static async Task<IResult> UploadPicture(
             Guid id,
-            IFormFile file,
+            [FromForm] SITRA.Core.DTOs.Products.UploadPictureDTO dto,
+            [FromServices] FluentValidation.IValidator<SITRA.Core.DTOs.Products.UploadPictureDTO> validator,
             [FromServices] SITRA.Core.Interfaces.IUnitOfWork unitOfWork,
             CancellationToken cancellationToken)
         {
-            if (file == null || file.Length == 0)
-                return TypedResults.BadRequest("No file provided.");
+            var validation = await validator.ValidateAsync(dto, cancellationToken);
+            if (!validation.IsValid)
+                return TypedResults.ValidationProblem(validation.ToDictionary());
 
+            var file = dto.GetFile()!;
             var combo = await unitOfWork.ComboRepository.GetByIdAsync(id);
             if (combo == null)
                 return TypedResults.NotFound();

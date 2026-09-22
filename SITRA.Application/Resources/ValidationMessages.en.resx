@@ -605,4 +605,7 @@
   <data name="CannotDisableSuperAdminMessage" xml:space="preserve">
     <value>It is not possible to disable the SuperAdmin SISTRA SRL user.</value>
   </data>
+  <data name="ImageMaxSizeMessage" xml:space="preserve">
+    <value>The image must not exceed 300 KB.</value>
+  </data>
 </root>

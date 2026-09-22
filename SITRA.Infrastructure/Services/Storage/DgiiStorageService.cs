@@ -364,6 +364,12 @@ namespace SITRA.Infrastructure.Services.Storage
 
         public async Task<string> SaveItemPictureAsync(Microsoft.AspNetCore.Http.IFormFile file, string rnc, Guid? itemId = null)
         {
+            const long maxPictureSizeBytes = 300 * 1024; // 300 KB
+            if (file.Length > maxPictureSizeBytes)
+            {
+                throw new InvalidOperationException($"La imagen supera el tamaño máximo permitido de 300 KB ({file.Length} bytes).");
+            }
+
             var extension = Path.GetExtension(file.FileName);
             string fileId = itemId.HasValue ? $"{itemId.Value}_{Guid.NewGuid():N}" : Guid.NewGuid().ToString("N");
             string fileName = $"{fileId}{extension}";

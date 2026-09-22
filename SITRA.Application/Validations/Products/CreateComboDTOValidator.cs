@@ -30,6 +30,9 @@ namespace SITRA.Core.Validations.Products
 
             RuleFor(x => x.BasePrice)
                 .GreaterThan(0).WithMessage(Utilities.GreatherThanZero);
+
+            RuleFor(x => x.ImageUrl)
+                .ValidImage(required: false);
         }
     }
 }

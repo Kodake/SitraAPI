@@ -23,6 +23,9 @@ namespace SITRA.Core.Validations.Products
 
             RuleFor(x => x.UnitMeasure)
                     .IsInEnum().WithMessage(Utilities.InvalidEnumValueMessage);
+
+            RuleFor(x => x.ImageUrl)
+                .ValidImage(required: false);
         }
     }
 }
