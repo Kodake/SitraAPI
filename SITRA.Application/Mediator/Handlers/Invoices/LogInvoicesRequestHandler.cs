@@ -10,6 +10,8 @@ namespace SITRA.Core.Mediator.Handlers.Invoices
         {
             services.AddTransient<IRequestHandler<GetAllLogInvoicesQuery, List<LogInvoiceListDTO>>, QueryHandler<GetAllLogInvoicesQuery, List<LogInvoiceListDTO>>>();
             services.AddTransient<IRequestHandler<GetLogInvoiceXmlQuery, string>, QueryHandler<GetLogInvoiceXmlQuery, string>>();
+            services.AddTransient<IRequestHandler<SITRA.Core.Mediator.Commands.Invoices.LogInvoices.SyncDgiiInvoiceStatusCommand, SyncDgiiStatusResultDTO>, SyncDgiiStatusCommandHandler>();
+            services.AddTransient<IRequestHandler<SITRA.Core.Mediator.Commands.Invoices.LogInvoices.SyncPendingDgiiInvoicesCommand, List<SyncDgiiStatusResultDTO>>, SyncDgiiStatusCommandHandler>();
 
             return services;
         }

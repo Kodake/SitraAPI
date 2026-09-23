@@ -608,4 +608,25 @@
   <data name="ImageMaxSizeMessage" xml:space="preserve">
     <value>The image must not exceed 300 KB.</value>
   </data>
+  <data name="InvoiceNotFoundMessage" xml:space="preserve">
+    <value>Invoice not found.</value>
+  </data>
+  <data name="InvoiceMissingTrackIdMessage" xml:space="preserve">
+    <value>The invoice does not have a registered TrackId to query in DGII.</value>
+  </data>
+  <data name="InvoiceSyncErrorMessage" xml:space="preserve">
+    <value>Error during synchronization: {0}</value>
+  </data>
+  <data name="DgiiNoResponseMessage" xml:space="preserve">
+    <value>DGII did not return a response for this TrackId.</value>
+  </data>
+  <data name="InvoiceStatusUpdatedMessage" xml:space="preserve">
+    <value>Status updated to '{0}'.</value>
+  </data>
+  <data name="TenantUserNotFoundMessage" xml:space="preserve">
+    <value>No user found for Tenant {0}.</value>
+  </data>
+  <data name="CertificatePasswordDecryptionErrorMessage" xml:space="preserve">
+    <value>The digital certificate password could not be decrypted in this environment or is incorrect. Please update the certificate password in Settings -> Profile.</value>
+  </data>
 </root>

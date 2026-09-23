@@ -229,6 +229,20 @@ namespace SITRA.Infrastructure.Services.Auths
                     : null)
                 ?? user;
 
+            return await GetCertificateForUserAsync(ownerUser, cancellationToken);
+        }
+
+        public async Task<(byte[] CertBytes, string CertPassword)> GetTenantCertificateByTenantIdAsync(Guid tenantId, CancellationToken cancellationToken)
+        {
+            var ownerUser = await _userManager.Users.IgnoreQueryFilters().FirstOrDefaultAsync(u => u.TenantId == tenantId && u.IsOwner, cancellationToken)
+                ?? await _userManager.Users.IgnoreQueryFilters().FirstOrDefaultAsync(u => u.TenantId == tenantId, cancellationToken)
+                ?? throw new InvalidOperationException(SITRA.Core.Helpers.Utilities.TenantUserNotFoundMessage(tenantId));
+
+            return await GetCertificateForUserAsync(ownerUser, cancellationToken);
+        }
+
+        private async Task<(byte[] CertBytes, string CertPassword)> GetCertificateForUserAsync(User ownerUser, CancellationToken cancellationToken)
+        {
             if (string.IsNullOrEmpty(ownerUser.CertificateUrl))
                 throw new InvalidOperationException(SITRA.Core.Helpers.Utilities.NoCertificateUrlConfiguredMessage);
 
@@ -319,7 +333,7 @@ namespace SITRA.Infrastructure.Services.Auths
 
             if (validPassword == null)
             {
-                throw new InvalidOperationException("La clave del certificado digital no pudo ser descifrada en este entorno o es incorrecta. Por favor, actualice la contraseña del certificado en Configuración -> Perfil.");
+                throw new InvalidOperationException(SITRA.Core.Helpers.Utilities.CertificatePasswordDecryptionErrorMessage);
             }
 
             return (certBytes, validPassword);

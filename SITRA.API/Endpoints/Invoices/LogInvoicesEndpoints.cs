@@ -23,7 +23,51 @@ namespace SITRA.API.Endpoints.Invoices
 
             group.MapGet("/{id:guid}/xml", GetXml).RequireAuthorization();
 
+            group.MapPost("/{id:guid}/sync-dgii", SyncDgiiInvoice).RequireAuthorization();
+
+            group.MapPost("/sync-pending", SyncPendingDgii);
+
             return group;
+        }
+
+        static async Task<IResult> SyncDgiiInvoice(
+            Guid id,
+            [FromServices] IMediator mediator)
+        {
+            var command = new SITRA.Core.Mediator.Commands.Invoices.LogInvoices.SyncDgiiInvoiceStatusCommand(id);
+            var result = await mediator.Send(command);
+            if (!result.Success && (result.NotFound || result.Message == SITRA.Core.Helpers.Utilities.InvoiceNotFoundMessage))
+            {
+                return TypedResults.NotFound(result);
+            }
+            return TypedResults.Ok(result);
+        }
+
+        static async Task<IResult> SyncPendingDgii(
+            HttpContext httpContext,
+            [FromServices] IMediator mediator,
+            [FromServices] Microsoft.Extensions.Configuration.IConfiguration configuration,
+            [FromServices] SITRA.Core.Interfaces.Services.AdministrativeTools.ICurrentTenantService currentTenantService)
+        {
+            string? apiKeyHeader = httpContext.Request.Headers["X-Sync-Api-Key"].FirstOrDefault();
+            string? configuredApiKey = configuration["SyncJob:ApiKey"];
+
+            bool isApiKeyAuthorized = !string.IsNullOrEmpty(configuredApiKey) &&
+                                      string.Equals(apiKeyHeader, configuredApiKey, StringComparison.Ordinal);
+
+            bool isUserAuthorized = httpContext.User?.Identity?.IsAuthenticated == true;
+
+            if (!isApiKeyAuthorized && !isUserAuthorized)
+            {
+                return TypedResults.Unauthorized();
+            }
+
+            Guid? targetTenantId = isApiKeyAuthorized ? null : currentTenantService.TenantId;
+
+            var command = new SITRA.Core.Mediator.Commands.Invoices.LogInvoices.SyncPendingDgiiInvoicesCommand(targetTenantId);
+            var results = await mediator.Send(command);
+
+            return TypedResults.Ok(results);
         }
 
         static async Task<Ok<List<LogInvoiceListDTO>>> GetAll(

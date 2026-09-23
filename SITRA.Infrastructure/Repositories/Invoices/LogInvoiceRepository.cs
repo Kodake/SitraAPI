@@ -55,5 +55,35 @@ namespace SITRA.Infrastructure.Repositories.Invoices
                 .Paginate(paginationDTO)
                 .ToListAsync(cancellationToken);
         }
+
+        public async Task<List<Invoice>> GetPendingSyncInvoicesAsync(Guid? tenantId = null, CancellationToken cancellationToken = default)
+        {
+            var query = context.Invoices.AsQueryable();
+            if (tenantId == null)
+            {
+                query = query.IgnoreQueryFilters();
+            }
+            else
+            {
+                query = query.Where(i => i.TenantId == tenantId.Value);
+            }
+
+            var pendingStatuses = new[] { "En Proceso", "Enviado", "Pendiente", "Error" };
+
+            return await query
+                .Where(i => !string.IsNullOrEmpty(i.DgiiTrackId) &&
+                           !i.DgiiStatus.Contains("Aceptad") &&
+                           (pendingStatuses.Contains(i.DgiiStatus) || i.Status == InvoiceStatus.Pending || i.Status == InvoiceStatus.Failed))
+                .OrderByDescending(i => i.CreatedAt)
+                .Take(50)
+                .ToListAsync(cancellationToken);
+        }
+
+        public async Task<Invoice?> GetInvoiceForSyncAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            return await context.Invoices
+                .IgnoreQueryFilters()
+                .FirstOrDefaultAsync(i => i.Id == id, cancellationToken);
+        }
     }
 }

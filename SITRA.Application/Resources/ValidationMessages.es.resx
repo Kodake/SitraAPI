@@ -608,4 +608,25 @@
   <data name="ImageMaxSizeMessage" xml:space="preserve">
     <value>La imagen no debe superar los 300 KB.</value>
   </data>
+  <data name="InvoiceNotFoundMessage" xml:space="preserve">
+    <value>Factura no encontrada.</value>
+  </data>
+  <data name="InvoiceMissingTrackIdMessage" xml:space="preserve">
+    <value>La factura no posee un TrackId registrado para consultar en la DGII.</value>
+  </data>
+  <data name="InvoiceSyncErrorMessage" xml:space="preserve">
+    <value>Error durante la sincronización: {0}</value>
+  </data>
+  <data name="DgiiNoResponseMessage" xml:space="preserve">
+    <value>La DGII no devolvió respuesta para este TrackId.</value>
+  </data>
+  <data name="InvoiceStatusUpdatedMessage" xml:space="preserve">
+    <value>Estado actualizado a '{0}'.</value>
+  </data>
+  <data name="TenantUserNotFoundMessage" xml:space="preserve">
+    <value>No se encontró usuario para el Tenant {0}.</value>
+  </data>
+  <data name="CertificatePasswordDecryptionErrorMessage" xml:space="preserve">
+    <value>La clave del certificado digital no pudo ser descifrada en este entorno o es incorrecta. Por favor, actualice la contraseña del certificado en Configuración -> Perfil.</value>
+  </data>
 </root>

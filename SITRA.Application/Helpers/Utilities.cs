@@ -396,5 +396,28 @@ namespace SITRA.Core.Helpers
             }
             return null;
         }
+
+        public static string InvoiceNotFoundMessage => _resourceManager.GetString("InvoiceNotFoundMessage")!;
+        public static string InvoiceMissingTrackIdMessage => _resourceManager.GetString("InvoiceMissingTrackIdMessage")!;
+        public static string DgiiNoResponseMessage => _resourceManager.GetString("DgiiNoResponseMessage")!;
+        public static string CertificatePasswordDecryptionErrorMessage => _resourceManager.GetString("CertificatePasswordDecryptionErrorMessage")!;
+
+        public static string InvoiceSyncErrorMessage(string detail)
+        {
+            var message = _resourceManager.GetString("InvoiceSyncErrorMessage");
+            return string.Format(message!, detail);
+        }
+
+        public static string InvoiceStatusUpdatedMessage(string status)
+        {
+            var message = _resourceManager.GetString("InvoiceStatusUpdatedMessage");
+            return string.Format(message!, status);
+        }
+
+        public static string TenantUserNotFoundMessage(Guid tenantId)
+        {
+            var message = _resourceManager.GetString("TenantUserNotFoundMessage");
+            return string.Format(message!, tenantId);
+        }
     }
 }
