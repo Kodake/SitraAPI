@@ -70,6 +70,9 @@ namespace SITRA.Core.Mediator.Commands.Invoices.PurchaseInvoices
                 purchaseInvoice.DgiiStatus = dgiiResult.status;
                 purchaseInvoice.DgiiResponse = dgiiResult.rawResponse;
                 purchaseInvoice.SecurityCode = dgiiResult.securityCode;
+                purchaseInvoice.Status = dgiiResult.isAccepted
+                    ? InvoiceStatus.Active
+                    : (dgiiResult.status == "Error" ? InvoiceStatus.Failed : InvoiceStatus.Rejected);
 
                 unitOfWork.PurchaseInvoiceRepository.Update(purchaseInvoice);
                 await unitOfWork.SaveChangesAsync();

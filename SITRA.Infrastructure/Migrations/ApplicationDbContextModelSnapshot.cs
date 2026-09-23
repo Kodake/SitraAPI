@@ -1124,6 +1124,9 @@ namespace SITRA.Infrastructure.Migrations
                     b.Property<decimal?>("Shipping")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.Property<Guid>("TenantId")
                         .HasColumnType("uniqueidentifier");
 

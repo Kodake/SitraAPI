@@ -40,6 +40,7 @@ namespace SITRA.Core.Entities.Invoices
         public DateTimeOffset? DueDate { get; set; } = null!;
         public DateTimeOffset CreatedAt { get; set; }
         public DateTimeOffset? UpdatedAt { get; set; }
+        public InvoiceStatus Status { get; set; } = InvoiceStatus.Active;
         public string? DgiiTrackId { get; set; }
         public string? DgiiStatus { get; set; }
         public string? DgiiResponse { get; set; }

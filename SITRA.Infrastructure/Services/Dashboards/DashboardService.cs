@@ -10,6 +10,7 @@ using SITRA.Core.Interfaces.Services.Messaging;
 using Microsoft.EntityFrameworkCore;
 using SITRA.Core.DTOs.Dashboards;
 using SITRA.Core.Enums;
+using SITRA.Core.Helpers;
 using SITRA.Core.Interfaces.Services;
 using SITRA.Infrastructure.Persistence;
 
@@ -33,18 +34,21 @@ namespace SITRA.Infrastructure.Services.Dashboards
                 .CountAsync(x => x.IsActive, cancellationToken);
 
             var last24HoursSaleInvoices = await _context.Invoices
-                .Where(x => x.InvoiceType == InvoiceType.Sale && (x.SpotPayment != null || x.Receivable != null) && x.CreatedAt >= DateTimeOffset.UtcNow.AddDays((double)TimeElapsed.Last24Hours))
+                .WhereValidSaleInvoice()
+                .Where(x => x.CreatedAt >= DateTimeOffset.UtcNow.AddDays((double)TimeElapsed.Last24Hours))
                 .CountAsync(cancellationToken);
 
             var totalProductsInStock = await _context.Stocks
                 .CountAsync(x => x.Qty > 0, cancellationToken);
 
             var last30DaysSales = await _context.Invoices
-                .Where(x => x.InvoiceType == InvoiceType.Sale && (x.SpotPayment != null || x.Receivable != null) && x.CreatedAt >= DateTimeOffset.UtcNow.AddDays((double)TimeElapsed.Last30Days))
+                .WhereValidSaleInvoice()
+                .Where(x => x.CreatedAt >= DateTimeOffset.UtcNow.AddDays((double)TimeElapsed.Last30Days))
                 .SumAsync(x => x.TotalPrice, cancellationToken);
 
             var last30DaysPurchases = await _context.Invoices
-                .Where(i => i.InvoiceType == InvoiceType.Purchase && (i.SpotPayable != null || i.Payable != null) && i.CreatedAt >= DateTimeOffset.UtcNow.AddDays((double)TimeElapsed.Last30Days))
+                .WhereValidPurchaseInvoice()
+                .Where(i => i.CreatedAt >= DateTimeOffset.UtcNow.AddDays((double)TimeElapsed.Last30Days))
                 .SumAsync(i => i.TotalPrice, cancellationToken);
 
             return new DashboardDTO
@@ -64,20 +68,28 @@ namespace SITRA.Infrastructure.Services.Dashboards
             var purchasedStock = new List<double>(new double[12]);
             var soldStock = new List<double>(new double[12]);
 
-            var invoices = await _context.Invoices
+            var saleInvoices = await _context.Invoices
+                .WhereValidSaleInvoice()
                 .Include(i => i.InvoiceItems)
                 .Where(i => i.CreatedAt.Year == year)
                 .ToListAsync(cancellationToken);
 
-            foreach (var inv in invoices)
+            var purchaseInvoices = await _context.Invoices
+                .WhereValidPurchaseInvoice()
+                .Include(i => i.InvoiceItems)
+                .Where(i => i.CreatedAt.Year == year)
+                .ToListAsync(cancellationToken);
+
+            foreach (var inv in saleInvoices)
             {
                 int monthIndex = inv.CreatedAt.Month - 1;
-                double totalQty = inv.InvoiceItems.Sum(x => x.Qty);
+                soldStock[monthIndex] += inv.InvoiceItems.Sum(x => x.Qty);
+            }
 
-                if (inv.InvoiceType == InvoiceType.Purchase)
-                    purchasedStock[monthIndex] += totalQty;
-                else if (inv.InvoiceType == InvoiceType.Sale)
-                    soldStock[monthIndex] += totalQty;
+            foreach (var inv in purchaseInvoices)
+            {
+                int monthIndex = inv.CreatedAt.Month - 1;
+                purchasedStock[monthIndex] += inv.InvoiceItems.Sum(x => x.Qty);
             }
 
             return new StockAnalysisDTO
@@ -91,11 +103,11 @@ namespace SITRA.Infrastructure.Services.Dashboards
         public async Task<OverallReportDTO> GetOverallReportAsync(CancellationToken cancellationToken = default)
         {
             var sales = await _context.Invoices
-                .Where(i => i.InvoiceType == InvoiceType.Sale)
+                .WhereValidSaleInvoice()
                 .SumAsync(i => i.TotalPrice, cancellationToken);
 
             var purchases = await _context.Invoices
-                .Where(i => i.InvoiceType == InvoiceType.Purchase)
+                .WhereValidPurchaseInvoice()
                 .SumAsync(i => i.TotalPrice, cancellationToken);
 
             var expenses = await _context.Expenses
@@ -116,7 +128,13 @@ namespace SITRA.Infrastructure.Services.Dashboards
             var incomes = new List<double>(new double[12]);
             var expenses = new List<double>(new double[12]);
 
-            var invoices = await _context.Invoices
+            var saleInvoices = await _context.Invoices
+                .WhereValidSaleInvoice()
+                .Where(i => i.CreatedAt.Year == year)
+                .ToListAsync(cancellationToken);
+
+            var purchaseInvoices = await _context.Invoices
+                .WhereValidPurchaseInvoice()
                 .Where(i => i.CreatedAt.Year == year)
                 .ToListAsync(cancellationToken);
 
@@ -124,13 +142,16 @@ namespace SITRA.Infrastructure.Services.Dashboards
                 .Where(e => e.CreatedAt.Year == year)
                 .ToListAsync(cancellationToken);
 
-            foreach (var inv in invoices)
+            foreach (var inv in saleInvoices)
             {
                 int monthIndex = inv.CreatedAt.Month - 1;
-                if (inv.InvoiceType == InvoiceType.Sale)
-                    incomes[monthIndex] += inv.TotalPrice;
-                else if (inv.InvoiceType == InvoiceType.Purchase)
-                    expenses[monthIndex] += inv.TotalPrice;
+                incomes[monthIndex] += inv.TotalPrice;
+            }
+
+            foreach (var inv in purchaseInvoices)
+            {
+                int monthIndex = inv.CreatedAt.Month - 1;
+                expenses[monthIndex] += inv.TotalPrice;
             }
 
             foreach (var exp in dbExpenses)
@@ -152,7 +173,15 @@ namespace SITRA.Infrastructure.Services.Dashboards
             var topSales = await _context.InvoiceItems
                 .Include(ii => ii.Invoice)
                 .Include(ii => ii.Item)
-                .Where(ii => ii.Invoice.InvoiceType == InvoiceType.Sale && ii.Invoice.CreatedAt.Month == month && ii.Invoice.CreatedAt.Year == year)
+                .Where(ii => ii.Invoice.InvoiceType == InvoiceType.Sale
+                    && ii.Invoice.Status != InvoiceStatus.Rejected
+                    && ii.Invoice.Status != InvoiceStatus.Failed
+                    && ii.Invoice.Status != InvoiceStatus.Cancelled
+                    && ii.Invoice.DgiiStatus != "Rechazado"
+                    && ii.Invoice.DgiiStatus != "Error"
+                    && (ii.Invoice.SpotPayment != null || ii.Invoice.Receivable != null)
+                    && ii.Invoice.CreatedAt.Month == month
+                    && ii.Invoice.CreatedAt.Year == year)
                 .GroupBy(ii => new { ii.ItemId, ii.Item.Name })
                 .Select(g => new TopSaleDTO
                 {
@@ -176,13 +205,14 @@ namespace SITRA.Infrastructure.Services.Dashboards
         {
             var topCustomers = await _context.Invoices
                 .AsNoTracking()
-                .Where(i => i.InvoiceType == InvoiceType.Sale && i.CreatedAt.Month == month && i.CreatedAt.Year == year && i.BuyerId != null)
+                .WhereValidSaleInvoice()
+                .Where(i => i.CreatedAt.Month == month && i.CreatedAt.Year == year && i.BuyerId != null)
                 .GroupBy(i => new { i.BuyerId, i.Buyer!.Name, i.Buyer.Phone })
                 .Select(g => new TopCustomerDTO
                 {
                     Name = g.Key.Name,
                     Phone = g.Key.Phone ?? "",
-                    Amount = g.Sum(x => x.TotalAmount)
+                    Amount = g.Sum(x => x.TotalPrice)
                 })
                 .OrderByDescending(x => x.Amount)
                 .Take(5)
@@ -197,3 +227,4 @@ namespace SITRA.Infrastructure.Services.Dashboards
         }
     }
 }
+
