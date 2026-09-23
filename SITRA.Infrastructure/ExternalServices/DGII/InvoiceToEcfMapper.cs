@@ -1,4 +1,9 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
+using SITRA.Core.Entities.Auths;
+using SITRA.Core.Entities.Contacts;
 using SITRA.Core.Entities.Invoices;
 using SITRA.Core.Interfaces;
 using SITRA.Core.DTOs.DGII;
@@ -11,10 +16,17 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
     public class InvoiceToEcfMapper : IInvoiceToEcfMapper
     {
         private readonly DgiiSettings _settings;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly UserManager<User> _userManager;
 
-        public InvoiceToEcfMapper(IOptions<DgiiSettings> options)
+        public InvoiceToEcfMapper(
+            IOptions<DgiiSettings> options,
+            IHttpContextAccessor httpContextAccessor,
+            UserManager<User> userManager)
         {
             _settings = options.Value;
+            _httpContextAccessor = httpContextAccessor;
+            _userManager = userManager;
         }
 
         public EcfDocument MapToDgiiDocument(Invoice invoice)
@@ -27,10 +39,74 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
             return BuildEcfDocument(invoice, tipoEcf);
         }
 
+        private (string rnc, string razonSocial, string direccion, string? municipio, string? provincia, string? correo) GetEmisorInfo(Contact? biller)
+        {
+            if (biller != null && !string.IsNullOrWhiteSpace(biller.Identification))
+            {
+                return (
+                    biller.Identification,
+                    !string.IsNullOrWhiteSpace(biller.Name) ? biller.Name : _settings.DefaultRazonSocial,
+                    !string.IsNullOrWhiteSpace(biller.Address) ? biller.Address : _settings.DefaultDireccion,
+                    biller.Municipality,
+                    biller.Province,
+                    biller.Email
+                );
+            }
+
+            var httpContext = _httpContextAccessor?.HttpContext;
+            var userClaims = httpContext?.User;
+
+            string? rnc = userClaims?.FindFirst("rucNumber")?.Value;
+            string? razonSocial = userClaims?.FindFirst("companyName")?.Value;
+            string? direccion = userClaims?.FindFirst("address")?.Value;
+            string? municipio = userClaims?.FindFirst("municipality")?.Value;
+            string? provincia = userClaims?.FindFirst("province")?.Value;
+            string? correo = userClaims?.FindFirst(ClaimTypes.Email)?.Value ?? userClaims?.FindFirst("email")?.Value;
+
+            if ((string.IsNullOrWhiteSpace(rnc) || string.IsNullOrWhiteSpace(razonSocial)) && userClaims != null && _userManager != null)
+            {
+                var userId = userClaims.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    try
+                    {
+                        var user = _userManager.FindByIdAsync(userId).GetAwaiter().GetResult();
+                        var owner = (user != null && !user.IsOwner && user.ParentUserId != null)
+                            ? _userManager.FindByIdAsync(user.ParentUserId).GetAwaiter().GetResult() ?? user
+                            : user;
+
+                        if (owner != null)
+                        {
+                            rnc = !string.IsNullOrWhiteSpace(owner.RucNumber) ? owner.RucNumber : rnc;
+                            razonSocial = !string.IsNullOrWhiteSpace(owner.CompanyName) ? owner.CompanyName : razonSocial;
+                            direccion = !string.IsNullOrWhiteSpace(owner.Address) ? owner.Address : direccion;
+                            municipio = !string.IsNullOrWhiteSpace(owner.Municipality) ? owner.Municipality : municipio;
+                            provincia = !string.IsNullOrWhiteSpace(owner.Province) ? owner.Province : provincia;
+                            correo = !string.IsNullOrWhiteSpace(owner.Email) ? owner.Email : correo;
+                        }
+                    }
+                    catch
+                    {
+                        // Fallback to claims or settings if sync lookup fails
+                    }
+                }
+            }
+
+            return (
+                !string.IsNullOrWhiteSpace(rnc) ? rnc : _settings.DefaultRNC,
+                !string.IsNullOrWhiteSpace(razonSocial) ? razonSocial : _settings.DefaultRazonSocial,
+                !string.IsNullOrWhiteSpace(direccion) ? direccion : _settings.DefaultDireccion,
+                municipio,
+                provincia,
+                correo
+            );
+        }
+
         private EcfDocument BuildEcfDocument(Invoice invoice, string tipoEcf)
         {
             var biller = invoice.Biller;
             var buyer = invoice.Buyer;
+            var emisorInfo = GetEmisorInfo(biller);
 
             var ecf = new EcfDocument
             {
@@ -53,12 +129,12 @@ namespace SITRA.Infrastructure.ExternalServices.DGII
                     },
                     Emisor = new Emisor
                     {
-                        RNCEmisor = biller?.Identification ?? _settings.DefaultRNC,
-                        RazonSocial = biller?.Name ?? _settings.DefaultRazonSocial,
-                        DireccionEmisor = biller?.Address ?? _settings.DefaultDireccion,
-                        Municipio = biller?.Municipality,
-                        Provincia = biller?.Province,
-                        CorreoEmisor = biller?.Email,
+                        RNCEmisor = emisorInfo.rnc,
+                        RazonSocial = emisorInfo.razonSocial,
+                        DireccionEmisor = emisorInfo.direccion,
+                        Municipio = emisorInfo.municipio,
+                        Provincia = emisorInfo.provincia,
+                        CorreoEmisor = emisorInfo.correo,
                         FechaEmision = invoice.Date.ToString("dd-MM-yyyy")
                     },
                     Comprador = new Comprador
