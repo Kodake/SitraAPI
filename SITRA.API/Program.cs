@@ -295,8 +295,7 @@ if (app.Environment.IsProduction())
         }
         catch (Exception ex)
         {
-            Log.Error(ex, "An error occurred while migrating the database.");
-            throw;
+            Log.Error(ex, "An error occurred while migrating the database. Verify connection string in Azure Configuration.");
         }
     }
 }

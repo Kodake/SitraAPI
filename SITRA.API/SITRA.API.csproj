@@ -57,6 +57,9 @@
     <Content Update="client_secret_995629422879-gag0qo622smmjpv11aiht1843btogb0o.apps.googleusercontent.com.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="GoogleDriveToken.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

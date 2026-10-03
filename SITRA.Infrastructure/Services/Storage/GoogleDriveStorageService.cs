@@ -85,8 +85,36 @@ namespace SITRA.Infrastructure.Services.Storage
                     string tokenFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SITRA", "GoogleDriveToken");
                     if (!Directory.Exists(tokenFolder)) Directory.CreateDirectory(tokenFolder);
 
+                    string tokenFilePath = Path.Combine(tokenFolder, "Google.Apis.Auth.OAuth2.Responses.TokenResponse-user");
+                    if (!File.Exists(tokenFilePath))
+                    {
+                        string? tokenFromConfig = _configuration["GoogleDriveTokenJson"] 
+                            ?? _configuration["DgiiTest:GoogleDriveTokenJson"];
+
+                        if (!string.IsNullOrWhiteSpace(tokenFromConfig))
+                        {
+                            await File.WriteAllTextAsync(tokenFilePath, tokenFromConfig);
+                            _logger.LogInformation("Google Drive token restored from configuration.");
+                        }
+                        else
+                        {
+                            string localTokenFile = Path.Combine(AppContext.BaseDirectory, "GoogleDriveToken.json");
+                            if (File.Exists(localTokenFile))
+                            {
+                                await File.WriteAllTextAsync(tokenFilePath, await File.ReadAllTextAsync(localTokenFile));
+                                _logger.LogInformation("Google Drive token restored from bundled GoogleDriveToken.json.");
+                            }
+                        }
+                    }
+
                     using var stream = new FileStream(resolvedCredentialsPath, FileMode.Open, FileAccess.Read);
                     var clientSecrets = GoogleClientSecrets.FromStream(stream).Secrets;
+
+                    bool isAzure = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WEBSITE_SITE_NAME"));
+                    if (!File.Exists(tokenFilePath) && isAzure)
+                    {
+                        throw new InvalidOperationException("Google Drive token not found on Azure. Please configure GoogleDriveTokenJson or authorize via endpoint.");
+                    }
 
                     var credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
                         clientSecrets,
