@@ -219,7 +219,21 @@ builder.Services.AddScoped<ITestCasesReader, JsonTestCasesReaderService>();
 builder.Services.AddScoped<ITestCasesReader, TestCasesReaderService>();
 builder.Services.AddScoped<IDgiiTestService, DgiiTestService>();
 builder.Services.AddScoped<IInvoiceToEcfMapper, InvoiceToEcfMapper>();
-builder.Services.AddScoped<IDgiiStorageService, DgiiStorageService>();
+var storageProvider = builder.Configuration["DgiiTest:StorageProvider"] 
+    ?? builder.Configuration["Dgii:StorageProvider"] 
+    ?? "GoogleDrive";
+
+if (string.Equals(storageProvider, "GoogleDrive", StringComparison.OrdinalIgnoreCase))
+{
+    builder.Services.AddScoped<SITRA.Infrastructure.Services.Storage.GoogleDriveStorageService>();
+    builder.Services.AddScoped<IDgiiStorageService>(sp => sp.GetRequiredService<SITRA.Infrastructure.Services.Storage.GoogleDriveStorageService>());
+    builder.Services.AddScoped<SITRA.Core.Interfaces.Services.Storage.IFileStorageService>(sp => sp.GetRequiredService<SITRA.Infrastructure.Services.Storage.GoogleDriveStorageService>());
+}
+else
+{
+    builder.Services.AddScoped<IDgiiStorageService, DgiiStorageService>();
+    builder.Services.AddScoped<SITRA.Core.Interfaces.Services.Storage.IFileStorageService, SITRA.Infrastructure.Services.Storage.AzureFileService>();
+}
 
 builder.Services.AddHttpClient<IDgiiApiService, DgiiApiService>();
 

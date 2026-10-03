@@ -9,6 +9,11 @@ namespace SITRA.Core.Models.Dgii
         public string SchemasPath { get; set; } = string.Empty;
         public string StoragePath { get; set; } = string.Empty;
 
+        // Storage Provider & Settings
+        public string StorageProvider { get; set; } = "GoogleDrive"; // "GoogleDrive", "Azure", "Local"
+        public string GoogleDriveFolderId { get; set; } = string.Empty;
+        public string GoogleDriveCredentialsPath { get; set; } = string.Empty;
+
         // Azure Storage Settings
         public bool UseAzureStorage { get; set; } = false;
         public string AzureContainerName { get; set; } = "dgii-assets";

@@ -51,6 +51,12 @@
     <Content Include="Resources\logo-black.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="reliable-sight-510515-p2-8ac840488d3f.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="client_secret_995629422879-gag0qo622smmjpv11aiht1843btogb0o.apps.googleusercontent.com.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

@@ -157,7 +157,8 @@ namespace SITRA.Infrastructure.Repositories
             UserRoleService = new UserRoleService(context, userManager, httpContextAccessor, roleServiceLogger, dgiiStorageService, dataProtectionProvider, AuthenticationService, configuration);
 
             PlanService = new PlanService();
-            FileStorageService = new AzureFileService(configuration);
+            FileStorageService = Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetService<IFileStorageService>(serviceProvider) 
+                ?? new AzureFileService(configuration);
             DgiiStorageService = dgiiStorageService;
 
             _context = context;
