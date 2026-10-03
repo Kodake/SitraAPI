@@ -5,7 +5,6 @@ using SITRA.API.Endpoints.Auths;
 using SITRA.API.Endpoints.CashBoxes;
 using SITRA.API.Endpoints.Invoices;
 using SITRA.API.Endpoints.Products;
-using SITRA.API.Endpoints.Storage;
 
 public static class ApiRouteExtensions
 {
@@ -51,7 +50,7 @@ public static class ApiRouteExtensions
         apiGroup.MapGroup("/pettyCashes").MapPettyCashes();
         apiGroup.MapGroup("/pettyCashMovements").MapPettyCashMovements();
         apiGroup.MapGroup("/appointments").MapAppointments();
-        apiGroup.MapStorageEndpoints();
+        apiGroup.MapGroup("/storage").MapStorageEndpoints();
 
         return endpoints;
     }

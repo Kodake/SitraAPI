@@ -13,15 +13,15 @@ using Microsoft.Extensions.Options;
 using SITRA.Core.Interfaces.Services.Storage;
 using SITRA.Core.Models.Dgii;
 
-namespace SITRA.API.Endpoints.Storage
+namespace SITRA.API.Endpoints
 {
     public static class StorageEndpoints
     {
-        public static IEndpointRouteBuilder MapStorageEndpoints(this IEndpointRouteBuilder endpoints)
+        public static RouteGroupBuilder MapStorageEndpoints(this RouteGroupBuilder group)
         {
-            var group = endpoints.MapGroup("/storage/google-drive").WithTags("GoogleDriveStorage");
+            var driveGroup = group.MapGroup("/google-drive").WithTags("GoogleDriveStorage");
 
-            group.MapGet("/auth", (HttpContext context, IConfiguration config) =>
+            driveGroup.MapGet("/auth", (HttpContext context, IConfiguration config) =>
             {
                 string clientSecretPath = ResolveCredentialsPath(config);
                 if (!File.Exists(clientSecretPath))
@@ -53,7 +53,7 @@ namespace SITRA.API.Endpoints.Storage
             .WithName("GoogleDriveAuth")
             .WithSummary("Inicia el flujo de autenticación de Google Drive");
 
-            group.MapGet("/callback", async (HttpContext context, string? code, string? error, IConfiguration config, ILogger<StorageEndpointsLogger> logger) =>
+            driveGroup.MapGet("/callback", async (HttpContext context, string? code, string? error, IConfiguration config, ILogger<StorageEndpointsLogger> logger) =>
             {
                 if (!string.IsNullOrEmpty(error))
                 {
@@ -127,7 +127,7 @@ namespace SITRA.API.Endpoints.Storage
             .WithName("GoogleDriveCallback")
             .WithSummary("Callback de OAuth de Google Drive");
 
-            group.MapGet("/status", async (IDgiiStorageService storageService, IConfiguration config) =>
+            driveGroup.MapGet("/status", async (IDgiiStorageService storageService, IConfiguration config) =>
             {
                 string tokenFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SITRA", "GoogleDriveToken");
                 string tokenFilePath = Path.Combine(tokenFolder, "Google.Apis.Auth.OAuth2.Responses.TokenResponse-user");
@@ -144,7 +144,7 @@ namespace SITRA.API.Endpoints.Storage
             .WithName("GoogleDriveStatus")
             .WithSummary("Consulta el estado de conexión de Google Drive");
 
-            return endpoints;
+            return group;
         }
 
         private static string ResolveCredentialsPath(IConfiguration config)
