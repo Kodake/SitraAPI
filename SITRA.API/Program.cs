@@ -258,7 +258,7 @@ builder.Services.AddCors(options =>
                   if (Uri.TryCreate(origin, UriKind.Absolute, out var uri))
                   {
                       return uri.Host.EndsWith("vercel.app", StringComparison.OrdinalIgnoreCase) && 
-                             (uri.Host.StartsWith("jmpuello-app", StringComparison.OrdinalIgnoreCase) || uri.Host.Contains("sitra"));
+                             uri.Host.StartsWith("jmpuello-app", StringComparison.OrdinalIgnoreCase);
                   }
                   return false;
               })
