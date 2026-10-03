@@ -25,3 +25,4 @@ Printed Examples/
 agents
 build_out/
 test-publish/
+*.PublishSettings

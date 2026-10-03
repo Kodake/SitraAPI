@@ -16,11 +16,15 @@ namespace SITRA.Core.Mediator.Queries.Invoices.LogInvoices
                 return string.Empty;
             }
 
-            using var httpClient = new HttpClient();
             try
             {
-                var xmlContent = await httpClient.GetStringAsync(logInvoice.XmlUrl, cancellationToken);
-                return xmlContent;
+                var xmlContent = await unitOfWork.DgiiStorageService.ReadDocumentXmlFromUrlAsync(logInvoice.XmlUrl);
+                if (!string.IsNullOrEmpty(xmlContent))
+                {
+                    return xmlContent;
+                }
+
+                return "Error fetching XML from server: No se pudo obtener el contenido del XML desde el almacenamiento.";
             }
             catch (Exception ex)
             {

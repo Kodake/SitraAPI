@@ -247,6 +247,39 @@ namespace SITRA.Infrastructure.Services.Storage
                     }
                 }
 
+                // Legacy Azure Blob Storage fallback (for invoices created prior to Google Drive migration)
+                if (urlOrPath.Contains(".blob.core.windows.net", StringComparison.OrdinalIgnoreCase))
+                {
+                    string? azureConn = _configuration.GetConnectionString("AzureStorage") 
+                        ?? _configuration["AzureStorage"];
+
+                    if (!string.IsNullOrWhiteSpace(azureConn))
+                    {
+                        try
+                        {
+                            var uri = new Uri(urlOrPath);
+                            string path = uri.AbsolutePath.TrimStart('/');
+                            int slashIdx = path.IndexOf('/');
+                            if (slashIdx > 0)
+                            {
+                                string containerName = path.Substring(0, slashIdx);
+                                string blobName = path.Substring(slashIdx + 1);
+                                var blobServiceClient = new Azure.Storage.Blobs.BlobServiceClient(azureConn);
+                                var blobClient = blobServiceClient.GetBlobContainerClient(containerName).GetBlobClient(blobName);
+                                if (await blobClient.ExistsAsync())
+                                {
+                                    var response = await blobClient.DownloadContentAsync();
+                                    return response.Value.Content.ToString();
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogWarning(ex, "Failed to read legacy Azure blob from {UrlOrPath}", urlOrPath);
+                        }
+                    }
+                }
+
                 // Fallback: If it's a standard URL, try HTTP GET
                 if (urlOrPath.StartsWith("http://", StringComparison.OrdinalIgnoreCase) || 
                     urlOrPath.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
