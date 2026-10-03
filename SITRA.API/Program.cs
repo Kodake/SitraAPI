@@ -248,12 +248,23 @@ builder.Services.AddRateLimiterConfig(builder.Configuration);
 var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>() ?? new[] { "http://localhost:3000" };
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowSpecific", builder =>
+    options.AddPolicy("AllowSpecific", policy =>
     {
-        builder.WithOrigins(allowedOrigins)
-               .AllowAnyMethod()
-               .AllowAnyHeader()
-               .WithExposedHeaders("totalCountRecords", "totalcountrecords", "Content-Disposition");
+        policy.WithOrigins(allowedOrigins)
+              .SetIsOriginAllowed(origin =>
+              {
+                  if (string.IsNullOrWhiteSpace(origin)) return false;
+                  if (allowedOrigins.Contains(origin, StringComparer.OrdinalIgnoreCase)) return true;
+                  if (Uri.TryCreate(origin, UriKind.Absolute, out var uri))
+                  {
+                      return uri.Host.EndsWith("vercel.app", StringComparison.OrdinalIgnoreCase) && 
+                             (uri.Host.StartsWith("jmpuello-app", StringComparison.OrdinalIgnoreCase) || uri.Host.Contains("sitra"));
+                  }
+                  return false;
+              })
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .WithExposedHeaders("totalCountRecords", "totalcountrecords", "Content-Disposition");
     });
 });
 
