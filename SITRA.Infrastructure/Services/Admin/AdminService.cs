@@ -19,7 +19,14 @@ namespace SITRA.Infrastructure.Services.Admin
         private readonly IConfiguration _configuration;
         private readonly ILogger<AdminService> _logger;
 
-        private string SuperAdminRnc => _configuration["Dgii:DefaultRNC"] ?? "133556545";
+        private string SuperAdminRnc => _configuration["SuperAdmin:Rnc"] ?? _configuration["Dgii:DefaultRNC"] ?? "133556545";
+
+        private bool IsSuperAdminRnc(string? rnc)
+        {
+            if (string.IsNullOrWhiteSpace(rnc)) return false;
+            var trimmed = rnc.Trim();
+            return trimmed == "133556545" || trimmed == SuperAdminRnc.Trim();
+        }
 
         public AdminService(
             ApplicationDbContext context,
@@ -38,7 +45,7 @@ namespace SITRA.Infrastructure.Services.Admin
             if (string.IsNullOrWhiteSpace(userEmail) && string.IsNullOrWhiteSpace(userRnc))
                 return false;
 
-            if (!string.IsNullOrWhiteSpace(userRnc) && userRnc.Trim() == SuperAdminRnc.Trim())
+            if (IsSuperAdminRnc(userRnc))
                 return true;
 
             // Also check DB for matching user with the SuperAdmin RNC
@@ -48,7 +55,7 @@ namespace SITRA.Infrastructure.Services.Admin
                     .IgnoreQueryFilters()
                     .FirstOrDefaultAsync(u => u.Email == userEmail);
 
-                if (user != null && !string.IsNullOrWhiteSpace(user.RucNumber) && user.RucNumber.Trim() == SuperAdminRnc.Trim())
+                if (user != null && IsSuperAdminRnc(user.RucNumber))
                 {
                     return true;
                 }
@@ -93,7 +100,7 @@ namespace SITRA.Infrastructure.Services.Admin
 
             foreach (var user in allUsers)
             {
-                bool isSuperAdmin = !string.IsNullOrWhiteSpace(user.RucNumber) && user.RucNumber.Trim() == SuperAdminRnc.Trim();
+                bool isSuperAdmin = IsSuperAdminRnc(user.RucNumber);
                 tenantDict.TryGetValue(user.TenantId, out var tenant);
 
                 // Date filter based on tenant subscription start or default
@@ -226,7 +233,7 @@ namespace SITRA.Infrastructure.Services.Admin
             foreach (var u in users)
             {
                 tenantDict.TryGetValue(u.TenantId, out var tenant);
-                bool isSuperAdmin = !string.IsNullOrWhiteSpace(u.RucNumber) && u.RucNumber.Trim() == SuperAdminRnc.Trim();
+                bool isSuperAdmin = IsSuperAdminRnc(u.RucNumber);
                 bool isActive = !u.LockoutEnd.HasValue || u.LockoutEnd.Value <= now;
 
                 var subStart = tenant?.SubscriptionStartDate;
@@ -351,7 +358,7 @@ namespace SITRA.Infrastructure.Services.Admin
                 return false;
             }
 
-            bool isSuperAdmin = !string.IsNullOrWhiteSpace(user.RucNumber) && user.RucNumber.Trim() == SuperAdminRnc.Trim();
+            bool isSuperAdmin = IsSuperAdminRnc(user.RucNumber);
             if (isSuperAdmin && !dto.IsActive)
             {
                 _logger.LogWarning("Admin update: Attempted to disable SuperAdmin SISTRA SRL user.");
