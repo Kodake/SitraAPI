@@ -1,0 +1,89 @@
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using SITRA.Core.DTOs;
+using SITRA.Core.Entities.Invoices;
+using SITRA.Core.Enums;
+using SITRA.Core.Helpers;
+using SITRA.Core.Interfaces.Invoices;
+using SITRA.Infrastructure.Persistence;
+using SITRA.Infrastructure.Repositories.Generics;
+
+namespace SITRA.Infrastructure.Repositories.Invoices
+{
+    internal class LogInvoiceRepository : RepositoryBase<Invoice>, ILogInvoiceRepository
+    {
+        private new readonly HttpContext httpContext;
+        public LogInvoiceRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
+            : base(context, httpContextAccessor)
+        {
+            httpContext = httpContextAccessor.HttpContext!;
+        }
+
+        public async Task<List<Invoice>> GetAllAsync(PaginationDTO paginationDTO, string? dgiiStatus = null, CancellationToken cancellationToken = default)
+        {
+            var queryable = context.Invoices.AsQueryable();
+
+            if (!string.IsNullOrEmpty(dgiiStatus))
+            {
+                queryable = queryable.Where(i => i.DgiiStatus == dgiiStatus);
+            }
+
+            await httpContext.AddPaginationParamsToHeaders(queryable);
+
+            return await queryable
+                .OrderByDescending(i => i.CreatedAt)
+                .ThenByDescending(i => i.Id)
+                .Paginate(paginationDTO)
+                .ToListAsync(cancellationToken);
+        }
+
+        public async Task<List<Invoice>> GetReadOnlyAsync(PaginationDTO paginationDTO, string? dgiiStatus = null, CancellationToken cancellationToken = default)
+        {
+            var queryable = context.Invoices.AsNoTracking().AsQueryable();
+
+            if (!string.IsNullOrEmpty(dgiiStatus))
+            {
+                queryable = queryable.Where(i => i.DgiiStatus == dgiiStatus);
+            }
+
+            await httpContext.AddPaginationParamsToHeaders(queryable);
+
+            return await queryable
+                .Where(i => i.InvoiceType != InvoiceType.Quotation)
+                .OrderByDescending(i => i.CreatedAt)
+                .ThenByDescending(i => i.Id)
+                .Paginate(paginationDTO)
+                .ToListAsync(cancellationToken);
+        }
+
+        public async Task<List<Invoice>> GetPendingSyncInvoicesAsync(Guid? tenantId = null, CancellationToken cancellationToken = default)
+        {
+            var query = context.Invoices.AsQueryable();
+            if (tenantId == null)
+            {
+                query = query.IgnoreQueryFilters();
+            }
+            else
+            {
+                query = query.Where(i => i.TenantId == tenantId.Value);
+            }
+
+            var pendingStatuses = new[] { "En Proceso", "Enviado", "Pendiente", "Error" };
+
+            return await query
+                .Where(i => !string.IsNullOrEmpty(i.DgiiTrackId) &&
+                           !i.DgiiStatus.Contains("Aceptad") &&
+                           (pendingStatuses.Contains(i.DgiiStatus) || i.Status == InvoiceStatus.Pending || i.Status == InvoiceStatus.Failed))
+                .OrderByDescending(i => i.CreatedAt)
+                .Take(50)
+                .ToListAsync(cancellationToken);
+        }
+
+        public async Task<Invoice?> GetInvoiceForSyncAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            return await context.Invoices
+                .IgnoreQueryFilters()
+                .FirstOrDefaultAsync(i => i.Id == id, cancellationToken);
+        }
+    }
+}

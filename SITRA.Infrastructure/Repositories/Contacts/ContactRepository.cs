@@ -1,0 +1,75 @@
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using SITRA.Core.DTOs;
+using SITRA.Core.Helpers;
+using SITRA.Core.Entities.Contacts;
+using SITRA.Core.Enums;
+using SITRA.Core.Interfaces.Contacts;
+using SITRA.Infrastructure.Persistence;
+using SITRA.Infrastructure.Repositories.Generics;
+
+namespace SITRA.Infrastructure.Repositories.Contacts
+{
+    public class ContactRepository : RepositoryBase<Contact>, IContactRepository
+    {
+        private new readonly HttpContext httpContext;
+
+        public ContactRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
+            : base(context, httpContextAccessor) 
+        { 
+            httpContext = httpContextAccessor.HttpContext!;
+        }
+
+
+
+        public async Task<List<Contact>> GetSuppliers(CancellationToken cancellationToken = default)
+        {
+            return await context.Contacts
+                .Where(x => x.ContactType == ContactType.Provider && x.IsActive)
+                .ToListAsync(cancellationToken);
+        }
+
+        public async Task<List<Contact>> GetCustomers(CancellationToken cancellationToken = default)
+        {
+            return await context.Contacts
+                .Where(x => x.ContactType == ContactType.Customer && x.IsActive)
+                .ToListAsync(cancellationToken);
+        }
+
+        public async Task<List<Contact>> GetBillers(CancellationToken cancellationToken = default)
+        {
+            return await context.Contacts
+                .Where(x => x.ContactType == ContactType.Biller && x.IsActive)
+                .ToListAsync(cancellationToken);
+        }
+
+        public async Task<bool> Exists(Guid id, string name, CancellationToken cancellationToken = default)
+        {
+            return await context.Contacts.AnyAsync(x => x.Id != id && x.Name == name, cancellationToken);
+        }
+
+        public async Task<bool> Exists(Guid id, CancellationToken cancellationToken = default)
+        {
+            return await context.Contacts.AnyAsync(x => x.Id == id, cancellationToken);
+        }
+
+        public async Task<bool> SetDefault(Guid id, CancellationToken cancellationToken = default)
+        {
+            var contact = await context.Contacts.FindAsync(new object[] { id }, cancellationToken);
+            if (contact == null) return false;
+
+            var defaults = await context.Contacts
+                .Where(x => x.IsDefault && x.Id != id)
+                .ToListAsync(cancellationToken);
+
+            foreach (var c in defaults)
+                c.IsDefault = false;
+
+            contact.IsDefault = true;
+            return true;
+        }
+
+    }
+}
+
+

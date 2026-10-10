@@ -1,0 +1,632 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0,
+      Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0,
+      Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AlreadyOpenPettyCashMessage" xml:space="preserve">
+    <value>You already have an open petty cash. Please close it before opening a new one</value>
+  </data>
+  <data name="AppointmentAlreadyExist" xml:space="preserve">
+    <value>An appointment is already scheduled for this date and time</value>
+  </data>
+  <data name="AtLeastOneServiceToChose" xml:space="preserve">
+    <value>You must select at least one service</value>
+  </data>
+  <data name="CodeAlreadyExistsWith" xml:space="preserve">
+    <value>Already exists with the code {0}</value>
+  </data>
+  <data name="CommentTooLongMessage" xml:space="preserve">
+    <value>Comment cannot exceed 500 characters</value>
+  </data>
+  <data name="ContactNotFoundOrInvalidMessage" xml:space="preserve">
+    <value>The selected contact does not exist or is invalid</value>
+  </data>
+  <data name="CurrencyNotFoundMessage" xml:space="preserve">
+    <value>Currency with id {0} not found</value>
+  </data>
+  <data name="DuplicateServicesMessage" xml:space="preserve">
+    <value>Duplicate services are not allowed</value>
+  </data>
+  <data name="EachItemMustBeGreatherThanZero" xml:space="preserve">
+    <value>Each itemId must be greater than 0</value>
+  </data>
+  <data name="EmailMessage" xml:space="preserve">
+    <value>The field {PropertyName} must be a valid email</value>
+  </data>
+  <data name="FiscalSupportAlreadyExistsMessage" xml:space="preserve">
+    <value>A fiscal support of type {0} already exists for warehouse {1}</value>
+  </data>
+  <data name="FiscalSupportNotFoundMessage" xml:space="preserve">
+    <value>Fiscal support not found</value>
+  </data>
+  <data name="FirstCharUpperMessage" xml:space="preserve">
+    <value>The field {PropertyName} must start with uppercase</value>
+  </data>
+  <data name="GreatherThanZero" xml:space="preserve">
+    <value>The field {PropertyName} must be greater than {0}</value>
+  </data>
+  <data name="GreaterThanOrEqualToMensaje" xml:space="preserve">
+    <value>The field {PropertyName} must be after {0}</value>
+  </data>
+  <data name="GreaterThanOrEqualToZero" xml:space="preserve">
+    <value>The field {PropertyName} must be greater than or equal to {0}</value>
+  </data>
+  <data name="IdNotExistMessage" xml:space="preserve">
+    <value>The Id {0} does not exist. Please check and try again</value>
+  </data>
+  <data name="IdempotencyKeyRequiredMessage" xml:space="preserve">
+    <value>X-Idempotency-Key header is required and must be a valid GUID</value>
+  </data>
+  <data name="InsufficientStockQuantityMessage" xml:space="preserve">
+    <value>Insufficient stock quantity</value>
+  </data>
+  <data name="InvalidCredentialsMessage" xml:space="preserve">
+    <value>Invalid email or password</value>
+  </data>
+  <data name="InvalidEnumValueMessage" xml:space="preserve">
+    <value>The field {PropertyName} has an invalid value</value>
+  </data>
+  <data name="ItemNotFoundMessage" xml:space="preserve">
+    <value>{0} with id {1} not found</value>
+  </data>
+  <data name="MaximumSupportsReachedMessage" xml:space="preserve">
+    <value>Maximum fiscal supports reached for this warehouse</value>
+  </data>
+  <data name="MaximunLengthMessage" xml:space="preserve">
+    <value>The field {PropertyName} must have less than {MaxLength} characters</value>
+  </data>
+  <data name="MinItemsRequired" xml:space="preserve">
+    <value>At least 2 itemIds are required</value>
+  </data>
+  <data name="MinimunLengthMessage" xml:space="preserve">
+    <value>The field {PropertyName} must have more than {MinLength} characters</value>
+  </data>
+  <data name="NameAlreadyExistsWith" xml:space="preserve">
+    <value>Already exists with the name {0}</value>
+  </data>
+  <data name="NoOpenPettyCashMessage" xml:space="preserve">
+    <value>You don't have an open petty cash. Please open one before making a withdrawal</value>
+  </data>
+  <data name="NotDuplicatesWith" xml:space="preserve">
+    <value>Duplicate {PropertyName} with value {0} are not allowed</value>
+  </data>
+  <data name="NotExistsWith" xml:space="preserve">
+    <value>{PropertyName} with value {PropertyValue} does not exist</value>
+  </data>
+  <data name="OneOrMoreServicesInvalidMessage" xml:space="preserve">
+    <value>One or more selected services do not exist or are invalid</value>
+  </data>
+  <data name="OriginStockNotFoundMessage" xml:space="preserve">
+    <value>Origin stock not found</value>
+  </data>
+  <data name="PasswordMinLengthMessage" xml:space="preserve">
+    <value>The password must be at least 6 characters long</value>
+  </data>
+  <data name="PettyCashOwnedByMessage" xml:space="preserve">
+    <value>Cannot create invoice. The petty cash is currently opened by {0}. Please wait until it is closed</value>
+  </data>
+  <data name="PettyCashRequiredMessage" xml:space="preserve">
+    <value>You need an opened petty cash to proceed</value>
+  </data>
+  <data name="PhoneNumberFieldMessage" xml:space="preserve">
+    <value>Phone number must contain exactly 10 digits</value>
+  </data>
+  <data name="QuotationNotFoundMessage" xml:space="preserve">
+    <value>Quotation not found</value>
+  </data>
+  <data name="ReceiptAlreadyPaidMessage" xml:space="preserve">
+    <value>The associated receipt has already been paid. No more payments can be made</value>
+  </data>
+  <data name="RequiredFieldForConditionMessage" xml:space="preserve">
+    <value>The field {PropertyName} is required when {0} is {1}</value>
+  </data>
+  <data name="RequiredFieldMessage" xml:space="preserve">
+    <value>The field {PropertyName} is required</value>
+  </data>
+  <data name="RucFieldMessage" xml:space="preserve">
+    <value>RUC must contain exactly 9 or 11 digits</value>
+  </data>
+  <data name="StockNotConfiguredMessage" xml:space="preserve">
+    <value>One or more items do not have stock configured in the specified warehouse</value>
+  </data>
+  <data name="TransferIdInvalidMessage" xml:space="preserve">
+    <value>Transfer ID must be greater than 0</value>
+  </data>
+  <data name="TransferStatusChangeErrorMessage" xml:space="preserve">
+    <value>Cannot change the status of this transfer</value>
+  </data>
+  <data name="TransferStockNotFoundMessage" xml:space="preserve">
+    <value>{0} stock not found</value>
+  </data>
+  <data name="UserNotAuthMessage" xml:space="preserve">
+    <value>No user authenticated found</value>
+  </data>
+  <data name="WarehouseNotFoundMessage" xml:space="preserve">
+    <value>Warehouse with ID {0} not found</value>
+  </data>
+  <data name="WithdrawnAmountWontBeGreatherThanAvailableCash" xml:space="preserve">
+    <value>The withdrawn amount cannot be greater than the available cash</value>
+  </data>
+  <data name="NoSigningKeysFoundMessage" xml:space="preserve">
+    <value>No signing keys configuration found.</value>
+  </data>
+  <data name="UserEmptyTenantIdMessage" xml:space="preserve">
+    <value>[Login] User {0} has empty TenantId. Generating new one.</value>
+  </data>
+  <data name="FailedToUpdateUserTenantIdMessage" xml:space="preserve">
+    <value>[Login] Failed to update user TenantId: {0}</value>
+  </data>
+  <data name="LoginUsingTenantIdMessage" xml:space="preserve">
+    <value>[Login] Using TenantId: {0}</value>
+  </data>
+  <data name="TenantServiceUserNull" xml:space="preserve">
+    <value>[CurrentTenantService] HttpContext.User is null</value>
+  </data>
+  <data name="TenantServiceClaimsAvailable" xml:space="preserve">
+    <value>[CurrentTenantService] Claims available:</value>
+  </data>
+  <data name="TenantServiceClaimInfo" xml:space="preserve">
+    <value> - {0}: {1}</value>
+  </data>
+  <data name="TenantServiceFoundClaim" xml:space="preserve">
+    <value>[CurrentTenantService] Found tenantId claim: {0}</value>
+  </data>
+  <data name="TenantServiceFailedToParse" xml:space="preserve">
+    <value>[CurrentTenantService] Failed to parse tenant ID or not found.</value>
+  </data>
+  <data name="StockReportErrorLoadingLogo" xml:space="preserve">
+    <value>[StockReportDTO] Error loading logo: {0}</value>
+  </data>
+  <data name="ReportErrorLoadingLogo" xml:space="preserve">
+    <value>[ReportDTO] Error loading logo: {0}</value>
+  </data>
+  <data name="QuotationDocumentErrorLoadingLogo" xml:space="preserve">
+    <value>[QuotationDocumentDTO] Error loading logo: {0}</value>
+  </data>
+  <data name="InvoiceDocumentErrorLoadingLogo" xml:space="preserve">
+    <value>[InvoiceDocumentDTO] Error loading logo: {0}</value>
+  </data>
+  <data name="StockReportTitle" xml:space="preserve">
+    <value>Inventory Report</value>
+  </data>
+  <data name="SalesReportTitle" xml:space="preserve">
+    <value>Sales Report</value>
+  </data>
+  <data name="PurchasesReportTitle" xml:space="preserve">
+    <value>Purchases Report</value>
+  </data>
+  <data name="QuotationsTitle" xml:space="preserve">
+    <value>Quotation</value>
+  </data>
+  <data name="ClosePettyCashTitle" xml:space="preserve">
+    <value>Cash Closure</value>
+  </data>
+  <data name="InvoiceReceiptTitle" xml:space="preserve">
+    <value>Final Consumer Invoice</value>
+  </data>
+  <data name="InvoiceTitle" xml:space="preserve">
+    <value>Fiscal Consumption Invoice</value>
+  </data>
+  <data name="IdentificationLabel" xml:space="preserve">
+    <value>Identification</value>
+  </data>
+  <data name="DateLabel" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="NameLabel" xml:space="preserve">
+    <value>Name / Company Name</value>
+  </data>
+  <data name="NumberLabel" xml:space="preserve">
+    <value>Number #</value>
+  </data>
+  <data name="FiscalSupportLabel" xml:space="preserve">
+    <value>Fiscal Support</value>
+  </data>
+  <data name="DueDateLabel" xml:space="preserve">
+    <value>Due Date</value>
+  </data>
+  <data name="DescriptionLabel" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="QuantityLabel" xml:space="preserve">
+    <value>Qty.</value>
+  </data>
+  <data name="TotalLabel" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="SubtotalLabel" xml:space="preserve">
+    <value>Subtotal</value>
+  </data>
+  <data name="TaxesLabel" xml:space="preserve">
+    <value>Taxes</value>
+  </data>
+  <data name="UserLabel" xml:space="preserve">
+    <value>User:</value>
+  </data>
+  <data name="ConditionLabel" xml:space="preserve">
+    <value>Condition:</value>
+  </data>
+  <data name="SpotConditionLabel" xml:space="preserve">
+    <value>Spot</value>
+  </data>
+  <data name="CreditConditionLabel" xml:space="preserve">
+    <value>Credit</value>
+  </data>
+  <data name="InvoiceLabel" xml:space="preserve">
+    <value>Invoice:</value>
+  </data>
+  <data name="FiscalSupportNumberLabel" xml:space="preserve">
+    <value>NCF:</value>
+  </data>
+  <data name="RncCedulaLabel" xml:space="preserve">
+    <value>RNC / ID:</value>
+  </data>
+  <data name="CustomerLabel" xml:space="preserve">
+    <value>Customer:</value>
+  </data>
+  <data name="ItemsLabel" xml:space="preserve">
+    <value>Items</value>
+  </data>
+  <data name="TaxLabelShort" xml:space="preserve">
+    <value>Tax</value>
+  </data>
+  <data name="TotalLabelShort" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="ItbisLabel" xml:space="preserve">
+    <value>Itbis</value>
+  </data>
+  <data name="AmountToPayLabel" xml:space="preserve">
+    <value>Amount to pay:</value>
+  </data>
+  <data name="PaymentMethodsLabel" xml:space="preserve">
+    <value>Payment Methods:</value>
+  </data>
+  <data name="PaymentMethodCash" xml:space="preserve">
+    <value>Cash</value>
+  </data>
+  <data name="PaymentMethodTransfer" xml:space="preserve">
+    <value>Transfer</value>
+  </data>
+  <data name="PaymentMethodCard" xml:space="preserve">
+    <value>Card</value>
+  </data>
+  <data name="PaymentMethodCreditNote" xml:space="preserve">
+    <value>Credit Note</value>
+  </data>
+  <data name="ReceiptFooterMessage" xml:space="preserve">
+    <value>No cash refunds will be made, credit notes will be issued in case of exchange</value>
+  </data>
+  <data name="AmountReturnedLabel" xml:space="preserve">
+    <value>Change:</value>
+  </data>
+  <data name="SellerLabel" xml:space="preserve">
+    <value>Seller:</value>
+  </data>
+  <data name="QuotationNumberLabel" xml:space="preserve">
+    <value>Quotation Number</value>
+  </data>
+  <data name="ProductLabel" xml:space="preserve">
+    <value>Product</value>
+  </data>
+  <data name="FromLabel" xml:space="preserve">
+    <value>From:</value>
+  </data>
+  <data name="ToLabel" xml:space="preserve">
+    <value>To:</value>
+  </data>
+  <data name="CashierLabel" xml:space="preserve">
+    <value>Cashier:</value>
+  </data>
+  <data name="OpeningDateLabel" xml:space="preserve">
+    <value>Opening Date:</value>
+  </data>
+  <data name="ClosingDateLabel" xml:space="preserve">
+    <value>Closing Date:</value>
+  </data>
+  <data name="OpeningAmountLabel" xml:space="preserve">
+    <value>Opening Amount:</value>
+  </data>
+  <data name="BilledAmountLabel" xml:space="preserve">
+    <value>Total Billed:</value>
+  </data>
+  <data name="WithdrawalsLabel" xml:space="preserve">
+    <value>Withdrawals / Outflows:</value>
+  </data>
+  <data name="SummaryByMethodLabel" xml:space="preserve">
+    <value>Summary by Method:</value>
+  </data>
+  <data name="ExpectedCashLabel" xml:space="preserve">
+    <value>Expected Cash:</value>
+  </data>
+  <data name="ClosingAmountLabel" xml:space="preserve">
+    <value>Closing Amount:</value>
+  </data>
+  <data name="DifferenceLabel" xml:space="preserve">
+    <value>Difference:</value>
+  </data>
+  <data name="CashierSignatureLabel" xml:space="preserve">
+    <value>Cashier's Signature</value>
+  </data>
+  <data name="LogoNotAvailableLabel" xml:space="preserve">
+    <value>Logo Not Available</value>
+  </data>
+  <data name="ErrorLoadingLogoLabel" xml:space="preserve">
+    <value>Error Loading Logo</value>
+  </data>
+  <data name="PhoneLabel" xml:space="preserve">
+    <value>Phone:</value>
+  </data>
+  <data name="RncLabel" xml:space="preserve">
+    <value>Rnc:</value>
+  </data>
+  <data name="MonthlySalesLimitReachedMessage" xml:space="preserve">
+    <value>Monthly sales limit of {0} reached for your plan ({1}). Upgrade your plan to increase limit.</value>
+  </data>
+  <data name="FiscalSupportSequenceLimitReachedMessage" xml:space="preserve">
+    <value>You've reached the limit of fiscal support max sequence ({0}). Please configure a new fiscal support.</value>
+  </data>
+  <data name="RoleNameRequiredMessage" xml:space="preserve">
+    <value>Role name is required</value>
+  </data>
+  <data name="RoleDescriptionRequiredMessage" xml:space="preserve">
+    <value>Role description is required</value>
+  </data>
+  <data name="RoleAlreadyExistsMessage" xml:space="preserve">
+    <value>A role with the name '{0}' already exists for this tenant</value>
+  </data>
+  <data name="RoleNotFoundMessage" xml:space="preserve">
+    <value>Role with ID '{0}' not found</value>
+  </data>
+  <data name="CannotDeleteSystemRoleMessage" xml:space="preserve">
+    <value>System roles cannot be deleted</value>
+  </data>
+  <data name="PermissionIdsRequiredMessage" xml:space="preserve">
+    <value>At least one permission must be assigned</value>
+  </data>
+  <data name="InvalidPermissionIdMessage" xml:space="preserve">
+    <value>One or more permission IDs are invalid</value>
+  </data>
+  <data name="RoleNameMaxLengthMessage" xml:space="preserve">
+    <value>Role name cannot exceed 256 characters</value>
+  </data>
+  <data name="RoleDescriptionMaxLengthMessage" xml:space="preserve">
+    <value>Role description cannot exceed 500 characters</value>
+  </data>
+  <data name="PettyCashNotOpenMessage" xml:space="preserve">
+    <value>You must open the petty cash before continuing</value>
+  </data>
+  <data name="PettyCashOpenedByOtherUserMessage" xml:space="preserve">
+    <value>The user {0} must close the currently open petty cash before you can proceed</value>
+  </data>
+  <data name="MaximumUsersReachedMessage" xml:space="preserve">
+    <value>User limit of {0} reached for your plan ({1}). Upgrade your plan to add more users.</value>
+  </data>
+  <data name="EmailAlreadyExistsMessage" xml:space="preserve">
+    <value>The email '{0}' is already registered</value>
+  </data>
+  <data name="InvalidTaxTypeMessage" xml:space="preserve">
+    <value>Invalid tax type</value>
+  </data>
+  <data name="InvalidPercentageMessage" xml:space="preserve">
+    <value>Invalid percentage</value>
+  </data>
+  <data name="InvalidITBISRateMessage" xml:space="preserve">
+    <value>Invalid Itbis rate</value>
+  </data>
+  <data name="InvalidTaxAmountMessage" xml:space="preserve">
+    <value>The tax amount must be between 0 and 100</value>
+  </data>
+  <data name="TaxNotFoundMessage" xml:space="preserve">
+    <value>Tax not found for the specified TaxId.</value>
+  </data>
+  <data name="PriceLabel" xml:space="preserve">
+    <value>Price</value>
+  </data>
+  <data name="ValueLabel" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="TaxedSubtotalLabel" xml:space="preserve">
+    <value>Taxed Subtotal:</value>
+  </data>
+  <data name="PettyCashValidationFailedMessage" xml:space="preserve">
+    <value>Petty cash validation failed.</value>
+  </data>
+  <data name="CertificateValidationFailedMessage" xml:space="preserve">
+    <value>Certificate validation failed.</value>
+  </data>
+  <data name="NoAuthenticatedUserMessage" xml:space="preserve">
+    <value>No authenticated user.</value>
+  </data>
+  <data name="UserNotFoundMessage" xml:space="preserve">
+    <value>User not found.</value>
+  </data>
+  <data name="NoCertificateUrlConfiguredMessage" xml:space="preserve">
+    <value>No certificate URL is configured for this tenant. Please upload a certificate in your profile.</value>
+  </data>
+  <data name="NoCertificatePasswordConfiguredMessage" xml:space="preserve">
+    <value>No certificate password is configured for this tenant. Please set a certificate password in your profile.</value>
+  </data>
+  <data name="CurrentUserNotFoundMessage" xml:space="preserve">
+    <value>Current user not found.</value>
+  </data>
+  <data name="UserNotFoundAddingClaimsMessage" xml:space="preserve">
+    <value>User {0} not found when adding permission claims.</value>
+  </data>
+  <data name="UserNotFoundRemovingClaimsMessage" xml:space="preserve">
+    <value>User {0} not found when removing permission claims.</value>
+  </data>
+  <data name="CertificateUrlEmptyMessage" xml:space="preserve">
+    <value>Certificate URL is empty.</value>
+  </data>
+  <data name="NoEntityToValidateMessage" xml:space="preserve">
+    <value>No entity to validate found.</value>
+  </data>
+  <data name="IdempotencyKeyDescriptionMessage" xml:space="preserve">
+    <value>Unique key to ensure idempotency of the operation.</value>
+  </data>
+  <data name="InvalidRequestBodyTitleMessage" xml:space="preserve">
+    <value>Invalid Request Body</value>
+  </data>
+  <data name="InvalidRequestBodyDetailMessage" xml:space="preserve">
+    <value>The request body is missing, invalid, or cannot be deserialized. Please check your JSON syntax.</value>
+  </data>
+  <data name="UnauthorizedTitleMessage" xml:space="preserve">
+    <value>Unauthorized</value>
+  </data>
+  <data name="UnauthorizedDetailMessage" xml:space="preserve">
+    <value>You are not authorized to perform this action.</value>
+  </data>
+  <data name="ValidationErrorTitleMessage" xml:space="preserve">
+    <value>Validation Error</value>
+  </data>
+  <data name="InternalServerErrorTitleMessage" xml:space="preserve">
+    <value>Internal Server Error</value>
+  </data>
+  <data name="InternalServerErrorDetailMessage" xml:space="preserve">
+    <value>An unexpected error occurred. Please try again later.</value>
+  </data>
+  <data name="IpPermanentlyBlockedMessage" xml:space="preserve">
+    <value>Your IP has been permanently blocked due to multiple failed login attempts. Please contact the system administrator to unlock your access.</value>
+  </data>
+  <data name="IpTemporarilyBlockedMessage" xml:space="preserve">
+    <value>Your IP has been temporarily blocked due to multiple failed login attempts.</value>
+  </data>
+  <data name="LogBlockedIpAttemptMessage" xml:space="preserve">
+    <value>Blocked IP {0} attempted to access.</value>
+  </data>
+  <data name="LogFailedAuthenticationAttemptMessage" xml:space="preserve">
+    <value>IP {0} failed authentication. Attempt {1}/4 before next block tier.</value>
+  </data>
+  <data name="LogBlockingIpMessage" xml:space="preserve">
+    <value>Blocking IP {0} {1} due to excessive failed attempts.</value>
+  </data>
+  <data name="LogBlockDurationOneMinute" xml:space="preserve">
+    <value>for 1 minute</value>
+  </data>
+  <data name="LogBlockDurationFiveMinutes" xml:space="preserve">
+    <value>for 5 minutes</value>
+  </data>
+  <data name="LogBlockDurationPermanently" xml:space="preserve">
+    <value>permanently</value>
+  </data>
+  <data name="CertificatePasswordRequiredMessage" xml:space="preserve">
+    <value>Certificate password is required when uploading a certificate.</value>
+  </data>
+  <data name="CertificateExpiredMessage" xml:space="preserve">
+    <value>The uploaded certificate has expired.</value>
+  </data>
+  <data name="CertificateNotYetValidMessage" xml:space="preserve">
+    <value>The uploaded certificate is not yet valid.</value>
+  </data>
+  <data name="CertificatePasswordIncorrectMessage" xml:space="preserve">
+    <value>The password provided for the certificate is incorrect.</value>
+  </data>
+  <data name="CertificateInvalidFormatMessage" xml:space="preserve">
+    <value>Invalid certificate file format or corrupted file.</value>
+  </data>
+  <data name="CurrencyCodeCannotBeModifiedMessage" xml:space="preserve">
+    <value>Currency code cannot be modified.</value>
+  </data>
+  <data name="CurrencyNameCannotBeModifiedMessage" xml:space="preserve">
+    <value>Currency name cannot be modified.</value>
+  </data>
+  <data name="AccountDisabledByAdminMessage" xml:space="preserve">
+    <value>Your account has been disabled by the administrator. Please contact SISTRA SRL to reactivate your subscription.</value>
+  </data>
+  <data name="AccountTemporarilyBlockedMessage" xml:space="preserve">
+    <value>Your account is temporarily blocked. Please try again later or contact the administrator.</value>
+  </data>
+  <data name="SubscriptionExpiredMessage" xml:space="preserve">
+    <value>Your SISTRA membership has expired (expired on {0}). Please contact the administrator to renew your plan.</value>
+  </data>
+  <data name="AccountLockedFailedAttemptsMessage" xml:space="preserve">
+    <value>Your account has been temporarily locked due to multiple failed login attempts. Please try again later.</value>
+  </data>
+  <data name="CannotDisableSuperAdminMessage" xml:space="preserve">
+    <value>It is not possible to disable the SuperAdmin SISTRA SRL user.</value>
+  </data>
+  <data name="ImageMaxSizeMessage" xml:space="preserve">
+    <value>The image must not exceed 300 KB.</value>
+  </data>
+  <data name="InvoiceNotFoundMessage" xml:space="preserve">
+    <value>Invoice not found.</value>
+  </data>
+  <data name="InvoiceMissingTrackIdMessage" xml:space="preserve">
+    <value>The invoice does not have a registered TrackId to query in DGII.</value>
+  </data>
+  <data name="InvoiceSyncErrorMessage" xml:space="preserve">
+    <value>Error during synchronization: {0}</value>
+  </data>
+  <data name="DgiiNoResponseMessage" xml:space="preserve">
+    <value>DGII did not return a response for this TrackId.</value>
+  </data>
+  <data name="InvoiceStatusUpdatedMessage" xml:space="preserve">
+    <value>Status updated to '{0}'.</value>
+  </data>
+  <data name="TenantUserNotFoundMessage" xml:space="preserve">
+    <value>No user found for Tenant {0}.</value>
+  </data>
+  <data name="CertificatePasswordDecryptionErrorMessage" xml:space="preserve">
+    <value>The digital certificate password could not be decrypted in this environment or is incorrect. Please update the certificate password in Settings -> Profile.</value>
+  </data>
+</root>

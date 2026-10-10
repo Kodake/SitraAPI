@@ -1,0 +1,25 @@
+using Mediator;
+using SITRA.Core.DTOs.Warehouses.Warehouses;
+using SITRA.Core.Mediator.Commands.Warehouses.Warehouses;
+using SITRA.Core.Mediator.Queries.Warehouses.Warehouses;
+
+namespace SITRA.Core.Mediator.Handlers.Warehouses
+{
+    public static class WarehousesRequestHandler
+    {
+        public static IServiceCollection AddWarehouseServices(this IServiceCollection services)
+        {
+            services.AddTransient<IRequestHandler<CreateWarehouseCommand, CreateWarehouseDTO>, CreateCommandHandler<Entities.Warehouses.Warehouse, CreateWarehouseDTO>>();
+            services.AddTransient<IRequestHandler<UpdateWarehouseCommand, bool>, UpdateCommandHandler<Entities.Warehouses.Warehouse, CreateWarehouseDTO>>();
+            services.AddTransient<IRequestHandler<ActivateWarehouseCommand, bool>, ToggleCommandHandler<ActivateWarehouseCommand>>();
+            services.AddTransient<IRequestHandler<DeactivateWarehouseCommand, bool>, ToggleCommandHandler<DeactivateWarehouseCommand>>();
+            services.AddTransient<IRequestHandler<GetWarehouseStockByProductIdQuery, List<WarehouseListDTO>>, QueryHandler<GetWarehouseStockByProductIdQuery, List<WarehouseListDTO>>>();
+            services.AddTransient<IRequestHandler<GetWarehousesByIdQuery, WarehouseDTO>, QueryHandler<GetWarehousesByIdQuery, WarehouseDTO>>();
+            services.AddTransient<IRequestHandler<GetUnregisteredWarehouseByIdQuery, List<WarehouseListDTO>>, QueryHandler<GetUnregisteredWarehouseByIdQuery, List<WarehouseListDTO>>>();
+            services.AddTransient<IRequestHandler<GetSelectsWarehousesQuery, List<WarehouseListDTO>>, QueryHandler<GetSelectsWarehousesQuery, List<WarehouseListDTO>>>();
+
+            return services;
+        }
+    }
+}
+

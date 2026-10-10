@@ -1,0 +1,15 @@
+using SITRA.Core.DTOs.Products.Brands;
+
+namespace SITRA.Core.DTOs.Products.Models
+{
+    public class ModelDTO
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string? Description { get; set; }
+        public Guid BrandId { get; set; }
+        public BrandDTO Brand { get; set; } = default!;
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
+    }
+}

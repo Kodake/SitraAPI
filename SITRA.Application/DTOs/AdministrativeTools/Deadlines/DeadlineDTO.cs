@@ -1,0 +1,11 @@
+namespace SITRA.Core.DTOs.AdministrativeTools.Deadlines
+{
+    public class DeadlineDTO
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public int Days { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get; set; }
+    }
+}

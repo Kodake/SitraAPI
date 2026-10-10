@@ -1,0 +1,24 @@
+using Microsoft.AspNetCore.OutputCaching;
+using SITRA.Core.Interfaces;
+
+namespace SITRA.Core.Mediator.Commands.Appointments.Appointments
+{
+    public class ActivateAppointmentCommand : ToggleCommand
+    {
+        public ActivateAppointmentCommand(Guid id) : base(id)
+        { }
+
+        public override async Task<bool> ExecuteAction(IUnitOfWork unitOfWork, IOutputCacheStore outputCacheStore, CancellationToken cancellationToken)
+        {
+            var appointment = await unitOfWork.AppointmentRepository.GetByIdAsync(Id);
+
+            if (appointment == null) return false;
+
+            await unitOfWork.AppointmentRepository.ActivateAsync(Id);
+            await unitOfWork.SaveChangesAsync();
+            await outputCacheStore.EvictByTagAsync("appointments-get", cancellationToken);
+
+            return true;
+        }
+    }
+}

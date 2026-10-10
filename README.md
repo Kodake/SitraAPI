@@ -14,7 +14,7 @@ To get started with SITRA, follow these steps:
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/Kodake/PosAPI.git
+   git clone https://github.com/Kodake/SITRA.git
 
 2. Navigate to the project directory:
    ```bash

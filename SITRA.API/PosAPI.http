@@ -1,0 +1,6 @@
+@SITRA_HostAddress = http://localhost:5010
+
+GET {{SITRA_HostAddress}}/currencies/
+Accept: application/json
+
+###

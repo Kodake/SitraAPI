@@ -1,0 +1,77 @@
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using SITRA.Core.DTOs;
+using SITRA.Core.DTOs.Invoices.SaleInvoices;
+using SITRA.Core.Entities.Invoices;
+using SITRA.Core.Enums;
+using SITRA.Core.Helpers;
+using SITRA.Core.Interfaces.Invoices;
+using SITRA.Infrastructure.Persistence;
+using SITRA.Infrastructure.Repositories.Generics;
+
+namespace SITRA.Infrastructure.Repositories.Invoices
+{
+    public class SaleInvoiceRepository : RepositoryBase<Invoice>, ISaleInvoiceRepository
+    {
+        private new readonly HttpContext httpContext;
+        public SaleInvoiceRepository(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
+            : base(context, httpContextAccessor)
+        {
+            httpContext = httpContextAccessor.HttpContext!;
+        }
+
+
+
+        public async new Task<Invoice?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            return await context.Invoices
+                .Include(i => i.Buyer)
+                .Include(i => i.Biller)
+                .Include(i => i.Pricing)
+                .Include(i => i.Warehouse)
+                .Include(i => i.Quotation)
+
+                // SpotPayment + Payments
+                .Include(i => i.SpotPayment!)
+                    .ThenInclude(sp => sp.Payments)
+
+                // Invoice Items
+                .Include(i => i.InvoiceItems)
+                    .ThenInclude(ii => ii.Item)
+                        .ThenInclude(it => it.ItemTaxes)
+                            .ThenInclude(itx => itx.Tax)
+
+                .FirstOrDefaultAsync(i => i.Id == id, cancellationToken);
+        }
+
+        public async Task AddInvoiceItem(InvoiceItem item, CancellationToken cancellationToken = default)
+        {
+            await context.InvoiceItems.AddAsync(item, cancellationToken);
+        }
+
+        public async Task<List<InvoiceItem>> GetItemsByInvoiceId(Guid invoiceId, CancellationToken cancellationToken = default)
+        {
+            return await context.InvoiceItems
+                .Where(i => i.InvoiceId == invoiceId)
+                .ToListAsync(cancellationToken);
+        }
+
+        public async Task DeleteInvoiceItemsByInvoiceId(Guid? invoiceId, CancellationToken cancellationToken = default)
+        {
+            var items = await context.InvoiceItems
+                .Where(i => i.InvoiceId == invoiceId)
+                .ToListAsync(cancellationToken);
+
+            if (items.Count != 0)
+            {
+                context.InvoiceItems.RemoveRange(items);
+            }
+        }
+
+
+    }
+}
+
+
+
+

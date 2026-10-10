@@ -1,0 +1,27 @@
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ww][Ww]root/lib/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Visual Studio files
+.vs/
+Documentations/
+Printed Examples/
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+*.pdb
+
+# Others
+agents
+build_out/
+test-publish/
